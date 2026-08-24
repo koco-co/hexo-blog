@@ -1,83 +1,118 @@
-// 分类/标签热力图 - 根据文章数量调整大小和颜色
-(function() {
-  function initHeatmap() {
-    // 标签页热力图
-    const tagCloudList = document.querySelector('.tag-cloud-list');
-    if (tagCloudList) {
-      const tags = tagCloudList.querySelectorAll('a');
-      const fontSizes = Array.from(tags).map(tag => {
-        const style = tag.getAttribute('style');
-        const match = style.match(/font-size:\s*([\d.]+)em/);
-        return match ? parseFloat(match[1]) : 1;
-      });
+// 分类 / 标签星图词云：根据文章数量设置视觉权重与可访问文本
+(function () {
+  'use strict'
 
-      const maxSize = Math.max(...fontSizes);
-      const minSize = Math.min(...fontSizes);
-      const range = maxSize - minSize || 1;
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 
-      tags.forEach((tag, index) => {
-        const fontSize = fontSizes[index];
-        const ratio = (fontSize - minSize) / range;
+  function getRatio(count, minCount, maxCount) {
+    if (maxCount === minCount) return 0.5
 
-        // 基础缩放：从 font-size 获取的大小
-        const baseScale = fontSize;
-        // 额外热力图缩放：数量越多额外放大
-        const extraScale = 1 + (ratio * 0.2);
-        const finalScale = baseScale * extraScale;
-
-        // 颜色透明度：数量越多，颜色越深（透明度越低）
-        const opacity = 0.7 + (ratio * 0.3);
-
-        // 应用样式
-        tag.style.transform = `scale(${finalScale})`;
-        tag.style.opacity = opacity;
-      });
-    }
-
-    // 分类页热力图
-    const categoryList = document.querySelector('.category-lists > .category-list');
-    if (categoryList) {
-      const items = categoryList.querySelectorAll(':scope > .category-list-item');
-      const counts = Array.from(items).map(item => {
-        const countSpan = item.querySelector(':scope > .category-list-count');
-        return countSpan ? parseInt(countSpan.textContent) : 0;
-      });
-
-      const maxCount = Math.max(...counts);
-      const minCount = Math.min(...counts);
-      const range = maxCount - minCount || 1;
-
-      items.forEach((item, index) => {
-        const count = counts[index];
-        const ratio = (count - minCount) / range;
-
-        // 链接
-        const link = item.querySelector(':scope > .category-list-link');
-
-        // 大小倍数：最小 1.0，最大 1.4
-        const scale = 1 + (ratio * 0.4);
-
-        // 颜色透明度：数量越多，颜色越深（透明度越低）
-        const opacity = 0.75 + (ratio * 0.25);
-
-        if (link) {
-          link.style.transform = `scale(${scale})`;
-          link.style.opacity = opacity;
-        }
-      });
-    }
+    const min = Math.log1p(minCount)
+    const max = Math.log1p(maxCount)
+    return clamp((Math.log1p(count) - min) / (max - min), 0, 1)
   }
 
-  // 页面加载完成后执行
+  function setCloudMetrics(link, count, ratio, options) {
+    const size = options.minSize + ((options.maxSize - options.minSize) * Math.pow(ratio, 0.72))
+    const mobileSize = Math.min(options.mobileMax, Math.max(options.mobileMin, size * 0.86))
+    const weight = Math.round((options.minWeight + ((options.maxWeight - options.minWeight) * ratio)) / 10) * 10
+
+    link.style.removeProperty('background-color')
+    link.style.removeProperty('font-size')
+    link.style.removeProperty('opacity')
+    link.style.removeProperty('transform')
+    link.style.setProperty('--cloud-size', `${size.toFixed(3)}rem`)
+    link.style.setProperty('--cloud-size-mobile', `${mobileSize.toFixed(3)}rem`)
+    link.style.setProperty('--cloud-weight', String(weight))
+    link.style.setProperty('--cloud-opacity', (0.76 + (ratio * 0.24)).toFixed(3))
+
+    const name = link.textContent.trim()
+    const label = `${name}：${count} 篇文章`
+    link.setAttribute('aria-label', label)
+    link.setAttribute('title', label)
+  }
+
+  function initTagCloud() {
+    const tagCloud = document.querySelector('.tag-cloud-list')
+    if (!tagCloud) return
+
+    const links = Array.from(tagCloud.querySelectorAll(':scope > a[data-post-count]'))
+    if (!links.length) return
+
+    const counts = links.map(link => Number.parseInt(link.dataset.postCount, 10) || 0)
+    const minCount = Math.min(...counts)
+    const maxCount = Math.max(...counts)
+
+    links.forEach((link, index) => {
+      const count = counts[index]
+      const ratio = getRatio(count, minCount, maxCount)
+      setCloudMetrics(link, count, ratio, {
+        minSize: 0.98,
+        maxSize: 2.18,
+        mobileMin: 0.92,
+        mobileMax: 1.68,
+        minWeight: 560,
+        maxWeight: 790,
+      })
+    })
+
+    tagCloud.dataset.cloudReady = 'true'
+  }
+
+  function initCategoryCloud() {
+    const categoryCloud = document.querySelector('.category-lists > .category-list')
+    if (!categoryCloud) return
+
+    const items = Array.from(categoryCloud.querySelectorAll('.category-list-item'))
+    const entries = items.map(item => {
+      const link = item.querySelector(':scope > .category-list-link')
+      const countNode = item.querySelector(':scope > .category-list-count')
+      const count = Number.parseInt(countNode?.textContent, 10) || 0
+      return { link, count, isChild: item.parentElement?.classList.contains('category-list-child') }
+    }).filter(entry => entry.link)
+
+    if (!entries.length) return
+
+    const counts = entries.map(entry => entry.count)
+    const minCount = Math.min(...counts)
+    const maxCount = Math.max(...counts)
+
+    entries.forEach(entry => {
+      const ratio = getRatio(entry.count, minCount, maxCount)
+      const options = entry.isChild
+        ? {
+            minSize: 0.92,
+            maxSize: 1.22,
+            mobileMin: 0.9,
+            mobileMax: 1.12,
+            minWeight: 540,
+            maxWeight: 680,
+          }
+        : {
+            minSize: 1.12,
+            maxSize: 1.78,
+            mobileMin: 1.04,
+            mobileMax: 1.52,
+            minWeight: 650,
+            maxWeight: 810,
+          }
+
+      setCloudMetrics(entry.link, entry.count, ratio, options)
+    })
+
+    categoryCloud.dataset.cloudReady = 'true'
+  }
+
+  function initClouds() {
+    initTagCloud()
+    initCategoryCloud()
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeatmap);
+    document.addEventListener('DOMContentLoaded', initClouds, { once: true })
   } else {
-    initHeatmap();
+    initClouds()
   }
 
-  // PJAX 切换后执行
-  document.addEventListener('pjax:complete', initHeatmap);
-
-  // 延迟执行，确保元素已渲染
-  setTimeout(initHeatmap, 100);
-})();
+  document.addEventListener('pjax:complete', initClouds)
+})()

@@ -94,7 +94,7 @@
     border-radius: 8px;
 }
 
-/* 通过css样式调节各个页面透明度、模糊度（亚克力效果）、圆角、边框样式等 */
+/* 侧栏与主内容共用原有的单色亚克力卡片表面 */
 :root {
     --trans-light: rgba(255, 255, 255, 0.85);
     --trans-dark: rgba(25, 25, 25, 0.85);
@@ -102,30 +102,60 @@
     --backdrop-filter: blur(5px) saturate(150%);
 }
 
-/* 首页文章卡片 */
-#recent-posts>.recent-post-item {
+/* Butterfly 5 的文章卡片多了 .recent-post-items 这一层 */
+#recent-posts > .recent-post-items > .recent-post-item,
+#recent-posts > .recent-post-item,
+#aside-content .card-widget,
+div#post,
+div#page,
+div#archive {
     background: var(--trans-light);
+    -webkit-backdrop-filter: var(--backdrop-filter);
     backdrop-filter: var(--backdrop-filter);
-    border-radius: 25px;
     border: var(--border-style);
+}
+
+/* 首页文章卡片 */
+#recent-posts > .recent-post-items > .recent-post-item,
+#recent-posts > .recent-post-item {
+    border-radius: 18px;
 }
 
 /* 首页侧栏卡片 */
 #aside-content .card-widget {
-    background: var(--trans-light);
-    backdrop-filter: var(--backdrop-filter);
     border-radius: 18px;
-    border: var(--border-style);
 }
 
 /* 文章页、归档页、普通页面 */
 div#post,
 div#page,
 div#archive {
-    background: var(--trans-light);
-    backdrop-filter: var(--backdrop-filter);
-    border: var(--border-style);
     border-radius: 20px;
+}
+
+/* 侧栏分类树：子分类默认可见，不再伪装成同级项 */
+#aside-content .card-categories .card-category-list.child {
+    max-height: 1000px;
+    margin: 2px 0 7px 9px;
+    padding: 0 0 0 13px;
+    overflow: visible;
+    border-left: 1px solid rgba(73, 177, 245, 0.34);
+    opacity: 1;
+    visibility: visible;
+}
+
+#aside-content .card-categories .card-category-list.child .card-category-list-link {
+    font-size: 0.9em;
+    opacity: 0.84;
+}
+
+#aside-content .card-categories .card-category-list.child .card-category-list-link:hover,
+#aside-content .card-categories .card-category-list.child .card-category-list-link:focus-visible {
+    opacity: 1;
+}
+
+#aside-content .card-categories .card-category-list > .parent > a > .fa-caret-left {
+    display: none;
 }
 
 /* 导航栏 */
@@ -138,8 +168,9 @@ div#archive {
     background: rgba(0, 0, 0, 0.7) !important;
 }
 
-/* 夜间模式遮罩 */
-[data-theme="dark"] #recent-posts>.recent-post-item,
+/* 夜间模式恢复原有单色半透明表面 */
+[data-theme="dark"] #recent-posts > .recent-post-items > .recent-post-item,
+[data-theme="dark"] #recent-posts > .recent-post-item,
 [data-theme="dark"] #aside-content .card-widget,
 [data-theme="dark"] div#post,
 [data-theme="dark"] div#archive,

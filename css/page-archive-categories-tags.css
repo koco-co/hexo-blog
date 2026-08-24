@@ -1,0 +1,564 @@
+/* ============================================
+   Hexo Butterfly 归档/分类/标签页美化
+   参考 AnZhiYu 主题风格
+   ============================================ */
+
+/* ==================== 归档页美化 ==================== */
+
+#archive {
+    padding: 20px;
+}
+
+/* 归档标题美化 */
+.article-sort-title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--btn-bg);
+    position: relative;
+    color: var(--font-color);
+}
+
+.article-sort-title::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--btn-bg);
+    border-radius: 3px;
+}
+
+/* 年份分组样式 */
+.article-sort-item.year {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin: 30px 0 20px !important;
+    padding: 10px 20px !important;
+    background: linear-gradient(135deg, var(--btn-bg) 0%, var(--btn-hover-color) 100%);
+    border-radius: 12px;
+    color: #fff !important;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.article-sort-item.year::before {
+    display: none !important;
+}
+
+/* 归档列表项美化 */
+.article-sort-item {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin: 12px 0 !important;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.05));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.article-sort-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    border-color: var(--btn-bg);
+}
+
+.article-sort-item:hover::before {
+    background: var(--btn-bg) !important;
+    border-color: var(--btn-bg) !important;
+    box-shadow: 0 0 10px var(--btn-bg);
+}
+
+/* 时间显示美化 */
+.article-sort-item-time {
+    color: var(--card-meta);
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.article-sort-item-time::before {
+    content: '\f017';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: var(--btn-bg);
+}
+
+/* 标题美化 */
+.article-sort-item-title {
+    font-weight: 600;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.article-sort-item-title:hover {
+    color: var(--btn-bg) !important;
+}
+
+/* ==================== 分类页美化（精致卡片云） ==================== */
+
+.category-lists {
+    padding: 20px;
+}
+
+/* 分类标题 */
+.category-title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--btn-bg);
+    position: relative;
+    color: var(--font-color);
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--btn-bg);
+    border-radius: 3px;
+}
+
+/* 分类列表容器 - 居中布局 */
+.category-lists > .category-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 15px !important;
+    justify-content: center !important;
+    padding: 30px 20px !important;
+    animation: tagsFadeIn 0.6s ease-out;
+}
+
+/* 分类卡片项容器 */
+.category-list-item {
+    list-style: none !important;
+    margin: 0 !important;
+    position: relative;
+}
+
+/* 去掉左边的小圈圈 */
+.category-list-item::before {
+    display: none !important;
+}
+
+/* 分类链接 - 精致胶囊样式 */
+.category-list-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px 28px 12px 24px !important;
+    border-radius: 30px !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 0.95em !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    border: none !important;
+    position: relative;
+    overflow: visible !important;
+    margin: 0 !important;
+    text-align: center;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+}
+
+/* 数量徽章 - 右上角小圆点 */
+.category-list-count {
+    position: absolute !important;
+    top: -6px !important;
+    right: -6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 24px !important;
+    height: 24px !important;
+    padding: 0 8px !important;
+    background: #fff !important;
+    color: #4971f5 !important;
+    border-radius: 12px !important;
+    font-size: 0.75em !important;
+    font-weight: 700 !important;
+    box-shadow: 0 3px 10px rgba(73, 113, 245, 0.3) !important;
+    margin: 0 !important;
+    z-index: 10 !important;
+    transform: scale(1);
+    transition: all 0.2s ease;
+}
+
+/* 数量徽章伪元素 */
+.category-list-count::before,
+.category-list-count::after {
+    content: '' !important;
+}
+
+/* 分类渐变背景色 */
+.category-list-item:nth-child(6n+1) .category-list-link,
+.category-list-item:nth-child(6n+1) .category-list-count {
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+.category-list-item:nth-child(6n+1) .category-list-count {
+    background: #fff !important;
+    color: #667eea !important;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3) !important;
+}
+
+.category-list-item:nth-child(6n+2) .category-list-link,
+.category-list-item:nth-child(6n+2) .category-list-count {
+    background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+}
+.category-list-item:nth-child(6n+2) .category-list-count {
+    background: #fff !important;
+    color: #f5576c !important;
+    box-shadow: 0 3px 10px rgba(245, 87, 108, 0.3) !important;
+}
+
+.category-list-item:nth-child(6n+3) .category-list-link,
+.category-list-item:nth-child(6n+3) .category-list-count {
+    background-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+.category-list-item:nth-child(6n+3) .category-list-count {
+    background: #fff !important;
+    color: #00f2fe !important;
+    box-shadow: 0 3px 10px rgba(0, 242, 254, 0.3) !important;
+}
+
+.category-list-item:nth-child(6n+4) .category-list-link,
+.category-list-item:nth-child(6n+4) .category-list-count {
+    background-image: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+}
+.category-list-item:nth-child(6n+4) .category-list-count {
+    background: #fff !important;
+    color: #43e97b !important;
+    box-shadow: 0 3px 10px rgba(67, 233, 123, 0.3) !important;
+}
+
+.category-list-item:nth-child(6n+5) .category-list-link,
+.category-list-item:nth-child(6n+5) .category-list-count {
+    background-image: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+}
+.category-list-item:nth-child(6n+5) .category-list-count {
+    background: #fff !important;
+    color: #fa709a !important;
+    box-shadow: 0 3px 10px rgba(250, 112, 154, 0.3) !important;
+}
+
+.category-list-item:nth-child(6n+6) .category-list-link,
+.category-list-item:nth-child(6n+6) .category-list-count {
+    background-image: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%) !important;
+}
+.category-list-item:nth-child(6n+6) .category-list-count {
+    background: #fff !important;
+    color: #a18cd1 !important;
+    box-shadow: 0 3px 10px rgba(161, 140, 209, 0.3) !important;
+}
+
+/* 光泽效果 */
+.category-list-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 悬停效果 */
+.category-list-item:hover .category-list-link {
+    transform: translateY(-5px) scale(1.05) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.category-list-item:hover .category-list-link::before {
+    left: 100%;
+}
+
+.category-list-item:hover .category-list-count {
+    transform: scale(1.15) !important;
+}
+
+/* 嵌套分类隐藏 */
+.category-list-child {
+    display: none !important;
+}
+
+/* 分类逐个进入动画 - 移除scale以免与热力图冲突 */
+.category-list-item {
+    animation: tagFadeIn 0.5s ease-out backwards;
+}
+
+.category-list-item:nth-child(1) { animation-delay: 0.05s; }
+.category-list-item:nth-child(2) { animation-delay: 0.1s; }
+.category-list-item:nth-child(3) { animation-delay: 0.15s; }
+.category-list-item:nth-child(4) { animation-delay: 0.2s; }
+.category-list-item:nth-child(5) { animation-delay: 0.25s; }
+.category-list-item:nth-child(6) { animation-delay: 0.3s; }
+.category-list-item:nth-child(n+7) { animation-delay: 0.35s; }
+
+/* ==================== 标签页美化 ==================== */
+
+/* 标签容器 - 彩色卡片云布局 */
+.tag-cloud-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 15px !important;
+    justify-content: center !important;
+    padding: 30px 20px !important;
+    animation: tagsFadeIn 0.6s ease-out;
+}
+
+/* 标签卡片 */
+.tag-cloud-list a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px 24px !important;
+    border-radius: 30px !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 0.95em !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    border: none !important;
+    position: relative;
+    overflow: hidden;
+    margin: 0 !important;
+    min-width: 80px;
+    text-align: center;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+}
+
+/* 标签渐变背景色 */
+.tag-cloud-list a:nth-child(6n+1) {
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.tag-cloud-list a:nth-child(6n+2) {
+    background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+}
+
+.tag-cloud-list a:nth-child(6n+3) {
+    background-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+
+.tag-cloud-list a:nth-child(6n+4) {
+    background-image: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+}
+
+.tag-cloud-list a:nth-child(6n+5) {
+    background-image: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+}
+
+.tag-cloud-list a:nth-child(6n+6) {
+    background-image: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%) !important;
+}
+
+/* 光泽效果 */
+.tag-cloud-list a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+/* 悬停效果 */
+.tag-cloud-list a:hover {
+    transform: translateY(-5px) scale(1.05) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.tag-cloud-list a:hover::before {
+    left: 100%;
+}
+
+/* 标签页大标题 */
+.tag-cloud-title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--btn-bg);
+    position: relative;
+    color: var(--font-color);
+}
+
+.tag-cloud-title::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--btn-bg);
+    border-radius: 3px;
+}
+
+/* ==================== 动画效果 ==================== */
+
+@keyframes tagsFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes tagSlideIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* 淡入动画（不使用scale，避免与热力图冲突） */
+@keyframes tagFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 标签逐个进入动画 */
+.tag-cloud-list a {
+    animation: tagFadeIn 0.5s ease-out backwards;
+}
+
+.tag-cloud-list a:nth-child(1) { animation-delay: 0.05s; }
+.tag-cloud-list a:nth-child(2) { animation-delay: 0.1s; }
+.tag-cloud-list a:nth-child(3) { animation-delay: 0.15s; }
+.tag-cloud-list a:nth-child(4) { animation-delay: 0.2s; }
+.tag-cloud-list a:nth-child(5) { animation-delay: 0.25s; }
+.tag-cloud-list a:nth-child(6) { animation-delay: 0.3s; }
+.tag-cloud-list a:nth-child(n+7) { animation-delay: 0.35s; }
+
+/* ==================== 响应式适配 ==================== */
+
+@media screen and (max-width: 768px) {
+    /* 归档页 */
+    .article-sort-title,
+    .category-title,
+    .tag-cloud-title {
+        font-size: 1.5em;
+    }
+
+    .article-sort-item.year {
+        font-size: 1.3em;
+        padding: 8px 15px !important;
+    }
+
+    /* 分类页 */
+    .category-lists > .category-list,
+    .tag-cloud-list {
+        gap: 10px !important;
+        padding: 20px 15px !important;
+    }
+
+    .category-list-link,
+    .tag-cloud-list a {
+        padding: 10px 18px !important;
+        font-size: 0.85em !important;
+    }
+
+    .category-list-count {
+        min-width: 20px !important;
+        height: 20px !important;
+        padding: 0 6px !important;
+        font-size: 0.7em !important;
+        top: -4px !important;
+        right: -4px !important;
+    }
+
+    /* 归档项 */
+    .article-sort-item {
+        padding: 12px 15px;
+    }
+
+    .article-sort-item-time {
+        font-size: 0.8em;
+    }
+
+    .article-sort-item-title {
+        font-size: 1em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .tag-cloud-list {
+        gap: 8px !important;
+    }
+}
+
+/* ==================== 暗色模式适配 ==================== */
+
+[data-theme="dark"] .article-sort-item {
+    background: rgba(40, 40, 40, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .category-list-link,
+[data-theme="dark"] .tag-cloud-list a {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .article-sort-item:hover,
+[data-theme="dark"] .category-list-item:hover .category-list-link,
+[data-theme="dark"] .tag-cloud-list a:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ==================== 分页样式优化 ==================== */
+
+#pagination {
+    margin-top: 40px;
+    padding: 20px;
+}
+
+#pagination .page-number,
+#pagination .extend {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.05));
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+#pagination .page-number:hover,
+#pagination .extend:hover {
+    background: var(--btn-bg);
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+#pagination .page-number.current {
+    background: linear-gradient(135deg, var(--btn-bg) 0%, var(--btn-hover-color) 100%);
+    color: #fff !important;
+    border-color: var(--btn-bg);
+}

@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>复习 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="[{&quot;id&quot;:&quot;playwright-roadmap-mainline&quot;,&quot;type&quot;:&quot;basic&quot;,&quot;deck&quot;:&quot;Playwright&quot;,&quot;tags&quot;:[&quot;学习路线&quot;,&quot;主线&quot;],&quot;articleKey&quot;:&quot;_posts&#x2F;learn-topic&#x2F;playwright&#x2F;Playwright文档(一)学习路线.md&quot;,&quot;articleTitle&quot;:&quot;Playwright文档(一)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="复习">
+<meta property="og:url" content="https://koco-co.github.io/learn-topic/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="[{&quot;id&quot;:&quot;playwright-roadmap-mainline&quot;,&quot;type&quot;:&quot;basic&quot;,&quot;deck&quot;:&quot;Playwright&quot;,&quot;tags&quot;:[&quot;学习路线&quot;,&quot;主线&quot;],&quot;articleKey&quot;:&quot;_posts&#x2F;learn-topic&#x2F;playwright&#x2F;Playwright文档(一)学习路线.md&quot;,&quot;articleTitle&quot;:&quot;Playwright文档(一)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/sisyphus-vale-avatar.png">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/sisyphus-vale-avatar.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/learn-topic/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '复习',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">71</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page type-page" id="body-wrap"><header class="not-home-page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">复习</h1></div></header><main class="layout hide-aside" id="content-inner"><div id="page"><div class="container" id="article-container"><div class="hfc-app" data-hfc-app>
+  <div class="hfc-live" data-hfc-live aria-live="polite"></div>
+  <main class="hfc-stage" data-hfc-stage></main>
+</div>
+<script id="hfc-card-data" type="application/json">[{"id":"playwright-roadmap-mainline","type":"basic","deck":"Playwright","tags":["学习路线","主线"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(一)学习路线.md","articleTitle":"Playwright文档(一) 学习路线","articlePath":"posts/5ce76fb/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(一)学习路线.md","articleTitle":"Playwright文档(一) 学习路线","articlePath":"posts/5ce76fb/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>为什么不建议跳过 Locator 和断言，直接学习 Page Object？\u003c/p>\n","answerHtml":"\u003cp>Page Object 依赖稳定的定位、等待和断言边界。\u003c/p>\n","explanationHtml":"\u003cp>如果尚未理解 Locator 的重新查询、严格模式和 Web-first 断言，POM 只会把脆弱选择器和固定等待藏进类中，增加排查成本。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-roadmap-optional","type":"choice","deck":"Playwright","tags":["学习路线","进阶"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(一)学习路线.md","articleTitle":"Playwright文档(一) 学习路线","articlePath":"posts/5ce76fb/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(一)学习路线.md","articleTitle":"Playwright文档(一) 学习路线","articlePath":"posts/5ce76fb/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>完成常规 Web 自动化主线后，哪一篇可以按项目需要选学？\u003c/p>\n","answerHtml":"\u003cp>B\u003c/p>\n","explanationHtml":"\u003cp>无障碍、视觉回归、WebSocket、GraphQL 和 BDD 属于按需扩展；定位和框架设计是主线基础。\u003c/p>\n","multiple":false,"correct":["B"],"options":[{"key":"A","labelHtml":"\u003cp>页面元素定位\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>进阶内容\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>测试框架设计\u003c/p>\n"}]},{"id":"playwright-locator-role","type":"basic","deck":"Playwright","tags":["Locator","语义定位"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(三)页面元素定位.md","articleTitle":"Playwright文档(三) 页面元素定位","articlePath":"posts/d5972197/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(三)页面元素定位.md","articleTitle":"Playwright文档(三) 页面元素定位","articlePath":"posts/d5972197/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>为什么优先使用 \u003ccode>get_by_role()\u003c/code>？\u003c/p>\n","answerHtml":"\u003cp>它按用户可感知的角色和名称定位元素。\u003c/p>\n","explanationHtml":"\u003cp>角色定位更接近真实交互合同，能降低 DOM 重构带来的影响，也能暴露缺少名称或错误角色等语义问题。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-locator-strict","type":"choice","deck":"Playwright","tags":["Locator","严格模式"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(三)页面元素定位.md","articleTitle":"Playwright文档(三) 页面元素定位","articlePath":"posts/d5972197/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(三)页面元素定位.md","articleTitle":"Playwright文档(三) 页面元素定位","articlePath":"posts/d5972197/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>两个订单行都有“删除”按钮，哪种定位最合适？\u003c/p>\n","answerHtml":"\u003cp>C\u003c/p>\n","explanationHtml":"\u003cp>先按业务身份缩小容器，再定位操作目标，可以消除歧义并保留测试意图。\u003c/p>\n","multiple":false,"correct":["C"],"options":[{"key":"A","labelHtml":"\u003cp>直接使用第一个删除按钮\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>使用全页面长 CSS 链\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>先定位目标订单行，再在行内定位删除按钮\u003c/p>\n"}]},{"id":"playwright-context-isolation","type":"basic","deck":"Playwright","tags":["BrowserContext","测试隔离"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(七)浏览器上下文.md","articleTitle":"Playwright文档(七) 浏览器上下文","articlePath":"posts/8dafa0dc/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(七)浏览器上下文.md","articleTitle":"Playwright文档(七) 浏览器上下文","articlePath":"posts/8dafa0dc/"},{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十二)项目实战.md","articleTitle":"Playwright文档(十二) 项目实战","articlePath":"posts/8141684d/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>BrowserContext 隔离是否等于测试数据隔离？\u003c/p>\n","answerHtml":"\u003cp>不等于，它只负责浏览器端会话隔离。\u003c/p>\n","explanationHtml":"\u003cp>数据库记录、缓存、消息队列和第三方沙箱仍可能共享。测试必须使用唯一数据标识，并由创建数据的 Fixture 负责清理。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-storage-state","type":"choice","deck":"Playwright","tags":["BrowserContext","登录状态"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(七)浏览器上下文.md","articleTitle":"Playwright文档(七) 浏览器上下文","articlePath":"posts/8dafa0dc/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(七)浏览器上下文.md","articleTitle":"Playwright文档(七) 浏览器上下文","articlePath":"posts/8dafa0dc/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>业务回归套件需要复用登录时，哪种方式更合适？\u003c/p>\n","answerHtml":"\u003cp>B\u003c/p>\n","explanationHtml":"\u003cp>storage_state 可以复用已验证会话，同时保持每个测试独立创建 Context；状态文件必须按凭据管理并验证有效期。\u003c/p>\n","multiple":false,"correct":["B"],"options":[{"key":"A","labelHtml":"\u003cp>所有测试共享同一个 Page\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>为角色生成受控 storage_state，并创建独立 Context\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>把真实账号 Cookie 提交到仓库\u003c/p>\n"}]},{"id":"playwright-api-seed","type":"basic","deck":"Playwright","tags":["APIRequestContext","测试数据"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(九)API与网络.md","articleTitle":"Playwright文档(九) API与网络","articlePath":"posts/316789b8/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(九)API与网络.md","articleTitle":"Playwright文档(九) API与网络","articlePath":"posts/316789b8/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>什么时候用 API 准备数据，什么时候必须走 UI？\u003c/p>\n","answerHtml":"\u003cp>前置数据用 API，被测用户旅程使用 UI。\u003c/p>\n","explanationHtml":"\u003cp>创建大量历史订单只是准备条件，可由 API 高效完成；买家提交订单若是被测行为，就必须通过 UI 执行，并结合页面或 API 验证结果。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-route-actions","type":"choice","deck":"Playwright","tags":["网络Mock","Route"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(九)API与网络.md","articleTitle":"Playwright文档(九) API与网络","articlePath":"posts/316789b8/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(九)API与网络.md","articleTitle":"Playwright文档(九) API与网络","articlePath":"posts/316789b8/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>需要模拟推荐接口断网时，应使用哪种路由动作？\u003c/p>\n","answerHtml":"\u003cp>C\u003c/p>\n","explanationHtml":"\u003cp>\u003ccode>abort()\u003c/code> 注入网络失败；\u003ccode>fulfill()\u003c/code> 返回模拟响应；\u003ccode>continue_()\u003c/code> 修改后继续发送真实请求。\u003c/p>\n","multiple":false,"correct":["C"],"options":[{"key":"A","labelHtml":"\u003cp>\u003ccode>continue_()\u003c/code>\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>\u003ccode>fulfill()\u003c/code>\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>\u003ccode>abort()\u003c/code>\u003c/p>\n"}]},{"id":"playwright-event-order","type":"basic","deck":"Playwright","tags":["浏览器事件","组件"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(六)常见组件操作.md","articleTitle":"Playwright文档(六) 常见组件操作","articlePath":"posts/8df5b6f3/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(六)常见组件操作.md","articleTitle":"Playwright文档(六) 常见组件操作","articlePath":"posts/8df5b6f3/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>为什么 popup、download 和 file chooser 都要先建立等待再触发动作？\u003c/p>\n","answerHtml":"\u003cp>它们是可能瞬间结束的浏览器事件。\u003c/p>\n","explanationHtml":"\u003cp>先触发再监听可能错过事件；\u003ccode>with page.expect_*()\u003c/code> 把监听与触发动作组织成明确的因果范围，并返回对应对象。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-iframe-scope","type":"choice","deck":"Playwright","tags":["iframe","FrameLocator"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(六)常见组件操作.md","articleTitle":"Playwright文档(六) 常见组件操作","articlePath":"posts/8df5b6f3/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(六)常见组件操作.md","articleTitle":"Playwright文档(六) 常见组件操作","articlePath":"posts/8df5b6f3/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>页面包含支付 iframe，应该如何定位其中的确认按钮？\u003c/p>\n","answerHtml":"\u003cp>B\u003c/p>\n","explanationHtml":"\u003cp>iframe 是独立文档。FrameLocator 明确切换搜索范围，并保留 Locator 的重新查询和自动等待能力。\u003c/p>\n","multiple":false,"correct":["B"],"options":[{"key":"A","labelHtml":"\u003cp>直接在 Page 上使用全局文本定位\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>先获得 FrameLocator，再在其中使用角色定位\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>使用固定坐标点击 iframe 区域\u003c/p>\n"}]},{"id":"playwright-trace-purpose","type":"basic","deck":"Playwright","tags":["TraceViewer","调试"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(十)调试与交付.md","articleTitle":"Playwright文档(十) 调试与交付","articlePath":"posts/23096463/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十)调试与交付.md","articleTitle":"Playwright文档(十) 调试与交付","articlePath":"posts/23096463/"},{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十二)项目实战.md","articleTitle":"Playwright文档(十二) 项目实战","articlePath":"posts/8141684d/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>Trace Viewer 最适合回答什么问题？\u003c/p>\n","answerHtml":"\u003cp>测试执行了什么，以及浏览器在每一步观察到什么。\u003c/p>\n","explanationHtml":"\u003cp>Trace 将 Action、DOM 快照、网络、Console 和源码关联起来，适合重建失败因果；业务正确仍需明确断言和需求合同。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-xdist-session","type":"choice","deck":"Playwright","tags":["pytest-xdist","并行"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(十)调试与交付.md","articleTitle":"Playwright文档(十) 调试与交付","articlePath":"posts/23096463/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十)调试与交付.md","articleTitle":"Playwright文档(十) 调试与交付","articlePath":"posts/23096463/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>启用 pytest-xdist 后，Session 级 Fixture 通常执行多少次？\u003c/p>\n","answerHtml":"\u003cp>B\u003c/p>\n","explanationHtml":"\u003cp>xdist worker 是独立进程，各自拥有 Session 生命周期，因此共享外部资源仍需唯一命名、锁或专用隔离。\u003c/p>\n","multiple":false,"correct":["B"],"options":[{"key":"A","labelHtml":"\u003cp>整台机器只执行一次\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>每个 worker 各执行一次\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>每条测试执行一次\u003c/p>\n"}]},{"id":"playwright-fill-type","type":"basic","deck":"Playwright","tags":["表单","输入"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(五)页面交互操作.md","articleTitle":"Playwright文档(五) 页面交互操作","articlePath":"posts/fdf6b990/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(五)页面交互操作.md","articleTitle":"Playwright文档(五) 页面交互操作","articlePath":"posts/fdf6b990/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>\u003ccode>fill()\u003c/code> 与 \u003ccode>press_sequentially()\u003c/code> 的主要区别是什么？\u003c/p>\n","answerHtml":"\u003cp>\u003ccode>fill()\u003c/code> 设置完整值，\u003ccode>press_sequentially()\u003c/code> 逐键触发键盘事件。\u003c/p>\n","explanationHtml":"\u003cp>普通文本输入优先使用 \u003ccode>fill()\u003c/code>；只有搜索建议、输入掩码或逐键事件属于产品合同，才需要逐键输入。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-drag-choice","type":"choice","deck":"Playwright","tags":["拖拽","鼠标"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(五)页面交互操作.md","articleTitle":"Playwright文档(五) 页面交互操作","articlePath":"posts/fdf6b990/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(五)页面交互操作.md","articleTitle":"Playwright文档(五) 页面交互操作","articlePath":"posts/fdf6b990/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>标准拖拽组件首先应尝试哪种方式？\u003c/p>\n","answerHtml":"\u003cp>A\u003c/p>\n","explanationHtml":"\u003cp>高层 \u003ccode>drag_to()\u003c/code> 更接近用户行为并保留 Playwright 的定位与可操作性检查；仅在组件需要特殊指针轨迹时降级到底层鼠标操作。\u003c/p>\n","multiple":false,"correct":["A"],"options":[{"key":"A","labelHtml":"\u003cp>\u003ccode>source.drag_to(target)\u003c/code>\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>固定屏幕绝对坐标\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>直接修改目标 DOM\u003c/p>\n"}]},{"id":"playwright-project-evidence","type":"basic","deck":"Playwright","tags":["项目实战","证据"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(十二)项目实战.md","articleTitle":"Playwright文档(十二) 项目实战","articlePath":"posts/8141684d/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十二)项目实战.md","articleTitle":"Playwright文档(十二) 项目实战","articlePath":"posts/8141684d/"}],"articleIndex":1,"articleCount":4,"questionHtml":"\u003cp>三浏览器测试全部通过，是否能证明线上业务一定正常？\u003c/p>\n","answerHtml":"\u003cp>不能，只能证明指定提交在指定测试环境和浏览器矩阵中通过。\u003c/p>\n","explanationHtml":"\u003cp>本地、CI、测试环境和线上是不同证据层。未执行的线上路径必须保持 NOT VERIFIED，不能由 CI 结果推导。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-visual-baseline","type":"basic","deck":"Playwright","tags":["视觉回归","基线"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(十一)进阶内容.md","articleTitle":"Playwright文档(十一) 进阶内容","articlePath":"posts/4504d456/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十一)进阶内容.md","articleTitle":"Playwright文档(十一) 进阶内容","articlePath":"posts/4504d456/"}],"articleIndex":1,"articleCount":3,"questionHtml":"\u003cp>什么时候可以更新视觉回归基线？\u003c/p>\n","answerHtml":"\u003cp>需求变化已批准，并人工审查 current、diff 和对应平台后。\u003c/p>\n","explanationHtml":"\u003cp>基线更新是评审动作，不是失败后的自动修复。业务断言、ARIA 合同和受支持平台都必须继续满足要求。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-advanced-quality-gate","type":"choice","deck":"Playwright","tags":["无障碍","质量门"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(十一)进阶内容.md","articleTitle":"Playwright文档(十一) 进阶内容","articlePath":"posts/4504d456/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十一)进阶内容.md","articleTitle":"Playwright文档(十一) 进阶内容","articlePath":"posts/4504d456/"}],"articleIndex":2,"articleCount":3,"questionHtml":"\u003cp>required 的键盘检查被跳过、optional 的视觉检查失败时，质量门应如何判定？\u003c/p>\n","answerHtml":"\u003cp>C\u003c/p>\n","explanationHtml":"\u003cp>SKIPPED 不能冒充绿色；optional 失败也应记录和评估，但阻断原因首先来自 required 键盘检查未完成。\u003c/p>\n","multiple":false,"correct":["C"],"options":[{"key":"A","labelHtml":"\u003cp>通过，因为视觉是 optional\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>自动把键盘检查改为不适用\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>阻断，因为 required 信号不是 PASS 或 NOT_APPLICABLE\u003c/p>\n"}]},{"id":"playwright-websocket-route","type":"basic","deck":"Playwright","tags":["WebSocket","网络Mock"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(十一)进阶内容.md","articleTitle":"Playwright文档(十一) 进阶内容","articlePath":"posts/4504d456/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十一)进阶内容.md","articleTitle":"Playwright文档(十一) 进阶内容","articlePath":"posts/4504d456/"}],"articleIndex":3,"articleCount":3,"questionHtml":"\u003cp>\u003ccode>route_web_socket()\u003c/code> 不调用 \u003ccode>connect_to_server()\u003c/code> 时代表什么？\u003c/p>\n","answerHtml":"\u003cp>测试完全模拟该 WebSocket，不连接真实服务器。\u003c/p>\n","explanationHtml":"\u003cp>处理器像服务端一样接收并发送帧；需要代理真实连接时再调用 \u003ccode>connect_to_server()\u003c/code>，并明确哪些消息继续转发。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-install-layers","type":"basic","deck":"Playwright","tags":["安装","环境"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(二)快速开始.md","articleTitle":"Playwright文档(二) 快速开始","articlePath":"posts/da4e7889/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(二)快速开始.md","articleTitle":"Playwright文档(二) 快速开始","articlePath":"posts/da4e7889/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>为什么安装 \u003ccode>pytest-playwright\u003c/code> 后还要运行 \u003ccode>playwright install\u003c/code>？\u003c/p>\n","answerHtml":"\u003cp>前者安装 Python 包，后者下载匹配的浏览器二进制。\u003c/p>\n","explanationHtml":"\u003cp>Playwright 客户端、浏览器二进制和 Linux 系统依赖是三层资源。只完成其中一层，测试仍可能在启动浏览器时失败。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-sync-async-choice","type":"choice","deck":"Playwright","tags":["同步API","异步API"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(二)快速开始.md","articleTitle":"Playwright文档(二) 快速开始","articlePath":"posts/da4e7889/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(二)快速开始.md","articleTitle":"Playwright文档(二) 快速开始","articlePath":"posts/da4e7889/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>一个普通 pytest UI 回归套件没有既有异步运行时，优先选择哪套 API？\u003c/p>\n","answerHtml":"\u003cp>A\u003c/p>\n","explanationHtml":"\u003cp>同步 API 更直接；并行扩展通常由 pytest-xdist 和 CI 矩阵承担。只有既有异步上下文或明确并发需求时才选择异步 API。\u003c/p>\n","multiple":false,"correct":["A"],"options":[{"key":"A","labelHtml":"\u003cp>同步 API\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>同时混用两套 API\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>仅因测试数量多就改为异步 API\u003c/p>\n"}]},{"id":"playwright-wait-boundary","type":"basic","deck":"Playwright","tags":["自动等待","断言"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(四)断言与等待.md","articleTitle":"Playwright文档(四) 断言与等待","articlePath":"posts/70bae600/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(四)断言与等待.md","articleTitle":"Playwright文档(四) 断言与等待","articlePath":"posts/70bae600/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>为什么 \u003ccode>click()\u003c/code> 成功后仍然需要断言？\u003c/p>\n","answerHtml":"\u003cp>自动等待只保证动作可执行，不保证业务结果正确。\u003c/p>\n","explanationHtml":"\u003cp>点击会等待元素可操作并发送输入事件；成功提示、URL、订单状态或后端数据属于动作后的业务结果，需要单独使用 Web-first 断言或 API 核验。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-wait-strategy","type":"choice","deck":"Playwright","tags":["等待","稳定性"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(四)断言与等待.md","articleTitle":"Playwright文档(四) 断言与等待","articlePath":"posts/70bae600/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(四)断言与等待.md","articleTitle":"Playwright文档(四) 断言与等待","articlePath":"posts/70bae600/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>提交后状态会异步变成“完成”，哪种等待方式最合适？\u003c/p>\n","answerHtml":"\u003cp>C\u003c/p>\n","explanationHtml":"\u003cp>Web-first 断言直接等待业务可观察结果，并在条件提前成立时立即结束。\u003c/p>\n","multiple":false,"correct":["C"],"options":[{"key":"A","labelHtml":"\u003cp>固定等待五秒\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>等待全站网络空闲\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>使用 \u003ccode>expect(status).to_have_text(&quot;完成&quot;)\u003c/code>\u003c/p>\n"}]},{"id":"playwright-pom-boundary","type":"basic","deck":"Playwright","tags":["POM","测试框架"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(八)测试框架设计.md","articleTitle":"Playwright文档(八) 测试框架设计","articlePath":"posts/c92e7868/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(十二)项目实战.md","articleTitle":"Playwright文档(十二) 项目实战","articlePath":"posts/8141684d/"},{"articleKey":"_posts/learn-topic/playwright/Playwright文档(八)测试框架设计.md","articleTitle":"Playwright文档(八) 测试框架设计","articlePath":"posts/c92e7868/"}],"articleIndex":1,"articleCount":2,"questionHtml":"\u003cp>Page Object 最重要的职责边界是什么？\u003c/p>\n","answerHtml":"\u003cp>封装稳定页面语言，不接管测试数据和全部业务断言。\u003c/p>\n","explanationHtml":"\u003cp>Page Object 集中 Locator 与用户操作；Fixture 管资源，API Client 管服务调用，测试保留关键业务目标和断言，失败报告才容易理解。\u003c/p>\n","multiple":false,"correct":[],"options":[]},{"id":"playwright-fixture-scope","type":"choice","deck":"Playwright","tags":["pytest","Fixture"],"articleKey":"_posts/learn-topic/playwright/Playwright文档(八)测试框架设计.md","articleTitle":"Playwright文档(八) 测试框架设计","articlePath":"posts/c92e7868/","articles":[{"articleKey":"_posts/learn-topic/playwright/Playwright文档(八)测试框架设计.md","articleTitle":"Playwright文档(八) 测试框架设计","articlePath":"posts/c92e7868/"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>可变的 BrowserContext、Page 和订单数据通常应使用什么作用域？\u003c/p>\n","answerHtml":"\u003cp>C\u003c/p>\n","explanationHtml":"\u003cp>Function 级资源把状态污染限制在单条用例。只有创建成本高且本身可安全共享的只读资源，才考虑更大作用域。\u003c/p>\n","multiple":false,"correct":["C"],"options":[{"key":"A","labelHtml":"\u003cp>Session\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>全局单例\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>Function\u003c/p>\n"}]},{"id":"demo-http-404","type":"basic","deck":"HTTP 基础","tags":["状态码","客户端错误"],"articleKey":"flashcard-demo/index.md","articleTitle":"闪卡插件效果预览","articlePath":"flashcard-demo/index.html","articles":[{"articleKey":"flashcard-demo/index.md","articleTitle":"闪卡插件效果预览","articlePath":"flashcard-demo/index.html"},{"articleKey":"flashcard-reference-demo/index.md","articleTitle":"闪卡跨文章引用预览","articlePath":"flashcard-reference-demo/index.html"}],"articleIndex":1,"articleCount":3,"questionHtml":"\u003cp>HTTP 状态码 \u003cstrong>404\u003c/strong> 表示什么？\u003c/p>\n","answerHtml":"\u003cp>服务器找不到请求的资源。\u003c/p>\n","explanationHtml":"\u003cp>\u003ccode>404 Not Found\u003c/code> 表示服务器找不到请求的资源，常见原因包括 URL 错误、资源已删除或资源已移动。\u003c/p>\n\u003ch3 id=\"参考资料\">\u003ca href=\"#参考资料\" class=\"headerlink\" title=\"参考资料\">\u003c/a>参考资料\u003c/h3>\u003cul>\n\u003cli>\u003ca href=\"https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Reference/Status/404\">MDN：404 Not Found\u003c/a>\u003c/li>\n\u003c/ul>\n\u003ch3 id=\"进阶阅读\">\u003ca href=\"#进阶阅读\" class=\"headerlink\" title=\"进阶阅读\">\u003c/a>进阶阅读\u003c/h3>\u003cul>\n\u003cli>\u003ca href=\"https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Reference/Status\">MDN：HTTP 响应状态码\u003c/a>\u003c/li>\n\u003c/ul>\n","multiple":false,"correct":[],"options":[]},{"id":"demo-http-cache","type":"cloze","deck":"HTTP 基础","tags":["缓存","响应头"],"articleKey":"flashcard-demo/index.md","articleTitle":"闪卡插件效果预览","articlePath":"flashcard-demo/index.html","articles":[{"articleKey":"flashcard-demo/index.md","articleTitle":"闪卡插件效果预览","articlePath":"flashcard-demo/index.html"}],"articleIndex":2,"articleCount":3,"questionHtml":"\u003cp>HTTP 强缓存通常由 ＿＿＿＿ 响应头控制。\u003c/p>\n","answerHtml":"\u003cp>Cache-Control\u003c/p>\n","explanationHtml":"\u003cp>\u003ccode>Cache-Control\u003c/code> 用来声明浏览器和中间缓存的缓存策略，例如：\u003c/p>\n\u003cpre>\u003ccode class=\"lang-http\">Cache-Control: public, max-age=3600\n\u003c/code>\u003c/pre>\n\u003cdiv class=\"table-container\">\n\u003ctable>\n\u003cthead>\n\u003ctr>\n\u003cth>指令\u003c/th>\n\u003cth>含义\u003c/th>\n\u003c/tr>\n\u003c/thead>\n\u003ctbody>\n\u003ctr>\n\u003ctd>\u003ccode>max-age\u003c/code>\u003c/td>\n\u003ctd>响应可复用的最长时间\u003c/td>\n\u003c/tr>\n\u003ctr>\n\u003ctd>\u003ccode>no-cache\u003c/code>\u003c/td>\n\u003ctd>使用前必须重新验证\u003c/td>\n\u003c/tr>\n\u003c/tbody>\n\u003c/table>\n\u003c/div>\n","multiple":false,"correct":[],"options":[]},{"id":"demo-http-success","type":"choice","deck":"HTTP 基础","tags":["状态码","成功响应"],"articleKey":"flashcard-demo/index.md","articleTitle":"闪卡插件效果预览","articlePath":"flashcard-demo/index.html","articles":[{"articleKey":"flashcard-demo/index.md","articleTitle":"闪卡插件效果预览","articlePath":"flashcard-demo/index.html"}],"articleIndex":3,"articleCount":3,"questionHtml":"\u003cp>哪个 HTTP 状态码通常表示请求成功？\u003c/p>\n","answerHtml":"\u003cp>200 OK\u003c/p>\n","explanationHtml":"\u003cp>\u003ccode>200 OK\u003c/code> 表示请求成功。响应内容取决于请求方法，例如 \u003ccode>GET\u003c/code> 通常返回资源，\u003ccode>POST\u003c/code> 通常返回操作结果。\u003c/p>\n\u003ch3 id=\"参考资料\">\u003ca href=\"#参考资料\" class=\"headerlink\" title=\"参考资料\">\u003c/a>参考资料\u003c/h3>\u003cul>\n\u003cli>\u003ca href=\"https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Reference/Status/200\">MDN：200 OK\u003c/a>\u003c/li>\n\u003c/ul>\n","multiple":false,"correct":["A"],"options":[{"key":"A","labelHtml":"\u003cp>200\u003c/p>\n"},{"key":"B","labelHtml":"\u003cp>404\u003c/p>\n"},{"key":"C","labelHtml":"\u003cp>500\u003c/p>\n"}]},{"id":"demo-http-503","type":"basic","deck":"HTTP 基础","tags":["状态码","服务端错误"],"articleKey":"flashcard-reference-demo/index.md","articleTitle":"闪卡跨文章引用预览","articlePath":"flashcard-reference-demo/index.html","articles":[{"articleKey":"flashcard-reference-demo/index.md","articleTitle":"闪卡跨文章引用预览","articlePath":"flashcard-reference-demo/index.html"}],"articleIndex":2,"articleCount":2,"questionHtml":"\u003cp>HTTP 状态码 \u003cstrong>503\u003c/strong> 表示什么？\u003c/p>\n","answerHtml":"\u003cp>服务器暂时无法处理请求。\u003c/p>\n","explanationHtml":"\u003cp>\u003ccode>503 Service Unavailable\u003c/code> 表示服务器当前无法处理请求，常见原因包括临时过载或维护。服务端可以通过 \u003ccode>Retry-After\u003c/code> 响应头提示客户端稍后重试。\u003c/p>\n\u003ch3 id=\"参考资料\">\u003ca href=\"#参考资料\" class=\"headerlink\" title=\"参考资料\">\u003c/a>参考资料\u003c/h3>\u003cul>\n\u003cli>\u003ca href=\"https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Reference/Status/503\">MDN：503 Service Unavailable\u003c/a>\u003c/li>\n\u003c/ul>\n","multiple":false,"correct":[],"options":[]}]</script>
+<script id="hfc-config-data" type="application/json">{"assetBase":"/flashcard-assets","root":"/","learningPath":"learn-topic"}</script></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

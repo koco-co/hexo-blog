@@ -1,0 +1,130 @@
+/* ============================================
+   文章页标签美化 - 高优先级版本
+   ============================================ */
+
+/* 标签容器 - 居中布局 */
+div.post-meta__tag-list,
+.tag_share > .post-meta__tag-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    justify-content: center !important;
+    padding: 20px 0 !important;
+}
+
+/* 单个标签 - 彩色胶囊样式 - 超高优先级 */
+div.post-meta__tag-list a.post-meta__tags,
+.tag_share > .post-meta__tag-list a.post-meta__tags,
+a.post-meta__tags[href] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 8px 18px !important;
+    border-radius: 20px !important;
+    color: #fff !important;
+    font-weight: 500 !important;
+    font-size: 0.85em !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08) !important;
+    border: none !important;
+    position: relative;
+    overflow: hidden !important;
+    margin: 0 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    /* 覆盖内联背景色样式 */
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+}
+
+/* 强制覆盖所有内联样式 */
+div.post-meta__tag-list a.post-meta__tags[style],
+.tag_share > .post-meta__tag-list a.post-meta__tags[style],
+a.post-meta__tags[href][style] {
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* 标签渐变色循环 */
+div.post-meta__tag-list a.post-meta__tags:nth-child(6n+1),
+.tag_share > .post-meta__tag-list a.post-meta__tags:nth-child(6n+1),
+a.post-meta__tags[href]:nth-child(6n+1) {
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+div.post-meta__tag-list a.post-meta__tags:nth-child(6n+2),
+.tag_share > .post-meta__tag-list a.post-meta__tags:nth-child(6n+2),
+a.post-meta__tags[href]:nth-child(6n+2) {
+    background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+}
+
+div.post-meta__tag-list a.post-meta__tags:nth-child(6n+3),
+.tag_share > .post-meta__tag-list a.post-meta__tags:nth-child(6n+3),
+a.post-meta__tags[href]:nth-child(6n+3) {
+    background-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+
+div.post-meta__tag-list a.post-meta__tags:nth-child(6n+4),
+.tag_share > .post-meta__tag-list a.post-meta__tags:nth-child(6n+4),
+a.post-meta__tags[href]:nth-child(6n+4) {
+    background-image: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+}
+
+div.post-meta__tag-list a.post-meta__tags:nth-child(6n+5),
+.tag_share > .post-meta__tag-list a.post-meta__tags:nth-child(6n+5),
+a.post-meta__tags[href]:nth-child(6n+5) {
+    background-image: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+}
+
+div.post-meta__tag-list a.post-meta__tags:nth-child(6n+6),
+.tag_share > .post-meta__tag-list a.post-meta__tags:nth-child(6n+6),
+a.post-meta__tags[href]:nth-child(6n+6) {
+    background-image: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%) !important;
+}
+
+/* 光泽效果 */
+div.post-meta__tag-list a.post-meta__tags::before,
+.tag_share > .post-meta__tag-list a.post-meta__tags::before,
+a.post-meta__tags[href]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 悬停效果 */
+div.post-meta__tag-list a.post-meta__tags:hover,
+.tag_share > .post-meta__tag-list a.post-meta__tags:hover,
+a.post-meta__tags[href]:hover {
+    transform: translateY(-3px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+    color: #fff !important;
+}
+
+div.post-meta__tag-list a.post-meta__tags:hover::before,
+.tag_share > .post-meta__tag-list a.post-meta__tags:hover::before,
+a.post-meta__tags[href]:hover::before {
+    left: 100%;
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 768px) {
+    div.post-meta__tag-list,
+    .tag_share > .post-meta__tag-list {
+        gap: 8px !important;
+        padding: 15px 0 !important;
+    }
+
+    div.post-meta__tag-list a.post-meta__tags,
+    .tag_share > .post-meta__tag-list a.post-meta__tags,
+    a.post-meta__tags[href] {
+        padding: 6px 14px !important;
+        font-size: 0.8em !important;
+    }
+}

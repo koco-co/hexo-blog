@@ -1,0 +1,548 @@
+{
+  "sourceRepository": "https://github.com/koco-co/picgo-images",
+  "sourceCommit": "63bc3eab70de61ff1979e01478b58e2e9f2499df",
+  "occurrenceCount": 88,
+  "assetCount": 77,
+  "assets": [
+    {
+      "sourcePath": "picgo-images/二次元人物01.png",
+      "targetPath": "source/img/picgo-images/二次元人物01.png",
+      "bytes": 6999607,
+      "sha256": "4c33d5f6c5aade67d0d68af7aa4a4faf9665ea307bf9da7faffa13cde78fbe1e",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物02.png",
+      "targetPath": "source/img/picgo-images/二次元人物02.png",
+      "bytes": 7768264,
+      "sha256": "10e3750c2462395067e07239f1c2a68915b65800ef0630212051de94fea4a471",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物03.jpeg",
+      "targetPath": "source/img/picgo-images/二次元人物03.jpeg",
+      "bytes": 986776,
+      "sha256": "7d0151bc68186db1c86f11c2e5057c6e77ab86ae10b0a24b9d21ba046bd1406c",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物04.jpeg",
+      "targetPath": "source/img/picgo-images/二次元人物04.jpeg",
+      "bytes": 457178,
+      "sha256": "a36b94c87dd5078f34dbfe02cf62191a3369d708fa447d6d7b06025aa7673c66",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物05.png",
+      "targetPath": "source/img/picgo-images/二次元人物05.png",
+      "bytes": 1845078,
+      "sha256": "a18b32eb6c1c5ed8a26cb0057eda93779121b08e9047bcb60815b71e7fb25b6a",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物06.png",
+      "targetPath": "source/img/picgo-images/二次元人物06.png",
+      "bytes": 18327993,
+      "sha256": "36109292280add3dfb411c4545ac44693a08ea6417429b4fd4b8d4c7a0a2d0c8",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物07.png",
+      "targetPath": "source/img/picgo-images/二次元人物07.png",
+      "bytes": 4264761,
+      "sha256": "610bab8c72adadae7239444e16cd98d3d951fa65c486ee37634b7458742701ae",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物08.jpeg",
+      "targetPath": "source/img/picgo-images/二次元人物08.jpeg",
+      "bytes": 490433,
+      "sha256": "7a462d7238105bf55843db4e6f9a72b02a3a01618315b048a47ae04dec871761",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物09.png",
+      "targetPath": "source/img/picgo-images/二次元人物09.png",
+      "bytes": 1330052,
+      "sha256": "15648f23f0d8b37253a203c8bb134bec9357cc32f99c5d50ebd2f79efca9d576",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物10.jpeg",
+      "targetPath": "source/img/picgo-images/二次元人物10.jpeg",
+      "bytes": 3558687,
+      "sha256": "4ebd9bb64f76618b3094dc1817befb4f25326359a936669ec0218ace4e46e7eb",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物11.webp",
+      "targetPath": "source/img/picgo-images/二次元人物11.webp",
+      "bytes": 68486,
+      "sha256": "602918a6cb02133264fc3eb8e51d45d0cf499c26e5b78fae708fd9f648fc2f06",
+      "mediaType": "image/webp"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物12.jpeg",
+      "targetPath": "source/img/picgo-images/二次元人物12.jpeg",
+      "bytes": 840142,
+      "sha256": "856e376e6a7869956587a5b5ad5609a59b8363d2174ebc010d6b4cf00efab988",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/二次元人物13.png",
+      "targetPath": "source/img/picgo-images/二次元人物13.png",
+      "bytes": 6591631,
+      "sha256": "333ef5d51dbb899d1caa7a02ae7608009c252d06a06ba16c4fb2dc02a88270ea",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/个人卡片变色效果图",
+      "targetPath": "source/img/picgo-images/个人卡片变色效果图.png",
+      "bytes": 4055663,
+      "sha256": "17ec6e2a1b670fc5bb81459a69bd2c59dafe0e6512c87e8c82c65f7c851635fe",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/渐变色版权美化展示",
+      "targetPath": "source/img/picgo-images/渐变色版权美化展示.png",
+      "bytes": 3555820,
+      "sha256": "a3272da9a9d854202ff5afd092d5af37f74ab84c8c758181addbc46646e0a860",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/视频适配.png",
+      "targetPath": "source/img/picgo-images/视频适配.png",
+      "bytes": 5100949,
+      "sha256": "c4b9914a2bc38ff5c89de3dbea1353b1ad2a7e455efaf63a176034f8c67d94ee",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/网易云歌单号.png",
+      "targetPath": "source/img/picgo-images/网易云歌单号.png",
+      "bytes": 285880,
+      "sha256": "c94ea1aa7eaaef3f42156a69527b17c45bee7882d2f2a240949ab9ba501904d9",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面01.png",
+      "targetPath": "source/img/picgo-images/文章随机封面01.png",
+      "bytes": 2926656,
+      "sha256": "da4d6d1096c952a41880d3deb6a128adf6f6ee31abe13e6735958aba85de49d9",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面02.png",
+      "targetPath": "source/img/picgo-images/文章随机封面02.png",
+      "bytes": 4005496,
+      "sha256": "48fe4245b8c350a1920cb505ab94f6043b96a72f86c77ae3677b655e5b933262",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面03.png",
+      "targetPath": "source/img/picgo-images/文章随机封面03.png",
+      "bytes": 1922727,
+      "sha256": "72fbbec1f6d9cfe07a34c8bbfb7838ac52743b4028f9adba5e1dc32a42fcbc2c",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面04.png",
+      "targetPath": "source/img/picgo-images/文章随机封面04.png",
+      "bytes": 18783305,
+      "sha256": "ecc503a3a1ba3ff48cddc75a8f4c00f67b314d9582e5dd3a4f052b89db25abc5",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面05.png",
+      "targetPath": "source/img/picgo-images/文章随机封面05.png",
+      "bytes": 6533262,
+      "sha256": "20e40e6c90b9e9e56bf39ef4313d969f4a04728cb6bd8b3cb857e7ab0eeff873",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面06.png",
+      "targetPath": "source/img/picgo-images/文章随机封面06.png",
+      "bytes": 6763360,
+      "sha256": "a72482a972af720cde2b58ad611479d984328779658f67cd866c7fd05dd6580d",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面07.png",
+      "targetPath": "source/img/picgo-images/文章随机封面07.png",
+      "bytes": 10241463,
+      "sha256": "f01c3ad754d98f521bea112c62c6cf710cfa7a2c24fbf3be26949e24005efbc6",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面08.png",
+      "targetPath": "source/img/picgo-images/文章随机封面08.png",
+      "bytes": 6743754,
+      "sha256": "0ca6d2582d6a0e0b2d09b503800eb8a6616e3807cf6968c01622eac7511698bc",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面09.png",
+      "targetPath": "source/img/picgo-images/文章随机封面09.png",
+      "bytes": 1504099,
+      "sha256": "db1038a8da732986c507bc361180e261e0a4102ddc9f618e5bc509a2b34b4ae7",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面10.png",
+      "targetPath": "source/img/picgo-images/文章随机封面10.png",
+      "bytes": 2997323,
+      "sha256": "61ff872cc83fe4177a77ba16e5d6de5351b976f2e3fb4f81569bacbd5c3f5660",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面11.png",
+      "targetPath": "source/img/picgo-images/文章随机封面11.png",
+      "bytes": 1144847,
+      "sha256": "6a8f70444162164041fd987f8a336143e260394a727ae4eb1b35d665e0fe20bd",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面12.png",
+      "targetPath": "source/img/picgo-images/文章随机封面12.png",
+      "bytes": 1618661,
+      "sha256": "5afede11c78753a4a417bf54e25db3aacfa01d7de3b59eb4a501c4ce044fe460",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面13.png",
+      "targetPath": "source/img/picgo-images/文章随机封面13.png",
+      "bytes": 1823113,
+      "sha256": "7dc1893526ce84dfec86858287ab3c2c8d646042a22b0b57bb3a02540061e66f",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/文章随机封面14.png",
+      "targetPath": "source/img/picgo-images/文章随机封面14.png",
+      "bytes": 2210053,
+      "sha256": "db91f5664372a613eb7dd9d974b4d3c6e5f09b7a2aecf112e4dd1060413544cd",
+      "mediaType": "image/jpeg"
+    },
+    {
+      "sourcePath": "picgo-images/页面亚克力效果",
+      "targetPath": "source/img/picgo-images/页面亚克力效果.png",
+      "bytes": 2262712,
+      "sha256": "dc823119f98f56289289106eb29168322dca13d490ebf4eb26f1ac9ea94ed7ae",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/%25E7%259B%25B4%25E8%25BE%25BE%25E5%25BA%2595%25E9%2583%25A8%25E6%258C%2589%25E9%2592%25AE.png",
+      "targetPath": "source/img/picgo-images/直达底部按钮.png",
+      "bytes": 4526261,
+      "sha256": "14f10c17c02ef40ea81048b924be55e3b77de737e999a37fc7d8a49bc86ee240",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/agent_skills.png",
+      "targetPath": "source/img/picgo-images/agent_skills.png",
+      "bytes": 7706955,
+      "sha256": "fb4890734e26c57bfde7279fdc7fe374258bf0d9a62500504b24e922642e8ab1",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/b链接分享.png",
+      "targetPath": "source/img/picgo-images/b链接分享.png",
+      "bytes": 1681690,
+      "sha256": "dd235ab02fec219f697c150df500411a18da146d81fe24a37615083771f791e9",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/claudecode-install.png",
+      "targetPath": "source/img/picgo-images/claudecode-install.png",
+      "bytes": 7714834,
+      "sha256": "9fba9e5d3fa5ccf8298bcb944d55ed2320dd789b58c442b4d26d1edc19cf0278",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/fastapi.png",
+      "targetPath": "source/img/picgo-images/fastapi.png",
+      "bytes": 8018428,
+      "sha256": "05b4a603475722911f6f24a2482b73a9d3acc646adc9c9d513fd159f3133dcad",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/github-picgo.png",
+      "targetPath": "source/img/picgo-images/github-picgo.png",
+      "bytes": 7749403,
+      "sha256": "7800a028b77faee2a7d5077d46616e634971be7579cf70089c776852024fa3a3",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/hexo-butterfly.png",
+      "targetPath": "source/img/picgo-images/hexo-butterfly.png",
+      "bytes": 8591282,
+      "sha256": "4dbb9fc477aa6a93e2f1615800bca87257b35dbe3d2d8df6b4cf3a2fa07f0321",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/hexo-githubpages.png",
+      "targetPath": "source/img/picgo-images/hexo-githubpages.png",
+      "bytes": 8145992,
+      "sha256": "08a7c7de9e0212728bb2652f9348a984b5eecf03bb35d5939d46003659190475",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/iconfont引入",
+      "targetPath": "source/img/picgo-images/iconfont引入.png",
+      "bytes": 422284,
+      "sha256": "eed37e4199940810958c43552f03761dacf6e349bb86a41a62329b7286dddcc8",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-20260109211402829.png",
+      "targetPath": "source/img/picgo-images/image-20260109211402829.png",
+      "bytes": 159294,
+      "sha256": "c7269b9b3a14aaf5921c876699f0ad33e76f031b34d23e3e0220a8fca3428a24",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-20260109211932335.png",
+      "targetPath": "source/img/picgo-images/image-20260109211932335.png",
+      "bytes": 180451,
+      "sha256": "23b0152c2aa849ca7d70fd9f96904d63fe96bd2a127324a1df0af8381de85351",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-20260109212509866.png",
+      "targetPath": "source/img/picgo-images/image-20260109212509866.png",
+      "bytes": 463467,
+      "sha256": "23edecccd2479f3519cc8b0d4b99152d541cf4b6ea900211ea641892e131757c",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-20260109212708776.png",
+      "targetPath": "source/img/picgo-images/image-20260109212708776.png",
+      "bytes": 165802,
+      "sha256": "f72ec2b5c5fa739b7e8895729390704c1112cab04b64675d343f369e8a565fd6",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-20260109212959444.png",
+      "targetPath": "source/img/picgo-images/image-20260109212959444.png",
+      "bytes": 482209,
+      "sha256": "1ee04ba6ded4838411092f1f41b1071a047835d591a5aaee24bc09e5addbcb21",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-安装opencode插件.png",
+      "targetPath": "source/img/picgo-images/image-安装opencode插件.png",
+      "bytes": 303993,
+      "sha256": "6a55254b2125e478783bcc4a59b74b898a432f09c0e1f41b0e7fbc938df92309",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-背景一图流.png",
+      "targetPath": "source/img/picgo-images/image-背景一图流.png",
+      "bytes": 6825982,
+      "sha256": "bdb897d71c26090a113ef6effcfcc93feaa54d31a45ae153058cfb3fd38ec3e7",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-侧边栏图标自定义.png",
+      "targetPath": "source/img/picgo-images/image-侧边栏图标自定义.png",
+      "bytes": 4040214,
+      "sha256": "49b5868d5a4f008b17a5e4fab16311f48e731a3ef825810cc012979175e52e0a",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-导航栏下拉菜单.png",
+      "targetPath": "source/img/picgo-images/image-导航栏下拉菜单.png",
+      "bytes": 6727440,
+      "sha256": "21c9deb0c15712ff1d2ac597f94b587b73bfa4312423b4b057d8a6a411ef853e",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-导航栏自定义.png",
+      "targetPath": "source/img/picgo-images/image-导航栏自定义.png",
+      "bytes": 6663706,
+      "sha256": "27f12089a8bb3269883c36895502f06be48a9063f6229687d655f97412aaa073",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-%E5%85%AC%E5%91%8A%E6%A0%8F%E7%BE%8E%E5%8C%96.png",
+      "targetPath": "source/img/picgo-images/image-公告栏美化.png",
+      "bytes": 4012878,
+      "sha256": "077ff6a586fa8ad1dbc0633707e4890176b332d9a34fc3afc2a3d16e71ab7514",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-黑夜霓虹灯.png",
+      "targetPath": "source/img/picgo-images/image-黑夜霓虹灯.png",
+      "bytes": 4603681,
+      "sha256": "ee6ef3d42aa18ca9efc734f1320fdeda089c9561f8df1c88c6002b358911bc0c",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-%E6%AC%A2%E8%BF%8E%E4%BF%A1%E6%81%AF.png",
+      "targetPath": "source/img/picgo-images/image-欢迎信息.png",
+      "bytes": 4259120,
+      "sha256": "77acb16d8a7608840879eed245ecd16d707ddea6c549fab9dc86993cd250692a",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-进入opencode.png",
+      "targetPath": "source/img/picgo-images/image-进入opencode.png",
+      "bytes": 155565,
+      "sha256": "711a7fa8a8451fa3710a1fdcf61e9743ec4ca8f44395b00b7407827643a82ddc",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-%E7%95%99%E8%A8%80%E6%9D%BF.png",
+      "targetPath": "source/img/picgo-images/image-留言板.png",
+      "bytes": 3247269,
+      "sha256": "7825c7589994182ac0d96f36efde69971eed5797ce0ba19c7d91260bd3b42428",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-切换google模型.png",
+      "targetPath": "source/img/picgo-images/image-切换google模型.png",
+      "bytes": 225997,
+      "sha256": "c16713db48939b9f77a689ee20858e2fc0976eae2bb1de4d91b43d340cf3c985",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-全局使用.png",
+      "targetPath": "source/img/picgo-images/image-全局使用.png",
+      "bytes": 197840,
+      "sha256": "9c4179c318134bd0679798d5f7c3c2e4052b3608e5732811804d20e2a86e416e",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-文章加密.png",
+      "targetPath": "source/img/picgo-images/image-文章加密.png",
+      "bytes": 3368397,
+      "sha256": "23569d209b8e289d31296e3a040ccd3763a666070503af59c52d8ec3af7d4ac5",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-%E6%96%87%E7%AB%A0%E9%93%BE%E6%8E%A5%E4%BC%98%E5%8C%96.png",
+      "targetPath": "source/img/picgo-images/image-文章链接优化.png",
+      "bytes": 3429408,
+      "sha256": "69ecf55e762316236c49b10fdb067f5451c3b1a39967e8f40531ceed5fb4266d",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-文章摘要.png",
+      "targetPath": "source/img/picgo-images/image-文章摘要.png",
+      "bytes": 5440110,
+      "sha256": "65242a525741042dac161e5d6daa4ad41c60c27b18daad618008e6f0bae61ecc",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-星空背景和流星特效.png",
+      "targetPath": "source/img/picgo-images/image-星空背景和流星特效.png",
+      "bytes": 4610370,
+      "sha256": "956eb50b0be3d8d1384ebabbeeb760e207b3552272ef0b0fc2fcabf1ad63cd01",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-雪花特效.png",
+      "targetPath": "source/img/picgo-images/image-雪花特效.png",
+      "bytes": 6793372,
+      "sha256": "828ff89bc662eb69a6346de6bff489100169d2917a6cf8964a67bb027b04654b",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-页脚美化.png",
+      "targetPath": "source/img/picgo-images/image-页脚美化.png",
+      "bytes": 4302251,
+      "sha256": "fb21acd61f009447e16a82fdd85ec9b8693a5a007ecad917ef91bd6edc6ca24d",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-音乐模块嵌入.png",
+      "targetPath": "source/img/picgo-images/image-音乐模块嵌入.png",
+      "bytes": 2773025,
+      "sha256": "ae655dfbd6a94ca0e50521c66926280046d11f328dca321628ffa0c0a9f1fc05",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-照片模块.png",
+      "targetPath": "source/img/picgo-images/image-照片模块.png",
+      "bytes": 6149759,
+      "sha256": "f39846d193a2689ec64d7869d7e7c5a1bf13d84061a0d5c2c724fcd8f6f8e307",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image- antigravity登录认证.png",
+      "targetPath": "source/img/picgo-images/image-antigravity登录认证.png",
+      "bytes": 199231,
+      "sha256": "09ba9ac1e9e637a2c284950cf168015a0cbf9a1e1aa95c201f78922ce69b0b9a",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-OpenCode_for_vscode.png",
+      "targetPath": "source/img/picgo-images/image-OpenCode_for_vscode.png",
+      "bytes": 2153657,
+      "sha256": "7da6d2a4d0ab89d7883b191ca13c5b13f988907d767500b70290ec39e4e4d225",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-OpenCode.png",
+      "targetPath": "source/img/picgo-images/image-OpenCode.png",
+      "bytes": 269337,
+      "sha256": "b88fb75af9813500747dcb332ab347a1fc5c40d5c2f7ec25f65bf7a770613b0e",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-opencode配置mcp.png",
+      "targetPath": "source/img/picgo-images/image-opencode配置mcp.png",
+      "bytes": 178220,
+      "sha256": "bc4f869ba7f7f1a90aaf5ff8ecb2300b088870bf4b73ed7ec9e4c0c69037c953",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-opencoe选择模型.png",
+      "targetPath": "source/img/picgo-images/image-opencoe选择模型.png",
+      "bytes": 185008,
+      "sha256": "f0a76cc19fd62ce16143ce750aa040176bd4d08cc1aed7054b9f6099ce773085",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/image-vscode打开opencode.png",
+      "targetPath": "source/img/picgo-images/image-vscode打开opencode.png",
+      "bytes": 1731649,
+      "sha256": "4f5de76b8f6227b0922c49c79d53d07c1828a306e660b2eb82810596c17c5401",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/ip%E5%AE%9A%E4%BD%8D%E6%9C%8D%E5%8A%A1.png",
+      "targetPath": "source/img/picgo-images/ip定位服务.png",
+      "bytes": 490162,
+      "sha256": "0f96489562ec6ef52b6070de0d5d753e3654381db397b7de304274abb989684b",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/opencode-install.png",
+      "targetPath": "source/img/picgo-images/opencode-install.png",
+      "bytes": 8861235,
+      "sha256": "ccc94594f074a0c02b296f28473daa4a4c3c968c8675330f77ccb5c1a66b6842",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/p",
+      "targetPath": "source/img/picgo-images/p.png",
+      "bytes": 426462,
+      "sha256": "997bb6b3c18c61a55b8200a93556d97ac2186268b24bbdff31f55f748ff531b9",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/python-tools.png",
+      "targetPath": "source/img/picgo-images/python-tools.png",
+      "bytes": 8122147,
+      "sha256": "c46660fec3ef15d68c21ea0d045a5b34aa515b317d89b4f02741f966cb4c3b1f",
+      "mediaType": "image/png"
+    },
+    {
+      "sourcePath": "picgo-images/Social图标展示",
+      "targetPath": "source/img/picgo-images/Social图标展示.png",
+      "bytes": 3374663,
+      "sha256": "3c32bd9e0273bd7617b280984e1eb1cc3c5d91ca372b973dbe81853e10b52eeb",
+      "mediaType": "image/png"
+    }
+  ],
+  "totalBytes": 298138731
+}

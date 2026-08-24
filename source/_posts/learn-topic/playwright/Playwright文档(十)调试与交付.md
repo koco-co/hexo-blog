@@ -405,10 +405,24 @@ xdist worker 是独立进程，各自拥有 Session 生命周期，因此共享�
 
 ## 参考资料
 
-- [Test Generator](https://playwright.dev/python/docs/codegen)
-- [Debugging Tests](https://playwright.dev/python/docs/debug)
-- [Trace Viewer](https://playwright.dev/python/docs/trace-viewer)
-- [pytest-playwright Reference](https://playwright.dev/python/docs/test-runners)
-- [Playwright CI](https://playwright.dev/python/docs/ci)
-- [pytest-xdist](https://pytest-xdist.readthedocs.io/)
-- [pytest JUnit XML](https://docs.pytest.org/en/stable/how-to/output.html#creating-junitxml-format-files)
+### 调试工具
+
+{% linkgroup %}
+{% link Test Generator, https://playwright.dev/python/docs/codegen, https://playwright.dev/img/playwright-logo.svg %}
+{% link Debugging Tests, https://playwright.dev/python/docs/debug, https://playwright.dev/img/playwright-logo.svg %}
+{% link Trace Viewer, https://playwright.dev/python/docs/trace-viewer, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}
+
+### 测试运行
+
+{% linkgroup %}
+{% link pytest-playwright Reference, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
+{% link pytest-xdist, https://pytest-xdist.readthedocs.io/, https://pytest-xdist.readthedocs.io/favicon.ico %}
+{% endlinkgroup %}
+
+### CI 与报告
+
+{% linkgroup %}
+{% link Playwright CI, https://playwright.dev/python/docs/ci, https://playwright.dev/img/playwright-logo.svg %}
+{% link pytest JUnit XML, https://docs.pytest.org/en/stable/how-to/output.html#creating-junitxml-format-files, https://docs.pytest.org/en/stable/_static/favicon.png %}
+{% endlinkgroup %}

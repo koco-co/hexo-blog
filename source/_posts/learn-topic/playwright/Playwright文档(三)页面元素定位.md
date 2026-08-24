@@ -290,7 +290,9 @@ C
 
 ## 参考资料
 
-- [Playwright Locators](https://playwright.dev/python/docs/locators)
-- [Playwright Best Practices](https://playwright.dev/python/docs/best-practices)
-- [Locator API](https://playwright.dev/python/docs/api/class-locator)
-- [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles)
+{% linkgroup %}
+{% link Playwright Locators, https://playwright.dev/python/docs/locators, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Best Practices, https://playwright.dev/python/docs/best-practices, https://playwright.dev/img/playwright-logo.svg %}
+{% link Locator API, https://playwright.dev/python/docs/api/class-locator, https://playwright.dev/img/playwright-logo.svg %}
+{% link ARIA roles, https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles, https://developer.mozilla.org/favicon.ico %}
+{% endlinkgroup %}

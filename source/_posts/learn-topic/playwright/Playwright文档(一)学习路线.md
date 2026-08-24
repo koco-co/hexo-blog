@@ -155,7 +155,9 @@ Page Object 依赖稳定的定位、等待和断言边界。
 
 ## 参考资料
 
-- [Playwright Python 文档](https://playwright.dev/python/docs/intro)
-- [pytest 文档](https://docs.pytest.org/)
-- [pytest-playwright 文档](https://playwright.dev/python/docs/test-runners)
-- [Playwright Python API](https://playwright.dev/python/docs/api/class-playwright)
+{% linkgroup %}
+{% link Playwright Python 文档, https://playwright.dev/python/docs/intro, https://playwright.dev/img/playwright-logo.svg %}
+{% link pytest 文档, https://docs.pytest.org/, https://docs.pytest.org/en/stable/_static/favicon.png %}
+{% link pytest-playwright 文档, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Python API, https://playwright.dev/python/docs/api/class-playwright, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

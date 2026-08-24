@@ -274,6 +274,10 @@ function isRenderedImageReference(line, index, frontMatter) {
     || /\{%\s*(?:galleryGroup|inlineImg|image|inlineimage|link|site|cell)\b/.test(line)
 }
 
+function isRemoteUrlPath(line, index) {
+  return /(?:https?:)?\/\/[^\s'\"<>]*$/i.test(line.slice(0, index))
+}
+
 function markdownImageReferences(root) {
   const references = {
     markdownFileCount: 0,
@@ -321,6 +325,7 @@ function markdownImageReferences(root) {
       if (fence) continue
       const localPattern = new RegExp(LOCAL_IMAGE_URL_PATTERN.source, LOCAL_IMAGE_URL_PATTERN.flags)
       for (const match of line.matchAll(localPattern)) {
+        if (isRemoteUrlPath(line, match.index)) continue
         if (!renderedTagLine && !isRenderedImageReference(line, match.index, frontMatter)) continue
         references.local.push({ file: relativeFile, line: index + 1, url: match[0] })
       }

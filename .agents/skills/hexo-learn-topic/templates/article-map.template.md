@@ -42,6 +42,7 @@ source/_posts/learn-topic/{{主题路径段}}/
 - 非复习隐藏内容：{{hideToggle、hideBlock、hideInline 或 folding 的教学目的}}
 - 可视化：{{Mermaid、表格、图表、截图或本地图片及理由；Mermaid 流程图注明 LR 或 TD/TB 及方向依据}}
 - 主要来源：{{官方资料、源码或社区链接}}
+- 参考资料卡片：{{按正文顺序列出卡片；超过 6 项时写明简短分组}}
 - 末尾章节：`常见问题`、`参考资料`
 
 ## 覆盖归属

@@ -245,7 +245,9 @@ C
 
 ## 参考资料
 
-- [API Testing](https://playwright.dev/python/docs/api-testing)
-- [APIRequestContext](https://playwright.dev/python/docs/api/class-apirequestcontext)
-- [Network](https://playwright.dev/python/docs/network)
-- [Mock APIs](https://playwright.dev/python/docs/mock)
+{% linkgroup %}
+{% link API Testing, https://playwright.dev/python/docs/api-testing, https://playwright.dev/img/playwright-logo.svg %}
+{% link APIRequestContext, https://playwright.dev/python/docs/api/class-apirequestcontext, https://playwright.dev/img/playwright-logo.svg %}
+{% link Network, https://playwright.dev/python/docs/network, https://playwright.dev/img/playwright-logo.svg %}
+{% link Mock APIs, https://playwright.dev/python/docs/mock, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

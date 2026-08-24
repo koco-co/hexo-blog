@@ -558,14 +558,28 @@ SKIPPED 不能冒充绿色；optional 失败也应记录和评估，但阻断原
 
 ## 参考资料
 
-- [Playwright Shadow DOM Locators](https://playwright.dev/python/docs/locators#locate-in-shadow-dom)
-- [Playwright Clock](https://playwright.dev/python/docs/clock)
-- [Playwright Network and WebSockets](https://playwright.dev/python/docs/network)
-- [WebSocketRoute API](https://playwright.dev/python/docs/api/class-websocketroute)
-- [pytest-bdd](https://pypi.org/project/pytest-bdd/)
-- [ARIA Snapshots](https://playwright.dev/python/docs/aria-snapshots)
-- [axe-playwright-python](https://pypi.org/project/axe-playwright-python/)
-- [W3C WAI Evaluating Web Accessibility](https://www.w3.org/WAI/test-evaluate/)
-- [Playwright Screenshots](https://playwright.dev/python/docs/screenshots)
-- [Playwright Test Visual Comparisons](https://playwright.dev/docs/test-snapshots)
-- [Pillow](https://pypi.org/project/pillow/)
+### 浏览器扩展
+
+{% linkgroup %}
+{% link Playwright Shadow DOM Locators, https://playwright.dev/python/docs/locators#locate-in-shadow-dom, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Clock, https://playwright.dev/python/docs/clock, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Network and WebSockets, https://playwright.dev/python/docs/network, https://playwright.dev/img/playwright-logo.svg %}
+{% link WebSocketRoute API, https://playwright.dev/python/docs/api/class-websocketroute, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}
+
+### BDD 集成
+
+{% linkgroup %}
+{% link pytest-bdd, https://pypi.org/project/pytest-bdd/, https://pypi.org/favicon.ico %}
+{% endlinkgroup %}
+
+### 专项质量
+
+{% linkgroup %}
+{% link ARIA Snapshots, https://playwright.dev/python/docs/aria-snapshots, https://playwright.dev/img/playwright-logo.svg %}
+{% link axe-playwright-python, https://pypi.org/project/axe-playwright-python/, https://pypi.org/favicon.ico %}
+{% link W3C WAI Evaluating Web Accessibility, https://www.w3.org/WAI/test-evaluate/, https://www.w3.org/favicon.ico %}
+{% link Playwright Screenshots, https://playwright.dev/python/docs/screenshots, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Test Visual Comparisons, https://playwright.dev/docs/test-snapshots, https://playwright.dev/img/playwright-logo.svg %}
+{% link Pillow, https://pypi.org/project/pillow/, https://pypi.org/favicon.ico %}
+{% endlinkgroup %}

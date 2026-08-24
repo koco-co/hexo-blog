@@ -342,7 +342,9 @@ Function 级资源把状态污染限制在单条用例。只有创建成本高�
 
 ## 参考资料
 
-- [pytest Fixtures](https://docs.pytest.org/en/stable/how-to/fixtures.html)
-- [pytest Parametrize](https://docs.pytest.org/en/stable/how-to/parametrize.html)
-- [pytest-playwright Reference](https://playwright.dev/python/docs/test-runners)
-- [Page Object Models](https://playwright.dev/python/docs/pom)
+{% linkgroup %}
+{% link pytest Fixtures, https://docs.pytest.org/en/stable/how-to/fixtures.html, https://docs.pytest.org/en/stable/_static/favicon.png %}
+{% link pytest Parametrize, https://docs.pytest.org/en/stable/how-to/parametrize.html, https://docs.pytest.org/en/stable/_static/favicon.png %}
+{% link pytest-playwright Reference, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
+{% link Page Object Models, https://playwright.dev/python/docs/pom, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

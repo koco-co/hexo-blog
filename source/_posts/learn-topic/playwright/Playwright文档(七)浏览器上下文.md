@@ -661,7 +661,9 @@ storage_state 可以复用已验证会话，同时保持每个测试独立创建
 
 ## 参考资料
 
-- [Browser Contexts](https://playwright.dev/python/docs/browser-contexts)
-- [Emulation](https://playwright.dev/python/docs/emulation)
-- [Authentication](https://playwright.dev/python/docs/auth)
-- [pytest-playwright Reference](https://playwright.dev/python/docs/test-runners)
+{% linkgroup %}
+{% link Browser Contexts, https://playwright.dev/python/docs/browser-contexts, https://playwright.dev/img/playwright-logo.svg %}
+{% link Emulation, https://playwright.dev/python/docs/emulation, https://playwright.dev/img/playwright-logo.svg %}
+{% link Authentication, https://playwright.dev/python/docs/auth, https://playwright.dev/img/playwright-logo.svg %}
+{% link pytest-playwright Reference, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

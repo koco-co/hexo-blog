@@ -597,9 +597,11 @@ CI 中分别替换为 `firefox` 和 `webkit`。报告至少要记录提交、浏
 
 ## 参考资料
 
-- [Playwright Python](https://playwright.dev/python/docs/intro)
-- [pytest-playwright Reference](https://playwright.dev/python/docs/test-runners)
-- [API Testing](https://playwright.dev/python/docs/api-testing)
-- [Authentication](https://playwright.dev/python/docs/auth)
-- [Trace Viewer](https://playwright.dev/python/docs/trace-viewer)
-- [Continuous Integration](https://playwright.dev/python/docs/ci)
+{% linkgroup %}
+{% link Playwright Python, https://playwright.dev/python/docs/intro, https://playwright.dev/img/playwright-logo.svg %}
+{% link pytest-playwright Reference, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
+{% link API Testing, https://playwright.dev/python/docs/api-testing, https://playwright.dev/img/playwright-logo.svg %}
+{% link Authentication, https://playwright.dev/python/docs/auth, https://playwright.dev/img/playwright-logo.svg %}
+{% link Trace Viewer, https://playwright.dev/python/docs/trace-viewer, https://playwright.dev/img/playwright-logo.svg %}
+{% link Continuous Integration, https://playwright.dev/python/docs/ci, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

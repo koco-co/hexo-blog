@@ -309,7 +309,9 @@ Web-first 断言直接等待业务可观察结果，并在条件提前成立时�
 
 ## 参考资料
 
-- [Playwright Auto-waiting](https://playwright.dev/python/docs/actionability)
-- [Playwright Assertions](https://playwright.dev/python/docs/test-assertions)
-- [Locator Assertions API](https://playwright.dev/python/docs/api/class-locatorassertions)
-- [Navigations](https://playwright.dev/python/docs/navigations)
+{% linkgroup %}
+{% link Playwright Auto-waiting, https://playwright.dev/python/docs/actionability, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Assertions, https://playwright.dev/python/docs/test-assertions, https://playwright.dev/img/playwright-logo.svg %}
+{% link Locator Assertions API, https://playwright.dev/python/docs/api/class-locatorassertions, https://playwright.dev/img/playwright-logo.svg %}
+{% link Navigations, https://playwright.dev/python/docs/navigations, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

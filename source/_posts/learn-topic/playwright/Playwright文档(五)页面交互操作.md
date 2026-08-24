@@ -336,7 +336,9 @@ A
 
 ## 参考资料
 
-- [Playwright Input](https://playwright.dev/python/docs/input)
-- [Locator API](https://playwright.dev/python/docs/api/class-locator)
-- [Mouse API](https://playwright.dev/python/docs/api/class-mouse)
-- [Keyboard API](https://playwright.dev/python/docs/api/class-keyboard)
+{% linkgroup %}
+{% link Playwright Input, https://playwright.dev/python/docs/input, https://playwright.dev/img/playwright-logo.svg %}
+{% link Locator API, https://playwright.dev/python/docs/api/class-locator, https://playwright.dev/img/playwright-logo.svg %}
+{% link Mouse API, https://playwright.dev/python/docs/api/class-mouse, https://playwright.dev/img/playwright-logo.svg %}
+{% link Keyboard API, https://playwright.dev/python/docs/api/class-keyboard, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

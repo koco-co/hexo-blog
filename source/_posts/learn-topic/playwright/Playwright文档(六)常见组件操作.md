@@ -292,8 +292,10 @@ iframe 是独立文档。FrameLocator 明确切换搜索范围，并保留 Locat
 
 ## 参考资料
 
-- [Playwright Pages](https://playwright.dev/python/docs/pages)
-- [Playwright Dialogs](https://playwright.dev/python/docs/dialogs)
-- [Playwright Frames](https://playwright.dev/python/docs/frames)
-- [Playwright Downloads](https://playwright.dev/python/docs/downloads)
-- [Playwright Input](https://playwright.dev/python/docs/input)
+{% linkgroup %}
+{% link Playwright Pages, https://playwright.dev/python/docs/pages, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Dialogs, https://playwright.dev/python/docs/dialogs, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Frames, https://playwright.dev/python/docs/frames, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Downloads, https://playwright.dev/python/docs/downloads, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Input, https://playwright.dev/python/docs/input, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

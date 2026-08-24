@@ -302,8 +302,10 @@ A
 
 ## 参考资料
 
-- [Playwright Python 安装](https://playwright.dev/python/docs/intro)
-- [Playwright Python 测试运行器](https://playwright.dev/python/docs/test-runners)
-- [pytest-playwright](https://github.com/microsoft/playwright-pytest)
-- [pytest-playwright-asyncio](https://github.com/microsoft/playwright-pytest/tree/main/pytest-playwright-asyncio)
-- [uv 项目管理](https://docs.astral.sh/uv/guides/projects/)
+{% linkgroup %}
+{% link Playwright Python 安装, https://playwright.dev/python/docs/intro, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Python 测试运行器, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
+{% link pytest-playwright, https://github.com/microsoft/playwright-pytest, https://github.com/favicon.ico %}
+{% link pytest-playwright-asyncio, https://github.com/microsoft/playwright-pytest/tree/main/pytest-playwright-asyncio, https://github.com/favicon.ico %}
+{% link uv 项目管理, https://docs.astral.sh/uv/guides/projects/, https://docs.astral.sh/uv/assets/favicon.ico %}
+{% endlinkgroup %}

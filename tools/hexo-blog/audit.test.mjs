@@ -325,6 +325,22 @@ test('asset audit verifies migrated bytes and separates rendered references from
   assert.equal(report.facts.localImageReferenceCount, 1)
 })
 
+test('asset audit does not treat remote tag icons as missing local images', () => {
+  const root = makeRoot()
+  createAssetFixture(root, {
+    markdown: [
+      "{% link Playwright, https://playwright.dev/python/docs/intro, https://playwright.dev/img/playwright-logo.svg %}",
+      "{% link pytest, https://docs.pytest.org/, //docs.pytest.org/en/stable/_static/favicon.png %}",
+      '',
+    ].join('\n'),
+  })
+
+  const report = auditAssets({ root })
+  assert.equal(report.status, 'pass')
+  assert.equal(report.facts.localImageReferenceCount, 0)
+  assert.ok(!report.errors.some(item => item.code === 'LOCAL_IMAGE_MISSING'))
+})
+
 test('asset audit blocks a live old-host image without treating plain tutorial text as rendered', () => {
   const root = makeRoot()
   createAssetFixture(root, {

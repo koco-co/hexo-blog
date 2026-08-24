@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(十) 调试与交付
+title: Playwright(十)调试与交付
 tags:
   - Playwright
   - Codegen
@@ -386,7 +386,7 @@ JUnit 适合 CI 汇总；需要人类可读 HTML 时可以接入 pytest 生态�
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `BrowserContext` | — | — | `expect_console_message()`、`expect_event()`、`tracing`、`wait_for_event()` | — |
 | `ConsoleMessage` | — | — | `args`、`location`、`page`、`text`、`timestamp`、`type`、`worker` | — |

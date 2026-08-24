@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(三) 页面元素定位
+title: Playwright(三)页面元素定位
 tags:
   - Playwright
   - Locator
@@ -407,7 +407,7 @@ pay = order.get_by_role("button", name="支付")
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `FrameLocator` | `frame_locator()` | — | `get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()`、`owner` | `first`、`last`、`nth()` |
 | `Locator` | `and_()`、`filter()`、`first`、`frame_locator()`、`get_by_role()`、`last`、`locator()`、`nth()`、`or_()` | — | `all()`、`all_inner_texts()`、`all_text_contents()`、`aria_snapshot()`、`bounding_box()`、`count()`、`describe()`、`description`、`evaluate()`、`evaluate_all()`、`evaluate_handle()`、`get_attribute()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`hide_highlight()`、`highlight()`、`inner_html()`、`inner_text()`、`input_value()`、`normalize()`、`page`、`text_content()` | `element_handle()`、`element_handles()` |

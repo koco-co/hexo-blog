@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(五) 页面交互操作
+title: Playwright(五)页面交互操作
 tags:
   - Playwright
   - 表单测试
@@ -473,7 +473,7 @@ def test_create_order(page: Page) -> None:
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `Keyboard` | `press()` | `down()`、`insert_text()`、`type()`、`up()` | — | — |
 | `Locator` | `check()`、`click()`、`drag_to()`、`fill()`、`press()`、`select_option()`、`set_checked()`、`set_input_files()`、`uncheck()` | `blur()`、`clear()`、`dblclick()`、`dispatch_event()`、`drop()`、`focus()`、`hover()`、`press_sequentially()`、`select_text()`、`tap()` | — | `type()` |

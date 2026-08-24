@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(七) 浏览器上下文
+title: Playwright(七)浏览器上下文
 tags:
   - Playwright
   - BrowserContext
@@ -642,7 +642,7 @@ def test_buyer_and_admin(
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `Browser` | `new_context()` | `browser_type`、`close()`、`contexts`、`is_connected()`、`version` | `bind()`、`unbind()` | `new_page()` |
 | `BrowserContext` | `new_page()`、`storage_state()` | — | `add_cookies()`、`add_init_script()`、`background_pages`、`browser`、`clear_cookies()`、`clear_permissions()`、`close()`、`cookies()`、`credentials`、`expect_page()`、`expose_binding()`、`expose_function()`、`grant_permissions()`、`is_closed()`、`pages`、`set_default_navigation_timeout()`、`set_default_timeout()`、`set_extra_http_headers()`、`set_geolocation()`、`set_offline()`、`set_storage_state()` | — |

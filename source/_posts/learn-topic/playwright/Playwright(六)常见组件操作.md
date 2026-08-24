@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(六) 常见组件操作
+title: Playwright(六)常见组件操作
 tags:
   - Playwright
   - iframe
@@ -448,7 +448,7 @@ Frame 的导航参数围绕 `url`、`wait_until`、`timeout`、`referer`；脚�
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `Dialog` | — | — | `accept()`、`default_value`、`dismiss()`、`message`、`page`、`type` | — |
 | `Download` | — | — | `cancel()`、`delete()`、`failure()`、`page`、`path()`、`save_as()`、`suggested_filename`、`url` | — |

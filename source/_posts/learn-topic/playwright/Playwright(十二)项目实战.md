@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(十二) 项目实战
+title: Playwright(十二)项目实战
 tags:
   - Playwright
   - 端到端测试

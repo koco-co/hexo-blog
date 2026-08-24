@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(八) 测试框架设计
+title: Playwright(八)测试框架设计
 tags:
   - Playwright
   - pytest
@@ -323,7 +323,7 @@ Fixture 负责对象装配，Page Object 负责页面语言，测试仍然负责
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | pytest 资源 Fixture | `new_context` | `playwright`、`browser_type`、`browser`、`context`、`page`、`launch_browser` | — | — |
 | pytest 信息 Fixture | — | `browser_name`、`browser_channel`、`device`、`is_chromium`、`is_firefox`、`is_webkit`、`output_path` | — | — |

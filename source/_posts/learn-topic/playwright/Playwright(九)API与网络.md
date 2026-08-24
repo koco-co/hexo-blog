@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(九) API与网络
+title: Playwright(九)API与网络
 tags:
   - Playwright
   - APIRequestContext
@@ -409,7 +409,7 @@ assert failed and failed[0].failure is not None
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `APIRequest` | `new_context()` | — | — | — |
 | `APIRequestContext` | `delete()`、`fetch()`、`get()`、`post()`、`storage_state()` | `dispose()`、`head()`、`patch()`、`put()`、`tracing` | — | — |

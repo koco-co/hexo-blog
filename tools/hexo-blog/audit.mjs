@@ -597,15 +597,23 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
         report.errors.push(finding('LEARN_TOPIC_PATH_INVALID', relativeFile, '课程文章必须直接位于 source/_posts/learn-topic/<单个主题路径段>/，不得增加嵌套目录。'))
       }
       const fileName = path.basename(relativeFile)
-      const fileMatch = fileName.match(/^(.+)文档\(([一二三四五六七八九十]+)\)([^\s].*)\.md$/)
-      const titleMatch = String(data.title ?? '').match(/^(.+)文档\(([一二三四五六七八九十]+)\) ([^\s].*)$/)
-      if (!fileMatch) report.errors.push(finding('LEARN_TOPIC_FILENAME_INVALID', relativeFile, '文件名必须使用 主题文档(中文序号)简短主题.md。'))
-      if (!titleMatch) report.errors.push(finding('LEARN_TOPIC_TITLE_INVALID', relativeFile, 'title 必须使用 主题文档(中文序号) 简短主题。'))
+      const rawFileMatch = fileName.match(/^(.+)\(([一二三四五六七八九十]+)\)([^\s].*)\.md$/)
+      const rawTitleMatch = String(data.title ?? '').match(/^(.+)\(([一二三四五六七八九十]+)\)([^\s].*)$/)
+      const fileMatch = rawFileMatch && !rawFileMatch[1].endsWith('文档') ? rawFileMatch : null
+      const titleMatch = rawTitleMatch && !rawTitleMatch[1].endsWith('文档') ? rawTitleMatch : null
+      if (!fileMatch) report.errors.push(finding('LEARN_TOPIC_FILENAME_INVALID', relativeFile, '文件名必须使用 主题(中文序号)简短主题.md，不保留“文档”前缀。'))
+      if (!titleMatch) report.errors.push(finding('LEARN_TOPIC_TITLE_INVALID', relativeFile, 'title 必须使用 主题(中文序号)简短主题，不在右括号后留空格。'))
       if (fileMatch && titleMatch && (fileMatch[1] !== titleMatch[1] || fileMatch[2] !== titleMatch[2] || fileMatch[3] !== titleMatch[3])) {
         report.errors.push(finding('LEARN_TOPIC_SEQUENCE_MISMATCH', relativeFile, '文件名与 title 的系列名、中文序号或简短主题不一致。'))
       }
       if (fileMatch && courseKey) {
         const expectedOrder = CHINESE_SEQUENCE.indexOf(fileMatch[2]) + 1
+        if (expectedOrder === 1 && fileMatch[3] !== '入门路线') {
+          report.errors.push(finding('LEARN_TOPIC_ENTRY_ROUTE_INVALID', relativeFile, '系列第一篇必须命名为 主题(一)入门路线。'))
+        }
+        if (fileMatch[3] === '进阶内容') {
+          report.errors.push(finding('LEARN_TOPIC_ADVANCED_ROUTE_INVALID', relativeFile, '可选进阶篇必须使用“进阶路线”，不得使用“进阶内容”。'))
+        }
         if (!courseSequences.has(courseKey)) courseSequences.set(courseKey, [])
         courseSequences.get(courseKey).push(expectedOrder)
 

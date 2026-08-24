@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(四) 断言与等待
+title: Playwright(四)断言与等待
 tags:
   - Playwright
   - Web-first断言
@@ -391,7 +391,7 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `Locator` | — | — | `is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`scroll_into_view_if_needed()`、`wait_for()`、`wait_for_function()` | — |
 | `LocatorAssertions` | `to_be_visible()`、`to_have_text()` | — | `not_to_be_attached()`、`not_to_be_checked()`、`not_to_be_disabled()`、`not_to_be_editable()`、`not_to_be_empty()`、`not_to_be_enabled()`、`not_to_be_focused()`、`not_to_be_hidden()`、`not_to_be_in_viewport()`、`not_to_be_visible()`、`not_to_contain_class()`、`not_to_contain_text()`、`not_to_have_accessible_description()`、`not_to_have_accessible_error_message()`、`not_to_have_accessible_name()`、`not_to_have_attribute()`、`not_to_have_class()`、`not_to_have_count()`、`not_to_have_css()`、`not_to_have_id()`、`not_to_have_js_property()`、`not_to_have_role()`、`not_to_have_text()`、`not_to_have_value()`、`not_to_have_values()`、`not_to_match_aria_snapshot()`、`to_be_attached()`、`to_be_checked()`、`to_be_disabled()`、`to_be_editable()`、`to_be_empty()`、`to_be_enabled()`、`to_be_focused()`、`to_be_hidden()`、`to_be_in_viewport()`、`to_contain_class()`、`to_contain_text()`、`to_have_accessible_description()`、`to_have_accessible_error_message()`、`to_have_accessible_name()`、`to_have_attribute()`、`to_have_class()`、`to_have_count()`、`to_have_css()`、`to_have_id()`、`to_have_js_property()`、`to_have_role()`、`to_have_value()`、`to_have_values()`、`to_match_aria_snapshot()` | — |

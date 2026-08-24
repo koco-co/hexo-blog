@@ -46,12 +46,12 @@ function validPost({ abbrlink = '', title = '示例文章', published } = {}) {
   return `---\ntitle: ${title}\ntags:\n  - Hexo\ncategories:\n  - 文档\ndescription: 用于校验的文章。\n${linkLine}${publishedLine}date: 2026-08-10 12:00:00\n---\n\n正文。\n`
 }
 
-function validPlaywrightCoursePost({ number = '一', topic = '学习路线', published = true, placeholder = false, description = '按知识顺序学习 Playwright Python。' } = {}) {
+function validPlaywrightCoursePost({ number = '一', topic = '入门路线', published = true, placeholder = false, description = '按知识顺序学习 Playwright Python。' } = {}) {
   const placeholderContract = placeholder
     ? '<!-- learn-topic-placeholder -->\n\n## 本文职责\n\n说明本文职责。\n\n## 正文大纲\n\n列出正文大纲。\n\n'
     : ''
   const order = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'].indexOf(number) + 1
-  return `---\ntitle: Playwright文档(${number}) ${topic}\ntags:\n  - Playwright\ncategories:\n  - Learn Topic\n  - Playwright\ndescription: ${description}\nseries: Playwright\nseries_order: ${order}\nabbrlink: pw${number}\npublished: ${published}\ndate: 2026-08-24 12:00:00\n---\n\n{% course_series %}\n\n${placeholderContract}正文。\n\n## 常见问题\n\n问题。\n\n## 参考资料\n\n- [Playwright](https://playwright.dev/python/)\n`
+  return `---\ntitle: Playwright(${number})${topic}\ntags:\n  - Playwright\ncategories:\n  - Learn Topic\n  - Playwright\ndescription: ${description}\nseries: Playwright\nseries_order: ${order}\nabbrlink: pw${number}\npublished: ${published}\ndate: 2026-08-24 12:00:00\n---\n\n{% course_series %}\n\n${placeholderContract}正文。\n\n## 常见问题\n\n问题。\n\n## 参考资料\n\n- [Playwright](https://playwright.dev/python/)\n`
 }
 
 function createProjectFixture(root) {
@@ -206,8 +206,8 @@ test('content audit rejects a non-boolean published value', () => {
 
 test('learn-topic course audit enforces naming, publication state, description style and final headings', () => {
   const root = makeRoot()
-  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(一)学习路线.md', validPlaywrightCoursePost())
-  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(二)快速开始.md', validPlaywrightCoursePost({
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', validPlaywrightCoursePost())
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', validPlaywrightCoursePost({
     number: '二',
     topic: '快速开始',
     published: false,
@@ -219,12 +219,33 @@ test('learn-topic course audit enforces naming, publication state, description s
   assert.equal(report.facts.learnTopicPostCount, 2)
 })
 
+test('learn-topic course audit rejects the legacy document prefix and route names', () => {
+  const root = makeRoot()
+  const legacyEntry = validPlaywrightCoursePost()
+    .replace('title: Playwright(一)入门路线', 'title: Playwright文档(一) 学习路线')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(一)学习路线.md', legacyEntry)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)进阶内容.md', validPlaywrightCoursePost({
+    number: '二',
+    topic: '进阶内容',
+  }))
+  write(root, 'source/_posts/learn-topic/fastapi/FastAPI(一)快速开始.md', validPlaywrightCoursePost({
+    topic: '快速开始',
+  }).replaceAll('Playwright', 'FastAPI'))
+
+  const report = auditContent({ root, release: true })
+  assert.equal(report.status, 'blocked')
+  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_FILENAME_INVALID'))
+  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_TITLE_INVALID'))
+  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_ADVANCED_ROUTE_INVALID'))
+  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_ENTRY_ROUTE_INVALID'))
+})
+
 test('learn-topic course audit enforces stable series order and course navigation', () => {
   const root = makeRoot()
   const invalid = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
     .replace('series_order: 2', 'series_order: 7')
     .replace('{% course_series %}', '{% series %}')
-  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(二)快速开始.md', invalid)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', invalid)
 
   const report = auditContent({ root, release: true })
   assert.equal(report.status, 'blocked')
@@ -237,7 +258,7 @@ test('learn-topic course audit ignores series examples inside fenced code', () =
   const root = makeRoot()
   const markdown = validPlaywrightCoursePost()
     .replace('正文。', '```markdown\n{% series %}\n{% course_series %}\n```\n\n正文。')
-  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(一)学习路线.md', markdown)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', markdown)
 
   const report = auditContent({ root, release: true })
   assert.equal(report.status, 'pass')
@@ -251,7 +272,7 @@ test('learn-topic course audit rejects legacy path and public-copy violations', 
     .replace('## 常见问题', '## 来源')
     .replace('## 参考资料', '## 结语')
     .replace('正文。', '正文。核验于 2026-08-24。')
-  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(一)学习路线.md', invalid)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', invalid)
 
   const report = auditContent({ root, release: true })
   assert.equal(report.status, 'blocked')
@@ -270,8 +291,8 @@ test('learn-topic audit rejects quoted and plain descriptions that span physical
   const plain = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
     .replace('description: 按知识顺序学习 Playwright Python。', 'description: 跨越\n  两个物理行的描述')
     .replace('abbrlink: pw二', 'abbrlink: plain-description')
-  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(一)学习路线.md', quoted)
-  write(root, 'source/_posts/learn-topic/playwright/Playwright文档(二)快速开始.md', plain)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', quoted)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', plain)
 
   const report = auditContent({ root, release: true })
   assert.equal(report.status, 'blocked')
@@ -280,10 +301,10 @@ test('learn-topic audit rejects quoted and plain descriptions that span physical
 
 test('learn-topic audit applies the same contract to non-Playwright courses', () => {
   const root = makeRoot()
-  const markdown = validPlaywrightCoursePost({ topic: '快速开始' })
+  const markdown = validPlaywrightCoursePost()
     .replaceAll('Playwright', 'FastAPI')
     .replace('abbrlink: pw一', 'abbrlink: fastapi-one')
-  write(root, 'source/_posts/learn-topic/fastapi/FastAPI文档(一)快速开始.md', markdown)
+  write(root, 'source/_posts/learn-topic/fastapi/FastAPI(一)入门路线.md', markdown)
 
   const report = auditContent({ root, release: true })
   assert.equal(report.status, 'pass')
@@ -292,11 +313,11 @@ test('learn-topic audit applies the same contract to non-Playwright courses', ()
 
 test('learn-topic audit rejects nested paths and validates each course sequence independently', () => {
   const root = makeRoot()
-  write(root, 'source/_posts/learn-topic/playwright/nested/Playwright文档(一)学习路线.md', validPlaywrightCoursePost())
+  write(root, 'source/_posts/learn-topic/playwright/nested/Playwright(一)入门路线.md', validPlaywrightCoursePost())
   const fastApi = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
     .replaceAll('Playwright', 'FastAPI')
     .replace('abbrlink: pw二', 'abbrlink: fastapi-two')
-  write(root, 'source/_posts/learn-topic/fastapi/FastAPI文档(二)快速开始.md', fastApi)
+  write(root, 'source/_posts/learn-topic/fastapi/FastAPI(二)快速开始.md', fastApi)
 
   const report = auditContent({ root, release: true })
   assert.equal(report.status, 'blocked')

@@ -1,5 +1,5 @@
 ---
-title: Playwright文档(十一) 进阶内容
+title: Playwright(十一)进阶路线
 tags:
   - Playwright
   - WebSocket
@@ -573,7 +573,7 @@ optional 视觉检查被跳过不会自动阻断，但必须如实记录。若�
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
 | --- | --- | --- | --- | --- |
 | `Browser` | — | — | `new_browser_cdp_session()` | `start_tracing()`、`stop_tracing()` |
 | `BrowserContext` | — | — | `clock`、`debugger`、`new_cdp_session()`、`service_workers` | — |

@@ -724,22 +724,23 @@ svg.social_icon {
 
 /* 外部链接图标 */
 #article-container .tag.link a.link-card::after {
-    content: '\f08e';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
+    content: '↗';
+    font-family: Arial, sans-serif;
+    font-weight: 800;
     position: absolute;
-    right: 20px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0;
+    opacity: 0.45;
     transition: all 0.3s ease;
-    font-size: 16px;
-    color: #ccc;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--font-color);
 }
 
 #article-container .tag.link a.link-card:hover::after {
     opacity: 1;
-    right: 15px;
+    right: 13px;
     color: var(--btn-bg, #49b1f5);
 }
 
@@ -761,6 +762,92 @@ svg.social_icon {
 
 [data-theme="dark"] #article-container .tag.link a.link-card p.url {
     color: #aaa !important;
+}
+
+/* ===== 参考资料卡片网格 ===== */
+
+#article-container .link-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 16px 0 24px;
+}
+
+#article-container .link-group .tag.link {
+    min-width: 0;
+    margin: 0 !important;
+}
+
+#article-container .link-group .tag.link a.link-card {
+    max-width: none !important;
+    min-width: 0 !important;
+    min-height: 76px !important;
+    height: 100%;
+    padding: 10px 44px 10px 10px !important;
+    border-color: rgba(73, 177, 245, 0.16);
+    box-shadow: 0 5px 16px rgba(28, 46, 73, 0.07) !important;
+}
+
+#article-container .link-group .tag.link a.link-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(73, 177, 245, 0.62);
+    box-shadow: 0 9px 22px rgba(28, 46, 73, 0.13) !important;
+}
+
+#article-container .link-group .tag.link a.link-card:focus-visible {
+    outline: 3px solid rgba(73, 177, 245, 0.42);
+    outline-offset: 3px;
+}
+
+#article-container .link-group .tag.link a.link-card div.left {
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 12px 0 0 !important;
+}
+
+#article-container .link-group .tag.link a.link-card div.left img {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 9px !important;
+    object-fit: contain !important;
+    padding: 5px !important;
+    background: rgba(255, 255, 255, 0.94);
+}
+
+#article-container .link-group .tag.link a.link-card p.text {
+    overflow: hidden;
+    font-size: 15px !important;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#article-container .link-group .tag.link a.link-card p.url {
+    overflow: hidden;
+    font-size: 12px !important;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+[data-theme="dark"] #article-container .link-group .tag.link a.link-card {
+    border-color: rgba(103, 196, 255, 0.18);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.24) !important;
+}
+
+[data-theme="dark"] #article-container .link-group .tag.link a.link-card:hover {
+    border-color: rgba(103, 196, 255, 0.58);
+}
+
+@media screen and (max-width: 768px) {
+    #article-container .link-group {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    #article-container .link-group .tag.link a.link-card {
+        min-height: 72px !important;
+    }
 }
 
 

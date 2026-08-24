@@ -38,7 +38,7 @@
 | 功能 | 配置或实现入口 |
 | --- | --- |
 | 本地搜索 | `_config.yml` 的 `search` 与 `_config.butterfly.yml` 的 `search` |
-| Giscus 评论 | `_config.butterfly.yml` 的 `comments` |
+| 评论系统 | `_config.butterfly.yml` 的 `comments`；当前 `comments.use` 为空，Giscus 待完整配置后再启用 |
 | PJAX、懒加载 | `_config.butterfly.yml` 的 `pjax`、`lazyload` |
 | 暗色模式、阅读模式、繁简转换 | `darkmode`、`readmode`、`translate` |
 | 字数与阅读时长 | `wordcount` |
@@ -76,4 +76,4 @@
 
 - `CLAUDE.md` 要求的文章字段比 `scaffolds/post.md` 更完整；维护 Skill 使用自身文章模板补齐，不在本次修改 scaffold。
 - GitHub Actions 使用的 Node 版本低于当前 Hexo 要求；只报告，不在本次修复。
-- 项目根目录没有 Git 元数据；主题和发布目录是独立工作树，任何状态都必须实时检查。
+- 项目根目录已关联 Git 远程仓库；主题和发布目录仍是独立工作树，三个工作树的状态都必须实时检查。

@@ -55,7 +55,7 @@ AI 新建文章或整体视觉重构先使用 `workflows/§05-visual-rich-author
 7. 不在标签参数中写入 Token、Cookie、带凭据 URL、私人仓库地址或不可公开 API。
 8. `issues` 当前关闭；未获得配置变更授权时，不建议使用，也不修改 `_config.butterfly.yml` 放行。
 9. 对外部图片、GitHub 卡片、徽章、音视频和动态 API 准备可理解的正文或链接，网络失败不能使核心信息消失。
-10. `flashcard` 只接受 `basic`、`cloze`、`choice`，正文按 `question`、`answer`、`explanation` 顺序声明；`flashcard_ref` 只提供既有 `id`，不覆盖题目、答案、解析、卡组或标签。
+10. `flashcard` 只接受 `basic`、`cloze`、`choice`，每张卡必须提供稳定 `id`、卡组和 `priority:1|2|3`，正文按 `question`、`answer`、`explanation` 顺序声明；`flashcard_ref` 只提供既有 `id`，不覆盖题目、答案、解析、卡组、标签或优先级。
 
 代表性结构：
 

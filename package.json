@@ -9,7 +9,7 @@
     "server": "hexo server"
   },
   "hexo": {
-    "version": "8.1.2"
+    "version": "8.1.1"
   },
   "dependencies": {
     "hexo": "^8.0.0",
@@ -18,7 +18,7 @@
     "hexo-butterfly-envelope": "^1.0.15",
     "hexo-butterfly-tag-plugins-plus": "^1.0.18",
     "hexo-deployer-git": "^4.0.0",
-    "hexo-flashcard-plugin": "https://github.com/koco-co/hexo-flashcard-plugin/archive/66d3b0e599e2f5ce664424828afe9c2345a2f991.tar.gz",
+    "hexo-flashcard-plugin": "https://github.com/koco-co/hexo-flashcard-plugin/archive/d3edc099ba1d7cc03ea47cebf35b12b42a981cdd.tar.gz",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-index": "^4.0.0",

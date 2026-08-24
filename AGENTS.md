@@ -4,7 +4,7 @@
 
 - 本项目是使用 Hexo 和 Butterfly 构建的个人静态博客。
 - 版本、功能开关、站点地址、时区和部署目标必须从当前 `package.json`、锁文件及 `_config*.yml` 实时读取，不依赖本文中的历史快照。
-- 项目根目录不是 Git 工作树；`themes/butterfly/` 和 `.deploy_git/` 是独立 Git 工作树。每次操作前分别检查实时状态，不假设存在根仓库回滚能力。
+- 项目根目录已关联 Git 远程仓库；`themes/butterfly/` 和 `.deploy_git/` 仍是独立 Git 工作树。每次操作前分别检查三个工作树的实时状态，不把任一工作树的状态当作其他工作树的回滚能力。
 
 ## 项目指令与 Skill 单一来源
 
@@ -50,7 +50,7 @@
 - 新建文章以维护 Skill 的 `templates/post.template.md` 为完整结构；使用 Hexo scaffold 创建后仍须补全缺失字段。
 - 课程文章公开正文不使用“来源”“来源与核验范围”或“核验于 YYYY-MM-DD”等内部工作文案；倒数第二个 H2 固定为 `常见问题`，最后一个 H2 固定为 `参考资料`。
 - 课程文章的 H2/H3 使用“快速开始”“作用范围”“核心功能”等简洁书面表达，不使用聊天式、口号式或带评价色彩的长标题。
-- 需要长期复习的疑难问答、关联面试题和自测优先使用 `hexo-flashcard-plugin` 的 `flashcard`；跨文章复用同一道题使用 `flashcard_ref`，不得复制卡片正文。`basic`、`cloze`、`choice` 卡片都必须具有全站唯一稳定 ID、单一卡组、精简回答和详细解析。
+- 需要长期复习的疑难问答、关联面试题和自测优先使用 `hexo-flashcard-plugin` 的 `flashcard`；跨文章复用同一道题使用 `flashcard_ref`，不得复制卡片正文。`basic`、`cloze`、`choice` 卡片都必须具有全站唯一稳定 ID、单一卡组、`priority:1|2|3`、精简回答和详细解析；三档依次表示高频、中频和低频，`priority` 不得省略或写成插件不支持的值。
 - 使用 Butterfly 或 Tag Plugins Plus 标签前运行 `node tools/hexo-blog/audit.mjs tags --json`，并核对维护 Skill 的标签参考及当前主题或插件源码。
 - 不根据历史文章猜测标签参数。容器标签必须按栈顺序闭合，复杂嵌套必须真实构建目标文章。
 
@@ -96,4 +96,4 @@
 - 未经单独授权，不直接修改 `themes/butterfly/`，不安装依赖，不运行 `npm run clean`。
 - 未经本次明确授权，不运行 `npm run deploy`、`git push`，不提交、不发布，也不修改远程仓库。
 - 不手工修补 `public/`、`db.json`、日志或 `.deploy_git/` 来制造通过结果。
-- 根目录没有 Git 保护；写入前缩小目标，写入后逐文件读取核对，不声称具备不存在的回滚能力。
+- Git 状态只能作为变更边界参考；写入前缩小目标，写入后逐文件读取核对，不把提交或远程状态当作未经验证的回滚能力。

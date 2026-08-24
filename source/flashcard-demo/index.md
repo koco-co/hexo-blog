@@ -8,7 +8,7 @@ aside: false
 flashcard_deck: HTTP 基础
 ---
 
-{% flashcard basic id:demo-http-404 tags:"状态码,客户端错误" %}
+{% flashcard basic id:demo-http-404 priority:2 tags:"状态码,客户端错误" %}
 --- question
 HTTP 状态码 **404** 表示什么？
 --- answer
@@ -25,7 +25,7 @@ HTTP 状态码 **404** 表示什么？
 - [MDN：HTTP 响应状态码](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Reference/Status)
 {% endflashcard %}
 
-{% flashcard cloze id:demo-http-cache tags:"缓存,响应头" %}
+{% flashcard cloze id:demo-http-cache priority:2 tags:"缓存,响应头" %}
 --- question
 HTTP 强缓存通常由 [[Cache-Control]] 响应头控制。
 --- answer
@@ -43,7 +43,7 @@ Cache-Control: public, max-age=3600
 | `no-cache` | 使用前必须重新验证 |
 {% endflashcard %}
 
-{% flashcard choice id:demo-http-success tags:"状态码,成功响应" answer:A %}
+{% flashcard choice id:demo-http-success priority:2 tags:"状态码,成功响应" answer:A %}
 --- question
 哪个 HTTP 状态码通常表示请求成功？
 - [A] 200

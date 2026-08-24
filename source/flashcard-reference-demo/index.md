@@ -12,7 +12,7 @@ flashcard_deck: HTTP 基础
 
 {% flashcard_ref id="demo-http-404" %}
 
-{% flashcard basic id:demo-http-503 tags:"状态码,服务端错误" %}
+{% flashcard basic id:demo-http-503 priority:2 tags:"状态码,服务端错误" %}
 --- question
 HTTP 状态码 **503** 表示什么？
 --- answer

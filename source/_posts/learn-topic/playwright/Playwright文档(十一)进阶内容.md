@@ -45,6 +45,28 @@ XPath 不会穿透 Shadow DOM。Closed Shadow Root 也不能被普通 Locator �
 
 Canvas 没有可定位的子 DOM。测试应优先验证画布旁的可访问替代、业务状态或后端结果；只有交互本身依赖坐标时，才固定 viewport 后使用 `page.mouse`。
 
+## 旧接口迁移
+
+`ElementHandle` 仍可在兼容代码中出现，但它代表某一时刻的节点引用，不会像 Locator 一样在重渲染后重新查询。新代码按能力组迁移：
+
+| 旧接口组 | 当前写法 | 迁移边界 |
+| --- | --- | --- |
+| `ElementHandle.click()`、`fill()`、`press()`、`check()`、`uncheck()`、`select_option()`、`set_input_files()`、`hover()`、`tap()` | 保存 `Locator`，调用同名 Locator 方法 | 保留 Actionability、自动等待和严格模式；不要先 `element_handle()` 再长期缓存 |
+| `ElementHandle.dblclick()`、`ElementHandle.dispatch_event()`、`ElementHandle.focus()`、`ElementHandle.select_text()` | 保存 `Locator`，调用对应 Locator 方法 | 这些操作仍应以可重新查询的元素为目标；`dispatch_event()` 只用于确有事件合同的场景，不要用它伪造用户流程 |
+| `ElementHandle.type()` | `locator.press_sequentially()`；普通表单优先 `locator.fill()` | `type()` 属于旧式逐字输入接口；需要保留键盘事件节奏时才使用 `press_sequentially()`，不要把它当成更可靠的 `fill()` |
+| `ElementHandle.is_checked()`、`ElementHandle.is_disabled()`、`ElementHandle.is_editable()`、`ElementHandle.is_enabled()`、`ElementHandle.is_hidden()`、`ElementHandle.is_visible()` | `locator.is_checked()` 等状态读取，或 `expect(locator)` 的对应 Web-first 断言 | 即时 `is_*` 只回答当前采样；验收结果优先用会等待的断言 |
+| `ElementHandle.inner_html()`、`ElementHandle.inner_text()`、`ElementHandle.text_content()`、`ElementHandle.input_value()`、`ElementHandle.get_attribute()` | `locator.inner_html()` 等读取，或对应 `expect(...).to_have_*()` | 页面结果优先使用 Web-first 断言，避免一次性快照 |
+| `ElementHandle.query_selector()`、`query_selector_all()` | `locator.locator()`、`locator.filter()`、`locator.all()` | `all()` 只读取当前匹配集合；需要等待数量先使用 `expect(locator).to_have_count()` |
+| `ElementHandle.wait_for_selector()`、`wait_for_element_state()` | `locator.wait_for()` 或 `expect(locator)...` | 等待业务结果时优先断言，不把固定超时当同步机制 |
+| `ElementHandle.evaluate()`、`evaluate_handle()`、`eval_on_selector()`、`eval_on_selector_all()` | `locator.evaluate()` / `evaluate_all()`；后两者先用 `locator.locator(selector)` 定位后再执行 | 只用于没有等价 Locator API 的诊断，不能用脚本点击绕过用户行为检查；`eval_on_selector*()` 不是等待或断言替代品 |
+| `ElementHandle.get_property()`、`ElementHandle.get_properties()`、`ElementHandle.json_value()` | 没有一一对应的 Locator 读法；必要时在稳定 Locator 上使用 `evaluate()` / `evaluate_all()` | 这些方法读取 JSHandle 或序列化值，保留在低层诊断边界；业务结果应改用可访问文本、属性或 API 断言 |
+| `ElementHandle.screenshot()`、`ElementHandle.bounding_box()`、`ElementHandle.scroll_into_view_if_needed()` | `locator.screenshot()`、`locator.bounding_box()`、`locator.scroll_into_view_if_needed()` | 截图和几何检查仍应在稳定 Locator 上进行 |
+| `ElementHandle.content_frame()` | `locator.content_frame` 或 `locator.frame_locator()` | 这是进入 iframe 内容的方向；进入前先保留可重新查询的 Locator |
+| `ElementHandle.owner_frame()` | 没有等价的 Locator 入口；保留句柄时读取其所属父 Frame，常规交互改用已知 `Frame` 或 `frame_locator()` | `owner_frame()` 是“元素属于哪个父 Frame”，不是进入 iframe；不要把它与 `content_frame()` 混为一谈 |
+| `ElementHandle.as_element()`、`ElementHandle.dispose()` | 无直接 Locator 替代；删除长期句柄，或仅在 JSHandle/底层诊断链中保留 | `as_element()`/`dispose()` 管理句柄生命周期，不提供 Web-first 等价物；不能伪造成普通元素操作 |
+
+同步与异步迁移方向相同；异步版本只在真正执行 I/O 的调用处加 `await`。`Browser.start_tracing()` / `stop_tracing()` 是旧的 Chromium 级入口，新的跨浏览器取证应使用 `context.tracing.start()`、`start_chunk()` 与 `stop()`，并由第十篇的 Trace Viewer 流程统一查看。
+
 ## 时间控制
 
 倒计时、会话过期和定时刷新不应真实等待数分钟。Clock API 可以控制 Page 所属 Context 中的时间和计时器：
@@ -215,6 +237,22 @@ def assert_status(checkout, expected: str) -> None:
 
 Step 不应自行启动浏览器，也不要隐藏复杂通用流程。Gherkin 用于共享业务例子；定位、等待和页面操作仍由测试代码维护。
 
+## 能力边界
+
+以下能力已经列入本文 API 索引，但只有在明确的工程入口出现时才进入。先判断进入条件，再决定是否引入额外依赖、浏览器限制或更低层的对象：
+
+| 能力组 | 进入条件 | 主要限制 |
+| --- | --- | --- |
+| CDP 与调试协议 | 需要 Chromium 专属协议、连接已启动的 Chromium 或收集协议级诊断时，使用 `Browser.new_browser_cdp_session()`、`BrowserType.connect_over_cdp()`、`BrowserContext.new_cdp_session()` | CDP 不是跨浏览器 API；协议版本和远程调试端点必须由环境固定，不能把 CDP 用法写成 Firefox/WebKit 通用方案 |
+| 凭据与 WebAuthn | 需要验证 Passkey、虚拟认证器或 WebAuthn 注册/断言时使用 `Credentials` | 只放入测试凭据和测试 RP；私钥、用户句柄等敏感值必须使用安全注入，不得写入日志或提交产物 |
+| 调试器与录制 | 需要暂停、单步或生成比 Trace Viewer 更低层的录制时使用 `Debugger`、`Screencast` | 会改变运行时节奏并产生高敏感度视频/帧数据；普通失败优先使用第十篇的 trace、截图和日志 |
+| Context 调试与 Service Worker | 需要观察 Context 级生命周期、Service Worker 注册或专门验证离线/PWA 行为时使用 `BrowserContext.debugger`、`new_cdp_session()`、`service_workers` | Service Worker 生命周期由浏览器控制；路由拦截不等于拦截已经由 Service Worker 接管的请求，Chromium 限制和清理时机必须单独验证 |
+| JSHandle 与 Worker | 页面 `evaluate()` 返回对象句柄，或应用确实创建 Web Worker 并需要读取其状态时使用 `JSHandle`、`Worker` | 句柄不是 Locator，没有自动等待和严格模式；Worker 可能先于断言结束，必须显式等待并释放低层对象 |
+| WebSocket 事件与代理 | 需要验证连接状态、等待帧事件，或在客户端与真实服务器之间转发消息时使用 `WebSocket`、`WebSocketRoute` | 这是协议层测试，不替代页面可观察结果；为每个连接清理监听器，敏感帧只保留脱敏摘要 |
+| 浏览器扩展与 Mock APIs | 需要加载 Chromium 扩展，或在页面初始化前替换时间、随机数等浏览器 API 时使用持久化 Context、`add_init_script()` | 扩展加载依赖 Chromium 和持久化上下文；`add_init_script()` 只能控制页面初始化脚本，不能伪造真实浏览器权限、网络栈或后端行为 |
+
+这三类场景不要混写：Chrome 扩展测试关注扩展目录、持久化 Context 和扩展页面；Mock APIs 只替换页面可注入的 API，适合固定时间、随机数或权限提示等前端依赖；Service Worker 测试关注注册、激活、缓存和离线生命周期，网络路由未必能覆盖已经被 Worker 接管的请求。它们都应先建立最小专项用例，再决定是否纳入跨浏览器矩阵。
+
 ## 质量范围
 
 功能断言回答“订单金额算对了吗”，却不一定能发现按钮失去可访问名称、焦点顺序混乱或组件在某个平台错位。下面围绕 `CheckoutSummary` 组件建立专项质量门。
@@ -302,7 +340,7 @@ print(page.get_by_role("region", name="订单摘要").aria_snapshot())
 
 ## 无障碍扫描
 
-`axe-playwright-python` 提供 Playwright Python 的 axe-core 封装。它是第三方集成，因此单独安装并锁定版本：
+官方 ARIA snapshots 页面说明了用可访问性树建立稳定结构合同的边界；`axe-playwright-python` 提供 Playwright Python 的 axe-core 封装。它是第三方集成，因此单独安装并锁定版本：
 
 ```bash
 uv add --dev axe-playwright-python==0.1.8
@@ -372,7 +410,7 @@ def assert_visual(
     current_path: Path,
     diff_path: Path,
     *,
-    max_mismatch_ratio: float = 0.001,
+    max_difference_ratio: float = 0.001,
 ) -> float:
     with Image.open(baseline_path) as baseline_image:
         baseline = baseline_image.convert("RGB")
@@ -390,12 +428,12 @@ def assert_visual(
     maximum = 255 * 3 * baseline.width * baseline.height
     mismatch_ratio = changed / maximum
 
-    if mismatch_ratio > max_mismatch_ratio:
+    if mismatch_ratio > max_difference_ratio:
         diff_path.parent.mkdir(parents=True, exist_ok=True)
         diff.save(diff_path)
         raise AssertionError(
-            f"visual mismatch {mismatch_ratio:.4%} exceeds "
-            f"{max_mismatch_ratio:.4%}; diff={diff_path}"
+            f"visual difference {mismatch_ratio:.4%} exceeds "
+            f"{max_difference_ratio:.4%}; diff={diff_path}"
         )
     return mismatch_ratio
 ```
@@ -425,7 +463,7 @@ def test_identical_and_single_channel_difference(tmp_path: Path) -> None:
     assert assert_visual(baseline, current, diff) == 0
 
     save_pixel(current, (255, 0, 0))
-    ratio = assert_visual(baseline, current, diff, max_mismatch_ratio=1.0)
+    ratio = assert_visual(baseline, current, diff, max_difference_ratio=1.0)
     assert ratio == pytest.approx(1 / 3)
 
 
@@ -435,8 +473,8 @@ def test_threshold_and_size_failures(tmp_path: Path) -> None:
     diff = tmp_path / "diff.png"
     save_pixel(baseline, (0, 0, 0))
     save_pixel(current, (255, 0, 0))
-    with pytest.raises(AssertionError, match="visual mismatch"):
-        assert_visual(baseline, current, diff, max_mismatch_ratio=0.1)
+    with pytest.raises(AssertionError, match="visual difference"):
+        assert_visual(baseline, current, diff, max_difference_ratio=0.1)
 
     Image.new("RGB", (2, 1), (0, 0, 0)).save(current)
     with pytest.raises(AssertionError, match="image size changed"):
@@ -463,6 +501,8 @@ uv run pytest tests/test_checkout_visual.py -q
 组件测试负责固定渲染条件：
 
 ```python
+import os
+import sys
 from pathlib import Path
 
 from playwright.sync_api import Page, expect
@@ -478,14 +518,17 @@ def test_checkout_summary_visual(page: Page, browser_name: str) -> None:
     expect(summary).to_be_visible()
     page.evaluate("() => document.fonts.ready")
 
-    platform = "linux"  # 在 CI 中由受控环境提供
+    platform = os.environ.get(
+        "PLAYWRIGHT_BASELINE_PLATFORM",
+        "macos" if sys.platform == "darwin" else sys.platform,
+    )
     baseline = Path("visual-baselines") / platform / browser_name / "checkout.png"
     current = Path("test-results") / platform / browser_name / "checkout-current.png"
     diff = Path("test-results") / platform / browser_name / "checkout-diff.png"
 
     current.parent.mkdir(parents=True, exist_ok=True)
     summary.screenshot(path=current, animations="disabled")
-    assert_visual(baseline, current, diff, max_mismatch_ratio=0.001)
+    assert_visual(baseline, current, diff, max_difference_ratio=0.001)
 ```
 
 截图稳定至少需要固定 viewport、浏览器、操作系统、字体、DPR、语言和数据。等待 `document.fonts.ready` 能避免字体尚未加载，但不能消除跨平台字体栅格化差异。最稳妥的基线策略是同一平台生成、同一平台比较：
@@ -524,9 +567,100 @@ optional 视觉检查被跳过不会自动阻断，但必须如实记录。若�
 
 批准基线更新前，至少回答：产品需求是否允许变化、ARIA 和业务断言是否仍通过、diff 是否只包含预期区域、所有受支持平台是否需要独立更新。不能因为 CI 变红就覆盖旧图。
 
+## API 速查
+
+下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+
+{% folding cyan, 查看本文 API 索引 %}
+
+| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| --- | --- | --- | --- | --- |
+| `Browser` | — | — | `new_browser_cdp_session()` | `start_tracing()`、`stop_tracing()` |
+| `BrowserContext` | — | — | `clock`、`debugger`、`new_cdp_session()`、`service_workers` | — |
+| `BrowserType` | — | — | `connect_over_cdp()`、`launch_persistent_context()` | — |
+| `CDPSession` | — | — | `detach()`、`send()` | — |
+| `Clock` | — | — | `fast_forward()`、`install()`、`pause_at()`、`resume()`、`run_for()`、`set_fixed_time()`、`set_system_time()` | — |
+| `Credentials` | — | — | `create()`、`delete()`、`get()`、`install()` | — |
+| `Debugger` | — | — | `next()`、`paused_details`、`request_pause()`、`resume()`、`run_to()` | — |
+| `Disposable` | — | — | `close()`、`dispose()` | — |
+| `ElementHandle` | — | — | — | `as_element()`、`bounding_box()`、`check()`、`click()`、`content_frame()`、`dblclick()`、`dispatch_event()`、`dispose()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`fill()`、`focus()`、`get_attribute()`、`get_properties()`、`get_property()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`json_value()`、`owner_frame()`、`press()`、`query_selector()`、`query_selector_all()`、`screenshot()`、`scroll_into_view_if_needed()`、`select_option()`、`select_text()`、`set_checked()`、`set_input_files()`、`tap()`、`text_content()`、`type()`、`uncheck()`、`wait_for_element_state()`、`wait_for_selector()` |
+| `JSHandle` | — | — | `as_element()`、`dispose()`、`evaluate()`、`evaluate_handle()`、`get_properties()`、`get_property()`、`json_value()` | — |
+| `Page` | — | — | `add_init_script()`、`add_locator_handler()`、`add_script_tag()`、`add_style_tag()`、`clock`、`expect_websocket()`、`pdf()`、`remove_locator_handler()`、`request_gc()`、`screencast` | — |
+| `Screencast` | — | — | `hide_actions()`、`hide_overlays()`、`show_actions()`、`show_chapter()`、`show_overlay()`、`show_overlays()`、`start()`、`stop()` | — |
+| `WebSocket` | — | — | `expect_event()`、`is_closed()`、`url`、`wait_for_event()` | — |
+| `WebSocketRoute` | — | — | `close()`、`connect_to_server()`、`on_close()`、`on_message()`、`protocols`、`send()`、`url` | — |
+| `Worker` | — | — | `evaluate()`、`evaluate_handle()`、`expect_event()`、`url` | — |
+| `Browser.start_tracing` 参数 | — | — | — | `categories`, `page`, `path`, `screenshots` |
+| `BrowserContext.new_cdp_session` 参数 | — | — | `page` | — |
+| `BrowserType.connect_over_cdp` 参数 | — | — | `artifacts_dir`, `endpoint_url`, `headers`, `is_local`, `no_defaults`, `slow_mo`, `timeout` | — |
+| `BrowserType.launch_persistent_context` 参数 | — | — | `accept_downloads`, `args`, `artifacts_dir`, `base_url`, `bypass_csp`, `channel`, `chromium_sandbox`, `client_certificates`, `color_scheme`, `contrast`, `device_scale_factor`, `downloads_path`, `env`, `executable_path`, `extra_http_headers`, `firefox_user_prefs`, `forced_colors`, `geolocation`, `handle_sighup`, `handle_sigint`, `handle_sigterm`, `has_touch`, `headless`, `http_credentials`, `ignore_default_args`, `ignore_https_errors`, `is_mobile`, `java_script_enabled`, `locale`, `no_viewport`, `offline`, `permissions`, `proxy`, `record_har_content`, `record_har_mode`, `record_har_omit_content`, `record_har_path`, `record_har_url_filter`, `record_video_dir`, `record_video_size`, `reduced_motion`, `screen`, `service_workers`, `slow_mo`, `strict_selectors`, `timeout`, `timezone_id`, `traces_dir`, `user_agent`, `user_data_dir`, `viewport` | — |
+| `CDPSession.send` 参数 | — | — | `method`, `params` | — |
+| `Clock.fast_forward` 参数 | — | — | `ticks` | — |
+| `Clock.install` 参数 | — | — | `time` | — |
+| `Clock.pause_at` 参数 | — | — | `time` | — |
+| `Clock.run_for` 参数 | — | — | `ticks` | — |
+| `Clock.set_fixed_time` 参数 | — | — | `time` | — |
+| `Clock.set_system_time` 参数 | — | — | `time` | — |
+| `Credentials.create` 参数 | — | — | `id`, `private_key`, `public_key`, `rp_id`, `user_handle` | — |
+| `Credentials.delete` 参数 | — | — | `id` | — |
+| `Credentials.get` 参数 | — | — | `id`, `rp_id` | — |
+| `Debugger.run_to` 参数 | — | — | `location` | — |
+| `ElementHandle.check` 参数 | — | — | — | `force`, `no_wait_after`, `position`, `scroll`, `timeout`, `trial` |
+| `ElementHandle.click` 参数 | — | — | — | `button`, `click_count`, `delay`, `force`, `modifiers`, `no_wait_after`, `position`, `scroll`, `steps`, `timeout`, `trial` |
+| `ElementHandle.dblclick` 参数 | — | — | — | `button`, `delay`, `force`, `modifiers`, `no_wait_after`, `position`, `scroll`, `steps`, `timeout`, `trial` |
+| `ElementHandle.dispatch_event` 参数 | — | — | — | `event_init`, `type` |
+| `ElementHandle.eval_on_selector` 参数 | — | — | — | `arg`, `expression`, `selector` |
+| `ElementHandle.eval_on_selector_all` 参数 | — | — | — | `arg`, `expression`, `selector` |
+| `ElementHandle.evaluate` 参数 | — | — | — | `arg`, `expression` |
+| `ElementHandle.evaluate_handle` 参数 | — | — | — | `arg`, `expression` |
+| `ElementHandle.fill` 参数 | — | — | — | `force`, `no_wait_after`, `timeout`, `value` |
+| `ElementHandle.get_attribute` 参数 | — | — | — | `name` |
+| `ElementHandle.get_property` 参数 | — | — | — | `property_name` |
+| `ElementHandle.hover` 参数 | — | — | — | `force`, `modifiers`, `no_wait_after`, `position`, `scroll`, `timeout`, `trial` |
+| `ElementHandle.input_value` 参数 | — | — | — | `timeout` |
+| `ElementHandle.press` 参数 | — | — | — | `delay`, `key`, `no_wait_after`, `timeout` |
+| `ElementHandle.query_selector` 参数 | — | — | — | `selector` |
+| `ElementHandle.query_selector_all` 参数 | — | — | — | `selector` |
+| `ElementHandle.screenshot` 参数 | — | — | — | `animations`, `caret`, `mask`, `mask_color`, `omit_background`, `path`, `quality`, `scale`, `style`, `timeout`, `type` |
+| `ElementHandle.scroll_into_view_if_needed` 参数 | — | — | — | `timeout` |
+| `ElementHandle.select_option` 参数 | — | — | — | `element`, `force`, `index`, `label`, `no_wait_after`, `timeout`, `value` |
+| `ElementHandle.select_text` 参数 | — | — | — | `force`, `timeout` |
+| `ElementHandle.set_checked` 参数 | — | — | — | `checked`, `force`, `no_wait_after`, `position`, `scroll`, `timeout`, `trial` |
+| `ElementHandle.set_input_files` 参数 | — | — | — | `files`, `no_wait_after`, `timeout` |
+| `ElementHandle.tap` 参数 | — | — | — | `force`, `modifiers`, `no_wait_after`, `position`, `scroll`, `timeout`, `trial` |
+| `ElementHandle.type` 参数 | — | — | — | `delay`, `no_wait_after`, `text`, `timeout` |
+| `ElementHandle.uncheck` 参数 | — | — | — | `force`, `no_wait_after`, `position`, `scroll`, `timeout`, `trial` |
+| `ElementHandle.wait_for_element_state` 参数 | — | — | — | `state`, `timeout` |
+| `ElementHandle.wait_for_selector` 参数 | — | — | — | `selector`, `state`, `strict`, `timeout` |
+| `JSHandle.evaluate` 参数 | — | — | `arg`, `expression` | — |
+| `JSHandle.evaluate_handle` 参数 | — | — | `arg`, `expression` | — |
+| `JSHandle.get_property` 参数 | — | — | `property_name` | — |
+| `Page.add_init_script` 参数 | — | — | `path`, `script` | — |
+| `Page.add_locator_handler` 参数 | — | — | `handler`, `locator`, `no_wait_after`, `times` | — |
+| `Page.add_script_tag` 参数 | — | — | `content`, `path`, `type`, `url` | — |
+| `Page.add_style_tag` 参数 | — | — | `content`, `path`, `url` | — |
+| `Page.expect_websocket` 参数 | — | — | `predicate`, `timeout` | — |
+| `Page.pdf` 参数 | — | — | `display_header_footer`, `footer_template`, `format`, `header_template`, `height`, `landscape`, `margin`, `outline`, `page_ranges`, `path`, `prefer_css_page_size`, `print_background`, `scale`, `tagged`, `width` | — |
+| `Page.remove_locator_handler` 参数 | — | — | `locator` | — |
+| `Screencast.show_actions` 参数 | — | — | `cursor`, `duration`, `font_size`, `position` | — |
+| `Screencast.show_chapter` 参数 | — | — | `description`, `duration`, `title` | — |
+| `Screencast.show_overlay` 参数 | — | — | `duration`, `html` | — |
+| `Screencast.start` 参数 | — | — | `on_frame`, `path`, `quality`, `size` | — |
+| `WebSocket.expect_event` 参数 | — | — | `event`, `predicate`, `timeout` | — |
+| `WebSocket.wait_for_event` 参数 | — | — | `event`, `predicate`, `timeout` | — |
+| `WebSocketRoute.close` 参数 | — | — | `code`, `reason` | — |
+| `WebSocketRoute.on_close` 参数 | — | — | `handler` | — |
+| `WebSocketRoute.on_message` 参数 | — | — | `handler` | — |
+| `WebSocketRoute.send` 参数 | — | — | `message` | — |
+| `Worker.evaluate` 参数 | — | — | `arg`, `expression` | — |
+| `Worker.evaluate_handle` 参数 | — | — | `arg`, `expression` | — |
+| `Worker.expect_event` 参数 | — | — | `event`, `predicate`, `timeout` | — |
+
+{% endfolding %}
+
 ## 常见问题
 
-{% flashcard basic id:playwright-visual-baseline deck:"Playwright" tags:"视觉回归,基线" %}
+{% flashcard basic id:playwright-visual-baseline deck:"Playwright" priority:2 tags:"视觉回归,基线" %}
 --- question
 什么时候可以更新视觉回归基线？
 --- answer
@@ -535,7 +669,7 @@ optional 视觉检查被跳过不会自动阻断，但必须如实记录。若�
 基线更新是评审动作，不是失败后的自动修复。业务断言、ARIA 合同和受支持平台都必须继续满足要求。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-advanced-quality-gate deck:"Playwright" tags:"无障碍,质量门" answer:C %}
+{% flashcard choice id:playwright-advanced-quality-gate deck:"Playwright" priority:2 tags:"无障碍,质量门" answer:C %}
 --- question
 required 的键盘检查被跳过、optional 的视觉检查失败时，质量门应如何判定？
 - [A] 通过，因为视觉是 optional
@@ -547,7 +681,7 @@ C
 SKIPPED 不能冒充绿色；optional 失败也应记录和评估，但阻断原因首先来自 required 键盘检查未完成。
 {% endflashcard %}
 
-{% flashcard basic id:playwright-websocket-route deck:"Playwright" tags:"WebSocket,网络Mock" %}
+{% flashcard basic id:playwright-websocket-route deck:"Playwright" priority:2 tags:"WebSocket,网络Mock" %}
 --- question
 `route_web_socket()` 不调用 `connect_to_server()` 时代表什么？
 --- answer
@@ -558,12 +692,21 @@ SKIPPED 不能冒充绿色；optional 失败也应记录和评估，但阻断原
 
 ## 参考资料
 
-### 浏览器扩展
+### 浏览器能力
 
 {% linkgroup %}
 {% link Playwright Shadow DOM Locators, https://playwright.dev/python/docs/locators#locate-in-shadow-dom, https://playwright.dev/img/playwright-logo.svg %}
 {% link Playwright Clock, https://playwright.dev/python/docs/clock, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Chrome extensions, https://playwright.dev/python/docs/chrome-extensions, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Mock APIs, https://playwright.dev/python/docs/mock, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Service workers, https://playwright.dev/python/docs/network#missing-network-events-and-service-workers, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}
+
+### 协议与网络
+
+{% linkgroup %}
 {% link Playwright Network and WebSockets, https://playwright.dev/python/docs/network, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright WebSockets, https://playwright.dev/python/docs/network#websockets, https://playwright.dev/img/playwright-logo.svg %}
 {% link WebSocketRoute API, https://playwright.dev/python/docs/api/class-websocketroute, https://playwright.dev/img/playwright-logo.svg %}
 {% endlinkgroup %}
 
@@ -576,7 +719,7 @@ SKIPPED 不能冒充绿色；optional 失败也应记录和评估，但阻断原
 ### 专项质量
 
 {% linkgroup %}
-{% link ARIA Snapshots, https://playwright.dev/python/docs/aria-snapshots, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright ARIA snapshots, https://playwright.dev/python/docs/aria-snapshots, https://playwright.dev/img/playwright-logo.svg %}
 {% link axe-playwright-python, https://pypi.org/project/axe-playwright-python/, https://pypi.org/favicon.ico %}
 {% link W3C WAI Evaluating Web Accessibility, https://www.w3.org/WAI/test-evaluate/, https://www.w3.org/favicon.ico %}
 {% link Playwright Screenshots, https://playwright.dev/python/docs/screenshots, https://playwright.dev/img/playwright-logo.svg %}

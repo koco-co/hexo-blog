@@ -630,15 +630,56 @@ def test_buyer_and_admin(
 
 ### 多角色检查
 
-为买家、管理员和访客分别写出 Context 配置、认证状态来源、后端 namespace 与清理动作。指出哪一项由 BrowserContext 自动保证，哪几项必须由测试架构保证。
+为买家、管理员和访客分别写出 Context 配置、认证状态取得方式、后端 namespace 与清理动作。指出哪一项由 BrowserContext 自动保证，哪几项必须由测试架构保证。
 
 {% hideToggle 参考答案, #f0f4ff, #1f2d3d %}
 三者各用独立 Context；buyer/admin 状态由受控测试登录或测试 API 生成，访客不加载状态。后端主体使用 run/worker namespace，订单、购物车和 session 由创建者清理。BrowserContext 只自动隔离浏览器端 Cookie、storage、权限和页面；后端 namespace、账号所有权与 cleanup 都由测试架构保证。
 {% endhideToggle %}
 
+## API 速查
+
+下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+
+{% folding cyan, 查看本文 API 索引 %}
+
+| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| --- | --- | --- | --- | --- |
+| `Browser` | `new_context()` | `browser_type`、`close()`、`contexts`、`is_connected()`、`version` | `bind()`、`unbind()` | `new_page()` |
+| `BrowserContext` | `new_page()`、`storage_state()` | — | `add_cookies()`、`add_init_script()`、`background_pages`、`browser`、`clear_cookies()`、`clear_permissions()`、`close()`、`cookies()`、`credentials`、`expect_page()`、`expose_binding()`、`expose_function()`、`grant_permissions()`、`is_closed()`、`pages`、`set_default_navigation_timeout()`、`set_default_timeout()`、`set_extra_http_headers()`、`set_geolocation()`、`set_offline()`、`set_storage_state()` | — |
+| `Page` | — | — | `context`、`emulate_media()`、`set_extra_http_headers()`、`viewport_size` | — |
+| `Playwright` | — | — | `devices` | — |
+| `WebStorage` | — | — | `clear()`、`get_item()`、`items()`、`remove_item()`、`set_item()` | — |
+| `Browser.bind` 参数 | — | — | `host`, `port`, `title`, `workspace_dir` | — |
+| `Browser.close` 参数 | — | — | `reason` | — |
+| `Browser.new_context` 参数 | — | — | `accept_downloads`, `base_url`, `bypass_csp`, `client_certificates`, `color_scheme`, `contrast`, `default_browser_type`, `device_scale_factor`, `extra_http_headers`, `forced_colors`, `geolocation`, `has_touch`, `http_credentials`, `ignore_https_errors`, `is_mobile`, `java_script_enabled`, `locale`, `no_viewport`, `offline`, `permissions`, `proxy`, `record_har_content`, `record_har_mode`, `record_har_omit_content`, `record_har_path`, `record_har_url_filter`, `record_video_dir`, `record_video_size`, `reduced_motion`, `screen`, `service_workers`, `storage_state`, `strict_selectors`, `timezone_id`, `user_agent`, `viewport` | — |
+| `Browser.new_page` 参数 | — | — | — | `accept_downloads`, `base_url`, `bypass_csp`, `client_certificates`, `color_scheme`, `contrast`, `default_browser_type`, `device_scale_factor`, `extra_http_headers`, `forced_colors`, `geolocation`, `has_touch`, `http_credentials`, `ignore_https_errors`, `is_mobile`, `java_script_enabled`, `locale`, `no_viewport`, `offline`, `permissions`, `proxy`, `record_har_content`, `record_har_mode`, `record_har_omit_content`, `record_har_path`, `record_har_url_filter`, `record_video_dir`, `record_video_size`, `reduced_motion`, `screen`, `service_workers`, `storage_state`, `strict_selectors`, `timezone_id`, `user_agent`, `viewport` |
+| `BrowserContext.add_cookies` 参数 | — | — | `cookies` | — |
+| `BrowserContext.add_init_script` 参数 | — | — | `path`, `script` | — |
+| `BrowserContext.clear_cookies` 参数 | — | — | `domain`, `name`, `path` | — |
+| `BrowserContext.close` 参数 | — | — | `reason` | — |
+| `BrowserContext.cookies` 参数 | — | — | `urls` | — |
+| `BrowserContext.expect_page` 参数 | — | — | `predicate`, `timeout` | — |
+| `BrowserContext.expose_binding` 参数 | — | — | `callback`, `name` | — |
+| `BrowserContext.expose_function` 参数 | — | — | `callback`, `name` | — |
+| `BrowserContext.grant_permissions` 参数 | — | — | `origin`, `permissions` | — |
+| `BrowserContext.set_default_navigation_timeout` 参数 | — | — | `timeout` | — |
+| `BrowserContext.set_default_timeout` 参数 | — | — | `timeout` | — |
+| `BrowserContext.set_extra_http_headers` 参数 | — | — | `headers` | — |
+| `BrowserContext.set_geolocation` 参数 | — | — | `geolocation` | — |
+| `BrowserContext.set_offline` 参数 | — | — | `offline` | — |
+| `BrowserContext.set_storage_state` 参数 | — | — | `storage_state` | — |
+| `BrowserContext.storage_state` 参数 | — | — | `credentials`, `indexed_db`, `path` | — |
+| `Page.emulate_media` 参数 | — | — | `color_scheme`, `contrast`, `forced_colors`, `media`, `reduced_motion` | — |
+| `Page.set_extra_http_headers` 参数 | — | — | `headers` | — |
+| `WebStorage.get_item` 参数 | — | — | `name` | — |
+| `WebStorage.remove_item` 参数 | — | — | `name` | — |
+| `WebStorage.set_item` 参数 | — | — | `name`, `value` | — |
+
+{% endfolding %}
+
 ## 常见问题
 
-{% flashcard basic id:playwright-context-isolation deck:"Playwright" tags:"BrowserContext,测试隔离" %}
+{% flashcard basic id:playwright-context-isolation deck:"Playwright" priority:2 tags:"BrowserContext,测试隔离" %}
 --- question
 BrowserContext 隔离是否等于测试数据隔离？
 --- answer
@@ -647,7 +688,7 @@ BrowserContext 隔离是否等于测试数据隔离？
 数据库记录、缓存、消息队列和第三方沙箱仍可能共享。测试必须使用唯一数据标识，并由创建数据的 Fixture 负责清理。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-storage-state deck:"Playwright" tags:"BrowserContext,登录状态" answer:B %}
+{% flashcard choice id:playwright-storage-state deck:"Playwright" priority:2 tags:"BrowserContext,登录状态" answer:B %}
 --- question
 业务回归套件需要复用登录时，哪种方式更合适？
 - [A] 所有测试共享同一个 Page

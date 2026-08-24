@@ -11,6 +11,7 @@ series: "{{主题系列名}}"
 series_order: 1
 published: true
 date: {{YYYY-MM-DD HH:mm:ss}}
+learn_topic_capability_ledger: '{{带 schema_version 的单行压缩 JSON；必须无损保存入口 manifest，以及当前全集每项的稳定标识、对象或主题、来源、版本状态、强制镜像、备注，处置账本每项的处置、主文章、目标章节、理由、验证状态，旧接口迁移映射和集合摘要；允许字典别名压缩，但字段级往返必须相等；不得含未转义单引号}}'
 ---
 
 {% course_series %}

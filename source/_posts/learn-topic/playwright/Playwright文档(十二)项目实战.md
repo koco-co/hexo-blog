@@ -580,7 +580,7 @@ CI 中分别替换为 `firefox` 和 `webkit`。报告至少要记录提交、浏
 
 ## 常见问题
 
-{% flashcard basic id:playwright-project-evidence deck:"Playwright" tags:"项目实战,证据" %}
+{% flashcard basic id:playwright-project-evidence deck:"Playwright" priority:2 tags:"项目实战,证据" %}
 --- question
 三浏览器测试全部通过，是否能证明线上业务一定正常？
 --- answer

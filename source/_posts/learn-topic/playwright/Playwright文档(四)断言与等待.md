@@ -105,6 +105,33 @@ assert page.get_by_role("status").text_content() == "提交成功"
 
 普通 `assert` 适合纯 Python 值和已经稳定的同步计算；页面异步状态优先使用 `expect()`。
 
+### 可见性实例
+
+`to_be_visible()` 会重新查询 Locator，并等待元素满足可见条件；它不是对一次性 `is_visible()` 结果的包装：
+
+```python
+from playwright.sync_api import Page, expect
+
+
+def test_report_ready(page: Page) -> None:
+    page.set_content("""
+        <button id="load">加载报告</button>
+        <section id="report" hidden>报告已生成</section>
+        <script>
+          document.querySelector('#load').onclick = () => {
+            setTimeout(() => document.querySelector('#report').hidden = false, 200);
+          };
+        </script>
+    """)
+
+    page.get_by_role("button", name="加载报告").click()
+    report = page.locator("#report")
+    expect(report).to_be_visible(timeout=5_000)
+    expect(report).to_have_text("报告已生成")
+```
+
+如果元素从未挂载、被 `display:none`/`hidden` 隐藏、尺寸为零或被页面状态阻止，断言会在超时后失败；这时要查看 DOM 快照和业务状态，而不是把 `timeout` 无条件放大。
+
 ## 断言类型
 
 ### 可见与状态
@@ -161,6 +188,18 @@ expect(page).to_have_url(re.compile(r"/orders/A-\d+$"))
 
 URL 是导航结果，不要只断言点击没有报错。对于客户端路由，`to_have_url()` 同样会等待地址变化。
 
+完整导航断言应在触发导航后验证最终地址，并为动态片段使用正则或 glob：
+
+```python
+import re
+
+page.get_by_role("link", name="订单 A-100").click()
+expect(page).to_have_url(re.compile(r"/orders/A-100(?:\?.*)?$") )
+expect(page.get_by_role("heading", name="订单详情")).to_be_visible()
+```
+
+如果点击没有导航而只是更新组件，`to_have_url()` 不应作为替代品；此时断言组件状态。反向断言 `not_to_have_url()` 也会等待“不匹配”成立，仍需给出明确的业务边界。
+
 ## 超时配置
 
 超时应按职责设置：
@@ -209,6 +248,19 @@ expect(page.get_by_role("status")).to_have_text("完成")
 page.get_by_role("dialog").wait_for(state="visible")
 page.wait_for_url("**/orders/*")
 ```
+
+异步 API 只改变调用模型，不改变等待语义：
+
+```python
+from playwright.async_api import Page
+
+
+async def wait_for_legacy_boundary(page: Page) -> None:
+    await page.wait_for_selector("[role=dialog]", state="visible")
+    await page.wait_for_timeout(100)  # 仅诊断或演示，生产测试优先 expect()
+```
+
+`wait_for_selector()` 与 `wait_for_timeout()` 已列入旧接口迁移清单；新代码优先使用 `expect()`、Locator 的 `wait_for()` 或事件上下文。
 
 导航不要默认依赖 `networkidle`。现代页面可能持续保持统计、轮询或推送连接，“网络空闲”不等于业务就绪。优先等待用户可观察的页面状态：
 
@@ -269,7 +321,56 @@ expect.soft(page.get_by_test_id("discount")).to_have_text("-¥20.00")
 
 软断言会记录失败并继续执行，最终仍使测试失败。它适合相互独立的展示字段，不适合关键前置条件：登录失败后继续点击结算只会制造连锁噪声。
 
-软断言依赖 `pytest-playwright` 或 `pytest-playwright-asyncio` 0.8.0 及以上；旧锁文件不支持时应升级并重新验证，而不是改用普通 `assert` 假装等价。
+`expect.soft(actual, message=None)` 的第二个参数只是失败说明，不会改变断言条件。同步和异步写法分别如下：
+
+```python
+# sync_api
+expect.soft(total, "订单总额").to_have_text("¥199.00")
+```
+
+```python
+# async_api
+from playwright.async_api import expect
+
+await expect.soft(total, "订单总额").to_have_text("¥199.00")
+```
+
+`expect.set_options(timeout=...)` 只设置后续断言的默认超时；单次断言传入的 `timeout` 优先级更高。当前 `pytest-playwright`/`pytest-playwright-asyncio` 软断言集成要求 0.7.3 及以上；本课程冻结基线为 0.9.0。旧锁文件不支持时应升级并重新验证，而不是改用普通 `assert` 假装等价。
+
+## 断言扩展
+
+基础断言覆盖可见性、文本、数量、URL 和表单状态；只有在明确质量目标时才进入以下扩展组：
+
+| 扩展组 | 代表 API | 进入条件 |
+| --- | --- | --- |
+| 可访问性语义 | `to_have_role()`、`to_have_accessible_name()`、`to_have_accessible_description()` | 组件有明确 ARIA 合同，需验证语义而非视觉文案 |
+| 样式与几何 | `to_have_css()`、`to_be_in_viewport()` | 视觉或布局缺陷是本用例目标，且已有稳定基线 |
+| JavaScript 状态 | `to_have_js_property()` | 业务状态只能通过 DOM 属性表达，避免把内部实现当主合同 |
+| ARIA 快照 | `to_match_aria_snapshot()` | 需要冻结组件可访问树，变更需评审快照差异 |
+| 负向断言 | 各类 `not_to_*()` | 先定义“不成立”的业务边界，确认元素不存在与隐藏不是同一含义 |
+
+这些 API 的完整方法和参数保留在本篇 API 索引中；正文只展开进入条件、等待语义和失败诊断，避免把长尾方法误当成主线流程。
+
+文本断言的三个常用参数有不同职责：
+
+```python
+# ignore_case 只放宽大小写，不放宽其他文本差异
+expect(status).to_have_text("支付成功", ignore_case=True)
+
+# use_inner_text 读取浏览器计算后的可见文本；默认更接近 textContent
+expect(summary).to_contain_text("总计", use_inner_text=True)
+```
+
+`ignore_case` 适合大小写不属于业务合同的界面；如果使用正则，正则自身的 flags 仍应保持清晰。`use_inner_text` 会受到布局、可见性和换行影响，只在产品合同明确关注用户看到的文本时使用；否则保留默认读取方式。`message`（包括 `expect.soft` 的第二个参数）只补充失败上下文，不是预期值，也不会改变重试条件。
+
+低频等待和状态探针按能力组进入：
+
+| 能力组 | 代表 API | 进入条件与边界 |
+| --- | --- | --- |
+| 即时状态探针 | `is_visible()`、`is_enabled()`、`is_editable()` 等 | 只读取当前瞬间状态并用于分支或诊断；要等待结果仍用 `expect()` |
+| 非断言 Locator 等待 | `locator.wait_for()`、`locator.wait_for_function()` | 需要让后续流程等待附着/可见或自定义条件，但没有可表达的断言时使用；优先先寻找可观察业务信号 |
+| 页面级等待 | `wait_for_load_state()`、`wait_for_url()` | 等待导航或 URL 边界；不能把 `networkidle` 当作业务就绪 |
+| ARIA 快照 | `to_match_aria_snapshot()` 及负向版本 | 组件可访问树是明确合同时使用；快照变更需要评审，不用于普通文本验证 |
 
 ## 失败分析
 
@@ -284,9 +385,98 @@ expect.soft(page.get_by_test_id("discount")).to_have_text("-¥20.00")
 
 不要第一时间增加等待时间。先确认失败属于定位、可操作性、业务结果还是环境依赖。
 
+## API 速查
+
+下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+
+{% folding cyan, 查看本文 API 索引 %}
+
+| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| --- | --- | --- | --- | --- |
+| `Locator` | — | — | `is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`scroll_into_view_if_needed()`、`wait_for()`、`wait_for_function()` | — |
+| `LocatorAssertions` | `to_be_visible()`、`to_have_text()` | — | `not_to_be_attached()`、`not_to_be_checked()`、`not_to_be_disabled()`、`not_to_be_editable()`、`not_to_be_empty()`、`not_to_be_enabled()`、`not_to_be_focused()`、`not_to_be_hidden()`、`not_to_be_in_viewport()`、`not_to_be_visible()`、`not_to_contain_class()`、`not_to_contain_text()`、`not_to_have_accessible_description()`、`not_to_have_accessible_error_message()`、`not_to_have_accessible_name()`、`not_to_have_attribute()`、`not_to_have_class()`、`not_to_have_count()`、`not_to_have_css()`、`not_to_have_id()`、`not_to_have_js_property()`、`not_to_have_role()`、`not_to_have_text()`、`not_to_have_value()`、`not_to_have_values()`、`not_to_match_aria_snapshot()`、`to_be_attached()`、`to_be_checked()`、`to_be_disabled()`、`to_be_editable()`、`to_be_empty()`、`to_be_enabled()`、`to_be_focused()`、`to_be_hidden()`、`to_be_in_viewport()`、`to_contain_class()`、`to_contain_text()`、`to_have_accessible_description()`、`to_have_accessible_error_message()`、`to_have_accessible_name()`、`to_have_attribute()`、`to_have_class()`、`to_have_count()`、`to_have_css()`、`to_have_id()`、`to_have_js_property()`、`to_have_role()`、`to_have_value()`、`to_have_values()`、`to_match_aria_snapshot()` | — |
+| `Page` | — | — | `wait_for_function()`、`wait_for_load_state()`、`wait_for_url()` | `wait_for_selector()`、`wait_for_timeout()` |
+| `PageAssertions` | `to_have_url()` | — | `not_to_have_title()`、`not_to_have_url()`、`not_to_match_aria_snapshot()`、`to_have_title()`、`to_match_aria_snapshot()` | — |
+| `Expect.set_options` 参数 | — | `timeout` | — | — |
+| `Expect.soft` 参数 | — | `message` | `actual` | — |
+| `Locator.is_checked` 参数 | — | — | `timeout` | — |
+| `Locator.is_disabled` 参数 | — | — | `timeout` | — |
+| `Locator.is_editable` 参数 | — | — | `timeout` | — |
+| `Locator.is_enabled` 参数 | — | — | `timeout` | — |
+| `Locator.is_hidden` 参数 | — | — | `timeout` | — |
+| `Locator.is_visible` 参数 | — | — | `timeout` | — |
+| `Locator.scroll_into_view_if_needed` 参数 | — | — | `timeout` | — |
+| `Locator.wait_for` 参数 | — | — | `state`, `timeout` | — |
+| `Locator.wait_for_function` 参数 | — | — | `arg`, `expression`, `timeout` | — |
+| `LocatorAssertions.not_to_be_attached` 参数 | — | `timeout` | `attached` | — |
+| `LocatorAssertions.not_to_be_checked` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.not_to_be_disabled` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.not_to_be_editable` 参数 | — | `timeout` | `editable` | — |
+| `LocatorAssertions.not_to_be_empty` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.not_to_be_enabled` 参数 | — | `timeout` | `enabled` | — |
+| `LocatorAssertions.not_to_be_focused` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.not_to_be_hidden` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.not_to_be_in_viewport` 参数 | — | `timeout` | `ratio` | — |
+| `LocatorAssertions.not_to_be_visible` 参数 | — | `timeout` | `visible` | — |
+| `LocatorAssertions.not_to_contain_class` 参数 | — | `timeout` | `expected` | — |
+| `LocatorAssertions.not_to_contain_text` 参数 | — | `ignore_case`, `timeout`, `use_inner_text` | `expected` | — |
+| `LocatorAssertions.not_to_have_accessible_description` 参数 | — | `ignore_case`, `timeout` | `name` | — |
+| `LocatorAssertions.not_to_have_accessible_error_message` 参数 | — | `ignore_case`, `timeout` | `error_message` | — |
+| `LocatorAssertions.not_to_have_accessible_name` 参数 | — | `ignore_case`, `timeout` | `name` | — |
+| `LocatorAssertions.not_to_have_attribute` 参数 | — | `ignore_case`, `timeout` | `name`, `value` | — |
+| `LocatorAssertions.not_to_have_class` 参数 | — | `timeout` | `expected` | — |
+| `LocatorAssertions.not_to_have_count` 参数 | — | `timeout` | `count` | — |
+| `LocatorAssertions.not_to_have_css` 参数 | — | `timeout` | `name`, `value` | — |
+| `LocatorAssertions.not_to_have_id` 参数 | — | `timeout` | `id` | — |
+| `LocatorAssertions.not_to_have_js_property` 参数 | — | `timeout` | `name`, `value` | — |
+| `LocatorAssertions.not_to_have_role` 参数 | — | `timeout` | `role` | — |
+| `LocatorAssertions.not_to_have_text` 参数 | — | `ignore_case`, `timeout`, `use_inner_text` | `expected` | — |
+| `LocatorAssertions.not_to_have_value` 参数 | — | `timeout` | `value` | — |
+| `LocatorAssertions.not_to_have_values` 参数 | — | `timeout` | `values` | — |
+| `LocatorAssertions.not_to_match_aria_snapshot` 参数 | — | `timeout` | `expected` | — |
+| `LocatorAssertions.to_be_attached` 参数 | — | `timeout` | `attached` | — |
+| `LocatorAssertions.to_be_checked` 参数 | — | `timeout` | `checked`, `indeterminate` | — |
+| `LocatorAssertions.to_be_disabled` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.to_be_editable` 参数 | — | `timeout` | `editable` | — |
+| `LocatorAssertions.to_be_empty` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.to_be_enabled` 参数 | — | `timeout` | `enabled` | — |
+| `LocatorAssertions.to_be_focused` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.to_be_hidden` 参数 | — | `timeout` | — | — |
+| `LocatorAssertions.to_be_in_viewport` 参数 | — | `timeout` | `ratio` | — |
+| `LocatorAssertions.to_be_visible` 参数 | — | `timeout` | `visible` | — |
+| `LocatorAssertions.to_contain_class` 参数 | — | `timeout` | `expected` | — |
+| `LocatorAssertions.to_contain_text` 参数 | — | `ignore_case`, `timeout`, `use_inner_text` | `expected` | — |
+| `LocatorAssertions.to_have_accessible_description` 参数 | — | `ignore_case`, `timeout` | `description` | — |
+| `LocatorAssertions.to_have_accessible_error_message` 参数 | — | `ignore_case`, `timeout` | `error_message` | — |
+| `LocatorAssertions.to_have_accessible_name` 参数 | — | `ignore_case`, `timeout` | `name` | — |
+| `LocatorAssertions.to_have_attribute` 参数 | — | `ignore_case`, `timeout` | `name`, `value` | — |
+| `LocatorAssertions.to_have_class` 参数 | — | `timeout` | `expected` | — |
+| `LocatorAssertions.to_have_count` 参数 | — | `timeout` | `count` | — |
+| `LocatorAssertions.to_have_css` 参数 | — | `timeout` | `name`, `pseudo`, `value` | — |
+| `LocatorAssertions.to_have_id` 参数 | — | `timeout` | `id` | — |
+| `LocatorAssertions.to_have_js_property` 参数 | — | `timeout` | `name`, `value` | — |
+| `LocatorAssertions.to_have_role` 参数 | — | `timeout` | `role` | — |
+| `LocatorAssertions.to_have_text` 参数 | — | `ignore_case`, `timeout`, `use_inner_text` | `expected` | — |
+| `LocatorAssertions.to_have_value` 参数 | — | `timeout` | `value` | — |
+| `LocatorAssertions.to_have_values` 参数 | — | `timeout` | `values` | — |
+| `LocatorAssertions.to_match_aria_snapshot` 参数 | — | `timeout` | `expected` | — |
+| `Page.wait_for_function` 参数 | — | — | `arg`, `expression`, `polling`, `timeout` | — |
+| `Page.wait_for_load_state` 参数 | — | — | `state`, `timeout` | — |
+| `Page.wait_for_selector` 参数 | — | — | — | `selector`, `state`, `strict`, `timeout` |
+| `Page.wait_for_timeout` 参数 | — | — | — | `timeout` |
+| `Page.wait_for_url` 参数 | — | — | `timeout`, `url`, `wait_until` | — |
+| `PageAssertions.not_to_have_title` 参数 | — | `timeout` | `title_or_reg_exp` | — |
+| `PageAssertions.not_to_have_url` 参数 | — | `ignore_case`, `timeout` | `url_or_reg_exp` | — |
+| `PageAssertions.not_to_match_aria_snapshot` 参数 | — | `timeout` | `expected` | — |
+| `PageAssertions.to_have_title` 参数 | — | `timeout` | `title_or_reg_exp` | — |
+| `PageAssertions.to_have_url` 参数 | — | `ignore_case`, `timeout` | `url_or_reg_exp` | — |
+| `PageAssertions.to_match_aria_snapshot` 参数 | — | `timeout` | `expected` | — |
+
+{% endfolding %}
+
 ## 常见问题
 
-{% flashcard basic id:playwright-wait-boundary deck:"Playwright" tags:"自动等待,断言" %}
+{% flashcard basic id:playwright-wait-boundary deck:"Playwright" priority:2 tags:"自动等待,断言" %}
 --- question
 为什么 `click()` 成功后仍然需要断言？
 --- answer
@@ -295,7 +485,7 @@ expect.soft(page.get_by_test_id("discount")).to_have_text("-¥20.00")
 点击会等待元素可操作并发送输入事件；成功提示、URL、订单状态或后端数据属于动作后的业务结果，需要单独使用 Web-first 断言或 API 核验。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-wait-strategy deck:"Playwright" tags:"等待,稳定性" answer:C %}
+{% flashcard choice id:playwright-wait-strategy deck:"Playwright" priority:2 tags:"等待,稳定性" answer:C %}
 --- question
 提交后状态会异步变成“完成”，哪种等待方式最合适？
 - [A] 固定等待五秒

@@ -11,10 +11,10 @@
 
 ## 卡片定义
 
-文章可以用 Front Matter 的 `flashcard_deck` 提供默认卡组，也可以在单卡上用 `deck` 覆盖。每张卡必须具有全站唯一、长期稳定的 `id`，并按顺序提供非空的 `question`、`answer`、`explanation`。
+文章可以用 Front Matter 的 `flashcard_deck` 提供默认卡组，也可以在单卡上用 `deck` 覆盖。每张卡必须具有全站唯一、长期稳定的 `id`、`priority:1|2|3`，并按顺序提供非空的 `question`、`answer`、`explanation`；`priority` 是当前解析器的必填字段。
 
 ```markdown
-{% flashcard basic id:playwright-locator-role deck:"Playwright" tags:"Locator,语义定位" %}
+{% flashcard basic id:playwright-locator-role deck:"Playwright" priority:2 tags:"Locator,语义定位" %}
 --- question
 为什么优先使用 `get_by_role()`？
 --- answer
@@ -30,7 +30,9 @@
 - `cloze`：问题至少包含一个 `[[隐藏内容]]`。
 - `choice`：问题至少包含两个 `- [选项键] 内容`，标签参数必须提供 `answer:<选项键>`；多选可以使用逗号分隔的多个正确键。
 
-`deck` 表达单一主卡组，`tags` 是逗号分隔的交叉复习标签。标签不能代替卡片类型。
+`deck` 表达单一主卡组，`tags` 是逗号分隔的交叉复习标签。`priority:1`、`priority:2`、`priority:3` 依次渲染为高频、中频和低频；该字段必填，标签不能代替卡片类型或优先级。
+
+频率徽标可以点击筛选。复习页分别使用 `?priority=1`、`?priority=2` 和 `?priority=3` 限定范围；到期旧卡继续按 FSRS 到期时间排序，新卡按高频、中频、低频排序，同一优先级保持原有顺序。优先级不改变 FSRS 间隔或到期时间。
 
 ## 跨文章引用
 
@@ -40,7 +42,7 @@
 {% flashcard_ref id="playwright-locator-role" %}
 ```
 
-`flashcard_ref` 只接受 `id`，目标必须在当前构建参与的内容中存在。引用不得覆盖题目、答案、解析、卡组或标签。
+`flashcard_ref` 只接受 `id`，目标必须在当前构建参与的内容中存在。引用不得覆盖题目、答案、解析、卡组、标签或优先级，并自动继承原卡片的频率标注。
 
 ## 选择边界
 
@@ -52,6 +54,6 @@
 ## 验证
 
 1. 运行 `node tools/hexo-blog/audit.mjs tags --json`，核对插件版本、配置、卡片计数和引用使用情况。
-2. 运行真实 Hexo 生成；插件会校验卡片字段、类型、ID 唯一性和引用目标。
-3. 在文章页检查翻卡、卡组和标签链接，在 `/learn-topic/` 检查筛选和复习队列。
+2. 运行真实 Hexo 生成；插件会校验卡片字段、类型、`priority:1|2|3`、ID 唯一性和引用目标。
+3. 在文章页检查翻卡、频率徽标、卡组和标签链接，在 `/learn-topic/` 检查优先级筛选和复习队列。
 4. 桌面与移动端、明暗主题和 PJAX 返回均属于页面证据，不能由静态审计替代。

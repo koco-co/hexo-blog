@@ -498,9 +498,9 @@ aside:
     # 是否显示分类
     enable: true
     # 显示分类数量（设置为0显示所有）
-    limit: 8
+    limit: 0
     # 是否展开分类：none（不展开）/ true（展开）/ false（折叠）
-    expand: none
+    expand: true
     # 排序顺序（可选）
     sort_order:
   # 标签卡片
@@ -778,7 +778,9 @@ comments:
   # Leave it empty if you don't need comments
   # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
   # Format of two comments system : Disqus,Waline
-  use: giscus
+  # Giscus 的仓库和分类标识尚未配置，保持关闭，避免加载空配置的第三方脚本。
+  # 完成 giscus.repo、repo_id 和 category_id 配置后，再改为 `giscus`。
+  use:
   # Display the comment name next to the button
   text: true
   # Lazyload: The comment system will be load when comment element enters the browser's viewport.

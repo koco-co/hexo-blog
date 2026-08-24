@@ -317,9 +317,23 @@ Fixture 负责对象装配，Page Object 负责页面语言，测试仍然负责
 账号类型、商品和期望状态属于参数数据；资源创建与无条件清理属于 Fixture；打开页面、填写和点击属于 Page Object；“提交后状态正确”与最终业务后置条件留在测试中。API cleanup 在第九篇实现，这里只判断职责。
 {% endhideToggle %}
 
+## API 速查
+
+下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+
+{% folding cyan, 查看本文 API 索引 %}
+
+| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| --- | --- | --- | --- | --- |
+| pytest 资源 Fixture | `new_context` | `playwright`、`browser_type`、`browser`、`context`、`page`、`launch_browser` | — | — |
+| pytest 信息 Fixture | — | `browser_name`、`browser_channel`、`device`、`is_chromium`、`is_firefox`、`is_webkit`、`output_path` | — | — |
+| pytest 配置 Fixture | `browser_context_args` | `browser_type_launch_args`、`connect_options` | — | — |
+
+{% endfolding %}
+
 ## 常见问题
 
-{% flashcard basic id:playwright-pom-boundary deck:"Playwright" tags:"POM,测试框架" %}
+{% flashcard basic id:playwright-pom-boundary deck:"Playwright" priority:2 tags:"POM,测试框架" %}
 --- question
 Page Object 最重要的职责边界是什么？
 --- answer
@@ -328,7 +342,7 @@ Page Object 最重要的职责边界是什么？
 Page Object 集中 Locator 与用户操作；Fixture 管资源，API Client 管服务调用，测试保留关键业务目标和断言，失败报告才容易理解。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-fixture-scope deck:"Playwright" tags:"pytest,Fixture" answer:C %}
+{% flashcard choice id:playwright-fixture-scope deck:"Playwright" priority:2 tags:"pytest,Fixture" answer:C %}
 --- question
 可变的 BrowserContext、Page 和订单数据通常应使用什么作用域？
 - [A] Session

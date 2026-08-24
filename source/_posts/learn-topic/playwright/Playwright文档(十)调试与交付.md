@@ -380,9 +380,40 @@ uv run pytest \
 
 JUnit 适合 CI 汇总；需要人类可读 HTML 时可以接入 pytest 生态报告插件。报告只负责呈现结果，不应改变进程退出码，也不能把 rerun 后的通过伪装成从未失败。
 
+## API 速查
+
+下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+
+{% folding cyan, 查看本文 API 索引 %}
+
+| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| --- | --- | --- | --- | --- |
+| `BrowserContext` | — | — | `expect_console_message()`、`expect_event()`、`tracing`、`wait_for_event()` | — |
+| `ConsoleMessage` | — | — | `args`、`location`、`page`、`text`、`timestamp`、`type`、`worker` | — |
+| `Page` | — | — | `expect_console_message()`、`expect_event()`、`pause()`、`screenshot()`、`video`、`wait_for_event()`、`workers` | — |
+| `Tracing` | — | — | `group()`、`group_end()`、`start()`、`start_chunk()`、`start_har()`、`stop()`、`stop_chunk()`、`stop_har()` | — |
+| `Video` | — | — | `delete()`、`path()`、`save_as()` | — |
+| `WebError` | — | — | `error`、`location`、`page` | — |
+| `BrowserContext.expect_console_message` 参数 | — | — | `predicate`, `timeout` | — |
+| `BrowserContext.expect_event` 参数 | — | — | `event`, `predicate`, `timeout` | — |
+| `BrowserContext.wait_for_event` 参数 | — | — | `event`, `predicate`, `timeout` | — |
+| `Page.expect_console_message` 参数 | — | — | `predicate`, `timeout` | — |
+| `Page.expect_event` 参数 | — | — | `event`, `predicate`, `timeout` | — |
+| `Page.screenshot` 参数 | — | — | `animations`, `caret`, `clip`, `full_page`, `mask`, `mask_color`, `omit_background`, `path`, `quality`, `scale`, `style`, `timeout`, `type` | — |
+| `Page.wait_for_event` 参数 | — | — | `event`, `predicate`, `timeout` | — |
+| `Tracing.group` 参数 | — | — | `location`, `name` | — |
+| `Tracing.start` 参数 | — | — | `live`, `name`, `screenshots`, `snapshots`, `sources`, `title` | — |
+| `Tracing.start_chunk` 参数 | — | — | `name`, `title` | — |
+| `Tracing.start_har` 参数 | — | — | `content`, `mode`, `path`, `url_filter` | — |
+| `Tracing.stop` 参数 | — | — | `path` | — |
+| `Tracing.stop_chunk` 参数 | — | — | `path` | — |
+| `Video.save_as` 参数 | — | — | `path` | — |
+
+{% endfolding %}
+
 ## 常见问题
 
-{% flashcard basic id:playwright-trace-purpose deck:"Playwright" tags:"TraceViewer,调试" %}
+{% flashcard basic id:playwright-trace-purpose deck:"Playwright" priority:2 tags:"TraceViewer,调试" %}
 --- question
 Trace Viewer 最适合回答什么问题？
 --- answer
@@ -391,7 +422,7 @@ Trace Viewer 最适合回答什么问题？
 Trace 将 Action、DOM 快照、网络、Console 和源码关联起来，适合重建失败因果；业务正确仍需明确断言和需求合同。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-xdist-session deck:"Playwright" tags:"pytest-xdist,并行" answer:B %}
+{% flashcard choice id:playwright-xdist-session deck:"Playwright" priority:2 tags:"pytest-xdist,并行" answer:B %}
 --- question
 启用 pytest-xdist 后，Session 级 Fixture 通常执行多少次？
 - [A] 整台机器只执行一次

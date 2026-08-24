@@ -146,6 +146,12 @@ order.get_by_role("button", name="删除").click()
 
 ```python
 first_result = page.get_by_role("listitem").first
+
+rows = page.get_by_role("row")
+first_row = rows.first
+last_row = rows.last
+third_row = rows.nth(2)
+first_row.locator("button").click()
 ```
 
 如果“第一个”只是当前 DOM 偶然顺序，`nth(0)` 会把真实歧义隐藏起来。
@@ -187,6 +193,28 @@ confirm = page.get_by_role("button").and_(page.get_by_title("确认订单"))
 result = page.get_by_text("支付成功").or_(page.get_by_text("需要验证"))
 result.first.wait_for(state="visible")
 ```
+
+### 参数边界
+
+定位参数要表达筛选意图，不要把所有条件都堆进 CSS：
+
+```python
+# exact=True 只匹配完整可访问名称；默认值允许按 Playwright 的文本规则匹配
+page.get_by_role("button", name="保存", exact=True)
+
+# 角色筛选也可以表达控件状态
+page.get_by_role("checkbox", checked=True, disabled=False)
+page.get_by_role("option", selected=True, include_hidden=False)
+
+# description 用于可访问描述，不等同于可访问名称
+page.get_by_role("button", description="保存当前草稿")
+
+# visible=True 只保留当前可见项；has/has_not 仍然要求子 Locator 属于同一框架
+visible_cards = page.get_by_role("listitem").filter(visible=True)
+without_badge = visible_cards.filter(has_not=page.get_by_text("已售罄"))
+```
+
+`has_text`/`has_not_text` 适合稳定的文本片段，`has`/`has_not` 适合子结构；嵌套 Locator 必须从同一个 `Page`、`Frame` 或父 Locator 构造，不能把一个页面的 Locator 塞进另一个框架。`exact` 只影响文本或名称匹配，不会把动态数据变成稳定合同。
 
 ## 测试契约
 
@@ -236,6 +264,114 @@ page.locator("div.container > div:nth-child(2) > ul > li:nth-child(3) button")
 
 XPath 同样能定位元素，但容易与页面内部结构耦合。使用前先确认角色、标签、文本、测试 ID 和短 CSS 都不能表达目标。
 
+## 嵌套文档
+
+iframe 内的元素必须从 `FrameLocator` 开始定位：
+
+```python
+checkout = page.frame_locator("iframe[title='支付']")
+checkout.get_by_label("卡号").fill("4111111111111111")
+checkout.get_by_role("button", name="确认支付").click()
+
+# iframe 内还有 iframe 时继续缩小 FrameLocator 范围
+nested = checkout.frame_locator("iframe[title='3-D Secure']")
+nested.get_by_role("textbox", name="验证码").fill("123456")
+```
+
+当 iframe 是动态列表中的一项，可以先在父 Locator 上选择目标，再通过 `content_frame` 进入：
+
+```python
+payment_frame = page.locator("iframe[data-provider='bank']").first.content_frame
+payment_frame.get_by_role("textbox", name="验证码").fill("123456")
+
+# Locator.locator() 仍然返回可重新查询的 Locator
+order = page.get_by_role("row", name="订单 A-100")
+order.locator("button[data-action='pay']").click()
+
+# Locator.frame_locator() 适合从已定位的组件容器进入其 iframe
+checkout_shell = page.get_by_test_id("checkout-shell")
+checkout_shell.frame_locator("iframe").get_by_role("button", name="确认").click()
+```
+
+旧的 `FrameLocator.first`、`last`、`nth()` 已进入迁移清单；顺序选择应发生在普通 Locator 上，再通过 `content_frame` 进入 frame：
+
+```python
+# 旧写法：FrameLocator 上的顺序属性已不再推荐
+legacy_first = page.frame_locator("iframe").first
+legacy_last = page.frame_locator("iframe").last
+legacy_third = page.frame_locator("iframe").nth(2)
+
+# 新写法：先选择 iframe，再取得对应的 FrameLocator
+first_frame = page.locator("iframe").first.content_frame
+last_frame = page.locator("iframe").last.content_frame
+third_frame = page.locator("iframe").nth(2).content_frame
+```
+
+异步 API 只改变等待方式：`content_frame` 仍然是属性，进入 frame 后的 Locator 操作才使用 `await`。跨域 iframe 仍可定位其可访问 DOM，但不能用页面脚本越过浏览器同源策略读取内部状态。
+
+## 定位诊断
+
+语义定位无法表达目标时再使用调试或 DOM 级能力：
+
+| 能力 | 使用时机 | 注意事项 |
+| --- | --- | --- |
+| `aria_snapshot()` | 检查可访问树与角色名称 | 用于诊断语义，不替代业务断言 |
+| `describe()` | 给 Trace 或调试输出补充业务说明 | 描述不参与匹配 |
+| `bounding_box()` | 需要验证几何位置或排查遮挡 | 返回 `None` 时先确认元素已渲染 |
+| `evaluate()`、`evaluate_all()` | 页面没有对应 Playwright API 的只读诊断 | 不要用脚本点击绕过 Actionability |
+| `element_handle()`、`element_handles()` | 仅为兼容旧库或底层 API | 优先改回 Locator；句柄不会自动重新定位 |
+
+ElementHandle 会把一次查询的结果固定下来；动态列表或重渲染页面应直接保留 Locator。单元素和多元素迁移分别如下：
+
+```python
+# 旧写法：先解析成一次性句柄，再操作
+handle = page.get_by_role("button", name="保存").element_handle()
+handle.click()
+
+# 新写法：让 Locator 在操作时重新查询并执行 Actionability 检查
+save_button = page.get_by_role("button", name="保存")
+save_button.click()
+
+# 多元素旧写法
+handles = page.get_by_role("listitem").element_handles()
+for item in handles:
+    print(item.inner_text())
+
+# 多元素新写法：先等待业务稳定条件，再按 Locator 逐项读取
+items = page.get_by_role("listitem")
+expect(items).to_have_count(3)
+for index in range(items.count()):
+    print(items.nth(index).inner_text())
+```
+
+只有 `element_handle(timeout=...)` 接受 `timeout`，`element_handles()` 不接受该参数；它们的等待只发生在句柄解析阶段。迁移后由 Locator 操作或 Web-first 断言负责等待。异步版本分别写成 `await locator.element_handle()`、`await locator.element_handles()`，但推荐的替代代码仍是 `await locator.click()`、`await expect(items).to_have_count(3)`。
+
+自定义选择器只在项目确实需要跨组件复用选择算法时注册，并明确注册时机、脚本位置和安全边界。选择器名称只能使用字母、数字和下划线；引擎至少实现 `query` 与 `queryAll`，并且必须在创建 Page 前注册：
+
+```python
+selector_engine = """
+{
+  query(root, selector) {
+    return root.querySelector(`[data-pw='${selector}']`);
+  },
+  queryAll(root, selector) {
+    return Array.from(root.querySelectorAll(`[data-pw='${selector}']`));
+  }
+}
+"""
+
+# 必须在 browser.new_page() 之前注册；名称只能使用字母、数字和下划线。
+playwright.selectors.register("data_pw", selector_engine, content_script=True)
+browser = playwright.chromium.launch()
+page = browser.new_page()
+page.set_content("<button data-pw='save'>保存</button>")
+save = page.locator("data_pw=save")
+save.click()
+assert save.inner_text() == "保存"
+```
+
+普通测试不需要注册选择器；先用 `get_by_*`、`locator()` 和 `filter()` 表达目标。若只是统一测试 ID 属性，使用前面的 `set_test_id_attribute()` 更简单，也不需要维护 JavaScript 引擎。
+
 ## 动态列表
 
 列表会延迟加载或重排时，先保留集合 Locator，再让下一篇的 Web-first 断言等待数量或内容：
@@ -265,9 +401,72 @@ pay = order.get_by_role("button", name="支付")
 
 并能解释为什么它比 `page.locator("tr:nth-child(2) button")` 更稳定。
 
+## API 速查
+
+下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+
+{% folding cyan, 查看本文 API 索引 %}
+
+| 对象 | 核心详解 | 正文简述 | 进阶内容 | 弃用迁移 |
+| --- | --- | --- | --- | --- |
+| `FrameLocator` | `frame_locator()` | — | `get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()`、`owner` | `first`、`last`、`nth()` |
+| `Locator` | `and_()`、`filter()`、`first`、`frame_locator()`、`get_by_role()`、`last`、`locator()`、`nth()`、`or_()` | — | `all()`、`all_inner_texts()`、`all_text_contents()`、`aria_snapshot()`、`bounding_box()`、`count()`、`describe()`、`description`、`evaluate()`、`evaluate_all()`、`evaluate_handle()`、`get_attribute()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`hide_highlight()`、`highlight()`、`inner_html()`、`inner_text()`、`input_value()`、`normalize()`、`page`、`text_content()` | `element_handle()`、`element_handles()` |
+| `Page` | `frame_locator()`、`get_by_label()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()` | — | `get_by_alt_text()`、`get_by_placeholder()` | — |
+| `Playwright` | — | — | `selectors` | — |
+| `Selectors` | — | — | `register()`、`set_test_id_attribute()` | — |
+| `FrameLocator.frame_locator` 参数 | — | — | `selector` | — |
+| `FrameLocator.get_by_alt_text` 参数 | — | `exact` | `text` | — |
+| `FrameLocator.get_by_label` 参数 | — | `exact` | `text` | — |
+| `FrameLocator.get_by_placeholder` 参数 | — | `exact` | `text` | — |
+| `FrameLocator.get_by_role` 参数 | — | `checked`, `description`, `disabled`, `exact`, `expanded`, `include_hidden`, `level`, `name`, `pressed`, `selected` | `role` | — |
+| `FrameLocator.get_by_test_id` 参数 | — | — | `test_id` | — |
+| `FrameLocator.get_by_text` 参数 | — | `exact` | `text` | — |
+| `FrameLocator.get_by_title` 参数 | — | `exact` | `text` | — |
+| `FrameLocator.locator` 参数 | — | `has`, `has_not`, `has_not_text`, `has_text` | `selector_or_locator` | — |
+| `FrameLocator.nth` 参数 | — | — | — | `index` |
+| `Locator.and_` 参数 | — | — | `locator` | — |
+| `Locator.aria_snapshot` 参数 | — | — | `boxes`, `depth`, `mode`, `timeout` | — |
+| `Locator.bounding_box` 参数 | — | — | `timeout` | — |
+| `Locator.describe` 参数 | — | — | `description` | — |
+| `Locator.element_handle` 参数 | — | — | — | `timeout` |
+| `Locator.evaluate` 参数 | — | — | `arg`, `expression`, `timeout` | — |
+| `Locator.evaluate_all` 参数 | — | — | `arg`, `expression` | — |
+| `Locator.evaluate_handle` 参数 | — | — | `arg`, `expression`, `timeout` | — |
+| `Locator.filter` 参数 | — | `has`, `has_not`, `has_not_text`, `has_text`, `visible` | — | — |
+| `Locator.frame_locator` 参数 | — | — | `selector` | — |
+| `Locator.get_attribute` 参数 | — | — | `name`, `timeout` | — |
+| `Locator.get_by_alt_text` 参数 | — | `exact` | `text` | — |
+| `Locator.get_by_label` 参数 | — | `exact` | `text` | — |
+| `Locator.get_by_placeholder` 参数 | — | `exact` | `text` | — |
+| `Locator.get_by_role` 参数 | — | `checked`, `description`, `disabled`, `exact`, `expanded`, `include_hidden`, `level`, `name`, `pressed`, `selected` | `role` | — |
+| `Locator.get_by_test_id` 参数 | — | — | `test_id` | — |
+| `Locator.get_by_text` 参数 | — | `exact` | `text` | — |
+| `Locator.get_by_title` 参数 | — | `exact` | `text` | — |
+| `Locator.highlight` 参数 | — | — | `style` | — |
+| `Locator.inner_html` 参数 | — | — | `timeout` | — |
+| `Locator.inner_text` 参数 | — | — | `timeout` | — |
+| `Locator.input_value` 参数 | — | — | `timeout` | — |
+| `Locator.locator` 参数 | — | `has`, `has_not`, `has_not_text`, `has_text` | `selector_or_locator` | — |
+| `Locator.nth` 参数 | — | — | `index` | — |
+| `Locator.or_` 参数 | — | — | `locator` | — |
+| `Locator.text_content` 参数 | — | — | `timeout` | — |
+| `Page.frame_locator` 参数 | — | — | `selector` | — |
+| `Page.get_by_alt_text` 参数 | — | `exact` | `text` | — |
+| `Page.get_by_label` 参数 | — | `exact` | `text` | — |
+| `Page.get_by_placeholder` 参数 | — | `exact` | `text` | — |
+| `Page.get_by_role` 参数 | — | `checked`, `description`, `disabled`, `exact`, `expanded`, `include_hidden`, `level`, `name`, `pressed`, `selected` | `role` | — |
+| `Page.get_by_test_id` 参数 | — | — | `test_id` | — |
+| `Page.get_by_text` 参数 | — | `exact` | `text` | — |
+| `Page.get_by_title` 参数 | — | `exact` | `text` | — |
+| `Page.locator` 参数 | — | `has`, `has_not`, `has_not_text`, `has_text` | `selector` | — |
+| `Selectors.register` 参数 | — | — | `content_script`, `name`, `path`, `script` | — |
+| `Selectors.set_test_id_attribute` 参数 | — | — | `attribute_name` | — |
+
+{% endfolding %}
+
 ## 常见问题
 
-{% flashcard basic id:playwright-locator-role deck:"Playwright" tags:"Locator,语义定位" %}
+{% flashcard basic id:playwright-locator-role deck:"Playwright" priority:2 tags:"Locator,语义定位" %}
 --- question
 为什么优先使用 `get_by_role()`？
 --- answer
@@ -276,7 +475,7 @@ pay = order.get_by_role("button", name="支付")
 角色定位更接近真实交互合同，能降低 DOM 重构带来的影响，也能暴露缺少名称或错误角色等语义问题。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-locator-strict deck:"Playwright" tags:"Locator,严格模式" answer:C %}
+{% flashcard choice id:playwright-locator-strict deck:"Playwright" priority:2 tags:"Locator,严格模式" answer:C %}
 --- question
 两个订单行都有“删除”按钮，哪种定位最合适？
 - [A] 直接使用第一个删除按钮
@@ -292,7 +491,7 @@ C
 
 {% linkgroup %}
 {% link Playwright Locators, https://playwright.dev/python/docs/locators, https://playwright.dev/img/playwright-logo.svg %}
-{% link Playwright Best Practices, https://playwright.dev/python/docs/best-practices, https://playwright.dev/img/playwright-logo.svg %}
+{% link Playwright Writing tests, https://playwright.dev/python/docs/writing-tests, https://playwright.dev/img/playwright-logo.svg %}
 {% link Locator API, https://playwright.dev/python/docs/api/class-locator, https://playwright.dev/img/playwright-logo.svg %}
 {% link ARIA roles, https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles, https://developer.mozilla.org/favicon.ico %}
 {% endlinkgroup %}

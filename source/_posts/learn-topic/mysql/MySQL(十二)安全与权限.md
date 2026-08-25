@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：怎样让应用只获得必要权限，并避免认证和 SQL 注入风险。
 - 学习成果：能够创建账户与角色、授予最小权限、验证生效权限，并说明 SQL 级 PREPARE 的边界。
@@ -33,7 +33,7 @@ date: 2026-08-25 13:18:42
 - 连接安全：`refman8.4:encrypted-connections`、`refman8.4:connection-access`、`refman8.4:account-activity-auditing`
 - 认证迁移：`refman8.4:native-pluggable-authentication`
 
-## 正文大纲
+## 章节计划
 
 - H2：账户标识与匹配
   - H3：理解 user@host 和连接准入
@@ -50,7 +50,7 @@ date: 2026-08-25 13:18:42
 - H2：验证与审计
   - H3：回读角色、权限和连接行为
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：建立应用写角色和报表只读角色，验证允许与拒绝操作；使用 SQL PREPARE 展示服务器端参数化。
@@ -66,11 +66,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/revoke.html
 - https://dev.mysql.com/doc/refman/8.4/en/caching-sha2-pluggable-authentication.html
 - https://dev.mysql.com/doc/refman/8.4/en/prepare.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

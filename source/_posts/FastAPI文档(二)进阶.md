@@ -26,7 +26,7 @@ Ref. [FastAPI Advanced User Guide](https://fastapi.tiangolo.com/tutorial/)
 
 ## 中间件
 
-### 什么是中间件
+### 中间件概念
 
 中间件 (Middleware) 是一个在每次请求进入 FastAPI 应用时都会被执行的函数. 它在请求到达实际的路径操作 (路由处理函数) 之前运行, 并且在响应返回给客户端之前再运行一次.
 
@@ -109,7 +109,7 @@ e.g. 以上代码定义了两个中间件, 当访问 `/` 路径时, 输出顺序
 
 Ref. [Advanced Middleware](https://fastapi.tiangolo.com/advanced/middleware/)
 
-### 实战示例: 性能监控中间件
+### 性能监控
 
 ```python
 import time
@@ -137,7 +137,7 @@ e.g. 这个中间件会在每个响应头中添加 `X-Process-Time` 字段, 显�
 
 ## 依赖注入
 
-### 什么是依赖注入
+### 依赖注入概念
 
 依赖注入系统是 FastAPI 的核心特性之一, 它提供了一种优雅的方式来共享通用逻辑, 减少代码重复.
 
@@ -990,4 +990,4 @@ Ref. [AsyncIO Strategy](https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio
 
 {% btn https://docs.sqlalchemy.org/en/20/orm/queryguide/, SQLAlchemy 查询指南, fa-solid fa-magnifying-glass, red %}
 
-{% link FastAPI 中文文档 - 依赖注入, https://fastapi.tiangolo.com/zh/tutorial/dependencies/, https://avatars.githubusercontent.com/u/156354296?s=48&v=4 %}
+{% link FastAPI 中文文档 - 依赖注入, https://fastapi.tiangolo.com/zh/tutorial/dependencies/, https://fastapi.tiangolo.com/img/favicon.png %}

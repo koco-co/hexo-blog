@@ -151,9 +151,9 @@ claude --version
 
 如果输出了版本号, 说明安装成功。
 
-{% link Claude Code 安装文档, https://docs.anthropic.com/en/docs/claude-code/overview, https://avatars.githubusercontent.com/u/81847?v=4 %}
+{% link Claude Code 安装文档, https://docs.anthropic.com/en/docs/claude-code/overview, https://docs.anthropic.com/favicon.ico %}
 
-### VS Code / JetBrains IDE 扩展
+### IDE 扩展
 
 如果需要在 IDE 中使用 Claude Code:
 
@@ -306,7 +306,7 @@ claude-zai
 
 ## 模型选择与优化配置
 
-### Claude Code 模型映射
+### 模型映射
 
 Claude Code 使用三种模型层级:
 
@@ -470,7 +470,7 @@ Claude Code wants to access files in /Users/xxx/projects/my-app
 
 ## 核心功能使用
 
-### Slash Commands(必须掌握)
+### Slash Commands
 
 Claude Code 使用 `/` 开头的 slash command 与纯自然语言两种交互方式。
 
@@ -697,7 +697,7 @@ claude mcp list
 claude mcp remove <mcp-name>
 ```
 
-{% link MCP 官方文档, https://docs.anthropic.com/en/docs/build-with-claude/mcp, https://avatars.githubusercontent.com/u/182288589?s=200&v=4 %}
+{% link MCP 官方文档, https://docs.anthropic.com/en/docs/build-with-claude/mcp, https://docs.anthropic.com/favicon.ico %}
 
 ### 自定义配置
 
@@ -1153,27 +1153,27 @@ claude mcp logs <mcp-name>
 
 ### 官方文档
 
-{% link Claude Code 官网, https://code.claude.com, https://avatars.githubusercontent.com/u/81847?v=4 %}
+{% link Claude Code 官网, https://code.claude.com, https://code.claude.com/favicon.ico %}
 
-{% link Claude Code 开发者文档, https://docs.anthropic.com/en/docs/claude-code/overview, https://avatars.githubusercontent.com/u/81847?v=4 %}
+{% link Claude Code 开发者文档, https://docs.anthropic.com/en/docs/claude-code/overview, https://docs.anthropic.com/favicon.ico %}
 
-{% link MCP 协议规范, https://docs.anthropic.com/en/docs/build-with-claude/mcp, https://avatars.githubusercontent.com/u/182288589?s=200&v=4 %}
+{% link MCP 协议规范, https://docs.anthropic.com/en/docs/build-with-claude/mcp, https://docs.anthropic.com/favicon.ico %}
 
-{% link Claude API 文档, https://docs.anthropic.com/en/api/index, https://avatars.githubusercontent.com/u/81847?v=4 %}
+{% link Claude API 文档, https://docs.anthropic.com/en/api/index, https://docs.anthropic.com/favicon.ico %}
 
 ### 社区资源
 
-{% link anthropics/claude-code, https://github.com/anthropics/claude-code, https://avatars.githubusercontent.com/u/76263028?s=48&v=4 %}
+{% link anthropics/claude-code, https://github.com/anthropics/claude-code, https://github.com/favicon.ico %}
 
-{% link MCP 服务器列表, https://github.com/modelcontextprotocol, https://avatars.githubusercontent.com/u/182288589?s=200&v=4 %}
+{% link MCP 服务器列表, https://github.com/modelcontextprotocol, https://github.com/favicon.ico %}
 
 ### 国内资源
 
-{% link 智谱 GLM-4.7 接入指南, https://docs.z.ai/scenario-example/develop-tools/claude, https://cdn.bigmodel.cn/static/logo/dark.svg %}
+{% link 智谱 GLM-4.7 接入指南, https://docs.z.ai/scenario-example/develop-tools/claude, https://docs.z.ai/favicon.ico %}
 
 {% link 智谱 AI 开放平台, https://open.bigmodel.cn, https://cdn.bigmodel.cn/static/logo/dark.svg %}
 
-{% link z.ai 文档, https://docs.z.ai, https://cdn.bigmodel.cn/static/logo/dark.svg %}
+{% link z.ai 文档, https://docs.z.ai, https://docs.z.ai/favicon.ico %}
 
 ### 相关工具
 

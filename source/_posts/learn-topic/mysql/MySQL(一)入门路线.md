@@ -18,7 +18,11 @@ date: 2026-08-25 13:18:42
 
 {% course_series %}
 
-## 这条路线解决什么问题
+{% note info flat %}
+本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。
+{% endnote %}
+
+## 课程目标
 
 这套课程把旧笔记中分散的 DDL、DML、查询、事务、锁和日志内容升级为 MySQL 8.4 LTS 学习主线。完成核心课程后，你应该能够：
 
@@ -31,13 +35,13 @@ date: 2026-08-25 13:18:42
 
 课程以 Community Server 和 InnoDB 为主，不把 Enterprise、NDB Cluster、Group Replication 或其他引擎专项混入核心路线。
 
-## 开始前需要什么
+## 前置条件
 
 开始前只需要能够运行一个 MySQL 8.4.x 实例和命令行客户端。第一篇正式课程会从业务模型与建表开始，SQL、索引、事务和运维概念都在课程中逐步补齐。
 
 所有实验统一使用 UTC、utf8mb4、utf8mb4_0900_ai_ci、ONLY_FULL_GROUP_BY 与严格模式，并回读实际配置。安装方式不代表数据升级方式，实际补丁版本以服务器查询结果为准。
 
-## 学习阶段
+## 学习路径
 
 {% mermaid %}
 flowchart TD
@@ -65,7 +69,7 @@ flowchart TD
 
 主线先建立数据模型和查询能力，再进入索引、执行计划、InnoDB、事务与锁；安全与权限从表设计和写入分支进入，最后与日志、事务汇合到备份恢复。进阶路线是可选分支，不是综合实战的前置。
 
-## 文章地图
+## 文章安排
 
 | 顺序 | 文章 | 解决的问题 | 前置 | 状态 |
 | --- | --- | --- | --- | --- |
@@ -87,7 +91,7 @@ flowchart TD
 
 未发布文章暂不提供路由链接；当某篇正文通过公开候选门禁后，路线图才会把对应标题切换为可访问链接。
 
-## 如何使用这套课程
+## 开始学习
 
 1. 按文章编号学习，不跳过前置机制直接背答案；
 2. 每个 SQL 场景先阅读 DDL、seed 和预期结果，再独立编写 SQL；
@@ -108,40 +112,13 @@ flowchart TD
 - 闪卡：统一卡组为 `mysql-8.4-interview`，每张卡固定唯一 ID、priority、精简答案和详细解析；
 - 综合实战：引用前置课程的 19 道代表性 SQL 卡，再新增 1 道留存分析题，共 20 题。
 
-## 常见问题
-
-{% flashcard basic id:mysql-roadmap-prerequisites deck:"MySQL" priority:2 tags:"入门路线,学习顺序" %}
---- question
-可以直接从 MySQL 综合实战开始吗？
---- answer
-不建议。综合实战依赖窗口函数、执行计划、MVCC、锁和恢复坐标等前置知识。
---- explanation
-缺少前置概念时容易只记 SQL 形状，无法解释执行结果、并发行为与失败边界。应先按主题文章完成机制和验证练习。
-{% endflashcard %}
-
-{% flashcard basic id:mysql-version-baseline deck:"MySQL" priority:2 tags:"版本边界,MySQL 8.4" %}
---- question
-MySQL 8.0 的经验还能使用吗？
---- answer
-可以作为迁移背景，但课程以 MySQL 8.4 LTS 的语义为准。
---- explanation
-旧认证插件、旧复制术语、旧日志变量和旧锁定读写法需要在对应文章中说明替代项与迁移边界，不能直接当成当前结论。
-{% endflashcard %}
-
-{% flashcard basic id:mysql-replica-backup deck:"MySQL" priority:1 tags:"备份恢复,复制" %}
---- question
-为什么 MySQL 副本不能当作备份？
---- answer
-因为误删和错误更新可能立即复制到副本，副本无法提供独立的历史恢复点。
---- explanation
-可靠恢复需要独立备份与 binlog 等恢复证据。综合实验会验证错误传播到副本后，如何恢复到事故前的时间点。
-{% endflashcard %}
-
 ## 参考资料
 
-- [MySQL 8.4 Reference Manual](https://dev.mysql.com/doc/refman/8.4/en/)
-- [MySQL 8.4 Release Notes](https://dev.mysql.com/doc/relnotes/mysql/8.4/en/)
-- [MySQL 8.4 Backup and Recovery](https://dev.mysql.com/doc/refman/8.4/en/backup-and-recovery.html)
-- [MySQL 8.4 InnoDB Storage Engine](https://dev.mysql.com/doc/refman/8.4/en/innodb-storage-engine.html)
+{% linkgroup %}
+{% link MySQL 8.4 Reference Manual, https://dev.mysql.com/doc/refman/8.4/en/, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Release Notes, https://dev.mysql.com/doc/relnotes/mysql/8.4/en/, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Backup and Recovery, https://dev.mysql.com/doc/refman/8.4/en/backup-and-recovery.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 InnoDB Storage Engine, https://dev.mysql.com/doc/refman/8.4/en/innodb-storage-engine.html, https://www.mysql.com/favicon.ico %}
+{% endlinkgroup %}
 
 <!-- capability-ledger: stored in Front Matter as a single-line JSON string; it is not rendered into the article body. -->

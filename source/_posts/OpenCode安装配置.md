@@ -188,7 +188,7 @@ opencode
 
 ![opencode选择模型](/img/picgo-images/image-opencoe选择模型.png)
 
-### Antigravity 插件（Google Gemini 3 Pro，Claude Opus 4.5）
+### Antigravity
 
 {% link OpenCode Antigravity Auth, https://github.com/NoeFabris/opencode-antigravity-auth, https://github.com/favicon.ico %}
 
@@ -226,7 +226,7 @@ opencode auth login
 P.S. Antigravity 提供的模型需要通过 Google 账号认证，使用时注意网络环境。
 {% endnote %}
 
-### 接入 ChatGPT CodeX
+### ChatGPT CodeX
 
 **前提条件**: 需要订阅 ChatGPT Plus 或更高级别会员
 
@@ -426,7 +426,7 @@ Context7 说明: Context7 是一个基于 MCP 的工具，为大型语言模型�
 
 ---
 
-## OMO 插件（Oh My OpenCode）
+## OMO 插件
 
 {% link Oh-My-OpenCode, https://github.com/code-yeongyu/oh-my-opencode, https://github.com/favicon.ico %}
 

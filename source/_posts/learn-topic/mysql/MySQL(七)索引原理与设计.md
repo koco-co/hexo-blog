@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：索引为什么能加速查询，以及怎样设计而不制造无效或昂贵索引。
 - 学习成果：能够解释回表、最左前缀、覆盖索引、ICP、选择性和索引维护成本。
@@ -32,7 +32,7 @@ date: 2026-08-25 13:18:42
 - 索引结构与设计：`refman8.4:optimization-indexes`、`refman8.4:mysql-indexes`、`refman8.4:primary-key-optimization`、`refman8.4:column-indexes`、`refman8.4:multiple-column-indexes`、`refman8.4:verifying-index-usage`、`refman8.4:index-btree-hash`、`refman8.4:index-extensions`、`refman8.4:generated-column-index-optimizations`、`refman8.4:invisible-indexes`、`refman8.4:descending-indexes`、`refman8.4:create-index`、`refman8.4:drop-index`、`refman8.4:innodb-index-types`、`refman8.4:innodb-physical-structure`、`refman8.4:index-condition-pushdown-optimization`
 - 专项索引识别：`refman8.4:spatial-index-optimization`、`refman8.4:timestamp-lookups`
 
-## 正文大纲
+## 章节计划
 
 - H2：页与 B+Tree
   - H3：理解有序页、层级和范围扫描
@@ -47,7 +47,7 @@ date: 2026-08-25 13:18:42
 - H2：成本与验证
   - H3：比较选择性、空间和写放大
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：围绕订单按用户和时间查询设计候选索引，比较命中、回表、覆盖和写入成本。
@@ -61,11 +61,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html
 - https://dev.mysql.com/doc/refman/8.4/en/index-condition-pushdown-optimization.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

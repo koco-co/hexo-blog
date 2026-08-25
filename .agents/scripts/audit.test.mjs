@@ -24,8 +24,8 @@ import {
 } from './audit.mjs'
 
 const temporaryRoots = []
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..')
-const migrationScript = path.join(path.dirname(fileURLToPath(import.meta.url)), 'migrate-course-contracts.mjs')
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
+const migrationScript = path.join(projectRoot, '.agents/skills/hexo-learn-topic/scripts/migrate-course-contracts.mjs')
 const CHINESE_SEQUENCE = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二']
 
 const TAG_PLUGIN_PLUS_TAGS = [
@@ -56,11 +56,13 @@ function validPost({ abbrlink = '', title = '示例文章', published } = {}) {
 }
 
 function validPlaywrightCoursePost({ number = '一', topic = '入门路线', published = true, placeholder = false, description = '按知识顺序学习 Playwright Python。' } = {}) {
-  const placeholderContract = placeholder
-    ? '<!-- learn-topic-placeholder -->\n\n## 本文职责\n\n说明本文职责。\n\n## 正文大纲\n\n列出正文大纲。\n\n'
-    : ''
   const order = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'].indexOf(number) + 1
-  return `---\ntitle: Playwright(${number})${topic}\ntags:\n  - Playwright\ncategories:\n  - Learn Topic\n  - Playwright\ndescription: ${description}\nseries: Playwright\nseries_order: ${order}\nabbrlink: pw${number}\npublished: ${published}\ndate: 2026-08-24 12:00:00\n---\n\n{% course_series %}\n\n${placeholderContract}正文。\n\n## 常见问题\n\n{% flashcard basic id:fixture-${number} deck:"Playwright" priority:2 %}\n--- question\n问题。\n--- answer\n回答。\n--- explanation\n解析。\n{% endflashcard %}\n\n## 参考资料\n\n- [Playwright](https://playwright.dev/python/)\n`
+  const entry = !placeholder && number === '一' && topic === '入门路线'
+    ? `{% note info flat %}\n课程入口只说明学习范围、依赖和开始方式。\n{% endnote %}\n\n## 课程目标\n\n{% note info flat %}\n建立 Playwright Python 测试主线。\n{% endnote %}\n\n## 前置条件\n\n{% note info flat %}\n需要 Python 函数、类和终端基础。\n{% endnote %}\n\n## 学习路径\n\n{% mermaid %}\nflowchart TD\nA[环境] --> B[定位]\nB --> C[断言]\n{% endmermaid %}\n\n## 文章安排\n\n| 顺序 | 主题 |\n| --- | --- |\n| 1 | 入门路线 |\n| 2 | 快速开始 |\n\n## 开始学习\n\n{% note info flat %}\n先完成环境准备，再进入快速开始。\n{% endnote %}\n\n## 参考资料\n\n{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}`
+    : placeholder
+      ? `<!-- learn-topic-placeholder -->\n\n> 本文为已确认课程中的未发布占位。\n\n## 学习目标\n\n说明本文目标。\n\n## 章节计划\n\n列出章节。\n\n## 验证方式\n\n说明示例、失败边界和结果验证。`
+      : `{% note info flat %}\n正文。\n{% endnote %}\n\n## 主题内容\n\n{% note info flat %}\n说明主题机制、示例和边界。\n{% endnote %}\n\n## 常见问题\n\n{% flashcard basic id:fixture-${number} deck:"Playwright" priority:2 %}\n--- question\n问题。\n--- answer\n回答。\n--- explanation\n解析。\n{% endflashcard %}\n\n## 参考资料\n\n{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}`
+  return `---\ntitle: Playwright(${number})${topic}\ntags:\n  - Playwright\ncategories:\n  - Learn Topic\n  - Playwright\ndescription: ${description}\nseries: Playwright\nseries_order: ${order}\nabbrlink: pw${number}\npublished: ${published}\ndate: 2026-08-24 12:00:00\n---\n\n{% course_series %}\n\n${entry}\n`
 }
 
 function writeCourseContract(root, {
@@ -84,6 +86,7 @@ function writeCourseContract(root, {
     course: {
       slug,
       series,
+      public_article_contract: 'v1',
       topics,
       optional_articles: optionalArticles,
       articles,
@@ -235,7 +238,7 @@ test('content audit allows a pre-build missing abbrlink but blocks release mode'
 test('CLI returns a non-zero exit code for warning as well as blocked reports', () => {
   const root = makeRoot()
   write(root, 'source/_posts/example.md', validPost())
-  const result = spawnSync(process.execPath, [path.join(projectRoot, '.agents/skills/hexo-learn-topic/scripts/audit.mjs'), 'content', '--root', root, '--json'], { encoding: 'utf8' })
+  const result = spawnSync(process.execPath, [path.join(projectRoot, '.agents/scripts/audit.mjs'), 'content', '--root', root, '--json'], { encoding: 'utf8' })
   assert.equal(result.status, 2)
   assert.equal(JSON.parse(result.stdout).status, 'warning')
 })
@@ -284,6 +287,33 @@ test('content audit blocks empty article bodies and unclosed Markdown fences', (
   assert.ok(report.errors.some(item => item.code === 'MARKDOWN_FENCE_UNCLOSED' && item.path === 'source/_posts/fence.md'))
 })
 
+test('content audit enforces concise non-FAQ headings and ignores code or FAQ headings', () => {
+  const root = makeRoot()
+  const markdown = `${validPost({ abbrlink: 'heading-style', title: '标题规范' })}\n## 传输层：端点、首部和语义\n\n正文。\n\n### 为什么连接会失败？\n\n解释。\n\n### APIRequestContext\n\n代码对象。\n\n## 常见问题\n\n### 为什么这个问题成立？\n\nFAQ。\n\n## 参考资料\n\n### 官方参考资料分组\n\n资料。\n`
+  write(root, 'source/_posts/heading-style.md', markdown)
+
+  const report = auditContent({ root, release: true })
+  const issues = report.errors.filter(item => item.code === 'ARTICLE_HEADING_STYLE_INVALID')
+  assert.equal(issues.length, 2)
+  assert.ok(issues.some(item => item.message.includes('传输层：端点、首部和语义')))
+  assert.ok(issues.some(item => item.message.includes('为什么连接会失败？')))
+})
+
+test('published course chapters reject internal chapter plans instead of synchronizing them', () => {
+  const root = makeRoot()
+  const entry = validPlaywrightCoursePost()
+  const topic = validPlaywrightCoursePost({ number: '二', topic: '快速开始' }).replace(
+    '## 主题内容',
+    '正文。\n\n## 章节计划\n\n- H2：旧章节；\n- H2：常见问题；\n- H2：参考资料；\n\n## 主题内容',
+  )
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', entry)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', topic)
+  writeCourseContract(root)
+
+  const report = auditContent({ root, release: true })
+  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_META_HEADING_FORBIDDEN' && item.message.includes('章节计划')))
+})
+
 test('release audit rejects published false outside a valid course placeholder', () => {
   const root = makeRoot()
   const target = 'source/_posts/course/Playwright/01-browser.md'
@@ -329,6 +359,24 @@ test('learn-topic course audit enforces naming, publication state, description s
   assert.equal(report.facts.learnTopicPostCount, 2)
 })
 
+test('learn-topic audit accepts a complete unpublished draft while retaining the placeholder marker', () => {
+  const root = makeRoot()
+  const entry = validPlaywrightCoursePost()
+  const draft = validPlaywrightCoursePost({ number: '二', topic: '快速开始', published: false }).replace(
+    /正文。\n\n## 主题内容[\s\S]*$/,
+    '正文草稿。\n\n## 主题内容\n\n{% note info flat %}\n草稿范围。\n{% endnote %}\n\n{% mermaid %}\nflowchart TD\nA[环境] --> B[命令]\n{% endmermaid %}\n\n## 常见问题\n\n{% flashcard basic id:fixture-draft deck:"Playwright" priority:2 %}\n--- question\n问题。\n--- answer\n回答。\n--- explanation\n解析。\n{% endflashcard %}\n\n## 参考资料\n\n{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}\n',
+  ).replace(
+    '{% course_series %}\n\n{% note info flat %}',
+    '{% course_series %}\n\n<!-- learn-topic-placeholder -->\n\n{% note info flat %}',
+  )
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', entry)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', draft)
+  writeCourseContract(root)
+
+  const report = auditContent({ root, release: true })
+  assert.equal(report.status, 'pass', JSON.stringify(report.errors))
+})
+
 test('learn-topic audit requires a v2 course contract and rejects the legacy ledger field', () => {
   const root = makeRoot()
   const entry = validPlaywrightCoursePost().replace(
@@ -347,18 +395,166 @@ test('learn-topic audit requires a v2 course contract and rejects the legacy led
   assert.ok(mismatchReport.errors.some(item => item.code === 'LEARN_TOPIC_CONTRACT_INVALID'))
 })
 
-test('learn-topic audit requires Mermaid tags and flashcards in published FAQ sections', () => {
+test('learn-topic audit enforces Mermaid containers and flashcards only for a real FAQ', () => {
   const root = makeRoot()
   const entry = validPlaywrightCoursePost()
+  const topic = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
     .replace('正文。', '```mermaid\nflowchart LR\nA --> B\n```')
     .replace(/\{% flashcard basic[\s\S]*?\{% endflashcard %\}/, '普通文本问答。')
   write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', entry)
-  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', validPlaywrightCoursePost({ number: '二', topic: '快速开始' }))
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', topic)
   writeCourseContract(root)
 
   const report = auditContent({ root, release: true })
   assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_MERMAID_FENCE_FORBIDDEN'))
   assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_FAQ_FLASHCARD_REQUIRED'))
+})
+
+test('learn-topic audit requires a visual tag composition for published course正文', () => {
+  const root = makeRoot()
+  const entry = validPlaywrightCoursePost()
+  const topic = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+    .replace(/\{% note info flat %\}[\s\S]*?\{% endnote %\}\n\n/g, '')
+    .replace(/\n## 常见问题[\s\S]*?\n## 参考资料/, '\n## 参考资料')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', entry)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', topic)
+  writeCourseContract(root)
+
+  const report = auditContent({ root, release: true })
+  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_VISUAL_COMPOSITION_MISSING'))
+})
+
+test('learn-topic audit rejects naked explanation blocks and repeated course navigation copy', () => {
+  const root = makeRoot()
+  const entry = validPlaywrightCoursePost()
+  const naked = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+    .replace('{% note info flat %}\n正文。\n{% endnote %}', '这是没有标签承载的解释性正文。')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', entry)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', naked)
+  writeCourseContract(root)
+
+  const nakedReport = auditContent({ root, release: true })
+  assert.ok(nakedReport.errors.some(item => item.code === 'LEARN_TOPIC_PLAIN_BODY_BLOCK'))
+
+  const navigation = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+    .replace('说明主题机制、示例和边界。', '前置文章是上一篇，本文分配能力为 FIXTURE-001。')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', navigation)
+  const navigationReport = auditContent({ root, release: true })
+  assert.ok(navigationReport.errors.some(item => item.code === 'LEARN_TOPIC_NAVIGATION_COPY_FORBIDDEN'))
+  assert.ok(navigationReport.errors.some(item => item.code === 'LEARN_TOPIC_LEDGER_COPY_FORBIDDEN'))
+
+  const internalCopy = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+    .replace('说明主题机制、示例和边界。', '文章(七)的实验使用 MOD-001 记录，正文不应暴露这些内部编号。')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', internalCopy)
+  const internalReport = auditContent({ root, release: true })
+  assert.ok(internalReport.errors.some(item => item.code === 'LEARN_TOPIC_NAVIGATION_COPY_FORBIDDEN'))
+  assert.ok(internalReport.errors.some(item => item.code === 'LEARN_TOPIC_LEDGER_COPY_FORBIDDEN'))
+
+  const tagOnly = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+    .replace('id:fixture-二', 'id:CN-MOD-999')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', tagOnly)
+  const tagOnlyReport = auditContent({ root, release: true })
+  assert.ok(!tagOnlyReport.errors.some(item => item.code === 'LEARN_TOPIC_LEDGER_COPY_FORBIDDEN'))
+})
+
+test('learn-topic audit requires published reference card groups and valid HTTP links', () => {
+  const missingCardsRoot = makeRoot()
+  const markdownReferences = validPlaywrightCoursePost().replace(
+    '{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}',
+    '- [Playwright](https://playwright.dev/python/)',
+  )
+  write(missingCardsRoot, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', markdownReferences)
+  writeCourseContract(missingCardsRoot)
+  const missingCardsReport = auditContent({ root: missingCardsRoot, release: true })
+  assert.ok(missingCardsReport.errors.some(item => item.code === 'LEARN_TOPIC_REFERENCE_TAG_REQUIRED'))
+  assert.ok(!missingCardsReport.errors.some(item => item.code === 'LEARN_TOPIC_REFERENCE_LINK_REQUIRED'))
+
+  const invalidLinkRoot = makeRoot()
+  const invalidTagReference = validPlaywrightCoursePost().replace(
+    '{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}',
+    '{% linkgroup %}\n{% link Playwright, https://, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}',
+  )
+  write(invalidLinkRoot, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', invalidTagReference)
+  writeCourseContract(invalidLinkRoot)
+  const invalidLinkReport = auditContent({ root: invalidLinkRoot, release: true })
+  assert.ok(invalidLinkReport.errors.some(item => item.code === 'LEARN_TOPIC_REFERENCE_LINK_INVALID'))
+
+  const validTagRoot = makeRoot()
+  const validTagReference = validPlaywrightCoursePost()
+  write(validTagRoot, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', validTagReference)
+  write(validTagRoot, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', validPlaywrightCoursePost({ number: '二', topic: '快速开始' }))
+  writeCourseContract(validTagRoot)
+  const validTagReport = auditContent({ root: validTagRoot, release: true })
+  assert.equal(validTagReport.status, 'pass', JSON.stringify(validTagReport.errors))
+})
+
+test('learn-topic audit rejects default, page and unrelated reference preview images', () => {
+  const cases = [
+    ['omitted', '{% link Playwright, https://playwright.dev/python/ %}'],
+    ['page', '{% link Playwright, https://playwright.dev/python/, https://playwright.dev/python/ %}'],
+    ['default', '{% link Playwright, https://playwright.dev/python/, https://example.com/img/avatar.png %}'],
+    ['unrelated', '{% link Playwright, https://playwright.dev/python/, https://cdn.example.net/logo.svg %}'],
+  ]
+  for (const [label, replacement] of cases) {
+    const root = makeRoot()
+    const markdown = validPlaywrightCoursePost().replace(
+      '{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}',
+      replacement,
+    )
+    write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', markdown)
+    writeCourseContract(root)
+    const report = auditContent({ root, release: true })
+    assert.ok(
+      report.errors.some(item => item.code === 'LEARN_TOPIC_REFERENCE_PREVIEW_INVALID'),
+      `${label}: ${JSON.stringify(report.errors)}`,
+    )
+  }
+})
+
+test('reference preview lint accepts an official product CDN icon', () => {
+  const root = makeRoot()
+  const chromeIcon = 'https://www.google.com/chrome/static/images/chrome-logo.svg'
+  const article = validPlaywrightCoursePost().replace(
+    '{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}',
+    `{% link Chrome DevTools, https://developer.chrome.com/docs/devtools/network/, ${chromeIcon} %}`,
+  )
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', article)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', validPlaywrightCoursePost({ number: '二', topic: '快速开始' }))
+  writeCourseContract(root)
+  const report = auditContent({ root, release: true })
+  assert.equal(report.status, 'pass', JSON.stringify(report.errors))
+})
+
+test('repository content audit applies reference preview lint outside learn-topic', () => {
+  const root = makeRoot()
+  const article = validPost({ abbrlink: 'reference-preview' }).replace(
+    '正文。',
+    '## 参考资料\n\n{% linkgroup %}\n{% link 官方资料, https://example.com/docs, https://example.com/img/avatar.png %}\n{% endlinkgroup %}\n',
+  )
+  write(root, 'source/_posts/reference-preview.md', article)
+  const report = auditContent({ root, release: true })
+  assert.ok(report.errors.some(item => item.code === 'REFERENCE_PREVIEW_INVALID'))
+})
+
+test('learn-topic audit rejects internal planning fields and navigation cards', () => {
+  const root = makeRoot()
+  const entry = validPlaywrightCoursePost().replace(
+    'series: Playwright',
+    'learn_topic_capabilities: [fixture]\nseries: Playwright',
+  )
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', entry)
+  writeCourseContract(root)
+  const fieldReport = auditContent({ root, release: true })
+  assert.ok(fieldReport.errors.some(item => item.code === 'LEARN_TOPIC_INTERNAL_FRONT_MATTER_FORBIDDEN'))
+
+  const topic = validPlaywrightCoursePost({ number: '二', topic: '快速开始' }).replace(
+    '问题。',
+    '课程应该从哪一篇开始，进阶路线会不会阻塞项目实战？',
+  )
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', topic)
+  writeCourseContract(root, { topics: ['快速开始'] })
+  const cardReport = auditContent({ root, release: true })
+  assert.ok(cardReport.errors.some(item => item.code === 'LEARN_TOPIC_NAVIGATION_CARD_FORBIDDEN'))
 })
 
 test('learn-topic audit blocks a capability ledger that is not closed', () => {
@@ -498,9 +694,8 @@ test('learn-topic course audit rejects legacy path and public-copy violations', 
   write(root, 'source/_posts/learn/playwright-python/00-route.md', validPost({ abbrlink: 'legacy' }))
   const invalid = validPlaywrightCoursePost({ description: '>-' })
     .replace('description: >-', 'description: >-\n  多行描述。')
-    .replace('## 常见问题', '## 来源')
-    .replace('## 参考资料', '## 结语')
-    .replace('正文。', '正文。核验于 2026-08-24。')
+    .replace('## 参考资料', '## 来源')
+    .replace('## 课程目标', '核验于 2026-08-24。\n\n## 课程目标')
   write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', invalid)
 
   const report = auditContent({ root, release: true })
@@ -509,7 +704,7 @@ test('learn-topic course audit rejects legacy path and public-copy violations', 
   assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_DESCRIPTION_BLOCK'))
   assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_SOURCE_HEADING'))
   assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_VERIFICATION_COPY'))
-  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_FINAL_HEADINGS'))
+  assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_ENTRY_HEADINGS_INVALID'))
 })
 
 test('learn-topic audit rejects quoted and plain descriptions that span physical lines', () => {
@@ -817,8 +1012,8 @@ test('repository structure audit rejects temporary source artifacts with an exac
   write(root, 'source/css/custom.css', 'body {}')
   write(root, 'source/js/custom.js', 'void 0')
   write(root, '.agents/skills/hexo-learn-topic/data/example.json', '{}')
-  write(root, '.agents/skills/hexo-learn-topic/scripts/audit.mjs', '')
-  write(root, '.agents/skills/hexo-learn-topic/scripts/audit.test.mjs', '')
+  write(root, '.agents/scripts/audit.mjs', '')
+  write(root, '.agents/scripts/audit.test.mjs', '')
   write(root, 'tools/hexo-blog/image-migration-map.json', '{}')
 
   const report = auditStructure({ root })

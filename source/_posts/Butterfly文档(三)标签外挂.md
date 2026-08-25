@@ -24,7 +24,7 @@ cover: /img/picgo-images/hexo-butterfly.png
 
 ---
 
-## Note (Bootstrap Callout)
+## Note
 
 {% tabs Note %}
 
@@ -691,6 +691,7 @@ Any content (support inline tags too.io).
 
 <div class="gallery-group-main">
 {% galleryGroup '自然｜风景' '绝美的自然风景桌面壁纸~' '/wallpaper/nature' /img/picgo-images/文章随机封面03.jpg %}
+</div>
 
 ---
 
@@ -827,8 +828,10 @@ Toc 的滚动出现异常。
 - 门里站着一个人? {% hideInline 闪 %}
 ```
 
-- 哪个英文字母最酷？ {% hideInline 因为西装裤(C装酷),查看答案,#FF7242,#fff %}
-- 门里站着一个人? {% hideInline 闪 %}
+<ul>
+<li>哪个英文字母最酷？ <div>{% hideInline 因为西装裤(C装酷),查看答案,#FF7242,#fff %}</div></li>
+<li>门里站着一个人? <div>{% hideInline 闪 %}</div></li>
+</ul>
 
 <!-- endtab -->
 

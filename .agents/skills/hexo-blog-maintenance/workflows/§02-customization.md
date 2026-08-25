@@ -5,7 +5,7 @@
 ## Phase 1：定位真正的所有权
 
 1. 从用户目标反推当前实现，搜索 `_config.yml`、`_config.butterfly.yml`、`source/css/`、`source/js/`、页面文件和主题渲染代码。
-2. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json`，记录运行时、注入资源、敏感字段位置和三个 Git 边界。
+2. 运行 `node .agents/scripts/audit.mjs project --json`，记录运行时、注入资源、敏感字段位置和三个 Git 边界。
 3. 判断变更应落在配置、主题覆盖、自定义脚本、数据还是页面内容。
 4. 如果只有修改 `themes/butterfly/` 才能实现，先展示将受影响的主题文件、当前独立 Git 状态、升级冲突和覆盖层替代方案，等待明确授权。
 

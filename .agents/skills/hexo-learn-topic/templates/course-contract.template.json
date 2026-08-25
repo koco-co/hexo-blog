@@ -3,6 +3,7 @@
   "course": {
     "slug": "{{主题路径段}}",
     "series": "{{主题系列名}}",
+    "public_article_contract": "v1",
     "topics": [
       "{{第一轮学习主题一}}",
       "{{第一轮学习主题二}}"

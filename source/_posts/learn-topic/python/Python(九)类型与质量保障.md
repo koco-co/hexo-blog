@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：establish a verification loop using annotations, static analysis concepts, automated tests, logging, debugging, and measurement.
 - 学习成果：reader can distinguish annotation metadata from runtime enforcement, write isolated tests, debug a failure, and collect evidence before optimizing.
@@ -70,7 +70,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:unittest.mock` | 正文简述 | 测试设计 |
 | `stdlib:warnings` | 正文简述 | 调试与日志 |
 
-## 正文大纲
+## 章节计划
 
 - H2：类型标注
   - H3：变量、参数与返回值
@@ -101,7 +101,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：annotate the log parser, demonstrate that wrong runtime input still enters without validation, catch it through tests, debug with a traceback/pdb, and compare two measured implementations.
 - 失败边界与踩坑：type checkers differ; annotations are not validators; `assert` can be disabled and must not enforce external input; microbenchmarks do not prove production performance.
@@ -113,11 +113,3 @@ date: 2026-08-25 13:13:45
     - `python-quality-test-isolation` priority 2.
 - 可视化：quality feedback loop and compile/static/runtime responsibility table.
 - 主要参考资料：Annotation language reference, `typing`, `annotationlib`, `unittest`, `doctest`, `pdb`, `logging`, `timeit`, `profile`.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

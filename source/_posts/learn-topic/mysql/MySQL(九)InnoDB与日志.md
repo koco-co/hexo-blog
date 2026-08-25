@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：一条写入如何从内存变成可恢复的数据，以及不同日志各自负责什么。
 - 学习成果：能够解释脏页、WAL、undo、binlog、两阶段提交和崩溃恢复的职责边界。
@@ -32,7 +32,7 @@ date: 2026-08-25 13:18:42
 - 存储与日志链路：`refman8.4:innodb-storage-engine`、`refman8.4:innodb-architecture`、`refman8.4:innodb-buffer-pool`、`refman8.4:innodb-buffer-pool-optimization`、`refman8.4:innodb-redo-log`、`refman8.4:innodb-undo-logs`、`refman8.4:innodb-doublewrite-buffer`、`refman8.4:innodb-checkpoints`、`refman8.4:innodb-recovery`、`refman8.4:innodb-tablespace`、`refman8.4:innodb-row-format`、`refman8.4:innodb-change-buffer`、`refman8.4:binary-log`
 - 8.4运行边界：`refman8.4:optimizing-innodb-logging`、`refman8.4:innodb-dedicated-server`
 
-## 正文大纲
+## 章节计划
 
 - H2：InnoDB 架构
   - H3：定位内存、线程、表空间与日志
@@ -49,7 +49,7 @@ date: 2026-08-25 13:18:42
 - H2：两阶段提交与崩溃恢复
   - H3：追踪提交各阶段的恢复判断
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：沿一次订单状态更新追踪 Buffer Pool、undo、redo、binlog、提交和宕机后的恢复决策。
@@ -65,11 +65,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-undo-logs.html
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-recovery.html
 - https://dev.mysql.com/doc/refman/8.4/en/binary-log.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

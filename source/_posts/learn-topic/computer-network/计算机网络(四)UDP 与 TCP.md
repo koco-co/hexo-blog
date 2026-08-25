@@ -11,71 +11,24 @@ description: "从传输层端点和首部字段出发，逐包理解 UDP、TCP �
 cover: /img/picgo-images/computer-network-course-cover.png
 series: "计算机网络"
 series_order: 4
-published: false
-learn_topic_capabilities:
-  - "TR-001"
-  - "TR-002"
-  - "TR-003"
-  - "TR-004"
-  - "TR-005"
-  - "TR-006"
-  - "TR-007"
-  - "TR-008"
-  - "TR-009"
-  - "TR-010"
-  - "TR-011"
-  - "TR-012"
-  - "TR-013"
-  - "TR-014"
-  - "TR-015"
-  - "TR-016"
-  - "TR-017"
-  - "TR-018"
-  - "TR-019"
-  - "TR-020"
-  - "TR-021"
-  - "TR-022"
-  - "TR-023"
+published: true
 abbrlink: ec8f5dd0
 date: 2026-08-25 06:00:00
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文仍保留课程占位标记，表示它正在按公开候选门禁验收；下面的内容已经是正式正文草稿。
+{% note info flat %}
+本文从传输层端点开始，比较 UDP 的数据报语义和 TCP 的可靠字节流；随后用序列号、确认号、状态和计时器解释三次握手、重传、拥塞控制、关闭与 TIME-WAIT。每个结论都回到抓包字段和系统状态。
+{% endnote %}
 
-## 本文职责
-
-本文回答一个贯穿面试和排障的问题：应用把数据交给传输层以后，UDP 和 TCP 分别承诺什么？TCP 又如何用序列号、确认号、状态和计时器，把“不可靠的 IP 尽力交付”组织成一条可观察的连接？
-
-完成本文后，你应该能够：
-
-- 从 UDP/TCP 首部判断端点、长度、序列范围和控制意图；
-- 用具体的初始序列号解释 SYN、SYN-ACK、ACK，而不是背“三次”；
-- 区分连接失败、SYN 重传、数据重传、RST、FIN 和 TIME_WAIT；
-- 把拥塞窗口、接收窗口、MSS、MTU 和 PMTUD 放回各自的控制层；
-- 根据 `ss`、`curl` 和抓包中的字段，给出带证据的面试答案。
-
-前置文章是[计算机网络(一)入门路线](/posts/347ce4f2/)、[计算机网络(二)网络分层与局域网](/posts/474f4d81/)和[计算机网络(三)IP 与网络寻址](/posts/5bd659bc/)。本文分配能力为 TR-001～TR-023。
-
-## 正文大纲
-
-- H2：UDP 与 TCP：端点、首部和语义；
-- H2：TCP 字段与状态：序列确认、窗口和状态机；
-- H2：三次握手：正常路径与失败分支；
-- H2：可靠性、拥塞与路径 MTU；
-- H2：连接关闭、半关闭与异常重置；
-- H2：从工具证据回答面试题；
-- H2：常见问题；
-- H2：参考资料。
-
-## UDP 与 TCP：端点、首部和语义
+## UDP 与 TCP
 
 ### 传输层解决什么问题
 
+{% note info flat %}
 IP 负责把数据报送到主机，传输层还要把数据交给哪个进程。一个传输端点至少由 IP 地址和端口组成；一条 TCP 连接通常由客户端 IP、客户端端口、服务端 IP、服务端端口共同标识。端口号是传输层多路复用的入口，不是“某台机器的应用编号”这种永久绑定关系。
+{% endnote %}
 
 | 观察对象 | UDP | TCP |
 | --- | --- | --- |
@@ -86,13 +39,19 @@ IP 负责把数据报送到主机，传输层还要把数据交给哪个进程�
 | 适用例子 | DNS 查询、实时媒体、应用自定义可靠传输 | HTTP/1.1、HTTP/2、数据库连接、文件传输 |
 | 失败语义 | 可能超时、丢包或收到 ICMP 错误 | 可能超时、收到 RST、FIN 或连接状态异常 |
 
+{% note info flat %}
 “UDP 更快、TCP 更慢”不是可复用的结论。UDP 少了连接和可靠性机制，但应用如果需要可靠、有序、拥塞友好的传输，仍然必须补上这些机制；TCP 的耗时也取决于 RTT、拥塞窗口、服务端处理和路径丢包。
+{% endnote %}
 
 ### UDP 首部和语义
 
+{% note info flat %}
 UDP 首部固定为 8 字节，包含源端口、目的端口、长度和校验和。长度字段覆盖 UDP 首部和数据；校验和用于检测传输中的错误。它没有序列号、确认号、窗口或连接状态，因此“发出”不等于“对端应用已经收到并处理”。
+{% endnote %}
 
+{% note info flat %}
 一个 UDP 请求的可观察链路可以抽象为：
+{% endnote %}
 
 {% mermaid %}
 sequenceDiagram
@@ -108,11 +67,15 @@ sequenceDiagram
     Note over IP,UDP_B: 丢失、重复、乱序或端口不可达均可能发生
 {% endmermaid %}
 
+{% note info flat %}
 UDP 适合把控制权交给上层的场景，但应用要明确回答四件事：如何识别重复、如何排序、如何超时、如何限制发送速率。QUIC 就是在 UDP 之上实现了连接、可靠流、加密和拥塞控制；因此不能把“使用 UDP”误读成“天然不可靠且一定没有连接”。
+{% endnote %}
 
-### TCP 首部：先看字段，再谈可靠
+### TCP 首部
 
+{% note info flat %}
 TCP 首部的常用字段如下。选项会使首部长度大于最小的 20 字节，因此抓包时不能把数据偏移固定理解为 20。
+{% endnote %}
 
 | 字段 | 作用 | 面试中要避免的误读 |
 | --- | --- | --- |
@@ -127,9 +90,11 @@ TCP 首部的常用字段如下。选项会使首部长度大于最小的 20 字
 
 ## TCP 字段与状态
 
-### 序列号、确认号和“为什么 ACK 会加一”
+### 序列与确认
 
+{% note info flat %}
 假设客户端的初始序列号 ISN 是 1000，服务端的 ISN 是 5000。SYN 本身不携带应用数据，但在序列空间中占用一个位置，因此三次握手可以写成：
+{% endnote %}
 
 {% mermaid %}
 sequenceDiagram
@@ -143,7 +108,9 @@ sequenceDiagram
     Note over C,S: 双方都确认对方 ISN，连接进入 ESTABLISHED
 {% endmermaid %}
 
+{% note info flat %}
 如果客户端随后发送 200 字节数据，数据段是 `seq=1001`，覆盖 1001～1200，服务端累计确认会返回 `ack=1201`。这个规则解释了：
+{% endnote %}
 
 - 确认号是“下一个期待的字节”，不是“已经收到的最后字节”；
 - 一个 TCP 段可能携带数据，也可能只携带控制标志；
@@ -152,7 +119,9 @@ sequenceDiagram
 
 ### TCP 状态机
 
+{% note info flat %}
 把状态理解为“本端已经承诺了什么、下一步允许什么”，比背状态名称更稳：
+{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -183,11 +152,15 @@ flowchart TD
     TIME_WAIT -->|等待旧报文消失| CLOSED
 {% endmermaid %}
 
+{% note info flat %}
 同一条连接的两端状态不一定相同。例如服务端收到客户端 FIN 后进入 CLOSE-WAIT，但如果服务端应用迟迟不关闭，它可以一直保持这个状态；这不是 TCP 自动“卡死”，而是应用还没有完成自己的关闭动作。
+{% endnote %}
 
-### 接收窗口、拥塞窗口和有效发送量
+### 窗口控制
 
+{% note info flat %}
 TCP 发送方同时受到两个方向的约束：接收方通过 `rwnd` 表示缓存还可以接收多少，发送方根据网络拥塞估计维护 `cwnd`。实际允许在途的数据量大致受 `min(rwnd, cwnd)` 约束。窗口缩小、零窗口、应用读取缓慢和网络拥塞的表象都可能是“发送变慢”，但证据不同。
+{% endnote %}
 
 | 现象 | 更可能的控制量 | 先看什么 |
 | --- | --- | --- |
@@ -195,13 +168,17 @@ TCP 发送方同时受到两个方向的约束：接收方通过 `rwnd` 表示�
 | 路径丢包，发送速率下降并逐步恢复 | `cwnd` | 重传、重复 ACK、拥塞窗口和 RTT |
 | 单个大报文在某段路径上无法通过 | MTU/MSS/PMTUD | IP 分片、ICMP Packet Too Big、MSS 协商 |
 
-## 三次握手：正常路径与失败分支
+## 三次握手
 
-### 为什么需要三次
+### 握手目的
 
+{% note info flat %}
 三次握手不是为了“礼貌地说三次你好”，而是让双方完成两个方向的初始序列号确认，并让服务端知道客户端能收到它的回复。两次只能让一方确认自己的请求到达并看到对方的 ISN，不能完整确认双向可达和双方的序列空间。
+{% endnote %}
 
+{% note info flat %}
 正常握手的证据表：
+{% endnote %}
 
 | 次序 | 方向 | 关键字段 | 状态变化 | 证明了什么 |
 | --- | --- | --- | --- | --- |
@@ -209,9 +186,11 @@ TCP 发送方同时受到两个方向的约束：接收方通过 `rwnd` 表示�
 | 2 | 服务端 → 客户端 | SYN+ACK，seq=S_ISN，ack=C_ISN+1 | 服务端进入 SYN-RECEIVED | 服务端收到 SYN，并把自己的 ISN 发回 |
 | 3 | 客户端 → 服务端 | ACK，ack=S_ISN+1 | 双方进入 ESTABLISHED | 客户端确认服务端 ISN，服务端可交付连接 |
 
-### SYN 重传、拒绝和超时
+### 握手失败
 
+{% note info flat %}
 同一个 SYN 被重复看到，不能直接断言“服务端挂了”。至少要区分三类路径：
+{% endnote %}
 
 | 抓包/客户端表现 | 常见解释 | 下一步证据 |
 | --- | --- | --- |
@@ -220,13 +199,19 @@ TCP 发送方同时受到两个方向的约束：接收方通过 `rwnd` 表示�
 | 立即收到 RST | 端口没有监听、主动拒绝或中间设备重置 | 服务端 `ss -lnt`、RST 的源地址和时间 |
 | 连接建立后出现重传 | 数据路径丢包、乱序或 ACK 丢失 | 序列号、重复 ACK、SACK、RTO |
 
+{% note info flat %}
 防火墙的“静默丢弃”和主机的“RST 拒绝”不是一个现象：前者通常让客户端等待并重传，后者较快结束本次尝试。环境中的策略可能改变具体行为，不能只凭错误字符串下结论。
+{% endnote %}
 
-### SYN Flood 与 backlog 的边界
+### 半连接队列
 
+{% note info flat %}
 服务端监听套接字收到 SYN 后，内核需要维护半连接状态；握手完成后，连接还要进入应用可接受的队列。高并发或攻击流量可能让半连接队列、已完成连接队列、文件描述符或应用 `accept` 速度成为瓶颈。`backlog` 是队列相关的请求参数，不是“服务器最多只能连接这么多”的全局容量。
+{% endnote %}
 
+{% note info flat %}
 排查时按这个顺序缩小范围：
+{% endnote %}
 
 1. 确认服务端确实在目标地址和端口监听：`ss -lntp`；
 2. 查看握手是否停在 SYN-SENT、SYN-RECEIVED 或已完成连接队列；
@@ -234,17 +219,23 @@ TCP 发送方同时受到两个方向的约束：接收方通过 `rwnd` 表示�
 4. 检查入口防火墙、负载均衡和 SYN 防护策略；
 5. 不把一次 `connect` 超时直接归因于 SYN Flood，必须有队列、流量或抓包证据。
 
-## 可靠性、拥塞与路径 MTU
+## 发送控制
 
 ### RTO 与重传
 
+{% note info flat %}
 TCP 用重传计时器处理“确认没有按预期回来”。RTO 不是固定的“三秒”，实现会根据平滑 RTT、RTT 波动和退避规则计算，并在重传时谨慎扩大等待时间。一次超时可以触发重传，但不等于整条连接一定断开。
+{% endnote %}
 
+{% note info flat %}
 可靠传输的最小闭环是：发送一段序号范围 → 等待累计 ACK 或 SACK 证据 → 发现缺口后重传 → 受限地继续发送。判断重传应看序列号和时间，不要只看抓包工具的 `TCP Retransmission` 标注，因为标注是分析器基于时间和上下文的推断。
+{% endnote %}
 
-### 慢启动、拥塞避免和快速重传
+### 拥塞恢复
 
+{% note info flat %}
 拥塞控制的目标是探测路径容量并在出现拥塞信号时收敛。慢启动阶段 `cwnd` 可以快速增长；达到阈值或进入拥塞避免后增长趋缓；重复 ACK、显式拥塞通知和 RTO 超时可以提供拥塞/丢包信号。SACK 本身主要报告“哪些非连续区间已经收到”，不是独立的拥塞信号；它可以帮助发送方在重复 ACK 或其他恢复路径中精确定位缺口。具体算法和内核参数可能变化，面试回答应先说控制目标，再说明常见机制，不要把某个旧实现公式当成永久事实。
+{% endnote %}
 
 {% mermaid %}
 flowchart LR
@@ -259,11 +250,15 @@ flowchart LR
 
 ### SACK 和累计确认
 
+{% note info flat %}
 累计 ACK 只能表达“连续前缀已经收到”。例如已经收到 1～1000 和 2001～3000，但缺少 1001～2000，累计 ACK 仍可能停在 1001；SACK 选项可以附带告知后面的已收到区间，让发送方只重传缺口。SACK 能减少无谓重传，但不改变 TCP 字节流和有序交付的语义。
+{% endnote %}
 
-### MSS、MTU 和 PMTUD
+### 路径 MTU
 
+{% note info flat %}
 MTU 是链路能够承载的 IP 包大小；MSS 是 TCP 单个数据段的数据部分上限。MSS 通常根据接口 MTU 减去 IP/TCP 首部估算，但隧道、选项、IPv6 和路径变化会让简单的固定值失效。PMTUD 通过路径反馈发现更小的可用包大小；IPv6 路由器不在途中分片，ICMPv6 Packet Too Big 对排障尤其重要。
+{% endnote %}
 
 | 概念 | 所在边界 | 典型问题 |
 | --- | --- | --- |
@@ -272,11 +267,13 @@ MTU 是链路能够承载的 IP 包大小；MSS 是 TCP 单个数据段的数据
 | PMTUD | IP 路径发现 | ICMP 错误被过滤导致黑洞 |
 | 拥塞窗口 | TCP 发送控制 | 丢包或拥塞导致吞吐下降 |
 
-## 连接关闭、半关闭与异常重置
+## 连接关闭
 
 ### FIN 不是“立刻断开”
 
+{% note info flat %}
 TCP 的每个方向可以独立结束。主动关闭的一方发送 FIN，表示“我不会再发送字节”，但仍可能继续接收对方数据；对端先 ACK，再在应用完成后发送自己的 FIN。常见的四段只是其中一种时序，ACK 可能和数据或 FIN 合并，双方也可能同时关闭。
+{% endnote %}
 
 {% mermaid %}
 sequenceDiagram
@@ -290,7 +287,7 @@ sequenceDiagram
     Note over A: 主动关闭方进入 TIME-WAIT 后等待旧报文消失
 {% endmermaid %}
 
-### FIN、RST 和半关闭
+### 关闭信号
 
 | 信号 | 含义 | 对未发送/未消费数据的影响 |
 | --- | --- | --- |
@@ -298,22 +295,32 @@ sequenceDiagram
 | RST | 立即拒绝、重置或放弃连接状态 | 未完成的应用数据通常以错误结束，不提供有序收尾 |
 | 半关闭 | 一方已 FIN，另一方向仍可发送 | 适合请求端发送完后继续读取完整响应 |
 
+{% note info flat %}
 如果进程关闭一个仍有未读数据的连接、访问了已重置的套接字，或者对不存在的监听端口发起连接，可能看到 RST 或本地 `ECONNRESET`/`ECONNREFUSED`。具体错误要结合系统调用、对端行为和抓包方向解释。
+{% endnote %}
 
 ### TIME_WAIT 为什么存在
 
+{% note info flat %}
 主动关闭方进入 TIME_WAIT，核心目的不是“浪费连接”，而是确保：
+{% endnote %}
 
 - 最后的 ACK 丢失时，对方重发 FIN，主动关闭方仍能重发 ACK；
 - 旧连接的延迟报文不会混入同一四元组的新连接。
 
+{% note info flat %}
 因此 TIME_WAIT 是连接生命周期的一部分。大量短连接、客户端端口范围小、代理集中主动关闭时，TIME_WAIT 数量可能升高；不能只通过缩短等待时间来掩盖端口规划、连接复用或关闭方向的问题。
+{% endnote %}
 
-### Keepalive 与应用层心跳
+### 保活机制
 
+{% note info flat %}
 TCP keepalive 是可选的传输层探测：连接空闲一段时间后，内核可以发送探测并在多次无响应后报告对端或路径可能不可达。它通常默认关闭，具体空闲时间、探测间隔和次数由操作系统及套接字选项决定；它不能证明远端应用线程仍然健康，也不能替代业务级健康检查。
+{% endnote %}
 
+{% note info flat %}
 应用层心跳则是协议消息，例如 ping/pong、心跳请求/响应或带版本与租约的业务探测。它可以验证“请求已经到达应用并得到应用响应”，但需要定义超时、重试、幂等性和代理空闲策略。
+{% endnote %}
 
 | 机制 | 所在层 | 能证明 | 不能证明 |
 | --- | --- | --- | --- |
@@ -321,7 +328,9 @@ TCP keepalive 是可选的传输层探测：连接空闲一段时间后，内核
 | 应用层心跳 | 应用协议 | 应用按约定响应了健康消息 | 所有业务请求都成功、连接没有即将过期 |
 | 代理 idle timeout | 中间设备 | 设备按策略回收空闲连接 | 对端应用是否健康 |
 
+{% note info flat %}
 一个可复现的应用层心跳闭环（教学输入/输出形态，非本次执行结果）如下：
+{% endnote %}
 
 ~~~text
 12:00:00.000 C -> S HEARTBEAT id=42
@@ -331,13 +340,19 @@ TCP keepalive 是可选的传输层探测：连接空闲一段时间后，内核
 12:00:04.000 client: timeout id=43; reconnect=scheduled
 ~~~
 
+{% note info flat %}
 验证时应确认 ACK 的 `id` 与请求一致，超时计时器从发送时刻开始；只有 TCP keepalive 报文而没有应用层 ACK，不能把应用心跳判定为成功。
+{% endnote %}
 
 ### 连接重置与重连
 
+{% note info flat %}
 收到 RST、连接超时或 keepalive 失败后，重连不是简单地无限调用 connect。可靠客户端应先关闭旧连接和释放资源，再按指数退避加随机抖动安排下一次尝试，并设置最大重试次数、总时间预算和熔断边界。对可能重复执行的 POST、扣款或消息提交，必须使用业务幂等键、去重 ID 或确认协议，不能因为 TCP 连接断开就盲目重放。
+{% endnote %}
 
+{% note info flat %}
 例如 `base=250ms`、上限 `4s` 的客户端可以记录一次带抖动的延迟序列 `[0.18s, 0.63s, 1.41s]`（仅为教学示例）。若请求是 `POST /charge`，应携带 `Idempotency-Key: order-42`；连接在提交结果未知时断开，客户端先查询订单状态或使用同一幂等键确认，再决定是否重试。日志至少应能说明：
+{% endnote %}
 
 ~~~text
 attempt=1 request=order-42 result=RST outcome=unknown next_delay=0.18s
@@ -345,7 +360,9 @@ status-check request=order-42 result=not-found
 attempt=2 request=order-42 result=HTTP/1.1 201 outcome=committed
 ~~~
 
+{% note info flat %}
 这些输出是示例形态，不是本次执行结果；指数退避降低重连风暴，幂等键解决“请求是否已经被处理”的业务不确定性，二者不能互相替代。
+{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -358,9 +375,11 @@ flowchart TD
   RETRY -->|成功| READY[恢复服务]
 {% endmermaid %}
 
-### listen、accept 与 backlog
+### 监听队列
 
+{% note info flat %}
 监听套接字和已建立连接套接字不是同一个对象。一个典型服务端生命周期是：创建 socket → bind 地址/端口 → listen 进入被动监听 → 内核完成握手并排队 → accept 取出一个已建立连接 → 返回新的连接套接字；监听套接字继续接收后续连接。
+{% endnote %}
 
 {% mermaid %}
 flowchart LR
@@ -372,7 +391,9 @@ flowchart LR
   LISTEN --> MORE[继续监听更多客户端]
 {% endmermaid %}
 
+{% note info flat %}
 `backlog` 影响内核为连接请求提供的排队语义，但实际容量还受内核参数、半连接保护、文件描述符、进程调用 accept 的速度和应用线程池影响。可以用以下只读状态对照队列和监听：
+{% endnote %}
 
 ~~~bash
 ss -lntp
@@ -381,13 +402,17 @@ ss -nt state established
 lsof -nP -iTCP:443 -sTCP:LISTEN
 ~~~
 
+{% note info flat %}
 看到 LISTEN 只证明有监听套接字；看到 SYN-RECV 说明握手仍未完成；看到 ESTAB 只证明 TCP 已建立。要判断 backlog 是否成为瓶颈，还需对照队列长度、accept 延迟、文件描述符和服务日志。
+{% endnote %}
 
-## 从工具证据回答面试题
+## 证据化回答
 
-### 最小可复现实验：看监听、握手和序列号
+### 抓包实验
 
+{% note info flat %}
 下面命令只读取本机网络状态或连接公共示例站点，不写入系统配置。实际运行前检查目标主机、接口和隐私边界；不要把真实令牌、Cookie 或内网地址上传到公共抓包分享服务。
+{% endnote %}
 
 ~~~bash
 # 1. 先确认本机的监听端口和连接状态
@@ -402,13 +427,19 @@ sudo tcpdump -ni any -c 20 'host example.com and tcp port 443'
 curl -vI --connect-timeout 5 https://example.com/
 ~~~
 
+{% note info flat %}
 预期观察点不是某一台机器固定的序列号，而是证据结构：客户端先发 SYN；服务端回 SYN-ACK；客户端回 ACK；随后才可能看到 TLS 和 HTTP；如果连接复用，新的 HTTP 请求未必伴随新的 TCP 握手。
+{% endnote %}
 
-### 脱敏的输入、示例输出和验证
+### 实验验证
 
+{% note info flat %}
 下面输出是教学用的脱敏形态，不是当前机器已经执行的结果。真实序列号、时间戳、窗口和地址会变化；示例只用于展示如何从字段形成结论。
+{% endnote %}
 
+{% note info flat %}
 输入：
+{% endnote %}
 
 ~~~bash
 sudo tcpdump -ni en0 -c 6 'host 198.51.100.20 and tcp port 443'
@@ -417,7 +448,9 @@ ss -ti dst 198.51.100.20:443
 tracepath -n 198.51.100.20
 ~~~
 
+{% note info flat %}
 示例输出形态：
+{% endnote %}
 
 ~~~text
 12:00:00.001 IP 192.0.2.10.43000 > 198.51.100.20.443: Flags [S], seq 1000, win 64240, options [mss 1460,sackOK]
@@ -431,7 +464,9 @@ cwnd:10 rto:204 rtt:14.2/2.1
   pmtu 1500
 ~~~
 
+{% note info flat %}
 验证方法：
+{% endnote %}
 
 - 第二个报文的 ACK 是客户端 ISN 加一，第三个报文的 ACK 是服务端 ISN 加一，证明握手序号解释一致；
 - SYN 中的 `sackOK` 只表示双方协商了 SACK 能力；示例中的 `sack 1 {2001:3001}` 才是实际报告的非连续数据块范围，二者不能混为一谈；
@@ -440,7 +475,9 @@ cwnd:10 rto:204 rtt:14.2/2.1
 - 如果同一序列范围在更晚时间再次出现，结合重复 ACK/SACK 判断是缺口恢复还是 RTO 重传；
 - `curl` 有 HTTP 状态只能证明请求走到 HTTP 层，不能证明服务端业务处理成功。
 
+{% note info flat %}
 若命令不存在、接口名不同、抓包权限不足或目标不受控，应停在预检查阶段并记录 NOT VERIFIED，不要用静态示例输出替代真实证据。
+{% endnote %}
 
 ### 四类现象的判断表
 
@@ -453,7 +490,9 @@ cwnd:10 rto:204 rtt:14.2/2.1
 
 ### 面试答题模板
 
+{% note info flat %}
 遇到“三次握手为什么是三次”“SYN 重传说明什么”“TIME_WAIT 能不能删”这类问题，可以按四层回答：
+{% endnote %}
 
 1. **字段**：指出 SYN、ACK、seq、ack、FIN/RST 对应的报文事实；
 2. **状态**：说明本端和对端状态如何变化；
@@ -471,11 +510,11 @@ cwnd:10 rto:204 rtt:14.2/2.1
 
 {% endfolding %}
 
-## 自测与闪卡
+## 传输层复习
 
-先遮住答案，尝试用“字段 → 状态 → 机制 → 边界”四步回答；详细解析用于复盘，不替代自己重画时序图。
-
-本篇的 14 张闪卡是跨能力复习节点，不要求一项能力对应一张卡：CN-TR-013 同时复习 TR-013/014，CN-TR-014 同时复习 TR-015/016；其余卡片按握手、关闭、RTO、窗口和选型分配。
+{% note info flat %}
+下面的卡片覆盖握手、关闭、RTO、窗口和选型；先遮住答案，用“字段 → 状态 → 机制 → 边界”四步回答，再用详细解析复盘。
+{% endnote %}
 
 {% flashcard basic id:CN-TR-001 deck:"计算机网络" priority:1 tags:"UDP,首部" %}
 --- question
@@ -605,25 +644,53 @@ MTU 是链路可承载的 IP 包大小，MSS 是 TCP 数据部分上限，PMTUD 
 
 ## 常见问题
 
-### TCP 能保证消息一次完整到达吗？
+{% flashcard_ref id="CN-TR-005" %}
+{% flashcard_ref id="CN-TR-010" %}
 
-不能。TCP 只提供有序字节流，发送方一次写入的数据可能被拆成多个段，接收方一次读取也可能得到半条或多条应用消息。应用协议需要自己定义长度、分隔符或帧格式。
+{% flashcard basic id:CN-TR-FAQ-001 deck:"计算机网络" priority:1 tags:"TCP,字节流,消息边界" %}
+--- question
+TCP 能保证消息一次完整到达吗？
+--- answer
+不能。TCP 提供有序字节流；一次写入可能被拆成多个段，一次读取也可能得到半条或多条应用消息。
+--- explanation
+应用协议需要自己定义长度、分隔符或帧格式。TCP 的可靠性不等于保留应用消息边界。
+{% endflashcard %}
 
-### 三次握手成功后为什么仍可能访问失败？
+{% flashcard basic id:CN-TR-FAQ-002 deck:"计算机网络" priority:1 tags:"TCP,三次握手,排障" %}
+--- question
+三次握手成功后为什么仍可能访问失败？
+--- answer
+握手只证明 TCP 连接建立；TLS 证书校验、HTTP 状态码、代理、认证、应用处理或响应读取仍可能失败。
+--- explanation
+将时间线拆成 DNS → TCP → TLS → HTTP → 应用，不能把所有后续失败都叫作“网络不通”。
+{% endflashcard %}
 
-握手只证明 TCP 连接建立。之后还可能在 TLS 证书校验、HTTP 状态码、代理、认证、应用处理或响应读取阶段失败。应把时间线拆成 DNS → TCP → TLS → HTTP → 应用，而不是把所有失败都叫“网络不通”。
+{% flashcard basic id:CN-TR-FAQ-003 deck:"计算机网络" priority:1 tags:"UDP,TCP,性能" %}
+--- question
+UDP 一定比 TCP 快吗？
+--- answer
+不一定。UDP 少了部分机制，但应用可能重新实现可靠性、拥塞控制和加密；实际性能受 RTT、丢包、编码、排队和实现影响。
+--- explanation
+应比较完整协议栈的目标和测量结果，而不是只比较传输层协议名称。
+{% endflashcard %}
 
-### UDP 一定比 TCP 快吗？
+{% flashcard basic id:CN-TR-FAQ-004 deck:"计算机网络" priority:1 tags:"TCP,CLOSE-WAIT,排障" %}
+--- question
+为什么服务端 CLOSE-WAIT 很多？
+--- answer
+通常表示对端已经发 FIN，而本地应用还没有关闭自己的方向。
+--- explanation
+检查应用是否及时释放连接、是否卡在业务处理或异常路径；不要把 CLOSE-WAIT 和 TIME-WAIT 都简化成“连接没关”。
+{% endflashcard %}
 
-不一定。UDP 少了部分机制，但应用可能重建可靠性、拥塞控制和加密；实际性能受 RTT、丢包、编码、服务器排队和协议实现影响。应比较完整协议栈的目标和测量结果。
-
-### 为什么服务端 CLOSE-WAIT 很多？
-
-通常表示对端已经发 FIN，而本地应用还没有关闭自己的方向。检查应用是否及时释放连接、是否卡在业务处理或异常路径；不要把 CLOSE-WAIT 和 TIME_WAIT 用同一个“连接没关”结论替代。
-
-### 看到 TCP Retransmission 就能断定网络丢包吗？
-
-不能。分析器依据时序和重复序列号做标注，可能受抓包点、网卡卸载、乱序和捕获丢包影响。要结合两端抓包、ACK/SACK、接口统计和应用时延判断。
+{% flashcard basic id:CN-TR-FAQ-005 deck:"计算机网络" priority:2 tags:"TCP,重传,抓包" %}
+--- question
+看到 TCP Retransmission 就能断定网络丢包吗？
+--- answer
+不能。分析器依据时序和重复序列号做标注，可能受抓包点、网卡卸载、乱序和捕获丢包影响。
+--- explanation
+要结合两端抓包、ACK/SACK、接口统计和应用时延判断实际原因。
+{% endflashcard %}
 
 ## 参考资料
 
@@ -641,7 +708,7 @@ MTU 是链路可承载的 IP 包大小，MSS 是 TCP 数据部分上限，PMTUD 
 ### 抓包与请求观察工具
 
 {% linkgroup %}
-{% link Chrome DevTools Network 官方文档, https://developer.chrome.com/docs/devtools/network/, https://www.gstatic.com/devrel-devsite/prod/v8c5e9c8e09d4f0c961905721a95aa2027138cb55ec6e1fa60fd7aaa3726ca05f/chrome/images/favicon.png %}
+{% link Chrome DevTools Network 官方文档, https://developer.chrome.com/docs/devtools/network/, https://www.google.com/chrome/static/images/chrome-logo.svg %}
 {% link curl 官方手册, https://curl.se/docs/manpage.html, https://curl.se/favicon.ico %}
 {% link Wireshark User's Guide, https://www.wireshark.org/docs/wsug_html_chunked/, https://www.wireshark.org/favicon.ico %}
 {% endlinkgroup %}

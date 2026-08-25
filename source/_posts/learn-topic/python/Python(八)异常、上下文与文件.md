@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：design failure handling and deterministic resource management for exceptions, files, paths, encodings, and regular expressions.
 - 学习成果：reader can preserve exception context, implement/use a context manager, and safely process text and binary files across platforms.
@@ -169,7 +169,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:stat` | 正文简述 | 文件与路径 |
 | `stdlib:tempfile` | 核心详解 | 文件与路径 |
 
-## 正文大纲
+## 章节计划
 
 - H2：错误与异常
   - H3：语法错误与运行时异常
@@ -200,7 +200,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：implement a context-managed log reader that validates records with regex, reports chained parse errors, handles encoding failure, demonstrates how grouped failures are separated by `except*`, and cleans temporary resources.
 - 失败边界与踩坑：broad `except` hides failures; `finally` runs during propagation; `except*` splits an exception group rather than behaving like ordinary `except`; regex is not a general parser; `__del__` does not replace `with`; `pathlib.types` is only identified and version-gated on the Python 3.13 baseline.
@@ -212,11 +212,3 @@ date: 2026-08-25 13:13:45
     - `python-error-text-binary` priority 2.
 - 可视化：exception propagation/finally flow, context-manager desugaring, and text encoding boundary diagram.
 - 主要参考资料：Built-in exceptions, compound statements, `contextlib`, `io`, `pathlib`, `re`, Tutorial and FAQ.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

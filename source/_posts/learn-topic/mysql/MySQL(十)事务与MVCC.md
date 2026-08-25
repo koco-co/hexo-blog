@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：并发事务为什么会看到不同数据，以及怎样选择正确事务边界和隔离级别。
 - 学习成果：能够解释 ACID、隔离异常、Read View、版本可见性和一致性读，并设计可回滚业务。
@@ -32,7 +32,7 @@ date: 2026-08-25 13:18:42
 - 事务与MVCC：`refman8.4:sql-transactional-statements`、`refman8.4:commit`、`refman8.4:cannot-roll-back`、`refman8.4:savepoint`、`refman8.4:set-transaction`、`refman8.4:innodb-transaction-model`、`refman8.4:innodb-transaction-isolation-levels`、`refman8.4:innodb-consistent-read`、`refman8.4:innodb-multi-versioning`、`refman8.4:mysql-acid`
 - 事务扩展：`refman8.4:xa`、`refman8.4:xa-states`、`refman8.4:xa-restrictions`
 
-## 正文大纲
+## 章节计划
 
 - H2：事务边界与 ACID
   - H3：识别开始、提交、回滚和不可回滚操作
@@ -49,7 +49,7 @@ date: 2026-08-25 13:18:42
 - H2：失败回滚实验
   - H3：验证订单与明细的业务原子性
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：单会话创建订单与明细，故意触发 CHECK 失败后回滚并核对两张表均未留下半成品。
@@ -63,11 +63,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：explain CPython object lifetime and choose concurrency models based on task and runtime constraints.
 - 学习成果：reader can explain reference counting, cyclic GC, the default GIL build versus free-threaded builds, and choose threads/processes/asyncio for a measured workload.
@@ -72,7 +72,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:tracemalloc` | 正文简述 | 对象生命周期 |
 | `stdlib:weakref` | 核心详解 | 对象生命周期 |
 
-## 正文大纲
+## 章节计划
 
 - H2：对象生命周期
   - H3：引用计数
@@ -106,7 +106,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：run equivalent log-processing workloads sequentially, with threads, a process pool, and asyncio; drive an async generator through both `async for` and explicit `aiter`/`anext`, verify exhaustion via `StopAsyncIteration`, use an async context manager around a cancellable resource, inject shared-state/cancellation failures, and verify exception propagation plus `__aexit__` cleanup before interpreting measurements.
 - 失败边界与踩坑：the GIL does not make compound operations thread-safe; async context managers must preserve exception propagation and cleanup during cancellation; free-threaded builds can re-enable the GIL for incompatible extensions; speed depends on workload and platform.
@@ -118,11 +118,3 @@ date: 2026-08-25 13:13:45
     - `python-runtime-race` priority 1.
 - 可视化：object-reference/GC graph, concurrency selection matrix, and timeline comparison.
 - 主要参考资料：`gc`, `weakref`, concurrency library index, `threading`, `multiprocessing`, `asyncio`, free-threading HOWTO, C API GIL explanation for CPython implementation evidence.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

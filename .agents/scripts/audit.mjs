@@ -24,6 +24,37 @@ const CHINESE_SEQUENCE = ['一', '二', '三', '四', '五', '六', '七', '八'
 const LEARN_TOPIC_ENTRY_ARTICLE = '入门路线'
 const LEARN_TOPIC_ADVANCED_ARTICLE = '进阶路线'
 const LEARN_TOPIC_FINAL_ARTICLES = new Set(['综合实战', '项目实战', '知识总结'])
+const LEARN_TOPIC_INTERNAL_FRONT_MATTER_PREFIX = 'learn_topic_'
+const LEARN_TOPIC_ENTRY_HEADINGS = ['课程目标', '前置条件', '学习路径', '文章安排', '开始学习', '参考资料']
+const LEARN_TOPIC_PLACEHOLDER_HEADINGS = new Set(['学习目标', '章节计划', '验证方式'])
+const LEARN_TOPIC_SEMANTIC_BLOCK_TAGS = new Set([
+  'chartjs', 'flashcard', 'folding', 'gallery', 'hideBlock', 'hideToggle',
+  'mermaid', 'note', 'tabs', 'timeline', 'tip', 'videos',
+])
+const LEARN_TOPIC_PUBLIC_COPY_RULES = [
+  { code: 'LEARN_TOPIC_NAVIGATION_COPY_FORBIDDEN', pattern: /前置文章|前置篇|文章\([一二三四五六七八九十]+\)|上一(?:篇|章|文章)|下一(?:篇|章|文章)|从第[一二三四五六七八九十]+篇|课程(?:阅读)?进度|文章进度/ },
+  { code: 'LEARN_TOPIC_LEDGER_COPY_FORBIDDEN', pattern: /本文分配(?:的)?能力|能力(?:账本|编号|ID)|课程候选门禁|公开候选门禁|候选门禁|进阶门禁|本篇新建|稳定复习节点|审计版本|\b(?:L2|IP|TR|HTTP|MOD|DIAG|ADV|CAP)-\d{3}\b|\bCN-(?:L2|IP|TR|HTTP|MOD|DIAG|ADV|CAP)-\d{3}\b/ },
+  { code: 'LEARN_TOPIC_INTERNAL_COPY_FORBIDDEN', pattern: /学习目标|章节计划|验证方式|课程占位标记|占位合同|课程扩展/ },
+]
+const ARTICLE_HEADING_MAX_CHARS = 15
+const ARTICLE_HEADING_SECTION_EXEMPTIONS = new Set(['常见问题', '参考资料'])
+const ARTICLE_HEADING_CHAT_PATTERN = /^(?:Q\d+\s*[:：]\s*)?(?:为什么|如何|怎么|是否|是不是|能否|可以(?:否)?|有没有|什么是)/
+const LEARN_TOPIC_FORBIDDEN_PUBLIC_HEADINGS = new Set([
+  '本文职责', '正文大纲', '内容计划', '统一封面与文章收尾', '公开候选门禁',
+  '视觉与闪卡设计', '自测与闪卡', '如何使用这套课程', '这条路线解决什么问题',
+  '开始前需要什么', '学习阶段', '文章地图',
+])
+const REFERENCE_IMAGE_EXTENSIONS = /\.(?:avif|gif|ico|jpe?g|png|svg|webp)(?:[?#].*)?$/i
+const REFERENCE_IMAGE_PATH_HINT = /(?:favicon|favicons|icon|icons|logo|brand|symbol|mark)(?:[._/-]|$)/i
+const REFERENCE_GENERIC_IMAGE_PATH = /(?:^|[/_.-])(avatar|default|placeholder|cover|course-cover)(?:[/_.-]|$)/i
+const REFERENCE_OFFICIAL_CDN_ALIASES = [
+  {
+    targetHost: /^developer\.chrome\.com$/i,
+    imageHost: /^www\.google\.com$/i,
+    imagePath: /\/chrome\/static\/images\/chrome-logo\.svg$/i,
+  },
+]
+const LEARN_TOPIC_NAVIGATION_CARD_PATTERN = /从哪一篇|从第[一二三四五六七八九十]+篇|课程.{0,12}(?:开始|顺序)|(?:是否|会不会).{0,8}阻塞.{0,8}(?:实战|主线|路线)|如何使用(?:这套)?课程|哪一篇.{0,8}(?:开始|选学)/
 const TAG_PLUGIN_EXPECTED_TAGS = [
   'audio', 'bdage', 'btns', 'bubble', 'carousel', 'cell', 'checkbox',
   'del', 'emp', 'folding', 'ghcard', 'ghcardgroup', 'icon', 'image',
@@ -195,6 +226,122 @@ function markdownBodyLines(text) {
   return visible
 }
 
+function isStructuralConnection(line) {
+  const normalized = line.replace(/[`*_~]/g, '').trim()
+  return normalized.length <= 40
+    && /^(?:接下来|随后|然后|最后|综上|换句话说|在这个例子中|下面进入|下面转向|因此可以看到)[^。！？!?]{0,32}[。！？!?]?$/.test(normalized)
+}
+
+function isMarkdownListItem(line) {
+  return /^\s*(?:[-*+]\s+|\d+[.)]\s+)/.test(line)
+}
+
+function isMarkdownTableRow(line) {
+  const trimmed = line.trim()
+  return (trimmed.startsWith('|') && trimmed.endsWith('|'))
+    || /^\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?$/.test(trimmed)
+}
+
+function isSingleTagLine(line) {
+  return /^\s*\{%\s*[A-Za-z][A-Za-z0-9_-]*\b[^%]*%\}\s*$/.test(line)
+}
+
+function learnTopicPlainBodyBlocks(text) {
+  const rows = markdownBodyLines(text)
+  const blocks = []
+  const stack = []
+  let current = []
+  let inList = false
+  let inTable = false
+
+  const flush = () => {
+    if (current.length === 0) return
+    blocks.push({
+      line: current[0].line,
+      text: current.map(item => item.text.trim()).join(' / '),
+    })
+    current = []
+  }
+
+  const updateStack = line => {
+    const match = line.trim().match(/^\{%\s*([A-Za-z][A-Za-z0-9_-]*)\b[^%]*%\}$/)
+    if (!match) return
+    const name = match[1]
+    if (KNOWN_CONTAINER_TAGS.has(name)) {
+      stack.push(name)
+      return
+    }
+    if (!name.startsWith('end')) return
+    const containerName = name.slice(3)
+    if (!KNOWN_CONTAINER_TAGS.has(containerName)) return
+    const matchingIndex = stack.map(item => item).lastIndexOf(containerName)
+    if (matchingIndex >= 0) stack.splice(matchingIndex, 1)
+  }
+
+  for (const [index, rawLine] of rows.entries()) {
+    const line = { line: index + 1, text: rawLine }
+    const trimmed = rawLine.trim()
+    if (isSingleTagLine(rawLine)) {
+      flush()
+      updateStack(rawLine)
+      inList = false
+      inTable = false
+      continue
+    }
+    if (stack.length > 0) {
+      flush()
+      continue
+    }
+    if (!trimmed || /^\s*<!--(?:[\s\S]*?)-->\s*$/.test(rawLine)) {
+      flush()
+      inList = false
+      inTable = false
+      continue
+    }
+    if (/^\s*#{1,6}\s+/.test(rawLine)) {
+      flush()
+      inList = false
+      inTable = false
+      continue
+    }
+    if (isMarkdownTableRow(rawLine)) {
+      flush()
+      inTable = true
+      continue
+    }
+    if (inTable && rawLine.includes('|')) {
+      flush()
+      continue
+    }
+    inTable = false
+    if (isMarkdownListItem(rawLine) || (inList && /^\s{2,}\S/.test(rawLine))) {
+      flush()
+      inList = true
+      continue
+    }
+    inList = false
+    if (/^\s*!\[[^\]]*\]\([^)]*\)\s*$/.test(rawLine) || isStructuralConnection(rawLine)) {
+      flush()
+      continue
+    }
+    current.push(line)
+  }
+  flush()
+  return blocks
+}
+
+function learnTopicPublicCopyIssues(text) {
+  const issues = []
+  for (const [index, line] of markdownBodyLines(text).entries()) {
+    if (isSingleTagLine(line)) continue
+    for (const rule of LEARN_TOPIC_PUBLIC_COPY_RULES) {
+      if (!rule.pattern.test(line)) continue
+      issues.push({ code: rule.code, line: index + 1, text: line.trim() })
+    }
+  }
+  return issues
+}
+
 function markdownHeadings(text) {
   const headings = []
   for (const [index, line] of markdownBodyLines(text).entries()) {
@@ -208,10 +355,19 @@ function markdownH2Headings(text) {
   return markdownHeadings(text).filter(heading => heading.level === 2).map(heading => heading.text)
 }
 
+function hasCourseDraftBody(h2Headings) {
+  const publicHeadings = h2Headings.filter(heading => !LEARN_TOPIC_PLACEHOLDER_HEADINGS.has(heading))
+  return publicHeadings.length >= 2 && publicHeadings.at(-1) === '参考资料'
+}
+
 function markdownSection(text, headingText) {
+  return markdownSectionInfo(text, headingText)?.text ?? ''
+}
+
+function markdownSectionInfo(text, headingText) {
   const lines = markdownBodyLines(text)
   const start = lines.findIndex(line => line.trim() === `## ${headingText}`)
-  if (start < 0) return ''
+  if (start < 0) return null
   let end = lines.length
   for (let index = start + 1; index < lines.length; index += 1) {
     if (/^##\s+/.test(lines[index])) {
@@ -219,7 +375,35 @@ function markdownSection(text, headingText) {
       break
     }
   }
-  return lines.slice(start + 1, end).join('\n')
+  return {
+    text: lines.slice(start + 1, end).join('\n'),
+    startLine: start + 2,
+    endLine: end,
+  }
+}
+
+function headingLooksLikeCode(text) {
+  const normalized = text.replace(/`/g, '').trim()
+  return /^`[^`]+`$/.test(text.trim()) || /^\.?[A-Za-z0-9][A-Za-z0-9_.:/-]*$/.test(normalized)
+}
+
+function headingStyleIssue(heading, currentH2) {
+  if (![2, 3].includes(heading.level) || ARTICLE_HEADING_SECTION_EXEMPTIONS.has(currentH2)) return null
+  if (LEARN_TOPIC_ENTRY_HEADINGS.includes(heading.text) || headingLooksLikeCode(heading.text)) return null
+  const charCount = [...heading.text].length
+  if (charCount > ARTICLE_HEADING_MAX_CHARS) {
+    return `第 ${heading.line} 行的 H${heading.level}“${heading.text}”有 ${charCount} 个字符；标题应压缩为对象、动作或边界，解释移到正文、表格或图示。`
+  }
+  if (ARTICLE_HEADING_CHAT_PATTERN.test(heading.text)) {
+    return `第 ${heading.line} 行的 H${heading.level}“${heading.text}”是聊天式问题；请改为简洁的主题短语，问题放入正文或“常见问题”。`
+  }
+  if (/[：:]/.test(heading.text) && charCount >= 12) {
+    return `第 ${heading.line} 行的 H${heading.level}“${heading.text}”包含解释性副标题；请保留主题名，详细限定条件移到正文或图表。`
+  }
+  if (/[、，,]/.test(heading.text) && charCount >= 12 && (heading.text.match(/[、，,]/g) ?? []).length >= 1) {
+    return `第 ${heading.line} 行的 H${heading.level}“${heading.text}”堆叠了多个概念；请拆成简洁主题或把比较维度放到表格。`
+  }
+  return null
 }
 
 function markdownFenceBlocks(text) {
@@ -1062,6 +1246,9 @@ function validateCourseContract(report, projectRoot, courseKey, articles, series
   const topics = course.topics
   const optionalArticles = course.optional_articles
   const declaredArticles = course.articles
+  if (course.public_article_contract !== undefined && course.public_article_contract !== 'v1') {
+    fail('course.public_article_contract 只能使用当前公开正文合同版本 v1。')
+  }
   if (course.slug !== courseKey) fail('course.slug 必须与课程目录名一致。')
   if (!isNonEmptyString(course.series)) fail('course.series 必须是非空字符串。')
   if (seriesNames.size === 1 && !seriesNames.has(course.series)) fail('course.series 与文章 Front Matter 的 series 不一致。')
@@ -1184,10 +1371,14 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
       report.errors.push(finding('ARTICLE_BODY_H1_FORBIDDEN', relativeFile, `第 ${heading.line} 行不得使用 H1；文章标题由 Front Matter title 提供。`))
     }
     let previousHeadingLevel = 1
+    let currentH2 = ''
     for (const heading of headings) {
       if (heading.level > previousHeadingLevel + 1) {
         report.errors.push(finding('ARTICLE_HEADING_LEVEL_SKIPPED', relativeFile, `第 ${heading.line} 行标题从 H${previousHeadingLevel} 跳到 H${heading.level}。`))
       }
+      if (heading.level === 2) currentH2 = heading.text
+      const headingIssue = headingStyleIssue(heading, currentH2)
+      if (headingIssue) report.errors.push(finding('ARTICLE_HEADING_STYLE_INVALID', relativeFile, headingIssue))
       previousHeadingLevel = heading.level
     }
 
@@ -1197,13 +1388,27 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
 
     const isLearnTopic = relativeFile.startsWith(LEARN_TOPIC_ROOT)
     let isValidCoursePlaceholder = false
+    let courseArticleKind = null
     if (isLearnTopic) {
       report.facts.learnTopicPostCount += 1
-      if (Object.hasOwn(data, LEARN_TOPIC_LEGACY_LEDGER_FIELD)) {
-        report.errors.push(finding('LEARN_TOPIC_LEDGER_FRONT_MATTER_FORBIDDEN', relativeFile, `${LEARN_TOPIC_LEGACY_LEDGER_FIELD} 必须迁移到 ${LEARN_TOPIC_CONTRACT_ROOT}/<主题>.json。`))
+      for (const field of Object.keys(data).filter(field => field.startsWith(LEARN_TOPIC_INTERNAL_FRONT_MATTER_PREFIX))) {
+        report.errors.push(finding(
+          field === LEARN_TOPIC_LEGACY_LEDGER_FIELD ? 'LEARN_TOPIC_LEDGER_FRONT_MATTER_FORBIDDEN' : 'LEARN_TOPIC_INTERNAL_FRONT_MATTER_FORBIDDEN',
+          relativeFile,
+          `${field} 是课程内部规划字段，必须迁移到 ${LEARN_TOPIC_CONTRACT_ROOT}/<主题>.json，不得写入文章 Front Matter。`,
+        ))
       }
       const pathParts = relativeFile.split('/')
       const courseKey = pathParts[3] ?? ''
+      let enforcesPublishedArticleContract = false
+      const courseContractTarget = path.join(projectRoot, LEARN_TOPIC_CONTRACT_ROOT, `${courseKey}.json`)
+      if (existsSync(courseContractTarget)) {
+        try {
+          enforcesPublishedArticleContract = readJson(courseContractTarget)?.course?.public_article_contract === 'v1'
+        } catch {
+          enforcesPublishedArticleContract = false
+        }
+      }
       if (pathParts.length !== 5 || !courseKey) {
         report.errors.push(finding('LEARN_TOPIC_PATH_INVALID', relativeFile, '课程文章必须直接位于 source/_posts/learn-topic/<单个主题路径段>/，不得增加嵌套目录。'))
       }
@@ -1219,6 +1424,7 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
       }
       if (fileMatch && courseKey) {
         const expectedOrder = CHINESE_SEQUENCE.indexOf(fileMatch[2]) + 1
+        courseArticleKind = learnTopicArticleKind(expectedOrder, fileMatch[3])
         if (expectedOrder === 1 && fileMatch[3] !== '入门路线') {
           report.errors.push(finding('LEARN_TOPIC_ENTRY_ROUTE_INVALID', relativeFile, '系列第一篇必须命名为 主题(一)入门路线。'))
         }
@@ -1250,6 +1456,9 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
       }
 
       const courseTags = renderedTagTokens(text)
+      if (data.published === true && enforcesPublishedArticleContract && !courseTags.some(token => LEARN_TOPIC_SEMANTIC_BLOCK_TAGS.has(token.name))) {
+        report.errors.push(finding('LEARN_TOPIC_VISUAL_COMPOSITION_MISSING', relativeFile, '公开课程正文必须至少包含一个承担真实信息结构的块级标签；仅有 course_series、资料链接、行内标签或纯 Markdown 正文不满足可读性合同。'))
+      }
       const courseNavigationCount = courseTags.filter(token => token.name === 'course_series').length
       if (courseNavigationCount !== 1) {
         report.errors.push(finding('LEARN_TOPIC_COURSE_SERIES_MISSING', relativeFile, '课程文章正文必须且只能使用一次 {% course_series %}。'))
@@ -1276,31 +1485,124 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
       }
       if (data.published === false && hasPlaceholderMarker) {
         const placeholderHeadings = markdownH2Headings(text)
-        if (!placeholderHeadings.includes('本文职责') || !placeholderHeadings.includes('正文大纲')) {
-          report.errors.push(finding('LEARN_TOPIC_PLACEHOLDER_CONTRACT_MISSING', relativeFile, '课程占位文章必须包含“本文职责”和“正文大纲”合同。'))
+        const hasPlaceholderContract = [...LEARN_TOPIC_PLACEHOLDER_HEADINGS].every(heading => placeholderHeadings.includes(heading))
+        const hasDraftContract = hasCourseDraftBody(placeholderHeadings)
+        if (!hasPlaceholderContract && !hasDraftContract) {
+          report.errors.push(finding('LEARN_TOPIC_PLACEHOLDER_CONTRACT_MISSING', relativeFile, '课程占位文章必须包含“学习目标”“章节计划”和“验证方式”合同。'))
         } else {
           isValidCoursePlaceholder = true
         }
       }
 
       const h2Headings = markdownH2Headings(text)
+      if (data.published === true && enforcesPublishedArticleContract) {
+        for (const issue of learnTopicPublicCopyIssues(text)) {
+          report.errors.push(finding(issue.code, relativeFile, `第 ${issue.line} 行包含不应出现在公开正文中的课程导航、进度、能力账本或内部合同文案：${issue.text}`))
+        }
+        for (const block of learnTopicPlainBodyBlocks(text)) {
+          report.errors.push(finding(
+            'LEARN_TOPIC_PLAIN_BODY_BLOCK',
+            relativeFile,
+            `第 ${block.line} 行起存在标签外的解释性正文块；请用语义块级标签承载，或改写为标题、代码、表格、列表或必要的结构连接：${block.text.slice(0, 120)}`,
+          ))
+        }
+      }
       if (h2Headings.includes('来源') || h2Headings.includes('来源与核验范围')) {
         report.errors.push(finding('LEARN_TOPIC_SOURCE_HEADING', relativeFile, '公开课程统一使用“参考资料”，不得使用“来源”或“来源与核验范围”。'))
+      }
+      const publicInternalHeadings = new Set([...LEARN_TOPIC_FORBIDDEN_PUBLIC_HEADINGS, ...LEARN_TOPIC_PLACEHOLDER_HEADINGS])
+      for (const heading of markdownHeadings(text).filter(item => [2, 3].includes(item.level) && publicInternalHeadings.has(item.text))) {
+        if ((data.published === true && enforcesPublishedArticleContract) || heading.text === '统一封面与文章收尾') {
+          report.errors.push(finding('LEARN_TOPIC_META_HEADING_FORBIDDEN', relativeFile, `第 ${heading.line} 行的 H${heading.level}“${heading.text}”属于课程生产元信息或冗余路线文案；请改为主题相关的简洁标题。`))
+        }
       }
       if (/核验于\s*\d{4}-\d{2}-\d{2}/.test(text)) {
         report.errors.push(finding('LEARN_TOPIC_VERIFICATION_COPY', relativeFile, '公开课程不得包含“核验于 YYYY-MM-DD”文案。'))
       }
-      if (h2Headings.length < 2 || h2Headings.at(-2) !== '常见问题' || h2Headings.at(-1) !== '参考资料') {
-        report.errors.push(finding('LEARN_TOPIC_FINAL_HEADINGS', relativeFile, '最后两个 H2 必须依次为“常见问题”和“参考资料”。'))
+      if (data.published === true && courseArticleKind === 'entry') {
+        if (JSON.stringify(h2Headings) !== JSON.stringify(LEARN_TOPIC_ENTRY_HEADINGS)) {
+          report.errors.push(finding('LEARN_TOPIC_ENTRY_HEADINGS_INVALID', relativeFile, `入门路线 H2 必须按顺序使用：${LEARN_TOPIC_ENTRY_HEADINGS.join('、')}。`))
+        }
+        const entryCards = renderedTagTokens(text).filter(token => token.name === 'flashcard' || token.name === 'flashcard_ref')
+        if (entryCards.length > 0) {
+          report.errors.push(finding('LEARN_TOPIC_ENTRY_FLASHCARD_FORBIDDEN', relativeFile, `入门路线不得包含 flashcard 或 flashcard_ref（第 ${entryCards[0].line} 行）。`))
+        }
+        if (!renderedTagTokens(text).some(token => token.name === 'mermaid')) {
+          report.errors.push(finding('LEARN_TOPIC_ENTRY_MERMAID_REQUIRED', relativeFile, '入门路线必须用 Mermaid 展示学习路径，不得只用文字描述。'))
+        }
+        if (!renderedTagTokens(text).some(token => token.name === 'note')) {
+          report.errors.push(finding('LEARN_TOPIC_ENTRY_NOTE_REQUIRED', relativeFile, '入门路线必须用 note 提示主题范围或学习边界。'))
+        }
+      } else if (data.published === true && courseArticleKind !== 'entry') {
+        if (h2Headings.includes('常见问题')) {
+          const faqTags = renderedTagTokens(markdownSection(text, '常见问题'))
+          if (!faqTags.some(token => token.name === 'flashcard' || token.name === 'flashcard_ref')) {
+            report.errors.push(finding('LEARN_TOPIC_FAQ_FLASHCARD_REQUIRED', relativeFile, '存在“常见问题”时必须使用 flashcard 或 flashcard_ref；没有真实复习题时请删除该章节。'))
+          }
+        }
+        if (h2Headings.at(-1) !== '参考资料') {
+          report.errors.push(finding('LEARN_TOPIC_REFERENCE_HEADING_REQUIRED', relativeFile, '公开主题文章和实战文章最后一个 H2 必须是“参考资料”。'))
+        }
       }
       if (data.published === true) {
-        const faqTags = renderedTagTokens(markdownSection(text, '常见问题'))
-        if (!faqTags.some(token => token.name === 'flashcard' || token.name === 'flashcard_ref')) {
-          report.errors.push(finding('LEARN_TOPIC_FAQ_FLASHCARD_REQUIRED', relativeFile, '公开课程的“常见问题”必须使用 flashcard 或 flashcard_ref，不能只写普通文本问答。'))
+        for (const card of text.matchAll(/\{%\s*flashcard\b[\s\S]*?\{%\s*endflashcard\s*%\}/g)) {
+          if (LEARN_TOPIC_NAVIGATION_CARD_PATTERN.test(card[0])) {
+            report.errors.push(finding('LEARN_TOPIC_NAVIGATION_CARD_FORBIDDEN', relativeFile, `第 ${lineForOffset(text, card.index)} 行闪卡是课程导航问题，不属于主题复习内容。`))
+          }
+        }
+        const referenceSection = markdownSection(text, '参考资料')
+        const referenceTags = renderedTagTokens(referenceSection)
+        const referenceLinks = courseReferenceLinks(text, projectRoot)
+        if (!referenceTags.some(token => token.name === 'linkgroup') || !referenceTags.some(token => token.name === 'link')) {
+          report.errors.push(finding('LEARN_TOPIC_REFERENCE_TAG_REQUIRED', relativeFile, '公开课程的“参考资料”必须使用 {% linkgroup %} 包裹至少一个 {% link %} 资料卡片。'))
+        }
+        if (referenceLinks.length === 0) {
+          report.errors.push(finding('LEARN_TOPIC_REFERENCE_LINK_REQUIRED', relativeFile, '公开课程的“参考资料”必须包含至少一个 HTTP(S) 资料链接。'))
+        }
+        for (const reference of referenceLinks) {
+          if (!isValidHttpUrl(reference.target)) {
+            report.errors.push(finding('LEARN_TOPIC_REFERENCE_LINK_INVALID', relativeFile, `第 ${reference.line} 行“参考资料”中的 ${reference.kind} 链接不是有效的 HTTP(S) 地址。`))
+          }
+          if (reference.kind === 'tag' && (!reference.imageValid || reference.image === reference.target)) {
+            report.errors.push(finding(
+              'LEARN_TOPIC_REFERENCE_PREVIEW_INVALID',
+              relativeFile,
+              `第 ${reference.line} 行“${reference.title || '参考资料'}”必须提供与资料域名相关、可识别为图标的预览图；禁止省略图片、使用 avatar/cover/placeholder 或把资料页面本身当作图片。`,
+            ))
+          }
+        }
+      }
+      if (data.published !== true) {
+        for (const reference of courseReferenceLinks(text, projectRoot)) {
+          if (!isValidHttpUrl(reference.target)) {
+            report.errors.push(finding('LEARN_TOPIC_REFERENCE_LINK_INVALID', relativeFile, `第 ${reference.line} 行“参考资料”中的 ${reference.kind} 链接不是有效的 HTTP(S) 地址。`))
+          }
+          if (reference.kind === 'tag' && (!reference.imageValid || reference.image === reference.target)) {
+            report.errors.push(finding(
+              'LEARN_TOPIC_REFERENCE_PREVIEW_INVALID',
+              relativeFile,
+              `第 ${reference.line} 行“${reference.title || '参考资料'}”必须提供与资料域名相关、可识别为图标的预览图；禁止省略图片、使用 avatar/cover/placeholder 或把资料页面本身当作图片。`,
+            ))
+          }
         }
       }
     } else if (data.published === false) {
       report.errors.push(finding('PUBLISHED_FALSE_NOT_COURSE_PLACEHOLDER', relativeFile, 'published: false 只允许用于带占位合同和占位标记的系统课程文章。'))
+    }
+
+    if (!isLearnTopic) {
+      for (const reference of courseReferenceLinks(text, projectRoot)) {
+        if (!isValidHttpUrl(reference.target)) {
+          report.errors.push(finding('REFERENCE_LINK_INVALID', relativeFile, `第 ${reference.line} 行“参考资料”中的 ${reference.kind} 链接不是有效的 HTTP(S) 地址。`))
+        }
+        if (reference.kind === 'tag' && (!reference.imageValid || reference.image === reference.target)) {
+          report.errors.push(finding(
+            'REFERENCE_PREVIEW_INVALID',
+            relativeFile,
+            `第 ${reference.line} 行“${reference.title || '参考资料'}”必须提供与资料域名相关、可识别为图标的预览图；禁止省略图片、使用 avatar/cover/placeholder 或把资料页面本身当作图片。`,
+          ))
+        }
+      }
     }
 
     const abbrlink = data.abbrlink
@@ -1872,6 +2174,96 @@ function markdownLocalLinks(text) {
   return links
 }
 
+function courseReferenceLinks(text, projectRoot = process.cwd()) {
+  const links = []
+  const section = markdownSectionInfo(text, '参考资料')
+  if (!section) return links
+  const markdown = section.text
+  for (const match of markdown.matchAll(/\[[^\]]+\]\(\s*(<[^>]+>|[^)\s]+)(?:\s+["'][^"']*["'])?\s*\)/g)) {
+    links.push({
+      kind: 'markdown',
+      target: match[1].replace(/^<|>$/g, ''),
+      line: section.startLine - 1 + lineForOffset(markdown, match.index),
+    })
+  }
+  for (const match of markdown.matchAll(/\{%\s*link\s+([^%]*)%\}/g)) {
+    const argumentsList = match[1].split(',').map(value => value.trim())
+    const image = argumentsList[2] ?? ''
+    links.push({
+      kind: 'tag',
+      target: argumentsList[1] ?? '',
+      image,
+      title: argumentsList[0] ?? '',
+      line: section.startLine - 1 + lineForOffset(markdown, match.index),
+      imageValid: isValidReferencePreviewImage(projectRoot, image, argumentsList[1] ?? ''),
+    })
+  }
+  return links
+}
+
+function isValidHttpUrl(value) {
+  try {
+    const url = new URL(value)
+    return (url.protocol === 'http:' || url.protocol === 'https:') && Boolean(url.hostname)
+  } catch {
+    return false
+  }
+}
+
+function referenceDomain(value) {
+  try {
+    const hostname = new URL(value).hostname.toLowerCase().replace(/^www\./, '')
+    const parts = hostname.split('.').filter(Boolean)
+    return parts.length >= 2 ? parts.slice(-2).join('.') : hostname
+  } catch {
+    return ''
+  }
+}
+
+function isRelatedReferenceImage(target, image) {
+  if (!isValidHttpUrl(target) || !isValidHttpUrl(image)) return false
+  try {
+    const targetUrl = new URL(target)
+    const imageUrl = new URL(image)
+    const targetHost = targetUrl.hostname.toLowerCase()
+    const imageHost = imageUrl.hostname.toLowerCase()
+    const targetDomain = referenceDomain(target)
+    const imageDomain = referenceDomain(image)
+    if (targetHost === imageHost
+      || targetDomain === imageDomain
+      || imageHost.endsWith(`.${targetHost}`)
+      || targetHost.endsWith(`.${imageHost}`)) return true
+    return REFERENCE_OFFICIAL_CDN_ALIASES.some(alias => alias.targetHost.test(targetHost)
+      && alias.imageHost.test(imageHost)
+      && alias.imagePath.test(imageUrl.pathname))
+  } catch {
+    return false
+  }
+}
+
+function isValidReferencePreviewImage(projectRoot, value, referenceTarget = '') {
+  if (!isNonEmptyString(value) || REFERENCE_GENERIC_IMAGE_PATH.test(value)) return false
+  if (value.startsWith('/img/')) {
+    const target = resolveLocalImage(projectRoot, value)
+    return Boolean(target && existsSync(target) && imageSignatureMatches(target))
+  }
+  if (!isValidHttpUrl(value)) return false
+  try {
+    const url = new URL(value)
+    return (REFERENCE_IMAGE_EXTENSIONS.test(url.pathname) || REFERENCE_IMAGE_PATH_HINT.test(url.pathname))
+      && isRelatedReferenceImage(referenceTarget, value)
+  } catch {
+    return false
+  }
+}
+
+function learnTopicArticleKind(order, suffix) {
+  if (order === 1 && suffix === LEARN_TOPIC_ENTRY_ARTICLE) return 'entry'
+  if (suffix === LEARN_TOPIC_ADVANCED_ARTICLE) return 'advanced'
+  if (LEARN_TOPIC_FINAL_ARTICLES.has(suffix)) return 'final'
+  return 'topic'
+}
+
 function resolvedMarkdownLink(projectRoot, sourceFile, linkTarget) {
   if (/^(?:https?:|mailto:|tel:|data:|app:|#|\/)/i.test(linkTarget) || /\{\{.*\}\}/.test(linkTarget)) return null
   let decoded
@@ -1899,8 +2291,8 @@ export function auditStructure({ root = process.cwd() } = {}) {
     'source/css',
     'source/js',
     LEARN_TOPIC_CONTRACT_ROOT,
-    '.agents/skills/hexo-learn-topic/scripts/audit.mjs',
-    '.agents/skills/hexo-learn-topic/scripts/audit.test.mjs',
+    '.agents/scripts/audit.mjs',
+    '.agents/scripts/audit.test.mjs',
     IMAGE_MIGRATION_MANIFEST,
   ]
   for (const relativePath of requiredPaths) {
@@ -1908,9 +2300,14 @@ export function auditStructure({ root = process.cwd() } = {}) {
       report.errors.push(finding('REPOSITORY_REQUIRED_PATH_MISSING', relativePath, '全仓库 lint 所需路径不存在。'))
     }
   }
-  for (const legacyScript of ['tools/hexo-blog/audit.mjs', 'tools/hexo-blog/audit.test.mjs']) {
+  for (const legacyScript of [
+    'tools/hexo-blog/audit.mjs',
+    'tools/hexo-blog/audit.test.mjs',
+    '.agents/skills/hexo-learn-topic/scripts/audit.mjs',
+    '.agents/skills/hexo-learn-topic/scripts/audit.test.mjs',
+  ]) {
     if (existsSync(path.join(projectRoot, legacyScript))) {
-      report.errors.push(finding('AUDIT_SCRIPT_LEGACY_LOCATION', legacyScript, '审计脚本必须只保存在 hexo-learn-topic Skill 的 scripts 目录。'))
+      report.errors.push(finding('AUDIT_SCRIPT_LEGACY_LOCATION', legacyScript, '全仓库审计脚本必须只保存在项目根目录 .agents/scripts/。'))
     }
   }
 
@@ -2280,7 +2677,7 @@ export function formatReport(report) {
 
 function usage() {
   return [
-    '用法：node .agents/skills/hexo-learn-topic/scripts/audit.mjs <assets|code|config|content|docs|lint|project|release|skills|structure|tags> [选项]',
+    '用法：node .agents/scripts/audit.mjs <assets|code|config|content|docs|lint|project|release|skills|structure|tags> [选项]',
     '',
     '选项：',
     '  --root <path>           项目根目录，默认当前目录',

@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：explain how Python code is selected, isolated, loaded, and organized from interpreter entry to modules and packages.
 - 学习成果：reader can create an isolated environment, run a module, diagnose an import failure, and explain import caching and `__name__`.
@@ -71,7 +71,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:sysconfig` | 正文简述 | 环境隔离 |
 | `stdlib:venv` | 核心详解 | 环境隔离 |
 
-## 正文大纲
+## 章节计划
 
 - H2：解释器与执行入口
   - H3：脚本、模块与交互模式
@@ -98,7 +98,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：convert a flat calculator script into `src/interview_lab/`, run it with `python -m interview_lab`, inspect `sys.path` and `sys.modules`, then reproduce and fix a circular import.
 - 失败边界与踩坑：shell activation is platform-specific; importing does not automatically reload edited modules; `pip` must be tied to the intended interpreter.
@@ -109,11 +109,3 @@ date: 2026-08-25 13:13:45
     - `python-env-main` priority 2: `__name__ == '__main__'` behavior.
 - 可视化：package tree plus TD import pipeline (`find -> spec -> module object -> execute -> cache`).
 - 主要参考资料：Python setup and usage, language import system, `venv`, PyPA packaging guide and pyproject specification.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

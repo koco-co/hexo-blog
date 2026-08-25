@@ -1408,7 +1408,7 @@ updated:
    hexo cl; hexo s
    ```
 
-### ~~文章三栏自适应(新版本失效)~~
+### 三栏布局（旧版）
 
 > Ref. https://akilar.top/posts/d6b69c49/
 >

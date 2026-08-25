@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：integrate the core course into a typed, tested command-line log analyzer with streaming, resource safety, and measured concurrency.
 - 学习成果：reader can build and verify the project from an empty directory and defend design choices in interview follow-ups.
@@ -35,7 +35,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:getopt` | 正文简述 | 项目结构 |
 | `stdlib:statistics` | 正文简述 | 解析管道 |
 
-## 正文大纲
+## 章节计划
 
 - H2：项目需求
   - H3：输入与输出
@@ -70,7 +70,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：complete local project with sample logs, expected JSON summary, invalid records, deterministic tests, and benchmark script. No external upload or service.
 - 失败边界与踩坑：do not claim concurrency speedup without measurement; malformed input must remain diagnosable; project does not become a production observability platform.
@@ -79,11 +79,3 @@ date: 2026-08-25 13:13:45
   only `flashcard_ref` to `python-env-import`, `python-object-is-eq`, `python-container-copy`, `python-function-default-mutable`, `python-iteration-yield-return`, `python-oop-mro-super`, `python-error-context`, `python-quality-typing-runtime`, `python-runtime-gil`, and `python-runtime-thread-process-async`.
 - 可视化：TD architecture/data-flow diagram and exact acceptance table.
 - 主要参考资料：`argparse`, `pathlib`, `re`, `json`, `dataclasses`, `typing`, `unittest`, `concurrent.futures`, plus referenced article sources.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

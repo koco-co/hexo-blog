@@ -53,7 +53,7 @@
 
 ## 验证
 
-1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`，核对插件版本、配置、卡片计数和引用使用情况。
+1. 运行 `node .agents/scripts/audit.mjs tags --json`，核对插件版本、配置、卡片计数和引用使用情况。
 2. 运行真实 Hexo 生成；插件会校验卡片字段、类型、`priority:1|2|3`、ID 唯一性和引用目标。
 3. 在文章页检查翻卡、频率徽标、卡组和标签链接，在 `/learn-topic/` 检查优先级筛选和复习队列。
 4. 桌面与移动端、明暗主题和 PJAX 返回均属于页面证据，不能由静态审计替代。

@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：explain lazy iteration and reusable behavior wrapping from protocols through generators, closures, and decorators.
 - 学习成果：reader can implement an iterator, build a lazy generator pipeline, and reason about decorator expansion and execution order.
@@ -54,7 +54,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:functools` | 核心详解 | 闭包与装饰器 |
 | `stdlib:itertools` | 核心详解 | 惰性数据管道 |
 
-## 正文大纲
+## 章节计划
 
 - H2：迭代协议
   - H3：可迭代对象与迭代器
@@ -83,7 +83,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：stream an in-memory iterable of synthetic log lines through iterator/generator stages and a timing decorator; number and pair records with `enumerate`/`zip`, compute summary values with `all`/`any`/`max`/`min`/`sum`, and verify lazy consumption, short-circuiting, shortest-input `zip` behavior, explicit generator closing, exception propagation, and metadata preservation. Real files and context-managed resource ownership are deferred to Python(八).
 - 失败边界与踩坑：iterators can be exhausted; `all`/`any` short-circuit and consume only part of a lazy input; ordinary `zip` stops at the shortest iterable; generator closing and exception propagation must be considered; decorators run at definition time while wrappers run at call time; this article does not open files before context management is taught; `map(strict=...)` is executed only on Python 3.14 and omitted on the 3.13 baseline.
@@ -95,11 +95,3 @@ date: 2026-08-25 13:13:45
     - `python-iteration-lazy` priority 2.
 - 可视化：iterator state machine, generator pause/resume sequence, and decorator expansion stack.
 - 主要参考资料：Data model, expressions, compound statements, `itertools`, `functools`, Functional Programming HOWTO.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

@@ -3,6 +3,7 @@
   "course": {
     "slug": "computer-network",
     "series": "计算机网络",
+    "public_article_contract": "v1",
     "topics": [
       "网络分层与局域网",
       "IP 与网络寻址",

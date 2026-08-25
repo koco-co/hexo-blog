@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：怎样用执行证据而不是经验猜测优化慢 SQL。
 - 学习成果：能够阅读访问类型、估算与实际行数、排序临时表和索引选择，并验证优化收益。
@@ -32,7 +32,7 @@ date: 2026-08-25 13:18:42
 - 执行计划与优化闭环：`refman8.4:optimize-overview`、`refman8.4:select-optimization`、`refman8.4:subquery-optimization`、`refman8.4:internal-temporary-tables`、`refman8.4:optimizing-innodb-queries`、`refman8.4:using-explain`、`refman8.4:explain-output`、`refman8.4:explain-extended`、`refman8.4:controlling-optimizer`、`refman8.4:optimizer-hints`、`refman8.4:index-hints`、`refman8.4:cost-model`、`refman8.4:optimizer-statistics`、`refman8.4:monitoring-performance-schema`、`refman8.4:optimizer-tracing`、`refman8.4:performance-schema-quick-start`、`refman8.4:performance-schema-queries`、`refman8.4:performance-schema-statement-digests`、`refman8.4:performance-schema-query-profiling`、`refman8.4:sys-schema-usage`、`refman8.4:sys-schema-views`
 - 优化专项边界：`refman8.4:optimize-data-types`、`refman8.4:optimizing-innodb-transaction-management`、`refman8.4:optimizing-innodb-bulk-data-loading`、`refman8.4:optimizing-innodb-ddl-operations`、`refman8.4:optimizing-innodb-diskio`、`refman8.4:optimizing-innodb-configuration-variables`
 
-## 正文大纲
+## 章节计划
 
 - H2：优化器与统计信息
   - H3：理解成本估算和数据分布
@@ -49,7 +49,7 @@ date: 2026-08-25 13:18:42
 - H2：优化闭环
   - H3：固定基线、单点改动、复测和回退
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：对日期函数过滤与深分页各做一次优化前后执行计划对照，核对结果集完全相同。
@@ -63,11 +63,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/explain-output.html
 - https://dev.mysql.com/doc/refman/8.4/en/optimizer-statistics.html
 - https://dev.mysql.com/doc/refman/8.4/en/performance-schema-statement-digests.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

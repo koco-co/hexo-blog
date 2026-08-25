@@ -16,15 +16,19 @@ date: 2026-08-25 00:00:00
 ---
 {% course_series %}
 
-## 这条路线解决什么问题
+{% note info flat %}
+本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。
+{% endnote %}
+
+## 课程目标
 
 这是一套面向零基础到系统排障的 Linux 命令行课程。重点覆盖常用命令、中文场景选命令、Shell 组合、日志查看、性能分析、Bash 自动化和面试复述。主实验基线为 Ubuntu Server 26.04 LTS，同时说明 POSIX.1-2024、Bash 5.3、GNU/uutils 及发行版差异。
 
-## 开始前需要什么
+## 前置条件
 
 不要求 Linux 经验。准备一台可丢弃的 Ubuntu Server、WSL2 或虚拟机，并为文件、服务、日志和负载实验建立隔离目录。生产机器、真实凭据和破坏性设备操作不在课程实验范围内。
 
-## 学习阶段
+## 学习路径
 
 {% mermaid %}
 flowchart TD
@@ -44,7 +48,7 @@ flowchart TD
 
 每篇文章都按“机制 → 命令选择 → 完整示例 → 失败边界 → 结果验证”推进。第 12 篇是可选拓展，第 13 篇不依赖第 12 篇。
 
-## 文章地图
+## 文章安排
 
 | 顺序 | 文章 | 解决的问题 | 前置 | 状态 |
 | --- | --- | --- | --- | --- |
@@ -62,25 +66,17 @@ flowchart TD
 | 12 | Linux(十二)进阶路线 | 承接低频、平台相关、需要权限或可能产生较高风险的能力，不阻塞主课程。 | 第 7～11 篇；第 13 篇不要求本篇。 | 未发布占位 |
 | 13 | Linux(十三)综合实战 | 把文件、进程、服务、日志、性能和网络能力整合为完整故障诊断，并训练面试复述。 | 第 3～11 篇；第 12 篇可选。 | 未发布占位 |
 
-## 如何使用这套课程
+## 开始学习
 
 先完成当前文章的实验和自测，再进入下一篇。每个高频命令都会同时提供“命令到中文”和“中文场景到命令”闪卡；日志与性能文章增加字段和指标解释卡，危险操作增加安全边界卡。跨文章复用的问题使用 flashcard_ref，综合实战只复用既有卡片并新增一张证据链卡。
 
-## 统一封面与文章收尾
-
-全系列共用一张本地封面：Linux 字样、终端提示符和原创几何化企鹅灵感终端符号，使用深蓝黑、青蓝紫霓虹风格，不复制商标 Logo。每篇正式文章固定以“结果验证、常见问题、参考资料”收尾。
-
-## 常见问题
-
-{% flashcard basic id:linux-roadmap-order deck:"Linux" priority:2 tags:"入门路线,学习顺序" %}
---- question
-Linux 课程可以从哪一篇开始，进阶路线是否会阻塞综合实战？
---- answer
-建议先读入门路线，再从第 2 篇进入主线；进阶路线是可选篇，不会阻塞综合实战。
---- explanation
-入门路线负责说明环境、依赖和验证方式。主线文章按命令行、文件、文本、Shell、权限、进程、网络、日志、性能和自动化递进；进阶路线用于按需拓展。
-{% endflashcard %}
-
 ## 参考资料
 
-课程以 POSIX.1-2024、Bash 5.3、Ubuntu Server 26.04 LTS、Linux kernel、systemd、procps、sysstat、iproute2 和相关发行版文档为版本边界；正式正文阶段会按文章补齐资料卡片。
+{% linkgroup %}
+{% link POSIX.1-2024, https://pubs.opengroup.org/onlinepubs/9799919799/, https://pubs.opengroup.org/favicon.ico %}
+{% link GNU Bash Reference Manual, https://www.gnu.org/software/bash/manual/, https://www.gnu.org/favicon.ico %}
+{% link Ubuntu Server documentation, https://documentation.ubuntu.com/server/, https://documentation.ubuntu.com/favicon.ico %}
+{% link Linux kernel documentation, https://docs.kernel.org/, https://www.kernel.org/theme/images/logos/favicon.png %}
+{% link systemd manual, https://www.freedesktop.org/software/systemd/man/latest/, https://www.freedesktop.org/favicon.ico %}
+{% link iproute2 source archive, https://www.kernel.org/pub/linux/utils/net/iproute2/, https://www.kernel.org/theme/images/logos/favicon.png %}
+{% endlinkgroup %}

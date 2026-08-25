@@ -206,7 +206,7 @@ hexo-blog/
 
 {% btn https://hexo.io/zh-cn/docs/setup, Hexo 安装文档, fas fa-book, outline blue %}
 
-## 创建 GitHub Pages 仓库
+## Pages 仓库
 
 ### 创建仓库
 
@@ -331,7 +331,7 @@ deploy:
 配置文件使用 YAML 格式，注意冒号后要有空格，缩进使用空格而非 Tab
 {% endnote %}
 
-## 安装配置 Butterfly 主题
+## 主题安装
 
 Butterfly 是一款美观、功能丰富的 Hexo 主题，支持响应式设计、暗黑模式、代码高亮、多种评论系统等.
 
@@ -539,9 +539,9 @@ hexo --help        # 查看帮助
 
 {% btn https://hexo.io/zh-cn/docs/commands, Hexo 命令文档, fas fa-terminal, outline blue %}
 
-## 自动部署: GitHub Actions
+## 自动部署
 
-### 为什么使用 GitHub Actions
+### 部署动机
 
 | 对比项     | `hexo deploy`      | GitHub Actions            |
 | ---------- | ------------------ | ------------------------- |
@@ -557,7 +557,7 @@ hexo --help        # 查看帮助
 - `hexo-blog-source` - 源码仓库(主仓库)
   {% endnote %}
 
-### 配置 GitHub Actions
+### 工作流配置
 
 #### 1. 创建源码仓库
 
@@ -688,7 +688,7 @@ ssh-keygen -t rsa -b 4096 -C "${用户名}@github.com" -f github-pages-deploy
     publish_branch: main
 ```
 
-### GitHub Actions 工作流程
+### 工作流步骤
 
 {% mermaid %}
 flowchart TD
@@ -702,7 +702,7 @@ E --> F[自动发布博客]
 {% btn https://docs.github.com/en/actions, GitHub Actions 官方文档, fab fa-github, outline gray %}
 {% btn https://github.com/peaceiris/actions-gh-pages, peaceiris/actions-gh-pages, fas fa-rocket, outline blue %}
 
-## Butterfly 主题进阶配置
+## 主题配置
 
 ### 自定义头像与图标
 

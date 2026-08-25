@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：怎样把订单、库存和组织业务转化为可靠的关系模型与表结构。
 - 学习成果：能够选择主键、外键、金额与时间类型，使用 utf8mb4 和约束写出可验证 DDL。
@@ -34,7 +34,7 @@ date: 2026-08-25 13:18:42
 - 字符集与排序规则：`refman8.4:charset-general`、`refman8.4:charset-syntax`、`refman8.4:charset-connection`、`refman8.4:charset-collations`、`refman8.4:charset-unicode-utf8mb4`、`refman8.4:charset-unicode-utf8`
 - 建表与验证：`refman8.4:drop-database`
 
-## 正文大纲
+## 章节计划
 
 - H2：业务需求与关系模型
   - H3：识别实体、属性、基数和业务不变量
@@ -49,7 +49,7 @@ date: 2026-08-25 13:18:42
 - H2：建表与结构验证
   - H3：从空库创建 ShopLab 并回读结构
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：给定订单、商品和库存需求，完成九张表 DDL，导入固定 seed，并核对表、列、键和约束。
@@ -63,11 +63,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/data-types.html
 - https://dev.mysql.com/doc/refman/8.4/en/charset-unicode-utf8mb4.html
 - https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

@@ -430,11 +430,11 @@ page.get_by_role("gridcell", name="30").click()
 
 当问题涉及文档树而不是某个控件时，使用 `parent_frame`、`child_frames`、`frame_element`、`name`、`page`、`url` 和 `is_detached` 观察关系与生命周期。`content()`、`title()`、`set_content()` 用于受控页面的内容读取或构造，`wait_for_load_state()`、`wait_for_url()`、`wait_for_function()` 用于明确的加载条件；不要用它们替代组件级断言。`add_script_tag()`、`add_style_tag()`、`evaluate()` 和 `evaluate_handle()` 只在调试、注入测试桩或缺少等价 Playwright API 时使用，并记录脚本的副作用。
 
-### Dialog 与 Download 补充
+### Dialog/Download
 
 `Dialog.default_value` 只对 prompt 的默认文本有意义，`Dialog.page` 用于回溯所属 Page；`Download.cancel()`、`delete()` 和 `failure()` 属于取消、清理和错误诊断。它们必须放在已建立 `expect_*` 事件范围之后，不能代替前文的最终业务断言。
 
-### Page 与 Locator 边界
+### Page 与 Locator
 
 `Page.frames`、`main_frame` 和 `opener` 用于枚举文档、确认打开者或排查 Page 生命周期；普通 iframe 交互优先 `frame_locator()`，新标签页优先 `expect_popup()` / `context.expect_page()`。`Locator.content_frame` 用于从一个已定位的 iframe 取得当前 Frame，`Locator.screenshot()` 用于组件级取证或视觉专项，稳定基线和差异阈值在第十一篇统一处理。
 

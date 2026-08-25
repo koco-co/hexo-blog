@@ -4,13 +4,13 @@
 
 ## Phase 1：机械检查
 
-1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json`。
-2. 涉及文章时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --json`；构建后再加 `--release`。
-3. 涉及图片时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`，核验本地文件、迁移哈希、旧图床真实引用和教程示例计数。
-4. 涉及 Butterfly 或 Tag Plugins Plus 标签时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`。
+1. 运行 `node .agents/scripts/audit.mjs project --json`。
+2. 涉及文章时运行 `node .agents/scripts/audit.mjs content --json`；构建后再加 `--release`。
+3. 涉及图片时运行 `node .agents/scripts/audit.mjs assets --json`，核验本地文件、迁移哈希、旧图床真实引用和教程示例计数。
+4. 涉及 Butterfly 或 Tag Plugins Plus 标签时运行 `node .agents/scripts/audit.mjs tags --json`。
 5. 配置或依赖变更运行 `config`；JavaScript、CSS 或 Shell 变更运行 `code`；Skill 或软链接变更运行 `skills`；仓库文档变更运行 `docs`。
 6. 分项检查用于快速定位，不能代替最终聚合门禁。
-7. 完成交付前运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`。输出任一具体文件错误时修复后重跑；只有 `status: pass` 才能交给用户验收。
+7. 完成交付前运行 `node .agents/scripts/audit.mjs lint --json`。输出任一具体文件错误时修复后重跑；只有 `status: pass` 才能交给用户验收。
 
 完成信号：项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、课程契约、标签和图片资源的聚合 lint 全部通过。
 

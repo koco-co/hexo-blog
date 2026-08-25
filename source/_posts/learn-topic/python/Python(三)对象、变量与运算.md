@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：establish Python's name-binding and object model for values, identity, equality, mutability, numeric/string behavior, and operators.
 - 学习成果：reader can predict identity/equality and mutation results without relying on accidental interning or IDE behavior.
@@ -204,7 +204,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:string.templatelib` | 正文简述 | 字符串与字节 / f-string 与 3.14 t-string 识别 |
 | `stdlib:unicodedata` | 正文简述 | 字符串与字节 / Unicode 字符串 |
 
-## 正文大纲
+## 章节计划
 
 - H2：名称与对象
   - H3：绑定而非盒子
@@ -244,7 +244,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：run a matrix of literals, raw strings, dynamically created strings, `Decimal`, boolean/conditional expressions, augmented assignment, and built-in cross-type comparisons; verify evaluation order and compare string method families without defining classes or listing every mirrored bytes/bytearray method. Custom `__eq__` implementation is deferred to Python(七).
 - 失败边界与踩坑：`id()` is only unique during an object's lifetime; CPython string interning is not a contract; raw strings still have terminal-backslash constraints; binary floating point is not decimal arithmetic; t-strings and changed bytes inputs are version-gated.
@@ -256,11 +256,3 @@ date: 2026-08-25 13:13:45
     - `python-object-float` priority 2: floating-point precision.
 - 可视化：object/reference graph and exact comparison table for binding, mutation, equality, and identity.
 - 主要参考资料：Language reference lexical analysis, expressions, data model, built-in types, Decimal and Programming/Design FAQ.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

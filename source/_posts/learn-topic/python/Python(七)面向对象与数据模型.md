@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：connect class syntax to attribute lookup, method binding, inheritance, MRO, descriptors exposed through `property`, dataclasses, and special methods.
 - 学习成果：reader can predict method/attribute resolution and implement a small value object with correct equality, representation, and ordering behavior.
@@ -77,7 +77,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:enum` | 正文简述 | 数据类与抽象接口 |
 | `stdlib:types` | 正文简述 | 类与实例 / 运行时类型辅助对象 |
 
-## 正文大纲
+## 章节计划
 
 - H2：类与实例
   - H3：类对象与实例对象
@@ -111,7 +111,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：create a dataclass-based log record and class hierarchy, inspect bound methods and MRO, implement representation/equality, and demonstrate name mangling without claiming privacy.
 - 失败边界与踩坑：`super()` follows MRO rather than a lexical parent; mutable dataclasses have hashing constraints; `__del__` is not deterministic resource management.
@@ -123,11 +123,3 @@ date: 2026-08-25 13:13:45
     - `python-oop-new-init` priority 2.
 - 可视化：attribute lookup chain, C3 MRO graph, method binding table, and object construction sequence.
 - 主要参考资料：Data model, class statements, `abc`, `dataclasses`, Programming/Design FAQ.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：explain branching, looping, function calls, parameter binding, scopes, closures, recursion, and higher-order behavior.
 - 学习成果：reader can design predictable function interfaces and diagnose mutable-default, scope, and late-binding bugs.
@@ -80,7 +80,7 @@ date: 2026-08-25 13:13:45
 | `builtin:callable` | 正文简述 | 函数对象 |
 | `stdlib:inspect` | 正文简述 | 函数对象 |
 
-## 正文大纲
+## 章节计划
 
 - H2：流程控制
   - H3：if 与条件链
@@ -113,7 +113,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：build a score-processing pipeline with list/set/dict comprehensions, `match`-based record classification, guards, positional-only and keyword-only parameters, configurable callbacks, closure factories, recursion, and invalid-pattern/input tests.
 - 失败边界与踩坑：default values are evaluated once; closures capture names; `return` differs from loop control; recursion depth is finite; capture patterns bind names and an irrefutable case must not hide later cases.
@@ -125,11 +125,3 @@ date: 2026-08-25 13:13:45
     - `python-function-late-binding` priority 1.
 - 可视化：call-binding matrix, LEGB lookup diagram, closure cell timeline, and recursion stack.
 - 主要参考资料：Compound/simple statements, expressions, execution model, Programming FAQ, PEP 570 and PEP 572.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

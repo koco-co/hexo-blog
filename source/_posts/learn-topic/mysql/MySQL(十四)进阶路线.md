@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：完成核心课程后，怎样按真实业务需要选择专项而不盲目堆叠数据库功能。
 - 学习成果：能够判断专项进入条件、收益、风险和前置，并制定 8.0→8.4 迁移方案。
@@ -36,7 +36,7 @@ date: 2026-08-25 13:18:42
 - 分区：`refman8.4:partitioning`、`refman8.4:partitioning-overview`、`refman8.4:partitioning-types`、`refman8.4:partitioning-range`、`refman8.4:partitioning-list`、`refman8.4:partitioning-columns`、`refman8.4:partitioning-hash`、`refman8.4:partitioning-key`、`refman8.4:partitioning-subpartitions`、`refman8.4:partitioning-management`、`refman8.4:partitioning-pruning`、`refman8.4:partitioning-selection`、`refman8.4:partitioning-limitations`
 - 监控与其他引擎：`refman8.4:information-schema`、`refman8.4:information-schema-table-reference`、`refman8.4:performance-schema`、`refman8.4:performance-schema-table-reference`、`refman8.4:performance-schema-examples`、`refman8.4:sys-schema`、`refman8.4:sys-schema-reference`、`refman8.4:storage-engines`
 
-## 正文大纲
+## 章节计划
 
 - H2：存储对象分支
   - H3：视图、存储过程、触发器和事件的选择边界
@@ -51,7 +51,7 @@ date: 2026-08-25 13:18:42
 - H2：迁移方式决策
   - H3：区分公式安装、原地升级、dump/load 和复制迁移
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：根据三个系统画像选择是否采用分区、存储过程或延迟副本；为 8.0 实例制定迁移与回退检查表。
@@ -67,11 +67,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/replication-upgrade.html
 - https://dev.mysql.com/doc/refman/8.4/en/upgrade-paths.html
 - https://dev.mysql.com/doc/refman/8.4/en/upgrade-prerequisites.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

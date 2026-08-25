@@ -20,7 +20,7 @@ date: 2026-08-25 00:00:00
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：承接低频、平台相关、需要权限或可能产生较高风险的能力，不阻塞主课程。
 - 学习成果：能够根据问题选择进阶方向，并知道前置、权限、版本和风险。
@@ -34,7 +34,7 @@ date: 2026-08-25 00:00:00
 - 进阶路线 / 存储进阶：ubuntu26.04:command:blkdiscard、ubuntu26.04:command:blkid、ubuntu26.04:command:blockdev、ubuntu26.04:command:fallocate、ubuntu26.04:command:findfs、ubuntu26.04:command:findmnt、ubuntu26.04:command:fsck、ubuntu26.04:command:fsfreeze、ubuntu26.04:command:fstrim、ubuntu26.04:command:funzip、ubuntu26.04:command:gzexe、ubuntu26.04:command:hardlink、ubuntu26.04:command:losetup、ubuntu26.04:command:lzmainfo、ubuntu26.04:command:mkfs、ubuntu26.04:command:mkswap、ubuntu26.04:command:mountpoint、ubuntu26.04:command:partx、ubuntu26.04:command:rmt-tar、ubuntu26.04:command:swaplabel、ubuntu26.04:command:swapoff、ubuntu26.04:command:swapon、ubuntu26.04:command:systemd-mount、ubuntu26.04:command:systemd-umount、ubuntu26.04:command:tarcat、ubuntu26.04:command:unxz、ubuntu26.04:command:unzipsfx、ubuntu26.04:command:wipefs、ubuntu26.04:command:xzcat、ubuntu26.04:command:xzcmp、ubuntu26.04:command:xzdiff、ubuntu26.04:command:xzegrep、ubuntu26.04:command:xzfgrep、ubuntu26.04:command:xzgrep、ubuntu26.04:command:xzless、ubuntu26.04:command:xzmore、ubuntu26.04:command:zcmp、ubuntu26.04:command:zdiff、ubuntu26.04:command:zegrep、ubuntu26.04:command:zfgrep、ubuntu26.04:command:zforce、ubuntu26.04:command:zipcloak、ubuntu26.04:command:zipgrep、ubuntu26.04:command:zipinfo、ubuntu26.04:command:zipnote、ubuntu26.04:command:zipsplit、ubuntu26.04:command:zmore、ubuntu26.04:command:znew、ubuntu26.04:command:zramctl
 - 进阶路线 / 安全机制：ubuntu26.04:command:chage、ubuntu26.04:command:chcon、ubuntu26.04:command:chfn、ubuntu26.04:command:chgpasswd、ubuntu26.04:command:chpasswd、ubuntu26.04:command:chroot、ubuntu26.04:command:chsh、ubuntu26.04:command:cvtsudoers.ws、ubuntu26.04:command:expiry、ubuntu26.04:command:gpasswd、ubuntu26.04:command:grpck、ubuntu26.04:command:grpconv、ubuntu26.04:command:grpunconv、ubuntu26.04:command:loginctl、ubuntu26.04:command:newusers、ubuntu26.04:command:pwck、ubuntu26.04:command:pwconv、ubuntu26.04:command:pwunconv、ubuntu26.04:command:run0、ubuntu26.04:command:runcon、ubuntu26.04:command:runuser、ubuntu26.04:command:setpriv、ubuntu26.04:command:shadowconfig、ubuntu26.04:command:sudo_logsrvd、ubuntu26.04:command:sudo_sendlog.ws、ubuntu26.04:command:sudoedit、ubuntu26.04:command:sudoreplay.ws、ubuntu26.04:command:systemd-creds、ubuntu26.04:command:systemd-sysusers、ubuntu26.04:command:vigr、ubuntu26.04:command:vipw
 
-## 正文大纲
+## 章节计划
 
 - H2：可移植性与实现
   - H3：POSIX、GNU、uutils、BusyBox、BSD 与发行版打包
@@ -57,7 +57,7 @@ date: 2026-08-25 00:00:00
 - H2：结果验证
   - H3：只读检查能力、权限和工具可用性
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：完成只读能力盘点，并在隔离环境观察一个 systemd scope 与 namespace；不做生产调优。
 - 完整示例：完成只读能力盘点，并在隔离环境观察一个 systemd scope 与 namespace；不做生产调优。
@@ -71,11 +71,3 @@ date: 2026-08-25 00:00:00
 ## 结果验证
 
 正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-
-## 常见问题
-
-待正文阶段按主题编写，并将需要长期复习的问题转为 flashcard。
-
-## 参考资料
-
-待正文阶段补齐当前版本官方资料与可复现问题案例。

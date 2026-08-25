@@ -1,7 +1,7 @@
 ---
 name: hexo-blog-deploy
 description: 对当前 Hexo Butterfly 博客执行显式的发布准备、部署预检、本地或 CI 路由判断、部署和线上验证。仅在用户明确点名本 Skill 或明确要求部署当前博客时使用；不因构建通过、维护完成、提交建议或泛化的“准备好”自动触发。
-compatibility: 适用于 Claude Code 与 Codex；需要 Node.js 20.19.0 或更高版本、git、已安装的 npm 依赖，以及执行实际部署所需的网络和远程权限。
+compatibility: 需要 Node.js 20.19.0 或更高版本、Git 与已安装的 npm 依赖。
 disable-model-invocation: true
 metadata:
   author: koco-co
@@ -33,8 +33,8 @@ metadata:
    - 完成条件：本次是否允许执行外部副作用没有歧义。
 
 3. 执行
-   - 先运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`；非 `pass` 时停止并交回维护流程按具体文件修复。
-   - 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs release --route <local|ci> --json`。
+   - 先运行 `node .agents/scripts/audit.mjs lint --json`；非 `pass` 时停止并交回维护流程按具体文件修复。
+   - 运行 `node .agents/scripts/audit.mjs release --route <local|ci> --json`。
    - 阻塞项存在时停止；准备任务直接生成报告。
    - 仅在实际发布已授权且预检通过时执行选定路由，不扩张为提交、清理、修复主题或修改仓库权限。
    - 完成条件：授权动作完成，或在任何副作用发生前安全停止。
@@ -63,4 +63,4 @@ metadata:
 - 每次调用完整读取 `rules/release-safety.md` 和 `workflows/§01-deploy.md`。
 - 输出发布结论时使用 `templates/deployment-report.template.md`。
 - 完成预检或发布后使用 `checklists/deployment-acceptance.md`。
-- 机械预检入口为 `.agents/skills/hexo-learn-topic/scripts/audit.mjs`。
+- 机械预检入口为 `.agents/scripts/audit.mjs`。

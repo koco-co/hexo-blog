@@ -28,9 +28,9 @@ metadata:
 1. 查明事实
    - 确认当前工作目录属于本项目，并完整读取 `rules/project-contract.md`。
    - 根据任务读取 `references/project-map.md` 和相关实时配置、源码或现有文章；不得用调研快照替代当前文件。
-   - 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json` 获取脱敏的项目状态；内容任务还要运行 `content` 模式。
-   - 图片任务还要运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`，区分真实渲染引用与教程示例，并核对迁移清单。
-   - 标签外挂任务还要运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`，以已安装插件源码和实时配置确认可用能力。
+   - 运行 `node .agents/scripts/audit.mjs project --json` 获取脱敏的项目状态；内容任务还要运行 `content` 模式。
+   - 图片任务还要运行 `node .agents/scripts/audit.mjs assets --json`，区分真实渲染引用与教程示例，并核对迁移清单。
+   - 标签外挂任务还要运行 `node .agents/scripts/audit.mjs tags --json`，以已安装插件源码和实时配置确认可用能力。
    - 不向用户询问能够从代码、配置或现有内容中查明的事实。
    - 完成条件：目标文件、规范来源、现有行为、敏感边界和验证入口均已明确。
 
@@ -54,6 +54,22 @@ metadata:
    - 图片任务必须重跑 `assets` 审计；涉及页面资源时还要检查真实路由的图片加载与 404。
    - 机械检查通过不等于真实页面行为通过；无法运行的验证必须单独列出。
    - 完成条件：全仓库 lint 为 `pass`，实际执行的构建、页面或场景有证据；lint 任一具体文件失败都已修复并重跑，未全绿时不得交给用户验收。
+
+## 标题与文案合同
+
+- H2/H3 是目录导航，不是摘要或答案；优先使用简短的对象、动作或边界名，通常不超过 15 个字符。
+- 不把“为什么/如何/是否”等聊天式问句、冒号后的解释、多个并列概念或完整结论塞进普通章节标题。把原因、条件、步骤和失败边界放在首段、表格、图示或标签外挂中；问句只放在确有复习价值的 `常见问题` 中。
+- 标题层级与 `常见问题`、`参考资料` 保持同级且简洁；入门路线的六个固定 H2 不改名。公开文案不出现“本文将”“如下”“来源”“核验于”等内部过程话术。
+- 系统课程文章不在本 Skill 中另立标题、导航或公开正文规则；编辑 `source/_posts/learn-topic/` 前必须读取并遵循 `../hexo-learn-topic/rules/published-article-contract.md`，其中禁止公开 `章节计划` 等内部合同标题。
+- `node .agents/scripts/audit.mjs content --json` 会报告具体文件和行号的标题风格错误；任何错误都要修复后再运行全仓库 `lint`。
+
+## 正文视觉合同
+
+- 系统课程文章的逐正文块覆盖、公开导航和复习合同只由 `../hexo-learn-topic/rules/published-article-contract.md` 定义；本节只说明标签选择和真实渲染边界。
+- 非系统课程的新建文章或整体重写不得采用连续的纯 Markdown 文本墙；应按语义选择 Butterfly 内置标签或 Tag Plugins Plus 标签，不把标签数量当成质量指标。
+- `note`/`tip` 用于结论、提示和风险，`tabs` 用于方案或代码切换，`folding`/`hideToggle`/`hideBlock` 用于非关键补充，`mermaid`/`timeline`/`chartjs` 用于关系、流程、状态和数据，`flashcard`/`flashcard_ref` 用于长期复习，`linkgroup`/`link` 用于扩展资料，`p`/`span`/`emp`/`kbd`/`bubble` 用于行内语义强调；这里只是语义映射，不是要把所有标签都凑一遍。
+- 普通 Markdown 的适用范围、标签容器和失败降级以具体文章类型的合同为准；标签必须保留正文信息、可访问名称和失败降级。
+- 标签语法、参数和容器闭合以当前源码和 `tags` 审计为准，真实构建后再检查页面 DOM。
 
 ## Delivery
 
@@ -82,6 +98,7 @@ metadata:
 - AI 新建文章或整体视觉重构时，读取 `workflows/§05-visual-rich-authoring.md` 和 `templates/article-visual-plan.template.md`；需要确认输出粒度时读取 `examples/article-visual-plan.example.md`。
 - 使用或排查 Butterfly 内置标签时，读取 `workflows/§04-tag-plugins-plus.md` 和 `references/butterfly-built-in-tags.md`；使用 Tag Plugins Plus 时读取同一工作流和 `references/butterfly-tag-plugins-plus.md`。
 - 使用 `flashcard` 或 `flashcard_ref` 时读取 `workflows/§04-tag-plugins-plus.md` 和 `references/hexo-flashcard-plugin.md`。
+- 编辑 `source/_posts/learn-topic/` 课程文章时，额外读取 `../hexo-learn-topic/rules/published-article-contract.md`；它是课程公开正文的唯一标题、导航、块级标签和复习合同。
 - 修改配置、CSS、JavaScript 或自定义页面时，读取 `workflows/§02-customization.md`。
 - 完成改动后，读取 `workflows/§03-verification.md` 和 `checklists/maintenance-acceptance.md`。
-- 全仓库 Hexo lint 入口为 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`；分项排查使用同一脚本的 `project`、`structure`、`config`、`code`、`skills`、`docs`、`content`、`tags` 与 `assets` 模式。
+- 全仓库 Hexo lint 入口为 `node .agents/scripts/audit.mjs lint --json`；分项排查使用同一脚本的 `project`、`structure`、`config`、`code`、`skills`、`docs`、`content`、`tags` 与 `assets` 模式。

@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：并发写入为什么阻塞或超卖，以及怎样判断锁住了记录、区间还是元数据。
 - 学习成果：能够设计锁定读、识别等待关系、处理死锁，并解释 NOWAIT 与 SKIP LOCKED 的边界。
@@ -32,7 +32,7 @@ date: 2026-08-25 13:18:42
 - 锁与并发控制：`refman8.4:innodb-next-key-locking`、`refman8.4:innodb-locking`、`refman8.4:innodb-locking#innodb-shared-exclusive-locks`、`refman8.4:innodb-locking#innodb-intention-locks`、`refman8.4:innodb-locking#innodb-record-locks`、`refman8.4:innodb-locking#innodb-gap-locks`、`refman8.4:innodb-locking#innodb-next-key-locks`、`refman8.4:innodb-locking#innodb-insert-intention-locks`、`refman8.4:innodb-locking#innodb-auto-inc-locks`、`refman8.4:innodb-locks-set`、`refman8.4:innodb-locking-reads`、`refman8.4:innodb-deadlocks`、`refman8.4:innodb-deadlock-detection`、`refman8.4:performance-schema-lock-tables`、`refman8.4:information-schema-innodb-trx-table`、`refman8.4:metadata-locking`
 - 锁诊断边界：`refman8.4:internal-locking`、`refman8.4:locking-issues`
 
-## 正文大纲
+## 章节计划
 
 - H2：锁模式与意向锁
   - H3：理解 S、X 和表级意向锁
@@ -49,7 +49,7 @@ date: 2026-08-25 13:18:42
 - H2：库存与任务队列实验
   - H3：验证防超卖和并发领取
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：双会话扣减库存并观察等待；再用 SKIP LOCKED 演示多 worker 领取不同任务。
@@ -64,11 +64,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html
 - https://dev.mysql.com/doc/refman/8.4/en/innodb-deadlocks.html
 - https://dev.mysql.com/doc/refman/8.4/en/metadata-locking.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

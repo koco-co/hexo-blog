@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：index low-frequency language internals, removed-interface migrations, packaging/distribution, and specialist standard-library directions without making the core project depend on them.
 - 学习成果：reader can decide which advanced branch is relevant and identify current replacements for removed standard-library modules.
@@ -229,7 +229,7 @@ date: 2026-08-25 13:13:45
 | `legacy-stdlib:uu` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
 | `legacy-stdlib:xdrlib` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
 
-## 正文大纲
+## 章节计划
 
 - H2：属性协议
   - H3：描述符
@@ -267,7 +267,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：inspect a small function's AST and bytecode, demonstrate a descriptor, then read an old `imp`/`distutils` snippet and plan migration without publishing packages.
 - 失败边界与踩坑：metaclasses/descriptors are not default application architecture; bytecode is implementation/version dependent; advanced `memoryview` capabilities are not expanded in the foundations article; `concurrent.interpreters` and related 3.14 modules require explicit version checks; removed modules may lack equivalent stdlib replacements; for removed `crypt`, `hashlib` is only a general-digest branch, `legacycrypt` is compatibility, and `bcrypt`/`argon2-cffi` are password-hashing branches rather than interchangeable substitutes.
@@ -278,11 +278,3 @@ date: 2026-08-25 13:13:45
     - `python-advanced-slots` priority 3.
 - 可视化：advanced branch decision tree and old-to-current migration table.
 - 主要参考资料：data model, `ast`, `dis`, `symtable`, `importlib`, `concurrent.interpreters`, PyPA specifications, PEP 594 and each removed-module page.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

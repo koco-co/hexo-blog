@@ -422,7 +422,7 @@ print("debug")  # noqa: T201, T203
     ruff format . --check
 ```
 
-## 类型检查：Pyright
+## 类型检查
 
 ### 简介
 
@@ -544,7 +544,7 @@ pyright . --verbose
 4. **CI/CD 集成**: 在 CI 中运行 `pyright` 确保代码质量
    {% endfolding %}
 
-## Git 钩子：pre-commit
+## Git 钩子
 
 ### 简介
 

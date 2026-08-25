@@ -31,15 +31,15 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
    - 完成条件：用户确认学习范围、推荐顺序、学习主题和 `N+1～3` 篇文章安排；确认前保持只读。
 3. 设计并复核文章地图
    - 按第一次确认的学习主题逐项生成同名主题文章，不得在第二轮擅自拆分、合并或改名；确需改变学习主题时退回第一轮重新确认。
-   - 为每篇文章确定真实名称、唯一职责、前置、详细大纲、示例、视觉机会、FAQ、自测和参考资料卡片编排，同时冻结全系列共用的一张封面合同：简短系列名称、准确主题标识、4～5 个课程关键词、固定风格参考和本地文件名。
+   - 为每篇文章确定真实名称、唯一职责、前置、详细大纲、示例、视觉机会和复习编排；FAQ、闪卡、折叠内容只在确有主题学习价值时安排。入门路线只做主题介绍和阅读入口，不塞面试题或课程生产元信息。正文 H2/H3 只保留简短的对象、动作或边界名，通常不超过 15 个字符；不要用冒号、顿号堆叠解释性副标题，也不要把“为什么/如何/是否”等聊天式问题当作普通章节标题，详细条件、结论和问题放进正文、表格、图示或“常见问题”。同步冻结全系列共用的一张封面合同：简短系列名称、准确主题标识、4～5 个课程关键词、固定风格参考和本地文件名。
    - 把能力全集逐项处置为“核心详解、正文简述、进阶路线、弃用迁移、明确不纳入”。前四类指定唯一主文章，明确不纳入项不得指定文章；不允许未处置、重复或虚构标识。
    - 把冻结的路线、文章地图、能力全集与处置账本交给不继承主对话的独立子代理做全量差集审查；修复阻塞项并重新审查。
    - 完成条件：官方集合与账本集合完全相等，两侧差集、重复和未处置均为 0，Reviewer 无阻塞项，用户完成第二次确认。
 4. 创建课程占位
    - 第二次确认后先按 `workflows/§04-scaffold-course.md` 的参考图提示词合同生成并验收一张本地系列封面，再在 `source/_posts/learn-topic/<主题路径段>/` 创建动态命名的路线图和全部文章占位。
    - 路线图、占位文章和后续正式文章统一复用同一个 `cover`；不得逐篇生成、随机替换或回退到 Butterfly 随机封面。
-   - 路线图可渲染；其他文章带隐藏占位标记并保持 `published: false`，只写确认后的文章合同，不填充正式正文。
-   - 在 `data/<主题路径段>.json` 写入 schema v2 课程契约，持久化第一轮学习主题、可选篇、完整文章清单和无损能力账本；课程文章 Front Matter 不保存内部账本。
+   - 路线图可渲染；其他文章带隐藏占位标记并保持 `published: false`，只写 `rules/published-article-contract.md` 配套的文章职责、内容边界、正文编排、视觉与复习、验收证据合同，不填充正式正文或假 FAQ、假闪卡。
+   - 在 `data/<主题路径段>.json` 写入 schema v2 课程契约，持久化第一轮学习主题、可选篇、完整文章清单和无损能力账本，并写入 `course.public_article_contract: "v1"` 激活公开正文合同；课程文章 Front Matter 不保存内部账本。
    - 完成条件：文件与路线一一对应，全仓库 lint 通过，路线图真实构建和预览通过。
 5. 完成课程文章
    - 默认只选择路线中下一篇未完成文章；用户明确要求批量完成时，先冻结本批次文章及顺序，再按同一门禁逐篇处理，不并行写入相互依赖的正文。
@@ -54,11 +54,12 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 - 系列封面必须在第二次确认后、占位写入前生成；生成时必须把 `assets/course-cover-reference.png` 作为风格与构图参考，并使用文章地图冻结的主题内容替换参考图中的 Python 元素。图像生成能力不可用或封面验收失败时停止，不创建缺少统一封面的课程脚手架。
 - Curriculum Reviewer 与 Article Reviewer 都必须独立、只读且不继承主对话；无法调用时标记阻塞，不用主代理自评替代。
 - 官方能力全集、版本依据或处置账本缺失时，Reviewer 只能返回 `INSUFFICIENT_INFORMATION`；存在未归属、重复归属或无依据排除项时不得进入写作或给出 `PASS`。
-- 全集入口 manifest、逐项账本、第一轮学习主题和文章映射必须无损持久化在 `data/<主题路径段>.json` 的 schema v2 课程契约中；课程 Front Matter 出现 `learn_topic_capability_ledger` 立即阻断。新会话无法仅凭项目文件恢复时不得继续写作。
+- 全集入口 manifest、逐项账本、第一轮学习主题和文章映射必须无损持久化在 `data/<主题路径段>.json` 的 schema v2 课程契约中；课程 Front Matter 出现任何 `learn_topic_*` 内部字段立即阻断。新会话无法仅凭项目文件恢复时不得继续写作。
 - Article Reviewer 一次只审一篇。运行时任务必须完整提供该篇分配、能力全集、处置账本和 Reviewer Prompt，不得用“重点核验 API”等临时摘要替代逐项差集。
-- 正文写作必须完整调用 `hexo-blog-maintenance`；未发布文章在其验证阶段使用隔离 `--draft` 构建和浏览器验收，Reviewer 修订后重跑受影响的维护验证。
+- 正文写作必须完整调用 `hexo-blog-maintenance` 并遵循 `rules/published-article-contract.md`；每个有意义的解释块都必须逐块分配并落实真实标签，普通 Markdown 只保留标题、代码、表格、列表和结构连接。发布正文不得出现占位合同、课程导航、能力账本或“前置文章是……”文案；`audit.mjs content --release` 必须直接拦截标签外裸解释块。未发布文章在其验证阶段使用隔离 `--draft` 构建和浏览器验收，Reviewer 修订后重跑受影响的维护验证。
 - 每篇文章通过验证前保持占位标记和 `published: false`；不得把普通构建成功当作未发布文章已经被解析。正文通过公开候选门禁后必须在同一流程自动移除标记并切换为 `published: true`。
-- 所有课程 Mermaid 只使用 `{% mermaid %}` 容器；公开课程的 `常见问题` 必须使用 `flashcard` 或 `flashcard_ref`。最终交付前运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`，由该入口统一检查项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、标签和图片资源；只在 `status: pass` 时进入用户验收，否则按输出的具体文件修复并重跑。
+- 所有课程 Mermaid 只使用 `{% mermaid %}` 容器。入门路线固定为“课程目标、前置条件、学习路径、文章安排、开始学习、参考资料”六个 H2，不放 flashcard；主题、进阶和实战文章可按复习价值选择 FAQ 与闪卡，存在 `常见问题` 才要求其中有 `flashcard`/`flashcard_ref`。公开课程的 `参考资料` 必须使用 `{% linkgroup %}` / `{% link %}` 资料卡并包含有效 HTTP(S) 链接；每个资料卡必须显式提供与目标资料同域或同组织的官方图标，只有能明确证明属于目标资料的官方产品 CDN 才可例外，禁止默认头像、封面、占位图、资料页本身或无关域名图片。每篇已发布课程文章还必须通过标签渲染组合门禁，不能只有 `course_series`、资料链接或纯 Markdown 正文。最终交付前运行 `node .agents/scripts/audit.mjs lint --json`，由该入口统一检查项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、标签和图片资源；只在 `status: pass` 时进入用户验收，否则按输出的具体文件修复并重跑。
+- 标题与正文文案必须分工：标题只负责让读者定位本节，标签块负责解释“为什么、何时、怎么做”和失败边界。已发布课程文章不得保留 `章节计划`、`学习目标`、`验证方式` 等内部合同，也不得重复课程导航；lint 会对全仓库公开文章检查 H2/H3 风格、公开元文案和标签覆盖。出现具体文件错误时必须修复后重跑，不能靠模型自觉放行。
 
 ## Delivery
 
@@ -83,6 +84,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 - 学习路线图与课程占位创建后的用户回复使用 `templates/course-roadmap-created-reply.template.md`；完整表达参考 `examples/course-roadmap-created-reply.example.md`。
 - 路线、文章地图、路线图正文和占位文章分别使用 `templates/` 下对应模板。
 - 系列封面的固定风格参考使用 `assets/course-cover-reference.png`；提示词合同与参考图使用边界以 `workflows/§04-scaffold-course.md` 为唯一规范源。
-- 课程契约使用 `templates/course-contract.template.json`；最终门禁使用 `scripts/audit.mjs lint --json`，审计契约由 `scripts/audit.test.mjs` 验证。
+- 课程契约使用 `templates/course-contract.template.json`；最终门禁使用 `.agents/scripts/audit.mjs lint --json`，审计契约由 `.agents/scripts/audit.test.mjs` 验证。
 - 课程与单篇审查分别使用 `prompts/curriculum-reviewer.agent.md` 和 `prompts/article-reviewer.agent.md`。
+- 已发布课程正文的标题、内部元文案、标签覆盖和复习边界统一以 `rules/published-article-contract.md` 为准。
 - 完成阶段执行 `checklists/course-acceptance.md`。

@@ -39,9 +39,9 @@
 ## Phase 3：在隔离目录准备完整文章
 
 1. 用 `mktemp -d` 创建本次专用隔离根；可以在其中使用 `hexo new --path`，但不得让当前不完整 scaffold 的中间结果进入真实 `source/_posts/`。
-2. 在隔离根中把每篇补全为最终占位内容。路线图包含阶段、依赖、文章地图、状态、阅读顺序、完成标准和来源；同时按 `templates/course-contract.template.json` 把第二次确认前已经 Reviewer 审查的第一轮学习主题、可选篇、完整文章清单、入口 manifest、完整官方全集、逐项覆盖处置账本、旧接口迁移映射与集合摘要写入 `data/<主题路径段>.json`。契约必须使用 `schema_version: 2`，并无损保存每项的对象或主题、来源、版本状态、处置、主文章、目标章节、理由和验证状态。脚手架不得首次创建或改写映射，文章 Front Matter 禁止 `learn_topic_capability_ledger`。未发布文章只显示标题和状态，不生成指向不存在路由的链接。
+2. 在隔离根中把每篇补全为最终占位内容。路线图包含阶段、依赖、文章地图、状态、阅读顺序、完成标准和来源；同时按 `templates/course-contract.template.json` 把第二次确认前已经 Reviewer 审查的第一轮学习主题、可选篇、完整文章清单、入口 manifest、完整官方全集、逐项覆盖处置账本、旧接口迁移映射与集合摘要写入 `data/<主题路径段>.json`。契约必须使用 `schema_version: 2` 和 `course.public_article_contract: "v1"`，并无损保存每项的对象或主题、来源、版本状态、处置、主文章、目标章节、理由和验证状态。脚手架不得首次创建或改写映射，文章 Front Matter 禁止任何 `learn_topic_*` 内部字段。未发布文章只显示标题和状态，不生成指向不存在路由的链接。
 3. 其他文章包含完整 Front Matter、隐藏的 `<!-- learn-topic-placeholder -->` 标记与确认后的文章合同，并使用布尔值 `published: false`。
-4. 所有文章使用嵌套分类 `Learn Topic → <主题>`、统一 `series`、同一个本地 `cover`、与中文序号一致的 `series_order` 和 `{% course_series %}` 导航；不依赖标题或发布日期推断课程顺序，不填充正式讲解，不制造假代码、假 FAQ 或无来源答案。
+4. 所有文章使用嵌套分类 `Learn Topic → <主题>`、统一 `series`、同一个本地 `cover`、与中文序号一致的 `series_order` 和 `{% course_series %}` 导航；不依赖标题或发布日期推断课程顺序，不填充正式讲解，不制造假代码、假 FAQ、假闪卡或无来源答案。占位文章只保留 `article-placeholder.template.md` 的职责、边界、正文块、视觉复习和验收证据合同；依赖、能力账本和来源清单留在路线图或课程契约，不复制进公开正文。
 5. 在隔离根运行全仓库 lint 并逐文件读回，确认数量、路径、Front Matter、正文合同和 Skill 数据契约完全匹配；用一个不依赖当前对话的读回过程从 `data/<主题路径段>.json` 恢复 manifest、全集、五类处置、排除理由和文章分配，并对每项稳定标识、对象或主题、来源、版本状态、强制镜像、处置、主文章、目标章节、理由和验证状态执行字段级往返比较。集合不相等、字段丢失、旧 Front Matter 字段残留或 lint 非 `pass` 时不写入真实目录。
 
 完成信号：隔离根中的路线图与占位文章数量、名称、顺序和大纲完全匹配确认结果，非路线图文章均有占位标记且为布尔值 `published: false`。
@@ -57,7 +57,7 @@
 
 ## Phase 5：验证并停止
 
-1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`；任何具体文件错误都先修复并重跑，只有 `status: pass` 才继续。
+1. 运行 `node .agents/scripts/audit.mjs lint --json`；任何具体文件错误都先修复并重跑，只有 `status: pass` 才继续。
 2. 调用 `hexo-blog-maintenance` 的验证流程构建并在浏览器检查路线图文章；占位文章不作为已完成正文验收。
 3. 构建后读回所有新文件，核对 `abbrlink`、`published`、`cover`、`series`、`series_order`、课程导航、分类和路线状态，并确认所有文章只引用同一张存在的本地封面。
 4. 在桌面和移动视口检查路线图封面及缩略图裁切，确认主题文字或图标清晰、图片完成加载且无 404。

@@ -20,7 +20,7 @@ date: 2026-08-25 00:00:00
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：掌握 Linux 组成、目录层级、终端与 Shell、路径、环境变量、命令解析和帮助系统。
 - 学习成果：能够进入陌生 Linux 环境并判断系统、Shell 和命令实现。
@@ -33,7 +33,7 @@ date: 2026-08-25 00:00:00
 - 核心详解 / 运行环境：posix2024:utility:env、posix2024:utility:locale、posix2024:utility:logname、posix2024:utility:stty、posix2024:utility:tty、posix2024:utility:who、ubuntu26.04:command:printenv、ubuntu26.04:command:whoami
 - 正文简述 / 运行环境：ubuntu26.04:command:lsb_release、ubuntu26.04:command:users
 
-## 正文大纲
+## 章节计划
 
 - H2：Linux 系统组成
   - H3：内核、用户空间、发行版、服务、Shell 与终端
@@ -56,7 +56,7 @@ date: 2026-08-25 00:00:00
 - H2：结果验证
   - H3：生成陌生环境清单并解释每项证据
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：使用 uname、/etc/os-release、bash --version、type -a、command -V、readlink、env、locale、pwd、ls 和 Vim 生成环境清单。
 - 完整示例：使用 uname、/etc/os-release、bash --version、type -a、command -V、readlink、env、locale、pwd、ls 和 Vim 生成环境清单。
@@ -70,11 +70,3 @@ date: 2026-08-25 00:00:00
 ## 结果验证
 
 正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-
-## 常见问题
-
-待正文阶段按主题编写，并将需要长期复习的问题转为 flashcard。
-
-## 参考资料
-
-待正文阶段补齐当前版本官方资料与可复现问题案例。

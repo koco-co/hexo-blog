@@ -24,11 +24,11 @@ date: 2026-08-24 12:12:00
 
 Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自动化测试不仅需要会点击元素，还要理解定位语义、自动等待、浏览器状态边界、pytest 生命周期、网络控制和失败证据。本系列以 Python 同步 API 与 `pytest-playwright` 为主线，从第一个测试逐步走到可维护的跨浏览器测试套件。
 
-{% note info no-icon modern %}
+{% note info flat %}
 课程中的所有示例文件都以代码块展示，不会在博客仓库中创建额外练习项目。建议读者在自己的空目录中按文章给出的结构实践。
 {% endnote %}
 
-## 学习目标
+## 课程目标
 
 完成主线后，应当能够：
 
@@ -41,7 +41,7 @@ Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自�
 - 使用 Codegen、Inspector、Trace Viewer 和 CI 产物定位失败；
 - 交付一套边界明确、可诊断、可跨浏览器运行的项目。
 
-## 前置知识
+## 前置条件
 
 开始课程前需要掌握 Python 的函数、类、上下文管理器、异常和虚拟环境基础。不要求提前了解 pytest Fixture、DOM、ARIA 或浏览器进程模型，这些知识会在对应文章中解释。
 
@@ -56,7 +56,7 @@ Git
 
 课程不依赖真实商城或线上账号。示例使用 `page.set_content()`、环回地址和虚构数据，避免把第三方站点变化、验证码或真实凭据引入学习环境。
 
-## 知识顺序
+## 学习路径
 
 {% mermaid %}
 flowchart TD
@@ -79,7 +79,7 @@ I --> L
 
 “进阶路线”是可选篇，项目实战不依赖其中的无障碍、视觉回归、WebSocket、GraphQL 或 BDD。常规 Web 自动化先完成第二至第十篇，再根据项目需要选择进阶能力。
 
-## 文章目录
+## 文章安排
 
 | 顺序 | 文章         | 核心成果                          | 前置 |
 | ---- | ------------ | --------------------------------- | ---- |
@@ -96,7 +96,7 @@ I --> L
 | 十一 | 进阶路线     | 按需扩展特殊协议与专项质量验证    | 十   |
 | 十二 | 项目实战     | 组合主线能力完成可诊断测试套件    | 十   |
 
-## 学习方法
+## 开始学习
 
 每篇按照相同节奏学习：
 
@@ -108,7 +108,7 @@ I --> L
 
 不要用 `time.sleep()` 暂时消除失败，也不要一开始就建立庞大的 POM。先写出表达用户行为的直接测试，确认重复和变化边界后再抽象。
 
-## 工具范围
+### 工具范围
 
 主线使用：
 
@@ -120,7 +120,7 @@ I --> L
 
 Node.js 版 Playwright Test 的内置 retry、HTML Report、`--shard` 和 `toHaveScreenshot()` 不属于 Python API。文章会在相关位置给出 Python 生态中的等价思路，不会把两套运行器混写。
 
-## 完成标准
+### 完成标准
 
 仅“看完文章”不算完成。毕业前至少保留以下证据：
 
@@ -131,30 +131,6 @@ Node.js 版 Playwright Test 的内置 retry、HTML Report、`--shard` 和 `toHav
 - 失败时能够从 Trace、截图或日志说明原因；
 - Chromium、Firefox、WebKit 的运行结果分别可见；
 - CI 产物不包含 Cookie、Token、密码或真实用户数据。
-
-## 常见问题
-
-{% flashcard basic id:playwright-roadmap-mainline deck:"Playwright" priority:2 tags:"入门路线,主线" %}
---- question
-为什么不建议跳过 Locator 和断言，直接学习 Page Object？
---- answer
-Page Object 依赖稳定的定位、等待和断言边界。
---- explanation
-如果尚未理解 Locator 的重新查询、严格模式和 Web-first 断言，POM 只会把脆弱选择器和固定等待藏进类中，增加排查成本。
-{% endflashcard %}
-
-{% flashcard choice id:playwright-roadmap-optional deck:"Playwright" priority:2 tags:"入门路线,进阶" answer:B %}
---- question
-完成常规 Web 自动化主线后，哪一篇可以按项目需要选学？
-
-- [A] 页面元素定位
-- [B] 进阶路线
-- [C] 测试框架设计
-  --- answer
-  B
-  --- explanation
-  无障碍、视觉回归、WebSocket、GraphQL 和 BDD 属于按需扩展；定位和框架设计是主线基础。
-  {% endflashcard %}
 
 ## 参考资料
 

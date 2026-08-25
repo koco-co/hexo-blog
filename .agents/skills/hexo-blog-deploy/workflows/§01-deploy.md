@@ -16,9 +16,9 @@
 按顺序执行：
 
 ```bash
-node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json
-node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json
-node .agents/skills/hexo-learn-topic/scripts/audit.mjs release --route local --json
+node .agents/scripts/audit.mjs project --json
+node .agents/scripts/audit.mjs lint --json
+node .agents/scripts/audit.mjs release --route local --json
 ```
 
 CI 路由将最后一条命令的 `local` 改为 `ci`。

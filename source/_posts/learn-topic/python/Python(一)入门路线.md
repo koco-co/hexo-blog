@@ -21,20 +21,24 @@ date: 2026-08-25 13:13:45
 
 {% course_series %}
 
-## 这条路线解决什么问题
+{% note info flat %}
+本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。
+{% endnote %}
+
+## 课程目标
 
 - 从零建立 Python 的运行、对象、语法和标准库心智模型。
 - 能解释名称绑定、可变性、迭代、MRO、异常链、GC、GIL 等常见面试追问。
 - 能把类型、测试、日志、资源安全和性能测量组合进一个完整项目。
 - Python 语言保证与 CPython 实现细节分开说明；目标资料固定为 Python 3.14.7，核心实验兼容本地 Python 3.13.12。
 
-## 开始前需要什么
+## 前置条件
 
 - 不要求已有 Python 项目经验。
 - 需要能够使用终端、编辑文本文件并运行简单命令；相关操作会在课程中补齐。
 - 《Python现代化开发工具链指南》只作为 uv、Ruff、Pyright 等工具的伴读，不替代本课程。
 
-## 学习阶段
+## 学习路径
 
 {% mermaid %}
 flowchart TD
@@ -50,7 +54,7 @@ flowchart TD
   I --> K[进阶路线：可选]
 {% endmermaid %}
 
-## 文章地图
+## 文章安排
 
 | 顺序 | 文章 | 解决的问题 | 前置 | 状态 |
 | ---: | --- | --- | --- | --- |
@@ -67,45 +71,18 @@ flowchart TD
 | 11 | Python(十一)进阶路线 | 低频内部机制和旧接口迁移 | 第十篇 | 未发布占位，可选 |
 | 12 | Python(十二)项目实战 | 命令行日志分析器 | 第十篇 | 未发布占位 |
 
-## 如何使用这套课程
+## 开始学习
 
 1. 按主线顺序阅读，每篇先建立机制，再运行完整实验。
 2. 遇到版本差异时，以文中的 3.13/3.14 分支为准，不把 CPython 行为当成所有实现的保证。
 3. 完成示例后先预测输出，再运行测试和失败用例；需要长期记忆的面试题会进入统一闪卡卡组。
 4. 第十一篇是可选路线；完成第十篇后可以直接进入项目实战。
 
-## 常见问题
-
-{% flashcard basic id:python-legacy-notes deck:"Python" priority:3 tags:"入门路线,旧笔记" %}
---- question
-Python 课程会删除或覆盖旧笔记吗？
---- answer
-不会。课程只吸收可复用的解释和练习，并重新核验过时或不准确的结论。
---- explanation
-旧笔记是输入材料，不是未经核验的事实来源；课程会保留有学习价值的部分，同时明确当前版本边界。
-{% endflashcard %}
-
-{% flashcard basic id:python-version-baseline deck:"Python" priority:2 tags:"版本边界,Python 3.13" %}
---- question
-学习这套课程必须使用 Python 3.14 吗？
---- answer
-不必须。核心实验以 Python 3.13.12 可运行为基线。
---- explanation
-Python 3.14 新增的语法、API 和行为会使用明确版本门控，避免把新版本能力误写成所有环境都可运行的基础能力。
-{% endflashcard %}
-
-{% flashcard basic id:python-advanced-order deck:"Python" priority:2 tags:"进阶路线,学习顺序" %}
---- question
-项目实战前必须先读 Python 进阶路线吗？
---- answer
-不需要。进阶路线不是项目实战的前置。
---- explanation
-描述符、元类、执行内部、多解释器和旧接口迁移属于按需深化内容；项目实战只依赖前面的主线主题。
-{% endflashcard %}
-
 ## 参考资料
 
-- [Python 3.14.7 发布说明](https://www.python.org/downloads/release/python-3147/)
-- [Python 3.14 语言参考](https://docs.python.org/3.14/reference/)
-- [Python 3.14 标准库](https://docs.python.org/3.14/library/)
-- [CPython v3.14.7](https://github.com/python/cpython/tree/823f0323ee6ec1402088b73bce1a38473cac36dc)
+{% linkgroup %}
+{% link Python 3.14.7 发布说明, https://www.python.org/downloads/release/python-3147/, https://www.python.org/static/favicon.ico %}
+{% link Python 3.14 语言参考, https://docs.python.org/3.14/reference/, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 标准库, https://docs.python.org/3.14/library/, https://docs.python.org/3.14/_static/py.svg %}
+{% link CPython v3.14.7, https://github.com/python/cpython/tree/823f0323ee6ec1402088b73bce1a38473cac36dc, https://github.com/favicon.ico %}
+{% endlinkgroup %}

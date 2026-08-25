@@ -57,7 +57,7 @@ password:
 ⚠️ **重要**: 仓库必须设置为公开, 否则 jsDelivr CDN 无法访问.
 {% endnote %}
 
-### 2. 生成 Personal Access Token
+### 访问令牌
 
 GitHub 已于 2021年8月停止支持密码认证, 需要使用 Personal Access Token (PAT) 进行 API 认证.
 

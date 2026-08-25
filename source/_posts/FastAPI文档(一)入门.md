@@ -19,7 +19,7 @@ date: 2026-02-10 12:35:13
 
 FastAPI 是一个基于 Python 的高性能 Web 框架, 专门用于快速构建 API 接口服务. 它基于 Starlette 和 Pydantic 构建, 支持 async/await 语法, 性能可媲美 NodeJS 和 Go.
 
-{% link FastAPI 官方文档, https://fastapi.tiangolo.com/, https://avatars.githubusercontent.com/u/156354296?s=48&v=4 %}
+{% link FastAPI 官方文档, https://fastapi.tiangolo.com/, https://fastapi.tiangolo.com/img/favicon.png %}
 
 ### 核心特性
 
@@ -908,4 +908,4 @@ Ref. [Testing](https://fastapi.tiangolo.com/tutorial/testing/)
 
 {% btn https://www.starlette.io/, Starlette 文档, fa-solid fa-bolt, red %}
 
-{% link FastAPI 中文翻译, https://fastapi.tiangolo.com/zh/, https://avatars.githubusercontent.com/u/156354296?s=48&v=4 %}
+{% link FastAPI 中文翻译, https://fastapi.tiangolo.com/zh/, https://fastapi.tiangolo.com/img/favicon.png %}

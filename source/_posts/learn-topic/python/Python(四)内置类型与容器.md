@@ -21,7 +21,7 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：select and manipulate built-in containers based on ordering, mutability, uniqueness, hashing, copying, and algorithmic behavior.
 - 学习成果：reader can choose a container, explain dictionary/set key restrictions, and predict shallow/deep copy effects.
@@ -112,7 +112,7 @@ date: 2026-08-25 13:13:45
 | `stdlib:copy` | 核心详解 | 复制与共享 |
 | `stdlib:heapq` | 核心详解 | 排序与查找 |
 
-## 正文大纲
+## 章节计划
 
 - H2：容器协议
   - H3：序列、映射与集合
@@ -141,7 +141,7 @@ date: 2026-08-25 13:13:45
 - H2：常见问题
 - H2：参考资料
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例与完整示例：model employee records using several containers, sort and index them, then demonstrate aliasing, shallow copy, deep copy, and a self-referential structure.
 - 失败边界与踩坑：tuple immutability does not make contained objects immutable; hashability is not identical to immutability; `deepcopy` may copy too much.
@@ -153,11 +153,3 @@ date: 2026-08-25 13:13:45
     - `python-container-sort` priority 2.
 - 可视化：container decision table, hash lookup sketch, and nested-copy reference graph.
 - 主要参考资料：Built-in types, `copy`, `collections`, `bisect`, `heapq`, Sorting HOWTO, Programming/Design FAQ.
-
-## 常见问题
-
-待正文阶段按主题编写；需要长期复习的问答优先使用带稳定 ID 和优先级的 flashcard。
-
-## 参考资料
-
-待正文阶段按正文出现顺序补齐官方资料卡片。

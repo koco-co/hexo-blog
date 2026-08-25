@@ -1,6 +1,6 @@
 # 内容创作工作流
 
-本工作流处理文章、独立页面、站点数据和内容资源。开始前完整读取 `rules/project-contract.md`；新文章还要读取 `templates/post.template.md`。AI 新建文章或整体视觉重构还要读取 `workflows/§05-visual-rich-authoring.md`。任务涉及 Butterfly 内置标签或 Tag Plugins Plus 时，同时完整读取 `workflows/§04-tag-plugins-plus.md`，并按所有者读取对应标签参考。
+本工作流处理文章、独立页面、站点数据和内容资源。开始前完整读取 `rules/project-contract.md`；新文章还要读取 `templates/post.template.md`。AI 新建文章或整体视觉重构还要读取 `workflows/§05-visual-rich-authoring.md`。任务涉及 Butterfly 内置标签或 Tag Plugins Plus 时，同时完整读取 `workflows/§04-tag-plugins-plus.md`，并按所有者读取对应标签参考。编辑 `source/_posts/learn-topic/` 时同时读取 `../hexo-learn-topic/rules/published-article-contract.md`，课程正文不另立一套规则。
 
 ## Phase 1：确定内容类型和事实来源
 
@@ -47,10 +47,10 @@
 
 ## Phase 4：编写 Markdown 与 Butterfly 标签
 
-1. 使用清晰的标题层级，不跳级制造仅靠字号表达的结构。
+1. 使用清晰的标题层级，不跳级制造仅靠字号表达的结构；H2/H3 只写简短对象、动作或边界名，通常不超过 15 个字符，不把解释性副标题和聊天式问句写进普通章节标题。
 2. 中英文相邻处留空格；使用英文半角标点；代码、命令、路径和配置键用反引号。
 3. 围栏代码块注明合适语言；若内容本身要求展示 Markdown 围栏，正确处理嵌套，避免提前结束代码块。
-4. 普通 Markdown 承载连续正文、标题、列表、表格和代码；视觉丰富分支同时落实已确认的多标签组合，不用空洞内容填充组件。
+4. 课程文章按 `published-article-contract.md` 逐正文块确定标签外挂角色，再写入正文；普通 Markdown 仅承载 H2/H3、代码、表格、列表和结构连接。课程文章不得保留公开占位合同、前置文章/进度/能力账本文案，也不得用无关组件硬凑视觉数量；审计器会拒绝标签外裸解释块。
 5. Butterfly 内置标签以 `references/butterfly-built-in-tags.md` 的当前源码契约为准；Tag Plugins Plus 标签以 `references/butterfly-tag-plugins-plus.md` 为准；闪卡以 `references/hexo-flashcard-plugin.md` 为准。
 6. 按 `workflows/§04-tag-plugins-plus.md` 核对标签所有者、配置门禁、外部依赖和组合边界；不得为增加种类使用不适合正文语义的标签。
 7. 不混淆同名或相邻能力：当前 `timeline` 来自 Butterfly；`inlineImg` 来自 Butterfly，`inlineimage` 来自 Tag Plugins Plus；`btn` 与 `btns/cell` 不是同一语法。
@@ -72,11 +72,11 @@
 
 ## Phase 6：交接验证
 
-1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --json`。
-2. 涉及图片时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`。
-3. 使用或修改标签外挂时，运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`。
+1. 运行 `node .agents/scripts/audit.mjs content --json`。
+2. 涉及图片时运行 `node .agents/scripts/audit.mjs assets --json`。
+3. 使用或修改标签外挂时，运行 `node .agents/scripts/audit.mjs tags --json`。
 4. 完整执行 `workflows/§03-verification.md` 的适用步骤。
-5. 构建后运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --release --json`，确认 `abbrlink` 已生成且唯一。
+5. 构建后运行 `node .agents/scripts/audit.mjs content --release --json`，确认 `abbrlink` 已生成且唯一。
 6. 使用 `checklists/maintenance-acceptance.md` 检查内容语义和真实页面。
 7. 视觉丰富分支逐节对照已确认预案；任何实质偏差必须有用户确认过的修订预案。
 

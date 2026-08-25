@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：怎样写出语义正确、结果稳定且能解释的单表与聚合查询。
 - 学习成果：能够处理 NULL、类型转换、分组约束、并列结果和稳定排序。
@@ -32,7 +32,7 @@ date: 2026-08-25 13:18:42
 - 查询基础与聚合：`refman8.4:select`、`refman8.4:expressions`、`refman8.4:type-conversion`、`refman8.4:non-typed-operators`、`refman8.4:operator-precedence`、`refman8.4:comparison-operators`、`refman8.4:logical-operators`、`refman8.4:flow-control-functions`、`refman8.4:numeric-functions`、`refman8.4:date-and-time-functions`、`refman8.4:string-functions`、`refman8.4:cast-functions`、`refman8.4:aggregate-functions-and-modifiers`、`refman8.4:aggregate-functions`、`refman8.4:group-by-functional-dependence`、`refman8.4:order-by-optimization`
 - 函数选择边界：`refman8.4:bit-functions`、`refman8.4:encryption-functions`、`refman8.4:information-functions`、`refman8.4:miscellaneous-functions`
 
-## 正文大纲
+## 章节计划
 
 - H2：SELECT 逻辑执行顺序
   - H3：理解 FROM、WHERE、GROUP BY、HAVING、SELECT、ORDER BY
@@ -47,7 +47,7 @@ date: 2026-08-25 13:18:42
 - H2：排序与分页
   - H3：增加确定性排序并解释 OFFSET 成本
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：基于员工和订单数据计算第二高薪、月度销售额和多状态条件聚合，给出固定期望结果。
@@ -61,11 +61,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/aggregate-functions.html
 - https://dev.mysql.com/doc/refman/8.4/en/group-by-functional-dependence.html
 - https://dev.mysql.com/doc/refman/8.4/en/order-by-optimization.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

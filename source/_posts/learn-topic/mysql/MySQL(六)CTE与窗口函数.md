@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：怎样在保留明细行的同时完成跨行计算和多阶段查询。
 - 学习成果：能够设计 CTE、窗口分区、排序和 frame，并验证排名、累计和连续区间。
@@ -31,7 +31,7 @@ date: 2026-08-25 13:18:42
 
 - CTE与窗口函数：`refman8.4:with`、`refman8.4:window-functions`、`refman8.4:window-function-descriptions`、`refman8.4:window-functions-usage`、`refman8.4:window-functions-frames`、`refman8.4:window-functions-named-windows`、`refman8.4:window-function-restrictions`
 
-## 正文大纲
+## 章节计划
 
 - H2：CTE 与查询分解
   - H3：用 WITH 表达多阶段查询
@@ -46,7 +46,7 @@ date: 2026-08-25 13:18:42
 - H2：命名窗口与限制
   - H3：复用窗口定义并识别不可用位置
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：完成部门 Top N、重复记录标记、累计销售额和连续登录区间，并比较窗口前后的行数。
@@ -60,11 +60,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/window-functions.html
 - https://dev.mysql.com/doc/refman/8.4/en/window-functions-frames.html
 - https://dev.mysql.com/doc/refman/8.4/en/window-function-restrictions.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

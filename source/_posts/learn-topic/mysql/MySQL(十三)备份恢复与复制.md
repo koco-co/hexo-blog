@@ -22,7 +22,7 @@ date: 2026-08-25 13:18:42
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 本文职责
+## 学习目标
 
 - 唯一问题：当误删已经传播到副本时，怎样从备份和 binlog 恢复到事故前。
 - 学习成果：能够记录备份坐标、确定重放起止点、隔离恢复、验证数据，并解释复制不是备份。
@@ -32,7 +32,7 @@ date: 2026-08-25 13:18:42
 - 统一RecoverLab：`refman8.4:backup-and-recovery`、`refman8.4:backup-types`、`refman8.4:backup-methods`、`refman8.4:backup-strategy-example`、`refman8.4:backup-policy`、`refman8.4:recovery-from-backups`、`refman8.4:using-mysqldump`、`refman8.4:mysqldump-sql-format`、`refman8.4:reloading-sql-format-dumps`、`refman8.4:mysqldump-tips`、`refman8.4:point-in-time-recovery`、`refman8.4:point-in-time-recovery-binlog`、`refman8.4:point-in-time-recovery-positions`、`refman8.4:replication`、`refman8.4:replication-configuration`、`refman8.4:replication-formats`、`refman8.4:replication-implementation`、`refman8.4:replication-channels`、`refman8.4:replication-threads`、`refman8.4:replica-logs`、`refman8.4:replication-security`、`refman8.4:replication-solutions-backups`、`refman8.4:replication-solutions-rbr-monitoring`、`refman8.4:replication-problems`、`refman8.4:gtid-functions`、`refman8.4:replication-gtids`、`refman8.4:replication-gtids-howto`、`refman8.4:change-replication-source-to`、`refman8.4:start-replica`、`refman8.4:stop-replica`、`refman8.4:show-replica-status`、`refman8.4:replication-options-binary-log#sysvar_binlog_expire_logs_seconds`、`refman8.4:purge-binary-logs`、`refman8.4:reset-binary-logs-and-gtids`、`refman8.4:mysqldump`、`refman8.4:mysqlbinlog`
 - binlog格式迁移：`refman8.4:replication-options-binary-log#sysvar_binlog_format`
 
-## 正文大纲
+## 章节计划
 
 - H2：恢复目标与备份策略
   - H3：定义 RPO、RTO、备份类型和保留期
@@ -51,7 +51,7 @@ date: 2026-08-25 13:18:42
 - H2：统一 RecoverLab
   - H3：复现误删传播和隔离 PITR
 
-## 内容计划
+## 验证方式
 
 - 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
 - 完整示例：周日备份记录坐标，周三 DELETE 传播到副本；在隔离库恢复并重放到错误前，核对行数、金额和 checksum。
@@ -66,11 +66,3 @@ date: 2026-08-25 13:18:42
 - https://dev.mysql.com/doc/refman/8.4/en/mysqlbinlog.html
 - https://dev.mysql.com/doc/refman/8.4/en/point-in-time-recovery-positions.html
 - https://dev.mysql.com/doc/refman/8.4/en/replication-gtids.html
-
-## 常见问题
-
-待正文阶段按本篇职责编写；需要长期复习的问题优先使用 `flashcard`，跨文章复用只使用 `flashcard_ref`。
-
-## 参考资料
-
-待正文阶段按当前 MySQL 8.4 LTS 官方资料补齐资料卡片，并重新核验动态版本边界。

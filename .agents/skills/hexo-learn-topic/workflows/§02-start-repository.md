@@ -22,7 +22,7 @@
 
 ## Phase 3：形成路线提案
 
-1. 按 `templates/roadmap-proposal.template.md` 形成从使用到源码的阶段路线。
+1. 按 `templates/roadmap-proposal.template.md` 形成从使用到源码的阶段路线；每个学习主题应围绕一个主问题、主心智模型和可观察成果组织，不能按目录名、导出模块或 API 数量机械拆篇。
 2. 把贡献、最小 Patch 和上游协作列为可选分支，只有用户明确要求时加入必修路线。
 3. 输出前完整读取 `templates/learning-outline-reply.template.md` 与 `examples/learning-outline-reply.example.md`，把内部路线提案转换为用户可识别的“学习大纲”回复；先说明这是什么、重点看什么和现在做什么，再展示学习目标、所需主题、Hexo 文章安排以及图解、实验和闪卡分配。调研来源、能力账本、Reviewer 过程、验证命令和文件操作不得进入学习大纲回复。
 4. 按回复模板展示完整学习大纲并等待第一次确认；结尾只保留“学习内容和顺序是否符合目标”这一项确认，确认前不创建课程文件。

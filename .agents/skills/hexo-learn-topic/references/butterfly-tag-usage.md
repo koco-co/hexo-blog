@@ -16,13 +16,13 @@ node .agents/scripts/audit.mjs tags --json
 
 | 标签 | 文章中的写法骨架 | 课程约束 |
 | --- | --- | --- |
-| `note` | `{% note [class] [no-icon 或图标] [style] %}...{% endnote %}` | 当前常用样式为 `simple`、`modern`、`flat`、`disabled`；颜色和图标先在真实页面核对 |
+| `note` | `{% note [级别] [no-icon 或图标] flat %}...{% endnote %}` | 课程固定使用 `flat`；按 `info`、`primary`、`success`、`warning`、`danger` 表达不同语义 |
 | `galleryGroup` | `{% galleryGroup name description link img-url %}` | 含空格参数使用引号；图片不承担唯一信息 |
 | `gallery` | `{% gallery [button],[batch],[first] %}...{% endgallery %}` | 正文放带替代文本的 Markdown 图片 |
 | `gallery` URL 模式 | `{% gallery url,数据地址,[button],[batch],[first] %}{% endgallery %}` | 外部 JSON 失败时仍要有文字说明 |
 | `hideInline` | `{% hideInline content,display,bg,color %}` | 只隐藏短答案 |
 | `hideBlock` | `{% hideBlock display,bg,color %}...{% endhideBlock %}` | 用于先思考再看完整解析 |
-| `hideToggle` | `{% hideToggle display,bg,color %}...{% endhideToggle %}` | 用于长补充或章节末非复习自测 |
+| `hideToggle` | `{% hideToggle display,bg,color %}...{% endhideToggle %}` | 只用于章节末非复习自测；长补充使用 `folding` |
 | `mermaid` | `{% mermaid '[config]' %}...{% endmermaid %}` | 配置可省略；关系复杂时优先 `TD/TB` |
 | `tabs` | `{% tabs Unique name, [index] %}` + `<!-- tab [caption] [@icon] -->` | 同页组名唯一；`-1` 表示默认无选中项 |
 | `btn` | `{% btn [url],[text],[icon],[color] [style] [layout] [position] [size] %}` | 只表示真实动作或入口 |
@@ -37,8 +37,24 @@ node .agents/scripts/audit.mjs tags --json
 ## 2. Butterfly 提示、页签与隐藏内容
 
 ````markdown
-{% note blue 'fas fa-bullhorn' modern %}
-直接可见的结论、前提或风险。
+{% note info flat %}
+中性概念、背景、范围或前置条件。
+{% endnote %}
+
+{% note primary flat %}
+需要优先记住的核心原则或关键判断。
+{% endnote %}
+
+{% note success flat %}
+推荐实践、成功标准或已经满足条件的结果。
+{% endnote %}
+
+{% note warning flat %}
+容易误用但通常可恢复的风险、兼容限制或常见失败。
+{% endnote %}
+
+{% note danger flat %}
+安全、数据丢失、破坏性或不可逆后果。
 {% endnote %}
 
 {% tabs 安装方式, 1 %}
@@ -60,12 +76,12 @@ python -m pip install package-name
 先思考后揭晓的完整解析。
 {% endhideBlock %}
 
-{% hideToggle 完整配置 %}
-不属于主线但需要保留的长配置。
+{% hideToggle 章节末自测 %}
+不进入长期复习队列、只在当前章节完成的完整自测。
 {% endhideToggle %}
 ````
 
-`tabs` 的组名在同一页面内保持唯一；默认序号省略时选中第一项，`-1` 表示默认不选。只有确有二级或三级平行选择时才使用 `subtabs`、`subsubtabs`，语法和闭合方式与 `tabs` 相同。
+课程 `note` 固定使用 `flat`，级别按信息性质选择，不为交替配色轮换；`warning` 是正确拼写，不能写成 `waring`。`tabs` 的组名在同一页面内保持唯一；默认序号省略时选中第一项，`-1` 表示默认不选。只有确有二级或三级平行选择时才使用 `subtabs`、`subsubtabs`，语法和闭合方式与 `tabs` 相同。
 
 ## 3. Butterfly 关系、过程和数据
 
@@ -141,7 +157,7 @@ Butterfly `{% series %}` 虽然当前注册，但系统课程禁止使用；课�
 {% course_series %}
 ```
 
-## 5. Tag Plugins Plus 展开、提示与操作组
+## 5. Tag Plugins Plus 展开与操作组
 
 ```markdown
 {% folding purple, 概念深入解释 %}
@@ -152,10 +168,6 @@ Butterfly `{% series %}` 虽然当前注册，但系统课程禁止使用；课�
 当前渲染器会把 `open purple` 写入原生 details 属性，内容初始展开且仍可由读者收起。
 {% endfolding %}
 
-{% tip warning %}
-只包含一个明确的注意事项或边界。
-{% endtip %}
-
 {% btns rounded grid2 %}
 {% cell 项目主页, https://example.com, fa-solid fa-house %}
 {% cell 使用文档, https://example.com/docs, /img/docs.png %}
@@ -163,6 +175,8 @@ Butterfly `{% series %}` 虽然当前注册，但系统课程禁止使用；课�
 ```
 
 `folding` 当前常用颜色为 `purple`、`blue`、`cyan`、`green`、`yellow`、`orange`、`red`。当前源码把逗号前的参数原样写入 `<details>`，因此 `{% folding open, 标题 %}` 可以默认展开，`{% folding open purple, 标题 %}` 可以同时默认展开并使用颜色；当前 CSS 已提供 `[open]` 与 `[open][color]` 状态。只有扩展解释适合初始可见、同时允许读者收起时才使用 `open`，核心结论仍放在折叠外。原生 `<details>` 不依赖 JavaScript，仍要在目标浏览器检查默认展开、键盘、移动端和明暗主题。
+
+Tag Plugins Plus `tip` 虽然在当前项目注册，但课程正文禁用，也不在课程参考中提供可复制示例。直接可见的提示改用上一节的 `note <级别> flat`；长原理、完整配置、日志和次要案例使用 `folding`。
 
 ## 6. Tag Plugins Plus 状态与行内辅助
 

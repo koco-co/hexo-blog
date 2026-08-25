@@ -91,7 +91,8 @@
         "file": "Python(十二)项目实战.md",
         "kind": "final"
       }
-    ]
+    ],
+    "public_article_contract": "v1"
   },
   "capability_ledger": {
     "schema_version": 1,

@@ -97,9 +97,7 @@ Content-Length 与 Transfer-Encoding 的组合、代理重写和连接复用需�
 
 ### HTTP/2 层次
 
-{% note info flat %}
 HTTP/2 把 HTTP 消息拆成二进制帧，并用 stream 标识并发的逻辑交换：
-{% endnote %}
 
 | 层次 | 含义 | 例子 |
 | --- | --- | --- |
@@ -125,9 +123,9 @@ HTTP/2 的多路复用允许不同 stream 的帧交错发送，避免 HTTP/1.1 �
 
 ### HPACK 和流控
 
-{% note info flat %}
+{% tip info %}
 HPACK 使用静态表、动态表和索引表示压缩字段，减少重复的 Host、Cookie、User-Agent 等字段占用。压缩上下文是连接状态的一部分，敏感字段压缩、动态表大小和攻击面需要按协议和实现配置理解；“压缩就等于加密”是错误结论。
-{% endnote %}
+{% endtip %}
 
 {% note info flat %}
 HTTP/2 流控分为连接级和 stream 级：接收方用 WINDOW_UPDATE 表示还愿意接收的字节量。发送方遇到窗口耗尽时可能停止发送，即使 TCP 连接本身仍然可写。排障时要区分 HTTP/2 流控、TCP 接收窗口和应用读取速度。
@@ -182,9 +180,9 @@ sequenceDiagram
 不需要背出所有 HKDF 中间变量，也要能说明依赖关系：握手双方先通过密钥交换获得共享秘密，再结合 transcript 和派生标签生成握手流量密钥、应用流量密钥及更新后的密钥。握手消息受保护后，篡改会导致 Finished 校验失败；应用数据使用与握手阶段不同的密钥。
 {% endnote %}
 
-{% note info flat %}
+{% tip warning %}
 TLS 1.2 的历史静态 RSA premaster 例子可以用来理解“协商共享秘密”的旧路径，但不应当把它当作 TLS 1.3 的握手描述。现代回答应先说 TLS 1.3，再明确旧版本只是迁移背景。
-{% endnote %}
+{% endtip %}
 
 ## QUIC
 
@@ -272,9 +270,7 @@ QPACK 仍然是压缩，不是加密；真正的机密性和完整性来自 QUIC
 服务器可以通过 Alt-Svc 等机制向客户端提示 HTTP/3 入口。客户端是否尝试 HTTP/3 还受浏览器、DNS、代理、UDP 可达性、证书和服务器配置影响；失败后通常可以回退到 HTTP/2 或 HTTP/1.1。看到浏览器最终显示 h2，不代表服务器永远不支持 h3，可能只是当前路径回退。
 {% endnote %}
 
-{% note info flat %}
 部署验证要记录：
-{% endnote %}
 
 1. 客户端是否收到 HTTP/3 能力提示；
 2. UDP 目标端口是否可达，是否被企业网络或代理阻断；
@@ -303,9 +299,7 @@ flowchart TD
 
 ### 证书链和主机名
 
-{% note info flat %}
 客户端校验证书不是只看“有没有证书”：
-{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -342,9 +336,7 @@ SNI 与主机名校验相关但不是一回事：客户端发送了 SNI，不等
 
 ### HTTPS 的规范和部署边界
 
-{% note info flat %}
 HTTPS 可以概括为 HTTP 语义在 TLS 保护下传输，但以下问题属于不同边界：
-{% endnote %}
 
 | 问题 | 主要负责层 |
 | --- | --- |

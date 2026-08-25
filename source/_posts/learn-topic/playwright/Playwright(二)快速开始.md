@@ -19,17 +19,33 @@ date: 2026-08-24 12:11:00
 
 {% course_series %}
 
+{% note info flat %}
 本篇只完成一件事：建立能稳定复现的最小环境，并看懂第一个测试背后的对象关系。后续文章统一使用同步 API；异步 API 在本篇给出完整对照，便于在异步应用或高并发工具中正确选型。
+{% endnote %}
 
 ## 环境准备
 
-新建空目录后，用 `uv` 初始化项目并安装测试依赖：
+{% note info flat %}
+两种环境都必须准备 Python 包和匹配的浏览器二进制；Debian/Ubuntu CI 还要同步安装系统依赖。选择标准和成功证据相同：命令使用同一个虚拟环境，并能启动 Chromium。
+{% endnote %}
 
+{% tabs Playwright 安装环境, 1 %}
+<!-- tab 本地开发 -->
 ```bash
 uv init --python 3.11
 uv add --dev pytest "playwright==1.62.0" "pytest-playwright==0.9.0"
 uv run playwright install chromium
 ```
+<!-- endtab -->
+
+<!-- tab Debian/Ubuntu CI -->
+```bash
+uv init --python 3.11
+uv add --dev pytest "playwright==1.62.0" "pytest-playwright==0.9.0"
+uv run playwright install --with-deps chromium
+```
+<!-- endtab -->
+{% endtabs %}
 
 三条命令分别解决不同层次的问题：
 
@@ -39,13 +55,9 @@ uv run playwright install chromium
 | 浏览器二进制 | Chromium、Firefox、WebKit | 直接复用系统浏览器即可 |
 | 系统依赖 | Linux 字体、图形和媒体库 | 本地通过，CI 一定通过 |
 
-在 Debian/Ubuntu CI 中通常使用：
-
-```bash
-uv run playwright install --with-deps chromium
-```
-
+{% note info flat %}
 本地初学阶段先安装 Chromium，理解基本流程后再扩展三浏览器，避免把下载、系统依赖和测试代码问题混在一起。
+{% endnote %}
 
 建议忽略运行产物：
 
@@ -58,7 +70,9 @@ test-results/
 *.zip
 ```
 
+{% tip key %}
 Trace、截图和录像可能包含页面文本、Cookie 或 Token，只在受控位置短期保存，不应无筛选提交到 Git。
+{% endtip %}
 
 ## 首个测试
 
@@ -88,7 +102,9 @@ def test_home_title(page: Page) -> None:
 uv run pytest -q
 ```
 
+{% note info flat %}
 `page` 不是自己创建的普通变量，而是 `pytest-playwright` 提供的 Function 级 Fixture。插件在用例开始前创建 Page，在用例结束后回收相关资源。`expect()` 是 Playwright 的 Web-first 断言，会在超时范围内重复查询页面状态。
+{% endnote %}
 
 需要观察浏览器时运行：
 
@@ -96,7 +112,9 @@ uv run pytest -q
 uv run pytest --headed --browser chromium -q
 ```
 
+{% note info flat %}
 `--headed` 只用于观察和调试。无头与有头模式都应使用同一套定位和断言，不能依靠肉眼确认结果。
+{% endnote %}
 
 ## 对象模型
 
@@ -119,7 +137,9 @@ flowchart TD
 - `Page`：一个标签页；
 - `Locator`：如何在 Page 或 Frame 中持续查找目标元素。
 
+{% note info flat %}
 Locator 不是创建时就冻结的 DOM 元素。执行点击或断言时，它会重新查询当前页面，因此能够适应重渲染。第三篇会专门讲定位语义。
+{% endnote %}
 
 ## 内置 Fixture
 
@@ -154,11 +174,29 @@ def test_fixture_identity(page: Page, browser: Browser, browser_name: str) -> No
     assert browser_name in {"chromium", "firefox", "webkit"}
 ```
 
+{% tip ban %}
 不要为了“复用”把 `page` 提升为 Session 级全局对象。页面状态会在用例间残留，失败后也更难恢复。需要复用登录时，应保存 `storage_state`，而不是共享同一个 Page。
+{% endtip %}
 
 ## 同步与异步
 
+{% note info flat %}
 两套 API 的对象和能力基本一致，差别在调用方式和运行环境。
+{% endnote %}
+
+{% note info flat %}
+选择时先看调用环境：
+
+- 常规 pytest UI 套件优先同步 API，代码更直接，生态配置也更简单；
+- 已经运行在 `asyncio` 中的服务测试、采集器或并发工具可以使用异步 API；
+- 异步不会让单个页面的导航凭空变快，收益主要来自合理并发等待；
+- 不要在同一调用链混用 `sync_api` 和 `async_api`；
+- 异步 pytest 使用 `pytest-playwright-asyncio`，测试和 Fixture 都需要遵循其事件循环契约。
+{% endnote %}
+
+{% tip warning %}
+同步插件与异步插件不能安装在同一个 pytest 环境。异步示例应放在独立空目录中，只安装异步插件。
+{% endtip %}
 
 {% tabs 同步与异步, 1 %}
 <!-- tab 同步 API -->
@@ -204,16 +242,6 @@ asyncio.run(main())
 <!-- endtab -->
 {% endtabs %}
 
-选择原则：
-
-- 常规 pytest UI 套件优先同步 API，代码更直接，生态配置也更简单；
-- 已经运行在 `asyncio` 中的服务测试、采集器或并发工具可以使用异步 API；
-- 异步不会让单个页面的导航凭空变快，收益主要来自合理并发等待；
-- 不要在同一调用链混用 `sync_api` 和 `async_api`；
-- 异步 pytest 使用 `pytest-playwright-asyncio`，测试和 Fixture 都需要遵循其事件循环契约。
-
-同步插件与异步插件不能安装在同一个 pytest 环境。下面的对照必须放在独立空目录中，只安装异步插件：
-
 ```bash
 mkdir playwright-async-demo
 cd playwright-async-demo
@@ -241,9 +269,13 @@ async def test_async_home(page: Page) -> None:
     await expect(page.get_by_role("heading", name="ShopLab")).to_be_visible()
 ```
 
+{% note info flat %}
 具体标记和事件循环配置应以当前插件文档为准。不要在主线环境同时保留 `pytest-playwright` 与 `pytest-playwright-asyncio`；对于本系列主线，继续使用同步 Fixture，避免同时学习两套测试运行模型。
+{% endnote %}
 
+{% tip info %}
 两套 API 的公开对象与成员是镜像关系，但“异步方法一律 `await`”是错误规则。异步绑定需要区分四类返回模型：
+{% endtip %}
 
 | 类型 | 写法 | 示例 |
 | --- | --- | --- |
@@ -266,9 +298,13 @@ async with page.expect_response("**/api/orders") as response_info:
 response = await response_info.value
 ```
 
+{% tip info %}
 本文末尾的异步完整镜像索引按这四种模型列出冻结版本的全部对象成员。后续各篇以同步写法讲业务机制；转换时应查成员所在列，而不是机械添加 `await`，也不能在同步 Fixture 中调用异步 Page。
+{% endtip %}
 
+{% tip error %}
 超时、取消与清理也属于异步合同。Playwright 操作超时抛出自身的 `TimeoutError`；`asyncio` 取消任务时会注入 `CancelledError`，清理后必须继续抛出，不能把取消吞掉：
+{% endtip %}
 
 ```python
 import asyncio
@@ -297,9 +333,11 @@ async def inspect_page(url: str) -> None:
             await browser.close()
 ```
 
+{% note info flat %}
 `finally` 保证成功、超时和取消都走同一条资源释放路径。并发任务还应由创建它们的上层 TaskGroup 或调用方统一等待和取消，避免遗留后台浏览器任务。
+{% endnote %}
 
-## 运行参数
+## 运行与验证
 
 常用命令：
 
@@ -326,7 +364,9 @@ uv run pytest -x
 uv run pytest --browser chromium --browser firefox --browser webkit
 ```
 
+{% note info flat %}
 此时同一用例会分别执行。第十篇会进一步设计跨浏览器、并行和 CI 策略。
+{% endnote %}
 
 `pytest-playwright` 0.9.0 的插件参数可按用途分组：
 
@@ -347,9 +387,11 @@ uv run pytest --browser chromium --browser firefox --browser webkit
 uv run pytest --help | rg 'browser|slowmo|device|tracing|video|screenshot|playwright-debug'
 ```
 
-## 故障处理
+### 故障处理
 
+{% note info flat %}
 安装后启动失败时，按层次排查：
+{% endnote %}
 
 1. `uv run python -c "import playwright"` 验证 Python 包；
 2. `uv run playwright install chromium` 验证浏览器二进制；
@@ -357,11 +399,15 @@ uv run pytest --help | rg 'browser|slowmo|device|tracing|video|screenshot|playwr
 4. 确认执行命令使用同一个虚拟环境；
 5. 再检查代理、磁盘空间和浏览器下载缓存。
 
+{% note info flat %}
 版本升级后 Python 包与浏览器二进制可能不匹配，应重新执行安装命令。不要通过硬编码内部缓存路径修补问题。
+{% endnote %}
 
-## 基础成员
+## 接口边界
 
+{% note info flat %}
 `playwright.chromium`、`firefox`、`webkit` 分别返回三个 BrowserType；`BrowserType.name` 可读取引擎名，`executable_path` 可用于诊断 Playwright 管理的浏览器路径。`connect()` 连接由 Node.js `BrowserType.launchServer` 创建的 Playwright BrowserServer；Python 端只使用 WebSocket endpoint，连接端与服务端的 Playwright 主、次版本必须匹配。普通本地测试仍优先 `launch()`，不要把 `connect()` 与仅支持 Chromium 的 CDP 连接混用。
+{% endnote %}
 
 Page 的常用基础成员按任务分组：
 
@@ -373,11 +419,17 @@ Page 的常用基础成员按任务分组：
 | 超时 | `set_default_timeout()`、`set_default_navigation_timeout()` | 只设置合理全局基线，单次异常再局部覆盖 |
 | 关闭 | `close()` | 关闭后继续操作会抛错；pytest 的 `page` Fixture 通常由插件回收 |
 
+{% tip warning %}
 `goto()` 的 `wait_until` 决定导航完成信号，常规页面保持默认 `load` 或依赖后续 Web-first 断言；`domcontentloaded` 只等待 DOM 解析，`commit` 只确认收到响应，`networkidle` 不应作为通用测试就绪条件。`timeout` 只覆盖这次导航；确有协议合同时可传 `referer`，并且该显式值优先于 `page.set_extra_http_headers()` 中的 Referer。DNS、TLS、连接失败或超时会抛错；HTTP 404/500 通常仍返回 Response，因此还要检查状态或用户可见错误页。
+{% endtip %}
 
+{% note info flat %}
 `launch()` 的常见参数也应按目的使用：`headless` 控制有无窗口，`channel` 选择 Chrome/Edge 等渠道，`slow_mo` 只用于观察动作；`proxy` 配置代理，`downloads_path` 与 `traces_dir` 指定产物目录，`args` 直接传浏览器参数，兼容风险最高。诊断参数不应永久写入共享 Fixture。
+{% endnote %}
 
+{% note info flat %}
 `sync_playwright()` / `async_playwright()` 上下文退出时会调用 `stop()`；手工 `start()` 的代码才需要显式 `stop()`。
+{% endnote %}
 
 API 索引中的 Page 进阶成员只在对应任务出现时进入：
 
@@ -389,9 +441,11 @@ API 索引中的 Page 进阶成员只在对应任务出现时进入：
 - 页面视图：`set_viewport_size()`、`bring_to_front()`；前者只改视口，后者只在多页焦点确实属于产品合同时使用。
 - 结构快照：`aria_snapshot()`；用于读取可访问性树结构，专项断言在后续文章按场景使用。
 
-## 旧接口迁移
+### 旧接口迁移
 
+{% note info flat %}
 Page 中直接接收 selector 的查询和状态接口已不适合作为新测试主线。它们按同一规则迁移到 Locator，异步 API 使用相同替代项，仅在真正执行浏览器 I/O 时增加 `await`：
+{% endnote %}
 
 | 旧式 Page API | 推荐写法 |
 | --- | --- |
@@ -401,9 +455,11 @@ Page 中直接接收 selector 的查询和状态接口已不适合作为新测�
 | `drag_and_drop(source, target)` | `source_locator.drag_to(target_locator)` |
 | `expect_navigation()` | 明确 URL 时用 `wait_for_url()`；下载、弹窗、请求等使用对应 `expect_*` |
 
+{% note info flat %}
 `wait_for_timeout()` 只适合人工调试，正式测试应等待 Locator、URL、请求或业务状态。`Browser.new_page()` 会隐式创建 Context，无法清楚表达资源所有权；新代码使用 `browser.new_context()` → `context.new_page()`。Chromium 的低层 `Browser.start_tracing()` / `stop_tracing()` 不等于 Playwright Trace Viewer 产物，常规诊断使用 `context.tracing`，第十篇会完整介绍。
+{% endnote %}
 
-## 结果验证
+### 结果验证
 
 完成本篇时应能回答：
 
@@ -413,9 +469,11 @@ Page 中直接接收 selector 的查询和状态接口已不适合作为新测�
 - 同步与异步 API 在语法和适用场景上的差异；
 - 如何指定单个测试与浏览器运行。
 
-## API 速查
+### API 速查
 
+{% tip info %}
 下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+{% endtip %}
 
 {% folding cyan, 查看本文 API 索引 %}
 

@@ -23,7 +23,7 @@ date: 2026-08-24 12:04:00
 UI 测试不应该用 UI 完成所有准备和清理。本文复用第七篇的 ShopLab 服务：`POST /api/orders` 造订单、`GET /api/orders/{id}` 核验、`DELETE /api/test/orders/{id}` 清理；浏览器只负责用户真正关心的提交动作。
 {% endnote %}
 
-## APIRequestContext
+## 请求模型
 
 | 入口 | 认证与 Cookie | 生命周期 | 适用场景 |
 | --- | --- | --- | --- |
@@ -61,7 +61,9 @@ def admin_api(playwright: Playwright, shoplab_url: str):
 | `head()` | 只读取响应头 | 不解析正文，用于缓存或文件元数据检查 |
 | `fetch()` | 动态方法或共用请求逻辑 | 通过 `method=` 选择方法，仍返回 `APIResponse` |
 
+{% note info flat %}
 下面的片段接上文的 `admin_api` Fixture，并假定 `order_id` 已由测试数据工厂创建；单独复制时先补齐这两个变量的来源。
+{% endnote %}
 
 ```python
 updated = admin_api.fetch(
@@ -74,11 +76,17 @@ expect(updated).to_be_ok()
 assert updated.json()["status"] == "ready"
 ```
 
+{% note info flat %}
 `to_be_ok()` 只接受 `APIResponse`，通过条件是 2xx；反向条件使用 `expect(response).not_to_be_ok()`。默认情况下 4xx/5xx 不会让请求方法抛错，而是由 `status`、`ok` 或断言暴露；`fail_on_status_code=True` 才会把它们转成异常。`max_redirects` 限制重定向次数，`max_retries` 在 1.62 只重试 `ECONNRESET`，不会按 HTTP 状态码重试，`ignore_https_errors` 只应在受控测试证书环境中启用。
+{% endnote %}
 
+{% tip info %}
 APIResponse 按验证目标选择读取方式：`status` 是整数状态码，`status_text` 是状态文本，`ok` 是“是否为 2xx”的布尔值；`headers` 返回便于按名称读取的字典，`headers_array` 则保留原始大小写与重复 header；`json()` 解析 JSON，`text()` 解析文本，`body()` 保留原始 bytes，`url` 查看最终地址。JSON 格式错误会在 `json()` 处失败；大型响应不再使用后应 `dispose()` 释放内存。`security_details()`、`server_addr()` 与 `timing` 属于 TLS、服务器地址和性能诊断入口，本篇索引保留但不作为普通业务断言。
+{% endtip %}
 
+{% note info flat %}
 `new_context()` 的长参数表按进入条件选择：`http_credentials`、`extra_http_headers` 和 `storage_state` 用于认证；`proxy`、`client_certificates` 和 `ignore_https_errors` 只在受控网络或测试证书环境使用；`timeout`、`max_redirects` 与请求方法上的 `max_retries` 用于限制等待和重试；需要录制或回放时再进入 Context 的 HAR 配置。不要为了“让请求成功”同时打开所有开关。
+{% endnote %}
 
 API 登录状态可以转给 BrowserContext：
 
@@ -96,7 +104,9 @@ finally:
     context.close()
 ```
 
+{% tip key %}
 `storage_state()` 可能含 Cookie 与本地认证数据，只能使用专用测试账号，不应提交真实凭据。`page.request` / `context.request` 与当前 BrowserContext 共享 Cookie，适合以当前角色直接核验 API；独立 `playwright.request.new_context()` 适合后台造数。`APIRequestContext.tracing` 用于请求上下文的低层追踪入口，UI 失败取证仍以第十篇的 BrowserContext Trace 为主。
+{% endtip %}
 
 共享 Cookie 不是概念上的“可能共享”，可以直接验证登录前后权限：
 
@@ -114,9 +124,11 @@ finally:
     anonymous.close()
 ```
 
+{% note info flat %}
 `BrowserContext.request` 的失败仍以 APIResponse 状态或显式 `fail_on_status_code` 表达；它不会因为 BrowserContext 存在就自动获得登录权限。
+{% endnote %}
 
-## 数据闭环
+### 数据闭环
 
 ```python
 from uuid import uuid4
@@ -144,9 +156,11 @@ def test_buyer_submits_order(page: Page, admin_api, shoplab_url: str) -> None:
         assert deleted.status == 200
 ```
 
+{% note info flat %}
 cleanup 放在 `finally`，因为 UI 断言失败后更需要清理。删除设计为幂等，允许资源已经不存在。测试 ID 带固定前缀与随机后缀，既能定位测试数据，又避免并行冲突。
+{% endnote %}
 
-## 路由拦截
+## 网络控制
 
 {% mermaid %}
 flowchart TD
@@ -198,9 +212,13 @@ page.route(
 )
 ```
 
+{% tip key %}
 `continue_()` 可以修改普通 header，但 Cookie 仍由 BrowserContext 的 Cookie store 管理。认证状态应使用 Context Cookie API 或 `storage_state`，不要把路由 header 改写当成 Cookie 注入方案。
+{% endtip %}
 
+{% note info flat %}
 `continue_()` 会立即把请求发送到网络并结束路由链；分层处理器应使用 `fallback()`。多个匹配处理器按注册的逆序执行：
+{% endnote %}
 
 ```python
 def add_run_id(route):
@@ -216,7 +234,9 @@ page.route("**/api/orders/**", verify_and_continue)
 page.route("**/api/**", add_run_id)
 ```
 
+{% note info flat %}
 `fallback()` 还可以修改 `method`、`post_data`、`headers` 和同协议 `url`，让下一个处理器看到修改后的请求。`continue_(method=..., post_data=..., headers=..., url=...)` 也能覆盖原请求，但会立即发送网络并终止路由链；`method`、`post_data` 与 `url` 只作用于原请求，不会自动延续到后续重定向，只有 header 会传播到重定向请求，且 `url` 必须保持协议不变。只想拦截一次时使用 `page.route(pattern, handler, times=1)`。
+{% endnote %}
 
 需要保留真实响应、只改其中一部分时使用 `fetch()` 后再 `fulfill()`：
 
@@ -233,9 +253,13 @@ page.goto(f"{shoplab_url}/shop")
 expect(page.get_by_role("list", name="推荐商品")).to_contain_text("测试鼠标")
 ```
 
+{% note info flat %}
 `Route.request` 是当前被拦截的页面 Request，可读取 URL、方法、header 与请求体。`Route.fetch()` 遇到 4xx/5xx 仍返回 APIResponse，需要主动检查 `status` 或 `ok`；传输错误、超时或重定向超限才会抛错，不能把它当成永不失败的本地 Mock。
+{% endnote %}
 
+{% note info flat %}
 路由范围应尽量窄，并在测试结束时由 Context 回收。不要拦截所有 `**/*` 再凭猜测转发，这会让静态资源和 Service Worker 行为难以诊断。
+{% endnote %}
 
 | 注册位置 | 作用范围 | 选择边界 |
 | --- | --- | --- |
@@ -260,15 +284,23 @@ def test_context_route_covers_popup(context, page):
     expect(popup.get_by_role("heading", name="测试买家资料")).to_be_visible()
 ```
 
+{% note info flat %}
 这个例子在 popup 创建前注册 Context 路由，因此能覆盖首个导航请求。若同一 URL 同时存在 Page route，Page 规则优先；Service Worker 接管的请求仍需按前文设置单独处理，Context 关闭时规则随之回收。
+{% endnote %}
 
+{% note info flat %}
 结束前可用 `page.unroute()` / `context.unroute()` 移除指定规则；动态注册了多条规则时使用 `unroute_all(behavior="wait")` 等待正在执行的 handler，避免并发清理悬空。`page.route_from_har()` 只影响当前 Page，`context.route_from_har()` 影响整个 Context。
+{% endnote %}
 
+{% note info flat %}
 WebSocket 拦截必须在目标连接创建前注册。`page.route_web_socket()` 只作用于当前页面，`context.route_web_socket()` 覆盖 Context；本文只负责入口与范围，第十一篇再讲 `WebSocketRoute` 的消息转发、修改和关闭。
+{% endnote %}
 
-## HAR 回放
+### HAR 回放
 
+{% note info flat %}
 HAR 回放适合响应大而固定、逐个 `fulfill()` 成本高的依赖。下面的练习先启动第七篇服务录制推荐响应，关闭真实服务后再从 HAR 回放同一 URL：
+{% endnote %}
 
 ```python
 from pathlib import Path
@@ -306,11 +338,15 @@ def test_har_replays_without_real_server(browser: Browser, tmp_path: Path) -> No
         replay.close()
 ```
 
+{% note info flat %}
 录制时使用专用测试账号和脱敏数据；HAR 可能包含 URL、header、请求体与响应体。不能把真实 Cookie、Authorization 或个人数据写进博客、产物或仓库。API 变化时应重新录制并审查 diff，不能让旧 HAR 永久冻结错误合同。
+{% endnote %}
 
+{% note info flat %}
 Playwright 的 page/context route 无法拦截已经被 Service Worker 接管的请求。需要网络 Mock 时可设置 `service_workers="block"`，但这也意味着当前用例不再验证真实 Service Worker 行为；PWA 流程应另设专门用例。
+{% endnote %}
 
-## 请求断言
+### 请求断言
 
 页面网络对象遵循两个主要生命周期：
 
@@ -319,7 +355,9 @@ Playwright 的 page/context route 无法拦截已经被 Service Worker 接管的
 传输失败：        request → requestfailed
 ```
 
+{% note info flat %}
 HTTP 404/503 仍然收到了有效 HTTP 响应，因此不会触发 `requestfailed`；DNS、连接重置或客户端主动阻止等传输失败才进入失败分支。`expect_response()` 返回页面 `Response`，不能使用只接受 `APIResponse` 的 `expect(...).to_be_ok()`。
+{% endnote %}
 
 ```python
 from uuid import uuid4
@@ -355,7 +393,9 @@ def test_submit_payload(page, admin_api, shoplab_url):
         admin_api.delete(f"/api/test/orders/{order_id}")
 ```
 
+{% tip warning %}
 请求断言证明浏览器发出了预期协议，但不能替代 UI 结果或后端最终状态。完整证据通常需要 UI、请求和 API verify 三层。
+{% endtip %}
 
 Request 成员按诊断任务选择：
 
@@ -367,7 +407,9 @@ Request 成员按诊断任务选择：
 | 生命周期 | `response()`、`failure` | 前者等待关联响应；传输失败读取 `failure`，HTTP 错误不属于 failure |
 | 重定向 | `redirected_from`、`redirected_to` | 沿请求链向前或向后诊断，不能只看最终 URL |
 
+{% tip info %}
 `existing_response` 只返回当前已经存在的关联响应，不会等待；`response()` 才适合需要等待响应的流程。`is_navigation_request()`、`frame`、`service_worker` 用于判断请求发起方，`timing` 与 `sizes()` 用于性能诊断。这些低频诊断成员保留在进阶索引中，不应作为脆弱的日常业务断言。
+{% endtip %}
 
 Response 成员也按任务分组：
 
@@ -378,9 +420,13 @@ Response 成员也按任务分组：
 | 响应头 | `headers`、`all_headers()`、`headers_array()` | 读取一个名称用 `header_value()`；需要同名全部重复值，尤其 `Set-Cookie`，用 `header_values()`；完整或数组形态用于整体诊断 |
 | 关联 | `request`、`finished()` | 回到触发请求；`finished()` 等待响应体结束，正常返回 `None`，目标关闭等异常情况直接抛出 |
 
+{% note info flat %}
 `frame`、`from_service_worker`、`http_version()`、`security_details()` 与 `server_addr()` 用于请求发起方、协议、TLS 和服务器诊断。不要用这些易受环境影响的值代替用户可观察结果。
+{% endnote %}
 
+{% note info flat %}
 需要明确等待整个请求完成时使用 `expect_request_finished()`；捕获失败则监听 `requestfailed` 事件。下例把 HTTP 错误和网络失败分开：
+{% endnote %}
 
 ```python
 with page.expect_response("**/missing") as missing_info:
@@ -395,17 +441,21 @@ expect(page.get_by_role("status")).to_have_text("网络不可用")
 assert failed and failed[0].failure is not None
 ```
 
-## 策略选择
+### 策略选择
 
+{% note info flat %}
 为“固定推荐列表”“追加追踪 header”“模拟断网”“分层规则继续匹配”“保留真实响应但局部改写”“准备订单”“核验订单”分别选择 fulfill、continue、abort、fallback、fetch 或 APIRequestContext，并说明每项还缺哪一层业务证据。
+{% endnote %}
 
 {% hideToggle 参考映射, #f0f4ff, #1f2d3d %}
 固定推荐列表用 `fulfill`，追加普通 header 用 `continue_`，断网用 `abort`，分层规则继续匹配用 `fallback`，保留真实响应但局部改写用 `fetch` 后 `fulfill`，准备与核验订单用独立 `APIRequestContext`。路由动作仍需 UI 断言用户可见结果；API seed 需要 UI 执行被测动作；API verify 需要先有 UI 或协议动作作为原因。
 {% endhideToggle %}
 
-## API 速查
+## 接口边界
 
+{% tip info %}
 下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+{% endtip %}
 
 {% folding cyan, 查看本文 API 索引 %}
 

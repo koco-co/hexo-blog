@@ -112,7 +112,8 @@
         "file": "MySQL(十五)综合实战.md",
         "kind": "final"
       }
-    ]
+    ],
+    "public_article_contract": "v1"
   },
   "capability_ledger": {
     "schema_version": "1.0",

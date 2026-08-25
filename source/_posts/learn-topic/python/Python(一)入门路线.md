@@ -15,7 +15,9 @@ abbrlink: 1480bf96
 date: 2026-08-25 13:13:45
 ---
 
+{% note info flat %}
 这是一门以 Python 基础和面试追问为主线的系统课程。它从解释器、对象与容器开始，逐步进入函数抽象、数据模型、错误处理、质量保障和并发机制，最后完成一个可验证的命令行日志分析器。
+{% endnote %}
 
 ![Python 基础课程封面](/img/picgo-images/python-course-cover.png "Python 基础课程封面")
 

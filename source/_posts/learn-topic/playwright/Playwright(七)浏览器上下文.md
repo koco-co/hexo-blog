@@ -25,7 +25,9 @@ BrowserContext 隔离 Cookie、localStorage、权限和页面，却不会复制�
 
 ## 核心模型
 
+{% note info flat %}
 一个 Browser 可以创建多个 Context。每个 Context 类似轻量无痕配置文件，可以拥有不同设备、地区、权限与认证状态。
+{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -37,7 +39,9 @@ flowchart TD
     C1 -.隔离.-> C2
 {% endmermaid %}
 
+{% note info flat %}
 Context 隔离 Cookie、localStorage、sessionStorage、权限和页面。多个 Page 属于同一个 Context 时会共享该 Context 的会话状态；不同 Context 即使运行在同一个 Browser 中也默认互不共享。
+{% endnote %}
 
 ## 环境模拟
 
@@ -99,11 +103,15 @@ def test_two_regions(new_context: CreateContextCallback, shoplab_url: str) -> No
 | `viewport`、device preset | 响应式布局与输入特征 | 真机性能和系统 UI |
 | `color_scheme` | 明暗主题 | 所有色彩符合无障碍要求 |
 
+{% note info flat %}
 插件的 `browser_context_args` 适合为默认 `page` 统一配置；一个测试需要多个角色时使用 `new_context()`，并自行关闭。
+{% endnote %}
 
 ## 状态隔离
 
+{% note info flat %}
 ShopLab 在第七、九、十二篇中使用同一份合同。读者可把下面代码块保存为 `shoplab_server.py`；它使用随机环回端口、内存数据和虚构会话，进程结束后全部状态消失。
+{% endnote %}
 
 ```python
 # shoplab_server.py
@@ -561,11 +569,15 @@ def test_context_boundary(
         second.close()
 ```
 
+{% note info flat %}
 因此并行测试不仅要新建 Context，还要为后端资源生成唯一 namespace，例如 `buyer-{worker_id}-{uuid4().hex}`，并在结束时清理。本例用随机 subject，最后通过已认证 API 清空购物车；服务 fixture 结束时还会销毁整个内存 store。
+{% endnote %}
 
 ## 登录状态
 
+{% note info flat %}
 认证准备的目标是得到可复用状态，不是把登录步骤复制到每个测试。ShopLab 用带角色和虚构 subject 的训练登录端点生成 Cookie；这里先返回内存中的 `storage_state`，需要跨进程时再保存到受保护文件：
+{% endnote %}
 
 ```python
 from uuid import uuid4
@@ -617,11 +629,15 @@ def test_buyer_and_admin(
 
 ### 多角色会话
 
+{% note info flat %}
 若调用 `context.storage_state(path=...)` 落盘，文件必须加入 `.gitignore`。过期检测不能只看文件存在，应访问一个需要认证的页面或 API，确认没有被重定向到登录页。失败时重新生成，不要无限重试。ShopLab session 随本地服务销毁；真实系统还应提供显式 session revoke 或短 TTL。
+{% endnote %}
 
 ## 认证边界
 
+{% note info flat %}
 生产 OAuth、短信和硬件密钥不适合在每个 E2E 测试里硬闯。合理策略是：
+{% endnote %}
 
 1. 使用测试环境专用身份提供方或后端测试登录端点。
 2. 由服务端签发短期、最小权限会话，再写入 Context。
@@ -630,15 +646,19 @@ def test_buyer_and_admin(
 
 ### 多角色检查
 
+{% note info flat %}
 为买家、管理员和访客分别写出 Context 配置、认证状态取得方式、后端 namespace 与清理动作。指出哪一项由 BrowserContext 自动保证，哪几项必须由测试架构保证。
+{% endnote %}
 
 {% hideToggle 参考答案, #f0f4ff, #1f2d3d %}
 三者各用独立 Context；buyer/admin 状态由受控测试登录或测试 API 生成，访客不加载状态。后端主体使用 run/worker namespace，订单、购物车和 session 由创建者清理。BrowserContext 只自动隔离浏览器端 Cookie、storage、权限和页面；后端 namespace、账号所有权与 cleanup 都由测试架构保证。
 {% endhideToggle %}
 
-## API 速查
+## 接口边界
 
+{% tip info %}
 下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+{% endtip %}
 
 {% folding cyan, 查看本文 API 索引 %}
 

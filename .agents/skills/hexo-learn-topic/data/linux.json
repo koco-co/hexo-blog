@@ -98,7 +98,8 @@
         "file": "Linux(十三)综合实战.md",
         "kind": "final"
       }
-    ]
+    ],
+    "public_article_contract": "v1"
   },
   "capability_ledger": {
     "schema_version": "1.0",

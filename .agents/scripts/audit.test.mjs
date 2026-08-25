@@ -60,7 +60,7 @@ function validPlaywrightCoursePost({ number = '一', topic = '入门路线', pub
   const entry = !placeholder && number === '一' && topic === '入门路线'
     ? `{% note info flat %}\n课程入口只说明学习范围、依赖和开始方式。\n{% endnote %}\n\n## 课程目标\n\n{% note info flat %}\n建立 Playwright Python 测试主线。\n{% endnote %}\n\n## 前置条件\n\n{% note info flat %}\n需要 Python 函数、类和终端基础。\n{% endnote %}\n\n## 学习路径\n\n{% mermaid %}\nflowchart TD\nA[环境] --> B[定位]\nB --> C[断言]\n{% endmermaid %}\n\n## 文章安排\n\n| 顺序 | 主题 |\n| --- | --- |\n| 1 | 入门路线 |\n| 2 | 快速开始 |\n\n## 开始学习\n\n{% note info flat %}\n先完成环境准备，再进入快速开始。\n{% endnote %}\n\n## 参考资料\n\n{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}`
     : placeholder
-      ? `<!-- learn-topic-placeholder -->\n\n> 本文为已确认课程中的未发布占位。\n\n## 学习目标\n\n说明本文目标。\n\n## 章节计划\n\n列出章节。\n\n## 验证方式\n\n说明示例、失败边界和结果验证。`
+      ? `<!-- learn-topic-placeholder -->\n\n> 本文为已确认课程中的未发布占位。\n\n## 文章职责\n\n说明本文唯一问题和可观察成果。\n\n## 内容边界\n\n说明覆盖条目、文章间边界和失败边界。\n\n## 正文编排\n\n| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 环境准备 | 完成环境准备 | 安装与验证 | tabs | 平行方案 | 选择标准 | 文字兜底 | 命令与输出 | 计划 |\n\n## 视觉与复习\n\n说明标签、图表、实验、复习卡片和资料卡片计划。\n\n## 验收证据\n\n说明机械检查、隔离构建和公开候选门禁。`
       : `{% note info flat %}\n正文。\n{% endnote %}\n\n## 主题内容\n\n{% note info flat %}\n说明主题机制、示例和边界。\n{% endnote %}\n\n## 常见问题\n\n{% flashcard basic id:fixture-${number} deck:"Playwright" priority:2 %}\n--- question\n问题。\n--- answer\n回答。\n--- explanation\n解析。\n{% endflashcard %}\n\n## 参考资料\n\n{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}`
   return `---\ntitle: Playwright(${number})${topic}\ntags:\n  - Playwright\ncategories:\n  - Learn Topic\n  - Playwright\ndescription: ${description}\nseries: Playwright\nseries_order: ${order}\nabbrlink: pw${number}\npublished: ${published}\ndate: 2026-08-24 12:00:00\n---\n\n{% course_series %}\n\n${entry}\n`
 }
@@ -435,6 +435,18 @@ test('learn-topic audit rejects naked explanation blocks and repeated course nav
 
   const nakedReport = auditContent({ root, release: true })
   assert.ok(nakedReport.errors.some(item => item.code === 'LEARN_TOPIC_PLAIN_BODY_BLOCK'))
+
+  const structuralConnector = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+    .replace('{% note info flat %}\n正文。\n{% endnote %}', '最小示例：\n\n```python\nprint("ok")\n```')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', structuralConnector)
+  const connectorReport = auditContent({ root, release: true })
+  assert.ok(!connectorReport.errors.some(item => item.code === 'LEARN_TOPIC_PLAIN_BODY_BLOCK'))
+
+  const disguisedExplanation = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+    .replace('{% note info flat %}\n正文。\n{% endnote %}', 'Playwright 会持续重新查询 Locator，直到条件成立或超时。这不是一次读取结果的普通断言，失败时必须区分定位、等待与业务状态，而且不能用扩大超时掩盖真实原因：\n\n```python\nprint("ok")\n```')
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', disguisedExplanation)
+  const disguisedReport = auditContent({ root, release: true })
+  assert.ok(disguisedReport.errors.some(item => item.code === 'LEARN_TOPIC_PLAIN_BODY_BLOCK'))
 
   const navigation = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
     .replace('说明主题机制、示例和边界。', '前置文章是上一篇，本文分配能力为 FIXTURE-001。')

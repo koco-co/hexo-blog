@@ -20,9 +20,13 @@ date: 2026-08-24 12:02:00
 
 {% course_series %}
 
+{% note info flat %}
 本篇集中介绍常规 Web 自动化主线之外的能力。它们并非“不重要”，而是只在特定架构或质量目标下使用：WebSocket 和 GraphQL 取决于协议，无障碍与视觉回归属于专项质量门，BDD 取决于团队协作方式。
+{% endnote %}
 
+{% note info flat %}
 Python 示例全部保留在代码块中；第三方依赖需要由项目单独评估和锁定，不会混入主线环境。
+{% endnote %}
 
 ## 特殊 DOM
 
@@ -41,13 +45,19 @@ page.set_content("""
 page.get_by_role("button", name="加入购物车").click()
 ```
 
+{% note info flat %}
 XPath 不会穿透 Shadow DOM。Closed Shadow Root 也不能被普通 Locator 访问，这是组件实现刻意设置的边界。遇到 closed shadow 时优先验证组件提供的公开用户行为，或与开发团队建立测试接口，不要通过注入脚本强行打开生产组件内部。
+{% endnote %}
 
+{% note info flat %}
 Canvas 没有可定位的子 DOM。测试应优先验证画布旁的可访问替代、业务状态或后端结果；只有交互本身依赖坐标时，才固定 viewport 后使用 `page.mouse`。
+{% endnote %}
 
-## 旧接口迁移
+## 运行时控制
 
+{% note info flat %}
 `ElementHandle` 仍可在兼容代码中出现，但它代表某一时刻的节点引用，不会像 Locator 一样在重渲染后重新查询。新代码按能力组迁移：
+{% endnote %}
 
 | 旧接口组 | 当前写法 | 迁移边界 |
 | --- | --- | --- |
@@ -65,11 +75,15 @@ Canvas 没有可定位的子 DOM。测试应优先验证画布旁的可访问替
 | `ElementHandle.owner_frame()` | 没有等价的 Locator 入口；保留句柄时读取其所属父 Frame，常规交互改用已知 `Frame` 或 `frame_locator()` | `owner_frame()` 是“元素属于哪个父 Frame”，不是进入 iframe；不要把它与 `content_frame()` 混为一谈 |
 | `ElementHandle.as_element()`、`ElementHandle.dispose()` | 无直接 Locator 替代；删除长期句柄，或仅在 JSHandle/底层诊断链中保留 | `as_element()`/`dispose()` 管理句柄生命周期，不提供 Web-first 等价物；不能伪造成普通元素操作 |
 
+{% note info flat %}
 同步与异步迁移方向相同；异步版本只在真正执行 I/O 的调用处加 `await`。`Browser.start_tracing()` / `stop_tracing()` 是旧的 Chromium 级入口，新的跨浏览器取证应使用 `context.tracing.start()`、`start_chunk()` 与 `stop()`，并由第十篇的 Trace Viewer 流程统一查看。
+{% endnote %}
 
-## 时间控制
+### 时间控制
 
+{% tip warning %}
 倒计时、会话过期和定时刷新不应真实等待数分钟。Clock API 可以控制 Page 所属 Context 中的时间和计时器：
+{% endtip %}
 
 ```python
 import datetime
@@ -100,15 +114,23 @@ def test_session_timeout(page: Page) -> None:
     expect(page.get_by_role("status")).to_have_text("会话已过期")
 ```
 
+{% note info flat %}
 `run_for()` 会执行时间段内的计时回调；`fast_forward()` 更接近设备休眠后恢复，只让到期计时器立即触发。Clock 影响整个 BrowserContext 中的 Page 和 iframe，多个时间场景应使用独立 Context。
+{% endnote %}
 
+{% note info flat %}
 只需要固定 `Date.now()` 时优先 `set_fixed_time()`；需要推进 timer 时再 `install()`。修改系统时间不能替代服务端时间、数据库 TTL 或第三方 Token 过期验证。
+{% endnote %}
 
-## GraphQL
+## 协议扩展
 
+{% note info flat %}
 GraphQL 通常共享一个 URL，不能只按路径区分接口。路由处理器需要读取 `operationName`：
+{% endnote %}
 
+{% note info flat %}
 下面是迁移到真实项目时的路由骨架，`shop.example` 和页面发出的 Query 需要替换为受测系统的环回或测试环境实现；代码重点是按操作名分流，不能单独复制后直接运行。
+{% endnote %}
 
 ```python
 import json
@@ -139,11 +161,15 @@ def test_graphql_recommendations(page: Page) -> None:
     expect(page.get_by_role("list", name="推荐商品")).to_contain_text("机械键盘")
 ```
 
+{% note info flat %}
 GraphQL 响应即使 HTTP 状态是 200，也可能包含顶层 `errors`。协议测试要同时检查 HTTP 状态、`data`、`errors` 和页面降级结果。生产系统如果使用持久化查询，测试还需要根据 hash 或变量建立稳定匹配规则。
+{% endnote %}
 
+{% note info flat %}
 Mock 只控制依赖，不证明真实 Schema 兼容。保留 API 集成测试或契约校验，避免前端 Mock 与服务端一起漂移。
+{% endnote %}
 
-## WebSocket
+### WebSocket
 
 只观察连接和帧时，监听 Page 的 `websocket` 事件：
 
@@ -161,9 +187,13 @@ def observe_socket(page) -> list[tuple[str, str | bytes]]:
     return frames
 ```
 
+{% note info flat %}
 需要完全模拟服务端时，在导航前注册 `route_web_socket()`：
+{% endnote %}
 
+{% note info flat %}
 下面同样是接入骨架：受测页面必须实际创建匹配 URL 的 WebSocket，并将状态渲染到 `role="status"`，示例才会形成完整测试。
+{% endnote %}
 
 ```python
 import json
@@ -190,11 +220,15 @@ page.goto("https://shop.example/orders/A-100")
 expect(page.get_by_role("status")).to_have_text("已发货")
 ```
 
+{% tip key %}
 不调用 `connect_to_server()` 时，连接由测试完全模拟；调用后可以在页面和真实服务器之间转发、修改或阻断帧。帧日志可能包含聊天内容、Token 或个人信息，CI 中不要直接打印全部 payload。
+{% endtip %}
 
-## BDD 集成
+### BDD 集成
 
+{% note info flat %}
 BDD 适合产品、开发和测试共同维护稳定业务语言的团队。它不适合把每一行点击机械翻译成 Given、When、Then。
+{% endnote %}
 
 ```bash
 uv add --dev pytest-bdd
@@ -235,11 +269,15 @@ def assert_status(checkout, expected: str) -> None:
     expect(checkout.status).to_have_text(expected)
 ```
 
+{% tip warning %}
 Step 不应自行启动浏览器，也不要隐藏复杂通用流程。Gherkin 用于共享业务例子；定位、等待和页面操作仍由测试代码维护。
+{% endtip %}
 
-## 能力边界
+## 质量边界
 
+{% note info flat %}
 以下能力已经列入本文 API 索引，但只有在明确的工程入口出现时才进入。先判断进入条件，再决定是否引入额外依赖、浏览器限制或更低层的对象：
+{% endnote %}
 
 | 能力组 | 进入条件 | 主要限制 |
 | --- | --- | --- |
@@ -251,13 +289,19 @@ Step 不应自行启动浏览器，也不要隐藏复杂通用流程。Gherkin �
 | WebSocket 事件与代理 | 需要验证连接状态、等待帧事件，或在客户端与真实服务器之间转发消息时使用 `WebSocket`、`WebSocketRoute` | 这是协议层测试，不替代页面可观察结果；为每个连接清理监听器，敏感帧只保留脱敏摘要 |
 | 浏览器扩展与 Mock APIs | 需要加载 Chromium 扩展，或在页面初始化前替换时间、随机数等浏览器 API 时使用持久化 Context、`add_init_script()` | 扩展加载依赖 Chromium 和持久化上下文；`add_init_script()` 只能控制页面初始化脚本，不能伪造真实浏览器权限、网络栈或后端行为 |
 
+{% tip warning %}
 这三类场景不要混写：Chrome 扩展测试关注扩展目录、持久化 Context 和扩展页面；Mock APIs 只替换页面可注入的 API，适合固定时间、随机数或权限提示等前端依赖；Service Worker 测试关注注册、激活、缓存和离线生命周期，网络路由未必能覆盖已经被 Worker 接管的请求。它们都应先建立最小专项用例，再决定是否纳入跨浏览器矩阵。
+{% endtip %}
 
-## 质量范围
+### 质量范围
 
+{% note info flat %}
 功能断言回答“订单金额算对了吗”，却不一定能发现按钮失去可访问名称、焦点顺序混乱或组件在某个平台错位。下面围绕 `CheckoutSummary` 组件建立专项质量门。
+{% endnote %}
 
+{% note info flat %}
 工具多不等于结论清楚。先为每个信号定义是否必需，以及四种状态的含义：
+{% endnote %}
 
 | status | 含义 | required 信号如何处理 |
 | --- | --- | --- |
@@ -266,7 +310,9 @@ Step 不应自行启动浏览器，也不要隐藏复杂通用流程。Gherkin �
 | `SKIPPED` | 本应执行，却因环境或流程跳过 | 阻断 |
 | `NOT_APPLICABLE` | 经风险评估后明确不适用 | 不阻断 |
 
+{% note info flat %}
 统一规则可以保持得很简单：任一 required 信号不是 `PASS` 或 `NOT_APPLICABLE`，本次质量门就失败。optional 信号失败要记录和评估，但不自动冒充硬门槛。
+{% endnote %}
 
 ```python
 from dataclasses import dataclass
@@ -293,11 +339,15 @@ def gate_passed(signals: list[Signal]) -> bool:
     return all(not signal.required or signal.status in acceptable for signal in signals)
 ```
 
+{% note info flat %}
 这里最重要的不是数据类，而是语义：`SKIPPED` 不是绿色，`NOT_APPLICABLE` 也不能用来掩盖“没来得及测”。
+{% endnote %}
 
-## ARIA 快照
+### ARIA 快照
 
+{% note info flat %}
 ARIA snapshot 把可访问性树表示为 YAML。它关注角色、可访问名称、状态和层级，不关心组件是蓝色还是绿色。
+{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -328,7 +378,9 @@ def test_checkout_summary_aria_contract(page: Page) -> None:
     """)
 ```
 
+{% note info flat %}
 snapshot 应覆盖稳定、重要的合同。订单号、时间戳等动态文本可以省略或用正则；如果把整个页面所有细节都锁死，维护成本会迅速超过收益。
+{% endnote %}
 
 需要探索当前结构时，可以临时打印：
 
@@ -336,11 +388,15 @@ snapshot 应覆盖稳定、重要的合同。订单号、时间戳等动态文�
 print(page.get_by_role("region", name="订单摘要").aria_snapshot())
 ```
 
+{% note info flat %}
 生成结果只是起点，不能未经审查就批准为基线。一个缺失名称的按钮同样可以被忠实地“快照”下来。
+{% endnote %}
 
-## 无障碍扫描
+### 无障碍扫描
 
+{% note info flat %}
 官方 ARIA snapshots 页面说明了用可访问性树建立稳定结构合同的边界；`axe-playwright-python` 提供 Playwright Python 的 axe-core 封装。它是第三方集成，因此单独安装并锁定版本：
+{% endnote %}
 
 ```bash
 uv add --dev axe-playwright-python==0.1.8
@@ -361,9 +417,11 @@ def test_checkout_has_no_axe_violations(page: Page) -> None:
     assert results.violations_count == 0, results.response.get("violations", [])
 ```
 
+{% note info flat %}
 axe 能发现许多可机器判断的问题，例如缺失名称、部分 ARIA 误用和可计算的对比度违规。但“零违规”不等于满足全部 WCAG，也不等于真实用户能顺利完成任务。动态状态、复杂读屏体验、语言是否清楚以及键盘流程是否合理，仍需要人工评估。
+{% endnote %}
 
-## 人工检查
+### 人工检查
 
 对 CheckoutSummary，最低限度的人工清单可以是：
 
@@ -374,7 +432,9 @@ axe 能发现许多可机器判断的问题，例如缺失名称、部分 ARIA �
 - 放大到 200% 后内容不截断，页面仍可完成提交；
 - 文案、货币与错误提示在当前语言环境中可理解。
 
+{% note info flat %}
 人工结论也要留下执行者、环境、日期和观察结果，而不是写一句“人工看过”。自动化与人工的覆盖关系可以这样理解：
+{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -384,11 +444,15 @@ flowchart TD
   V[像素 diff\n渲染结果] --> G
 {% endmermaid %}
 
+{% note info flat %}
 四个信号相互补充，没有任何一个能单独代表完整质量。
+{% endnote %}
 
-## 视觉回归
+### 视觉回归
 
+{% note info flat %}
 Playwright Test 的 Node.js 版本提供 `toHaveScreenshot()`，但 Playwright Python 没有对应的原生 `to_have_screenshot()` 断言。Python 可以稳定截图，再用 Pillow 编写一个边界明确的比较器。
+{% endnote %}
 
 先安装并锁定 Pillow：
 
@@ -396,7 +460,9 @@ Playwright Test 的 Node.js 版本提供 `toHaveScreenshot()`，但 Playwright P
 uv add --dev pillow==12.3.0
 ```
 
+{% note info flat %}
 下面的 helper 比较相同尺寸的 RGB 图像，在失败时报告归一化绝对像素差异并保存 diff。它是教学用最小实现，不替代成熟视觉平台的审批和报表能力。
+{% endnote %}
 
 ```python
 # visual_assertions.py
@@ -438,7 +504,9 @@ def assert_visual(
     return mismatch_ratio
 ```
 
+{% note info flat %}
 先用内存级小图验证比较器本身，避免质量门建立在错误算法上：
+{% endnote %}
 
 ```python
 # tests/test_visual_assertions.py
@@ -481,7 +549,9 @@ def test_threshold_and_size_failures(tmp_path: Path) -> None:
         assert_visual(baseline, current, diff)
 ```
 
+{% tip key %}
 首次运行时 baseline 不存在是预期状态，不能让测试自动把 current 覆盖成“正确答案”。先单独生成候选截图，人工确认内容、字体、平台和敏感信息，再显式复制为基线并提交评审：
+{% endtip %}
 
 ```bash
 # 1. 先运行截图步骤，预期比较器因 baseline 不存在而失败
@@ -496,7 +566,9 @@ cp test-results/linux/chromium/checkout-current.png \
 uv run pytest tests/test_checkout_visual.py -q
 ```
 
+{% note info flat %}
 `FileNotFoundError` 表示尚未建立基线，而不是产品缺陷。基线文件必须经审查后进入版本控制；测试失败时禁止自动更新。
+{% endnote %}
 
 组件测试负责固定渲染条件：
 
@@ -531,7 +603,9 @@ def test_checkout_summary_visual(page: Page, browser_name: str) -> None:
     assert_visual(baseline, current, diff, max_difference_ratio=0.001)
 ```
 
+{% note info flat %}
 截图稳定至少需要固定 viewport、浏览器、操作系统、字体、DPR、语言和数据。等待 `document.fonts.ready` 能避免字体尚未加载，但不能消除跨平台字体栅格化差异。最稳妥的基线策略是同一平台生成、同一平台比较：
+{% endnote %}
 
 ```text
 visual-baselines/
@@ -542,13 +616,15 @@ visual-baselines/
 └── macos/                 # 只有确实要在 macOS 比较时才维护
 ```
 
+{% note info flat %}
 这只是文章内展示的逻辑结构，不会在博客仓库创建目录。
+{% endnote %}
 
 {% note warning %}
 差异阈值是噪声预算，不是“让测试通过”的旋钮。阈值变大前必须先查看 current 与 diff，确认变化来自可接受的抗锯齿或渲染噪声，而不是组件真的错位。
 {% endnote %}
 
-## 质量结论
+### 质量结论
 
 一次 CheckoutSummary 变更可以形成如下记录：
 
@@ -563,13 +639,19 @@ signals = [
 assert gate_passed(signals)
 ```
 
+{% note info flat %}
 optional 视觉检查被跳过不会自动阻断，但必须如实记录。若项目把视觉回归定义为 required，同样的 `SKIPPED` 就会失败。
+{% endnote %}
 
+{% note info flat %}
 批准基线更新前，至少回答：产品需求是否允许变化、ARIA 和业务断言是否仍通过、diff 是否只包含预期区域、所有受支持平台是否需要独立更新。不能因为 CI 变红就覆盖旧图。
+{% endnote %}
 
-## API 速查
+## 接口边界
 
+{% tip info %}
 下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+{% endtip %}
 
 {% folding cyan, 查看本文 API 索引 %}
 

@@ -19,13 +19,19 @@ date: 2026-08-24 12:01:00
 
 {% course_series %}
 
+{% note info flat %}
 项目实战不是再学一个新 API，而是证明你能把第二至第十篇的主线能力组合成一套可重复、可诊断、可安全交付的测试套件。项目载体叫 **ShopLab**：买家把商品加入购物车并提交订单，管理员在独立会话中处理订单，测试通过 API 造数、核验和清理。
+{% endnote %}
 
+{% note info flat %}
 本文冻结 ShopLab 的最小合同，并给出可以复制到独立练习项目的代码块。博客仓库不会创建 `shoplab/`、`tests/` 或基线图片目录；因此文中的业务代码是课程实现蓝图，不能冒充已经在本仓库运行过的真实 E2E。
+{% endnote %}
 
-## 项目合同
+## 项目边界
 
+{% note info flat %}
 先写清用户、页面和接口，避免测试过程中不断发明需求。
+{% endnote %}
 
 ### 角色与业务规则
 
@@ -67,13 +73,19 @@ DELETE /api/test/orders/{id} 测试专用：清理订单
 DELETE /api/test/products/{id} 测试专用：清理商品
 ```
 
+{% note info flat %}
 这不是另一套 ShopLab：服务实现以第七篇 `shoplab_server.py` 为唯一实现，第九篇只增加调用和 HAR 练习。固定协议还包括：测试 API 使用 `X-Test-Token: local-test-only`；session 创建响应含 `id` 与可直接传给 `new_context(storage_state=...)` 的 `storage_state`；浏览器 Cookie 名为 `session`；`/shop` 用有 accessible name 的 article 展示商品；`/checkout` 暴露“订单摘要”region，提交成功的 status 同时显示订单号与 `submitted`，并含 `data-order-id`；`/admin/orders` 用 row 展示订单号、状态和“标记为已处理”按钮。
+{% endnote %}
 
+{% tip key %}
 测试专用接口只能在本地或隔离测试环境开启，并通过单独凭据和网络策略保护。不要把绕过 UI 的 seed/cleanup API 暴露到生产环境。
+{% endtip %}
 
-## 证据边界
+### 证据边界
 
+{% note info flat %}
 毕业项目接受的是分层证据，不是一句“都通过了”。
+{% endnote %}
 
 | 层级 | 能证明什么 | 不能证明什么 |
 | --- | --- | --- |
@@ -83,9 +95,11 @@ DELETE /api/test/products/{id} 测试专用：清理商品
 | CI 矩阵 | 指定提交在指定 runner 和浏览器通过 | 未执行的线上路径通过 |
 | 线上监控/验证 | 线上当时的被测信号 | 所有用户永不失败 |
 
+{% note info flat %}
 未执行、证据丢失或环境不同的层级必须标记 `NOT VERIFIED`。Trace、截图和录像是诊断材料，只有和业务断言组合后才构成测试证据。
+{% endnote %}
 
-## 项目结构
+## 工程结构
 
 下面是建议复制到独立练习项目的逻辑结构，不会在博客项目中实际创建：
 
@@ -106,7 +120,9 @@ shoplab-e2e/
 └── .github/workflows/e2e.yml
 ```
 
+{% note info flat %}
 `shoplab_server.py` 必须逐字复制第七篇的完整同名代码块；本文不再复制第二份实现，以免两份“真相”漂移。上面的树只是读者练习项目的逻辑结构，所有示例在博客仓库中仍只存在于 Markdown 代码块。
+{% endnote %}
 
 依赖保持最小：
 
@@ -127,11 +143,15 @@ dev = [
 ]
 ```
 
+{% note info flat %}
 示例显式锁定依赖，便于复现实践环境。迁入真实项目时应重新检查 Python 支持范围、发行说明和锁文件，而不是永久复制版本号。
+{% endnote %}
 
-## Fixture 设计
+### Fixture 设计
 
+{% note info flat %}
 测试需要三个所有权边界：每条用例独立的 BrowserContext、每个 worker 独立的 namespace、由创建者负责清理的服务端数据。
+{% endnote %}
 
 ```python
 # tests/conftest.py
@@ -183,7 +203,9 @@ def product(api: APIRequestContext, namespace: str) -> Iterator[dict]:
     assert cleanup.ok, cleanup.text()
 ```
 
+{% note info flat %}
 这里用整数分表示金额，避免浮点误差。清理断言也不能静默忽略，否则下一次运行会继承污染数据。
+{% endnote %}
 
 登录状态由 API 创建，但仍由浏览器真实消费：
 
@@ -274,11 +296,15 @@ def admin_context(
     context.close()
 ```
 
+{% note info flat %}
 `new_context` 是 pytest-playwright 提供的 callback，不是直接调用 `browser.new_context()`。这样多角色 Context 仍会进入插件的 Trace、视频和失败截图生命周期。`storage_state` 只加速登录，不会隔离后端数据，因此仍需要 namespace、独立主体和 session cleanup。
+{% endnote %}
 
-## POM 设计
+### POM 设计
 
+{% note info flat %}
 Page Object 负责 Locator 和用户动作，不负责隐藏所有断言与测试数据。
+{% endnote %}
 
 ```python
 # tests/pages/shop_page.py
@@ -348,9 +374,11 @@ class AdminOrdersPage:
         expect(row).to_contain_text("processed")
 ```
 
-## 主流程
+## 业务链路
 
+{% note info flat %}
 happy path 先只做一件事：创建商品，买家通过 UI 下单，管理员通过 UI 处理，API 核验最终状态，fixture 最后清理。
+{% endnote %}
 
 ```python
 # tests/test_order_lifecycle.py
@@ -407,13 +435,19 @@ def test_buyer_and_admin_complete_order(
     expect(buyer_page.get_by_text("processed", exact=True)).to_be_visible()
 ```
 
+{% note info flat %}
 订单 ID 在点击前就带上唯一 namespace 并登记到补偿列表。删除接口对“不存在”也返回成功，所以无论请求尚未发出、服务端已创建但 UI 断言失败，还是完整流程通过，teardown 都能安全收敛到“该 ID 不存在”。
+{% endnote %}
 
+{% note info flat %}
 先让这个闭环在单浏览器、单 worker 稳定通过，再增加三引擎和并行。否则失败维度太多，很难知道是业务、浏览器还是资源冲突。
+{% endnote %}
 
-## 认证失败
+### 认证失败
 
+{% note info flat %}
 正常路径通过后，才有资格设计可诊断失败。`expired_admin_session` 由受控测试 API 明确创建过期会话，不靠猜测 Cookie 值：
+{% endnote %}
 
 ```python
 # tests/test_auth_failure.py
@@ -439,11 +473,15 @@ def test_expired_admin_state_redirects_to_login(
         context.close()
 ```
 
+{% note info flat %}
 这条用例验证的是系统如何处理过期状态，而不是尝试自动化真实 OAuth 或 2FA。后者通常应由身份提供商测试环境、API 会话或少量专门端到端用例覆盖。
+{% endnote %}
 
-## 网络失败
+### 网络失败
 
+{% note info flat %}
 推荐内容不是商品主流程的核心依赖。通过 route 返回 503，可以验证页面显式降级且加入购物车仍可用：
+{% endnote %}
 
 ```python
 # tests/test_recommendation_fallback.py
@@ -474,11 +512,15 @@ def test_shop_survives_recommendation_failure(
     shop.add(product)
 ```
 
+{% tip error %}
 如果想演练真正的连接失败，可以用 `route.abort("connectionfailed")`；但断言仍应落在用户可见的降级结果，而不是仅断言某个请求报错。
+{% endtip %}
 
-## 失败诊断
+## 失败交付
 
+{% note info flat %}
 开启失败保留策略：
+{% endnote %}
 
 ```bash
 uv run pytest \
@@ -488,7 +530,9 @@ uv run pytest \
   -vv
 ```
 
+{% note info flat %}
 对过期认证失败，诊断顺序是：
+{% endnote %}
 
 {% mermaid %}
 sequenceDiagram
@@ -502,11 +546,15 @@ sequenceDiagram
   Note over T,P: Trace 同时查看 action、DOM snapshot、network、console
 {% endmermaid %}
 
+{% note info flat %}
 先看失败 action 的前后 DOM snapshot，再核对 URL 和网络状态，最后查看控制台。不要只盯最终截图，因为截图看不到之前发生的重定向和响应。
+{% endnote %}
 
+{% note info flat %}
 Trace 可能包含订单内容和会话信息。课程要求只用虚构数据，失败产物采用 allowlist、最小权限和短保留期，禁止上传 `storage_state`、HAR 和真实凭据。
+{% endnote %}
 
-## CI 交付
+### CI 交付
 
 复用第十篇的浏览器矩阵，每个 job 只安装自身引擎，每个 worker 使用独立 namespace：
 
@@ -519,51 +567,55 @@ uv run pytest tests \
   --junitxml test-results/junit-chromium.xml
 ```
 
+{% note info flat %}
 CI 中分别替换为 `firefox` 和 `webkit`。报告至少要记录提交、浏览器、worker 数、受测环境、pytest 结果和失败产物位置。一次偶然通过不代表没有 flaky；可以对关键路径安排有限的重复运行来测量稳定性，但不能用无限重试掩盖失败。
+{% endnote %}
 
-## 验收清单
+### 验收清单
 
-### 1. 环境可复现
+#### 1. 环境可复现
 
 - [ ] `pyproject.toml` 与 `uv.lock` 已提交到练习项目；
 - [ ] Python、Playwright、pytest-playwright 版本可追溯；
 - [ ] 三种浏览器均可通过 `playwright install --list` 验证。
 
-### 2. 交互与断言稳定
+#### 2. 交互与断言稳定
 
 - [ ] 核心路径使用 role、label、text 或 test id Locator；
 - [ ] 没有用固定 sleep 代替业务等待；
 - [ ] 商品浏览、加入购物车、可见订单号与 `submitted`、管理员处理和最终 `processed` 都有 Web-first 业务断言。
 
-### 3. 状态与数据隔离
+#### 3. 状态与数据隔离
 
 - [ ] buyer 与 admin 使用独立 BrowserContext；
 - [ ] worker/job 使用唯一 namespace；
 - [ ] `storage_state` 只复用认证，不被误认为隔离后端数据。
 
-### 4. API 与网络闭环
+#### 4. API 与网络闭环
 
 - [ ] 商品由 API seed；
 - [ ] 订单由 API verify；
 - [ ] 数据由创建者 cleanup；
 - [ ] 推荐接口失败通过 route 可重复注入。
 
-### 5. 失败可诊断
+#### 5. 失败可诊断
 
 - [ ] 至少一条认证失败和一条网络失败可稳定复现；
 - [ ] Trace 能从 action、DOM、network 和 console 解释根因；
 - [ ] 截图、Trace、日志没有真实敏感数据。
 
-### 6. 跨浏览器安全交付
+#### 6. 跨浏览器安全交付
 
 - [ ] Chromium、Firefox、WebKit 使用独立 CI job；
 - [ ] worker 并行没有共享数据冲突；
 - [ ] JUnit 总是保存，诊断产物只在失败时按 allowlist 上传；
 - [ ] 未执行的线上层级标为 `NOT VERIFIED`。
 
+{% note info flat %}
 无障碍、视觉回归、GraphQL、WebSocket 和 BDD 属于第十一篇的按需扩展，不作为本项目的主线验收条件。真实项目如果启用其中任一能力，应单独定义覆盖范围、负责人和失败处理。
+{% endnote %}
 
-## 证据记录
+### 证据记录
 
 把结果落成一张不含糊的表：
 
@@ -576,7 +628,9 @@ CI 中分别替换为 `firefox` 和 `webkit`。报告至少要记录提交、浏
 | webkit-ci | `PASS` / `FAIL` / `NOT VERIFIED` | WebKit job |
 | production | `NOT VERIFIED` | 本课程没有授权线上验证 |
 
+{% note info flat %}
 对本文所在博客仓库，真实结论是：课程 Markdown 可以接受静态、构建和页面渲染验证；ShopLab E2E、外部 CI 与线上结果没有执行，仍是 `NOT VERIFIED`。这种诚实的证据边界，本身就是毕业项目的重要能力。
+{% endnote %}
 
 ## 常见问题
 

@@ -171,13 +171,11 @@ test
 | 请求主体没有被服务端识别 | Content-Type 与实际编码不一致 | 请求头、服务端解析日志、原始 Payload |
 | 代理出现响应拼接风险 | 长度和分帧字段冲突 | HTTP/1.1 原始消息、代理规范和安全日志 |
 
-## 方法、状态码与消息分帧
+## 消息语义
 
 ### 方法属性
 
-{% note info flat %}
 这三个属性经常一起出现，但不是同一件事：
-{% endnote %}
 
 - **安全方法**的定义目标是不请求改变服务器状态，例如 GET 的语义是获取；服务器仍可能记录访问日志或触发其他副作用，不能据此承诺现实世界完全没有变化。
 - **幂等方法**表示同一请求执行一次和执行多次，预期的服务器状态效果相同；响应不必每次都相同。
@@ -218,9 +216,7 @@ HTTP/1.1 204 No Content
 
 ### 状态码决策表
 
-{% note info flat %}
 先按类别判断，再看具体状态：
-{% endnote %}
 
 | 类别 | 方向 | 典型问题 |
 | --- | --- | --- |
@@ -230,9 +226,9 @@ HTTP/1.1 204 No Content
 | 4xx | 请求或客户端上下文有问题 | 参数、认证、权限、资源、方法或限流 |
 | 5xx | 服务端或网关处理失败 | 应用异常、上游不可用、超时或未实现 |
 
-{% note info flat %}
+{% tip warning %}
 状态码只描述 HTTP 层观察到的结果，不等于网络层故障分类。收到 404 说明已经有 HTTP 响应到达客户端；DNS 失败、TCP 连接拒绝和 TLS 证书错误通常不会产生 HTTP 状态码。
-{% endnote %}
+{% endtip %}
 
 ### 重定向
 
@@ -272,9 +268,9 @@ sequenceDiagram
 | 503 | 当前服务暂不可用或过载 | 不一定是永久故障 |
 | 504 | 网关等待上游响应超时 | 需要看 DNS、TCP、TLS、上游处理时间 |
 
-{% note info flat %}
+{% tip warning %}
 102 Processing 是 WebDAV 语境中的历史扩展状态，不应当作普通业务 API 的通用处理中状态。遇到 102，应先确认服务器、客户端和注册表所处的规范语境。
-{% endnote %}
+{% endtip %}
 
 ### WebDAV 与 102
 
@@ -358,9 +354,9 @@ ETag 是表示的实体标签，适合做精确的条件验证和并发更新保
 
 ### Cookie 的设置与发送
 
-{% note info flat %}
+{% tip key %}
 服务器通过 Set-Cookie 建立或更新浏览器保存的 Cookie，浏览器之后依据 Domain、Path、Expires/Max-Age、Secure、HttpOnly、SameSite 等属性决定是否发送 Cookie。Cookie 是 HTTP 状态管理机制，不等于认证本身；认证系统可以把会话标识放在 Cookie，也可以使用 Authorization 等方式。
-{% endnote %}
+{% endtip %}
 
 | 属性 | 控制什么 | 常见误区 |
 | --- | --- | --- |
@@ -383,9 +379,9 @@ HTTP/1.1 200 OK
 Cookie: sid=redacted
 ~~~
 
-{% note info flat %}
+{% tip key %}
 上面是脱敏的协议形态，不是某个真实账户的输出。验证时要检查请求是否满足 Domain/Path/Secure/SameSite 条件，以及浏览器是否因第三方上下文、跨源凭据或过期时间拒绝发送；不要把 Cookie 值写入文章、HAR 或公共日志。
-{% endnote %}
+{% endtip %}
 
 ## Fetch 与 CORS
 
@@ -472,13 +468,13 @@ fetch("https://api.example.test/items", {
 | curl 成功，浏览器失败 | curl 没有执行同源策略或请求上下文不同 | 复刻 Origin、方法、请求头和凭据 |
 | 浏览器发出 POST 后仍无法读取 | CORS 允许发送不等于允许读取响应 | 查看响应端 CORS 字段和控制台错误 |
 
-## 认证、代理和网关
+## 中间层
 
 ### Authorization
 
-{% note info flat %}
+{% tip key %}
 Authorization 字段承载认证方案和凭据，例如 Bearer token。它解决“请求者如何证明身份/持有凭据”的一部分问题，不自动解决权限、会话撤销、Token 泄露、缓存隔离或传输加密。生产排查中不要把真实 Authorization 值写入文章、截图、HAR 或公共 issue。
-{% endnote %}
+{% endtip %}
 
 {% note info flat %}
 Bearer 请求的最小形态是：
@@ -533,9 +529,9 @@ flowchart TD
 
 ### curl 验证
 
-{% note info flat %}
+{% tip key %}
 下面命令针对公共示例站点，仅产生读取请求。实际复现私有接口时，先脱敏并确认授权；不要把真实 Cookie、Authorization 或内部 Host 放进共享日志。
-{% endnote %}
+{% endtip %}
 
 ~~~bash
 # 查看响应头和重定向，但不下载大响应体
@@ -551,9 +547,9 @@ curl -sS -L -D /tmp/http-headers.txt -o /tmp/http-body.txt https://example.com/
 curl -sS -D - -H 'If-None-Match: "article-42-v7"' https://example.com/articles/42
 ~~~
 
-{% note info flat %}
+{% tip success %}
 预期证据是：DNS 解析、TCP/或后续安全连接、请求字段、响应状态、Location、缓存字段和内容类型。`-I` 发送 HEAD，不能把 HEAD 的结果完全当作 GET 的内容证据；`-L` 会改变观察到的请求链，必须同时记录每一跳的状态和方法。
-{% endnote %}
+{% endtip %}
 
 ### 请求验证
 
@@ -588,9 +584,7 @@ Vary: Origin
 
 ### 固定响应夹具与状态边界
 
-{% note info flat %}
 要测试缓存、重定向和 502/504，优先使用隔离的本地夹具，而不是修改线上服务：
-{% endnote %}
 
 1. 启动一个只绑定 loopback 的 HTTP 服务，返回固定的 ETag、Cache-Control 和 Location；
 2. 用 curl 第一次请求，保存响应头；
@@ -600,9 +594,7 @@ Vary: Origin
 
 ### HTTP 面试分析流程
 
-{% note info flat %}
 面对“为什么返回 403”“为什么浏览器跨域”“为什么看到 304 但页面内容旧”时，按以下顺序回答：
-{% endnote %}
 
 {% mermaid %}
 flowchart TD

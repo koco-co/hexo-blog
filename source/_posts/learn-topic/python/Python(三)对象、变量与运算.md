@@ -21,11 +21,15 @@ date: 2026-08-25 13:13:45
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 学习目标
+## 文章职责
 
-- 唯一问题：establish Python's name-binding and object model for values, identity, equality, mutability, numeric/string behavior, and operators.
-- 学习成果：reader can predict identity/equality and mutation results without relying on accidental interning or IDE behavior.
-- 前置文章：Python(二)运行环境与代码组织.
+- 唯一要解决的问题：establish Python's name-binding and object model for values, identity, equality, mutability, numeric/string behavior, and operators.
+- 可观察成果：reader can predict identity/equality and mutation results without relying on accidental interning or IDE behavior.
+- 进入条件：Python(二)运行环境与代码组织.
+- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+
+## 内容边界
+
 - 复用或新建依据：rebuild the useful operators, strings, and numeric exercises from the old notes; correct implementation-dependent claims.
 
 | 稳定标识 | 处置 | 目标章节 |
@@ -203,56 +207,39 @@ date: 2026-08-25 13:13:45
 | `stdlib:string` | 正文简述 | 字符串与字节 / 格式化方法族 |
 | `stdlib:string.templatelib` | 正文简述 | 字符串与字节 / f-string 与 3.14 t-string 识别 |
 | `stdlib:unicodedata` | 正文简述 | 字符串与字节 / Unicode 字符串 |
+- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
 
-## 章节计划
+## 正文编排
 
-- H2：名称与对象
-  - H3：绑定而非盒子
-  - H3：标识符、字面量与词法边界
-  - H3：类型、值与身份
-  - H3：赋值与重新绑定
-- H2：身份与相等
-  - H3：is 与 ==
-  - H3：值比较与类型边界
-  - H3：驻留的实现边界
-- H2：可变性
-  - H3：可变与不可变对象
-  - H3：别名与共享引用
-  - H3：增量赋值的差异
-  - H3：del 的解绑与容器删除
-- H2：数字与运算
-  - H3：整数、浮点数与 Decimal
-  - H3：整除、取模与负数
-  - H3：布尔运算与短路求值
-  - H3：表达式求值顺序与优先级
-- H2：字符串与字节
-  - H3：Unicode 字符串
-  - H3：转义与原始字符串
-  - H3：编码与解码边界
-  - H3：大小写与 Unicode 归一
-  - H3：裁剪、前后缀与填充
-  - H3：搜索、计数与判定
-  - H3：拆分、分区与连接
-  - H3：替换与翻译
-  - H3：格式化方法族
-  - H3：f-string 与 3.14 t-string 识别
-  - H3：3.13 与 3.14 字节接口门控
-- H2：对象实验
-  - H3：引用图验证
-  - H3：跨运行方式验证驻留假设
-- H2：结果验证
-- H2：常见问题
-- H2：参考资料
+| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 名称与对象 | 建立名称与对象的心智模型 | 绑定而非盒子；标识符、字面量与词法边界；类型、值与身份；赋值与重新绑定 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 身份与相等 | 建立身份与相等的心智模型 | is 与 ==；值比较与类型边界；驻留的实现边界 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 可变性 | 建立可变性的心智模型 | 可变与不可变对象；别名与共享引用；增量赋值的差异；del 的解绑与容器删除 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 数字与运算 | 建立数字与运算的心智模型 | 整数、浮点数与 Decimal；整除、取模与负数；布尔运算与短路求值；表达式求值顺序与优先级 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 字符串与字节 | 建立字符串与字节的心智模型 | Unicode 字符串；转义与原始字符串；编码与解码边界；大小写与 Unicode 归一；裁剪、前后缀与填充；搜索、计数与判定；拆分、分区与连接；替换与翻译；格式化方法族；f-string 与 3.14 t-string 识别；3.13 与 3.14 字节接口门控 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 对象实验 | 完成并验证对象实验 | 引用图验证；跨运行方式验证驻留假设 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 结果验证 | 完成并验证结果验证 | 结果验证的输入、关键步骤、结果与边界 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 常见问题 | 建立常见问题的心智模型 | 常见问题的输入、关键步骤、结果与边界 | `flashcard` | 真实高价值问题需要进入长期复习队列 | 题面、精简答案和详细解析 | 闪卡脚本失效时题面与答案正文仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 参考资料 | 建立参考资料的心智模型 | 参考资料的输入、关键步骤、结果与边界 | `linkgroup/link` | 官方扩展阅读使用统一资料卡片 | 资料名称、用途和完整 URL | 图片或网络失败时名称与 URL 仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
 
-## 验证方式
+## 视觉与复习
 
 - 贯穿案例与完整示例：run a matrix of literals, raw strings, dynamically created strings, `Decimal`, boolean/conditional expressions, augmented assignment, and built-in cross-type comparisons; verify evaluation order and compare string method families without defining classes or listing every mirrored bytes/bytearray method. Custom `__eq__` implementation is deferred to Python(七).
 - 失败边界与踩坑：`id()` is only unique during an object's lifetime; CPython string interning is not a contract; raw strings still have terminal-backslash constraints; binary floating point is not decimal arithmetic; t-strings and changed bytes inputs are version-gated.
 - FAQ 候选与来源：Programming FAQ on floor division, string modification, Unicode errors, raw strings, object IDs, and identity tests; Design FAQ on floating point and immutable strings.
-- 自测与闪卡计划：
+- 复习卡片：
   - `python-object-is-eq` priority 1: `is` versus `==`.
     - `python-object-mutability` priority 1: mutable versus immutable and augmented assignment.
     - `python-object-binding` priority 1: assignment and argument binding.
     - `python-object-float` priority 2: floating-point precision.
-- 可视化：object/reference graph and exact comparison table for binding, mutation, equality, and identity.
+- 图表或实验：object/reference graph and exact comparison table for binding, mutation, equality, and identity.
 - 主要参考资料：Language reference lexical analysis, expressions, data model, built-in types, Decimal and Programming/Design FAQ.
+- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
+- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+
+## 验收证据
+
+- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
+- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
+- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。

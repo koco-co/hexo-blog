@@ -24,9 +24,11 @@ date: 2026-08-24 12:03:00
 调试不是“失败后多截几张图”。可靠流程是：生成起点 → 重构语义 Locator → 交互式复现 → 保留最小证据 → 在 Trace 中重建因果链。
 {% endnote %}
 
-## Codegen
+## 调试入口
 
+{% note info flat %}
 先把下面代码块复制为 `todo_server.py`。它只使用 Python 标准库，在随机端口提供与录制动作一致的 Todo 页面：
+{% endnote %}
 
 ```python
 # todo_server.py
@@ -78,9 +80,13 @@ uv run python todo_server.py
 uv run playwright codegen --target python-pytest http://127.0.0.1:<实际端口>/todo
 ```
 
+{% note info flat %}
 完成录制后关闭 Inspector，再在终端 A 按 Ctrl+C；服务进入 `finally` 释放端口。
+{% endnote %}
 
+{% note info flat %}
 Codegen 会优先生成 role、text 与 test id Locator，也能录制断言；但它不知道套件的数据边界、fixture 层次和业务风险。生成后至少审查：
+{% endnote %}
 
 ```python
 from playwright.sync_api import expect
@@ -95,9 +101,13 @@ todo = page.get_by_role("list", name="待办事项")
 expect(todo.get_by_role("listitem")).to_have_text(["检查 Trace"])
 ```
 
+{% note info flat %}
 如果 Codegen 产生 `.nth()` 或长 CSS，先检查页面是否缺少 accessible name 或稳定测试合同，而不是直接复制。
+{% endnote %}
 
+{% note info flat %}
 后面的 CLI Debugger 与 Trace Viewer 共用一条确定性失败用例。先把它保存为 `tests/test_trace.py`：
+{% endnote %}
 
 ```python
 # tests/test_trace.py
@@ -116,7 +126,7 @@ def test_delayed_status(page: Page) -> None:
     expect(page.get_by_role("status")).to_have_text("已提交", timeout=100)
 ```
 
-## 运行调试
+### 运行调试
 
 | 工具 | 启动方式 | 适合问题 | 约束 |
 | --- | --- | --- | --- |
@@ -137,11 +147,15 @@ uv run python -m playwright cli -s=tw-xxxxxx console error
 uv run python -m playwright cli -s=tw-xxxxxx resume
 ```
 
+{% note info flat %}
 pytest 继续后，会话随 Context 关闭。若启用输出捕获或 `-n 2`，插件会直接报用法错误，这是为了确保 attach 指令可见且调试目标唯一。
+{% endnote %}
 
+{% note info flat %}
 调试并行失败时先用原命令保留证据，再在不启用 xdist 的单 worker 环境复现。CLI Debugger 应使用单一目标，不要一开始就同时改变浏览器、数据和 worker 数量，否则可能把原始条件一起抹掉。
+{% endnote %}
 
-## 失败产物
+## 失败证据
 
 pytest 插件 0.9.0 的核心开关：
 
@@ -160,11 +174,15 @@ uv run pytest \
 | 控制台日志 | 前端异常与业务日志 | 元素状态 | Token 被错误打印 |
 | Trace | 动作、DOM snapshot、网络、日志与源码 | 外部系统内部状态 | header、body、DOM 数据 |
 
+{% note info flat %}
 全量 `on` 适合短期诊断，不适合长期默认。失败保留策略能降低存储和泄露面，但仍应限制访问与 retention。
+{% endnote %}
 
+{% note info flat %}
 `--output` 必须指向可清空的专用产物目录：pytest-playwright 会在 session 开始时清理它。不要把包含手工证据或其他项目文件的目录传给该参数。
+{% endnote %}
 
-## Trace Viewer
+### Trace Viewer
 
 继续使用前面已经保存的 `tests/test_trace.py`：
 
@@ -175,7 +193,9 @@ test -n "$trace_path"
 uv run playwright show-trace "$trace_path"
 ```
 
+{% note info flat %}
 Trace Viewer 建议按顺序检查：
+{% endnote %}
 
 {% timeline Trace 收敛顺序, blue %}
 <!-- timeline Action -->
@@ -192,11 +212,15 @@ Trace Viewer 建议按顺序检查：
 <!-- endtimeline -->
 {% endtimeline %}
 
+{% note info flat %}
 本例中 Action log 会显示断言只等待 100ms，DOM snapshot 仍为“草稿”，而页面脚本明确在 800ms 后更新。修复是使用符合产品 SLA 的断言超时，而不是加入 `sleep(1)`。
+{% endnote %}
 
+{% note info flat %}
 Trace 可以本地 `show-trace`，也可以拖入 `trace.playwright.dev`。官方查看器在浏览器内加载文件，但企业环境仍应按数据政策决定是否访问外部域名；敏感 Trace 优先在本机查看。
+{% endnote %}
 
-## 诊断记录
+### 诊断记录
 
 ```text
 现象：订单状态断言在 100ms 超时。
@@ -206,7 +230,7 @@ Trace 可以本地 `show-trace`，也可以拖入 `trace.playwright.dev`。官�
 修复：断言超时调整到经 SLA 支持的 1500ms；连续运行 20 次通过。
 ```
 
-## 跨浏览器
+## 执行策略
 
 同一套 Playwright Python API 可以驱动 Chromium、Firefox 和 WebKit，但三个引擎需要分别安装：
 
@@ -232,9 +256,11 @@ uv run pytest \
   --browser webkit
 ```
 
+{% note info flat %}
 浏览器矩阵的目标是发现渲染、事件、权限和浏览器实现差异，不是简单把执行次数乘三。先确保 Chromium 主线稳定，再加入 Firefox 与 WebKit，失败时分别记录浏览器和操作系统。
+{% endnote %}
 
-## 并行执行
+### 并行执行
 
 `pytest-xdist` 通过多个 worker 进程并行分发用例：
 
@@ -243,7 +269,9 @@ uv add --dev pytest-xdist
 uv run pytest --browser chromium -n auto
 ```
 
+{% note info flat %}
 worker 不共享 Python 内存。Session Fixture 是“每个 worker 执行一次”，不是整台机器只执行一次。
+{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -273,7 +301,9 @@ def order_number(run_namespace: str, request: pytest.FixtureRequest) -> str:
     return f"{run_namespace}-{request.node.name}"
 ```
 
+{% tip sync %}
 并发失败时用同一 node id 回到串行：
+{% endtip %}
 
 ```bash
 uv run pytest tests/e2e/test_checkout.py::test_submit_order \
@@ -282,11 +312,15 @@ uv run pytest tests/e2e/test_checkout.py::test_submit_order \
   -vv
 ```
 
+{% note info flat %}
 串行通过、多 worker 失败时，优先检查共享账号、固定订单号、端口、下载文件名和清理时机。不要立即用重试掩盖资源冲突。
+{% endnote %}
 
-## CI 配置
+## 持续交付
 
+{% note info flat %}
 浏览器适合拆成 CI Job，worker 负责每个 Job 内的并行。`pytest-playwright` 没有 Node.js Playwright Test 的 `--shard` 参数；Python 项目使用目录、marker、CI 矩阵或其他 pytest 分组工具。
+{% endnote %}
 
 ```yaml
 # .github/workflows/e2e.yml
@@ -353,11 +387,15 @@ jobs:
             test-results/**/*.png
 ```
 
+{% tip key %}
 示例使用最小 `contents: read` 权限和产物白名单。不要上传整个工作区；`storage_state`、HAR、下载文件、环境变量文件和未脱敏日志都可能包含敏感数据。
+{% endtip %}
 
-## 重试与报告
+### 重试与报告
 
+{% note info flat %}
 pytest 核心和 `pytest-playwright` 不提供通用重试。需要吸收已知环境抖动时可评估 `pytest-rerunfailures`，但必须保留首次失败证据并限制次数：
+{% endnote %}
 
 ```bash
 uv add --dev pytest-rerunfailures
@@ -368,9 +406,13 @@ uv run pytest \
   --fail-on-flaky
 ```
 
+{% note info flat %}
 将支持这些参数的插件版本锁入 `uv.lock`。`--rerun-show-tracebacks` 保留早期失败线索，`--fail-on-flaky` 让“首次失败、重跑通过”的用例仍以失败退出，避免 CI 假绿。
+{% endnote %}
 
+{% tip warning %}
 以下情况不能用重试结案：
+{% endtip %}
 
 - 同一断言稳定失败；
 - 仅并行时失败，疑似资源冲突；
@@ -378,11 +420,15 @@ uv run pytest \
 - 首次失败证据会被重跑覆盖；
 - 失败概率持续上升。
 
+{% note info flat %}
 JUnit 适合 CI 汇总；需要人类可读 HTML 时可以接入 pytest 生态报告插件。报告只负责呈现结果，不应改变进程退出码，也不能把 rerun 后的通过伪装成从未失败。
+{% endnote %}
 
-## API 速查
+## 接口边界
 
+{% tip info %}
 下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+{% endtip %}
 
 {% folding cyan, 查看本文 API 索引 %}
 

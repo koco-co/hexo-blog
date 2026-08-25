@@ -20,11 +20,15 @@ date: 2026-08-25 00:00:00
 
 > 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
 
-## 学习目标
+## 文章职责
 
-- 唯一问题：解释 Shell 如何解析、展开、重定向、连接和判断命令，使组合命令保持正确。
-- 学习成果：能够设计和调试安全管道、条件链、重定向和参数批处理。
-- 前置文章：第 2～4 篇。
+- 唯一要解决的问题：解释 Shell 如何解析、展开、重定向、连接和判断命令，使组合命令保持正确。
+- 可观察成果：能够设计和调试安全管道、条件链、重定向和参数批处理。
+- 进入条件：第 2～4 篇。
+- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+
+## 内容边界
+
 - 能力分配：
 - 核心详解 / 引号与展开：bash5.3:feature:brace-expansion、bash5.3:toc:ANSI_002dC-Quoting、bash5.3:toc:Brace-Expansion、bash5.3:toc:Command-Substitution、bash5.3:toc:Double-Quotes、bash5.3:toc:Escape-Character、bash5.3:toc:Locale-Translation、bash5.3:toc:Pattern-Matching、bash5.3:toc:Process-Substitution、bash5.3:toc:Quote-Removal、bash5.3:toc:Shell-Parameter-Expansion、bash5.3:toc:Single-Quotes、bash5.3:toc:Tilde-Expansion、bash5.3:toc:Word-Splitting、posix2024:shell:arithmetic-expansion、posix2024:shell:command-substitution、posix2024:shell:field-splitting、posix2024:shell:parameter-expansion、posix2024:shell:pathname-expansion、posix2024:shell:pattern-matching、posix2024:shell:quote-removal、posix2024:shell:quoting、posix2024:shell:tilde-expansion
 - 核心详解 / 管道与状态：bash5.3:feature:pipefail、bash5.3:toc:Exit-Status、bash5.3:toc:Pipelines、posix2024:shell:exit-status、posix2024:shell:pipelines、posix2024:utility:false、posix2024:utility:test、posix2024:utility:timeout、posix2024:utility:true
@@ -33,41 +37,38 @@ date: 2026-08-25 00:00:00
 - 核心详解 / 命令解析顺序：bash5.3:toc:Command-Search-and-Execution、bash5.3:toc:Comments、bash5.3:toc:Environment、bash5.3:toc:Reserved-Words、bash5.3:toc:Shell-Operation、bash5.3:toc:Simple-Command-Expansion、bash5.3:toc:Simple-Commands、posix2024:shell:alias-substitution、posix2024:shell:command-search、posix2024:shell:reserved-words、posix2024:shell:simple-commands、posix2024:shell:token-recognition
 - 核心详解 / 参数批处理：bash5.3:toc:GNU-Parallel、posix2024:utility:xargs
 - 核心详解 / 组合命令设计：posix2024:utility:date、posix2024:utility:expr、posix2024:utility:sleep、ubuntu26.04:command:seq、ubuntu26.04:command:yes
+- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
 
-## 章节计划
+## 正文编排
 
-- H2：命令解析顺序
-  - H3：Token、保留字、别名、简单命令和命令搜索
-  - H3：为什么显示文本不等于最终 argv
-- H2：引号与展开
-  - H3：单引号、双引号、ANSI-C 引号、变量、算术和命令替换
-  - H3：字段拆分、路径名展开和反引号迁移
-- H2：标准流与重定向
-  - H3：文件描述符 0、1、2
-  - H3：输入、覆盖、追加、stderr、复制、here-document 和 here-string
-- H2：管道与状态
-  - H3：并发管道、缓冲、PIPESTATUS、pipefail 和误报成功
-- H2：命令列表与作用域
-  - H3：分号、AND、OR、后台、分组、子 Shell 和执行环境
-- H2：参数批处理
-  - H3：xargs 批处理和空输入
-  - H3：任意文件名、find -exec、print0 和 xargs -0
-- H2：组合命令设计
-  - H3：需求、数据流、检查和最终组合命令
-- H2：结果验证
-  - H3：用成功、失败和异常输入验证退出状态与副作用
+| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 命令解析顺序 | 建立命令解析顺序的心智模型 | Token、保留字、别名、简单命令和命令搜索；为什么显示文本不等于最终 argv | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 引号与展开 | 建立引号与展开的心智模型 | 单引号、双引号、ANSI-C 引号、变量、算术和命令替换；字段拆分、路径名展开和反引号迁移 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 标准流与重定向 | 建立标准流与重定向的心智模型 | 文件描述符 0、1、2；输入、覆盖、追加、stderr、复制、here-document 和 here-string | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 管道与状态 | 建立管道与状态的心智模型 | 并发管道、缓冲、PIPESTATUS、pipefail 和误报成功 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 命令列表与作用域 | 建立命令列表与作用域的心智模型 | 分号、AND、OR、后台、分组、子 Shell 和执行环境 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 参数批处理 | 完成并验证参数批处理 | xargs 批处理和空输入；任意文件名、find -exec、print0 和 xargs -0 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 组合命令设计 | 建立组合命令设计的心智模型 | 需求、数据流、检查和最终组合命令 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 结果验证 | 完成并验证结果验证 | 用成功、失败和异常输入验证退出状态与副作用 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
 
-## 验证方式
+## 视觉与复习
 
 - 贯穿案例：设计一条命令：安全查找近期日志、传递任意文件名、提取错误、统计服务、保留 stderr，并在上游失败时整体失败。
 - 完整示例：设计一条命令：安全查找近期日志、传递任意文件名、提取错误、统计服务、保留 stderr，并在上游失败时整体失败。
 - 失败边界与踩坑：未加引号变量、glob、stderr 丢失、管道退出码、无效 xargs 和错误的 FD 顺序。
 - FAQ 候选与来源：为什么需要 pipefail、2>&1 的顺序为什么重要、什么时候使用 {} 而不是 ()。
-- 自测形式：用中文场景选择命令，解释输出并写出验证步骤。
-- 可视化：Shell 处理流程、文件描述符路由图、AND/OR 真值表。
-- 闪卡计划：引号、展开、重定向、文件描述符、here-document、列表运算符、分组/子 Shell、pipefail 和安全文件名组合卡。
+- 非复习自测：用中文场景选择命令，解释输出并写出验证步骤。
+- 图表或实验：Shell 处理流程、文件描述符路由图、AND/OR 真值表。
+- 复习卡片：引号、展开、重定向、文件描述符、here-document、列表运算符、分组/子 Shell、pipefail 和安全文件名组合卡。
 - 参考资料：POSIX Shell、Bash 5.3 Shell Grammar 与 GNU Bash 手册。
 
-## 结果验证
-
 正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
+- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
+- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+
+## 验收证据
+
+- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
+- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
+- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。

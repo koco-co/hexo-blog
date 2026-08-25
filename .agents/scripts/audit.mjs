@@ -26,7 +26,8 @@ const LEARN_TOPIC_ADVANCED_ARTICLE = '进阶路线'
 const LEARN_TOPIC_FINAL_ARTICLES = new Set(['综合实战', '项目实战', '知识总结'])
 const LEARN_TOPIC_INTERNAL_FRONT_MATTER_PREFIX = 'learn_topic_'
 const LEARN_TOPIC_ENTRY_HEADINGS = ['课程目标', '前置条件', '学习路径', '文章安排', '开始学习', '参考资料']
-const LEARN_TOPIC_PLACEHOLDER_HEADINGS = new Set(['学习目标', '章节计划', '验证方式'])
+const LEARN_TOPIC_PLACEHOLDER_HEADINGS = new Set(['文章职责', '内容边界', '正文编排', '视觉与复习', '验收证据'])
+const LEARN_TOPIC_LEGACY_PLACEHOLDER_HEADINGS = new Set(['学习目标', '章节计划', '验证方式'])
 const LEARN_TOPIC_SEMANTIC_BLOCK_TAGS = new Set([
   'chartjs', 'flashcard', 'folding', 'gallery', 'hideBlock', 'hideToggle',
   'mermaid', 'note', 'tabs', 'timeline', 'tip', 'videos',
@@ -246,8 +247,50 @@ function isSingleTagLine(line) {
   return /^\s*\{%\s*[A-Za-z][A-Za-z0-9_-]*\b[^%]*%\}\s*$/.test(line)
 }
 
+function structuralLeadLineNumbers(text) {
+  const lines = text.split(/\r?\n/)
+  const leads = new Set()
+  let frontMatter = false
+  let fence = null
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index]
+    if (index === 0 && /^\uFEFF?---\s*$/.test(line)) {
+      frontMatter = true
+      continue
+    }
+    if (frontMatter) {
+      if (/^---\s*$/.test(line)) frontMatter = false
+      continue
+    }
+
+    const marker = line.match(/^\s*(`{3,}|~{3,})/)
+    if (marker) {
+      const character = marker[1][0]
+      const length = marker[1].length
+      if (!fence) fence = { character, length }
+      else if (fence.character === character && length >= fence.length) fence = null
+      continue
+    }
+    const normalized = line.replace(/[`*_~]/g, '').trim()
+    if (fence
+      || !/[：:]\s*$/.test(normalized)
+      || normalized.length > 72
+      || /[。！？!?]/.test(normalized.slice(0, -1))) continue
+
+    let nextIndex = index + 1
+    while (nextIndex < lines.length && !lines[nextIndex].trim()) nextIndex += 1
+    const next = lines[nextIndex] ?? ''
+    if (/^\s*(?:[-*+]\s+|\d+[.)]\s+|\||`{3,}|~{3,}|\{%\s*(?:mermaid|timeline|tabs|chartjs)\b)/.test(next)) {
+      leads.add(index + 1)
+    }
+  }
+  return leads
+}
+
 function learnTopicPlainBodyBlocks(text) {
   const rows = markdownBodyLines(text)
+  const structuralLeads = structuralLeadLineNumbers(text)
   const blocks = []
   const stack = []
   let current = []
@@ -256,10 +299,12 @@ function learnTopicPlainBodyBlocks(text) {
 
   const flush = () => {
     if (current.length === 0) return
-    blocks.push({
-      line: current[0].line,
-      text: current.map(item => item.text.trim()).join(' / '),
-    })
+    if (!structuralLeads.has(current.at(-1).line)) {
+      blocks.push({
+        line: current[0].line,
+        text: current.map(item => item.text.trim()).join(' / '),
+      })
+    }
     current = []
   }
 
@@ -1488,7 +1533,7 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
         const hasPlaceholderContract = [...LEARN_TOPIC_PLACEHOLDER_HEADINGS].every(heading => placeholderHeadings.includes(heading))
         const hasDraftContract = hasCourseDraftBody(placeholderHeadings)
         if (!hasPlaceholderContract && !hasDraftContract) {
-          report.errors.push(finding('LEARN_TOPIC_PLACEHOLDER_CONTRACT_MISSING', relativeFile, '课程占位文章必须包含“学习目标”“章节计划”和“验证方式”合同。'))
+          report.errors.push(finding('LEARN_TOPIC_PLACEHOLDER_CONTRACT_MISSING', relativeFile, '课程占位文章必须包含“文章职责”“内容边界”“正文编排”“视觉与复习”和“验收证据”合同。'))
         } else {
           isValidCoursePlaceholder = true
         }
@@ -1510,7 +1555,11 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
       if (h2Headings.includes('来源') || h2Headings.includes('来源与核验范围')) {
         report.errors.push(finding('LEARN_TOPIC_SOURCE_HEADING', relativeFile, '公开课程统一使用“参考资料”，不得使用“来源”或“来源与核验范围”。'))
       }
-      const publicInternalHeadings = new Set([...LEARN_TOPIC_FORBIDDEN_PUBLIC_HEADINGS, ...LEARN_TOPIC_PLACEHOLDER_HEADINGS])
+      const publicInternalHeadings = new Set([
+        ...LEARN_TOPIC_FORBIDDEN_PUBLIC_HEADINGS,
+        ...LEARN_TOPIC_PLACEHOLDER_HEADINGS,
+        ...LEARN_TOPIC_LEGACY_PLACEHOLDER_HEADINGS,
+      ])
       for (const heading of markdownHeadings(text).filter(item => [2, 3].includes(item.level) && publicInternalHeadings.has(item.text))) {
         if ((data.published === true && enforcesPublishedArticleContract) || heading.text === '统一封面与文章收尾') {
           report.errors.push(finding('LEARN_TOPIC_META_HEADING_FORBIDDEN', relativeFile, `第 ${heading.line} 行的 H${heading.level}“${heading.text}”属于课程生产元信息或冗余路线文案；请改为主题相关的简洁标题。`))

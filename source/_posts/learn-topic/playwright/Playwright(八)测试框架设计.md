@@ -62,7 +62,9 @@ tests/
 - `api/` 封装服务接口，供 Fixture 或测试核验使用；
 - `data/` 只保存可公开、可审查的输入和期望。
 
+{% note info flat %}
 小套件不必预先创建所有目录。先从直接测试开始，出现真实重复和职责边界后再提取对应层。
+{% endnote %}
 
 ## 数据驱动
 
@@ -98,9 +100,21 @@ def test_total(page: Page, level: str, subtotal: int, expected: str) -> None:
     expect(page.locator("output")).to_have_text(expected)
 ```
 
+{% note info flat %}
 运行后 pytest 应收集三个带可读 ID 的 case，并得到 `3 passed`。若把 VIP 的期望故意改成 `100.00`，失败报告应指向 `vip-10-percent`，这正是 case ID 的价值。
+{% endnote %}
 
+{% note info flat %}
 数据量大或由业务人员维护时可以外部化。文章只展示代码块，不向博客仓库增加数据文件。
+{% endnote %}
+
+{% note info flat %}
+简单、机器生成或只由测试代码维护的数据优先使用 JSON；只有当数据层级较深、需要频繁人工编辑，并且团队愿意承担额外依赖时再选择 YAML。
+{% endnote %}
+
+{% tip key %}
+两种格式都不能保存账号密码等敏感值。数据文件只放可公开输入，敏感值通过 CI secret 或测试环境的安全注入方式提供。
+{% endtip %}
 
 {% tabs 数据格式, 1 %}
 
@@ -143,13 +157,11 @@ import yaml
 CASES = yaml.safe_load(Path("tests/data/discounts.yaml").read_text(encoding="utf-8"))
 ```
 
-YAML 需要额外依赖 `PyYAML`，并应使用 `safe_load()`；简单数据优先 JSON，减少解析差异与依赖。
+YAML 需要额外依赖 `PyYAML`，并应使用 `safe_load()`。
 
 <!-- endtab -->
 
 {% endtabs %}
-
-账号密码不要放进 JSON/YAML。测试数据文件应只包含可公开的输入；敏感值使用 CI secret 或测试环境的安全注入方式。
 
 ## Fixture 设计
 
@@ -161,7 +173,9 @@ F --> T[Test]
 T --> C[finally/yield 后清理]
 {% endmermaid %}
 
+{% note info flat %}
 作用域越大，速度可能越快，但污染半径也越大。浏览器进程适合 session；Context、Page 和可变业务数据通常保持 function。
+{% endnote %}
 
 ```python
 # conftest.py
@@ -205,13 +219,19 @@ def order(order_store: OrderStore, order_id: str) -> Iterator[dict]:
         order_store.delete(order_id)
 ```
 
+{% note info flat %}
 这段内存 store 只用于讲 Fixture 所有权，不依赖第九篇 API。即使测试中的断言故意失败，`yield` 之后的删除和 `order_store` 的空状态检查仍会执行。
+{% endnote %}
 
+{% note info flat %}
 fixture 应返回“测试需要的能力”，而不是把所有动作藏起来。创建和清理放 fixture，测试的关键业务动作与断言留在测试函数中。`conftest.py` 分层规则：根目录放全套件基础设施，子目录只放该领域覆盖或 fixture，避免一个千行全局文件。
+{% endnote %}
 
 ## POM 设计
 
+{% note info flat %}
 官方 Page Object 的核心是用更高层业务 API 包装 Page 并集中 Locator。它不是“每个页面必须一个类”，更不是断言垃圾桶。
+{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -247,7 +267,9 @@ def test_checkout(page):
     expect(checkout.status).to_have_text("订单已创建")
 ```
 
+{% note info flat %}
 保持业务断言在测试中，失败报告会明确表达测试意图。组件跨多个页面复用时使用 Component Object；只出现一次的两行 Locator 不必急着抽象。
+{% endnote %}
 
 ### 组件对象
 
@@ -278,11 +300,15 @@ class ShopPage:
         product.get_by_role("button", name="加入购物车").click()
 ```
 
+{% note info flat %}
 组合比建立庞大的 `BasePage` 继承树更容易控制职责。组件对象只接收它需要的 Page 或根 Locator，不应知道账号、数据库连接和 CI 配置。
+{% endnote %}
 
 ### Fixture 注入
 
+{% tip warning %}
 Page Object 可以由 Function 级 Fixture 构造，但不应扩大 Page 生命周期：
+{% endtip %}
 
 ```python
 import pytest
@@ -300,7 +326,9 @@ def test_checkout(checkout_page: CheckoutPage) -> None:
     expect(checkout_page.status).to_have_text("订单已创建")
 ```
 
+{% note info flat %}
 Fixture 负责对象装配，Page Object 负责页面语言，测试仍然负责说明为何操作以及期望什么。
+{% endnote %}
 
 | 反模式                        | 为什么会塌           | 调整                       |
 | ----------------------------- | -------------------- | -------------------------- |
@@ -311,15 +339,19 @@ Fixture 负责对象装配，Page Object 负责页面语言，测试仍然负责
 
 ## 设计检查
 
+{% note info flat %}
 为“创建订单 → UI 提交 → API 清理”标注：哪些属于参数数据、哪些属于 Fixture、哪些属于 Page Object、哪些必须留在测试断言。若一个动作同时出现在两层，先解释它的唯一所有者。
+{% endnote %}
 
 {% hideToggle 参考划分, #f0f4ff, #1f2d3d %}
 账号类型、商品和期望状态属于参数数据；资源创建与无条件清理属于 Fixture；打开页面、填写和点击属于 Page Object；“提交后状态正确”与最终业务后置条件留在测试中。API cleanup 在第九篇实现，这里只判断职责。
 {% endhideToggle %}
 
-## API 速查
+## 接口边界
 
+{% tip info %}
 下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
+{% endtip %}
 
 {% folding cyan, 查看本文 API 索引 %}
 

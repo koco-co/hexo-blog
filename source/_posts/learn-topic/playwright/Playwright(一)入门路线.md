@@ -22,7 +22,9 @@ date: 2026-08-24 12:12:00
 
 
 
+{% note info flat %}
 Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自动化测试不仅需要会点击元素，还要理解定位语义、自动等待、浏览器状态边界、pytest 生命周期、网络控制和失败证据。本系列以 Python 同步 API 与 `pytest-playwright` 为主线，从第一个测试逐步走到可维护的跨浏览器测试套件。
+{% endnote %}
 
 {% note info flat %}
 课程中的所有示例文件都以代码块展示，不会在博客仓库中创建额外练习项目。建议读者在自己的空目录中按文章给出的结构实践。
@@ -43,7 +45,9 @@ Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自�
 
 ## 前置条件
 
+{% note info flat %}
 开始课程前需要掌握 Python 的函数、类、上下文管理器、异常和虚拟环境基础。不要求提前了解 pytest Fixture、DOM、ARIA 或浏览器进程模型，这些知识会在对应文章中解释。
+{% endnote %}
 
 建议准备：
 
@@ -54,7 +58,9 @@ Git
 可使用终端的本地开发环境
 ```
 
+{% note info flat %}
 课程不依赖真实商城或线上账号。示例使用 `page.set_content()`、环回地址和虚构数据，避免把第三方站点变化、验证码或真实凭据引入学习环境。
+{% endnote %}
 
 ## 学习路径
 
@@ -75,9 +81,13 @@ H --> L
 I --> L
 {% endmermaid %}
 
+{% tip warning %}
 顺序不能随意打乱。Locator 是断言和交互的基础；交互稳定后才能理解 Context 隔离；知道资源生命周期后，Fixture 和 Page Object 才不会沦为机械封装；测试具备清晰结构后，再引入网络控制、并行和 CI 才能判断失败来自哪里。
+{% endtip %}
 
+{% note info flat %}
 “进阶路线”是可选篇，项目实战不依赖其中的无障碍、视觉回归、WebSocket、GraphQL 或 BDD。常规 Web 自动化先完成第二至第十篇，再根据项目需要选择进阶能力。
+{% endnote %}
 
 ## 文章安排
 
@@ -106,7 +116,9 @@ I --> L
 4. 主动制造一次失败，识别错误证据；
 5. 完成文章中的检查清单与闪卡。
 
+{% tip ban %}
 不要用 `time.sleep()` 暂时消除失败，也不要一开始就建立庞大的 POM。先写出表达用户行为的直接测试，确认重复和变化边界后再抽象。
+{% endtip %}
 
 ### 工具范围
 
@@ -118,11 +130,15 @@ I --> L
 - `pytest-xdist`：需要并行时提供 worker；
 - GitHub Actions：作为 CI 示例，概念同样适用于其他平台。
 
+{% note info flat %}
 Node.js 版 Playwright Test 的内置 retry、HTML Report、`--shard` 和 `toHaveScreenshot()` 不属于 Python API。文章会在相关位置给出 Python 生态中的等价思路，不会把两套运行器混写。
+{% endnote %}
 
 ### 完成标准
 
+{% note info flat %}
 仅“看完文章”不算完成。毕业前至少保留以下证据：
+{% endnote %}
 
 - 本地同步测试可重复通过；
 - 能解释一次严格模式错误和一次 Web-first 断言超时；

@@ -1,0 +1,1507 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络(四)UDP 与 TCP | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="从传输层端点和首部字段出发，逐包理解 UDP、TCP 三次握手、序列确认、重传、拥塞控制、连接关闭、TIME_WAIT 与抓包证据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络(四)UDP 与 TCP">
+<meta property="og:url" content="https://koco-co.github.io/posts/ec8f5dd0/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="从传输层端点和首部字段出发，逐包理解 UDP、TCP 三次握手、序列确认、重传、拥塞控制、连接关闭、TIME_WAIT 与抓包证据。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png">
+<meta property="article:published_time" content="2026-08-24T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-25T13:53:30.996Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="TCP">
+<meta property="article:tag" content="UDP">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "计算机网络(四)UDP 与 TCP",
+  "url": "https://koco-co.github.io/posts/ec8f5dd0/",
+  "image": "https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png",
+  "datePublished": "2026-08-24T22:00:00.000Z",
+  "dateModified": "2026-08-25T13:53:30.996Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/ec8f5dd0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络(四)UDP 与 TCP',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">93</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/computer-network-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">计算机网络(四)UDP 与 TCP</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络(四)UDP 与 TCP<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/computer-network/计算机网络(四)UDP 与 TCP.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-24T22:00:00.000Z" title="发表于 2026-08-25 06:00:00">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-25T13:53:30.996Z" title="更新于 2026-08-25 21:53:30">2026-08-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">9.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="计算机网络 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>计算机网络 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="9" aria-valuenow="4"><span style="width: 44.4444%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/347ce4f2/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">计算机网络(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/474f4d81/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">计算机网络(二)网络分层与局域网</span></a></li><li class="course-series-nav__item"><a href="/posts/5bd659bc/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">计算机网络(三)IP 与网络寻址</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/ec8f5dd0/" aria-current="page"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">计算机网络(四)UDP 与 TCP</span></a></li><li class="course-series-nav__item"><a href="/posts/366484e7/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">计算机网络(五)HTTP 协议</span></a></li><li class="course-series-nav__item"><a href="/posts/36cb963b/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">计算机网络(六)HTTPS 与现代 HTTP</span></a></li><li class="course-series-nav__item"><a href="/posts/61ba71fc/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">计算机网络(七)抓包与网络排障</span></a></li><li class="course-series-nav__item"><a href="/posts/e470b049/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">计算机网络(八)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/e25e16df/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">计算机网络(九)综合实战</span></a></li></ol></nav>
+<div class="note info flat"><p>本文从传输层端点开始，比较 UDP 的数据报语义和 TCP 的可靠字节流；随后用序列号、确认号、状态和计时器解释三次握手、重传、拥塞控制、关闭与 TIME-WAIT。每个结论都回到抓包字段和系统状态。</p>
+</div>
+<h2 id="UDP-与-TCP"><a href="#UDP-与-TCP" class="headerlink" title="UDP 与 TCP"></a>UDP 与 TCP</h2><h3 id="传输层解决什么问题"><a href="#传输层解决什么问题" class="headerlink" title="传输层解决什么问题"></a>传输层解决什么问题</h3><div class="note info flat"><p>IP 负责把数据报送到主机，传输层还要把数据交给哪个进程。一个传输端点至少由 IP 地址和端口组成；一条 TCP 连接通常由客户端 IP、客户端端口、服务端 IP、服务端端口共同标识。端口号是传输层多路复用的入口，不是“某台机器的应用编号”这种永久绑定关系。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>观察对象</th>
+<th>UDP</th>
+<th>TCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据边界</td>
+<td>保留一个个数据报边界</td>
+<td>把字节组织成有序字节流，不保留应用消息边界</td>
+</tr>
+<tr>
+<td>建立连接</td>
+<td>不需要握手</td>
+<td>通常先建立连接状态</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td>不负责重传、排序和拥塞控制</td>
+<td>通过序列号、确认、重传和拥塞控制提供可靠字节流</td>
+</tr>
+<tr>
+<td>流量控制</td>
+<td>应用或协议自己实现</td>
+<td>接收窗口控制发送方不要压垮接收缓存</td>
+</tr>
+<tr>
+<td>适用例子</td>
+<td>DNS 查询、实时媒体、应用自定义可靠传输</td>
+<td>HTTP/1.1、HTTP/2、数据库连接、文件传输</td>
+</tr>
+<tr>
+<td>失败语义</td>
+<td>可能超时、丢包或收到 ICMP 错误</td>
+<td>可能超时、收到 RST、FIN 或连接状态异常</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>“UDP 更快、TCP 更慢”不是可复用的结论。UDP 少了连接和可靠性机制，但应用如果需要可靠、有序、拥塞友好的传输，仍然必须补上这些机制；TCP 的耗时也取决于 RTT、拥塞窗口、服务端处理和路径丢包。</p>
+</div>
+<h3 id="UDP-首部和语义"><a href="#UDP-首部和语义" class="headerlink" title="UDP 首部和语义"></a>UDP 首部和语义</h3><div class="note info flat"><p>UDP 首部固定为 8 字节，包含源端口、目的端口、长度和校验和。长度字段覆盖 UDP 首部和数据；校验和用于检测传输中的错误。它没有序列号、确认号、窗口或连接状态，因此“发出”不等于“对端应用已经收到并处理”。</p>
+</div>
+<div class="note info flat"><p>一个 UDP 请求的可观察链路可以抽象为：</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    sequenceDiagram
+    participant AppA as 客户端应用
+    participant UDP_A as 客户端 UDP
+    participant IP as IP 路径
+    participant UDP_B as 服务端 UDP
+    participant AppB as 服务端应用
+    AppA-&gt;&gt;UDP_A: 交付一个数据报
+    UDP_A-&gt;&gt;IP: 源端口 + 目的端口 + 数据
+    IP--&gt;&gt;UDP_B: 尽力交付
+    UDP_B-&gt;&gt;AppB: 按数据报边界交付
+    Note over IP,UDP_B: 丢失、重复、乱序或端口不可达均可能发生
+  </pre></div>
+<div class="note info flat"><p>UDP 适合把控制权交给上层的场景，但应用要明确回答四件事：如何识别重复、如何排序、如何超时、如何限制发送速率。QUIC 就是在 UDP 之上实现了连接、可靠流、加密和拥塞控制；因此不能把“使用 UDP”误读成“天然不可靠且一定没有连接”。</p>
+</div>
+<h3 id="TCP-首部"><a href="#TCP-首部" class="headerlink" title="TCP 首部"></a>TCP 首部</h3><div class="note info flat"><p>TCP 首部的常用字段如下。选项会使首部长度大于最小的 20 字节，因此抓包时不能把数据偏移固定理解为 20。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>作用</th>
+<th>面试中要避免的误读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源端口、目的端口</td>
+<td>标识两端应用端点</td>
+<td>端口不能单独标识一条连接</td>
+</tr>
+<tr>
+<td>序列号</td>
+<td>标识本报文段中第一个字节的序号；SYN/FIN 也占一个序号空间</td>
+<td>不是“第几个包”</td>
+</tr>
+<tr>
+<td>确认号</td>
+<td>表示下一个期望收到的序号，通常是累计确认</td>
+<td>不是对某个包的简单回执</td>
+</tr>
+<tr>
+<td>数据偏移</td>
+<td>指出 TCP 首部长度</td>
+<td>有选项时首部不止 20 字节</td>
+</tr>
+<tr>
+<td>标志位</td>
+<td>SYN、ACK、FIN、RST、PSH、URG 等控制语义</td>
+<td>SYN 和 FIN 会消耗一个序号，普通 ACK 不消耗</td>
+</tr>
+<tr>
+<td>窗口</td>
+<td>接收方当前愿意接收的序号空间，受窗口扩大选项影响</td>
+<td>不是拥塞窗口 <code>cwnd</code></td>
+</tr>
+<tr>
+<td>校验和</td>
+<td>检测 TCP 段和伪首部等传输错误</td>
+<td>校验通过不代表应用处理成功</td>
+</tr>
+<tr>
+<td>选项</td>
+<td>MSS、窗口扩大、SACK、时间戳等协商或反馈</td>
+<td>选项是否存在要看具体抓包</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="TCP-字段与状态"><a href="#TCP-字段与状态" class="headerlink" title="TCP 字段与状态"></a>TCP 字段与状态</h2><h3 id="序列与确认"><a href="#序列与确认" class="headerlink" title="序列与确认"></a>序列与确认</h3><div class="note info flat"><p>假设客户端的初始序列号 ISN 是 1000，服务端的 ISN 是 5000。SYN 本身不携带应用数据，但在序列空间中占用一个位置，因此三次握手可以写成：</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    sequenceDiagram
+    participant C as 客户端
+    participant S as 服务端
+    C-&gt;&gt;S: SYN seq&#x3D;1000
+    Note over C,S: SYN 消耗序号 1000
+    S-&gt;&gt;C: SYN,ACK seq&#x3D;5000 ack&#x3D;1001
+    Note over C,S: ACK 表示下一个期望的客户端序号
+    C-&gt;&gt;S: ACK seq&#x3D;1001 ack&#x3D;5001
+    Note over C,S: 双方都确认对方 ISN，连接进入 ESTABLISHED
+  </pre></div>
+<div class="note info flat"><p>如果客户端随后发送 200 字节数据，数据段是 <code>seq=1001</code>，覆盖 1001～1200，服务端累计确认会返回 <code>ack=1201</code>。这个规则解释了：</p>
+</div>
+<ul>
+<li>确认号是“下一个期待的字节”，不是“已经收到的最后字节”；</li>
+<li>一个 TCP 段可能携带数据，也可能只携带控制标志；</li>
+<li>丢失中间数据时，接收方可能重复发送同一个累计 ACK；</li>
+<li>SYN 和 FIN 虽然没有普通应用数据，也各自占一个序号。</li>
+</ul>
+<h3 id="TCP-状态机"><a href="#TCP-状态机" class="headerlink" title="TCP 状态机"></a>TCP 状态机</h3><div class="note info flat"><p>把状态理解为“本端已经承诺了什么、下一步允许什么”，比背状态名称更稳：</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+    CLOSED[CLOSED]
+    LISTEN[LISTEN]
+    SYN_SENT[SYN-SENT]
+    SYN_RCVD[SYN-RECEIVED]
+    EST[ESTABLISHED]
+    FIN_WAIT_1[FIN-WAIT-1]
+    FIN_WAIT_2[FIN-WAIT-2]
+    CLOSE_WAIT[CLOSE-WAIT]
+    LAST_ACK[LAST-ACK]
+    CLOSING[CLOSING]
+    TIME_WAIT[TIME-WAIT]
+    CLOSED --&gt;|被动打开| LISTEN
+    CLOSED --&gt;|主动 connect| SYN_SENT
+    LISTEN --&gt;|收到 SYN| SYN_RCVD
+    SYN_SENT --&gt;|收到 SYN-ACK| EST
+    SYN_RCVD --&gt;|收到 ACK| EST
+    EST --&gt;|本端 close，发送 FIN| FIN_WAIT_1
+    FIN_WAIT_1 --&gt;|收到 ACK| FIN_WAIT_2
+    FIN_WAIT_1 --&gt;|先收到 FIN| CLOSING
+    FIN_WAIT_2 --&gt;|收到 FIN| TIME_WAIT
+    EST --&gt;|收到对端 FIN| CLOSE_WAIT
+    CLOSE_WAIT --&gt;|应用 close，发送 FIN| LAST_ACK
+    LAST_ACK --&gt;|收到 ACK| CLOSED
+    CLOSING --&gt;|收到 ACK| TIME_WAIT
+    TIME_WAIT --&gt;|等待旧报文消失| CLOSED
+  </pre></div>
+<div class="note info flat"><p>同一条连接的两端状态不一定相同。例如服务端收到客户端 FIN 后进入 CLOSE-WAIT，但如果服务端应用迟迟不关闭，它可以一直保持这个状态；这不是 TCP 自动“卡死”，而是应用还没有完成自己的关闭动作。</p>
+</div>
+<h3 id="窗口控制"><a href="#窗口控制" class="headerlink" title="窗口控制"></a>窗口控制</h3><div class="note info flat"><p>TCP 发送方同时受到两个方向的约束：接收方通过 <code>rwnd</code> 表示缓存还可以接收多少，发送方根据网络拥塞估计维护 <code>cwnd</code>。实际允许在途的数据量大致受 <code>min(rwnd, cwnd)</code> 约束。窗口缩小、零窗口、应用读取缓慢和网络拥塞的表象都可能是“发送变慢”，但证据不同。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>更可能的控制量</th>
+<th>先看什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接收应用读得慢，发送端出现零窗口</td>
+<td><code>rwnd</code></td>
+<td>抓包中的 Window、Window Update、接收进程读速率</td>
+</tr>
+<tr>
+<td>路径丢包，发送速率下降并逐步恢复</td>
+<td><code>cwnd</code></td>
+<td>重传、重复 ACK、拥塞窗口和 RTT</td>
+</tr>
+<tr>
+<td>单个大报文在某段路径上无法通过</td>
+<td>MTU/MSS/PMTUD</td>
+<td>IP 分片、ICMP Packet Too Big、MSS 协商</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><h3 id="握手目的"><a href="#握手目的" class="headerlink" title="握手目的"></a>握手目的</h3><div class="note info flat"><p>三次握手不是为了“礼貌地说三次你好”，而是让双方完成两个方向的初始序列号确认，并让服务端知道客户端能收到它的回复。两次只能让一方确认自己的请求到达并看到对方的 ISN，不能完整确认双向可达和双方的序列空间。</p>
+</div>
+<div class="note info flat"><p>正常握手的证据表：</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>次序</th>
+<th>方向</th>
+<th>关键字段</th>
+<th>状态变化</th>
+<th>证明了什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>客户端 → 服务端</td>
+<td>SYN，seq=C_ISN</td>
+<td>客户端进入 SYN-SENT</td>
+<td>客户端开始一次连接尝试</td>
+</tr>
+<tr>
+<td>2</td>
+<td>服务端 → 客户端</td>
+<td>SYN+ACK，seq=S_ISN，ack=C_ISN+1</td>
+<td>服务端进入 SYN-RECEIVED</td>
+<td>服务端收到 SYN，并把自己的 ISN 发回</td>
+</tr>
+<tr>
+<td>3</td>
+<td>客户端 → 服务端</td>
+<td>ACK，ack=S_ISN+1</td>
+<td>双方进入 ESTABLISHED</td>
+<td>客户端确认服务端 ISN，服务端可交付连接</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="握手失败"><a href="#握手失败" class="headerlink" title="握手失败"></a>握手失败</h3><div class="note info flat"><p>同一个 SYN 被重复看到，不能直接断言“服务端挂了”。至少要区分三类路径：</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>抓包/客户端表现</th>
+<th>常见解释</th>
+<th>下一步证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SYN 发出后没有响应，按退避间隔重发</td>
+<td>路径丢包、防火墙静默丢弃、服务端不可达</td>
+<td>客户端路由、服务端入口、ACL、同路径抓包</td>
+</tr>
+<tr>
+<td>收到 SYN-ACK 后第三个 ACK 发不出去或服务端收不到</td>
+<td>回程路径或状态设备问题</td>
+<td>两端同时抓包、反向路由、NAT 状态</td>
+</tr>
+<tr>
+<td>立即收到 RST</td>
+<td>端口没有监听、主动拒绝或中间设备重置</td>
+<td>服务端 <code>ss -lnt</code>、RST 的源地址和时间</td>
+</tr>
+<tr>
+<td>连接建立后出现重传</td>
+<td>数据路径丢包、乱序或 ACK 丢失</td>
+<td>序列号、重复 ACK、SACK、RTO</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>防火墙的“静默丢弃”和主机的“RST 拒绝”不是一个现象：前者通常让客户端等待并重传，后者较快结束本次尝试。环境中的策略可能改变具体行为，不能只凭错误字符串下结论。</p>
+</div>
+<h3 id="半连接队列"><a href="#半连接队列" class="headerlink" title="半连接队列"></a>半连接队列</h3><div class="note info flat"><p>服务端监听套接字收到 SYN 后，内核需要维护半连接状态；握手完成后，连接还要进入应用可接受的队列。高并发或攻击流量可能让半连接队列、已完成连接队列、文件描述符或应用 <code>accept</code> 速度成为瓶颈。<code>backlog</code> 是队列相关的请求参数，不是“服务器最多只能连接这么多”的全局容量。</p>
+</div>
+<div class="note info flat"><p>排查时按这个顺序缩小范围：</p>
+</div>
+<ol>
+<li>确认服务端确实在目标地址和端口监听：<code>ss -lntp</code>；</li>
+<li>查看握手是否停在 SYN-SENT、SYN-RECEIVED 或已完成连接队列；</li>
+<li>检查服务进程是否及时调用 <code>accept</code>，以及文件描述符和 CPU；</li>
+<li>检查入口防火墙、负载均衡和 SYN 防护策略；</li>
+<li>不把一次 <code>connect</code> 超时直接归因于 SYN Flood，必须有队列、流量或抓包证据。</li>
+</ol>
+<h2 id="发送控制"><a href="#发送控制" class="headerlink" title="发送控制"></a>发送控制</h2><h3 id="RTO-与重传"><a href="#RTO-与重传" class="headerlink" title="RTO 与重传"></a>RTO 与重传</h3><div class="note info flat"><p>TCP 用重传计时器处理“确认没有按预期回来”。RTO 不是固定的“三秒”，实现会根据平滑 RTT、RTT 波动和退避规则计算，并在重传时谨慎扩大等待时间。一次超时可以触发重传，但不等于整条连接一定断开。</p>
+</div>
+<div class="note info flat"><p>可靠传输的最小闭环是：发送一段序号范围 → 等待累计 ACK 或 SACK 证据 → 发现缺口后重传 → 受限地继续发送。判断重传应看序列号和时间，不要只看抓包工具的 <code>TCP Retransmission</code> 标注，因为标注是分析器基于时间和上下文的推断。</p>
+</div>
+<h3 id="拥塞恢复"><a href="#拥塞恢复" class="headerlink" title="拥塞恢复"></a>拥塞恢复</h3><div class="note info flat"><p>拥塞控制的目标是探测路径容量并在出现拥塞信号时收敛。慢启动阶段 <code>cwnd</code> 可以快速增长；达到阈值或进入拥塞避免后增长趋缓；重复 ACK、显式拥塞通知和 RTO 超时可以提供拥塞/丢包信号。SACK 本身主要报告“哪些非连续区间已经收到”，不是独立的拥塞信号；它可以帮助发送方在重复 ACK 或其他恢复路径中精确定位缺口。具体算法和内核参数可能变化，面试回答应先说控制目标，再说明常见机制，不要把某个旧实现公式当成永久事实。</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart LR
+    START[新连接] --&gt; SS[慢启动：快速探测]
+    SS --&gt;|达到 ssthresh| CA[拥塞避免：较缓增长]
+    CA --&gt;|重复 ACK + 缺口证据| FR[快速重传&#x2F;恢复]
+    SS --&gt;|RTO 超时| BACK[降低发送节奏并退避]
+    CA --&gt;|RTO 超时| BACK
+    FR --&gt; CA
+    BACK --&gt; SS
+  </pre></div>
+<h3 id="SACK-和累计确认"><a href="#SACK-和累计确认" class="headerlink" title="SACK 和累计确认"></a>SACK 和累计确认</h3><div class="note info flat"><p>累计 ACK 只能表达“连续前缀已经收到”。例如已经收到 1～1000 和 2001～3000，但缺少 1001～2000，累计 ACK 仍可能停在 1001；SACK 选项可以附带告知后面的已收到区间，让发送方只重传缺口。SACK 能减少无谓重传，但不改变 TCP 字节流和有序交付的语义。</p>
+</div>
+<h3 id="路径-MTU"><a href="#路径-MTU" class="headerlink" title="路径 MTU"></a>路径 MTU</h3><div class="note info flat"><p>MTU 是链路能够承载的 IP 包大小；MSS 是 TCP 单个数据段的数据部分上限。MSS 通常根据接口 MTU 减去 IP/TCP 首部估算，但隧道、选项、IPv6 和路径变化会让简单的固定值失效。PMTUD 通过路径反馈发现更小的可用包大小；IPv6 路由器不在途中分片，ICMPv6 Packet Too Big 对排障尤其重要。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>所在边界</th>
+<th>典型问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MTU</td>
+<td>链路/IP 包</td>
+<td>某条隧道使路径可用包变小</td>
+</tr>
+<tr>
+<td>MSS</td>
+<td>TCP 数据段</td>
+<td>握手协商值过大或被中间设备改写</td>
+</tr>
+<tr>
+<td>PMTUD</td>
+<td>IP 路径发现</td>
+<td>ICMP 错误被过滤导致黑洞</td>
+</tr>
+<tr>
+<td>拥塞窗口</td>
+<td>TCP 发送控制</td>
+<td>丢包或拥塞导致吞吐下降</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="连接关闭"><a href="#连接关闭" class="headerlink" title="连接关闭"></a>连接关闭</h2><h3 id="FIN-不是“立刻断开”"><a href="#FIN-不是“立刻断开”" class="headerlink" title="FIN 不是“立刻断开”"></a>FIN 不是“立刻断开”</h3><div class="note info flat"><p>TCP 的每个方向可以独立结束。主动关闭的一方发送 FIN，表示“我不会再发送字节”，但仍可能继续接收对方数据；对端先 ACK，再在应用完成后发送自己的 FIN。常见的四段只是其中一种时序，ACK 可能和数据或 FIN 合并，双方也可能同时关闭。</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    sequenceDiagram
+    participant A as 主动关闭方
+    participant B as 被动关闭方
+    A-&gt;&gt;B: FIN seq&#x3D;a
+    B-&gt;&gt;A: ACK ack&#x3D;a+1
+    Note over B: B 进入 CLOSE-WAIT，应用仍可发送
+    B-&gt;&gt;A: FIN seq&#x3D;b
+    A-&gt;&gt;B: ACK ack&#x3D;b+1
+    Note over A: 主动关闭方进入 TIME-WAIT 后等待旧报文消失
+  </pre></div>
+<h3 id="关闭信号"><a href="#关闭信号" class="headerlink" title="关闭信号"></a>关闭信号</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>含义</th>
+<th>对未发送/未消费数据的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FIN</td>
+<td>有序地结束一个方向</td>
+<td>已确认的数据仍按顺序交付；对端读到 EOF</td>
+</tr>
+<tr>
+<td>RST</td>
+<td>立即拒绝、重置或放弃连接状态</td>
+<td>未完成的应用数据通常以错误结束，不提供有序收尾</td>
+</tr>
+<tr>
+<td>半关闭</td>
+<td>一方已 FIN，另一方向仍可发送</td>
+<td>适合请求端发送完后继续读取完整响应</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>如果进程关闭一个仍有未读数据的连接、访问了已重置的套接字，或者对不存在的监听端口发起连接，可能看到 RST 或本地 <code>ECONNRESET</code>/<code>ECONNREFUSED</code>。具体错误要结合系统调用、对端行为和抓包方向解释。</p>
+</div>
+<h3 id="TIME-WAIT-为什么存在"><a href="#TIME-WAIT-为什么存在" class="headerlink" title="TIME_WAIT 为什么存在"></a>TIME_WAIT 为什么存在</h3><div class="note info flat"><p>主动关闭方进入 TIME_WAIT，核心目的不是“浪费连接”，而是确保：</p>
+</div>
+<ul>
+<li>最后的 ACK 丢失时，对方重发 FIN，主动关闭方仍能重发 ACK；</li>
+<li>旧连接的延迟报文不会混入同一四元组的新连接。</li>
+</ul>
+<div class="note info flat"><p>因此 TIME_WAIT 是连接生命周期的一部分。大量短连接、客户端端口范围小、代理集中主动关闭时，TIME_WAIT 数量可能升高；不能只通过缩短等待时间来掩盖端口规划、连接复用或关闭方向的问题。</p>
+</div>
+<h3 id="保活机制"><a href="#保活机制" class="headerlink" title="保活机制"></a>保活机制</h3><div class="note info flat"><p>TCP keepalive 是可选的传输层探测：连接空闲一段时间后，内核可以发送探测并在多次无响应后报告对端或路径可能不可达。它通常默认关闭，具体空闲时间、探测间隔和次数由操作系统及套接字选项决定；它不能证明远端应用线程仍然健康，也不能替代业务级健康检查。</p>
+</div>
+<div class="note info flat"><p>应用层心跳则是协议消息，例如 ping/pong、心跳请求/响应或带版本与租约的业务探测。它可以验证“请求已经到达应用并得到应用响应”，但需要定义超时、重试、幂等性和代理空闲策略。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>所在层</th>
+<th>能证明</th>
+<th>不能证明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCP keepalive</td>
+<td>TCP/内核</td>
+<td>某个传输路径和对端 TCP 栈在探测时有响应</td>
+<td>应用可用、业务状态正确、请求会被处理</td>
+</tr>
+<tr>
+<td>应用层心跳</td>
+<td>应用协议</td>
+<td>应用按约定响应了健康消息</td>
+<td>所有业务请求都成功、连接没有即将过期</td>
+</tr>
+<tr>
+<td>代理 idle timeout</td>
+<td>中间设备</td>
+<td>设备按策略回收空闲连接</td>
+<td>对端应用是否健康</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>一个可复现的应用层心跳闭环（教学输入/输出形态，非本次执行结果）如下：</p>
+</div>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">12:00:00.000 C -&gt; S HEARTBEAT id=42</span><br><span class="line">12:00:00.012 S -&gt; C HEARTBEAT_ACK id=42</span><br><span class="line">12:00:00.012 client: heartbeat=ok rtt=12ms</span><br><span class="line">12:00:03.000 C -&gt; S HEARTBEAT id=43</span><br><span class="line">12:00:04.000 client: timeout id=43; reconnect=scheduled</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>验证时应确认 ACK 的 <code>id</code> 与请求一致，超时计时器从发送时刻开始；只有 TCP keepalive 报文而没有应用层 ACK，不能把应用心跳判定为成功。</p>
+</div>
+<h3 id="连接重置与重连"><a href="#连接重置与重连" class="headerlink" title="连接重置与重连"></a>连接重置与重连</h3><div class="note info flat"><p>收到 RST、连接超时或 keepalive 失败后，重连不是简单地无限调用 connect。可靠客户端应先关闭旧连接和释放资源，再按指数退避加随机抖动安排下一次尝试，并设置最大重试次数、总时间预算和熔断边界。对可能重复执行的 POST、扣款或消息提交，必须使用业务幂等键、去重 ID 或确认协议，不能因为 TCP 连接断开就盲目重放。</p>
+</div>
+<div class="note info flat"><p>例如 <code>base=250ms</code>、上限 <code>4s</code> 的客户端可以记录一次带抖动的延迟序列 <code>[0.18s, 0.63s, 1.41s]</code>（仅为教学示例）。若请求是 <code>POST /charge</code>，应携带 <code>Idempotency-Key: order-42</code>；连接在提交结果未知时断开，客户端先查询订单状态或使用同一幂等键确认，再决定是否重试。日志至少应能说明：</p>
+</div>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">attempt=1 request=order-42 result=RST outcome=unknown next_delay=0.18s</span><br><span class="line">status-check request=order-42 result=not-found</span><br><span class="line">attempt=2 request=order-42 result=HTTP/1.1 201 outcome=committed</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>这些输出是示例形态，不是本次执行结果；指数退避降低重连风暴，幂等键解决“请求是否已经被处理”的业务不确定性，二者不能互相替代。</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  ERR[连接 RST&#x2F;超时&#x2F;心跳失败] --&gt; CLOSE[标记旧连接失效并释放资源]
+  CLOSE --&gt; CLASSIFY{请求是否可安全重试}
+  CLASSIFY --&gt;|幂等或有幂等键| BACKOFF[指数退避 + 抖动 + 预算]
+  CLASSIFY --&gt;|不可确认是否已提交| HOLD[等待业务确认&#x2F;人工或队列处理]
+  BACKOFF --&gt; RETRY[重新解析&#x2F;建连&#x2F;握手]
+  RETRY --&gt;|超过预算| FAIL[报告失败并保留原因]
+  RETRY --&gt;|成功| READY[恢复服务]
+  </pre></div>
+<h3 id="监听队列"><a href="#监听队列" class="headerlink" title="监听队列"></a>监听队列</h3><div class="note info flat"><p>监听套接字和已建立连接套接字不是同一个对象。一个典型服务端生命周期是：创建 socket → bind 地址/端口 → listen 进入被动监听 → 内核完成握手并排队 → accept 取出一个已建立连接 → 返回新的连接套接字；监听套接字继续接收后续连接。</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart LR
+  SOCKET[socket + bind] --&gt; LISTEN[listen：监听套接字]
+  LISTEN --&gt; SYNQ[半连接&#x2F;握手状态]
+  SYNQ --&gt; ACCEPTQ[已完成连接队列]
+  ACCEPTQ --&gt; ACCEPT[accept]
+  ACCEPT --&gt; CONN[新的已建立连接套接字]
+  LISTEN --&gt; MORE[继续监听更多客户端]
+  </pre></div>
+<div class="note info flat"><p><code>backlog</code> 影响内核为连接请求提供的排队语义，但实际容量还受内核参数、半连接保护、文件描述符、进程调用 accept 的速度和应用线程池影响。可以用以下只读状态对照队列和监听：</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ss -lntp</span><br><span class="line">ss -nt state syn-recv</span><br><span class="line">ss -nt state established</span><br><span class="line">lsof -nP -iTCP:443 -sTCP:LISTEN</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>看到 LISTEN 只证明有监听套接字；看到 SYN-RECV 说明握手仍未完成；看到 ESTAB 只证明 TCP 已建立。要判断 backlog 是否成为瓶颈，还需对照队列长度、accept 延迟、文件描述符和服务日志。</p>
+</div>
+<h2 id="证据化回答"><a href="#证据化回答" class="headerlink" title="证据化回答"></a>证据化回答</h2><h3 id="抓包实验"><a href="#抓包实验" class="headerlink" title="抓包实验"></a>抓包实验</h3><div class="note info flat"><p>下面命令只读取本机网络状态或连接公共示例站点，不写入系统配置。实际运行前检查目标主机、接口和隐私边界；不要把真实令牌、Cookie 或内网地址上传到公共抓包分享服务。</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 先确认本机的监听端口和连接状态</span></span><br><span class="line">ss -lntp</span><br><span class="line">ss -nt state syn-sent</span><br><span class="line">ss -nt state time-wait</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 只在明确授权的接口上抓取一个公共示例目标的 TCP 端口</span></span><br><span class="line"><span class="built_in">sudo</span> tcpdump -ni any -c 20 <span class="string">&#x27;host example.com and tcp port 443&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 用 curl 产生一条可关联的请求证据</span></span><br><span class="line">curl -vI --connect-timeout 5 https://example.com/</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>预期观察点不是某一台机器固定的序列号，而是证据结构：客户端先发 SYN；服务端回 SYN-ACK；客户端回 ACK；随后才可能看到 TLS 和 HTTP；如果连接复用，新的 HTTP 请求未必伴随新的 TCP 握手。</p>
+</div>
+<h3 id="实验验证"><a href="#实验验证" class="headerlink" title="实验验证"></a>实验验证</h3><div class="note info flat"><p>下面输出是教学用的脱敏形态，不是当前机器已经执行的结果。真实序列号、时间戳、窗口和地址会变化；示例只用于展示如何从字段形成结论。</p>
+</div>
+<div class="note info flat"><p>输入：</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tcpdump -ni en0 -c 6 <span class="string">&#x27;host 198.51.100.20 and tcp port 443&#x27;</span></span><br><span class="line">curl -sS -vI --connect-timeout 5 https://example.test/</span><br><span class="line">ss -ti dst 198.51.100.20:443</span><br><span class="line">tracepath -n 198.51.100.20</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>示例输出形态：</p>
+</div>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">12:00:00.001 IP 192.0.2.10.43000 &gt; 198.51.100.20.443: Flags [S], seq 1000, win 64240, options [mss 1460,sackOK]</span><br><span class="line">12:00:00.014 IP 198.51.100.20.443 &gt; 192.0.2.10.43000: Flags [S.], seq 5000, ack 1001, win 65160, options [mss 1380,sackOK]</span><br><span class="line">12:00:00.015 IP 192.0.2.10.43000 &gt; 198.51.100.20.443: Flags [.], ack 5001, win 502</span><br><span class="line">12:00:00.020 IP 192.0.2.10.43000 &gt; 198.51.100.20.443: Flags [.], ack 1001, options [nop,nop,sack 1 &#123;2001:3001&#125;]</span><br><span class="line">* Connected to example.test (198.51.100.20) port 443</span><br><span class="line">&gt; HEAD / HTTP/1.1</span><br><span class="line">&lt; HTTP/1.1 200 OK</span><br><span class="line">cwnd:10 rto:204 rtt:14.2/2.1</span><br><span class="line">  pmtu 1500</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>验证方法：</p>
+</div>
+<ul>
+<li>第二个报文的 ACK 是客户端 ISN 加一，第三个报文的 ACK 是服务端 ISN 加一，证明握手序号解释一致；</li>
+<li>SYN 中的 <code>sackOK</code> 只表示双方协商了 SACK 能力；示例中的 <code>sack 1 &#123;2001:3001&#125;</code> 才是实际报告的非连续数据块范围，二者不能混为一谈；</li>
+<li>MSS 选项、<code>pmtu</code> 和 IP 包大小属于路径/分段证据，不能直接当成拥塞窗口；</li>
+<li><code>cwnd</code>、<code>rto</code>、<code>rtt</code> 来自发送端 TCP 状态，<code>rwnd</code> 还要结合对端通告窗口；</li>
+<li>如果同一序列范围在更晚时间再次出现，结合重复 ACK/SACK 判断是缺口恢复还是 RTO 重传；</li>
+<li><code>curl</code> 有 HTTP 状态只能证明请求走到 HTTP 层，不能证明服务端业务处理成功。</li>
+</ul>
+<div class="note info flat"><p>若命令不存在、接口名不同、抓包权限不足或目标不受控，应停在预检查阶段并记录 NOT VERIFIED，不要用静态示例输出替代真实证据。</p>
+</div>
+<h3 id="四类现象的判断表"><a href="#四类现象的判断表" class="headerlink" title="四类现象的判断表"></a>四类现象的判断表</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>首要假设</th>
+<th>最小验证</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>connect</code> 立即失败并有 RST</td>
+<td>目标端口未监听或被主动拒绝</td>
+<td><code>ss -lnt</code>、双端抓包、服务日志</td>
+</tr>
+<tr>
+<td><code>connect</code> 长时间超时</td>
+<td>路径丢弃、回程异常、策略静默丢包</td>
+<td>路由、SYN 重传次数、入口和出口抓包</td>
+</tr>
+<tr>
+<td>建连成功但请求卡住</td>
+<td>TCP 已通，问题转移到 TLS、HTTP 或应用</td>
+<td><code>curl -v</code> 时间线、TLS 记录、服务端日志</td>
+</tr>
+<tr>
+<td>连接大量 TIME_WAIT</td>
+<td>本端频繁主动关闭或短连接过多</td>
+<td><code>ss -tan state time-wait</code>、连接复用和关闭方向</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="面试答题模板"><a href="#面试答题模板" class="headerlink" title="面试答题模板"></a>面试答题模板</h3><div class="note info flat"><p>遇到“三次握手为什么是三次”“SYN 重传说明什么”“TIME_WAIT 能不能删”这类问题，可以按四层回答：</p>
+</div>
+<ol>
+<li><strong>字段</strong>：指出 SYN、ACK、seq、ack、FIN/RST 对应的报文事实；</li>
+<li><strong>状态</strong>：说明本端和对端状态如何变化；</li>
+<li><strong>机制</strong>：解释序列确认、重传计时器、队列或旧报文隔离的目的；</li>
+<li><strong>边界</strong>：说明还需要什么抓包、日志或系统状态，避免把一个现象绝对化。</li>
+</ol>
+<details class="folding-tag" ><summary> 常见 TCP 面试陷阱 </summary>
+              <div class='content'>
+              <ul><li>三次握手不是为了协商 HTTP，也不是为了确认应用已经可用；它属于 TCP 连接建立。</li><li>ACK 不一定携带应用数据；SYN/FIN 会消耗序号，纯 ACK 通常不会。</li><li>TCP 保证字节流的有序可靠交付，不保证消息边界；一次 <code>send</code> 不对应一次 <code>recv</code>。</li><li><code>rwnd</code> 是接收流量控制，<code>cwnd</code> 是网络拥塞控制；窗口变小的原因要看具体字段和时序。</li><li>TIME_WAIT 通常出现在主动关闭方；“连接数多”本身不是删除它的理由。</li><li>RST、FIN、SYN 超时是不同的证据，不能都叫“TCP 断开”。</li></ul>
+              </div>
+            </details>
+<h2 id="传输层复习"><a href="#传输层复习" class="headerlink" title="传输层复习"></a>传输层复习</h2><div class="note info flat"><p>下面的卡片覆盖握手、关闭、RTO、窗口和选型；先遮住答案，用“字段 → 状态 → 机制 → 边界”四步回答，再用详细解析复盘。</p>
+</div>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-001" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=UDP">#UDP</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%A6%96%E9%83%A8">#首部</a></div>
+      <div class="hfc-question"><p>UDP 首部有哪些固定字段？它为什么不能单独提供 TCP 式可靠字节流？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=UDP">#UDP</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%A6%96%E9%83%A8">#首部</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>UDP 首部有哪些固定字段？它为什么不能单独提供 TCP 式可靠字节流？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>源端口、目的端口、长度和校验和；它没有序列号、确认号、重传、排序和拥塞控制状态。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>UDP 保留数据报边界并把可靠性决策交给应用或上层协议。QUIC 说明“跑在 UDP 上”不等于协议整体没有连接、加密或可靠流机制。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-002" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%9E%E6%8E%A5">#连接</a></div>
+      <div class="hfc-question"><p>TCP 的“连接”应如何理解？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%9E%E6%8E%A5">#连接</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>TCP 的“连接”应如何理解？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>它是双方维护的有状态字节流传输上下文，通常由两端 IP 和端口组成的四元组标识。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>连接不是一根物理线路，也不是 HTTP 请求本身。它包含序列空间、确认、窗口、状态和计时器；同一 TCP 连接可以承载多个 HTTP 请求。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-003" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BA%8F%E5%88%97%E5%8F%B7">#序列号</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%A1%AE%E8%AE%A4%E5%8F%B7">#确认号</a></div>
+      <div class="hfc-question"><p>TCP 确认号为什么表示“下一个期望字节”，而不是“最后收到的字节”？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BA%8F%E5%88%97%E5%8F%B7">#序列号</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%A1%AE%E8%AE%A4%E5%8F%B7">#确认号</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>TCP 确认号为什么表示“下一个期望字节”，而不是“最后收到的字节”？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>因为它是累计确认：ACK=n 表示 n 之前的连续字节已收到，接收方下一步期望序号 n。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>这能统一解释握手中 SYN 消耗一个序号、数据长度使 ACK 增长，以及丢失中间段时重复 ACK 停留在缺口前。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-004" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%8A%B6%E6%80%81">#状态</a></div>
+      <div class="hfc-question"><p>TCP 标志位和状态机应如何配合解释？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%8A%B6%E6%80%81">#状态</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>TCP 标志位和状态机应如何配合解释？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>标志位描述当前报文的控制意图，状态描述本端连接上下文；相同标志在不同状态可能触发不同转换。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>例如 SYN 把主动端带到 SYN-SENT，收到 SYN-ACK 后回 ACK 并进入 ESTABLISHED；FIN 表示一个方向结束，RST 表示立即重置，不能只按“有包/没包”解释。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-005" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q05</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B">#三次握手</a></div>
+      <div class="hfc-question"><p>TCP 三次握手分别确认什么？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q05</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B">#三次握手</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>TCP 三次握手分别确认什么？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>客户端 SYN 提供客户端 ISN；服务端 SYN-ACK 确认客户端 ISN 并提供服务端 ISN；客户端 ACK 确认服务端 ISN，双方进入已建立状态。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>三次的关键是双向初始序列空间和回程可达性。握手成功不代表应用已经完成 TLS、HTTP 或业务认证。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-006" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q06</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=SYN">#SYN</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%B6%85%E6%97%B6">#超时</a></div>
+      <div class="hfc-question"><p>客户端持续重发 SYN 但收不到 SYN-ACK，能得出什么结论？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q06</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=SYN">#SYN</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%B6%85%E6%97%B6">#超时</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>客户端持续重发 SYN 但收不到 SYN-ACK，能得出什么结论？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>只能说明握手响应没有按预期到达客户端；可能是路径丢弃、服务端不可达、策略静默丢弃或回程异常，需要抓包和路由证据区分。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>如果立即收到 RST，证据更接近主动拒绝或未监听；SYN 超时和 RST 的失败边界不同，不能都归因于服务端进程停止。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-007" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=SYN-Flood">#SYN-Flood</a><a class="hfc-topic" href="/learn-topic/?tag=backlog">#backlog</a></div>
+      <div class="hfc-question"><p>SYN Flood、backlog 和文件描述符分别可能在哪个阶段成为瓶颈？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=SYN-Flood">#SYN-Flood</a><a class="hfc-topic" href="/learn-topic/?tag=backlog">#backlog</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>SYN Flood、backlog 和文件描述符分别可能在哪个阶段成为瓶颈？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>半连接状态、已完成连接队列和进程可接受的连接资源分别可能成为瓶颈；backlog 不是服务器连接数的全局上限。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>排查要结合握手状态、队列、accept 速度、文件描述符、CPU 和入口策略。仅凭一次客户端超时不能证明发生了 SYN Flood。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-008" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%B3%E9%97%AD">#关闭</a><a class="hfc-topic" href="/learn-topic/?tag=FIN">#FIN</a></div>
+      <div class="hfc-question"><p>TCP 常说的“四次挥手”为什么不是固定四个独立报文？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%B3%E9%97%AD">#关闭</a><a class="hfc-topic" href="/learn-topic/?tag=FIN">#FIN</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>TCP 常说的“四次挥手”为什么不是固定四个独立报文？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>两个方向可以独立结束，ACK 可能与数据或 FIN 合并，双方也可能同时关闭；四段只是常见时序。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>FIN 表示本方向不再发送字节，对端仍可能继续发送。应按状态和报文方向解释，而不是把四次当成不可变的脚本。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-009" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=FIN">#FIN</a><a class="hfc-topic" href="/learn-topic/?tag=RST">#RST</a></div>
+      <div class="hfc-question"><p>FIN 和 RST 的核心差异是什么？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=FIN">#FIN</a><a class="hfc-topic" href="/learn-topic/?tag=RST">#RST</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>FIN 和 RST 的核心差异是什么？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>FIN 有序地结束一个方向并允许剩余数据收尾；RST 立即拒绝或重置连接，未完成的应用数据通常以错误结束。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>未监听端口、访问已重置套接字或异常关闭可能产生 RST；正常 EOF 更接近 FIN。最终仍要结合系统调用和抓包。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-010" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=TIME-WAIT">#TIME-WAIT</a></div>
+      <div class="hfc-question"><p>TIME_WAIT 为什么通常由主动关闭方承担？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=TIME-WAIT">#TIME-WAIT</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>TIME_WAIT 为什么通常由主动关闭方承担？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>它需要等待旧报文消失，并在最后 ACK 丢失、对端重发 FIN 时仍能重发 ACK，避免旧连接报文污染新连接。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>TIME_WAIT 是连接正确关闭的保护状态。大量 TIME_WAIT 应先检查短连接、连接复用、主动关闭方向和端口规划，而不是直接删除状态。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-011" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q11</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=RTO">#RTO</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%8D%E4%BC%A0">#重传</a></div>
+      <div class="hfc-question"><p>RTO 是什么？为什么不能把它背成固定秒数？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q11</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=RTO">#RTO</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%8D%E4%BC%A0">#重传</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>RTO 是什么？为什么不能把它背成固定秒数？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>RTO 是等待确认的重传超时估计，由 RTT、RTT 波动和退避规则计算，并会随网络状态调整。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>超时触发重传和更保守的发送节奏；抓包应结合序列号、时间间隔和 ACK，而不能只依赖分析器的重传标签。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-012" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q12</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6">#拥塞控制</a></div>
+      <div class="hfc-question"><p>接收窗口 rwnd 和拥塞窗口 cwnd 有什么区别？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q12</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6">#拥塞控制</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>接收窗口 rwnd 和拥塞窗口 cwnd 有什么区别？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>rwnd 反映接收方缓存还能接收多少，cwnd 反映发送方对路径拥塞的发送限制；在途数据通常受两者较小值约束。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>应用读得慢可能导致零窗口，路径丢包可能导致拥塞窗口下降。二者都能让吞吐降低，但证据字段和时序不同。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-013" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q13</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0">#快速重传</a><a class="hfc-topic" href="/learn-topic/?tag=SACK">#SACK</a></div>
+      <div class="hfc-question"><p>重复 ACK、快速重传和 SACK 如何关联？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q13</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0">#快速重传</a><a class="hfc-topic" href="/learn-topic/?tag=SACK">#SACK</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>重复 ACK、快速重传和 SACK 如何关联？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>重复 ACK 暗示累计确认前方存在缺口；发送方可据此快速重传，SACK 进一步报告已收到的非连续区间以减少无谓重传。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>SACK 本身是非连续接收区间的报告，不是独立的拥塞信号；重复 ACK、RTO 或其他拥塞反馈可能触发恢复，SACK 帮助发送方精确知道哪些区间无需重传。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-014" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q14</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=MSS">#MSS</a><a class="hfc-topic" href="/learn-topic/?tag=MTU">#MTU</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a></div>
+      <div class="hfc-question"><p>MSS、MTU 和 PMTUD 分别处于什么边界？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q14</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=MSS">#MSS</a><a class="hfc-topic" href="/learn-topic/?tag=MTU">#MTU</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>MSS、MTU 和 PMTUD 分别处于什么边界？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>MTU 是链路可承载的 IP 包大小，MSS 是 TCP 数据部分上限，PMTUD 是发现路径可用包大小的机制。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>隧道、IPv6 和 ICMP 过滤都可能造成路径 MTU 黑洞。排查时同时看握手 MSS、IP 包大小和 ICMP Packet Too Big/需要分片反馈。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2>
+
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-FAQ-001" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q15</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AD%97%E8%8A%82%E6%B5%81">#字节流</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B6%88%E6%81%AF%E8%BE%B9%E7%95%8C">#消息边界</a></div>
+      <div class="hfc-question"><p>TCP 能保证消息一次完整到达吗？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q15</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AD%97%E8%8A%82%E6%B5%81">#字节流</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B6%88%E6%81%AF%E8%BE%B9%E7%95%8C">#消息边界</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>TCP 能保证消息一次完整到达吗？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>不能。TCP 提供有序字节流；一次写入可能被拆成多个段，一次读取也可能得到半条或多条应用消息。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>应用协议需要自己定义长度、分隔符或帧格式。TCP 的可靠性不等于保留应用消息边界。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-FAQ-002" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q16</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B">#三次握手</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8E%92%E9%9A%9C">#排障</a></div>
+      <div class="hfc-question"><p>三次握手成功后为什么仍可能访问失败？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q16</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B">#三次握手</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8E%92%E9%9A%9C">#排障</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>三次握手成功后为什么仍可能访问失败？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>握手只证明 TCP 连接建立；TLS 证书校验、HTTP 状态码、代理、认证、应用处理或响应读取仍可能失败。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>将时间线拆成 DNS → TCP → TLS → HTTP → 应用，不能把所有后续失败都叫作“网络不通”。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-FAQ-003" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q17</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=UDP">#UDP</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%80%A7%E8%83%BD">#性能</a></div>
+      <div class="hfc-question"><p>UDP 一定比 TCP 快吗？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q17</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=UDP">#UDP</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%80%A7%E8%83%BD">#性能</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>UDP 一定比 TCP 快吗？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>不一定。UDP 少了部分机制，但应用可能重新实现可靠性、拥塞控制和加密；实际性能受 RTT、丢包、编码、排队和实现影响。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>应比较完整协议栈的目标和测量结果，而不是只比较传输层协议名称。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-FAQ-004" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q18</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=CLOSE-WAIT">#CLOSE-WAIT</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8E%92%E9%9A%9C">#排障</a></div>
+      <div class="hfc-question"><p>为什么服务端 CLOSE-WAIT 很多？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q18</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=CLOSE-WAIT">#CLOSE-WAIT</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8E%92%E9%9A%9C">#排障</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么服务端 CLOSE-WAIT 很多？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>通常表示对端已经发 FIN，而本地应用还没有关闭自己的方向。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>检查应用是否及时释放连接、是否卡在业务处理或异常路径；不要把 CLOSE-WAIT 和 TIME-WAIT 都简化成“连接没关”。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-TR-FAQ-005" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q19</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%8D%E4%BC%A0">#重传</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a></div>
+      <div class="hfc-question"><p>看到 TCP Retransmission 就能断定网络丢包吗？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q19</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%8D%E4%BC%A0">#重传</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>看到 TCP Retransmission 就能断定网络丢包吗？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>不能。分析器依据时序和重复序列号做标注，可能受抓包点、网卡卸载、乱序和捕获丢包影响。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>要结合两端抓包、ACK/SACK、接口统计和应用时延判断实际原因。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h3 id="UDP、TCP-与可靠传输规范"><a href="#UDP、TCP-与可靠传输规范" class="headerlink" title="UDP、TCP 与可靠传输规范"></a>UDP、TCP 与可靠传输规范</h3><div class="link-group"><div class="tag link"><a class="link-card" title="RFC 768：User Datagram Protocol" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc768.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 768：User Datagram Protocol</p><p class="url">https://www.rfc-editor.org/rfc/rfc768.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 9293：Transmission Control Protocol" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc9293.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 9293：Transmission Control Protocol</p><p class="url">https://www.rfc-editor.org/rfc/rfc9293.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 6298：Computing TCP's Retransmission Timer" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc6298.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 6298：Computing TCP's Retransmission Timer</p><p class="url">https://www.rfc-editor.org/rfc/rfc6298.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 5681：TCP Congestion Control" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc5681.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 5681：TCP Congestion Control</p><p class="url">https://www.rfc-editor.org/rfc/rfc5681.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 2018：TCP Selective Acknowledgment Options" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc2018.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 2018：TCP Selective Acknowledgment Options</p><p class="url">https://www.rfc-editor.org/rfc/rfc2018.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 8201：Path MTU Discovery for IP version 6" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc8201.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 8201：Path MTU Discovery for IP version 6</p><p class="url">https://www.rfc-editor.org/rfc/rfc8201.html</p></div></a></div></div>
+<h3 id="抓包与请求观察工具"><a href="#抓包与请求观察工具" class="headerlink" title="抓包与请求观察工具"></a>抓包与请求观察工具</h3><div class="link-group"><div class="tag link"><a class="link-card" title="Chrome DevTools Network 官方文档" target="_blank" rel="noopener" href="https://developer.chrome.com/docs/devtools/network/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.google.com/chrome/static/images/chrome-logo.svg"/></div><div class="right"><p class="text">Chrome DevTools Network 官方文档</p><p class="url">https://developer.chrome.com/docs/devtools/network/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="curl 官方手册" target="_blank" rel="noopener" href="https://curl.se/docs/manpage.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://curl.se/favicon.ico"/></div><div class="right"><p class="text">curl 官方手册</p><p class="url">https://curl.se/docs/manpage.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Wireshark User's Guide" target="_blank" rel="noopener" href="https://www.wireshark.org/docs/wsug_html_chunked/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.wireshark.org/favicon.ico"/></div><div class="right"><p class="text">Wireshark User's Guide</p><p class="url">https://www.wireshark.org/docs/wsug_html_chunked/</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="19"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fcomputer-network%2F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C(%E5%9B%9B)UDP%20%E4%B8%8E%20TCP.md" title="复习本篇 · 19 张卡片" aria-label="复习本篇 · 19 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 19 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/ec8f5dd0/">https://koco-co.github.io/posts/ec8f5dd0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><a class="post-meta__tags" href="/tags/TCP/">TCP</a><a class="post-meta__tags" href="/tags/UDP/">UDP</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络(五)HTTP 协议</div></div><div class="info-2"><div class="info-item-1">从资源、表示、消息和字段出发，系统掌握 HTTP 方法、状态码、缓存、Cookie、CORS、代理与面试分析证据。</div></div></div></a><a class="pagination-related" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机网络(三)IP 与网络寻址</div></div><div class="info-2"><div class="info-item-1">从一条跨网段访问链路出发，掌握 IPv4/IPv6 地址、CIDR、最长前缀匹配、NAT、ICMP、DHCP、DNS 与旧笔记迁移边界。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(二)网络分层与局域网</div></div><div class="info-2"><div class="info-item-1">从一次同网段通信出发，理解分层、封装、以太网帧、MAC、交换机 FDB、ARP 与 IPv6 邻居发现的边界。</div></div></div></a><a class="pagination-related" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(五)HTTP 协议</div></div><div class="info-2"><div class="info-item-1">从资源、表示、消息和字段出发，系统掌握 HTTP 方法、状态码、缓存、Cookie、CORS、代理与面试分析证据。</div></div></div></a><a class="pagination-related" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立计算机网络的学习坐标、依赖顺序、资料边界和复习方式，为后续分层、寻址、传输、HTTP 与排障文章提供统一入口。</div></div></div></a><a class="pagination-related" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(三)IP 与网络寻址</div></div><div class="info-2"><div class="info-item-1">从一条跨网段访问链路出发，掌握 IPv4/IPv6 地址、CIDR、最长前缀匹配、NAT、ICMP、DHCP、DNS 与旧笔记迁移边界。</div></div></div></a><a class="pagination-related" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(七)抓包与网络排障</div></div><div class="info-2"><div class="info-item-1">把 DevTools、curl、tcpdump/Wireshark 和六个安全可回收场景串成 DNS、TCP、TLS、HTTP 的证据链排障方法。</div></div></div></a><a class="pagination-related" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(八)进阶路线</div></div><div class="info-2"><div class="info-item-1">在主线完成后，用 WebSocket、DoH/DoT、IPsec、VXLAN 扩展网络视野，并明确每个主题的层次、取舍和进入条件。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">93</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP-%E4%B8%8E-TCP"><span class="toc-number">1.</span> <span class="toc-text">UDP 与 TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">传输层解决什么问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP-%E9%A6%96%E9%83%A8%E5%92%8C%E8%AF%AD%E4%B9%89"><span class="toc-number">1.2.</span> <span class="toc-text">UDP 首部和语义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-%E9%A6%96%E9%83%A8"><span class="toc-number">1.3.</span> <span class="toc-text">TCP 首部</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-%E5%AD%97%E6%AE%B5%E4%B8%8E%E7%8A%B6%E6%80%81"><span class="toc-number">2.</span> <span class="toc-text">TCP 字段与状态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E4%B8%8E%E7%A1%AE%E8%AE%A4"><span class="toc-number">2.1.</span> <span class="toc-text">序列与确认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">2.2.</span> <span class="toc-text">TCP 状态机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%8E%A7%E5%88%B6"><span class="toc-number">2.3.</span> <span class="toc-text">窗口控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="toc-number">3.</span> <span class="toc-text">三次握手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%A1%E6%89%8B%E7%9B%AE%E7%9A%84"><span class="toc-number">3.1.</span> <span class="toc-text">握手目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%A1%E6%89%8B%E5%A4%B1%E8%B4%A5"><span class="toc-number">3.2.</span> <span class="toc-text">握手失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8A%E8%BF%9E%E6%8E%A5%E9%98%9F%E5%88%97"><span class="toc-number">3.3.</span> <span class="toc-text">半连接队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E6%8E%A7%E5%88%B6"><span class="toc-number">4.</span> <span class="toc-text">发送控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RTO-%E4%B8%8E%E9%87%8D%E4%BC%A0"><span class="toc-number">4.1.</span> <span class="toc-text">RTO 与重传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E6%81%A2%E5%A4%8D"><span class="toc-number">4.2.</span> <span class="toc-text">拥塞恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SACK-%E5%92%8C%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AE%A4"><span class="toc-number">4.3.</span> <span class="toc-text">SACK 和累计确认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84-MTU"><span class="toc-number">4.4.</span> <span class="toc-text">路径 MTU</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD"><span class="toc-number">5.</span> <span class="toc-text">连接关闭</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FIN-%E4%B8%8D%E6%98%AF%E2%80%9C%E7%AB%8B%E5%88%BB%E6%96%AD%E5%BC%80%E2%80%9D"><span class="toc-number">5.1.</span> <span class="toc-text">FIN 不是“立刻断开”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E4%BF%A1%E5%8F%B7"><span class="toc-number">5.2.</span> <span class="toc-text">关闭信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIME-WAIT-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AD%98%E5%9C%A8"><span class="toc-number">5.3.</span> <span class="toc-text">TIME_WAIT 为什么存在</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%B4%BB%E6%9C%BA%E5%88%B6"><span class="toc-number">5.4.</span> <span class="toc-text">保活机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E9%87%8D%E7%BD%AE%E4%B8%8E%E9%87%8D%E8%BF%9E"><span class="toc-number">5.5.</span> <span class="toc-text">连接重置与重连</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%AC%E9%98%9F%E5%88%97"><span class="toc-number">5.6.</span> <span class="toc-text">监听队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%81%E6%8D%AE%E5%8C%96%E5%9B%9E%E7%AD%94"><span class="toc-number">6.</span> <span class="toc-text">证据化回答</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%93%E5%8C%85%E5%AE%9E%E9%AA%8C"><span class="toc-number">6.1.</span> <span class="toc-text">抓包实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E9%AA%8C%E8%AF%81"><span class="toc-number">6.2.</span> <span class="toc-text">实验验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E7%B1%BB%E7%8E%B0%E8%B1%A1%E7%9A%84%E5%88%A4%E6%96%AD%E8%A1%A8"><span class="toc-number">6.3.</span> <span class="toc-text">四类现象的判断表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E7%AD%94%E9%A2%98%E6%A8%A1%E6%9D%BF"><span class="toc-number">6.4.</span> <span class="toc-text">面试答题模板</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E5%A4%8D%E4%B9%A0"><span class="toc-number">7.</span> <span class="toc-text">传输层复习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">8.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">9.</span> <span class="toc-text">参考资料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP%E3%80%81TCP-%E4%B8%8E%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E8%A7%84%E8%8C%83"><span class="toc-number">9.1.</span> <span class="toc-text">UDP、TCP 与可靠传输规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%93%E5%8C%85%E4%B8%8E%E8%AF%B7%E6%B1%82%E8%A7%82%E5%AF%9F%E5%B7%A5%E5%85%B7"><span class="toc-number">9.2.</span> <span class="toc-text">抓包与请求观察工具</span></a></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(九)综合实战"></a><div class="content"><a class="title" href="/posts/e25e16df/" title="计算机网络(九)综合实战">计算机网络(九)综合实战</a><time datetime="2026-08-25T00:30:00.000Z" title="发表于 2026-08-25 08:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(八)进阶路线"></a><div class="content"><a class="title" href="/posts/e470b049/" title="计算机网络(八)进阶路线">计算机网络(八)进阶路线</a><time datetime="2026-08-25T00:00:00.000Z" title="发表于 2026-08-25 08:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(七)抓包与网络排障"></a><div class="content"><a class="title" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障">计算机网络(七)抓包与网络排障</a><time datetime="2026-08-24T23:30:00.000Z" title="发表于 2026-08-25 07:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(六)HTTPS 与现代 HTTP"></a><div class="content"><a class="title" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP">计算机网络(六)HTTPS 与现代 HTTP</a><time datetime="2026-08-24T23:00:00.000Z" title="发表于 2026-08-25 07:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(五)HTTP 协议"></a><div class="content"><a class="title" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议">计算机网络(五)HTTP 协议</a><time datetime="2026-08-24T22:30:00.000Z" title="发表于 2026-08-25 06:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(四)UDP 与 TCP"></a><div class="content"><a class="title" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP">计算机网络(四)UDP 与 TCP</a><time datetime="2026-08-24T22:00:00.000Z" title="发表于 2026-08-25 06:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(三)IP 与网络寻址"></a><div class="content"><a class="title" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址">计算机网络(三)IP 与网络寻址</a><time datetime="2026-08-24T21:30:00.000Z" title="发表于 2026-08-25 05:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(二)网络分层与局域网"></a><div class="content"><a class="title" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网">计算机网络(二)网络分层与局域网</a><time datetime="2026-08-24T21:00:00.000Z" title="发表于 2026-08-25 05:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(一)入门路线"></a><div class="content"><a class="title" href="/posts/347ce4f2/" title="计算机网络(一)入门路线">计算机网络(一)入门路线</a><time datetime="2026-08-24T19:38:27.000Z" title="发表于 2026-08-25 03:38:27">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1480bf96/" title="Python(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(一)入门路线"/></a><div class="content"><a class="title" href="/posts/1480bf96/" title="Python(一)入门路线">Python(一)入门路线</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(九)综合实战"/></a><div class="content"><a class="title" href="/posts/e25e16df/" title="计算机网络(九)综合实战">计算机网络(九)综合实战</a><time datetime="2026-08-25T00:30:00.000Z" title="发表于 2026-08-25 08:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(八)进阶路线"/></a><div class="content"><a class="title" href="/posts/e470b049/" title="计算机网络(八)进阶路线">计算机网络(八)进阶路线</a><time datetime="2026-08-25T00:00:00.000Z" title="发表于 2026-08-25 08:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(七)抓包与网络排障"/></a><div class="content"><a class="title" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障">计算机网络(七)抓包与网络排障</a><time datetime="2026-08-24T23:30:00.000Z" title="发表于 2026-08-25 07:30:00">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

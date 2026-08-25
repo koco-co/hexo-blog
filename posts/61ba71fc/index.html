@@ -1,0 +1,1026 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络(七)抓包与网络排障 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="把 DevTools、curl、tcpdump&#x2F;Wireshark 和六个安全可回收场景串成 DNS、TCP、TLS、HTTP 的证据链排障方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络(七)抓包与网络排障">
+<meta property="og:url" content="https://koco-co.github.io/posts/61ba71fc/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="把 DevTools、curl、tcpdump&#x2F;Wireshark 和六个安全可回收场景串成 DNS、TCP、TLS、HTTP 的证据链排障方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png">
+<meta property="article:published_time" content="2026-08-24T23:30:00.000Z">
+<meta property="article:modified_time" content="2026-08-25T13:53:30.996Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="Wireshark">
+<meta property="article:tag" content="网络排障">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "计算机网络(七)抓包与网络排障",
+  "url": "https://koco-co.github.io/posts/61ba71fc/",
+  "image": "https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png",
+  "datePublished": "2026-08-24T23:30:00.000Z",
+  "dateModified": "2026-08-25T13:53:30.996Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/61ba71fc/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络(七)抓包与网络排障',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">93</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/computer-network-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">计算机网络(七)抓包与网络排障</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络(七)抓包与网络排障<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/computer-network/计算机网络(七)抓包与网络排障.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-24T23:30:00.000Z" title="发表于 2026-08-25 07:30:00">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-25T13:53:30.996Z" title="更新于 2026-08-25 21:53:30">2026-08-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">7.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="计算机网络 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>计算机网络 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="9" aria-valuenow="7"><span style="width: 77.7778%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/347ce4f2/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">计算机网络(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/474f4d81/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">计算机网络(二)网络分层与局域网</span></a></li><li class="course-series-nav__item"><a href="/posts/5bd659bc/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">计算机网络(三)IP 与网络寻址</span></a></li><li class="course-series-nav__item"><a href="/posts/ec8f5dd0/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">计算机网络(四)UDP 与 TCP</span></a></li><li class="course-series-nav__item"><a href="/posts/366484e7/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">计算机网络(五)HTTP 协议</span></a></li><li class="course-series-nav__item"><a href="/posts/36cb963b/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">计算机网络(六)HTTPS 与现代 HTTP</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/61ba71fc/" aria-current="page"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">计算机网络(七)抓包与网络排障</span></a></li><li class="course-series-nav__item"><a href="/posts/e470b049/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">计算机网络(八)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/e25e16df/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">计算机网络(九)综合实战</span></a></li></ol></nav>
+<div class="note info flat"><p>本文把“页面打不开”拆成可验证的证据链：浏览器看到什么，curl 能否复刻，DNS 是否解析，TCP 或 QUIC 是否建立，TLS 是否通过，HTTP 是否返回，以及代理和缓存是否改变了结果。每个结论都标明已经看到的证据和仍未验证的边界。</p>
+</div>
+<h2 id="证据分层"><a href="#证据分层" class="headerlink" title="证据分层"></a>证据分层</h2><h3 id="一条请求的证据链"><a href="#一条请求的证据链" class="headerlink" title="一条请求的证据链"></a>一条请求的证据链</h3><div class="note info flat"><p>“页面打不开”不是协议层结论。可以用下面的顺序把它拆开：</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  START[用户现象：页面打不开&#x2F;变慢] --&gt; DNS{DNS 有响应吗}
+  DNS --&gt;|否| DFAIL[名称解析失败或超时]
+  DNS --&gt;|是| TCP{TCP&#x2F;QUIC 建立了吗}
+  TCP --&gt;|否| TFAIL[拒绝、超时、路径或策略]
+  TCP --&gt;|是| TLS{TLS&#x2F;证书&#x2F;ALPN 通过了吗}
+  TLS --&gt;|否| TLSFAIL[证书、主机名、协议协商或加密错误]
+  TLS --&gt;|是| HTTP{有 HTTP 响应吗}
+  HTTP --&gt;|否| HFAIL[连接后无响应、代理或应用等待]
+  HTTP --&gt;|是| APP[按状态码、缓存、CORS、业务内容继续分析]
+  </pre></div>
+<div class="note info flat"><p>不同工具能看到不同证据：</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>工具/位置</th>
+<th>擅长回答</th>
+<th>不足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>浏览器 DevTools</td>
+<td>浏览器最终发了什么、耗时、缓存、CORS、协议</td>
+<td>不一定展示完整底层包和服务端内部路径</td>
+</tr>
+<tr>
+<td>curl verbose</td>
+<td>可脚本化复刻 DNS/TCP/TLS/HTTP 的客户端时间线</td>
+<td>默认不执行浏览器同源策略、扩展、Cookie 隔离</td>
+</tr>
+<tr>
+<td>tcpdump</td>
+<td>在接口处捕获原始包的方向、端口、握手和重传</td>
+<td>需要权限、正确接口和过滤器；加密内容不可直接阅读</td>
+</tr>
+<tr>
+<td>Wireshark</td>
+<td>解析包字段、stream、TLS/HTTP 专家信息</td>
+<td>分析结果依赖完整捕获、时间戳和卸载影响</td>
+</tr>
+<tr>
+<td>服务端/代理日志</td>
+<td>上游选择、应用异常、超时和网关路径</td>
+<td>没有客户端原始请求就可能缺少入口证据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="HTTP-状态与网络错误"><a href="#HTTP-状态与网络错误" class="headerlink" title="HTTP 状态与网络错误"></a>HTTP 状态与网络错误</h3><div class="note info flat"><p>如果 Network 面板有 404、502 或 504，通常说明某个 HTTP 服务已经返回了响应；如果显示 net::ERR_NAME_NOT_RESOLVED、连接拒绝、TLS 证书错误，则可能没有 HTTP 状态码。一个排障报告必须把两类证据分开。</p>
+</div>
+<h2 id="DevTools-与-curl"><a href="#DevTools-与-curl" class="headerlink" title="DevTools 与 curl"></a>DevTools 与 curl</h2><h3 id="DevTools-请求瀑布"><a href="#DevTools-请求瀑布" class="headerlink" title="DevTools 请求瀑布"></a>DevTools 请求瀑布</h3><div class="note info flat"><p>Chrome Network 面板的 Timing/Waterfall 可以帮助划分等待：排队、代理、DNS、初始连接、TLS、发送请求、等待响应首字节、内容下载。名称和浏览器版本可能变化，但分析原则稳定：先定位最长阶段，再用 curl、抓包和服务端日志验证。</p>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart LR
+  QUEUE[排队&#x2F;浏览器调度] --&gt; DNS[DNS]
+  DNS --&gt; CONNECT[TCP 或 QUIC 建连]
+  CONNECT --&gt; TLS[TLS 握手]
+  TLS --&gt; SEND[发送请求]
+  SEND --&gt; WAIT[等待响应首字节]
+  WAIT --&gt; DOWNLOAD[下载内容]
+  </pre></div>
+<div class="note info flat"><p>Headers、Payload、Response 和 Initiator 各有用途：</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>面板区域</th>
+<th>先看什么</th>
+<th>常见结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Headers</td>
+<td>URL、方法、状态、请求/响应字段、重定向</td>
+<td>请求是否带了预期 Host、Cookie、Origin、缓存字段</td>
+</tr>
+<tr>
+<td>Payload</td>
+<td>请求体的编码和字段</td>
+<td>Content-Type 与实际内容是否匹配</td>
+</tr>
+<tr>
+<td>Response/Preview</td>
+<td>服务端实际返回内容</td>
+<td>错误来自网关、应用还是浏览器解析</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>阶段耗时和等待</td>
+<td>DNS、连接、TLS、TTFB、下载哪个阶段异常</td>
+</tr>
+<tr>
+<td>Initiator</td>
+<td>谁触发请求</td>
+<td>页面脚本、资源依赖、重试或重定向来源</td>
+</tr>
+<tr>
+<td>HAR</td>
+<td>可导出的结构化时间线</td>
+<td>复盘前必须删除凭据、Cookie、查询参数和内部地址</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="HAR-验证"><a href="#HAR-验证" class="headerlink" title="HAR 验证"></a>HAR 验证</h3><div class="note info flat"><p>HAR 是浏览器导出的 JSON 交换格式，适合保存请求/响应、Timing、缓存、重定向和 Initiator 的结构化证据；它不是 pcap，也不包含服务端完整日志。建议按下面步骤导出最小证据：</p>
+</div>
+<ol>
+<li>在 Network 面板勾选 Preserve log，清除无关请求并复现一次问题；</li>
+<li>选中目标请求，确认 Headers、Payload、Response、Timing 和 Security 面板已经记录；</li>
+<li>使用当前 Chrome 版本对应的 <code>Export HAR (sanitized)</code> 或 <code>Save all listed as HAR (sanitized)</code> 导出到临时目录；如果界面仍显示旧名称，选择等价的 HAR 导出项，不要导出未脱敏的 content；</li>
+<li>在副本中删除 Cookie、Authorization、Set-Cookie、查询参数、请求体中的个人数据、内部 Host/IP 和 Response content，再分享脱敏副本；</li>
+<li>用 pcap 的四元组/时间戳和服务端请求 ID 对照 HAR，说明浏览器看到的阶段是否能在网络包/服务日志中找到。</li>
+</ol>
+<div class="note info flat"><p>验证 HAR 时至少检查 <code>log.entries[].request</code>、<code>response</code>、<code>timings</code>、<code>serverIPAddress</code> 和 <code>startedDateTime</code> 等标准/常见字段是否符合本次复现。<code>requestId</code> 是 Chrome DevTools 可能附加的私有可选关联字段，不是跨浏览器 HAR 的必备字段；只有导出结果确实包含它时，才把它与 DevTools 事件关联。缺少某字段只能说明导出/浏览器版本边界，不能推断服务端没有该事件。实验结束后删除原始 HAR 和响应体，只保留脱敏副本。</p>
+</div>
+<h3 id="curl-的最小证据集"><a href="#curl-的最小证据集" class="headerlink" title="curl 的最小证据集"></a>curl 的最小证据集</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只看响应头，不保留响应体</span></span><br><span class="line">curl -sS -D - -o /dev/null --connect-timeout 5 https://example.com/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 观察 TLS、重定向和请求响应方向；敏感字段不要直接复制到公开日志</span></span><br><span class="line">BODY_FILE=<span class="string">&quot;<span class="subst">$(mktemp -t http-body.XXXXXX)</span>&quot;</span></span><br><span class="line">curl -sS -v -L --max-time 15 https://example.com/ -o <span class="string">&quot;<span class="variable">$BODY_FILE</span>&quot;</span></span><br><span class="line"><span class="built_in">rm</span> -f <span class="string">&quot;<span class="variable">$BODY_FILE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 复刻浏览器可能使用的 Origin/Accept 形状；值只使用测试域名</span></span><br><span class="line">curl -sS -v -H <span class="string">&#x27;Origin: https://app.example.test&#x27;</span> -H <span class="string">&#x27;Accept: application/json&#x27;</span> https://api.example.test/status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用指定 ETag 观察条件请求；ETag 必须来自自己的测试夹具</span></span><br><span class="line">curl -sS -D - -H <span class="string">&#x27;If-None-Match: &quot;fixture-v1&quot;&#x27;</span> http://127.0.0.1:18081/cache</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p><code>-v</code> 会输出连接和字段证据，<code>-D -</code> 输出响应头，<code>-L</code> 会跟随重定向并改变请求链，<code>-o</code> 把响应体导出到指定文件。命令成功只说明该客户端在当前环境完成了请求，不等于浏览器、其他网络或所有用户都成功。</p>
+</div>
+<h2 id="抓包与过滤"><a href="#抓包与过滤" class="headerlink" title="抓包与过滤"></a>抓包与过滤</h2><h3 id="两类过滤器"><a href="#两类过滤器" class="headerlink" title="两类过滤器"></a>两类过滤器</h3><div class="note info flat"><p>tcpdump 在捕获时用 BPF 过滤器减少写入的包；Wireshark display filter 在已经捕获的数据上筛选和解析。错误地把一种语法放到另一种工具中，会造成“抓不到包”或“过滤器无效”。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目的</th>
+<th>tcpdump 捕获过滤器</th>
+<th>Wireshark 显示过滤器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只抓某主机 HTTPS</td>
+<td><code>host 203.0.113.10 and tcp port 443</code></td>
+<td><code>ip.addr == 203.0.113.10 &amp;&amp; tcp.port == 443</code></td>
+</tr>
+<tr>
+<td>只抓 DNS</td>
+<td><code>port 53</code></td>
+<td><code>dns</code></td>
+</tr>
+<tr>
+<td>只看 TLS 握手</td>
+<td>捕获阶段可用 <code>tcp port 443</code> 粗筛</td>
+<td><code>tls.handshake</code></td>
+</tr>
+<tr>
+<td>只看某 TCP 流</td>
+<td><code>tcp port 443</code> 后用编号关联</td>
+<td><code>tcp.stream eq 0</code></td>
+</tr>
+<tr>
+<td>旧笔记中的源地址写法</td>
+<td><code>src host 203.0.113.10</code></td>
+<td><code>ip.src == 203.0.113.10</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p><code>ip.scr</code> 不是 Wireshark 的源地址字段，<code>ip.src</code> 才是；但过滤器是否有包还取决于 IPv6、隧道、NAT 和实际抓包点。先用宽过滤器确认流量存在，再逐步收窄。</p>
+</div>
+<h3 id="安全的最小抓包"><a href="#安全的最小抓包" class="headerlink" title="安全的最小抓包"></a>安全的最小抓包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先确认接口，示例中的 en0 需要替换为你明确授权的接口</span></span><br><span class="line">tcpdump -D</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只抓少量、限定主机和端口的包；不把整个接口长时间写盘</span></span><br><span class="line"><span class="built_in">sudo</span> tcpdump -ni en0 -c 40 -s 128 <span class="string">&#x27;host 203.0.113.10 and tcp port 443&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 若必须保存到临时 pcap，使用精确临时目录并在分析后删除</span></span><br><span class="line">CAPTURE_DIR=<span class="string">&quot;<span class="subst">$(mktemp -d -t net-capture.XXXXXX)</span>&quot;</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">&#x27;rm -rf &quot;$CAPTURE_DIR&quot;&#x27;</span> EXIT</span><br><span class="line"><span class="built_in">sudo</span> tcpdump -ni en0 -c 80 -w <span class="string">&quot;<span class="variable">$CAPTURE_DIR</span>/trace.pcap&quot;</span> <span class="string">&#x27;host 203.0.113.10 and port 443&#x27;</span></span><br><span class="line">wireshark <span class="string">&quot;<span class="variable">$CAPTURE_DIR</span>/trace.pcap&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>抓包可能包含 Cookie、Authorization、查询参数、内网地址和用户数据；<code>-s 128</code> 只能减少每包捕获长度，不能保证没有敏感信息。共享前要在隔离副本上脱敏或只分享字段截图；实验结束后精确删除文件并确认没有把路径加入脚本或日志。</p>
+</div>
+<h2 id="安全场景"><a href="#安全场景" class="headerlink" title="安全场景"></a>安全场景</h2><div class="note info flat"><p>下面六个场景都是“先预检查、再运行、最后清理”的教学夹具。本文只提供可复现步骤和预期证据，不把它们写成已经在当前机器执行过的输出。</p>
+</div>
+<h3 id="DNS-失败"><a href="#DNS-失败" class="headerlink" title="DNS 失败"></a>DNS 失败</h3><div class="note info flat"><p><code>.invalid</code> 是专门用于无效示例的保留顶级域。命令不连接真实业务站点，也不修改本机 DNS 配置：</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v --connect-timeout 3 --max-time 5 http://does-not-exist.invalid/</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>预期可能看到名称解析失败或解析超时，具体错误取决于本机解析器和网络策略。证据层是 DNS；通常不会有 TCP SYN，也不会有 HTTP 状态码。如果环境把 <code>.invalid</code> 拦截到测试解析器，必须以 <code>dig</code> 和抓包验证，而不是把某个错误字符串当成规范输出。</p>
+</div>
+<h3 id="端口未监听"><a href="#端口未监听" class="headerlink" title="端口未监听"></a>端口未监听</h3><div class="note info flat"><p>先检查端口是否已被其他进程占用，不要直接终止未知 PID：</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsof -nP -iTCP:18080 -sTCP:LISTEN</span><br><span class="line">curl -v --connect-timeout 2 http://127.0.0.1:18080/</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>只有在 <code>lsof</code> 没有输出且你确认没有并发实验时，才把它当作“未监听端口”夹具。预期是 loopback TCP 连接快速被拒绝，客户端可能显示 connection refused；这不是 DNS 失败，也不是 HTTP 503，因为请求没有到达 HTTP 服务。</p>
+</div>
+<div class="note info flat"><p>如果端口已有监听，请换一个明确的临时端口，而不是 kill 该 PID。实验结束只需要停止自己启动的进程，不能按端口模糊清理其他服务。</p>
+</div>
+<h3 id="自签名-HTTPS"><a href="#自签名-HTTPS" class="headerlink" title="自签名 HTTPS"></a>自签名 HTTPS</h3><div class="note info flat"><p>这个场景验证 TLS 证书校验，不把证书安装进系统信任库。使用临时目录、精确 PID 和退出清理：</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">LAB_DIR=<span class="string">&quot;<span class="subst">$(mktemp -d -t net-tls.XXXXXX)</span>&quot;</span></span><br><span class="line">SERVER_PID=</span><br><span class="line"><span class="function"><span class="title">cleanup_tls</span></span>() &#123;</span><br><span class="line">  <span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$&#123;SERVER_PID:-&#125;</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">kill</span> <span class="string">&quot;<span class="variable">$SERVER_PID</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">rm</span> -f <span class="string">&quot;<span class="variable">$LAB_DIR</span>/key.pem&quot;</span> <span class="string">&quot;<span class="variable">$LAB_DIR</span>/cert.pem&quot;</span> <span class="string">&quot;<span class="variable">$LAB_DIR</span>/server.log&quot;</span></span><br><span class="line">  <span class="built_in">rmdir</span> <span class="string">&quot;<span class="variable">$LAB_DIR</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">trap</span> cleanup_tls EXIT</span><br><span class="line"><span class="keyword">if</span> lsof -nP -iTCP:18443 -sTCP:LISTEN &gt;/dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;port 18443 is already in use; choose another isolated port&quot;</span></span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">openssl req -x509 -newkey rsa:2048 -nodes \</span><br><span class="line">  -keyout <span class="string">&quot;<span class="variable">$LAB_DIR</span>/key.pem&quot;</span> -out <span class="string">&quot;<span class="variable">$LAB_DIR</span>/cert.pem&quot;</span> -days 1 \</span><br><span class="line">  -subj <span class="string">&#x27;/CN=localhost&#x27;</span> \</span><br><span class="line">  -addext <span class="string">&#x27;subjectAltName=DNS:localhost,IP:127.0.0.1&#x27;</span></span><br><span class="line"></span><br><span class="line">openssl s_server -accept 18443 -cert <span class="string">&quot;<span class="variable">$LAB_DIR</span>/cert.pem&quot;</span> \</span><br><span class="line">  -key <span class="string">&quot;<span class="variable">$LAB_DIR</span>/key.pem&quot;</span> -www &gt;<span class="string">&quot;<span class="variable">$LAB_DIR</span>/server.log&quot;</span> 2&gt;&amp;1 &amp;</span><br><span class="line">SERVER_PID=$!</span><br><span class="line">ready=<span class="literal">false</span></span><br><span class="line"><span class="keyword">for</span> attempt <span class="keyword">in</span> 1 2 3 4 5; <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">if</span> curl -k -sS -o /dev/null --connect-timeout 1 https://localhost:18443/; <span class="keyword">then</span></span><br><span class="line">    ready=<span class="literal">true</span></span><br><span class="line">    <span class="built_in">break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">sleep</span> 0.2</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$ready</span>&quot;</span> != <span class="literal">true</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;TLS fixture did not become ready; inspect <span class="variable">$LAB_DIR</span>/server.log&quot;</span> &gt;&amp;2</span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 不提供信任例外：预期证书不受本机信任库信任</span></span><br><span class="line">curl -v --connect-timeout 3 https://localhost:18443/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 仅把本次临时证书作为单次请求的 CA：预期可以完成校验</span></span><br><span class="line">curl -v --cacert <span class="string">&quot;<span class="variable">$LAB_DIR</span>/cert.pem&quot;</span> https://localhost:18443/</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>预期证据是 TCP 建连成功、TLS 握手到达证书校验阶段；第一次 curl 因信任链失败，第二次使用显式 <code>--cacert</code> 成功。SAN 同时覆盖 localhost 和 127.0.0.1，避免把 Common Name 当作现代主机名校验的唯一依据。若本机 <code>openssl</code> 不支持 <code>-addext</code>，应改用等价的临时 SAN 配置，但不降低校验或修改全局信任库。</p>
+</div>
+<h3 id="HTTP-错误夹具"><a href="#HTTP-错误夹具" class="headerlink" title="HTTP 错误夹具"></a>HTTP 错误夹具</h3><div class="note info flat"><p>下面的 Python 夹具只绑定 loopback，故意返回固定响应，帮助区分“收到 HTTP 错误”与“网络连接失败”。它模拟状态码，不代表真实反向代理已经观察到上游故障：</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">FIXTURE_DIR=<span class="string">&quot;<span class="subst">$(mktemp -d -t net-http.XXXXXX)</span>&quot;</span></span><br><span class="line">SERVER_PID=</span><br><span class="line"><span class="function"><span class="title">cleanup</span></span>() &#123;</span><br><span class="line">  <span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$&#123;SERVER_PID:-&#125;</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">kill</span> <span class="string">&quot;<span class="variable">$SERVER_PID</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">rm</span> -f <span class="string">&quot;<span class="variable">$FIXTURE_DIR</span>/server.py&quot;</span> <span class="string">&quot;<span class="variable">$FIXTURE_DIR</span>/server.out&quot;</span></span><br><span class="line">  <span class="built_in">rmdir</span> <span class="string">&quot;<span class="variable">$FIXTURE_DIR</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">trap</span> cleanup EXIT</span><br><span class="line"><span class="keyword">if</span> lsof -nP -iTCP:18081 -sTCP:LISTEN &gt;/dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;port 18081 is already in use; choose another isolated port&quot;</span></span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="built_in">cat</span> &gt; <span class="string">&quot;<span class="variable">$FIXTURE_DIR</span>/server.py&quot;</span> &lt;&lt;<span class="string">&#x27;PY&#x27;</span></span><br><span class="line">from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">class Handler(BaseHTTPRequestHandler):</span><br><span class="line">    protocol_version = <span class="string">&quot;HTTP/1.1&quot;</span></span><br><span class="line"></span><br><span class="line">    def do_OPTIONS(self):</span><br><span class="line">        <span class="keyword">if</span> self.path != <span class="string">&quot;/cors&quot;</span>:</span><br><span class="line">            self.send_response(405)</span><br><span class="line">            self.send_header(<span class="string">&quot;Allow&quot;</span>, <span class="string">&quot;GET, OPTIONS&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Length&quot;</span>, <span class="string">&quot;0&quot;</span>)</span><br><span class="line">            self.end_headers()</span><br><span class="line">            <span class="built_in">return</span></span><br><span class="line">        self.send_response(204)</span><br><span class="line">        self.send_header(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;https://app.example.test&quot;</span>)</span><br><span class="line">        self.send_header(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET, POST, OPTIONS&quot;</span>)</span><br><span class="line">        self.send_header(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;authorization, content-type&quot;</span>)</span><br><span class="line">        self.send_header(<span class="string">&quot;Vary&quot;</span>, <span class="string">&quot;Origin&quot;</span>)</span><br><span class="line">        self.end_headers()</span><br><span class="line"></span><br><span class="line">    def do_GET(self):</span><br><span class="line">        <span class="keyword">if</span> self.path <span class="keyword">in</span> (<span class="string">&quot;/keep-alive&quot;</span>, <span class="string">&quot;/framing&quot;</span>):</span><br><span class="line">            body = (self.path.lstrip(<span class="string">&quot;/&quot;</span>) + <span class="string">&quot; fixture\n&quot;</span>).encode(<span class="string">&quot;ascii&quot;</span>)</span><br><span class="line">            self.send_response(200)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;text/plain; charset=utf-8&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Length&quot;</span>, str(len(body)))</span><br><span class="line">        <span class="keyword">elif</span> self.path == <span class="string">&quot;/chunked&quot;</span>:</span><br><span class="line">            self.send_response(200)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;text/plain; charset=utf-8&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Transfer-Encoding&quot;</span>, <span class="string">&quot;chunked&quot;</span>)</span><br><span class="line">            self.end_headers()</span><br><span class="line">            <span class="keyword">for</span> chunk <span class="keyword">in</span> (b<span class="string">&quot;hello&quot;</span>, b<span class="string">&quot; world\n&quot;</span>):</span><br><span class="line">                self.wfile.write(f<span class="string">&quot;&#123;len(chunk):X&#125;\r\n&quot;</span>.encode(<span class="string">&quot;ascii&quot;</span>))</span><br><span class="line">                self.wfile.write(chunk + b<span class="string">&quot;\r\n&quot;</span>)</span><br><span class="line">            self.wfile.write(b<span class="string">&quot;0\r\n\r\n&quot;</span>)</span><br><span class="line">            <span class="built_in">return</span></span><br><span class="line">        <span class="keyword">elif</span> self.path == <span class="string">&quot;/cache&quot;</span>:</span><br><span class="line">            body = b<span class="string">&quot;fixture-cache-v1\n&quot;</span></span><br><span class="line">            <span class="keyword">if</span> self.headers.get(<span class="string">&quot;If-None-Match&quot;</span>) == <span class="string">&#x27;&quot;fixture-v1&quot;&#x27;</span>:</span><br><span class="line">                body = b<span class="string">&quot;&quot;</span></span><br><span class="line">                self.send_response(304)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.send_response(200)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;text/plain; charset=utf-8&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Cache-Control&quot;</span>, <span class="string">&quot;max-age=0, must-revalidate&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;ETag&quot;</span>, <span class="string">&#x27;&quot;fixture-v1&quot;&#x27;</span>)</span><br><span class="line">            <span class="keyword">if</span> body:</span><br><span class="line">                self.send_header(<span class="string">&quot;Content-Length&quot;</span>, str(len(body)))</span><br><span class="line">        <span class="keyword">elif</span> self.path == <span class="string">&quot;/fixed-502&quot;</span>:</span><br><span class="line">            body = b<span class="string">&quot;synthetic gateway bad response\n&quot;</span></span><br><span class="line">            self.send_response(502)</span><br><span class="line">            self.send_header(<span class="string">&quot;X-Fixture-Path&quot;</span>, <span class="string">&quot;gateway-to-upstream&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;X-Upstream-Status&quot;</span>, <span class="string">&quot;invalid&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Length&quot;</span>, str(len(body)))</span><br><span class="line">        <span class="keyword">elif</span> self.path == <span class="string">&quot;/fixed-504&quot;</span>:</span><br><span class="line">            body = b<span class="string">&quot;synthetic upstream timeout\n&quot;</span></span><br><span class="line">            self.send_response(504)</span><br><span class="line">            self.send_header(<span class="string">&quot;X-Fixture-Path&quot;</span>, <span class="string">&quot;gateway-timeout&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Retry-After&quot;</span>, <span class="string">&quot;3&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Length&quot;</span>, str(len(body)))</span><br><span class="line">        <span class="keyword">elif</span> self.path == <span class="string">&quot;/cors&quot;</span>:</span><br><span class="line">            body = b<span class="string">&quot;&quot;</span></span><br><span class="line">            self.send_response(204)</span><br><span class="line">            self.send_header(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;https://app.example.test&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET, POST, OPTIONS&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;authorization, content-type&quot;</span>)</span><br><span class="line">            self.send_header(<span class="string">&quot;Vary&quot;</span>, <span class="string">&quot;Origin&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            body = b<span class="string">&quot;not found\n&quot;</span></span><br><span class="line">            self.send_response(404)</span><br><span class="line">            self.send_header(<span class="string">&quot;Content-Length&quot;</span>, str(len(body)))</span><br><span class="line">        self.end_headers()</span><br><span class="line">        self.wfile.write(body)</span><br><span class="line"></span><br><span class="line">    def log_message(self, <span class="built_in">fmt</span>, *args):</span><br><span class="line">        sys.stderr.write(<span class="string">&quot;fixture: &quot;</span> + (<span class="built_in">fmt</span> % args) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">server = ThreadingHTTPServer((&quot;<span class="number">127.0</span>.<span class="number">0.1</span>&quot;, <span class="number">18081</span>), Handler)</span><br><span class="line">server.serve_forever()</span><br><span class="line">PY</span><br><span class="line">python3 &quot;<span class="variable">$FIXTURE_DIR</span>/server.py&quot; &gt;&quot;<span class="variable">$FIXTURE_DIR</span>/server.out&quot; <span class="number">2</span>&gt;&amp;<span class="number">1</span> &amp;</span><br><span class="line">SERVER_PID=$!</span><br><span class="line">ready=false</span><br><span class="line">for attempt in <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>; do</span><br><span class="line">  if curl -sS -o /dev/null http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/cache; then</span><br><span class="line">    ready=true</span><br><span class="line">    break</span><br><span class="line">  fi</span><br><span class="line">  sleep <span class="number">0.2</span></span><br><span class="line">done</span><br><span class="line">if [ &quot;<span class="variable">$ready</span>&quot; != true ]; then</span><br><span class="line">  echo &quot;fixture did not become ready; inspect <span class="variable">$FIXTURE_DIR</span>/server.out&quot; &gt;&amp;<span class="number">2</span></span><br><span class="line">  exit <span class="number">1</span></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">curl -sS -D - -o /dev/null http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/cache</span><br><span class="line">curl -sS -D - -H &#x27;If-None-Match: &quot;fixture-v1&quot;&#x27; http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/cache</span><br><span class="line">curl -sS -D - http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/keep-alive http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/framing</span><br><span class="line">curl -sS -D - http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/chunked</span><br><span class="line">curl -sS -D - http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/fixed-<span class="number">502</span></span><br><span class="line">curl -sS -D - http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18081</span>/fixed-<span class="number">504</span></span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>预期能看到固定 ETag/Cache-Control、条件请求的实现结果以及合成的 502/504。真实 502/504 排查仍需查看网关的上游连接、DNS、TLS、响应格式和超时日志；夹具只验证客户端如何读取状态和响应头。</p>
+</div>
+<h3 id="HTTP-2-夹具"><a href="#HTTP-2-夹具" class="headerlink" title="HTTP/2 夹具"></a>HTTP/2 夹具</h3><div class="note info flat"><p>HTTP/2 的流控、RST_STREAM、GOAWAY 和动态表大小需要服务端主动控制；下面的 loopback Node.js <code>http2</code> 夹具它不会把公共站点的偶然行为当作实验结果，也不会把测试证书安装到系统信任库。</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">H2_DIR=<span class="string">&quot;<span class="subst">$(mktemp -d -t net-h2.XXXXXX)</span>&quot;</span></span><br><span class="line">H2_PID=</span><br><span class="line"><span class="function"><span class="title">cleanup_h2</span></span>() &#123;</span><br><span class="line">  <span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$&#123;H2_PID:-&#125;</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">kill</span> <span class="string">&quot;<span class="variable">$H2_PID</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">rm</span> -f <span class="string">&quot;<span class="variable">$H2_DIR</span>/key.pem&quot;</span> <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> <span class="string">&quot;<span class="variable">$H2_DIR</span>/server.js&quot;</span> <span class="string">&quot;<span class="variable">$H2_DIR</span>/server.log&quot;</span></span><br><span class="line">  <span class="built_in">rmdir</span> <span class="string">&quot;<span class="variable">$H2_DIR</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">trap</span> cleanup_h2 EXIT</span><br><span class="line"><span class="keyword">if</span> lsof -nP -iTCP:18444 -sTCP:LISTEN &gt;/dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;port 18444 is already in use; choose another isolated port&quot;</span></span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">openssl req -x509 -newkey rsa:2048 -nodes \</span><br><span class="line">  -keyout <span class="string">&quot;<span class="variable">$H2_DIR</span>/key.pem&quot;</span> -out <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> -days 1 \</span><br><span class="line">  -subj <span class="string">&#x27;/CN=localhost&#x27;</span> \</span><br><span class="line">  -addext <span class="string">&#x27;subjectAltName=DNS:localhost,IP:127.0.0.1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &gt; <span class="string">&quot;<span class="variable">$H2_DIR</span>/server.js&quot;</span> &lt;&lt;<span class="string">&#x27;NODE&#x27;</span></span><br><span class="line">const fs = require(<span class="string">&quot;node:fs&quot;</span>);</span><br><span class="line">const http2 = require(<span class="string">&quot;node:http2&quot;</span>);</span><br><span class="line"></span><br><span class="line">const port = Number(process.env.H2_PORT || 18444);</span><br><span class="line">const headerTableSize = Number(process.env.H2_HEADER_TABLE_SIZE || 4096);</span><br><span class="line">const server = http2.createSecureServer(&#123;</span><br><span class="line">  key: fs.readFileSync(process.env.H2_KEY),</span><br><span class="line">  cert: fs.readFileSync(process.env.H2_CERT),</span><br><span class="line">  allowHTTP1: <span class="literal">false</span>,</span><br><span class="line">  settings: &#123; enablePush: <span class="literal">false</span>, headerTableSize &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.on(<span class="string">&quot;stream&quot;</span>, (stream, headers) =&gt; &#123;</span><br><span class="line">  const path = headers[<span class="string">&quot;:path&quot;</span>] || <span class="string">&quot;/&quot;</span>;</span><br><span class="line">  <span class="keyword">if</span> (path === <span class="string">&quot;/small&quot;</span>) &#123;</span><br><span class="line">    stream.respond(&#123; <span class="string">&quot;:status&quot;</span>: 200, <span class="string">&quot;content-type&quot;</span>: <span class="string">&quot;text/plain&quot;</span>, <span class="string">&quot;content-length&quot;</span>: <span class="string">&quot;6&quot;</span> &#125;);</span><br><span class="line">    stream.end(<span class="string">&quot;small\n&quot;</span>);</span><br><span class="line">    <span class="built_in">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (path === <span class="string">&quot;/slow&quot;</span>) &#123;</span><br><span class="line">    const total = 1024 * 1024;</span><br><span class="line">    <span class="built_in">let</span> sent = 0;</span><br><span class="line">    stream.respond(&#123; <span class="string">&quot;:status&quot;</span>: 200, <span class="string">&quot;content-type&quot;</span>: <span class="string">&quot;application/octet-stream&quot;</span>, <span class="string">&quot;content-length&quot;</span>: String(total) &#125;);</span><br><span class="line">    const write = () =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (stream.destroyed) <span class="built_in">return</span>;</span><br><span class="line">      <span class="keyword">if</span> (sent &gt;= total) &#123; stream.end(); <span class="built_in">return</span>; &#125;</span><br><span class="line">      const chunk = Buffer.alloc(Math.min(16384, total - sent), 0x61);</span><br><span class="line">      sent += chunk.length;</span><br><span class="line">      <span class="keyword">if</span> (stream.write(chunk)) setTimeout(write, 10);</span><br><span class="line">      <span class="keyword">else</span> stream.once(<span class="string">&quot;drain&quot;</span>, () =&gt; setTimeout(write, 10));</span><br><span class="line">    &#125;;</span><br><span class="line">    write();</span><br><span class="line">    <span class="built_in">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (path === <span class="string">&quot;/reset&quot;</span>) &#123;</span><br><span class="line">    stream.respond(&#123; <span class="string">&quot;:status&quot;</span>: 200 &#125;);</span><br><span class="line">    stream.close(http2.constants.NGHTTP2_CANCEL);</span><br><span class="line">    <span class="built_in">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (path === <span class="string">&quot;/goaway&quot;</span>) &#123;</span><br><span class="line">    stream.respond(&#123; <span class="string">&quot;:status&quot;</span>: 200 &#125;);</span><br><span class="line">    stream.end(<span class="string">&quot;goaway\n&quot;</span>, () =&gt; stream.session.goaway(http2.constants.NGHTTP2_NO_ERROR, stream.id));</span><br><span class="line">    <span class="built_in">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (path === <span class="string">&quot;/headers&quot;</span>) &#123;</span><br><span class="line">    stream.respond(&#123; <span class="string">&quot;:status&quot;</span>: 200, <span class="string">&quot;x-demo&quot;</span>: <span class="string">&quot;repeat&quot;</span>, <span class="string">&quot;cache-control&quot;</span>: <span class="string">&quot;no-store&quot;</span> &#125;);</span><br><span class="line">    stream.end(<span class="string">&quot;headers fixture\n&quot;</span>);</span><br><span class="line">    <span class="built_in">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  stream.respond(&#123; <span class="string">&quot;:status&quot;</span>: 404, <span class="string">&quot;content-length&quot;</span>: <span class="string">&quot;10&quot;</span> &#125;);</span><br><span class="line">  stream.end(<span class="string">&quot;not found\n&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.listen(port, <span class="string">&quot;127.0.0.1&quot;</span>, () =&gt; console.error(`h2 fixture listening on <span class="variable">$&#123;port&#125;</span>; headerTableSize=<span class="variable">$&#123;headerTableSize&#125;</span>`));</span><br><span class="line">NODE</span><br><span class="line"></span><br><span class="line">H2_KEY=<span class="string">&quot;<span class="variable">$H2_DIR</span>/key.pem&quot;</span> H2_CERT=<span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> node <span class="string">&quot;<span class="variable">$H2_DIR</span>/server.js&quot;</span> &gt;<span class="string">&quot;<span class="variable">$H2_DIR</span>/server.log&quot;</span> 2&gt;&amp;1 &amp;</span><br><span class="line">H2_PID=$!</span><br><span class="line">H2_URL=<span class="string">&quot;https://localhost:18444&quot;</span></span><br><span class="line">ready=<span class="literal">false</span></span><br><span class="line"><span class="keyword">for</span> attempt <span class="keyword">in</span> 1 2 3 4 5; <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">if</span> curl --http2 --cacert <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> -sS -o /dev/null <span class="string">&quot;<span class="variable">$H2_URL</span>/small&quot;</span>; <span class="keyword">then</span></span><br><span class="line">    ready=<span class="literal">true</span></span><br><span class="line">    <span class="built_in">break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">sleep</span> 0.2</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$ready</span>&quot;</span> != <span class="literal">true</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;h2 fixture did not become ready; inspect <span class="variable">$H2_DIR</span>/server.log&quot;</span> &gt;&amp;2</span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">curl --http2 --cacert <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> -sS <span class="string">&quot;<span class="variable">$H2_URL</span>/small&quot;</span></span><br><span class="line">curl --http2 --cacert <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> --parallel -sS <span class="string">&quot;<span class="variable">$H2_URL</span>/slow&quot;</span> <span class="string">&quot;<span class="variable">$H2_URL</span>/small&quot;</span> -o /dev/null</span><br><span class="line">curl --http2 --cacert <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> -v -sS <span class="string">&quot;<span class="variable">$H2_URL</span>/reset&quot;</span> -o /dev/null</span><br><span class="line">curl --http2 --cacert <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> -v -sS <span class="string">&quot;<span class="variable">$H2_URL</span>/goaway&quot;</span> -o /dev/null</span><br><span class="line">curl --http2 --cacert <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> -H <span class="string">&#x27;x-demo: repeat&#x27;</span> -sS <span class="string">&quot;<span class="variable">$H2_URL</span>/headers&quot;</span> -o /dev/null</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p><code>/slow</code> 用响应背压帮助观察 <code>WINDOW_UPDATE</code>，<code>/reset</code> 产生单流重置，<code>/goaway</code> 产生连接级关闭信号，<code>H2_HEADER_TABLE_SIZE=0</code> 与默认 <code>4096</code> 的两次启动可用于对照 SETTINGS 和 HPACK 动态表边界。停止第一进程后，可在同一 shell 用下面的后台重启形态完成第二次对照，并更新 trap 使用的 PID：</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> <span class="string">&quot;<span class="variable">$H2_PID</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line"><span class="built_in">wait</span> <span class="string">&quot;<span class="variable">$H2_PID</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">H2_HEADER_TABLE_SIZE=0 H2_KEY=<span class="string">&quot;<span class="variable">$H2_DIR</span>/key.pem&quot;</span> H2_CERT=<span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> \</span><br><span class="line">  node <span class="string">&quot;<span class="variable">$H2_DIR</span>/server.js&quot;</span> &gt;<span class="string">&quot;<span class="variable">$H2_DIR</span>/server.log&quot;</span> 2&gt;&amp;1 &amp;</span><br><span class="line">H2_PID=$!</span><br><span class="line">ready=<span class="literal">false</span></span><br><span class="line"><span class="keyword">for</span> attempt <span class="keyword">in</span> 1 2 3 4 5; <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">if</span> curl --http2 --cacert <span class="string">&quot;<span class="variable">$H2_DIR</span>/cert.pem&quot;</span> -sS -o /dev/null <span class="string">&quot;<span class="variable">$H2_URL</span>/small&quot;</span>; <span class="keyword">then</span></span><br><span class="line">    ready=<span class="literal">true</span></span><br><span class="line">    <span class="built_in">break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">sleep</span> 0.2</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">[ <span class="string">&quot;<span class="variable">$ready</span>&quot;</span> = <span class="literal">true</span> ] || &#123; <span class="built_in">echo</span> <span class="string">&quot;h2 restart failed; inspect <span class="variable">$H2_DIR</span>/server.log&quot;</span> &gt;&amp;2; <span class="built_in">exit</span> 1; &#125;</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>当前环境没有 <code>nghttp</code> 时，curl 仍可验证协商、并发请求和错误路径，逐 frame 证据则记录为 NOT VERIFIED。实验结束由 trap 精确停止自己的进程并删除临时证书。</p>
+</div>
+<h3 id="TLS-终止"><a href="#TLS-终止" class="headerlink" title="TLS 终止"></a>TLS 终止</h3><div class="note info flat"><p>为了验证“客户端到代理”和“代理到上游”是两条链路，下面的夹具在 loopback 上同时启动一个明文上游和一个 TLS 终止入口。它只返回合成的 502，不代表真实网关故障；日志中的两条腿必须分别记录。</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">PROXY_DIR=<span class="string">&quot;<span class="subst">$(mktemp -d -t net-proxy.XXXXXX)</span>&quot;</span></span><br><span class="line">PROXY_PID=</span><br><span class="line"><span class="function"><span class="title">cleanup_proxy</span></span>() &#123;</span><br><span class="line">  <span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$&#123;PROXY_PID:-&#125;</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">kill</span> <span class="string">&quot;<span class="variable">$PROXY_PID</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">rm</span> -f <span class="string">&quot;<span class="variable">$PROXY_DIR</span>/key.pem&quot;</span> <span class="string">&quot;<span class="variable">$PROXY_DIR</span>/cert.pem&quot;</span> <span class="string">&quot;<span class="variable">$PROXY_DIR</span>/proxy.py&quot;</span> <span class="string">&quot;<span class="variable">$PROXY_DIR</span>/proxy.log&quot;</span></span><br><span class="line">  <span class="built_in">rmdir</span> <span class="string">&quot;<span class="variable">$PROXY_DIR</span>&quot;</span> 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">trap</span> cleanup_proxy EXIT</span><br><span class="line"><span class="keyword">if</span> lsof -nP -iTCP:18082 -sTCP:LISTEN &gt;/dev/null 2&gt;&amp;1 || lsof -nP -iTCP:18445 -sTCP:LISTEN &gt;/dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;port 18082 or 18445 is already in use; choose another isolated port&quot;</span></span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">openssl req -x509 -newkey rsa:2048 -nodes \</span><br><span class="line">  -keyout <span class="string">&quot;<span class="variable">$PROXY_DIR</span>/key.pem&quot;</span> -out <span class="string">&quot;<span class="variable">$PROXY_DIR</span>/cert.pem&quot;</span> -days 1 \</span><br><span class="line">  -subj <span class="string">&#x27;/CN=localhost&#x27;</span> \</span><br><span class="line">  -addext <span class="string">&#x27;subjectAltName=DNS:localhost,IP:127.0.0.1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &gt; <span class="string">&quot;<span class="variable">$PROXY_DIR</span>/proxy.py&quot;</span> &lt;&lt;<span class="string">&#x27;PY&#x27;</span></span><br><span class="line">from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer</span><br><span class="line">from http.client import HTTPConnection</span><br><span class="line">import ssl</span><br><span class="line">import sys</span><br><span class="line">import threading</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">class Upstream(BaseHTTPRequestHandler):</span><br><span class="line">    protocol_version = <span class="string">&quot;HTTP/1.1&quot;</span></span><br><span class="line">    def do_GET(self):</span><br><span class="line">        body = b<span class="string">&quot;synthetic upstream failure\n&quot;</span></span><br><span class="line">        self.send_response(502)</span><br><span class="line">        self.send_header(<span class="string">&quot;X-Upstream-Status&quot;</span>, <span class="string">&quot;invalid&quot;</span>)</span><br><span class="line">        self.send_header(<span class="string">&quot;Content-Length&quot;</span>, str(len(body)))</span><br><span class="line">        self.end_headers()</span><br><span class="line">        self.wfile.write(body)</span><br><span class="line">    def log_message(self, <span class="built_in">fmt</span>, *args):</span><br><span class="line">        sys.stderr.write(<span class="string">&quot;upstream: &quot;</span> + (<span class="built_in">fmt</span> % args) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">class Proxy(BaseHTTPRequestHandler):</span><br><span class="line">    protocol_version = <span class="string">&quot;HTTP/1.1&quot;</span></span><br><span class="line">    def do_GET(self):</span><br><span class="line">        upstream = HTTPConnection(<span class="string">&quot;127.0.0.1&quot;</span>, 18082, <span class="built_in">timeout</span>=3)</span><br><span class="line">        upstream.request(<span class="string">&quot;GET&quot;</span>, self.path, headers=&#123;<span class="string">&quot;X-From-Proxy&quot;</span>: <span class="string">&quot;1&quot;</span>&#125;)</span><br><span class="line">        response = upstream.getresponse()</span><br><span class="line">        body = response.read()</span><br><span class="line">        self.send_response(response.status, response.reason)</span><br><span class="line">        <span class="keyword">for</span> name, value <span class="keyword">in</span> response.getheaders():</span><br><span class="line">            <span class="keyword">if</span> name.lower() not <span class="keyword">in</span> &#123;<span class="string">&quot;connection&quot;</span>, <span class="string">&quot;transfer-encoding&quot;</span>, <span class="string">&quot;content-length&quot;</span>, <span class="string">&quot;server&quot;</span>, <span class="string">&quot;date&quot;</span>&#125;:</span><br><span class="line">                self.send_header(name, value)</span><br><span class="line">        self.send_header(<span class="string">&quot;X-Proxy-Leg&quot;</span>, <span class="string">&quot;tls-to-plain&quot;</span>)</span><br><span class="line">        self.send_header(<span class="string">&quot;Content-Length&quot;</span>, str(len(body)))</span><br><span class="line">        self.end_headers()</span><br><span class="line">        self.wfile.write(body)</span><br><span class="line">        upstream.close()</span><br><span class="line">    def log_message(self, <span class="built_in">fmt</span>, *args):</span><br><span class="line">        sys.stderr.write(<span class="string">&quot;proxy: &quot;</span> + (<span class="built_in">fmt</span> % args) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">upstream_server = ThreadingHTTPServer((&quot;<span class="number">127.0</span>.<span class="number">0.1</span>&quot;, <span class="number">18082</span>), Upstream)</span><br><span class="line">proxy_server = ThreadingHTTPServer((&quot;<span class="number">127.0</span>.<span class="number">0.1</span>&quot;, <span class="number">18445</span>), Proxy)</span><br><span class="line">context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)</span><br><span class="line">context.load_cert_chain(os.environ[&quot;PROXY_CERT&quot;], os.environ[&quot;PROXY_KEY&quot;])</span><br><span class="line">proxy_server.socket = context.wrap_socket(proxy_server.socket, server_side=True)</span><br><span class="line">threading.Thread(target=upstream_server.serve_forever, daemon=True).start()</span><br><span class="line">proxy_server.serve_forever()</span><br><span class="line">PY</span><br><span class="line">PROXY_CERT=&quot;<span class="variable">$PROXY_DIR</span>/cert.pem&quot; PROXY_KEY=&quot;<span class="variable">$PROXY_DIR</span>/key.pem&quot; python3 &quot;<span class="variable">$PROXY_DIR</span>/proxy.py&quot; &gt;&quot;<span class="variable">$PROXY_DIR</span>/proxy.log&quot; <span class="number">2</span>&gt;&amp;<span class="number">1</span> &amp;</span><br><span class="line">PROXY_PID=$!</span><br><span class="line">for attempt in <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>; do</span><br><span class="line">  status=&quot;$(curl --cacert &quot;<span class="variable">$PROXY_DIR</span>/cert.pem&quot; -sS -o /dev/null -w &#x27;%&#123;http_code&#125;&#x27; https://localhost:<span class="number">18445</span>/fixed-<span class="number">502</span> || true)&quot;</span><br><span class="line">  if [ &quot;<span class="variable">$status</span>&quot; = <span class="number">502</span> ]; then break; fi</span><br><span class="line">  sleep <span class="number">0.2</span></span><br><span class="line">done</span><br><span class="line">if [ &quot;<span class="variable">$status</span>&quot; != <span class="number">502</span> ]; then</span><br><span class="line">  echo &quot;TLS proxy fixture did not become ready; inspect <span class="variable">$PROXY_DIR</span>/proxy.log&quot; &gt;&amp;<span class="number">2</span></span><br><span class="line">  exit <span class="number">1</span></span><br><span class="line">fi</span><br><span class="line">curl --cacert &quot;<span class="variable">$PROXY_DIR</span>/cert.pem&quot; -sS -D - https://localhost:<span class="number">18445</span>/fixed-<span class="number">502</span> -o /dev/null</span><br><span class="line">curl -sS -D - http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">18082</span>/fixed-<span class="number">502</span> -o /dev/null</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>第一条请求同时经过 TLS 客户端→代理和明文代理→上游，响应中的 <code>X-Proxy-Leg: tls-to-plain</code> 与代理日志是拓扑证据；第二条只直接访问上游，用来对照。若启动失败或两条日志无法关联，应记录 NOT VERIFIED，不能用两个独立的公共请求代替同一条代理链路。</p>
+</div>
+<h2 id="证据链、脱敏与清理"><a href="#证据链、脱敏与清理" class="headerlink" title="证据链、脱敏与清理"></a>证据链、脱敏与清理</h2><h3 id="成功和失败的对照表"><a href="#成功和失败的对照表" class="headerlink" title="成功和失败的对照表"></a>成功和失败的对照表</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>证据链定位</th>
+<th>最小下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.invalid</code> 名称解析失败</td>
+<td>DNS 前置阶段</td>
+<td><code>dig</code>、解析器日志、DNS 抓包</td>
+</tr>
+<tr>
+<td>loopback connection refused</td>
+<td>TCP 入口没有监听</td>
+<td><code>lsof</code>、<code>ss -lnt</code>、本机 TCP 错误</td>
+</tr>
+<tr>
+<td>自签名证书失败</td>
+<td>TCP 成功，TLS 校验失败</td>
+<td><code>openssl s_client</code>、SAN、信任库和 SNI</td>
+</tr>
+<tr>
+<td>502/504 有响应头</td>
+<td>HTTP 已到达网关/夹具</td>
+<td>网关到上游的 DNS/TCP/TLS/超时日志</td>
+</tr>
+<tr>
+<td>瀑布等待很久后成功</td>
+<td>DNS、连接、TLS 或 TTFB 阶段慢</td>
+<td>对照 curl Timing、抓包时间戳和服务日志</td>
+</tr>
+<tr>
+<td>curl 成功而 Fetch 失败</td>
+<td>浏览器策略或请求上下文差异</td>
+<td>Origin、预检、Cookie、缓存和协议版本</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="抓包安全和清理"><a href="#抓包安全和清理" class="headerlink" title="抓包安全和清理"></a>抓包安全和清理</h3><div class="note info flat"><p>抓包前：</p>
+</div>
+<ul>
+<li>只在自己拥有或明确获准的接口、主机和时间窗口内采集；</li>
+<li>用 <code>-c</code> 限制包数、用主机/端口过滤，必要时限制 snaplen；</li>
+<li>记录测试目标、开始时间、接口和过滤器，不记录凭据；</li>
+<li>对 Cookie、Authorization、查询参数、用户数据和内网地址建立脱敏清单。</li>
+</ul>
+<div class="note info flat"><p>抓包后：</p>
+</div>
+<ul>
+<li>只保留回答问题所需的最小字段或截图；</li>
+<li>对 pcap、HAR、临时证书、私钥、服务日志使用精确文件路径清理；</li>
+<li>只停止自己保存的 PID，先确认进程命令行和启动时间；</li>
+<li>不修改系统信任库、全局 DNS、路由或防火墙作为“实验清理”；</li>
+<li>在报告中说明哪些层已验证、哪些层只是推测。</li>
+</ul>
+<h2 id="排障复习"><a href="#排障复习" class="headerlink" title="排障复习"></a>排障复习</h2><div class="note info flat"><p>先写出“现象 → 证据层 → 下一条验证”的链条，再查看答案。排障卡片的目标不是记住某个错误字符串，而是避免跨层归因。</p>
+</div>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-001" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=DevTools">#DevTools</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%80%91%E5%B8%83">#瀑布</a></div>
+      <div class="hfc-question"><p>DevTools Network 的 Timing/Waterfall 应如何定位慢点？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=DevTools">#DevTools</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%80%91%E5%B8%83">#瀑布</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>DevTools Network 的 Timing/Waterfall 应如何定位慢点？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>先按 DNS、连接、TLS、发送、等待首字节、下载等阶段找最长耗时，再用 curl、抓包和服务端日志验证。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>瀑布是浏览器视角，不自动证明服务端或网络根因。要结合 Headers、Initiator、协议版本、缓存和上游日志，明确证据边界。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-002" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=curl">#curl</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A4%8D%E7%8E%B0">#复现</a></div>
+      <div class="hfc-question"><p>curl -v、-D -、-L 分别提供什么证据？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=curl">#curl</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A4%8D%E7%8E%B0">#复现</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>curl -v、-D -、-L 分别提供什么证据？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>-v 输出客户端连接/TLS/请求响应方向，-D - 输出响应头，-L 跟随重定向并产生后续请求链。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>curl 默认不是浏览器，通常不执行同源策略。使用 -L 后必须记录每一跳方法、状态、Location 和凭据处理，避免只看最终响应。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-003" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=tcpdump">#tcpdump</a><a class="hfc-topic" href="/learn-topic/?tag=Wireshark">#Wireshark</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%87%E6%BB%A4%E5%99%A8">#过滤器</a></div>
+      <div class="hfc-question"><p>tcpdump 捕获过滤器和 Wireshark 显示过滤器有什么区别？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=tcpdump">#tcpdump</a><a class="hfc-topic" href="/learn-topic/?tag=Wireshark">#Wireshark</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%87%E6%BB%A4%E5%99%A8">#过滤器</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>tcpdump 捕获过滤器和 Wireshark 显示过滤器有什么区别？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>tcpdump 在采集时用 BPF 减少写入的数据，Wireshark 在已捕获数据上按协议字段筛选；两者语法和证据阶段不同。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>例如 tcpdump 使用 host/tcp port，Wireshark 使用 ip.addr/tcp.port/tcp.stream。先用宽过滤器确认包存在，再逐步收窄。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-004" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=DNS">#DNS</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=TLS">#TLS</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a></div>
+      <div class="hfc-question"><p>如何区分 DNS 失败、TCP 拒绝、TLS 证书失败和 HTTP 502？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=DNS">#DNS</a><a class="hfc-topic" href="/learn-topic/?tag=TCP">#TCP</a><a class="hfc-topic" href="/learn-topic/?tag=TLS">#TLS</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>如何区分 DNS 失败、TCP 拒绝、TLS 证书失败和 HTTP 502？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>DNS 失败没有目标 IP，TCP 拒绝没有建立连接，TLS 失败通常 TCP 已建立但证书/握手未通过，502 则说明某个 HTTP 网关已经返回响应。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>错误字符串可能随客户端变化，必须结合 DNS 查询、SYN/RST、TLS 握手和响应头判断，不要把所有现象称为“网络不通”。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-005" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q05</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AE%89%E5%85%A8">#安全</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%AF%81%E6%8D%AE%E9%93%BE">#证据链</a></div>
+      <div class="hfc-question"><p>抓包和 HAR 分享前后最重要的安全边界是什么？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q05</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AE%89%E5%85%A8">#安全</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%AF%81%E6%8D%AE%E9%93%BE">#证据链</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>抓包和 HAR 分享前后最重要的安全边界是什么？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>只采集获准范围，限制接口/主机/包数，脱敏 Cookie、Authorization、查询参数和内部地址，完成后精确清理文件和自己启动的进程。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>抓包成功不等于可以公开。报告应保留最小证据、记录过滤器和验证层级，不修改全局信任库、DNS 或权限来制造通过结果。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2>
+
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-FAQ-001" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q06</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=curl">#curl</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8F%E8%A7%88%E5%99%A8">#浏览器</a><a class="hfc-topic" href="/learn-topic/?tag=CORS">#CORS</a></div>
+      <div class="hfc-question"><p>为什么 curl 成功而浏览器失败？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q06</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=curl">#curl</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8F%E8%A7%88%E5%99%A8">#浏览器</a><a class="hfc-topic" href="/learn-topic/?tag=CORS">#CORS</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么 curl 成功而浏览器失败？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>两者的请求上下文不同。浏览器还会执行同源策略、CORS 预检、Cookie SameSite、缓存、扩展和证书策略。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>应从 DevTools 的 Origin、方法、请求头和 Timing 复刻，而不是只复制 URL。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-FAQ-002" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a><a class="hfc-topic" href="/learn-topic/?tag=502">#502</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%BD%91%E5%85%B3">#网关</a></div>
+      <div class="hfc-question"><p>502 一定是后端服务挂了吗？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a><a class="hfc-topic" href="/learn-topic/?tag=502">#502</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%BD%91%E5%85%B3">#网关</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>502 一定是后端服务挂了吗？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>不一定。502 是某个网关观察到上游响应无效的 HTTP 结果，问题可能在网关到上游的 DNS、TCP、TLS、分帧或代理配置。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>必须查看网关和上游的对应时间线；客户端收到 502 不能单独定位上游哪一步失败。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-FAQ-003" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=tcpdump">#tcpdump</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%AF%81%E6%8D%AE">#证据</a></div>
+      <div class="hfc-question"><p>tcpdump 没有抓到包，说明客户端没有发送吗？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=tcpdump">#tcpdump</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%AF%81%E6%8D%AE">#证据</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>tcpdump 没有抓到包，说明客户端没有发送吗？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>不能。接口、命名空间、权限、捕获点、过滤器、硬件卸载和流量走向都可能导致观察不到。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>先用 <code>tcpdump -D</code>、宽过滤器和接口状态确认观察位置，再得出发送与否的结论。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-FAQ-004" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9D%83%E9%99%90">#权限</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BF%A1%E4%BB%BB%E5%BA%93">#信任库</a></div>
+      <div class="hfc-question"><p>为什么不建议用 777 或改系统信任库做实验？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9D%83%E9%99%90">#权限</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BF%A1%E4%BB%BB%E5%BA%93">#信任库</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么不建议用 777 或改系统信任库做实验？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>宽权限会扩大实验副作用，系统信任库会让后续真实校验失去基线。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>临时目录、单次 <code>--cacert</code>、精确 PID 和最小权限足以完成验证，不需要修改全局安全边界。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="CN-DIAG-FAQ-005" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=HTTPS">#HTTPS</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=TLS">#TLS</a></div>
+      <div class="hfc-question"><p>抓包能直接看到 HTTPS 的 URL 和 JSON 吗？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">#计算机网络</a><a class="hfc-topic" href="/learn-topic/?tag=HTTPS">#HTTPS</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8A%93%E5%8C%85">#抓包</a><a class="hfc-topic" href="/learn-topic/?tag=TLS">#TLS</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>抓包能直接看到 HTTPS 的 URL 和 JSON 吗？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>通常不能直接看到 TLS 保护的应用内容；可以看到 IP、端口、握手元数据和时序。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>可见范围取决于抓包点、TLS 终止位置和合法的解密材料；不要为了看内容导出生产私钥。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h3 id="浏览器、客户端与抓包工具"><a href="#浏览器、客户端与抓包工具" class="headerlink" title="浏览器、客户端与抓包工具"></a>浏览器、客户端与抓包工具</h3><div class="link-group"><div class="tag link"><a class="link-card" title="Chrome DevTools Network 官方文档" target="_blank" rel="noopener" href="https://developer.chrome.com/docs/devtools/network/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.google.com/chrome/static/images/chrome-logo.svg"/></div><div class="right"><p class="text">Chrome DevTools Network 官方文档</p><p class="url">https://developer.chrome.com/docs/devtools/network/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="curl 官方手册" target="_blank" rel="noopener" href="https://curl.se/docs/manpage.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://curl.se/favicon.ico"/></div><div class="right"><p class="text">curl 官方手册</p><p class="url">https://curl.se/docs/manpage.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Wireshark User's Guide" target="_blank" rel="noopener" href="https://www.wireshark.org/docs/wsug_html_chunked/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.wireshark.org/favicon.ico"/></div><div class="right"><p class="text">Wireshark User's Guide</p><p class="url">https://www.wireshark.org/docs/wsug_html_chunked/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 1034 Domain Names Concepts" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc1034.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 1034 Domain Names Concepts</p><p class="url">https://www.rfc-editor.org/rfc/rfc1034.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 9293 Transmission Control Protocol" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc9293.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 9293 Transmission Control Protocol</p><p class="url">https://www.rfc-editor.org/rfc/rfc9293.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 9110 HTTP Semantics" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc9110.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 9110 HTTP Semantics</p><p class="url">https://www.rfc-editor.org/rfc/rfc9110.html</p></div></a></div></div>
+<h3 id="TLS-与协议规范"><a href="#TLS-与协议规范" class="headerlink" title="TLS 与协议规范"></a>TLS 与协议规范</h3><div class="link-group"><div class="tag link"><a class="link-card" title="RFC 8446 TLS 1.3" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc8446.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 8446 TLS 1.3</p><p class="url">https://www.rfc-editor.org/rfc/rfc8446.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="RFC 5280 PKI Certificate Profile" target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc5280.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.rfc-editor.org/favicon.ico"/></div><div class="right"><p class="text">RFC 5280 PKI Certificate Profile</p><p class="url">https://www.rfc-editor.org/rfc/rfc5280.html</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="10"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fcomputer-network%2F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C(%E4%B8%83)%E6%8A%93%E5%8C%85%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C.md" title="复习本篇 · 10 张卡片" aria-label="复习本篇 · 10 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 10 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/61ba71fc/">https://koco-co.github.io/posts/61ba71fc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a><a class="post-meta__tags" href="/tags/Wireshark/">Wireshark</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络(八)进阶路线</div></div><div class="info-2"><div class="info-item-1">在主线完成后，用 WebSocket、DoH/DoT、IPsec、VXLAN 扩展网络视野，并明确每个主题的层次、取舍和进入条件。</div></div></div></a><a class="pagination-related" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机网络(六)HTTPS 与现代 HTTP</div></div><div class="info-2"><div class="info-item-1">按 HTTP/1.1、HTTP/2、TLS 1.3、QUIC、HTTP/3、证书校验和 HTTPS 边界的严格顺序，理解现代 Web 协议栈。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(九)综合实战</div></div><div class="info-2"><div class="info-item-1">用两条完整访问链路和可控失败场景整合 DNS、TCP、TLS、HTTP、QUIC、HTTP/3 与状态码证据，完成面试式网络分析。</div></div></div></a><a class="pagination-related" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(八)进阶路线</div></div><div class="info-2"><div class="info-item-1">在主线完成后，用 WebSocket、DoH/DoT、IPsec、VXLAN 扩展网络视野，并明确每个主题的层次、取舍和进入条件。</div></div></div></a><a class="pagination-related" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(六)HTTPS 与现代 HTTP</div></div><div class="info-2"><div class="info-item-1">按 HTTP/1.1、HTTP/2、TLS 1.3、QUIC、HTTP/3、证书校验和 HTTPS 边界的严格顺序，理解现代 Web 协议栈。</div></div></div></a><a class="pagination-related" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(四)UDP 与 TCP</div></div><div class="info-2"><div class="info-item-1">从传输层端点和首部字段出发，逐包理解 UDP、TCP 三次握手、序列确认、重传、拥塞控制、连接关闭、TIME_WAIT 与抓包证据。</div></div></div></a><a class="pagination-related" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(五)HTTP 协议</div></div><div class="info-2"><div class="info-item-1">从资源、表示、消息和字段出发，系统掌握 HTTP 方法、状态码、缓存、Cookie、CORS、代理与面试分析证据。</div></div></div></a><a class="pagination-related" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立计算机网络的学习坐标、依赖顺序、资料边界和复习方式，为后续分层、寻址、传输、HTTP 与排障文章提供统一入口。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">93</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%81%E6%8D%AE%E5%88%86%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">证据分层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E6%9D%A1%E8%AF%B7%E6%B1%82%E7%9A%84%E8%AF%81%E6%8D%AE%E9%93%BE"><span class="toc-number">1.1.</span> <span class="toc-text">一条请求的证据链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-%E7%8A%B6%E6%80%81%E4%B8%8E%E7%BD%91%E7%BB%9C%E9%94%99%E8%AF%AF"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP 状态与网络错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DevTools-%E4%B8%8E-curl"><span class="toc-number">2.</span> <span class="toc-text">DevTools 与 curl</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DevTools-%E8%AF%B7%E6%B1%82%E7%80%91%E5%B8%83"><span class="toc-number">2.1.</span> <span class="toc-text">DevTools 请求瀑布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HAR-%E9%AA%8C%E8%AF%81"><span class="toc-number">2.2.</span> <span class="toc-text">HAR 验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl-%E7%9A%84%E6%9C%80%E5%B0%8F%E8%AF%81%E6%8D%AE%E9%9B%86"><span class="toc-number">2.3.</span> <span class="toc-text">curl 的最小证据集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%93%E5%8C%85%E4%B8%8E%E8%BF%87%E6%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">抓包与过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E7%B1%BB%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">3.1.</span> <span class="toc-text">两类过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E7%9A%84%E6%9C%80%E5%B0%8F%E6%8A%93%E5%8C%85"><span class="toc-number">3.2.</span> <span class="toc-text">安全的最小抓包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">4.</span> <span class="toc-text">安全场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS-%E5%A4%B1%E8%B4%A5"><span class="toc-number">4.1.</span> <span class="toc-text">DNS 失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%9C%AA%E7%9B%91%E5%90%AC"><span class="toc-number">4.2.</span> <span class="toc-text">端口未监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%AD%BE%E5%90%8D-HTTPS"><span class="toc-number">4.3.</span> <span class="toc-text">自签名 HTTPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-%E9%94%99%E8%AF%AF%E5%A4%B9%E5%85%B7"><span class="toc-number">4.4.</span> <span class="toc-text">HTTP 错误夹具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-2-%E5%A4%B9%E5%85%B7"><span class="toc-number">4.5.</span> <span class="toc-text">HTTP&#x2F;2 夹具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLS-%E7%BB%88%E6%AD%A2"><span class="toc-number">4.6.</span> <span class="toc-text">TLS 终止</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%81%E6%8D%AE%E9%93%BE%E3%80%81%E8%84%B1%E6%95%8F%E4%B8%8E%E6%B8%85%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">证据链、脱敏与清理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%90%E5%8A%9F%E5%92%8C%E5%A4%B1%E8%B4%A5%E7%9A%84%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="toc-number">5.1.</span> <span class="toc-text">成功和失败的对照表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%93%E5%8C%85%E5%AE%89%E5%85%A8%E5%92%8C%E6%B8%85%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">抓包安全和清理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E9%9A%9C%E5%A4%8D%E4%B9%A0"><span class="toc-number">6.</span> <span class="toc-text">排障复习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E3%80%81%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7"><span class="toc-number">8.1.</span> <span class="toc-text">浏览器、客户端与抓包工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLS-%E4%B8%8E%E5%8D%8F%E8%AE%AE%E8%A7%84%E8%8C%83"><span class="toc-number">8.2.</span> <span class="toc-text">TLS 与协议规范</span></a></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(九)综合实战"></a><div class="content"><a class="title" href="/posts/e25e16df/" title="计算机网络(九)综合实战">计算机网络(九)综合实战</a><time datetime="2026-08-25T00:30:00.000Z" title="发表于 2026-08-25 08:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(八)进阶路线"></a><div class="content"><a class="title" href="/posts/e470b049/" title="计算机网络(八)进阶路线">计算机网络(八)进阶路线</a><time datetime="2026-08-25T00:00:00.000Z" title="发表于 2026-08-25 08:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(七)抓包与网络排障"></a><div class="content"><a class="title" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障">计算机网络(七)抓包与网络排障</a><time datetime="2026-08-24T23:30:00.000Z" title="发表于 2026-08-25 07:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(六)HTTPS 与现代 HTTP"></a><div class="content"><a class="title" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP">计算机网络(六)HTTPS 与现代 HTTP</a><time datetime="2026-08-24T23:00:00.000Z" title="发表于 2026-08-25 07:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(五)HTTP 协议"></a><div class="content"><a class="title" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议">计算机网络(五)HTTP 协议</a><time datetime="2026-08-24T22:30:00.000Z" title="发表于 2026-08-25 06:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(四)UDP 与 TCP"></a><div class="content"><a class="title" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP">计算机网络(四)UDP 与 TCP</a><time datetime="2026-08-24T22:00:00.000Z" title="发表于 2026-08-25 06:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(三)IP 与网络寻址"></a><div class="content"><a class="title" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址">计算机网络(三)IP 与网络寻址</a><time datetime="2026-08-24T21:30:00.000Z" title="发表于 2026-08-25 05:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(二)网络分层与局域网"></a><div class="content"><a class="title" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网">计算机网络(二)网络分层与局域网</a><time datetime="2026-08-24T21:00:00.000Z" title="发表于 2026-08-25 05:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(一)入门路线"></a><div class="content"><a class="title" href="/posts/347ce4f2/" title="计算机网络(一)入门路线">计算机网络(一)入门路线</a><time datetime="2026-08-24T19:38:27.000Z" title="发表于 2026-08-25 03:38:27">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1480bf96/" title="Python(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(一)入门路线"/></a><div class="content"><a class="title" href="/posts/1480bf96/" title="Python(一)入门路线">Python(一)入门路线</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(九)综合实战"/></a><div class="content"><a class="title" href="/posts/e25e16df/" title="计算机网络(九)综合实战">计算机网络(九)综合实战</a><time datetime="2026-08-25T00:30:00.000Z" title="发表于 2026-08-25 08:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(八)进阶路线"/></a><div class="content"><a class="title" href="/posts/e470b049/" title="计算机网络(八)进阶路线">计算机网络(八)进阶路线</a><time datetime="2026-08-25T00:00:00.000Z" title="发表于 2026-08-25 08:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(七)抓包与网络排障"/></a><div class="content"><a class="title" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障">计算机网络(七)抓包与网络排障</a><time datetime="2026-08-24T23:30:00.000Z" title="发表于 2026-08-25 07:30:00">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

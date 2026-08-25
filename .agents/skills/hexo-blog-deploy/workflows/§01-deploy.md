@@ -16,15 +16,15 @@
 按顺序执行：
 
 ```bash
-node tools/hexo-blog/audit.mjs project --json
-node tools/hexo-blog/audit.mjs content --release --json
-node tools/hexo-blog/audit.mjs release --route local --json
+node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json
+node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json
+node .agents/skills/hexo-learn-topic/scripts/audit.mjs release --route local --json
 ```
 
 CI 路由将最后一条命令的 `local` 改为 `ci`。
 
 1. 保留审计退出码；退出码非零表示发布阻塞，不得用文字判断覆盖。
-2. 核对报告中的 Node、Hexo、目标、注入资源、敏感字段位置和 Git 状态摘要。
+2. lint 必须为 `status: pass`；任一具体文件错误都先交回维护流程修复并重跑。再核对报告中的 Node、Hexo、目标、注入资源、敏感字段位置和 Git 状态摘要。
 3. 不读取或展示敏感字段值，也不列出 `.deploy_git` 中可能带私人信息的具体未跟踪文件名。
 4. 任何阻塞项存在时直接进入 Phase 6，输出“未执行部署”。
 
@@ -33,7 +33,7 @@ CI 路由将最后一条命令的 `local` 改为 `ci`。
 ## Phase 3：构建与预览
 
 1. 运行 `npm run build`，不先执行 `npm run clean`。
-2. 构建后重新运行内容发布审计，确认插件写回的 `abbrlink` 完整且唯一。
+2. 构建后重新运行全仓库 lint，确认插件写回的 `abbrlink` 完整且唯一，目录、标签和图片仍全部通过。
 3. 如果本次候选发布包含内容、布局、样式或前端功能变化，启动 `npm run server` 并用浏览器验证受影响的真实路由。
 4. 至少检查目标页面、首页入口和移动视口；涉及 PJAX 时检查站内跳转；涉及第三方服务时检查失败降级。
 5. 完成后停止本次启动的服务。

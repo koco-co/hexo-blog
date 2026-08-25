@@ -139,3 +139,8 @@ flashcard:
   path: learn-topic
   asset_path: flashcard-assets
   title: 复习
+  sync:
+    enabled: true
+    # Public browser configuration used by both local builds and the deployed static site.
+    supabase_url: "https://hkqqjttiqhwfdintqxpx.supabase.co"
+    supabase_publishable_key: "sb_publishable_BYiAsjvfObJ1Kj26-YkVeQ_x4ruAFc4"

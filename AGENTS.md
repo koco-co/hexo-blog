@@ -22,7 +22,9 @@
 - `source/img/`：本地图片资源；从旧图床迁移及后续新增的正文图片统一放在 `source/img/picgo-images/`，使用 `/img/picgo-images/<name>` 引用。
 - `source/css/`、`source/js/`：主题覆盖样式和自定义前端功能。
 - `_config.yml`：Hexo 主配置；`_config.butterfly.yml`：Butterfly 覆盖配置和资源注入。
-- `tools/hexo-blog/`：项目审计工具及测试。
+- `.agents/skills/hexo-learn-topic/scripts/`：全仓库 Hexo lint、审计测试和课程契约迁移脚本的唯一位置。
+- `.agents/skills/hexo-learn-topic/data/`：按课程路径段命名的学习大纲、文章映射与能力账本 JSON 契约。
+- `tools/hexo-blog/image-migration-map.json`：旧图床迁移数据清单；`tools/hexo-blog/` 不再存放脚本。
 - `scripts/`：Hexo 自动加载的扩展目录，不用于存放普通维护脚本。
 - `themes/butterfly/`：独立且可能包含用户定制的主题工作树，默认只读。
 - `public/`、`db.json`、`logs/`：生成物或运行产物，不手工编辑。
@@ -30,17 +32,19 @@
 
 ## 开始工作前
 
-1. 运行 `node tools/hexo-blog/audit.mjs project --json`，确认运行时、依赖、配置、敏感字段位置和三个 Git 边界。
-2. 图片新增、迁移或引用调整还要运行 `node tools/hexo-blog/audit.mjs assets --json`，核对本地文件、迁移清单和旧图床真实渲染引用。
+1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json`，确认运行时、依赖、配置、敏感字段位置和三个 Git 边界。
+2. 图片新增、迁移或引用调整还要运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`，核对本地文件、迁移清单和旧图床真实渲染引用。
 3. 根据任务读取当前配置、源码、文章和对应项目 Skill；不得以旧文章、旧说明或历史审计替代实时实现。
 4. 只处理用户授权的目标。主题修改、依赖安装、外部上传、清理和部署分别需要明确授权。
 5. `_config*.yml`、文章和 JavaScript 可能包含凭据。只报告敏感字段的文件、行号和键名，不输出值、片段、长度或哈希。
+6. 交付用户验收前必须运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`；只接受 `status: pass`。出现任一具体文件错误时先修复并重跑，不把未通过的文章交给用户验收。
 
 ## 内容与标签外挂
 
 - `source/_posts/` 的文章必须包含非空的 `title`、`tags`、`categories`、`description` 和有效 `date`；`tags` 与 `categories` 使用非空字符串数组。
 - 系统课程文章的 `description` 使用单行普通 YAML 字符串，不使用 `>`、`>-`、`|` 或 `|-` 等块标量；较长的背景和范围说明仍写在同一行，不塞进标题。
 - 系统课程统一放在 `source/_posts/learn-topic/<主题路径段>/`。系列文件名保持简短，统一使用 `主题(序号)主题.md`，Front Matter 标题使用 `主题(序号)主题`；第一篇固定为 `主题(一)入门路线`。第一轮学习大纲的 `N` 个学习主题必须各自对应一篇同名主题文章；系列总数只能为 `N+1～3`，额外篇只能是必选入门路线、最多一篇 `主题(序号)进阶路线`，以及最多一篇 `主题(序号)综合实战`、`主题(序号)项目实战` 或 `主题(序号)知识总结`。
+- 每门系统课程必须在 `.agents/skills/hexo-learn-topic/data/<主题路径段>.json` 持久化 schema v2 课程契约，包含第一轮学习主题、可选篇、完整文章清单和能力账本；文章 Front Matter 禁止 `learn_topic_capability_ledger`。
 - 课程编号、文章依赖、篇内 H2/H3、示例步骤与练习必须遵循知识依赖顺序；先解释前置概念，再进入基础操作、组合应用、失败边界和结果验证，不按 API 名称或写作便利随意排列。
 - 系统课程使用非重复的正整数 `series_order` 表示稳定篇序，且必须与文件名中的中文序号一致；正文课程导航使用 `{% course_series %}`，不得依赖标题或发布日期推断顺序。
 - 一篇课程文章覆盖一个足够宽的学习维度，不把单个 API 或功能点拆成独立短文；文件名和标题简短，详细学习成果写入 `description`。
@@ -49,10 +53,13 @@
 - 编辑已有文章时保留与任务无关的 Front Matter，包括 `cover`、`updated`、`sticky`、`password` 等可选字段，且不得展示密码值。
 - 新建文章以维护 Skill 的 `templates/post.template.md` 为完整结构；使用 Hexo scaffold 创建后仍须补全缺失字段。
 - 课程文章公开正文不使用“来源”“来源与核验范围”或“核验于 YYYY-MM-DD”等内部工作文案；倒数第二个 H2 固定为 `常见问题`，最后一个 H2 固定为 `参考资料`。
+- 课程 Mermaid 图必须使用 Butterfly 的 `{% mermaid %}` 与 `{% endmermaid %}`，不得使用 Markdown `mermaid` 代码围栏；公开课程的 `常见问题` 必须包含 `flashcard` 或 `flashcard_ref`。
 - 课程文章的 H2/H3 使用“快速开始”“作用范围”“核心功能”等简洁书面表达，不使用聊天式、口号式或带评价色彩的长标题。
 - 需要长期复习的疑难问答、关联面试题和自测优先使用 `hexo-flashcard-plugin` 的 `flashcard`；跨文章复用同一道题使用 `flashcard_ref`，不得复制卡片正文。`basic`、`cloze`、`choice` 卡片都必须具有全站唯一稳定 ID、单一卡组、`priority:1|2|3`、精简回答和详细解析；三档依次表示高频、中频和低频，`priority` 不得省略或写成插件不支持的值。
-- 使用 Butterfly 或 Tag Plugins Plus 标签前运行 `node tools/hexo-blog/audit.mjs tags --json`，并核对维护 Skill 的标签参考及当前主题或插件源码。
+- 使用 Butterfly 或 Tag Plugins Plus 标签前运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`，并核对维护 Skill 的标签参考及当前主题或插件源码。
 - 不根据历史文章猜测标签参数。容器标签必须按栈顺序闭合，复杂嵌套必须真实构建目标文章。
+- 全站 Markdown 中的 Hexo 标签必须能从当前项目脚本、主题或已安装插件源码找到真实注册；未注册标签、未闭合容器和已禁用能力均阻断 lint。
+- 仓库维护源文件中不保留 `.DS_Store`、`*.bak`、`*.tmp`、`*.swp` 或编辑器备份；`source/_posts/` 只放 Markdown 文章与明确的课程目录。`node_modules/`、`public/`、`db.json`、本地工具状态，以及独立的 `themes/butterfly/`、`.deploy_git/` 不作为主仓库源码逐文件 lint，只检查依赖、生成边界和独立 Git 状态。
 
 ## 配置、CSS 与 JavaScript
 
@@ -67,12 +74,18 @@
 
 ## 真实命令
 
-- 项目状态：`node tools/hexo-blog/audit.mjs project --json`
-- 图片检查：`node tools/hexo-blog/audit.mjs assets --json`
-- 内容检查：`node tools/hexo-blog/audit.mjs content --json`
-- 发布级内容检查：`node tools/hexo-blog/audit.mjs content --release --json`
-- 标签检查：`node tools/hexo-blog/audit.mjs tags --json`
-- 审计工具测试：`node --test tools/hexo-blog/audit.test.mjs`
+- 项目状态：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json`
+- 图片检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`
+- 内容检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --json`
+- 发布级内容检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --release --json`
+- 标签检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`
+- 目录检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs structure --json`
+- 配置与依赖检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs config --json`
+- JavaScript、CSS 与 Shell 语法检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs code --json`
+- Skill、项目指令与软链接检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs skills --json`
+- 仓库文档本地链接检查：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs docs --json`
+- 全仓库 Hexo lint：`node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`
+- 审计工具测试：`node --test .agents/skills/hexo-learn-topic/scripts/audit.test.mjs`
 - 生成站点：`npm run build`
 - 本地预览：`npm run server`
 - 新文章：`./node_modules/.bin/hexo new "标题"`
@@ -82,9 +95,10 @@
 
 ## 验证要求
 
-- 内容变更运行 `content` 审计；标签外挂变更同时运行 `tags` 审计。
-- 图片变更运行 `assets` 审计；迁移清单内图片必须通过大小和 SHA-256 校验，真实渲染引用必须本地可解析。
-- 修改 `tools/hexo-blog/audit.mjs` 或其契约时运行完整 Node 测试。
+- 内容变更可在迭代中运行 `content` 审计；标签外挂变更同时运行 `tags` 审计。最终交付统一运行全仓库 `lint`。
+- 图片变更运行 `assets` 审计；迁移清单内图片必须通过大小和 SHA-256 校验，图片扩展名必须与文件签名一致，配置、CSS、JavaScript 和 Markdown 中的真实渲染引用必须本地可解析且不得继续使用旧图床。
+- 修改 `.agents/skills/hexo-learn-topic/scripts/audit.mjs` 或其契约时运行完整 Node 测试。
+- lint 输出任一 warning、error、blocker 或非 `pass` 状态时必须按具体路径修复并重跑；只有项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、标签和图片九类检查全部为 `pass` 才能交给用户验收。
 - 站点源文件变更按影响运行 `npm run build`；构建可能写入 `public/`、`db.json` 和文章 `abbrlink`，构建后重新检查相关源文件。
 - 视觉或交互变更必须在真实浏览器中检查目标路由、适用视口、交互状态和控制台错误。
 - 静态检查、测试、构建、浏览器页面和线上结果是不同证据层；未执行的层级标记为“未验证”。

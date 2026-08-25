@@ -11,7 +11,6 @@ series: "{{主题系列名}}"
 series_order: 1
 published: true
 date: {{YYYY-MM-DD HH:mm:ss}}
-learn_topic_capability_ledger: '{{带 schema_version 的单行压缩 JSON；必须无损保存入口 manifest，以及当前全集每项的稳定标识、对象或主题、来源、版本状态、强制镜像、备注，处置账本每项的处置、主文章、目标章节、理由、验证状态，旧接口迁移映射和集合摘要；允许字典别名压缩，但字段级往返必须相等；不得含未转义单引号}}'
 ---
 
 {% course_series %}
@@ -26,7 +25,9 @@ learn_topic_capability_ledger: '{{带 schema_version 的单行压缩 JSON；必�
 
 ## 学习阶段
 
-{{用 Mermaid、时间线或表格呈现阶段、依赖和完成判断。Mermaid 流程图仅在短且简单的线性关系中使用 LR；节点多、分支多、标签长或横向拥挤时使用 TD/TB。}}
+{% mermaid %}
+{{用 Mermaid 呈现阶段、依赖和完成判断。仅在不超过 4 个短主链节点时使用 LR；节点多、分支多或标签长时使用 TD/TB。}}
+{% endmermaid %}
 
 ## 文章地图
 
@@ -40,7 +41,14 @@ learn_topic_capability_ledger: '{{带 schema_version 的单行压缩 JSON；必�
 
 ## 常见问题
 
-{{路线选择、阅读顺序和课程边界的常见问题。}}
+{% flashcard basic id:{{稳定唯一ID}} deck:"{{单一卡组}}" priority:{{1|2|3}} tags:"{{标签}}" %}
+--- question
+{{路线选择、阅读顺序或课程边界问题。}}
+--- answer
+{{精简回答。}}
+--- explanation
+{{详细解析。}}
+{% endflashcard %}
 
 ## 参考资料
 

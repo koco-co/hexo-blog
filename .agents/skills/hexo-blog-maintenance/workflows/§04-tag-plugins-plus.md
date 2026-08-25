@@ -7,7 +7,7 @@
 1. 运行：
 
 ```bash
-node tools/hexo-blog/audit.mjs tags --json
+node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json
 ```
 
 2. 核对已安装版本、配置来源、`enable`、`issues`、Markdown 渲染器、实际注册标签和容器标签。
@@ -78,8 +78,8 @@ AI 新建文章或整体视觉重构先使用 `workflows/§05-visual-rich-author
 
 ## Phase 4：机械检查与真实构建
 
-1. 修改前后均运行 `node tools/hexo-blog/audit.mjs tags --json`。
-2. 涉及文章时同时运行 `node tools/hexo-blog/audit.mjs content --json`。
+1. 修改前后均运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`。
+2. 涉及文章时同时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --json`。
 3. 执行真实 Hexo 生成；只读任务在隔离临时目录生成，不以字符串扫描代替解析器结果。
 4. 构建失败时定位到具体标签、参数或容器，不删除标签正文来掩盖错误。
 5. 查看生成 HTML 是否包含目标结构；此步骤只证明渲染结果存在，不证明视觉与交互正确。

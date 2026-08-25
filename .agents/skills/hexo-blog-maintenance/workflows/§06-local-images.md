@@ -6,7 +6,7 @@
 
 1. 扫描 `source/**/*.md` 的 Front Matter、Markdown/HTML 图片和标签外挂图片参数。
 2. 区分真实渲染内容与围栏代码、普通教程文本；只迁移博客实际使用的图片，不按旧图床仓库全量复制。
-3. 运行 `node tools/hexo-blog/audit.mjs assets --json`，记录真实旧图床引用、教程示例和本地图片引用数量。
+3. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`，记录真实旧图床引用、教程示例和本地图片引用数量。
 4. 外部第三方头像、徽章、厂商文档图片或 API 资源不因本地迁移自动纳入范围。
 
 完成信号：每个目标资源都能追溯到真实渲染引用，非目标和教程示例已明确。
@@ -41,7 +41,7 @@
 
 ## Phase 5：验证
 
-1. 运行 `node tools/hexo-blog/audit.mjs assets --json`，要求迁移文件大小与 SHA-256 全部通过、真实旧图床引用为零、本地图片引用无缺失。
+1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`，要求迁移文件大小与 SHA-256 全部通过、真实旧图床引用为零、本地图片引用无缺失。
 2. 运行 `content`、`tags` 和审计工具测试；按 `workflows/§03-verification.md` 在隔离目录完成真实 Hexo 生成。
 3. 在桌面和移动视口打开所有受影响路由，检查图片完成加载、自然尺寸有效、无 404，并查看控制台和网络错误。
 4. 本地构建与页面检查不能证明 GitHub Actions、远程部署或线上页面成功；未授权时不执行清理或部署。

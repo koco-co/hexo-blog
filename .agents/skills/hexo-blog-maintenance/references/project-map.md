@@ -1,6 +1,6 @@
 # 项目结构与功能地图
 
-执行任务时以实时文件和 `node tools/hexo-blog/audit.mjs project --json` 为准。本地图只说明稳定的所有权和定位方式。
+执行任务时以实时文件和 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json` 为准。本地图只说明稳定的所有权和定位方式。
 
 ## 1. 架构
 
@@ -27,9 +27,10 @@
 | 部署 | `npm run deploy` | 构建并向远程仓库推送；只允许部署 Skill 调用 |
 | 新文章 | `./node_modules/.bin/hexo new "标题"` | 使用现有 scaffold 创建文章，随后必须补全 Skill 模板 |
 | 新页面 | `./node_modules/.bin/hexo new page "页面名"` | 创建页面后按目标页面类型补全 |
-| 图片审计 | `node tools/hexo-blog/audit.mjs assets --json` | 核对迁移哈希、本地引用与旧图床教程示例边界 |
+| 图片审计 | `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json` | 核对迁移哈希、本地引用与旧图床教程示例边界 |
+| 全仓库 lint | `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json` | 聚合项目、目录、配置、代码、Skill、文档、内容、标签和资源门禁；仅 `status: pass` 可交付验收 |
 
-项目当前没有独立 lint 命令。`tools/hexo-blog/audit.mjs` 提供项目级机械检查，`node --test tools/hexo-blog/audit.test.mjs` 验证审计契约。
+`.agents/skills/hexo-learn-topic/scripts/audit.mjs` 是唯一机械检查实现，`lint` 是最终阻断入口；`node --test .agents/skills/hexo-learn-topic/scripts/audit.test.mjs` 验证审计契约。
 
 ## 3. 功能定位
 
@@ -69,7 +70,7 @@
 - `flashcard` 与 `flashcard_ref` 来自独立的 `hexo-flashcard-plugin`，语法和复习身份规则见 `references/hexo-flashcard-plugin.md`。
 - `course_series` 来自 `scripts/course-series.js`，读取文章的 `series` 与 `series_order`，生成当前篇高亮和稳定篇序，不属于 Butterfly 或 Tag Plugins Plus。
 - Butterfly 内置标签的当前注册、参数和使用边界见 `references/butterfly-built-in-tags.md`；`folding`、`link` 和其他 Plus 能力见 `references/butterfly-tag-plugins-plus.md`。
-- 常用格式可参考 `source/_posts/Butterfly文档(三)标签外挂.md`，但真实解析能力以 `themes/butterfly/scripts/tag/`、已安装插件源码和 `node tools/hexo-blog/audit.mjs tags --json` 为准。
+- 常用格式可参考 `source/_posts/Butterfly文档(三)标签外挂.md`，但真实解析能力以 `themes/butterfly/scripts/tag/`、已安装插件源码和 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json` 为准。
 - 使用容器标签时验证开始和结束标签数量相等；使用复杂嵌套时必须真实构建对应文章。
 
 ## 6. 已知基线差异

@@ -33,7 +33,8 @@ metadata:
    - 完成条件：本次是否允许执行外部副作用没有歧义。
 
 3. 执行
-   - 运行 `node tools/hexo-blog/audit.mjs release --route <local|ci> --json`。
+   - 先运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`；非 `pass` 时停止并交回维护流程按具体文件修复。
+   - 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs release --route <local|ci> --json`。
    - 阻塞项存在时停止；准备任务直接生成报告。
    - 仅在实际发布已授权且预检通过时执行选定路由，不扩张为提交、清理、修复主题或修改仓库权限。
    - 完成条件：授权动作完成，或在任何副作用发生前安全停止。
@@ -62,4 +63,4 @@ metadata:
 - 每次调用完整读取 `rules/release-safety.md` 和 `workflows/§01-deploy.md`。
 - 输出发布结论时使用 `templates/deployment-report.template.md`。
 - 完成预检或发布后使用 `checklists/deployment-acceptance.md`。
-- 机械预检入口为 `tools/hexo-blog/audit.mjs`。
+- 机械预检入口为 `.agents/skills/hexo-learn-topic/scripts/audit.mjs`。

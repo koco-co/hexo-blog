@@ -34,7 +34,7 @@
     },
     {
       "sourcePath": "picgo-images/二次元人物05.png",
-      "targetPath": "source/img/picgo-images/二次元人物05.png",
+      "targetPath": "source/img/picgo-images/二次元人物05.jpg",
       "bytes": 1845078,
       "sha256": "a18b32eb6c1c5ed8a26cb0057eda93779121b08e9047bcb60815b71e7fb25b6a",
       "mediaType": "image/jpeg"
@@ -48,7 +48,7 @@
     },
     {
       "sourcePath": "picgo-images/二次元人物07.png",
-      "targetPath": "source/img/picgo-images/二次元人物07.png",
+      "targetPath": "source/img/picgo-images/二次元人物07.jpg",
       "bytes": 4264761,
       "sha256": "610bab8c72adadae7239444e16cd98d3d951fa65c486ee37634b7458742701ae",
       "mediaType": "image/jpeg"
@@ -62,7 +62,7 @@
     },
     {
       "sourcePath": "picgo-images/二次元人物09.png",
-      "targetPath": "source/img/picgo-images/二次元人物09.png",
+      "targetPath": "source/img/picgo-images/二次元人物09.jpg",
       "bytes": 1330052,
       "sha256": "15648f23f0d8b37253a203c8bb134bec9357cc32f99c5d50ebd2f79efca9d576",
       "mediaType": "image/jpeg"
@@ -125,21 +125,21 @@
     },
     {
       "sourcePath": "picgo-images/文章随机封面01.png",
-      "targetPath": "source/img/picgo-images/文章随机封面01.png",
+      "targetPath": "source/img/picgo-images/文章随机封面01.jpg",
       "bytes": 2926656,
       "sha256": "da4d6d1096c952a41880d3deb6a128adf6f6ee31abe13e6735958aba85de49d9",
       "mediaType": "image/jpeg"
     },
     {
       "sourcePath": "picgo-images/文章随机封面02.png",
-      "targetPath": "source/img/picgo-images/文章随机封面02.png",
+      "targetPath": "source/img/picgo-images/文章随机封面02.jpg",
       "bytes": 4005496,
       "sha256": "48fe4245b8c350a1920cb505ab94f6043b96a72f86c77ae3677b655e5b933262",
       "mediaType": "image/jpeg"
     },
     {
       "sourcePath": "picgo-images/文章随机封面03.png",
-      "targetPath": "source/img/picgo-images/文章随机封面03.png",
+      "targetPath": "source/img/picgo-images/文章随机封面03.jpg",
       "bytes": 1922727,
       "sha256": "72fbbec1f6d9cfe07a34c8bbfb7838ac52743b4028f9adba5e1dc32a42fcbc2c",
       "mediaType": "image/jpeg"
@@ -160,7 +160,7 @@
     },
     {
       "sourcePath": "picgo-images/文章随机封面06.png",
-      "targetPath": "source/img/picgo-images/文章随机封面06.png",
+      "targetPath": "source/img/picgo-images/文章随机封面06.jpg",
       "bytes": 6763360,
       "sha256": "a72482a972af720cde2b58ad611479d984328779658f67cd866c7fd05dd6580d",
       "mediaType": "image/jpeg"
@@ -181,42 +181,42 @@
     },
     {
       "sourcePath": "picgo-images/文章随机封面09.png",
-      "targetPath": "source/img/picgo-images/文章随机封面09.png",
+      "targetPath": "source/img/picgo-images/文章随机封面09.jpg",
       "bytes": 1504099,
       "sha256": "db1038a8da732986c507bc361180e261e0a4102ddc9f618e5bc509a2b34b4ae7",
       "mediaType": "image/jpeg"
     },
     {
       "sourcePath": "picgo-images/文章随机封面10.png",
-      "targetPath": "source/img/picgo-images/文章随机封面10.png",
+      "targetPath": "source/img/picgo-images/文章随机封面10.jpg",
       "bytes": 2997323,
       "sha256": "61ff872cc83fe4177a77ba16e5d6de5351b976f2e3fb4f81569bacbd5c3f5660",
       "mediaType": "image/jpeg"
     },
     {
       "sourcePath": "picgo-images/文章随机封面11.png",
-      "targetPath": "source/img/picgo-images/文章随机封面11.png",
+      "targetPath": "source/img/picgo-images/文章随机封面11.jpg",
       "bytes": 1144847,
       "sha256": "6a8f70444162164041fd987f8a336143e260394a727ae4eb1b35d665e0fe20bd",
       "mediaType": "image/jpeg"
     },
     {
       "sourcePath": "picgo-images/文章随机封面12.png",
-      "targetPath": "source/img/picgo-images/文章随机封面12.png",
+      "targetPath": "source/img/picgo-images/文章随机封面12.jpg",
       "bytes": 1618661,
       "sha256": "5afede11c78753a4a417bf54e25db3aacfa01d7de3b59eb4a501c4ce044fe460",
       "mediaType": "image/jpeg"
     },
     {
       "sourcePath": "picgo-images/文章随机封面13.png",
-      "targetPath": "source/img/picgo-images/文章随机封面13.png",
+      "targetPath": "source/img/picgo-images/文章随机封面13.jpg",
       "bytes": 1823113,
       "sha256": "7dc1893526ce84dfec86858287ab3c2c8d646042a22b0b57bb3a02540061e66f",
       "mediaType": "image/jpeg"
     },
     {
       "sourcePath": "picgo-images/文章随机封面14.png",
-      "targetPath": "source/img/picgo-images/文章随机封面14.png",
+      "targetPath": "source/img/picgo-images/文章随机封面14.jpg",
       "bytes": 2210053,
       "sha256": "db91f5664372a613eb7dd9d974b4d3c6e5f09b7a2aecf112e4dd1060413544cd",
       "mediaType": "image/jpeg"

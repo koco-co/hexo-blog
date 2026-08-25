@@ -72,11 +72,11 @@
 
 ## Phase 6：交接验证
 
-1. 运行 `node tools/hexo-blog/audit.mjs content --json`。
-2. 涉及图片时运行 `node tools/hexo-blog/audit.mjs assets --json`。
-3. 使用或修改标签外挂时，运行 `node tools/hexo-blog/audit.mjs tags --json`。
+1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --json`。
+2. 涉及图片时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`。
+3. 使用或修改标签外挂时，运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`。
 4. 完整执行 `workflows/§03-verification.md` 的适用步骤。
-5. 构建后运行 `node tools/hexo-blog/audit.mjs content --release --json`，确认 `abbrlink` 已生成且唯一。
+5. 构建后运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --release --json`，确认 `abbrlink` 已生成且唯一。
 6. 使用 `checklists/maintenance-acceptance.md` 检查内容语义和真实页面。
 7. 视觉丰富分支逐节对照已确认预案；任何实质偏差必须有用户确认过的修订预案。
 

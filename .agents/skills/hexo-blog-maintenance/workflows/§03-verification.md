@@ -4,15 +4,15 @@
 
 ## Phase 1：机械检查
 
-1. 运行 `node tools/hexo-blog/audit.mjs project --json`。
-2. 涉及文章时运行 `node tools/hexo-blog/audit.mjs content --json`；构建后再加 `--release`。
-3. 涉及图片时运行 `node tools/hexo-blog/audit.mjs assets --json`，核验本地文件、迁移哈希、旧图床真实引用和教程示例计数。
-4. 涉及 Butterfly 或 Tag Plugins Plus 标签时运行 `node tools/hexo-blog/audit.mjs tags --json`。
-5. 对每个修改的 JavaScript 运行 `node --check`。
-6. 检查新增或修改文件的引用目标、Butterfly 容器标签、代码围栏和本地资源路径。
-7. 只将本次新增的警告或与目标直接相关的基线警告视为待修复范围；其他既有警告单独报告，不能悄悄修复。
+1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json`。
+2. 涉及文章时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --json`；构建后再加 `--release`。
+3. 涉及图片时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`，核验本地文件、迁移哈希、旧图床真实引用和教程示例计数。
+4. 涉及 Butterfly 或 Tag Plugins Plus 标签时运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`。
+5. 配置或依赖变更运行 `config`；JavaScript、CSS 或 Shell 变更运行 `code`；Skill 或软链接变更运行 `skills`；仓库文档变更运行 `docs`。
+6. 分项检查用于快速定位，不能代替最终聚合门禁。
+7. 完成交付前运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`。输出任一具体文件错误时修复后重跑；只有 `status: pass` 才能交给用户验收。
 
-完成信号：没有与本次改动有关的机械错误，已知基线警告被准确区分。
+完成信号：项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、课程契约、标签和图片资源的聚合 lint 全部通过。
 
 ## Phase 2：Hexo 构建
 
@@ -48,6 +48,6 @@
 1. 完整执行 `checklists/maintenance-acceptance.md` 的适用部分。
 2. 将结果分成：已验证、未验证、阻塞、既有基线问题。
 3. 构建成功只证明生成流程；单个页面成功只证明该页面和已执行场景。
-4. 任何修复后重跑直接受影响的机械、构建和浏览器场景。
+4. 任何修复后重跑直接受影响的机械、构建和浏览器场景，并在最终状态重跑全仓库 lint。
 
 完成信号：用户能够复现验证，并能判断剩余风险是否可接受。

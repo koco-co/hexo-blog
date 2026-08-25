@@ -1,6 +1,6 @@
 # 发布安全规则
 
-发布是外部副作用。本文件规定准备、授权、执行和验证的边界；机械判断以 `tools/hexo-blog/audit.mjs release` 为准。
+发布是外部副作用。本文件规定准备、授权、执行和验证的边界；机械判断以 `.agents/skills/hexo-learn-topic/scripts/audit.mjs release` 为准。
 
 ## 1. 意图与授权
 

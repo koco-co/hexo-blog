@@ -690,7 +690,7 @@ Any content (support inline tags too.io).
 ```
 
 <div class="gallery-group-main">
-{% galleryGroup '自然｜风景' '绝美的自然风景桌面壁纸~' '/wallpaper/nature' /img/picgo-images/文章随机封面03.png %}
+{% galleryGroup '自然｜风景' '绝美的自然风景桌面壁纸~' '/wallpaper/nature' /img/picgo-images/文章随机封面03.jpg %}
 
 ---
 
@@ -731,9 +731,9 @@ markdown 图片格式
 ```
 
 {% gallery %}
-![](/img/picgo-images/文章随机封面01.png)
-![](/img/picgo-images/文章随机封面02.png)
-![](/img/picgo-images/文章随机封面03.png)
+![](/img/picgo-images/文章随机封面01.jpg)
+![](/img/picgo-images/文章随机封面02.jpg)
+![](/img/picgo-images/文章随机封面03.jpg)
 ![](/img/picgo-images/文章随机封面04.png)
 {% endgallery %}
 

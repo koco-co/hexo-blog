@@ -31,15 +31,16 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
    - 完成条件：用户确认学习范围、推荐顺序、学习主题和 `N+1～3` 篇文章安排；确认前保持只读。
 3. 设计并复核文章地图
    - 按第一次确认的学习主题逐项生成同名主题文章，不得在第二轮擅自拆分、合并或改名；确需改变学习主题时退回第一轮重新确认。
-   - 为每篇文章确定真实名称、唯一职责、前置、详细大纲、示例、视觉机会、FAQ、自测和参考资料卡片编排，同时冻结全系列共用的一张封面合同。
+   - 为每篇文章确定真实名称、唯一职责、前置、详细大纲、示例、视觉机会、FAQ、自测和参考资料卡片编排，同时冻结全系列共用的一张封面合同：简短系列名称、准确主题标识、4～5 个课程关键词、固定风格参考和本地文件名。
    - 把能力全集逐项处置为“核心详解、正文简述、进阶路线、弃用迁移、明确不纳入”。前四类指定唯一主文章，明确不纳入项不得指定文章；不允许未处置、重复或虚构标识。
    - 把冻结的路线、文章地图、能力全集与处置账本交给不继承主对话的独立子代理做全量差集审查；修复阻塞项并重新审查。
    - 完成条件：官方集合与账本集合完全相等，两侧差集、重复和未处置均为 0，Reviewer 无阻塞项，用户完成第二次确认。
 4. 创建课程占位
-   - 第二次确认后先生成并验收一张本地系列封面，再在 `source/_posts/learn-topic/<主题路径段>/` 创建动态命名的路线图和全部文章占位。
+   - 第二次确认后先按 `workflows/§04-scaffold-course.md` 的参考图提示词合同生成并验收一张本地系列封面，再在 `source/_posts/learn-topic/<主题路径段>/` 创建动态命名的路线图和全部文章占位。
    - 路线图、占位文章和后续正式文章统一复用同一个 `cover`；不得逐篇生成、随机替换或回退到 Butterfly 随机封面。
    - 路线图可渲染；其他文章带隐藏占位标记并保持 `published: false`，只写确认后的文章合同，不填充正式正文。
-   - 完成条件：文件与路线一一对应，内容审计通过，路线图真实构建和预览通过。
+   - 在 `data/<主题路径段>.json` 写入 schema v2 课程契约，持久化第一轮学习主题、可选篇、完整文章清单和无损能力账本；课程文章 Front Matter 不保存内部账本。
+   - 完成条件：文件与路线一一对应，全仓库 lint 通过，路线图真实构建和预览通过。
 5. 完成课程文章
    - 默认只选择路线中下一篇未完成文章；用户明确要求批量完成时，先冻结本批次文章及顺序，再按同一门禁逐篇处理，不并行写入相互依赖的正文。
    - 每篇先刷新该篇的能力分配及官方来源，再调用 `hexo-blog-maintenance` 完成视觉预案、正文、标签、图片、参考资料卡片和未发布文章的草稿验证；初稿必须交给干净上下文 Article Reviewer 逐项查漏。
@@ -50,13 +51,14 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 
 - 关键一手资料不可访问时停止路线创建，不用模型记忆冒充当前事实。
 - 第一次确认只授权继续设计文章地图，不授权创建文件；第二次确认才授权生成系列封面并创建本课程的路线图与占位文章。
-- 系列封面必须在第二次确认后、占位写入前生成；图像生成能力不可用或封面验收失败时停止，不创建缺少统一封面的课程脚手架。
+- 系列封面必须在第二次确认后、占位写入前生成；生成时必须把 `assets/course-cover-reference.png` 作为风格与构图参考，并使用文章地图冻结的主题内容替换参考图中的 Python 元素。图像生成能力不可用或封面验收失败时停止，不创建缺少统一封面的课程脚手架。
 - Curriculum Reviewer 与 Article Reviewer 都必须独立、只读且不继承主对话；无法调用时标记阻塞，不用主代理自评替代。
 - 官方能力全集、版本依据或处置账本缺失时，Reviewer 只能返回 `INSUFFICIENT_INFORMATION`；存在未归属、重复归属或无依据排除项时不得进入写作或给出 `PASS`。
-- 全集入口 manifest 与逐项账本必须压缩持久化在路线图 Front Matter 的 `learn_topic_capability_ledger` 内部字段中；该字段不得渲染进页面 HTML。新会话无法仅凭项目文件恢复时不得继续写作。
+- 全集入口 manifest、逐项账本、第一轮学习主题和文章映射必须无损持久化在 `data/<主题路径段>.json` 的 schema v2 课程契约中；课程 Front Matter 出现 `learn_topic_capability_ledger` 立即阻断。新会话无法仅凭项目文件恢复时不得继续写作。
 - Article Reviewer 一次只审一篇。运行时任务必须完整提供该篇分配、能力全集、处置账本和 Reviewer Prompt，不得用“重点核验 API”等临时摘要替代逐项差集。
 - 正文写作必须完整调用 `hexo-blog-maintenance`；未发布文章在其验证阶段使用隔离 `--draft` 构建和浏览器验收，Reviewer 修订后重跑受影响的维护验证。
 - 每篇文章通过验证前保持占位标记和 `published: false`；不得把普通构建成功当作未发布文章已经被解析。正文通过公开候选门禁后必须在同一流程自动移除标记并切换为 `published: true`。
+- 所有课程 Mermaid 只使用 `{% mermaid %}` 容器；公开课程的 `常见问题` 必须使用 `flashcard` 或 `flashcard_ref`。最终交付前运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`，由该入口统一检查项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、标签和图片资源；只在 `status: pass` 时进入用户验收，否则按输出的具体文件修复并重跑。
 
 ## Delivery
 
@@ -80,5 +82,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 - 第一次确认前的用户回复使用 `templates/learning-outline-reply.template.md`；完整表达参考 `examples/learning-outline-reply.example.md`。
 - 学习路线图与课程占位创建后的用户回复使用 `templates/course-roadmap-created-reply.template.md`；完整表达参考 `examples/course-roadmap-created-reply.example.md`。
 - 路线、文章地图、路线图正文和占位文章分别使用 `templates/` 下对应模板。
+- 系列封面的固定风格参考使用 `assets/course-cover-reference.png`；提示词合同与参考图使用边界以 `workflows/§04-scaffold-course.md` 为唯一规范源。
+- 课程契约使用 `templates/course-contract.template.json`；最终门禁使用 `scripts/audit.mjs lint --json`，审计契约由 `scripts/audit.test.mjs` 验证。
 - 课程与单篇审查分别使用 `prompts/curriculum-reviewer.agent.md` 和 `prompts/article-reviewer.agent.md`。
 - 完成阶段执行 `checklists/course-acceptance.md`。

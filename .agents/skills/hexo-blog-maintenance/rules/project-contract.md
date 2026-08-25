@@ -1,6 +1,6 @@
 # 项目维护契约
 
-本文件规定模型判断和安全边界；机械字段校验以 `tools/hexo-blog/audit.mjs` 为准，新文章初始结构以 `templates/post.template.md` 为准。
+本文件规定模型判断和安全边界；机械字段校验以 `.agents/skills/hexo-learn-topic/scripts/audit.mjs` 为准，新文章初始结构以 `templates/post.template.md` 为准。
 
 ## 1. 事实来源与优先级
 
@@ -39,7 +39,7 @@
 - 编辑已有文章时保留与任务无关的 Front Matter，包括 `cover`、`updated`、`sticky`、`password` 等可选字段；禁止展示 `password` 值。
 - 时区以实时 `_config.yml` 为准；当前项目采用 `Asia/Shanghai`，日期格式遵循项目配置。
 - Markdown 使用英文半角标点；中英文相邻处保留空格；围栏代码块前后留空行；命令、路径、键名和代码使用反引号。
-- Butterfly 与 Tag Plugins Plus 容器必须成对且按栈顺序闭合；新增用法前运行 `node tools/hexo-blog/audit.mjs tags --json` 并核对当前主题或插件实现，不根据文章中的历史说明猜测。
+- Butterfly 与 Tag Plugins Plus 容器必须成对且按栈顺序闭合；新增用法前运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json` 并核对当前主题或插件实现，不根据文章中的历史说明猜测。
 - `flashcard` 与 `flashcard_ref` 由 `hexo-flashcard-plugin` 提供。只有显式卡片进入复习系统；跨文章复用同一道题只引用稳定 ID，不复制卡片正文。新增或修改后必须运行标签审计和真实 Hexo 构建。
 - 系统课程使用项目扩展 `{% course_series %}` 和 Front Matter `series_order` 生成稳定课程导航；`series_order` 与文章中文序号一致，不使用 Butterfly `{% series %}` 的标题或日期排序替代知识顺序。
 - Tag Plugins Plus 的参数分隔符不是统一格式；严格使用 `references/butterfly-tag-plugins-plus.md` 与实时源码规定的 `,`、`, `、` | ` 或 `||`。

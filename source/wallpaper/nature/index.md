@@ -5,18 +5,18 @@ type: "nature"
 ---
 
 {% gallery %}
-![](/img/picgo-images/文章随机封面01.png)
-![](/img/picgo-images/文章随机封面02.png)
-![](/img/picgo-images/文章随机封面03.png)
+![](/img/picgo-images/文章随机封面01.jpg)
+![](/img/picgo-images/文章随机封面02.jpg)
+![](/img/picgo-images/文章随机封面03.jpg)
 ![](/img/picgo-images/文章随机封面04.png)
 ![](/img/picgo-images/文章随机封面05.png)
-![](/img/picgo-images/文章随机封面06.png)
+![](/img/picgo-images/文章随机封面06.jpg)
 ![](/img/picgo-images/文章随机封面07.png)
 ![](/img/picgo-images/文章随机封面08.png)
-![](/img/picgo-images/文章随机封面09.png)
-![](/img/picgo-images/文章随机封面10.png)
-![](/img/picgo-images/文章随机封面11.png)
-![](/img/picgo-images/文章随机封面12.png)
-![](/img/picgo-images/文章随机封面13.png)
-![](/img/picgo-images/文章随机封面14.png)
+![](/img/picgo-images/文章随机封面09.jpg)
+![](/img/picgo-images/文章随机封面10.jpg)
+![](/img/picgo-images/文章随机封面11.jpg)
+![](/img/picgo-images/文章随机封面12.jpg)
+![](/img/picgo-images/文章随机封面13.jpg)
+![](/img/picgo-images/文章随机封面14.jpg)
 {% endgallery %}

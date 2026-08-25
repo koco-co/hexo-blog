@@ -14,10 +14,14 @@ source/_posts/learn-topic/{{主题路径段}}/
 
 - 封面文字：`{{简短系列名称}}`
 - 主题图标：{{与课程主题直接相关且可准确识别的图标或符号}}
+- 顶部课程关键词：`{{短词 1}}`、`{{短词 2}}`、`{{短词 3}}`、`{{短词 4}}`、`{{短词 5，可选}}`
+- 风格参考：`.agents/skills/hexo-learn-topic/assets/course-cover-reference.png`（只参考版式、材质、光影和信息密度，不复制其中的 Python 图标、文字、工具或水印）
 - 本地文件：`/img/picgo-images/{{主题路径段}}-course-cover.png`
 - 生成与验收：第二次确认后按 `workflows/§04-scaffold-course.md` 的固定规格产出一项最终封面资产；验收失败的候选可以重试，全系列只复用通过验收的同一文件。
 
 ## 已确认学习主题映射
+
+- Skill 数据契约：`.agents/skills/hexo-learn-topic/data/{{主题路径段}}.json`
 
 - 学习主题数：`N = {{数量}}`
 - 必选额外篇：入门路线 1 篇

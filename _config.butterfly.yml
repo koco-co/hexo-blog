@@ -163,7 +163,7 @@ footer_img:
 
 # 网站背景图片
 # 可以设置为单个图片URL，或包含多个图片URL的数组（随机选择）
-background: /img/background.png
+background: /img/background.jpg
 
 # 文章封面图片设置
 cover:
@@ -176,20 +176,20 @@ cover:
   # 默认封面图片（当文章未设置封面时使用）
   # 可以设置多个图片链接，系统会随机选择
   default_cover:
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面01.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面02.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面03.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面04.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面05.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面06.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面07.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面08.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面09.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面10.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面11.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面12.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面13.png
-    - https://cdn.jsdelivr.net/gh/koco-co/picgo-images/picgo-images/文章随机封面14.png
+    - /img/picgo-images/文章随机封面01.jpg
+    - /img/picgo-images/文章随机封面02.jpg
+    - /img/picgo-images/文章随机封面03.jpg
+    - /img/picgo-images/文章随机封面04.png
+    - /img/picgo-images/文章随机封面05.png
+    - /img/picgo-images/文章随机封面06.jpg
+    - /img/picgo-images/文章随机封面07.png
+    - /img/picgo-images/文章随机封面08.png
+    - /img/picgo-images/文章随机封面09.jpg
+    - /img/picgo-images/文章随机封面10.jpg
+    - /img/picgo-images/文章随机封面11.jpg
+    - /img/picgo-images/文章随机封面12.jpg
+    - /img/picgo-images/文章随机封面13.jpg
+    - /img/picgo-images/文章随机封面14.jpg
 
 # 替换损坏的图片
 # 说明：当图片加载失败时显示的替代图片
@@ -684,7 +684,7 @@ tag_plugins:
   priority: 5 #过滤器优先权
   issues: false #issues标签依赖注入开关
   link:
-    placeholder: /img/link.png #link_card标签默认的图标图片
+    placeholder: /img/avatar.png #link_card标签默认的图标图片
   CDN:
     anima: https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css #动画标签anima的依赖
     jquery: https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js #issues标签依赖
@@ -778,9 +778,8 @@ comments:
   # Leave it empty if you don't need comments
   # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
   # Format of two comments system : Disqus,Waline
-  # Giscus 的仓库和分类标识尚未配置，保持关闭，避免加载空配置的第三方脚本。
-  # 完成 giscus.repo、repo_id 和 category_id 配置后，再改为 `giscus`。
-  use:
+  # 使用 GitHub Discussions 承载文章评论；Giscus App 仅授权访问当前仓库。
+  use: giscus
   # Display the comment name next to the button
   text: true
   # Lazyload: The comment system will be load when comment element enters the browser's viewport.
@@ -877,13 +876,19 @@ twikoo:
 # Giscus
 # https://giscus.app/
 giscus:
-  repo:
-  repo_id:
-  category_id:
-  light_theme: light
-  dark_theme: dark
+  repo: koco-co/hexo-blog
+  repo_id: R_kgDOUCj18w
+  category_id: DIC_kwDOUCj1884DEGPp
+  light_theme: https://koco-co.github.io/css/giscus-acrylic-light.css
+  dark_theme: https://koco-co.github.io/css/giscus-acrylic-dark.css
   js:
   option:
+    data-mapping: pathname
+    data-strict: '0'
+    data-reactions-enabled: '1'
+    data-emit-metadata: '0'
+    data-input-position: bottom
+    data-lang: zh-CN
 
 # Remark42
 # https://remark42.com/docs/configuration/frontend/
@@ -1322,6 +1327,7 @@ inject:
     - <script async data-pjax src="/js/txmap.js"></script> # 腾讯位置API
     - <script src="/js/tag-heatmap.js"></script> # 分类/标签热力图
     - <script src="/js/post-tags-style.js"></script> # 文章标签样式
+    - <script defer src="/js/flashcard-sync-nav.js"></script> # 复习进度登录与同步导航入口
     #    - <canvas id="snow"></canvas> # 雪花画布
     #    - <script async src="/js/snow.js"></script> # 雪花特效
     - <div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div> # 顶部音乐播放器

@@ -1,0 +1,2564 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "computer-network",
+    "series": "计算机网络",
+    "topics": [
+      "网络分层与局域网",
+      "IP 与网络寻址",
+      "UDP 与 TCP",
+      "HTTP 协议",
+      "HTTPS 与现代 HTTP",
+      "抓包与网络排障"
+    ],
+    "optional_articles": [
+      "进阶路线",
+      "综合实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "计算机网络(一)入门路线",
+        "file": "计算机网络(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "计算机网络(二)网络分层与局域网",
+        "file": "计算机网络(二)网络分层与局域网.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "计算机网络(三)IP 与网络寻址",
+        "file": "计算机网络(三)IP 与网络寻址.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "计算机网络(四)UDP 与 TCP",
+        "file": "计算机网络(四)UDP 与 TCP.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "计算机网络(五)HTTP 协议",
+        "file": "计算机网络(五)HTTP 协议.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "计算机网络(六)HTTPS 与现代 HTTP",
+        "file": "计算机网络(六)HTTPS 与现代 HTTP.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "计算机网络(七)抓包与网络排障",
+        "file": "计算机网络(七)抓包与网络排障.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "计算机网络(八)进阶路线",
+        "file": "计算机网络(八)进阶路线.md",
+        "kind": "advanced"
+      },
+      {
+        "order": 9,
+        "title": "计算机网络(九)综合实战",
+        "file": "计算机网络(九)综合实战.md",
+        "kind": "final"
+      }
+    ]
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "frozen_at": "2026-08-25",
+      "old_note_sha256": "22a3f12f026e15c65bb23fc4b8f6e51be329fc9df25931ace7904d45c020deae",
+      "items": {
+        "M01": {
+          "title": "ISO/IEC 7498-1:1994",
+          "locator": "OSI Basic Reference Model",
+          "status": "current"
+        },
+        "M02": {
+          "title": "RFC 1122",
+          "locator": "Requirements for Internet Hosts Communication Layers",
+          "status": "current"
+        },
+        "M03": {
+          "title": "IEEE 802.3-2022 Clause 3.2; Cisco transparent bridging algorithm",
+          "locator": "Ethernet and bridge learning forwarding filtering flooding",
+          "status": "current"
+        },
+        "M04": {
+          "title": "RFC 826",
+          "locator": "An Ethernet Address Resolution Protocol",
+          "status": "current"
+        },
+        "M05": {
+          "title": "RFC 4861 sections 2-4 and 7",
+          "locator": "Neighbor Discovery for IP version 6",
+          "status": "current"
+        },
+        "M06": {
+          "title": "RFC 791",
+          "locator": "Internet Protocol",
+          "status": "current"
+        },
+        "M07": {
+          "title": "RFC 4632; RFC 3021",
+          "locator": "CIDR and Using 31-Bit Prefixes on IPv4 Point-to-Point Links",
+          "status": "current"
+        },
+        "M08": {
+          "title": "RFC 4291; RFC 8200",
+          "locator": "IPv6 Addressing Architecture and IPv6",
+          "status": "current"
+        },
+        "M09": {
+          "title": "RFC 792; RFC 4443",
+          "locator": "ICMP for IPv4 and ICMPv6",
+          "status": "current"
+        },
+        "M10": {
+          "title": "RFC 1812",
+          "locator": "Requirements for IP Version 4 Routers",
+          "status": "current"
+        },
+        "M11": {
+          "title": "RFC 3022",
+          "locator": "Traditional IP Network Address Translator",
+          "status": "current"
+        },
+        "M12": {
+          "title": "RFC 2131",
+          "locator": "Dynamic Host Configuration Protocol",
+          "status": "current"
+        },
+        "M13": {
+          "title": "RFC 1034; RFC 1035; RFC 7766",
+          "locator": "Domain Names and DNS operational requirements",
+          "status": "current"
+        },
+        "M14": {
+          "title": "IANA Service Name and Transport Protocol Port Number Registry",
+          "locator": "Registered ports and transport endpoint naming",
+          "status": "current"
+        },
+        "M15": {
+          "title": "RFC 768",
+          "locator": "User Datagram Protocol",
+          "status": "current"
+        },
+        "M16": {
+          "title": "RFC 9293",
+          "locator": "Transmission Control Protocol",
+          "status": "current"
+        },
+        "M17": {
+          "title": "RFC 6298; RFC 5681; RFC 2018",
+          "locator": "TCP retransmission timeout congestion control and SACK",
+          "status": "current"
+        },
+        "M18": {
+          "title": "RFC 1191; RFC 8201",
+          "locator": "Path MTU Discovery for IPv4 and IPv6",
+          "status": "current"
+        },
+        "M19": {
+          "title": "RFC 9110",
+          "locator": "HTTP Semantics",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+          "status": "current"
+        },
+        "M20": {
+          "title": "RFC 5789",
+          "locator": "PATCH Method for HTTP",
+          "url": "https://www.rfc-editor.org/rfc/rfc5789.html",
+          "status": "current"
+        },
+        "M21": {
+          "title": "RFC 9111",
+          "locator": "HTTP Caching",
+          "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+          "status": "current"
+        },
+        "M22": {
+          "title": "RFC 6265; draft-ietf-httpbis-rfc6265bis-22",
+          "locator": "HTTP State Management Mechanism and current cookie draft",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc6265.html",
+            "https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-22"
+          ],
+          "status": "draft"
+        },
+        "M23": {
+          "title": "WHATWG Fetch Living Standard commit 4a2b67d0d5ea7942ff80f6fcc3da3d587c03d0ce",
+          "locator": "Fetch and CORS browser processing model",
+          "url": "https://fetch.spec.whatwg.org/",
+          "status": "current"
+        },
+        "M24": {
+          "title": "RFC 9112; RFC 9110 section 7.8",
+          "locator": "HTTP/1.1 and message framing",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc9112.html",
+            "https://www.rfc-editor.org/rfc/rfc9110.html#section-7.8"
+          ],
+          "status": "current"
+        },
+        "M25": {
+          "title": "RFC 9113; RFC 7541",
+          "locator": "HTTP/2 and HPACK",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc9113.html",
+            "https://www.rfc-editor.org/rfc/rfc7541.html"
+          ],
+          "status": "current"
+        },
+        "M26": {
+          "title": "RFC 9114; RFC 9204",
+          "locator": "HTTP/3 and QPACK",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc9114.html",
+            "https://www.rfc-editor.org/rfc/rfc9204.html"
+          ],
+          "status": "current"
+        },
+        "M27": {
+          "title": "RFC 9000",
+          "locator": "QUIC: A UDP-Based Multiplexed and Secure Transport",
+          "url": "https://www.rfc-editor.org/rfc/rfc9000.html",
+          "status": "current"
+        },
+        "M28": {
+          "title": "RFC 8446; RFC 5280; RFC 8996",
+          "locator": "TLS 1.3 certificate profile and deprecated TLS versions",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc8446.html",
+            "https://www.rfc-editor.org/rfc/rfc5280.html",
+            "https://www.rfc-editor.org/rfc/rfc8996.html"
+          ],
+          "status": "current"
+        },
+        "M29": {
+          "title": "RFC 9525; RFC 6066; RFC 7301",
+          "locator": "Service identity SNI and ALPN",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc9525.html",
+            "https://www.rfc-editor.org/rfc/rfc6066.html",
+            "https://www.rfc-editor.org/rfc/rfc7301.html"
+          ],
+          "status": "current"
+        },
+        "M30": {
+          "title": "Chrome DevTools Network official documentation snapshot 2026-08-25; Chrome 151.0.7922.170",
+          "locator": "Browser request inspection and timing evidence",
+          "url": "https://developer.chrome.com/docs/devtools/network/",
+          "status": "current"
+        },
+        "M31": {
+          "title": "curl 8.7.1 man page and official documentation",
+          "locator": "Reproducible HTTP and TLS client evidence",
+          "url": "https://curl.se/docs/manpage.html",
+          "status": "current"
+        },
+        "M32": {
+          "title": "Wireshark User Guide 4.7.0; tcpdump and pcap-filter manuals",
+          "locator": "Packet capture and filter evidence",
+          "urls": [
+            "https://www.wireshark.org/docs/wsug_html_chunked/",
+            "https://man7.org/linux/man-pages/man8/tcpdump.8.html"
+          ],
+          "status": "current"
+        },
+        "M33": {
+          "title": "RFC 6455",
+          "locator": "The WebSocket Protocol",
+          "status": "current"
+        },
+        "M34": {
+          "title": "RFC 8484; RFC 7858",
+          "locator": "DNS over HTTPS and DNS over TLS",
+          "status": "current"
+        },
+        "M35": {
+          "title": "RFC 4301",
+          "locator": "Security Architecture for the Internet Protocol",
+          "status": "current"
+        },
+        "M36": {
+          "title": "RFC 7348",
+          "locator": "Virtual eXtensible Local Area Network",
+          "status": "current"
+        },
+        "M37": {
+          "title": "RFC 2474",
+          "locator": "Differentiated Services Field",
+          "status": "current"
+        },
+        "M38": {
+          "title": "RFC 1112",
+          "locator": "Host Extensions for IP Multicasting",
+          "status": "current"
+        },
+        "M39": {
+          "title": "RFC 2328; RFC 4271",
+          "locator": "OSPF and BGP-4",
+          "status": "current"
+        },
+        "M40": {
+          "title": "RFC 4918; IANA HTTP Status Code Registry",
+          "locator": "WebDAV and status code registry history",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc4918.html",
+            "https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml"
+          ],
+          "status": "current"
+        },
+        "M41": {
+          "title": "User requirements local constraints and old note SHA-256 22a3f12f026e15c65bb23fc4b8f6e51be329fc9df25931ace7904d45c020deae",
+          "locator": "Scope and migration evidence only; not a protocol authority",
+          "status": "scope"
+        },
+        "M42": {
+          "title": "RFC 9001",
+          "locator": "Using TLS to Secure QUIC",
+          "url": "https://www.rfc-editor.org/rfc/rfc9001.html",
+          "status": "current"
+        },
+        "M43": {
+          "title": "RFC 6750",
+          "locator": "OAuth 2.0 Bearer Token Usage",
+          "url": "https://www.rfc-editor.org/rfc/rfc6750.html",
+          "status": "current"
+        },
+        "M44": {
+          "title": "RFC 6585",
+          "locator": "Additional HTTP Status Codes",
+          "url": "https://www.rfc-editor.org/rfc/rfc6585.html",
+          "status": "current"
+        },
+        "M45": {
+          "title": "RFC 6265bis-22",
+          "locator": "HTTP State Management Mechanism current draft",
+          "url": "https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-22",
+          "status": "draft"
+        }
+      }
+    },
+    "capability_schema": {
+      "fields": {
+        "t": "capability title",
+        "s": "official source ids",
+        "v": "version state",
+        "m": "forced mirror article ids",
+        "n": "notes"
+      },
+      "ledger_fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ]
+    },
+    "capabilities": {
+      "NET-001": {
+        "t": "网络通信的三条轴",
+        "s": [
+          "M02",
+          "M41"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "课程入口能力，不替代协议正文"
+      },
+      "NET-002": {
+        "t": "网络设备角色与边界",
+        "s": [
+          "M02",
+          "M03",
+          "M10"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "课程入口能力，不替代协议正文"
+      },
+      "NET-003": {
+        "t": "封装与解封装",
+        "s": [
+          "M01",
+          "M02",
+          "M41"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "课程入口能力，不替代协议正文"
+      },
+      "NET-004": {
+        "t": "网络问题的面试答题框架",
+        "s": [
+          "M41"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "课程入口能力，不替代协议正文"
+      },
+      "NET-005": {
+        "t": "OSI 与 TCP/IP 分层模型",
+        "s": [
+          "M01",
+          "M02"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-001": {
+        "t": "帧、MAC 地址与网卡",
+        "s": [
+          "M03"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-002": {
+        "t": "以太网帧的关键字段",
+        "s": [
+          "M03"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-003": {
+        "t": "冲突域与广播域",
+        "s": [
+          "M03",
+          "M10"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-004": {
+        "t": "交换机 FDB 学习",
+        "s": [
+          "M03"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-005": {
+        "t": "转发、过滤与泛洪",
+        "s": [
+          "M03"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-006": {
+        "t": "ARP 请求、应答与缓存",
+        "s": [
+          "M04"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-007": {
+        "t": "ARP 广播边界",
+        "s": [
+          "M04",
+          "M05"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-008": {
+        "t": "IPv6 Neighbor Discovery 的关系",
+        "s": [
+          "M05"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-009": {
+        "t": "网桥与路由器的边界",
+        "s": [
+          "M03",
+          "M10"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "L2-010": {
+        "t": "广播与泛洪的失败模式",
+        "s": [
+          "M03",
+          "M04",
+          "M05"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-001": {
+        "t": "IPv4 地址与前缀",
+        "s": [
+          "M06",
+          "M07"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-002": {
+        "t": "网络位与主机位",
+        "s": [
+          "M06",
+          "M07"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-003": {
+        "t": "从分类地址到 CIDR",
+        "s": [
+          "M07"
+        ],
+        "v": "historical-to-current",
+        "m": [],
+        "n": "历史表述迁移到当前规范语境"
+      },
+      "IP-004": {
+        "t": "子网掩码与子网划分",
+        "s": [
+          "M06",
+          "M07"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-005": {
+        "t": "VLSM 与地址规划",
+        "s": [
+          "M07"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-006": {
+        "t": "/31 点到点链路",
+        "s": [
+          "M07"
+        ],
+        "v": "historical-to-current",
+        "m": [],
+        "n": "历史表述迁移到当前规范语境"
+      },
+      "IP-007": {
+        "t": "私有地址与 NAT",
+        "s": [
+          "M11"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-008": {
+        "t": "NAT 映射与边界",
+        "s": [
+          "M11"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-009": {
+        "t": "默认网关与路由选择",
+        "s": [
+          "M06",
+          "M10"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-010": {
+        "t": "最长前缀匹配",
+        "s": [
+          "M10"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-011": {
+        "t": "IPv6 128 位地址与表示",
+        "s": [
+          "M08"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-012": {
+        "t": "IPv6 全局地址与链路本地地址",
+        "s": [
+          "M08"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-013": {
+        "t": "IPv6 子网结构",
+        "s": [
+          "M08"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-014": {
+        "t": "ICMPv4 类型与错误报告",
+        "s": [
+          "M09"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-015": {
+        "t": "ICMPv6 的角色",
+        "s": [
+          "M09",
+          "M05"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-016": {
+        "t": "TTL 与 Hop Limit",
+        "s": [
+          "M06",
+          "M08",
+          "M10"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-017": {
+        "t": "分片与 PMTUD",
+        "s": [
+          "M06",
+          "M18"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-018": {
+        "t": "DHCP DORA",
+        "s": [
+          "M12"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-019": {
+        "t": "DNS 递归与迭代",
+        "s": [
+          "M13"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "IP-020": {
+        "t": "端口、IANA 与端点四元组",
+        "s": [
+          "M14"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-001": {
+        "t": "UDP 首部与语义",
+        "s": [
+          "M15"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-002": {
+        "t": "TCP 连接抽象",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-003": {
+        "t": "序列号与确认号",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-004": {
+        "t": "TCP 标志位与状态",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-005": {
+        "t": "三次握手的正常过程",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-006": {
+        "t": "SYN 重传与超时",
+        "s": [
+          "M16",
+          "M17"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-007": {
+        "t": "SYN Flood 与 backlog",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-008": {
+        "t": "TCP 连接关闭",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-009": {
+        "t": "FIN 与 RST",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-010": {
+        "t": "TIME_WAIT",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-011": {
+        "t": "RTO 重传计时器",
+        "s": [
+          "M17"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-012": {
+        "t": "拥塞窗口与慢启动",
+        "s": [
+          "M17"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-013": {
+        "t": "拥塞避免与快速重传",
+        "s": [
+          "M17"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-014": {
+        "t": "SACK 选择确认",
+        "s": [
+          "M17"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-015": {
+        "t": "MSS 与 MTU",
+        "s": [
+          "M18"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-016": {
+        "t": "PMTUD 对 TCP 的影响",
+        "s": [
+          "M18"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-017": {
+        "t": "UDP 与 TCP 的选型",
+        "s": [
+          "M15",
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-018": {
+        "t": "Keepalive 与应用层心跳",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-019": {
+        "t": "半关闭与单向结束",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-020": {
+        "t": "连接重置与重连",
+        "s": [
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-021": {
+        "t": "listen、accept 与 backlog",
+        "s": [
+          "M14",
+          "M16"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-022": {
+        "t": "从抓包读取握手",
+        "s": [
+          "M16",
+          "M32"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "TR-023": {
+        "t": "curl 请求中的 TCP 证据链",
+        "s": [
+          "M16",
+          "M19",
+          "M30",
+          "M31"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-001": {
+        "t": "资源、表示与消息",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-002": {
+        "t": "请求行、状态行与字段",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-003": {
+        "t": "方法的安全性、幂等性与可缓存性",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-004": {
+        "t": "GET、POST、PUT、PATCH、DELETE 边界",
+        "s": [
+          "M19",
+          "M20"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-005": {
+        "t": "状态码类别",
+        "s": [
+          "M19",
+          "M40"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-006": {
+        "t": "301、302、307、308 重定向",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-007": {
+        "t": "400、401、403、404、405",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-008": {
+        "t": "408、409、412、415、422、429",
+        "s": [
+          "M19",
+          "M40"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-009": {
+        "t": "500、501、502、503、504",
+        "s": [
+          "M19",
+          "M40"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-010": {
+        "t": "内容协商",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-011": {
+        "t": "Content-Type、长度与消息分帧边界",
+        "s": [
+          "M19",
+          "M24"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-012": {
+        "t": "Cache-Control 指令",
+        "s": [
+          "M21"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-013": {
+        "t": "ETag、Last-Modified 与条件请求",
+        "s": [
+          "M19",
+          "M21"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-014": {
+        "t": "Cookie 的设置与发送属性",
+        "s": [
+          "M22",
+          "M45"
+        ],
+        "v": "draft",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-015": {
+        "t": "Fetch 与 CORS 边界",
+        "s": [
+          "M23"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-016": {
+        "t": "同源策略与预检请求",
+        "s": [
+          "M23"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-017": {
+        "t": "认证字段与 Bearer 边界",
+        "s": [
+          "M19",
+          "M43"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-018": {
+        "t": "代理与网关",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-019": {
+        "t": "WebDAV 扩展与 102 历史状态",
+        "s": [
+          "M40"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-020": {
+        "t": "HTTP 请求的面试分析流程",
+        "s": [
+          "M19",
+          "M30",
+          "M31"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "HTTP-021": {
+        "t": "旧版 HTTP 术语到现代字段模型",
+        "s": [
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-001": {
+        "t": "HTTP/1.1 持久连接",
+        "s": [
+          "M24"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-002": {
+        "t": "HTTP/1.1 消息分帧",
+        "s": [
+          "M24",
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-003": {
+        "t": "chunked transfer encoding",
+        "s": [
+          "M24",
+          "M19"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-004": {
+        "t": "HTTP/2 二进制分帧",
+        "s": [
+          "M25"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-005": {
+        "t": "HTTP/2 的 stream、frame、message",
+        "s": [
+          "M25"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-006": {
+        "t": "HTTP/2 多路复用",
+        "s": [
+          "M25"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-007": {
+        "t": "HPACK",
+        "s": [
+          "M25"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-008": {
+        "t": "HTTP/2 流控",
+        "s": [
+          "M25"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-009": {
+        "t": "HTTP/2 stream 生命周期",
+        "s": [
+          "M25"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-010": {
+        "t": "HTTP/2 头部压缩的限制与风险",
+        "s": [
+          "M25"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-011": {
+        "t": "TLS 1.3 握手目标",
+        "s": [
+          "M28"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-012": {
+        "t": "TLS 1.3 密钥调度",
+        "s": [
+          "M28"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-013": {
+        "t": "QUIC 传输层基础",
+        "s": [
+          "M27"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-014": {
+        "t": "QUIC 集成 TLS 1.3",
+        "s": [
+          "M27",
+          "M28",
+          "M42"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-015": {
+        "t": "HTTP/3 与 QPACK",
+        "s": [
+          "M26"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-016": {
+        "t": "HTTP/3 部署与回退",
+        "s": [
+          "M26",
+          "M29"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-017": {
+        "t": "证书链与主机名校验",
+        "s": [
+          "M28",
+          "M29"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-018": {
+        "t": "ALPN 与 SNI",
+        "s": [
+          "M29"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-019": {
+        "t": "TLS 1.2 到 TLS 1.3 的迁移边界",
+        "s": [
+          "M28"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-020": {
+        "t": "HTTPS 的规范边界与部署边界",
+        "s": [
+          "M19",
+          "M28",
+          "M29"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "MOD-021": {
+        "t": "HTTP 演进的面试分析图",
+        "s": [
+          "M19",
+          "M24",
+          "M25",
+          "M26",
+          "M28"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-001": {
+        "t": "DevTools 请求瀑布与阶段耗时",
+        "s": [
+          "M30"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-002": {
+        "t": "DevTools Headers、Payload 与 Response",
+        "s": [
+          "M30"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-003": {
+        "t": "HTTP 状态与网络错误的区分",
+        "s": [
+          "M30"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-004": {
+        "t": "HAR 与原始证据",
+        "s": [
+          "M30"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-005": {
+        "t": "curl 复现请求",
+        "s": [
+          "M31"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-006": {
+        "t": "curl 的 headers、redirect、TLS verbose",
+        "s": [
+          "M31"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-007": {
+        "t": "tcpdump 的抓包边界",
+        "s": [
+          "M32"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-008": {
+        "t": "Wireshark display filter",
+        "s": [
+          "M32"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-009": {
+        "t": "tcp.port 与 ip.addr 表达式",
+        "s": [
+          "M32"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-010": {
+        "t": ".invalid DNS 失败夹具",
+        "s": [
+          "M13",
+          "M31"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-011": {
+        "t": "loopback 未监听端口的拒绝",
+        "s": [
+          "M16",
+          "M31"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-012": {
+        "t": "一次性自签名 HTTPS、SAN 与 curl 校验",
+        "s": [
+          "M28",
+          "M31"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-013": {
+        "t": "缓存错觉与固定响应头夹具",
+        "s": [
+          "M19",
+          "M21",
+          "M30"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-014": {
+        "t": "502、504 代理错觉与路径证据",
+        "s": [
+          "M19",
+          "M30"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-015": {
+        "t": "DNS→TCP→TLS→HTTP 证据链",
+        "s": [
+          "M13",
+          "M16",
+          "M19",
+          "M28",
+          "M30"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "DIAG-016": {
+        "t": "抓包安全、脱敏与清理",
+        "s": [
+          "M32",
+          "M41"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "正文必须解释、图示并配套自测"
+      },
+      "ADV-001": {
+        "t": "WebSocket 升级边界",
+        "s": [
+          "M33"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-002": {
+        "t": "DoH 与 DoT 的取舍",
+        "s": [
+          "M34"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-003": {
+        "t": "IPsec 安全模型",
+        "s": [
+          "M35"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-004": {
+        "t": "VXLAN 覆盖网络模型",
+        "s": [
+          "M36"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-005": {
+        "t": "DSCP 与 QoS 标记边界",
+        "s": [
+          "M37"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-006": {
+        "t": "IPv4 组播基础",
+        "s": [
+          "M38"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-007": {
+        "t": "OSPF 与 BGP 路由交换概览",
+        "s": [
+          "M39"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-008": {
+        "t": "WebDAV 与 HTTP 扩展案例",
+        "s": [
+          "M20"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-009": {
+        "t": "HTTP 状态注册表与 102 案例",
+        "s": [
+          "M40"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      },
+      "ADV-010": {
+        "t": "如何扩展网络课程与审计版本",
+        "s": [
+          "M41"
+        ],
+        "v": "current",
+        "m": [],
+        "n": "进阶能力，需以前置正文完成为进入条件"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "NET-001": [
+          "overview",
+          "计算机网络(一)入门路线 / 网络通信的三条轴",
+          "建立主线共同语言和阅读索引",
+          "路线图结构、Front Matter、Mermaid 与能力账本审计"
+        ],
+        "NET-002": [
+          "overview",
+          "计算机网络(一)入门路线 / 网络设备角色与边界",
+          "建立主线共同语言和阅读索引",
+          "路线图结构、Front Matter、Mermaid 与能力账本审计"
+        ],
+        "NET-003": [
+          "overview",
+          "计算机网络(一)入门路线 / 封装与解封装",
+          "建立主线共同语言和阅读索引",
+          "路线图结构、Front Matter、Mermaid 与能力账本审计"
+        ],
+        "NET-004": [
+          "overview",
+          "计算机网络(一)入门路线 / 网络问题的面试答题框架",
+          "建立主线共同语言和阅读索引",
+          "路线图结构、Front Matter、Mermaid 与能力账本审计"
+        ],
+        "NET-005": [
+          "core",
+          "计算机网络(一)入门路线 / OSI 与 TCP/IP 分层模型",
+          "支撑主线理解、实战定位和面试回答",
+          "路线图结构、Front Matter、Mermaid 与能力账本审计"
+        ],
+        "L2-001": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / 帧、MAC 地址与网卡",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-002": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / 以太网帧的关键字段",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-003": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / 冲突域与广播域",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-004": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / 交换机 FDB 学习",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-005": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / 转发、过滤与泛洪",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-006": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / ARP 请求、应答与缓存",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-007": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / ARP 广播边界",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-008": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / IPv6 Neighbor Discovery 的关系",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-009": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / 网桥与路由器的边界",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "L2-010": [
+          "core",
+          "计算机网络(二)网络分层与局域网 / 广播与泛洪的失败模式",
+          "支撑主线理解、实战定位和面试回答",
+          "二层封装图、ARP 时序图、FDB 表格与失败案例复现"
+        ],
+        "IP-001": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / IPv4 地址与前缀",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-002": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / 网络位与主机位",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-003": [
+          "migration",
+          "计算机网络(三)IP 与网络寻址 / 从分类地址到 CIDR",
+          "保留旧笔记线索并绑定现代规范",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-004": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / 子网掩码与子网划分",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-005": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / VLSM 与地址规划",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-006": [
+          "migration",
+          "计算机网络(三)IP 与网络寻址 / /31 点到点链路",
+          "保留旧笔记线索并绑定现代规范",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-007": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / 私有地址与 NAT",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-008": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / NAT 映射与边界",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-009": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / 默认网关与路由选择",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-010": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / 最长前缀匹配",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-011": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / IPv6 128 位地址与表示",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-012": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / IPv6 全局地址与链路本地地址",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-013": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / IPv6 子网结构",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-014": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / ICMPv4 类型与错误报告",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-015": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / ICMPv6 的角色",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-016": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / TTL 与 Hop Limit",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-017": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / 分片与 PMTUD",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-018": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / DHCP DORA",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-019": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / DNS 递归与迭代",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "IP-020": [
+          "core",
+          "计算机网络(三)IP 与网络寻址 / 端口、IANA 与端点四元组",
+          "支撑主线理解、实战定位和面试回答",
+          "地址规划表、最长前缀匹配图、IPv4/IPv6 命令输出"
+        ],
+        "TR-001": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / UDP 首部与语义",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-002": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / TCP 连接抽象",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-003": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / 序列号与确认号",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-004": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / TCP 标志位与状态",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-005": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / 三次握手的正常过程",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-006": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / SYN 重传与超时",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-007": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / SYN Flood 与 backlog",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-008": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / TCP 连接关闭",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-009": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / FIN 与 RST",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-010": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / TIME_WAIT",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-011": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / RTO 重传计时器",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-012": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / 拥塞窗口与慢启动",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-013": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / 拥塞避免与快速重传",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-014": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / SACK 选择确认",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-015": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / MSS 与 MTU",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-016": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / PMTUD 对 TCP 的影响",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-017": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / UDP 与 TCP 的选型",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-018": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / Keepalive 与应用层心跳",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-019": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / 半关闭与单向结束",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-020": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / 连接重置与重连",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-021": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / listen、accept 与 backlog",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-022": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / 从抓包读取握手",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "TR-023": [
+          "core",
+          "计算机网络(四)UDP 与 TCP / curl 请求中的 TCP 证据链",
+          "支撑主线理解、实战定位和面试回答",
+          "UDP/TCP 对照表、三次握手与关闭时序图、抓包字段核对"
+        ],
+        "HTTP-001": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 资源、表示与消息",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-002": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 请求行、状态行与字段",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-003": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 方法的安全性、幂等性与可缓存性",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-004": [
+          "core",
+          "计算机网络(五)HTTP 协议 / GET、POST、PUT、PATCH、DELETE 边界",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-005": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 状态码类别",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-006": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 301、302、307、308 重定向",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-007": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 400、401、403、404、405",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-008": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 408、409、412、415、422、429",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-009": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 500、501、502、503、504",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-010": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 内容协商",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-011": [
+          "core",
+          "计算机网络(五)HTTP 协议 / Content-Type、长度与消息分帧边界",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-012": [
+          "core",
+          "计算机网络(五)HTTP 协议 / Cache-Control 指令",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-013": [
+          "core",
+          "计算机网络(五)HTTP 协议 / ETag、Last-Modified 与条件请求",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-014": [
+          "core",
+          "计算机网络(五)HTTP 协议 / Cookie 的设置与发送属性",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-015": [
+          "core",
+          "计算机网络(五)HTTP 协议 / Fetch 与 CORS 边界",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-016": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 同源策略与预检请求",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-017": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 认证字段与 Bearer 边界",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-018": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 代理与网关",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-019": [
+          "core",
+          "计算机网络(五)HTTP 协议 / WebDAV 扩展与 102 历史状态",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-020": [
+          "core",
+          "计算机网络(五)HTTP 协议 / HTTP 请求的面试分析流程",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "HTTP-021": [
+          "core",
+          "计算机网络(五)HTTP 协议 / 旧版 HTTP 术语到现代字段模型",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP 消息图、状态码决策表、缓存与 Cookie 闪卡校验"
+        ],
+        "MOD-001": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/1.1 持久连接",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-002": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/1.1 消息分帧",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-003": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / chunked transfer encoding",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-004": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/2 二进制分帧",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-005": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/2 的 stream、frame、message",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-006": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/2 多路复用",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-007": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HPACK",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-008": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/2 流控",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-009": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/2 stream 生命周期",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-010": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/2 头部压缩的限制与风险",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-011": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / TLS 1.3 握手目标",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-012": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / TLS 1.3 密钥调度",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-013": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / QUIC 传输层基础",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-014": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / QUIC 集成 TLS 1.3",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-015": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/3 与 QPACK",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-016": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/3 部署与回退",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-017": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / 证书链与主机名校验",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-018": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / ALPN 与 SNI",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-019": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / TLS 1.2 到 TLS 1.3 的迁移边界",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-020": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTPS 的规范边界与部署边界",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "MOD-021": [
+          "core",
+          "计算机网络(六)HTTPS 与现代 HTTP / HTTP 演进的面试分析图",
+          "支撑主线理解、实战定位和面试回答",
+          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+        ],
+        "DIAG-001": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / DevTools 请求瀑布与阶段耗时",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-002": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / DevTools Headers、Payload 与 Response",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-003": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / HTTP 状态与网络错误的区分",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-004": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / HAR 与原始证据",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-005": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / curl 复现请求",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-006": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / curl 的 headers、redirect、TLS verbose",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-007": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / tcpdump 的抓包边界",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-008": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / Wireshark display filter",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-009": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / tcp.port 与 ip.addr 表达式",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-010": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / .invalid DNS 失败夹具",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-011": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / loopback 未监听端口的拒绝",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-012": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / 一次性自签名 HTTPS、SAN 与 curl 校验",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-013": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / 缓存错觉与固定响应头夹具",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-014": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / 502、504 代理错觉与路径证据",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-015": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / DNS→TCP→TLS→HTTP 证据链",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "DIAG-016": [
+          "core",
+          "计算机网络(七)抓包与网络排障 / 抓包安全、脱敏与清理",
+          "支撑主线理解、实战定位和面试回答",
+          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+        ],
+        "ADV-001": [
+          "advanced",
+          "计算机网络(八)进阶路线 / WebSocket 升级边界",
+          "可选进阶扩展，避免打断主线",
+          "扩展协议的边界图、协议族对照表与可选阅读门禁"
+        ],
+        "ADV-002": [
+          "advanced",
+          "计算机网络(八)进阶路线 / DoH 与 DoT 的取舍",
+          "可选进阶扩展，避免打断主线",
+          "扩展协议的边界图、协议族对照表与可选阅读门禁"
+        ],
+        "ADV-003": [
+          "advanced",
+          "计算机网络(八)进阶路线 / IPsec 安全模型",
+          "可选进阶扩展，避免打断主线",
+          "扩展协议的边界图、协议族对照表与可选阅读门禁"
+        ],
+        "ADV-004": [
+          "advanced",
+          "计算机网络(八)进阶路线 / VXLAN 覆盖网络模型",
+          "可选进阶扩展，避免打断主线",
+          "扩展协议的边界图、协议族对照表与可选阅读门禁"
+        ],
+        "ADV-005": [
+          "advanced",
+          "计算机网络(九)综合实战 / DSCP 与 QoS 标记边界",
+          "可选进阶扩展，避免打断主线",
+          "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
+        ],
+        "ADV-006": [
+          "advanced",
+          "计算机网络(九)综合实战 / IPv4 组播基础",
+          "可选进阶扩展，避免打断主线",
+          "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
+        ],
+        "ADV-007": [
+          "advanced",
+          "计算机网络(九)综合实战 / OSPF 与 BGP 路由交换概览",
+          "可选进阶扩展，避免打断主线",
+          "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
+        ],
+        "ADV-008": [
+          "advanced",
+          "计算机网络(九)综合实战 / WebDAV 与 HTTP 扩展案例",
+          "可选进阶扩展，避免打断主线",
+          "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
+        ],
+        "ADV-009": [
+          "advanced",
+          "计算机网络(九)综合实战 / HTTP 状态注册表与 102 案例",
+          "可选进阶扩展，避免打断主线",
+          "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
+        ],
+        "ADV-010": [
+          "advanced",
+          "计算机网络(九)综合实战 / 如何扩展网络课程与审计版本",
+          "可选进阶扩展，避免打断主线",
+          "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
+        ]
+      }
+    },
+    "legacy_migration": [
+      {
+        "id": "LEG-001",
+        "old": "classful A/B/C addressing",
+        "modern": "RFC 4632 CIDR and prefix length",
+        "article": "计算机网络(三)IP 与网络寻址",
+        "action": "历史背景保留为迁移卡，不作为现代地址规划规则"
+      },
+      {
+        "id": "LEG-002",
+        "old": "/31 table says zero usable addresses while body says two",
+        "modern": "RFC 3021 point-to-point /31",
+        "article": "计算机网络(三)IP 与网络寻址",
+        "action": "正文以点到点链路边界和实现前提纠正"
+      },
+      {
+        "id": "LEG-004",
+        "old": "fixed four-step TCP close",
+        "modern": "RFC 9293 FIN ACK state variants",
+        "article": "计算机网络(四)UDP 与 TCP",
+        "action": "用状态图解释主动关闭、被动关闭和 RST 分支"
+      },
+      {
+        "id": "LEG-005",
+        "old": "general/request/response/entity header wording",
+        "modern": "RFC 9110 field and content model",
+        "article": "计算机网络(五)HTTP 协议",
+        "action": "改用现代资源、表示、消息和字段模型"
+      },
+      {
+        "id": "LEG-006",
+        "old": "102 as an ordinary HTTP status",
+        "modern": "RFC 4918 and IANA historical WebDAV registration",
+        "article": "计算机网络(五)HTTP 协议",
+        "action": "标注 WebDAV 历史语境，不归入普通业务状态"
+      },
+      {
+        "id": "LEG-009",
+        "old": "强制加密（主流浏览器）",
+        "modern": "HTTP/TLS specification versus deployment policy",
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "action": "拆分协议能力、浏览器行为和站点部署政策"
+      },
+      {
+        "id": "LEG-010",
+        "old": "TLS 1.2 static RSA premaster example",
+        "modern": "TLS 1.3 handshake and key schedule",
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "action": "迁移为 TLS 1.3 视角，保留 TLS 1.2 仅作对照"
+      },
+      {
+        "id": "LEG-012",
+        "old": "ip scr filter",
+        "modern": "ip.src filter expression",
+        "article": "计算机网络(七)抓包与网络排障",
+        "action": "同时给出 Wireshark display filter 和 tcpdump capture filter 边界"
+      },
+      {
+        "id": "LEG-013",
+        "old": "WDF filter term",
+        "modern": "capture filter and display filter",
+        "article": "计算机网络(七)抓包与网络排障",
+        "action": "统一术语并配真实工具输入输出"
+      },
+      {
+        "id": "LEG-014",
+        "old": "chmod 777 cleanup instruction",
+        "modern": "least privilege and sanitized evidence",
+        "article": "计算机网络(七)抓包与网络排障",
+        "action": "删除宽权限示例，改用临时目录、精确 PID 和脱敏清理"
+      }
+    ],
+    "explicit_exclusions": [
+      {
+        "id": "LEG-003",
+        "old": "RFC 793 as the only TCP authority",
+        "reason": "保留为历史背景但不作为现代正文唯一规范"
+      },
+      {
+        "id": "LEG-007",
+        "old": "HTTP always runs over TCP",
+        "reason": "在现代 HTTP 文章中用 HTTP/3 over QUIC 修正绝对化表述"
+      },
+      {
+        "id": "LEG-008",
+        "old": "HTTP/2 eliminates all head-of-line blocking",
+        "reason": "拆分应用层多路复用与传输层队头阻塞"
+      },
+      {
+        "id": "LEG-011",
+        "old": "TLS 1.0 and 1.1 deprecation claim",
+        "reason": "迁移文章中作为历史版本背景，不把旧笔记句子当作当前状态证据"
+      }
+    ],
+    "flashcard_plan": {
+      "deck": "计算机网络",
+      "total": 67,
+      "groups": {
+        "1": {
+          "deck": "计算机网络",
+          "ids": [
+            "CN-NET-001",
+            "CN-NET-002",
+            "CN-NET-003",
+            "CN-NET-004",
+            "CN-NET-005",
+            "CN-NET-006"
+          ],
+          "priorityPolicy": "1 高频；2 中频；3 低频",
+          "focus": "分层、封装、设备边界和学习地图"
+        },
+        "2": {
+          "deck": "计算机网络",
+          "ids": [
+            "CN-L2-001",
+            "CN-L2-002",
+            "CN-L2-003",
+            "CN-L2-004",
+            "CN-L2-005",
+            "CN-L2-006",
+            "CN-L2-007",
+            "CN-L2-008",
+            "CN-L2-009"
+          ],
+          "priorityPolicy": "1 高频；2 中频；3 低频",
+          "focus": "以太网、FDB、ARP 和广播边界"
+        },
+        "3": {
+          "deck": "计算机网络",
+          "ids": [
+            "CN-IP-001",
+            "CN-IP-002",
+            "CN-IP-003",
+            "CN-IP-004",
+            "CN-IP-005",
+            "CN-IP-006",
+            "CN-IP-007",
+            "CN-IP-008",
+            "CN-IP-009",
+            "CN-IP-010",
+            "CN-IP-011",
+            "CN-IP-012",
+            "CN-IP-013",
+            "CN-IP-014"
+          ],
+          "priorityPolicy": "1 高频；2 中频；3 低频",
+          "focus": "CIDR、路由、IPv4/IPv6、ICMP、DHCP、DNS"
+        },
+        "4": {
+          "deck": "计算机网络",
+          "ids": [
+            "CN-TR-001",
+            "CN-TR-002",
+            "CN-TR-003",
+            "CN-TR-004",
+            "CN-TR-005",
+            "CN-TR-006",
+            "CN-TR-007",
+            "CN-TR-008",
+            "CN-TR-009",
+            "CN-TR-010",
+            "CN-TR-011",
+            "CN-TR-012",
+            "CN-TR-013",
+            "CN-TR-014"
+          ],
+          "priorityPolicy": "1 高频；2 中频；3 低频",
+          "focus": "三次握手、序列确认、关闭、TIME_WAIT、拥塞控制"
+        },
+        "5": {
+          "deck": "计算机网络",
+          "ids": [
+            "CN-HTTP-001",
+            "CN-HTTP-002",
+            "CN-HTTP-003",
+            "CN-HTTP-004",
+            "CN-HTTP-005",
+            "CN-HTTP-006",
+            "CN-HTTP-007",
+            "CN-HTTP-008",
+            "CN-HTTP-009",
+            "CN-HTTP-010",
+            "CN-HTTP-011"
+          ],
+          "priorityPolicy": "1 高频；2 中频；3 低频",
+          "focus": "方法、状态码、缓存、Cookie、CORS"
+        },
+        "6": {
+          "deck": "计算机网络",
+          "ids": [
+            "CN-MOD-001",
+            "CN-MOD-002",
+            "CN-MOD-003",
+            "CN-MOD-004",
+            "CN-MOD-005",
+            "CN-MOD-006",
+            "CN-MOD-007",
+            "CN-MOD-008"
+          ],
+          "priorityPolicy": "1 高频；2 中频；3 低频",
+          "focus": "HTTP/2、TLS 1.3、QUIC、HTTP/3、证书校验"
+        },
+        "7": {
+          "deck": "计算机网络",
+          "ids": [
+            "CN-DIAG-001",
+            "CN-DIAG-002",
+            "CN-DIAG-003",
+            "CN-DIAG-004",
+            "CN-DIAG-005"
+          ],
+          "priorityPolicy": "1 高频；2 中频；3 低频",
+          "focus": "DevTools、curl、抓包、失败夹具和证据链"
+        }
+      },
+      "requiredTopics": [
+        "HTTP 协议",
+        "TCP 协议",
+        "三次握手",
+        "HTTP/2 与 HTTP/3",
+        "抓包与网络排障"
+      ]
+    },
+    "summary": {
+      "official_capabilities": 126,
+      "ledger_entries": 126,
+      "core": 110,
+      "overview": 4,
+      "advanced": 10,
+      "migration": 2,
+      "excluded": 0,
+      "articles": 9,
+      "learning_topics": 6
+    }
+  }
+}

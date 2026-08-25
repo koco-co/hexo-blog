@@ -1,10 +1,10 @@
 # 设计文章地图并独立查漏
 
-本工作流只在路线第一次确认后执行。完整读取 `rules/curriculum-quality.md`、`templates/article-map.template.md` 和 `prompts/curriculum-reviewer.agent.md`。
+本工作流只在路线第一次确认后执行。完整读取 `rules/curriculum-quality.md`、`templates/article-map.template.md`、`templates/course-contract.template.json` 和 `prompts/curriculum-reviewer.agent.md`。
 
 ## Phase 1：审计已有内容
 
-1. 运行 `node tools/hexo-blog/audit.mjs project --json` 与 `node tools/hexo-blog/audit.mjs content --json`。
+1. 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json` 与 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`；若现有仓库 lint 非 `pass`，先按具体文件修复并重跑，再设计新课程。
 2. 递归搜索 `source/_posts/` 中的现有路线、文章、分类、标签、版本和相似知识点。
 3. 只有旧文在版本、零基础可读性、机制深度、完整示例、视觉、FAQ 和自测方面均满足当前路线时才复用。
 4. 不合格时提出“升级旧文”或“新建课程文章”的建议；修改旧文需要用户另行确认。
@@ -16,7 +16,7 @@
 1. 读取第一次确认冻结的 `N` 个学习主题，逐项建立“学习主题原名 → 同名主题文章”映射；不得拆分、合并、改写或遗漏。文章地图确实需要改变学习主题时停止本阶段，返回第一轮重新展示并确认受影响内容。
 2. 入门路线占用系列第一号；`N` 篇主题文章依次占用后续编号。只有第一轮确认包含低频可选篇时，才在主题文章之后加入一篇“进阶路线”；只有第一轮确认包含结尾篇时，才在最后加入一篇“综合实战”“项目实战”或“知识总结”。总数必须为 `N+1～3`。
 3. 为每篇文章确定一个唯一职责和一个可观察学习成果。文件名统一使用 `主题(序号)主题.md`，例如 `Playwright(七)浏览器上下文.md`；Front Matter 标题对应为 `Playwright(七)浏览器上下文`。标题只表达已确认主题，详细介绍写入单行 `description`。
-4. 按 `templates/article-map.template.md` 先记录完整主题映射与数量核算，再为每篇列出前置、详细 H2/H3 大纲、完整示例、视觉计划、社区问题候选、自测与来源，并按 `rules/learning-article-quality.md` 规划参考资料卡片及必要分组，同时冻结系列封面的简短文字、主题图标和本地文件名。
+4. 按 `templates/article-map.template.md` 先记录完整主题映射与数量核算，再为每篇列出前置、详细 H2/H3 大纲、完整示例、视觉计划、社区问题候选、自测与来源，并按 `rules/learning-article-quality.md` 规划参考资料卡片及必要分组。同时冻结系列封面的简短文字、准确主题标识、4～5 个来自已确认文章地图的课程关键词和本地文件名；关键词必须能代表系列主线，使用适合缩略图的短词，不临时发明未纳入课程的工具或概念。
 5. 使用覆盖处置账本为官方能力全集的每个稳定标识选择 `核心详解`、`正文简述`、`进阶路线`、`弃用迁移` 或 `明确不纳入`。前四类指定唯一主文章与目标章节；明确不纳入项不得指定文章或章节。交叉内容通过链接说明，不复制成多篇主线。
 6. 根据官方迁移资料建立旧接口补充集与迁移映射；每项记录旧标识、当前替代项、主文章、章节、来源和计划正文证据。没有现实迁移需求时也显式记录空集，不能留成未知。
 7. 比较官方稳定标识集合与账本稳定标识集合，检查 `官方仅有 = 0`、`账本仅有 = 0`、重复与未处置均为 0；五类计数只对匹配后的唯一账本行求和。再检查旧接口迁移映射闭合、零条无理由排除，以及文章依赖、H2/H3、示例步骤和练习顺序。

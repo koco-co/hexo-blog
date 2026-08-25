@@ -28,9 +28,9 @@ metadata:
 1. 查明事实
    - 确认当前工作目录属于本项目，并完整读取 `rules/project-contract.md`。
    - 根据任务读取 `references/project-map.md` 和相关实时配置、源码或现有文章；不得用调研快照替代当前文件。
-   - 运行 `node tools/hexo-blog/audit.mjs project --json` 获取脱敏的项目状态；内容任务还要运行 `content` 模式。
-   - 图片任务还要运行 `node tools/hexo-blog/audit.mjs assets --json`，区分真实渲染引用与教程示例，并核对迁移清单。
-   - 标签外挂任务还要运行 `node tools/hexo-blog/audit.mjs tags --json`，以已安装插件源码和实时配置确认可用能力。
+   - 运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json` 获取脱敏的项目状态；内容任务还要运行 `content` 模式。
+   - 图片任务还要运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json`，区分真实渲染引用与教程示例，并核对迁移清单。
+   - 标签外挂任务还要运行 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json`，以已安装插件源码和实时配置确认可用能力。
    - 不向用户询问能够从代码、配置或现有内容中查明的事实。
    - 完成条件：目标文件、规范来源、现有行为、敏感边界和验证入口均已明确。
 
@@ -49,11 +49,11 @@ metadata:
    - 完成条件：目标行为已落实，引用闭合，没有顺带改动主题核心或发布状态。
 
 4. 验证
-   - 完整读取 `workflows/§03-verification.md`，先运行机械检查，再完成适用的构建、浏览器和语义验收。
+   - 完整读取 `workflows/§03-verification.md`，先运行针对性机械检查，再完成适用的构建、浏览器和语义验收；最终必须运行全仓库 `lint`。
    - 标签外挂任务必须重跑 `tags` 审计；交互式或依赖网络的标签还要验证真实页面及失败降级。
    - 图片任务必须重跑 `assets` 审计；涉及页面资源时还要检查真实路由的图片加载与 404。
    - 机械检查通过不等于真实页面行为通过；无法运行的验证必须单独列出。
-   - 完成条件：实际执行的命令、页面或场景有证据，失败已修复并重跑，或被明确列为阻塞。
+   - 完成条件：全仓库 lint 为 `pass`，实际执行的构建、页面或场景有证据；lint 任一具体文件失败都已修复并重跑，未全绿时不得交给用户验收。
 
 ## Delivery
 
@@ -84,4 +84,4 @@ metadata:
 - 使用 `flashcard` 或 `flashcard_ref` 时读取 `workflows/§04-tag-plugins-plus.md` 和 `references/hexo-flashcard-plugin.md`。
 - 修改配置、CSS、JavaScript 或自定义页面时，读取 `workflows/§02-customization.md`。
 - 完成改动后，读取 `workflows/§03-verification.md` 和 `checklists/maintenance-acceptance.md`。
-- 机械检查入口为 `tools/hexo-blog/audit.mjs`。
+- 全仓库 Hexo lint 入口为 `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json`；分项排查使用同一脚本的 `project`、`structure`、`config`、`code`、`skills`、`docs`、`content`、`tags` 与 `assets` 模式。

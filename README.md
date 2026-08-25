@@ -83,11 +83,16 @@ npm run server
 | `npm run build` | 生成静态站点 | 写入 `public/`、`db.json`，插件可能写回 `abbrlink` |
 | `npm run clean` | 清理缓存和生成物 | 会删除生成内容，执行前单独确认 |
 | `./node_modules/.bin/hexo new "标题"` | 创建文章 | 创建后仍需补全项目要求的 Front Matter |
-| `node tools/hexo-blog/audit.mjs project --json` | 检查项目、配置、运行时和 Git 边界 | 输出脱敏项目事实 |
-| `node tools/hexo-blog/audit.mjs assets --json` | 检查本地图片、迁移哈希与旧图床引用 | 教程代码示例与真实渲染引用分开统计 |
-| `node tools/hexo-blog/audit.mjs content --json` | 检查文章字段与链接状态 | 构建前允许缺少 `abbrlink` |
-| `node tools/hexo-blog/audit.mjs tags --json` | 检查标签注册、配置和容器闭合 | 标签外挂变更时运行 |
-| `node --test tools/hexo-blog/audit.test.mjs` | 验证审计工具契约 | 当前包含 17 项测试 |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json` | 运行全仓库 Hexo lint | 聚合项目、目录、配置、代码、Skill、文档、内容、标签和资源检查；仅 `status: pass` 可验收 |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs config --json` | 检查配置、依赖与锁文件 | JSON/YAML、npm scripts、依赖安装和 lock 漂移会给出具体路径 |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs code --json` | 检查维护源码语法 | 覆盖 JavaScript、CSS 和 Shell |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs skills --json` | 检查 Agent Skill 接入 | 覆盖 Front Matter、资源引用、目录命名和 Claude 相对软链接 |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs docs --json` | 检查仓库文档 | 阻断无法解析的本地 Markdown 链接与未闭合围栏 |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json` | 检查项目、配置、运行时和 Git 边界 | 输出脱敏项目事实 |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs content --json` | 检查文章字段、结构、课程契约与链接状态 | 构建前允许缺少 `abbrlink` |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json` | 检查真实标签注册、配置和容器闭合 | 未注册标签与禁用能力会阻断 |
+| `node .agents/skills/hexo-learn-topic/scripts/audit.mjs assets --json` | 检查本地图片、迁移哈希与旧图床引用 | 教程代码示例与真实渲染引用分开统计 |
+| `node --test .agents/skills/hexo-learn-topic/scripts/audit.test.mjs` | 验证审计工具契约 | 包含聚合 lint 与当前工作区全绿测试 |
 | `npm run deploy` | 执行本地部署 | 仅在显式部署授权和发布预检通过后运行 |
 
 <a id="content"></a>
@@ -138,6 +143,7 @@ date: YYYY-MM-DD HH:mm:ss
 <h2 align="center">𝑨𝒈𝒆𝒏𝒕 𝑾𝒐𝒓𝒌𝒇𝒍𝒐𝒘 · 协作流程</h2>
 
 - [维护 Skill](.agents/skills/hexo-blog-maintenance/SKILL.md) 负责文章、页面、标签外挂、配置、自定义样式与脚本以及页面验证。
+- [系统课程 <b>Skill</b>](.agents/skills/hexo-learn-topic/SKILL.md) 维护课程工作流、`scripts/` 下的全仓库 <b>lint</b>，以及 `data/` 下按主题保存的课程契约。
 - [部署 Skill](.agents/skills/hexo-blog-deploy/SKILL.md) 只在明确要求发布或点名该 <b>Skill</b> 时进入；实际远程发布仍需本次授权与预检通过。
 - `AGENTS.md` 是项目指令的唯一正文；`CLAUDE.md` 是指向它的相对符号链接。
 - `.agents/skills/` 维护唯一的 <b>Skill</b> 正文，`.claude/skills/` 只保留相对符号链接，避免双份漂移。
@@ -147,22 +153,20 @@ date: YYYY-MM-DD HH:mm:ss
 <h2 align="center">𝑽𝒂𝒍𝒊𝒅𝒂𝒕𝒊𝒐𝒏 · 验证</h2>
 
 ```bash
-node tools/hexo-blog/audit.mjs project --json
-node tools/hexo-blog/audit.mjs assets --json
-node tools/hexo-blog/audit.mjs content --json
-node tools/hexo-blog/audit.mjs tags --json
-node --test tools/hexo-blog/audit.test.mjs
+node .agents/skills/hexo-learn-topic/scripts/audit.mjs project --json
+node .agents/skills/hexo-learn-topic/scripts/audit.mjs lint --json
+node --test .agents/skills/hexo-learn-topic/scripts/audit.test.mjs
 ```
 
-<p>站点源文件变更还应按影响运行 `npm run build`。视觉或交互变更需要在真实浏览器中检查目标路由、桌面与移动视口、交互状态和控制台；本地构建成功不能证明 <b>GitHub Actions</b>、远程部署或线上页面已经成功。</p>
+<p><b>lint</b> 返回具体文件错误时必须修复并重跑，只有 `status: pass` 才能交给用户验收。站点源文件变更还应按影响运行 `npm run build`。视觉或交互变更需要在真实浏览器中检查目标路由、桌面与移动视口、交互状态和控制台；本地构建成功不能证明 <b>GitHub Actions</b>、远程部署或线上页面已经成功。</p>
 
 <a id="constraints"></a>
 
 <h2 align="center">𝑪𝒐𝒏𝒔𝒕𝒓𝒂𝒊𝒏𝒕𝒔 · 已知限制</h2>
 
-- `.github/workflows/deploy.yml` 当前固定 <b>Node.js</b> 16，低于当前 <b>Hexo</b> 8.1.1 所需的 20.19.0；升级前不能把本地构建外推为 <b>CI</b> 可用。
-- `scaffolds/post.md` 尚未生成 `categories` 和 `description`，通过脚手架创建文章后必须补全。
-- 项目根目录当前没有 <b>Git</b> 元数据；`themes/butterfly/` 与 `.deploy_git/` 是独立工作树，状态需要分别检查。
+- `public/`、`db.json` 和 `.deploy_git/` 是生成或发布产物，不通过手工修改制造校验通过。
+- `themes/butterfly/` 与 `.deploy_git/` 是独立 <b>Git</b> 工作树，状态必须与项目根目录分别检查。
+- 本地构建、全仓库 <b>lint</b> 与线上发布属于不同证据层；部署仍需要单独授权和发布预检。
 - 配置与前端脚本中存在敏感字段位置；排查时只报告文件、行号和键名，不复制其值。
 
 <a id="license"></a>

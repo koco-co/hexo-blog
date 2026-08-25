@@ -19,7 +19,7 @@
 上述状态是创建本 Skill 时的快照。每次任务先运行：
 
 ```bash
-node tools/hexo-blog/audit.mjs tags --json
+node .agents/skills/hexo-learn-topic/scripts/audit.mjs tags --json
 ```
 
 事实优先级：当前安装包的 `index.js` → 当前 `_config.yml` 与 `_config.butterfly.yml` → 本目录 → 历史文章。版本或注册表漂移时，先核对源码，不能继续照抄本目录。

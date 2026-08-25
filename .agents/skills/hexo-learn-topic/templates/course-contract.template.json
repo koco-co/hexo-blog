@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "{{主题路径段}}",
+    "series": "{{主题系列名}}",
+    "topics": [
+      "{{第一轮学习主题一}}",
+      "{{第一轮学习主题二}}"
+    ],
+    "optional_articles": [],
+    "articles": [
+      {
+        "order": 1,
+        "title": "{{主题系列名}}(一)入门路线",
+        "file": "{{主题系列名}}(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "{{主题系列名}}(二){{第一轮学习主题一}}",
+        "file": "{{主题系列名}}(二){{第一轮学习主题一}}.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "{{主题系列名}}(三){{第一轮学习主题二}}",
+        "file": "{{主题系列名}}(三){{第一轮学习主题二}}.md",
+        "kind": "topic"
+      }
+    ]
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {},
+    "capabilities": {
+      "{{能力稳定ID}}": {
+        "title": "{{能力名称}}"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "{{能力稳定ID}}": [
+          "core",
+          "{{主题系列名}}(二){{第一轮学习主题一}} / {{目标章节}}",
+          "{{纳入理由}}",
+          "{{核验状态}}"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 1,
+      "ledger_entries": 1,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  }
+}

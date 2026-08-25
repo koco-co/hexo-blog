@@ -1,0 +1,87 @@
+@import url('https://giscus.app/themes/light.css');
+
+:root,
+main {
+    color-scheme: light;
+    --color-btn-text: #4c4948;
+    --color-btn-bg: rgba(255, 255, 255, 0.58);
+    --color-btn-border: rgba(169, 169, 169, 0.65);
+    --color-btn-shadow: 0 1px 0 rgba(31, 35, 40, 0.04);
+    --color-btn-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    --color-btn-hover-bg: rgba(62, 184, 190, 0.14);
+    --color-btn-hover-border: rgba(62, 184, 190, 0.62);
+    --color-btn-active-bg: rgba(62, 184, 190, 0.2);
+    --color-btn-active-border: rgba(62, 184, 190, 0.7);
+    --color-btn-selected-bg: rgba(62, 184, 190, 0.18);
+    --color-btn-primary-text: #fff;
+    --color-btn-primary-bg: #3eb8be;
+    --color-btn-primary-border: #309ca2;
+    --color-btn-primary-shadow: 0 1px 0 rgba(31, 35, 40, 0.1);
+    --color-btn-primary-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    --color-btn-primary-hover-bg: #309ca2;
+    --color-btn-primary-hover-border: #278a90;
+    --color-btn-primary-selected-bg: #278a90;
+    --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.8);
+    --color-btn-primary-disabled-bg: rgba(62, 184, 190, 0.48);
+    --color-btn-primary-disabled-border: rgba(48, 156, 162, 0.48);
+    --color-fg-default: #4c4948;
+    --color-fg-muted: #6f6b69;
+    --color-fg-subtle: #8b8785;
+    --color-canvas-default: transparent;
+    --color-canvas-overlay: rgba(255, 255, 255, 0.86);
+    --color-canvas-inset: rgba(255, 255, 255, 0.64);
+    --color-canvas-subtle: rgba(255, 255, 255, 0.56);
+    --color-border-default: rgba(169, 169, 169, 0.72);
+    --color-border-muted: rgba(169, 169, 169, 0.42);
+    --color-neutral-muted: rgba(175, 184, 193, 0.2);
+    --color-accent-fg: #279fa5;
+    --color-accent-emphasis: #3eb8be;
+    --color-accent-muted: rgba(62, 184, 190, 0.38);
+    --color-accent-subtle: rgba(62, 184, 190, 0.12);
+}
+
+html,
+body {
+    background: transparent !important;
+}
+
+.gsc-comment-box,
+.gsc-comment,
+.gsc-reply-box {
+    border: 1px solid var(--color-border-default);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.68);
+    box-shadow: 0 8px 24px rgba(31, 35, 40, 0.08);
+}
+
+.gsc-comment-box {
+    overflow: hidden;
+}
+
+.gsc-comment-box-tabs,
+.gsc-comment-box-bottom {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.gsc-comment-box-textarea {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.62);
+}
+
+.btn,
+.form-control {
+    border-radius: 8px;
+}
+
+.gsc-reactions-button {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 600px) {
+    .gsc-comment-box,
+    .gsc-comment,
+    .gsc-reply-box {
+        border-radius: 12px;
+    }
+}

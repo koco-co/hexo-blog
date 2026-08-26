@@ -1,0 +1,711 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MySQL(五)多表查询与子查询 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="从连接、存在性判断和集合运算推进到标量、相关与派生子查询，解决跨表 SQL 面试场景。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL(五)多表查询与子查询">
+<meta property="og:url" content="https://koco-co.github.io/posts/55ce38b/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="从连接、存在性判断和集合运算推进到标量、相关与派生子查询，解决跨表 SQL 面试场景。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/mysql-course-cover.png">
+<meta property="article:published_time" content="2026-08-25T05:18:42.000Z">
+<meta property="article:modified_time" content="2026-08-26T08:20:40.396Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="多表查询与子查询">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/mysql-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MySQL(五)多表查询与子查询",
+  "url": "https://koco-co.github.io/posts/55ce38b/",
+  "image": "https://koco-co.github.io/img/picgo-images/mysql-course-cover.png",
+  "datePublished": "2026-08-25T05:18:42.000Z",
+  "dateModified": "2026-08-26T08:20:40.396Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/55ce38b/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL(五)多表查询与子查询',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/mysql-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">MySQL(五)多表查询与子查询</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">MySQL(五)多表查询与子查询<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/mysql/MySQL(五)多表查询与子查询.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-26T08:20:40.396Z" title="更新于 2026-08-26 16:20:40">2026-08-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="MySQL 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>MySQL 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="15" aria-valuenow="5"><span style="width: 33.3333%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/2ec898f2/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">MySQL(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/54906a1/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">MySQL(二)数据库基础与表设计</span></a></li><li class="course-series-nav__item"><a href="/posts/4df9aab4/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">MySQL(三)数据写入与约束</span></a></li><li class="course-series-nav__item"><a href="/posts/80283a7e/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">MySQL(四)查询基础与聚合</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/55ce38b/" aria-current="page"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">MySQL(五)多表查询与子查询</span></a></li><li class="course-series-nav__item"><a href="/posts/6d8f8f0/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">MySQL(六)CTE与窗口函数</span></a></li><li class="course-series-nav__item"><a href="/posts/12331af3/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">MySQL(七)索引原理与设计</span></a></li><li class="course-series-nav__item"><a href="/posts/3bb0fc53/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">MySQL(八)执行计划与查询优化</span></a></li><li class="course-series-nav__item"><a href="/posts/b67bacc6/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">MySQL(九)InnoDB与日志</span></a></li><li class="course-series-nav__item"><a href="/posts/7cc76b1d/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">MySQL(十)事务与MVCC</span></a></li><li class="course-series-nav__item"><a href="/posts/2d2f0ce4/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">MySQL(十一)锁与并发控制</span></a></li><li class="course-series-nav__item"><a href="/posts/aa88466a/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">MySQL(十二)安全与权限</span></a></li><li class="course-series-nav__item"><a href="/posts/94d5d11f/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">MySQL(十三)备份恢复与复制</span></a></li><li class="course-series-nav__item"><a href="/posts/5ad9ac4a/"><span class="course-series-nav__index">14</span><span class="course-series-nav__title">MySQL(十四)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/e11b5c6b/"><span class="course-series-nav__index">15</span><span class="course-series-nav__title">MySQL(十五)综合实战</span></a></li></ol></nav>
+<div class="note primary flat"><p>多表题先画出“保留谁、匹配谁、没有匹配怎么办”的关系，再选择 JOIN、EXISTS 或集合运算。连接解决行的组合，子查询解决集合或标量的判断，两者不要靠背模板混用。</p>
+</div>
+<h2 id="连接模型"><a href="#连接模型" class="headerlink" title="连接模型"></a>连接模型</h2><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  U[users] --&gt;|user_id| O[orders]
+  O --&gt;|order_id| I[order_items]
+  I --&gt;|product_id| P[products]
+  P --&gt;|product_id| V[inventory]
+  U -.没有订单仍保留.- L[LEFT JOIN 结果]
+  </pre></div>
+<div class="note info flat"><p><code>INNER JOIN</code> 只保留双方匹配的行；<code>LEFT JOIN</code> 保留左表全部行，右表未匹配列为 NULL；<code>CROSS JOIN</code> 生成笛卡尔积；自连接把同一表看作两个角色。连接条件必须写在 ON，右表过滤条件若放进 WHERE 可能把 LEFT JOIN 变回 INNER JOIN。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>首选</th>
+<th>结果边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只要有订单的用户</td>
+<td><code>INNER JOIN</code> 或 <code>EXISTS</code></td>
+<td>一个用户多订单会重复，必要时 <code>DISTINCT</code></td>
+</tr>
+<tr>
+<td>所有用户及订单数</td>
+<td><code>LEFT JOIN</code> + <code>COUNT(order.id)</code></td>
+<td>无订单用户计数为 0，不是 1</td>
+</tr>
+<tr>
+<td>是否存在至少一行</td>
+<td><code>EXISTS</code></td>
+<td>找到第一行即可，不需要去重</td>
+</tr>
+<tr>
+<td>两个集合都必须满足</td>
+<td><code>NOT EXISTS</code> 双重否定</td>
+<td>注意空集合和 NULL</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><div class="note primary flat"><p>标量子查询必须最多返回一行；行子查询比较多个列；<code>IN</code>/<code>ANY</code>/<code>ALL</code> 比较集合；相关子查询引用外层行，语义直观但可能反复执行。先确认子查询的基数，再决定运算符。</p>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 标量：找出高于全体平均薪资的员工</span></span><br><span class="line"><span class="keyword">SELECT</span> id, name, salary</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> salary <span class="operator">&gt;</span> (<span class="keyword">SELECT</span> <span class="built_in">AVG</span>(salary) <span class="keyword">FROM</span> employees)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>, id;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ANY / ALL：和同部门员工比较</span></span><br><span class="line"><span class="keyword">SELECT</span> e.id, e.name, e.salary</span><br><span class="line"><span class="keyword">FROM</span> employees <span class="keyword">AS</span> e</span><br><span class="line"><span class="keyword">WHERE</span> e.salary <span class="operator">&gt;=</span> <span class="keyword">ALL</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> peer.salary</span><br><span class="line">  <span class="keyword">FROM</span> employees <span class="keyword">AS</span> peer</span><br><span class="line">  <span class="keyword">WHERE</span> peer.department_id <span class="operator">=</span> e.department_id</span><br><span class="line">    <span class="keyword">AND</span> peer.id <span class="operator">&lt;&gt;</span> e.id</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 行子查询：同时比较部门和薪资</span></span><br><span class="line"><span class="keyword">SELECT</span> id, name</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> (department_id, salary) <span class="keyword">IN</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> department_id, <span class="built_in">MAX</span>(salary)</span><br><span class="line">  <span class="keyword">FROM</span> employees</span><br><span class="line">  <span class="keyword">GROUP</span> <span class="keyword">BY</span> department_id</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>标量子查询返回两行会报错；<code>ALL</code> 对空集合的逻辑结果与直觉不同；<code>NOT IN</code> 遇到 NULL 会把结果变成 UNKNOWN。回答时先写出集合是否可能为空、是否可能含 NULL。</p>
+</div>
+<h2 id="存在性"><a href="#存在性" class="headerlink" title="存在性"></a>存在性</h2><div class="note info flat"><p>“没有订单的用户”是反连接问题。<code>LEFT JOIN ... IS NULL</code> 和 <code>NOT EXISTS</code> 都能表达它；<code>NOT EXISTS</code> 不会因为订单重复而放大用户行，通常更适合作为存在性语义的直接表达。</p>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> u.id, u.email</span><br><span class="line"><span class="keyword">FROM</span> users <span class="keyword">AS</span> u</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">FROM</span> orders <span class="keyword">AS</span> o</span><br><span class="line">  <span class="keyword">WHERE</span> o.user_id <span class="operator">=</span> u.id</span><br><span class="line">)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> u.id;</span><br></pre></td></tr></table></figure>
+<div class="note success flat"><p>用固定 seed 验证时，结果应包含从未下单的用户且每个用户只出现一次。若改写成 LEFT JOIN，过滤条件必须放在 <code>ON</code> 中，并使用 <code>COUNT(o.id)</code> 而不是 <code>COUNT(*)</code>。</p>
+</div>
+<h2 id="派生表"><a href="#派生表" class="headerlink" title="派生表"></a>派生表</h2><div class="note primary flat"><p>FROM 子句中的子查询叫派生表，必须有别名；它先形成中间关系，再被外层查询连接或过滤。派生表适合把“先聚合、后连接”的两阶段问题写清楚。</p>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> d.department_id, d.employee_id, d.salary</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> department_id, <span class="built_in">MAX</span>(salary) <span class="keyword">AS</span> salary</span><br><span class="line">  <span class="keyword">FROM</span> employees</span><br><span class="line">  <span class="keyword">GROUP</span> <span class="keyword">BY</span> department_id</span><br><span class="line">) <span class="keyword">AS</span> top_salary</span><br><span class="line"><span class="keyword">JOIN</span> employees <span class="keyword">AS</span> d</span><br><span class="line">  <span class="keyword">ON</span> d.department_id <span class="operator">=</span> top_salary.department_id</span><br><span class="line"> <span class="keyword">AND</span> d.salary <span class="operator">=</span> top_salary.salary</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> d.department_id, d.employee_id;</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>上面的写法保留并列最高薪员工。如果题目要求每组只留一人，必须额外定义 tie-breaker（例如最小 employee_id），否则“最高”与“唯一一行”不是同一件事。</p>
+</div>
+<h2 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h2><div class="note info flat"><p><code>UNION</code> 合并并去重，<code>UNION ALL</code> 保留重复；<code>INTERSECT</code> 取交集，<code>EXCEPT</code> 取差集。两侧 SELECT 的列数和可兼容类型必须一致；排序通常放在整个集合表达式末尾。</p>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(</span><br><span class="line">  <span class="keyword">SELECT</span> user_id <span class="keyword">FROM</span> orders <span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;paid&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">SELECT</span> user_id <span class="keyword">FROM</span> login_events <span class="keyword">WHERE</span> success <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> user_id;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> id <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">INTERSECT</span></span><br><span class="line"><span class="keyword">SELECT</span> user_id <span class="keyword">FROM</span> orders;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> id <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">EXCEPT</span></span><br><span class="line"><span class="keyword">SELECT</span> user_id <span class="keyword">FROM</span> orders;</span><br></pre></td></tr></table></figure>
+<details class="folding-tag" cyan><summary> TABLE 语句与子查询优化边界 </summary>
+              <div class='content'>
+              <p><code>TABLE users</code> 可以直接读取表的列；它不是 JOIN 或子查询的通用替代。优化器可能把可合并的派生表合并，也可能物化临时结果；不要仅凭 SQL 外观断言性能，最终以执行计划和实际数据验证。</p>
+              </div>
+            </details>
+<h2 id="关系除法"><a href="#关系除法" class="headerlink" title="关系除法"></a>关系除法</h2><div class="note primary flat"><p>“购买指定商品全集”要求一个用户对集合中的每个商品都满足条件。最稳妥的写法是双重 <code>NOT EXISTS</code>：不存在一个指定商品没有被该用户购买。</p>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> u.id, u.email</span><br><span class="line"><span class="keyword">FROM</span> users <span class="keyword">AS</span> u</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">FROM</span> products <span class="keyword">AS</span> required</span><br><span class="line">  <span class="keyword">WHERE</span> required.id <span class="keyword">IN</span> (<span class="number">101</span>, <span class="number">102</span>, <span class="number">103</span>)</span><br><span class="line">    <span class="keyword">AND</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (</span><br><span class="line">      <span class="keyword">SELECT</span> <span class="number">1</span></span><br><span class="line">      <span class="keyword">FROM</span> orders <span class="keyword">AS</span> o</span><br><span class="line">      <span class="keyword">JOIN</span> order_items <span class="keyword">AS</span> oi <span class="keyword">ON</span> oi.order_id <span class="operator">=</span> o.id</span><br><span class="line">      <span class="keyword">WHERE</span> o.user_id <span class="operator">=</span> u.id</span><br><span class="line">        <span class="keyword">AND</span> o.status <span class="operator">=</span> <span class="string">&#x27;paid&#x27;</span></span><br><span class="line">        <span class="keyword">AND</span> oi.product_id <span class="operator">=</span> required.id</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> u.id;</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>另一种写法是先筛选指定商品，再 <code>GROUP BY user_id HAVING COUNT(DISTINCT product_id) = 3</code>。只有在题目明确指定集合始终有三个元素时才能写死 3；更一般的答案应和需求集合的大小比较。</p>
+</div>
+<h2 id="NULL-边界"><a href="#NULL-边界" class="headerlink" title="NULL 边界"></a>NULL 边界</h2><div class="note danger flat"><p><code>NOT IN (subquery)</code> 只要子查询结果含 NULL，就可能让所有比较结果变成 UNKNOWN，最终返回空集。用 <code>NOT EXISTS</code> 表达反连接，或在子查询中明确排除 NULL，并把这个边界写进答案。</p>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 安全的反连接</span></span><br><span class="line"><span class="keyword">SELECT</span> u.id</span><br><span class="line"><span class="keyword">FROM</span> users <span class="keyword">AS</span> u</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">FROM</span> user_imports <span class="keyword">AS</span> i</span><br><span class="line">  <span class="keyword">WHERE</span> i.email <span class="operator">=</span> u.email</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-users-without-orders-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=LEFT%20JOIN">#LEFT JOIN</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8F%8D%E8%BF%9E%E6%8E%A5">#反连接</a></div>
+      <div class="hfc-question"><p>查询从未下过订单的用户，要求每个用户只返回一次。SQL 应该怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=LEFT%20JOIN">#LEFT JOIN</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8F%8D%E8%BF%9E%E6%8E%A5">#反连接</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询从未下过订单的用户，要求每个用户只返回一次。SQL 应该怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT u.id, u.email
+FROM users AS u
+WHERE NOT EXISTS (SELECT 1 FROM orders AS o WHERE o.user_id = u.id)
+ORDER BY u.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>EXISTS 只回答是否存在，不会因为一个用户有多笔订单而产生重复；LEFT JOIN 方案要把右表条件放在 ON 中，且不能使用 <code>COUNT(*)</code> 判断无订单。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-groupwise-max-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%88%86%E7%BB%84%E6%9C%80%E5%A4%A7%E5%80%BC">#分组最大值</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%88%97">#并列</a><a class="hfc-topic" href="/learn-topic/?tag=JOIN">#JOIN</a></div>
+      <div class="hfc-question"><p>查询每个部门薪资最高的所有员工（并列也保留），SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%88%86%E7%BB%84%E6%9C%80%E5%A4%A7%E5%80%BC">#分组最大值</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%88%97">#并列</a><a class="hfc-topic" href="/learn-topic/?tag=JOIN">#JOIN</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询每个部门薪资最高的所有员工（并列也保留），SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT e.department_id, e.id, e.name, e.salary
+FROM employees AS e
+JOIN (SELECT department_id, MAX(salary) AS salary FROM employees GROUP BY department_id) AS m
+  ON m.department_id = e.department_id AND m.salary = e.salary
+ORDER BY e.department_id, e.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>派生表提供每组最高薪，回连能恢复员工明细。若题目要求每组一人，必须给出确定的 tie-breaker 并用窗口函数或额外排序实现。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-relational-division-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%B3%E7%B3%BB%E9%99%A4%E6%B3%95">#关系除法</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%A8%E9%9B%86">#全集</a></div>
+      <div class="hfc-question"><p>查询购买过商品 101、102、103 全部商品的用户，且只计算 paid 订单，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%B3%E7%B3%BB%E9%99%A4%E6%B3%95">#关系除法</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%A8%E9%9B%86">#全集</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询购买过商品 101、102、103 全部商品的用户，且只计算 paid 订单，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT u.id
+FROM users AS u
+WHERE NOT EXISTS (
+  SELECT 1 FROM products AS required
+  WHERE required.id IN (101,102,103)
+    AND NOT EXISTS (
+      SELECT 1 FROM orders o JOIN order_items oi ON oi.order_id = o.id
+      WHERE o.user_id = u.id AND o.status = &#39;paid&#39; AND oi.product_id = required.id
+    )
+)
+ORDER BY u.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>必须去重商品，重复购买不能把一个商品算多次；要明确订单状态和需求集合为空时的业务语义。双重否定直接表达“对全集的每个元素都满足”。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-not-in-null-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20IN">#NOT IN</a><a class="hfc-topic" href="/learn-topic/?tag=NULL">#NULL</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E5%80%BC%E9%80%BB%E8%BE%91">#三值逻辑</a></div>
+      <div class="hfc-question"><p>为什么 <code>WHERE id NOT IN (SELECT user_id FROM orders)</code> 可能返回空集？如何改写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20IN">#NOT IN</a><a class="hfc-topic" href="/learn-topic/?tag=NULL">#NULL</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E5%80%BC%E9%80%BB%E8%BE%91">#三值逻辑</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么 <code>WHERE id NOT IN (SELECT user_id FROM orders)</code> 可能返回空集？如何改写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT u.id
+FROM users AS u
+WHERE NOT EXISTS (SELECT 1 FROM orders AS o WHERE o.user_id = u.id)
+ORDER BY u.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>这是三值逻辑而不是索引问题。回答时说明 NULL 的来源、是否允许 NULL，并用固定含 NULL 的 seed 验证改写前后的差异。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="MySQL 8.4 JOIN" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/join.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 JOIN</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/join.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 Subqueries" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/subqueries.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 Subqueries</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/subqueries.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 EXISTS and NOT EXISTS" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/exists-and-not-exists-subqueries.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 EXISTS and NOT EXISTS</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/exists-and-not-exists-subqueries.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 Set Operations" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/set-operations.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 Set Operations</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/set-operations.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 Derived Tables" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/derived-tables.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 Derived Tables</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/derived-tables.html</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="4"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fmysql%2FMySQL(%E4%BA%94)%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2%E4%B8%8E%E5%AD%90%E6%9F%A5%E8%AF%A2.md" title="复习本篇 · 4 张卡片" aria-label="复习本篇 · 4 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 4 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/55ce38b/">https://koco-co.github.io/posts/55ce38b/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2%E4%B8%8E%E5%AD%90%E6%9F%A5%E8%AF%A2/">多表查询与子查询</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/3bb0fc53/" title="MySQL(八)执行计划与查询优化"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">MySQL(八)执行计划与查询优化</div></div><div class="info-2"><div class="info-item-1">使用统计信息、EXPLAIN ANALYZE、Performance Schema 和 sys 建立发现、改写、复测的查询优化闭环。</div></div></div></a><a class="pagination-related" href="/posts/54906a1/" title="MySQL(二)数据库基础与表设计"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">MySQL(二)数据库基础与表设计</div></div><div class="info-2"><div class="info-item-1">从业务关系、数据类型、字符集、范式和约束出发，完成 ShopLab 九张表的可验证关系模型与 DDL。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2d2f0ce4/" title="MySQL(十一)锁与并发控制"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(十一)锁与并发控制</div></div><div class="info-2"><div class="info-item-1">从记录锁、间隙锁和 next-key lock 推进到锁定读、死锁诊断和 SKIP LOCKED 任务领取，建立并发写入的可验证模型。</div></div></div></a><a class="pagination-related" href="/posts/94d5d11f/" title="MySQL(十三)备份恢复与复制"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(十三)备份恢复与复制</div></div><div class="info-2"><div class="info-item-1">用 RecoverLab 串起一致备份、mysqldump、binlog 时间点恢复、GTID 复制和恢复验证，建立可执行的灾备闭环。</div></div></div></a><a class="pagination-related" href="/posts/80283a7e/" title="MySQL(四)查询基础与聚合"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(四)查询基础与聚合</div></div><div class="info-2"><div class="info-item-1">从 SELECT 逻辑顺序、NULL 和表达式推进到聚合、HAVING、排序与分页，写出结果确定的查询。</div></div></div></a><a class="pagination-related" href="/posts/e11b5c6b/" title="MySQL(十五)综合实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(十五)综合实战</div></div><div class="info-2"><div class="info-item-1">通过 20 道确定输出的 ShopLab 场景题综合验证建模、SQL、优化、事务、锁、权限和恢复能力。</div></div></div></a><a class="pagination-related" href="/posts/5ad9ac4a/" title="MySQL(十四)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(十四)进阶路线</div></div><div class="info-2"><div class="info-item-1">按存储对象、JSON与分区、监控、复制专项和 8.0→8.4 迁移五条分支选择后续能力。</div></div></div></a><a class="pagination-related" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(三)数据写入与约束</div></div><div class="info-2"><div class="info-item-1">掌握 INSERT、UPSERT、UPDATE、DELETE、约束失败、隐式提交和受控写入，避免不可恢复的数据修改。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">连接模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.</span> <span class="toc-text">子查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">存在性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B4%BE%E7%94%9F%E8%A1%A8"><span class="toc-number">4.</span> <span class="toc-text">派生表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E8%BF%90%E7%AE%97"><span class="toc-number">5.</span> <span class="toc-text">集合运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E9%99%A4%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">关系除法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NULL-%E8%BE%B9%E7%95%8C"><span class="toc-number">7.</span> <span class="toc-text">NULL 边界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">8.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">9.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/12331af3/" title="MySQL(七)索引原理与设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(七)索引原理与设计"></a><div class="content"><a class="title" href="/posts/12331af3/" title="MySQL(七)索引原理与设计">MySQL(七)索引原理与设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(三)数据写入与约束"></a><div class="content"><a class="title" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束">MySQL(三)数据写入与约束</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b67bacc6/" title="MySQL(九)InnoDB与日志"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(九)InnoDB与日志"></a><div class="content"><a class="title" href="/posts/b67bacc6/" title="MySQL(九)InnoDB与日志">MySQL(九)InnoDB与日志</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/54906a1/" title="MySQL(二)数据库基础与表设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(二)数据库基础与表设计"></a><div class="content"><a class="title" href="/posts/54906a1/" title="MySQL(二)数据库基础与表设计">MySQL(二)数据库基础与表设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/55ce38b/" title="MySQL(五)多表查询与子查询"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(五)多表查询与子查询"></a><div class="content"><a class="title" href="/posts/55ce38b/" title="MySQL(五)多表查询与子查询">MySQL(五)多表查询与子查询</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3bb0fc53/" title="MySQL(八)执行计划与查询优化"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(八)执行计划与查询优化"></a><div class="content"><a class="title" href="/posts/3bb0fc53/" title="MySQL(八)执行计划与查询优化">MySQL(八)执行计划与查询优化</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7cc76b1d/" title="MySQL(十)事务与MVCC"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十)事务与MVCC"></a><div class="content"><a class="title" href="/posts/7cc76b1d/" title="MySQL(十)事务与MVCC">MySQL(十)事务与MVCC</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/94d5d11f/" title="MySQL(十三)备份恢复与复制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十三)备份恢复与复制"></a><div class="content"><a class="title" href="/posts/94d5d11f/" title="MySQL(十三)备份恢复与复制">MySQL(十三)备份恢复与复制</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/aa88466a/" title="MySQL(十二)安全与权限"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十二)安全与权限"></a><div class="content"><a class="title" href="/posts/aa88466a/" title="MySQL(十二)安全与权限">MySQL(十二)安全与权限</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2d2f0ce4/" title="MySQL(十一)锁与并发控制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十一)锁与并发控制"></a><div class="content"><a class="title" href="/posts/2d2f0ce4/" title="MySQL(十一)锁与并发控制">MySQL(十一)锁与并发控制</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6d8f8f0/" title="MySQL(六)CTE与窗口函数"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(六)CTE与窗口函数"></a><div class="content"><a class="title" href="/posts/6d8f8f0/" title="MySQL(六)CTE与窗口函数">MySQL(六)CTE与窗口函数</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e11b5c6b/" title="MySQL(十五)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十五)综合实战"></a><div class="content"><a class="title" href="/posts/e11b5c6b/" title="MySQL(十五)综合实战">MySQL(十五)综合实战</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5ad9ac4a/" title="MySQL(十四)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十四)进阶路线"></a><div class="content"><a class="title" href="/posts/5ad9ac4a/" title="MySQL(十四)进阶路线">MySQL(十四)进阶路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/80283a7e/" title="MySQL(四)查询基础与聚合"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(四)查询基础与聚合"></a><div class="content"><a class="title" href="/posts/80283a7e/" title="MySQL(四)查询基础与聚合">MySQL(四)查询基础与聚合</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(一)入门路线"/></a><div class="content"><a class="title" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线">Pytest(一)入门路线</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(二)测试基础与执行模型"/></a><div class="content"><a class="title" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型">Pytest(二)测试基础与执行模型</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/12331af3/" title="MySQL(七)索引原理与设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(七)索引原理与设计"/></a><div class="content"><a class="title" href="/posts/12331af3/" title="MySQL(七)索引原理与设计">MySQL(七)索引原理与设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(三)数据写入与约束"/></a><div class="content"><a class="title" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束">MySQL(三)数据写入与约束</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,1336 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MySQL(十五)综合实战 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="通过 20 道确定输出的 ShopLab 场景题综合验证建模、SQL、优化、事务、锁、权限和恢复能力。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL(十五)综合实战">
+<meta property="og:url" content="https://koco-co.github.io/posts/e11b5c6b/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="通过 20 道确定输出的 ShopLab 场景题综合验证建模、SQL、优化、事务、锁、权限和恢复能力。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/mysql-course-cover.png">
+<meta property="article:published_time" content="2026-08-25T05:18:42.000Z">
+<meta property="article:modified_time" content="2026-08-26T08:20:40.396Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="综合实战">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/mysql-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MySQL(十五)综合实战",
+  "url": "https://koco-co.github.io/posts/e11b5c6b/",
+  "image": "https://koco-co.github.io/img/picgo-images/mysql-course-cover.png",
+  "datePublished": "2026-08-25T05:18:42.000Z",
+  "dateModified": "2026-08-26T08:20:40.396Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/e11b5c6b/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL(十五)综合实战',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/mysql-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">MySQL(十五)综合实战</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">MySQL(十五)综合实战<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/mysql/MySQL(十五)综合实战.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-26T08:20:40.396Z" title="更新于 2026-08-26 16:20:40">2026-08-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="MySQL 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>MySQL 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="15" aria-valuenow="15"><span style="width: 100.0000%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/2ec898f2/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">MySQL(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/54906a1/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">MySQL(二)数据库基础与表设计</span></a></li><li class="course-series-nav__item"><a href="/posts/4df9aab4/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">MySQL(三)数据写入与约束</span></a></li><li class="course-series-nav__item"><a href="/posts/80283a7e/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">MySQL(四)查询基础与聚合</span></a></li><li class="course-series-nav__item"><a href="/posts/55ce38b/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">MySQL(五)多表查询与子查询</span></a></li><li class="course-series-nav__item"><a href="/posts/6d8f8f0/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">MySQL(六)CTE与窗口函数</span></a></li><li class="course-series-nav__item"><a href="/posts/12331af3/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">MySQL(七)索引原理与设计</span></a></li><li class="course-series-nav__item"><a href="/posts/3bb0fc53/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">MySQL(八)执行计划与查询优化</span></a></li><li class="course-series-nav__item"><a href="/posts/b67bacc6/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">MySQL(九)InnoDB与日志</span></a></li><li class="course-series-nav__item"><a href="/posts/7cc76b1d/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">MySQL(十)事务与MVCC</span></a></li><li class="course-series-nav__item"><a href="/posts/2d2f0ce4/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">MySQL(十一)锁与并发控制</span></a></li><li class="course-series-nav__item"><a href="/posts/aa88466a/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">MySQL(十二)安全与权限</span></a></li><li class="course-series-nav__item"><a href="/posts/94d5d11f/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">MySQL(十三)备份恢复与复制</span></a></li><li class="course-series-nav__item"><a href="/posts/5ad9ac4a/"><span class="course-series-nav__index">14</span><span class="course-series-nav__title">MySQL(十四)进阶路线</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/e11b5c6b/" aria-current="page"><span class="course-series-nav__index">15</span><span class="course-series-nav__title">MySQL(十五)综合实战</span></a></li></ol></nav>
+<div class="note primary flat"><p>综合实战不是再讲一遍 API，而是把“需求 → SQL → 结果 → 证据 → 边界”连续做完。下面的 20 道题共享 ShopLab 数据和固定输出，适合先独立答题，再用闪卡复盘。</p>
+</div>
+<h2 id="实验初始化"><a href="#实验初始化" class="headerlink" title="实验初始化"></a>实验初始化</h2><div class="note info flat"><p>实验使用九张 InnoDB 表、UTC 时间和 <code>utf8mb4</code>。结构应包含用户、部门、员工、商品、库存、订单、明细、登录事件和导入批次；每道题都应在隔离库运行，先记录版本和 SQL mode。</p>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> NAMES utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_0900_ai_ci;</span><br><span class="line"><span class="keyword">SET</span> time_zone <span class="operator">=</span> <span class="string">&#x27;+00:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> users (id, email, display_name) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">1</span>, <span class="string">&#x27;alice@example.com&#x27;</span>, <span class="string">&#x27;Alice&#x27;</span>),</span><br><span class="line">  (<span class="number">2</span>, <span class="string">&#x27;bob@example.com&#x27;</span>, <span class="string">&#x27;Bob&#x27;</span>),</span><br><span class="line">  (<span class="number">3</span>, <span class="string">&#x27;carol@example.com&#x27;</span>, <span class="string">&#x27;Carol&#x27;</span>),</span><br><span class="line">  (<span class="number">4</span>, <span class="string">&#x27;dave@example.com&#x27;</span>, <span class="string">&#x27;Dave&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> departments (id, name) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">10</span>, <span class="string">&#x27;Engineering&#x27;</span>), (<span class="number">20</span>, <span class="string">&#x27;Sales&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> employees (id, department_id, name, salary, hired_on) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">1001</span>, <span class="number">10</span>, <span class="string">&#x27;E1&#x27;</span>, <span class="number">12000.00</span>, <span class="string">&#x27;2024-01-01&#x27;</span>),</span><br><span class="line">  (<span class="number">1002</span>, <span class="number">10</span>, <span class="string">&#x27;E2&#x27;</span>, <span class="number">12000.00</span>, <span class="string">&#x27;2024-02-01&#x27;</span>),</span><br><span class="line">  (<span class="number">1003</span>, <span class="number">10</span>, <span class="string">&#x27;E3&#x27;</span>, <span class="number">9000.00</span>, <span class="string">&#x27;2024-03-01&#x27;</span>),</span><br><span class="line">  (<span class="number">2001</span>, <span class="number">20</span>, <span class="string">&#x27;E4&#x27;</span>, <span class="number">15000.00</span>, <span class="string">&#x27;2023-05-01&#x27;</span>),</span><br><span class="line">  (<span class="number">2002</span>, <span class="number">20</span>, <span class="string">&#x27;E5&#x27;</span>, <span class="number">8000.00</span>, <span class="string">&#x27;2025-01-01&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> products (id, sku, name, price) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">101</span>, <span class="string">&#x27;SKU-101&#x27;</span>, <span class="string">&#x27;Keyboard&#x27;</span>, <span class="number">199.00</span>),</span><br><span class="line">  (<span class="number">102</span>, <span class="string">&#x27;SKU-102&#x27;</span>, <span class="string">&#x27;Mouse&#x27;</span>, <span class="number">89.00</span>),</span><br><span class="line">  (<span class="number">103</span>, <span class="string">&#x27;SKU-103&#x27;</span>, <span class="string">&#x27;Monitor&#x27;</span>, <span class="number">999.00</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> inventory (product_id, quantity) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">101</span>, <span class="number">20</span>), (<span class="number">102</span>, <span class="number">50</span>), (<span class="number">103</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> orders (id, user_id, status, total_amount, ordered_at) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">10001</span>, <span class="number">1</span>, <span class="string">&#x27;paid&#x27;</span>, <span class="number">288.00</span>, <span class="string">&#x27;2026-06-30 09:00:00&#x27;</span>),</span><br><span class="line">  (<span class="number">10002</span>, <span class="number">1</span>, <span class="string">&#x27;paid&#x27;</span>, <span class="number">999.00</span>, <span class="string">&#x27;2026-07-01 10:00:00&#x27;</span>),</span><br><span class="line">  (<span class="number">10003</span>, <span class="number">2</span>, <span class="string">&#x27;cancelled&#x27;</span>, <span class="number">89.00</span>, <span class="string">&#x27;2026-07-02 10:00:00&#x27;</span>),</span><br><span class="line">  (<span class="number">10004</span>, <span class="number">3</span>, <span class="string">&#x27;paid&#x27;</span>, <span class="number">1288.00</span>, <span class="string">&#x27;2026-07-15 12:00:00&#x27;</span>),</span><br><span class="line">  (<span class="number">10005</span>, <span class="number">3</span>, <span class="string">&#x27;pending&#x27;</span>, <span class="number">199.00</span>, <span class="string">&#x27;2026-08-01 08:00:00&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> order_items (order_id, product_id, quantity, unit_price) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">10001</span>, <span class="number">101</span>, <span class="number">1</span>, <span class="number">199.00</span>), (<span class="number">10001</span>, <span class="number">102</span>, <span class="number">1</span>, <span class="number">89.00</span>),</span><br><span class="line">  (<span class="number">10002</span>, <span class="number">103</span>, <span class="number">1</span>, <span class="number">999.00</span>),</span><br><span class="line">  (<span class="number">10003</span>, <span class="number">102</span>, <span class="number">1</span>, <span class="number">89.00</span>),</span><br><span class="line">  (<span class="number">10004</span>, <span class="number">101</span>, <span class="number">1</span>, <span class="number">199.00</span>), (<span class="number">10004</span>, <span class="number">102</span>, <span class="number">1</span>, <span class="number">1.00</span>),</span><br><span class="line">  (<span class="number">10004</span>, <span class="number">103</span>, <span class="number">1</span>, <span class="number">1088.00</span>),</span><br><span class="line">  (<span class="number">10005</span>, <span class="number">101</span>, <span class="number">1</span>, <span class="number">199.00</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> login_events (user_id, logged_at, success) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="number">1</span>, <span class="string">&#x27;2026-07-01 08:00:00&#x27;</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="string">&#x27;2026-07-02 08:00:00&#x27;</span>, <span class="number">1</span>),</span><br><span class="line">  (<span class="number">1</span>, <span class="string">&#x27;2026-07-04 08:00:00&#x27;</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="string">&#x27;2026-07-01 09:00:00&#x27;</span>, <span class="number">1</span>),</span><br><span class="line">  (<span class="number">2</span>, <span class="string">&#x27;2026-07-02 09:00:00&#x27;</span>, <span class="number">0</span>), (<span class="number">3</span>, <span class="string">&#x27;2026-07-01 09:00:00&#x27;</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT INTO</span> user_imports (source_name, external_id, email, raw_payload) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="string">&#x27;crm&#x27;</span>, <span class="string">&#x27;u-1&#x27;</span>, <span class="string">&#x27;alice@example.com&#x27;</span>, <span class="built_in">JSON_OBJECT</span>(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;Alice&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> IF <span class="keyword">EXISTS</span> user_imports_raw;</span><br><span class="line"><span class="keyword">CREATE TABLE</span> user_imports_raw (</span><br><span class="line">  id <span class="type">BIGINT</span> UNSIGNED <span class="keyword">NOT NULL</span> AUTO_INCREMENT,</span><br><span class="line">  source_name <span class="type">VARCHAR</span>(<span class="number">80</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  external_id <span class="type">VARCHAR</span>(<span class="number">120</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  email <span class="type">VARCHAR</span>(<span class="number">255</span>) <span class="keyword">NULL</span>,</span><br><span class="line">  raw_payload JSON <span class="keyword">NOT NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY KEY</span> (id)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT INTO</span> user_imports_raw (source_name, external_id, email, raw_payload) <span class="keyword">VALUES</span></span><br><span class="line">  (<span class="string">&#x27;crm&#x27;</span>, <span class="string">&#x27;u-1&#x27;</span>, <span class="string">&#x27;alice@example.com&#x27;</span>, <span class="built_in">JSON_OBJECT</span>(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;Alice&#x27;</span>)),</span><br><span class="line">  (<span class="string">&#x27;crm&#x27;</span>, <span class="string">&#x27;u-1&#x27;</span>, <span class="string">&#x27;alice@example.com&#x27;</span>, <span class="built_in">JSON_OBJECT</span>(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;Alice duplicate&#x27;</span>));</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>固定 seed 刻意包含并列最高薪、唯一第二高薪、无订单用户、跨月订单、NULL/重复导入和连续/中断登录。重复导入只放入没有唯一约束的 staging 原始表，生产表仍保留幂等约束；实验结束后可删除该 staging 表。</p>
+</div>
+<h2 id="题目清单"><a href="#题目清单" class="headerlink" title="题目清单"></a>题目清单</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>场景</th>
+<th>你要交付</th>
+<th>核对重点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>订单系统建模</td>
+<td>DDL 与约束</td>
+<td>多对多、唯一、外键、CHECK</td>
+</tr>
+<tr>
+<td>2</td>
+<td>库存 UPSERT</td>
+<td>一条幂等 SQL</td>
+<td>增量与覆盖语义</td>
+</tr>
+<tr>
+<td>3</td>
+<td>受控取消订单</td>
+<td>事务脚本</td>
+<td>预览、影响行数、回滚</td>
+</tr>
+<tr>
+<td>4</td>
+<td>删除重复导入</td>
+<td>标记 + DELETE</td>
+<td>保留规则、唯一键</td>
+</tr>
+<tr>
+<td>5</td>
+<td>第二高薪</td>
+<td>查询</td>
+<td>并列与空结果</td>
+</tr>
+<tr>
+<td>6</td>
+<td>月度销售额</td>
+<td>聚合</td>
+<td>时间边界、排序</td>
+</tr>
+<tr>
+<td>7</td>
+<td>条件聚合</td>
+<td>一次扫描</td>
+<td>分母、NULL、HAVING</td>
+</tr>
+<tr>
+<td>8</td>
+<td>无订单用户</td>
+<td>反连接</td>
+<td>LEFT JOIN/NOT EXISTS</td>
+</tr>
+<tr>
+<td>9</td>
+<td>每组最高薪</td>
+<td>分组最大值</td>
+<td>并列全部保留</td>
+</tr>
+<tr>
+<td>10</td>
+<td>购买商品全集</td>
+<td>关系除法</td>
+<td>DISTINCT、订单状态</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>NOT IN</code> 陷阱</td>
+<td>解释与改写</td>
+<td>NULL 三值逻辑</td>
+</tr>
+<tr>
+<td>12</td>
+<td>分组 Top N</td>
+<td>窗口排名</td>
+<td>RANK 语义</td>
+</tr>
+<tr>
+<td>13</td>
+<td>累计销售额</td>
+<td>窗口 frame</td>
+<td>唯一排序</td>
+</tr>
+<tr>
+<td>14</td>
+<td>连续登录</td>
+<td>gaps-and-islands</td>
+<td>同日去重</td>
+</tr>
+<tr>
+<td>15</td>
+<td>可索引日期</td>
+<td>改写 + 计划</td>
+<td>半开区间</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Keyset 分页</td>
+<td>游标查询</td>
+<td>复合排序</td>
+</tr>
+<tr>
+<td>17</td>
+<td>订单失败回滚</td>
+<td>两会话/事务</td>
+<td>原子性</td>
+</tr>
+<tr>
+<td>18</td>
+<td>库存防超卖</td>
+<td>锁定读</td>
+<td>条件扣减</td>
+</tr>
+<tr>
+<td>19</td>
+<td>应用角色</td>
+<td>GRANT/负向测试</td>
+<td>最小权限</td>
+</tr>
+<tr>
+<td>20</td>
+<td>留存 cohort</td>
+<td>CTE + 聚合</td>
+<td>首月、活跃月、0 月留存</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>每题答案都要写输入假设、SQL、预期行/值、边界和验证命令。只贴一条“看起来正确”的 SQL，不说明并列、NULL、空集合、版本或性能，面试中仍是不完整答案。</p>
+</div>
+<h2 id="答题流程"><a href="#答题流程" class="headerlink" title="答题流程"></a>答题流程</h2><div class="timeline  blue"><div class='timeline-item headline'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>一题四证</p>
+</div>
+        </div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>需求</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>把自然语言中的实体、集合、时间范围、并列规则和失败动作写成明确假设。</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>SQL</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>先写可读的 CTE/子查询，再按结果确定性补 ORDER BY、DISTINCT 或 tie-breaker。</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>结果</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>在固定 seed 上保存结果表、影响行数或错误码，不能只凭客户端视觉判断。</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>解释</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>说明 NULL、重复、锁、索引、事务、权限或恢复边界，并给出一个反例。</p>
+</div>
+      </div></div>
+<h2 id="场景闪卡"><a href="#场景闪卡" class="headerlink" title="场景闪卡"></a>场景闪卡</h2><div class="note primary flat"><p>下面 19 张卡复用前面已经定义的原题，避免复制出多个版本；最后新增一张 cohort 卡。统一卡组 <code>mysql-8.4-interview</code>，优先级 1 是高频面试题，2 是需要巩固的中频题。</p>
+</div>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-02-order-schema-ddl-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=DDL">#DDL</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A4%96%E9%94%AE">#外键</a><a class="hfc-topic" href="/learn-topic/?tag=CHECK">#CHECK</a><a class="hfc-topic" href="/learn-topic/?tag=ShopLab">#ShopLab</a></div>
+      <div class="hfc-question"><p>请为订单系统设计 DDL：订单包含多个商品，库存不能为负，订单状态只能是 pending、paid、cancelled，并且重复 SKU 必须被拒绝。关键表和约束如何写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=DDL">#DDL</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A4%96%E9%94%AE">#外键</a><a class="hfc-topic" href="/learn-topic/?tag=CHECK">#CHECK</a><a class="hfc-topic" href="/learn-topic/?tag=ShopLab">#ShopLab</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>请为订单系统设计 DDL：订单包含多个商品，库存不能为负，订单状态只能是 pending、paid、cancelled，并且重复 SKU 必须被拒绝。关键表和约束如何写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">CREATE TABLE products (id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, sku VARCHAR(40) NOT NULL UNIQUE, price DECIMAL(12,2) NOT NULL CHECK (price &gt;= 0));
+CREATE TABLE orders (id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, user_id BIGINT UNSIGNED NOT NULL, status VARCHAR(20) NOT NULL CHECK (status IN (&#39;pending&#39;,&#39;paid&#39;,&#39;cancelled&#39;)), FOREIGN KEY (user_id) REFERENCES users(id));
+CREATE TABLE order_items (order_id BIGINT UNSIGNED NOT NULL, product_id BIGINT UNSIGNED NOT NULL, quantity INT UNSIGNED NOT NULL CHECK (quantity &gt; 0), unit_price DECIMAL(12,2) NOT NULL, PRIMARY KEY (order_id, product_id), FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id));
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>先创建 users、products，再创建 inventory、orders 和 order_items。金额用 DECIMAL，明细金额用生成列，外键保证引用存在；测试重复 SKU、负数量和不存在父键，预期分别得到重复键、CHECK 失败和外键失败。不要把商品列重复写进 orders，也不要用应用层校验替代数据库约束。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-03-upsert-stock-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=UPSERT">#UPSERT</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BA%93%E5%AD%98">#库存</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%82%E7%AD%89">#幂等</a></div>
+      <div class="hfc-question"><p>库存表中 <code>product_id=101</code> 已有 20 件，现在导入 5 件；不存在时插入 5，存在时增加 5，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=UPSERT">#UPSERT</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BA%93%E5%AD%98">#库存</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%82%E7%AD%89">#幂等</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>库存表中 <code>product_id=101</code> 已有 20 件，现在导入 5 件；不存在时插入 5，存在时增加 5，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p><code>INSERT INTO inventory (product_id, quantity) VALUES (101, 5) AS incoming ON DUPLICATE KEY UPDATE quantity = inventory.quantity + incoming.quantity;</code></p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p><code>product_id</code> 必须是主键或唯一键，数据库才知道何时冲突。预期原值 20 变为 25；如果题意是覆盖成 5，应使用 <code>quantity = incoming.quantity</code>，不能误把增量和覆盖混写。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-03-guarded-update-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=UPDATE">#UPDATE</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%A2%84%E8%A7%88">#预览</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BD%B1%E5%93%8D%E8%A1%8C%E6%95%B0">#影响行数</a></div>
+      <div class="hfc-question"><p>请把 2026-08-01 之前仍为 pending 的订单取消，并保证误选时可以回滚。SQL 步骤是什么？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=UPDATE">#UPDATE</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%A2%84%E8%A7%88">#预览</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BD%B1%E5%93%8D%E8%A1%8C%E6%95%B0">#影响行数</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>请把 2026-08-01 之前仍为 pending 的订单取消，并保证误选时可以回滚。SQL 步骤是什么？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">START TRANSACTION;
+SELECT id FROM orders WHERE status = &#39;pending&#39; AND ordered_at &lt; &#39;2026-08-01&#39; ORDER BY id;
+UPDATE orders SET status = &#39;cancelled&#39; WHERE status = &#39;pending&#39; AND ordered_at &lt; &#39;2026-08-01&#39;;
+SELECT ROW_COUNT();
+-- 结果异常 ROLLBACK，否则 COMMIT
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>关键不是开启 safe updates，而是目标条件可复现、影响行数可解释、提交前有证据。没有 WHERE 或预览使用了不同条件，都会让“回滚前确认”失去意义。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-03-deduplicate-delete-p2" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=DELETE">#DELETE</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE">#重复数据</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%87%AA%E8%BF%9E%E6%8E%A5">#自连接</a></div>
+      <div class="hfc-question"><p>原始导入 staging 表 <code>user_imports_raw</code> 中同一 <code>(source_name, external_id)</code> 出现重复记录，保留最早 <code>id</code>，删除其余记录，SQL 如何写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=DELETE">#DELETE</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE">#重复数据</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%87%AA%E8%BF%9E%E6%8E%A5">#自连接</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>原始导入 staging 表 <code>user_imports_raw</code> 中同一 <code>(source_name, external_id)</code> 出现重复记录，保留最早 <code>id</code>，删除其余记录，SQL 如何写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT r.id
+FROM user_imports_raw AS r
+JOIN user_imports_raw AS keep
+  ON keep.source_name = r.source_name
+ AND keep.external_id = r.external_id
+ AND keep.id &lt; r.id
+ORDER BY r.id;
+
+DELETE r
+FROM user_imports_raw AS r
+JOIN user_imports_raw AS keep
+  ON keep.source_name = r.source_name
+ AND keep.external_id = r.external_id
+ AND keep.id &lt; r.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>先 SELECT 预览将要删除的 id，再在事务中执行 DELETE；<code>keep.id &lt; r.id</code> 明确保留最早记录。staging 表要允许重复，清理后再把唯一键加回生产表，不能把一次清理当作长期约束。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-04-second-highest-salary-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q05</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%81%9A%E5%90%88">#聚合</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AC%AC%E4%BA%8C%E9%AB%98%E8%96%AA">#第二高薪</a><a class="hfc-topic" href="/learn-topic/?tag=NULL">#NULL</a></div>
+      <div class="hfc-question"><p>查询员工表中的第二高薪；如果最高薪并列，仍然返回严格意义上的第二个不同薪资。SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q05</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%81%9A%E5%90%88">#聚合</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AC%AC%E4%BA%8C%E9%AB%98%E8%96%AA">#第二高薪</a><a class="hfc-topic" href="/learn-topic/?tag=NULL">#NULL</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询员工表中的第二高薪；如果最高薪并列，仍然返回严格意义上的第二个不同薪资。SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT MAX(salary) AS second_salary
+FROM employees
+WHERE salary &lt; (SELECT MAX(salary) FROM employees);
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p><code>MAX(salary) &lt; (SELECT MAX(salary) FROM employees WHERE salary &lt; (SELECT MAX(salary) FROM employees))</code> 容易重复嵌套且忽略 NULL；窗口函数能直接表达并列等级。题目若要求第二名员工而非第二个薪资，必须再定义并列处理和稳定排序。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-04-monthly-sales-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q06</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=GROUP%20BY">#GROUP BY</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9C%88%E5%BA%A6%E9%94%80%E5%94%AE">#月度销售</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A5%E6%9C%9F">#日期</a></div>
+      <div class="hfc-question"><p>按月统计 paid 订单销售额，要求月份升序且没有订单的月份不凭空补行，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q06</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=GROUP%20BY">#GROUP BY</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9C%88%E5%BA%A6%E9%94%80%E5%94%AE">#月度销售</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A5%E6%9C%9F">#日期</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>按月统计 paid 订单销售额，要求月份升序且没有订单的月份不凭空补行，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT DATE_FORMAT(ordered_at, &#39;%Y-%m&#39;) AS month, SUM(total_amount) AS sales
+FROM orders
+WHERE status = &#39;paid&#39;
+GROUP BY DATE_FORMAT(ordered_at, &#39;%Y-%m&#39;)
+ORDER BY month;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>如果要补齐没有订单的月份，需要独立的日历表或递归 CTE，那是不同题目；本题只返回数据中实际出现的月份。时间范围应使用半开区间，避免 DATETIME 精度造成月末遗漏。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-04-conditional-aggregation-p2" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9D%A1%E4%BB%B6%E8%81%9A%E5%90%88">#条件聚合</a><a class="hfc-topic" href="/learn-topic/?tag=CASE">#CASE</a><a class="hfc-topic" href="/learn-topic/?tag=HAVING">#HAVING</a></div>
+      <div class="hfc-question"><p>一次扫描统计每个用户的订单总数、paid 数量和 cancelled 数量，并只保留总数至少为 3 的用户，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9D%A1%E4%BB%B6%E8%81%9A%E5%90%88">#条件聚合</a><a class="hfc-topic" href="/learn-topic/?tag=CASE">#CASE</a><a class="hfc-topic" href="/learn-topic/?tag=HAVING">#HAVING</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>一次扫描统计每个用户的订单总数、paid 数量和 cancelled 数量，并只保留总数至少为 3 的用户，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT user_id, COUNT(*) AS total_orders,
+       SUM(CASE WHEN status = &#39;paid&#39; THEN 1 ELSE 0 END) AS paid_orders,
+       SUM(CASE WHEN status = &#39;cancelled&#39; THEN 1 ELSE 0 END) AS cancelled_orders
+FROM orders
+GROUP BY user_id
+HAVING COUNT(*) &gt;= 3
+ORDER BY user_id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>WHERE 放条件会提前删除其他状态，导致总数分母错误；状态允许 NULL 时应写完整 CASE。输出要按 user_id 排序，避免并列结果顺序不稳定。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-users-without-orders-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=LEFT%20JOIN">#LEFT JOIN</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8F%8D%E8%BF%9E%E6%8E%A5">#反连接</a></div>
+      <div class="hfc-question"><p>查询从未下过订单的用户，要求每个用户只返回一次。SQL 应该怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=LEFT%20JOIN">#LEFT JOIN</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8F%8D%E8%BF%9E%E6%8E%A5">#反连接</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询从未下过订单的用户，要求每个用户只返回一次。SQL 应该怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT u.id, u.email
+FROM users AS u
+WHERE NOT EXISTS (SELECT 1 FROM orders AS o WHERE o.user_id = u.id)
+ORDER BY u.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>EXISTS 只回答是否存在，不会因为一个用户有多笔订单而产生重复；LEFT JOIN 方案要把右表条件放在 ON 中，且不能使用 <code>COUNT(*)</code> 判断无订单。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-groupwise-max-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%88%86%E7%BB%84%E6%9C%80%E5%A4%A7%E5%80%BC">#分组最大值</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%88%97">#并列</a><a class="hfc-topic" href="/learn-topic/?tag=JOIN">#JOIN</a></div>
+      <div class="hfc-question"><p>查询每个部门薪资最高的所有员工（并列也保留），SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%88%86%E7%BB%84%E6%9C%80%E5%A4%A7%E5%80%BC">#分组最大值</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%88%97">#并列</a><a class="hfc-topic" href="/learn-topic/?tag=JOIN">#JOIN</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询每个部门薪资最高的所有员工（并列也保留），SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT e.department_id, e.id, e.name, e.salary
+FROM employees AS e
+JOIN (SELECT department_id, MAX(salary) AS salary FROM employees GROUP BY department_id) AS m
+  ON m.department_id = e.department_id AND m.salary = e.salary
+ORDER BY e.department_id, e.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>派生表提供每组最高薪，回连能恢复员工明细。若题目要求每组一人，必须给出确定的 tie-breaker 并用窗口函数或额外排序实现。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-relational-division-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%B3%E7%B3%BB%E9%99%A4%E6%B3%95">#关系除法</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%A8%E9%9B%86">#全集</a></div>
+      <div class="hfc-question"><p>查询购买过商品 101、102、103 全部商品的用户，且只计算 paid 订单，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%B3%E7%B3%BB%E9%99%A4%E6%B3%95">#关系除法</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20EXISTS">#NOT EXISTS</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%85%A8%E9%9B%86">#全集</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询购买过商品 101、102、103 全部商品的用户，且只计算 paid 订单，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT u.id
+FROM users AS u
+WHERE NOT EXISTS (
+  SELECT 1 FROM products AS required
+  WHERE required.id IN (101,102,103)
+    AND NOT EXISTS (
+      SELECT 1 FROM orders o JOIN order_items oi ON oi.order_id = o.id
+      WHERE o.user_id = u.id AND o.status = &#39;paid&#39; AND oi.product_id = required.id
+    )
+)
+ORDER BY u.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>必须去重商品，重复购买不能把一个商品算多次；要明确订单状态和需求集合为空时的业务语义。双重否定直接表达“对全集的每个元素都满足”。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-05-not-in-null-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q11</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20IN">#NOT IN</a><a class="hfc-topic" href="/learn-topic/?tag=NULL">#NULL</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E5%80%BC%E9%80%BB%E8%BE%91">#三值逻辑</a></div>
+      <div class="hfc-question"><p>为什么 <code>WHERE id NOT IN (SELECT user_id FROM orders)</code> 可能返回空集？如何改写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q11</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=NOT%20IN">#NOT IN</a><a class="hfc-topic" href="/learn-topic/?tag=NULL">#NULL</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%89%E5%80%BC%E9%80%BB%E8%BE%91">#三值逻辑</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么 <code>WHERE id NOT IN (SELECT user_id FROM orders)</code> 可能返回空集？如何改写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT u.id
+FROM users AS u
+WHERE NOT EXISTS (SELECT 1 FROM orders AS o WHERE o.user_id = u.id)
+ORDER BY u.id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>这是三值逻辑而不是索引问题。回答时说明 NULL 的来源、是否允许 NULL，并用固定含 NULL 的 seed 验证改写前后的差异。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-06-topn-per-group-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q12</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0">#窗口函数</a><a class="hfc-topic" href="/learn-topic/?tag=Top%20N">#Top N</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%88%97">#并列</a></div>
+      <div class="hfc-question"><p>查询每个部门薪资最高的两档薪资，要求并列员工全部保留，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q12</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0">#窗口函数</a><a class="hfc-topic" href="/learn-topic/?tag=Top%20N">#Top N</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%88%97">#并列</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>查询每个部门薪资最高的两档薪资，要求并列员工全部保留，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">WITH ranked AS (
+  SELECT e.*, DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS r
+  FROM employees AS e
+)
+SELECT id, department_id, name, salary
+FROM ranked
+WHERE r &lt;= 2
+ORDER BY department_id, r, id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p><code>ROW_NUMBER</code> 会在并列时任意舍弃行；<code>RANK</code> 会跳过等级。题目说“薪资档”时选择 DENSE_RANK，题目说“严格两行”时才选择 ROW_NUMBER 并定义 tie-breaker。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-06-running-total-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q13</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AA%97%E5%8F%A3%E5%B8%A7">#窗口帧</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%B4%AF%E8%AE%A1">#累计</a><a class="hfc-topic" href="/learn-topic/?tag=ROWS">#ROWS</a></div>
+      <div class="hfc-question"><p>按订单时间计算 paid 销售额累计值，时间相同的订单也要有确定顺序，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q13</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AA%97%E5%8F%A3%E5%B8%A7">#窗口帧</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%B4%AF%E8%AE%A1">#累计</a><a class="hfc-topic" href="/learn-topic/?tag=ROWS">#ROWS</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>按订单时间计算 paid 销售额累计值，时间相同的订单也要有确定顺序，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT id, ordered_at,
+       SUM(total_amount) OVER (
+         ORDER BY ordered_at, id
+         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS running_sales
+FROM orders
+WHERE status = &#39;paid&#39;
+ORDER BY ordered_at, id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p><code>id</code> 是 tie-breaker，ROWS 明确按行累计；若使用默认 RANGE，同一排序值的 peers 可能一起纳入当前 frame，结果与逐行累计不同。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-06-consecutive-login-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q14</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%9E%E7%BB%AD%E7%99%BB%E5%BD%95">#连续登录</a><a class="hfc-topic" href="/learn-topic/?tag=Gaps-and-Islands">#Gaps-and-Islands</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0">#窗口函数</a></div>
+      <div class="hfc-question"><p>如何计算每个用户最长连续登录天数，并忽略同一天多次登录？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q14</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%9E%E7%BB%AD%E7%99%BB%E5%BD%95">#连续登录</a><a class="hfc-topic" href="/learn-topic/?tag=Gaps-and-Islands">#Gaps-and-Islands</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0">#窗口函数</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>如何计算每个用户最长连续登录天数，并忽略同一天多次登录？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">WITH days AS (SELECT DISTINCT user_id, DATE(logged_at) AS login_day FROM login_events WHERE success = 1),
+numbered AS (
+  SELECT user_id, login_day,
+         TO_DAYS(login_day) - ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_day) AS island
+  FROM days
+)
+SELECT user_id, MAX(streak) AS longest_streak
+FROM (SELECT user_id, island, COUNT(*) AS streak FROM numbered GROUP BY user_id, island) AS s
+GROUP BY user_id
+ORDER BY user_id;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>同日去重是关键，否则重复登录会打断日期与行号的差值。题目若要求自然日还是 24 小时窗口，也要先澄清；本题按自然日定义。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-08-sargable-rewrite-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q15</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=SARGable">#SARGable</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A5%E6%9C%9F%E8%8C%83%E5%9B%B4">#日期范围</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%B4%A2%E5%BC%95">#索引</a></div>
+      <div class="hfc-question"><p><code>WHERE DATE(ordered_at) = &#39;2026-07-01&#39;</code> 可能导致索引失效，如何改写并说明边界？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q15</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=SARGable">#SARGable</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A5%E6%9C%9F%E8%8C%83%E5%9B%B4">#日期范围</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%B4%A2%E5%BC%95">#索引</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p><code>WHERE DATE(ordered_at) = &#39;2026-07-01&#39;</code> 可能导致索引失效，如何改写并说明边界？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT id, ordered_at, total_amount
+FROM orders
+WHERE ordered_at &gt;= &#39;2026-07-01&#39;
+  AND ordered_at &lt; &#39;2026-07-02&#39;;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>对列套 DATE 会让存储引擎难以直接按原列范围定位；半开区间覆盖整天且不依赖月末 23:59:59。若业务时区不是 UTC，先把输入边界转换成存储时区再查询。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-08-keyset-pagination-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q16</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=Keyset%20Pagination">#Keyset Pagination</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B7%B1%E5%88%86%E9%A1%B5">#深分页</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%A8%B3%E5%AE%9A%E6%8E%92%E5%BA%8F">#稳定排序</a></div>
+      <div class="hfc-question"><p>订单按 <code>ordered_at DESC, id DESC</code> 分页，如何避免大 OFFSET，并保证下一页不漏行？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q16</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=Keyset%20Pagination">#Keyset Pagination</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B7%B1%E5%88%86%E9%A1%B5">#深分页</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%A8%B3%E5%AE%9A%E6%8E%92%E5%BA%8F">#稳定排序</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>订单按 <code>ordered_at DESC, id DESC</code> 分页，如何避免大 OFFSET，并保证下一页不漏行？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">SELECT id, ordered_at, total_amount
+FROM orders
+WHERE user_id = ?
+  AND (ordered_at, id) &lt; (?, ?)
+ORDER BY ordered_at DESC, id DESC
+LIMIT 20;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>id 是时间相同的 tie-breaker；游标比较方向必须与 DESC 排序一致。Keyset 适合顺序翻页，不支持任意页码跳转，也不能在排序键可 NULL 且未规定 NULL 位置时直接套用。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-10-order-rollback-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q17</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BA%8B%E5%8A%A1">#事务</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9B%9E%E6%BB%9A">#回滚</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A4%96%E9%94%AE">#外键</a></div>
+      <div class="hfc-question"><p>订单头插入成功、第二条明细因外键失败；如何保证订单头不会孤零零地留下？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q17</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BA%8B%E5%8A%A1">#事务</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9B%9E%E6%BB%9A">#回滚</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A4%96%E9%94%AE">#外键</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>订单头插入成功、第二条明细因外键失败；如何保证订单头不会孤零零地留下？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">START TRANSACTION;
+INSERT INTO orders (user_id, status, total_amount) VALUES (1, &#39;pending&#39;, 288.00);
+INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (LAST_INSERT_ID(), 999, 1, 1.00);
+-- 任一语句失败：ROLLBACK；全部成功：COMMIT
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>外键只能阻止错误明细，不能自动删除已经提交的订单头；事务边界才提供原子性。实验时同时回读 orders、order_items、inventory 的行数和值，并注意 DDL 或外部副作用不属于可回滚范围。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-11-stock-for-update-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q18</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=FOR%20UPDATE">#FOR UPDATE</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BA%93%E5%AD%98">#库存</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%98%B2%E8%B6%85%E5%8D%96">#防超卖</a></div>
+      <div class="hfc-question"><p>两个并发请求都要扣减同一商品库存，如何避免超卖？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q18</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=FOR%20UPDATE">#FOR UPDATE</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BA%93%E5%AD%98">#库存</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%98%B2%E8%B6%85%E5%8D%96">#防超卖</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>两个并发请求都要扣减同一商品库存，如何避免超卖？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">START TRANSACTION;
+SELECT quantity FROM inventory WHERE product_id = 101 FOR UPDATE;
+UPDATE inventory SET quantity = quantity - 2
+WHERE product_id = 101 AND quantity &gt;= 2;
+SELECT ROW_COUNT();
+-- 1 后 COMMIT；0 后 ROLLBACK
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>锁定读让同一商品的决策串行化，条件 UPDATE 防止应用判断与最终写入脱节。事务要短，失败要可重试；如果只先普通 SELECT 再 UPDATE，两个请求可能都读到旧库存。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-12-app-role-grants-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q19</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%A7%92%E8%89%B2">#角色</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9C%80%E5%B0%8F%E6%9D%83%E9%99%90">#最小权限</a><a class="hfc-topic" href="/learn-topic/?tag=GRANT">#GRANT</a></div>
+      <div class="hfc-question"><p>为订单应用创建只允许读写 orders、order_items 和 inventory 的角色，并绑定到应用账户；如何写出最小权限授权？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q19</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%A7%92%E8%89%B2">#角色</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9C%80%E5%B0%8F%E6%9D%83%E9%99%90">#最小权限</a><a class="hfc-topic" href="/learn-topic/?tag=GRANT">#GRANT</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为订单应用创建只允许读写 orders、order_items 和 inventory 的角色，并绑定到应用账户；如何写出最小权限授权？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">CREATE ROLE &#39;shoplab_order_rw&#39;;
+CREATE USER &#39;shoplab_app&#39;@&#39;10.20.%&#39;
+  IDENTIFIED WITH caching_sha2_password BY RANDOM PASSWORD
+  REQUIRE SSL;
+GRANT SELECT, INSERT, UPDATE
+  ON shoplab.orders TO &#39;shoplab_order_rw&#39;;
+GRANT SELECT, INSERT, UPDATE
+  ON shoplab.order_items TO &#39;shoplab_order_rw&#39;;
+GRANT SELECT, UPDATE
+  ON shoplab.inventory TO &#39;shoplab_order_rw&#39;;
+GRANT &#39;shoplab_order_rw&#39; TO &#39;shoplab_app&#39;@&#39;10.20.%&#39;;
+SET DEFAULT ROLE &#39;shoplab_order_rw&#39; TO &#39;shoplab_app&#39;@&#39;10.20.%&#39;;
+SHOW GRANTS FOR &#39;shoplab_app&#39;@&#39;10.20.%&#39;;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>不要授予全局 ALL、DROP、ALTER 或 GRANT OPTION。账户使用 <code>&#39;user&#39;@&#39;host&#39;</code> 精确限制来源，密码用安全管理器生成/轮换，若要求加密再加 REQUIRE SSL；权限测试要证明目标表可用、其他表和管理语句不可用。若部署工具不接受 <code>RANDOM PASSWORD</code> 的回显流程，应改为外部生成的强密码并安全注入，而不是把密码写进仓库。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="mysql84-15-retention-cohort-p1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q20</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%95%99%E5%AD%98">#留存</a><a class="hfc-topic" href="/learn-topic/?tag=Cohort">#Cohort</a><a class="hfc-topic" href="/learn-topic/?tag=CTE">#CTE</a></div>
+      <div class="hfc-question"><p>按用户首次 paid 订单月份分 cohort，计算每个 cohort 在第 0、1、2 月仍有 paid 订单的用户数，SQL 怎么写？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q20</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=mysql-8.4-interview">#mysql-8.4-interview</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%95%99%E5%AD%98">#留存</a><a class="hfc-topic" href="/learn-topic/?tag=Cohort">#Cohort</a><a class="hfc-topic" href="/learn-topic/?tag=CTE">#CTE</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>按用户首次 paid 订单月份分 cohort，计算每个 cohort 在第 0、1、2 月仍有 paid 订单的用户数，SQL 怎么写？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><pre><code class="lang-sql">WITH first_paid AS (
+  SELECT user_id,
+         STR_TO_DATE(DATE_FORMAT(MIN(ordered_at), &#39;%Y-%m-01&#39;), &#39;%Y-%m-%d&#39;) AS cohort_month
+  FROM orders
+  WHERE status = &#39;paid&#39;
+  GROUP BY user_id
+), paid_activity AS (
+  SELECT DISTINCT user_id,
+         STR_TO_DATE(DATE_FORMAT(ordered_at, &#39;%Y-%m-01&#39;), &#39;%Y-%m-%d&#39;) AS activity_month
+  FROM orders
+  WHERE status = &#39;paid&#39;
+)
+SELECT f.cohort_month,
+       TIMESTAMPDIFF(MONTH, f.cohort_month, a.activity_month) AS month_number,
+       COUNT(DISTINCT f.user_id) AS active_users
+FROM first_paid AS f
+JOIN paid_activity AS a ON a.user_id = f.user_id
+WHERE a.activity_month &gt;= f.cohort_month
+GROUP BY f.cohort_month, month_number
+ORDER BY f.cohort_month, month_number;
+</code></pre>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>首月必须来自 paid 订单；活跃月要去重，重复订单不能重复计算用户。上面的写法返回实际出现的 cohort-month 组合；若题目要求固定显示第 0、1、2 月，即使没有活跃用户，也要先生成月份维度再 <code>LEFT JOIN</code> 聚合结果补 0。题目没有要求补零时，不要凭空补出不存在的月份。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WITH</span> first_paid <span class="keyword">AS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> user_id,</span><br><span class="line">         STR_TO_DATE(DATE_FORMAT(<span class="built_in">MIN</span>(ordered_at), <span class="string">&#x27;%Y-%m-01&#x27;</span>), <span class="string">&#x27;%Y-%m-%d&#x27;</span>) <span class="keyword">AS</span> cohort_month</span><br><span class="line">  <span class="keyword">FROM</span> orders</span><br><span class="line">  <span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;paid&#x27;</span></span><br><span class="line">  <span class="keyword">GROUP</span> <span class="keyword">BY</span> user_id</span><br><span class="line">), paid_activity <span class="keyword">AS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> user_id,</span><br><span class="line">         STR_TO_DATE(DATE_FORMAT(ordered_at, <span class="string">&#x27;%Y-%m-01&#x27;</span>), <span class="string">&#x27;%Y-%m-%d&#x27;</span>) <span class="keyword">AS</span> activity_month</span><br><span class="line">  <span class="keyword">FROM</span> orders</span><br><span class="line">  <span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;paid&#x27;</span></span><br><span class="line">), cohort_activity <span class="keyword">AS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> f.cohort_month,</span><br><span class="line">         TIMESTAMPDIFF(<span class="keyword">MONTH</span>, f.cohort_month, a.activity_month) <span class="keyword">AS</span> month_number,</span><br><span class="line">         a.user_id</span><br><span class="line">  <span class="keyword">FROM</span> first_paid <span class="keyword">AS</span> f</span><br><span class="line">  <span class="keyword">JOIN</span> paid_activity <span class="keyword">AS</span> a <span class="keyword">ON</span> a.user_id <span class="operator">=</span> f.user_id</span><br><span class="line">  <span class="keyword">WHERE</span> a.activity_month <span class="operator">&gt;=</span> f.cohort_month</span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> cohort_month,</span><br><span class="line">       month_number,</span><br><span class="line">       <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> user_id) <span class="keyword">AS</span> active_users</span><br><span class="line"><span class="keyword">FROM</span> cohort_activity</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> cohort_month, month_number</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> cohort_month, month_number;</span><br></pre></td></tr></table></figure>
+<div class="note success flat"><p>这道题的验证重点是：首月用户数等于第 0 月活跃用户数；同一用户同一月份只计一次；cancelled/pending 订单不影响 cohort；结果排序稳定。若产品要显示没有活跃用户的月份，先生成月份维度再 LEFT JOIN 聚合结果补 0。</p>
+</div>
+<h2 id="评分复盘"><a href="#评分复盘" class="headerlink" title="评分复盘"></a>评分复盘</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>通过标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正确性</td>
+<td>SQL 在固定 seed 上得到确定结果，约束/事务失败符合预期</td>
+</tr>
+<tr>
+<td>边界</td>
+<td>主动说明 NULL、重复、并列、空集合、时区和版本</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>能用索引、EXPLAIN 或行数证据解释成本，不凭 access type 下结论</td>
+</tr>
+<tr>
+<td>安全</td>
+<td>不泄露凭据，应用权限最小，恢复操作有隔离和回退</td>
+</tr>
+<tr>
+<td>表达</td>
+<td>先给假设和 SQL，再给结果、机制、反例与验证</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="toggle" style="border: 1px solid  cyan"><summary class="toggle-button" style="background-color:  cyan;color:  white">面试收尾自测</summary><div class="toggle-content"><p>随机抽一道题，用 90 秒说清四件事：输入集合是什么、SQL 为什么这样写、哪个边界会让答案错、怎样用结果或计划验证。若只能背出函数名，回到对应闪卡重新手写。</p>
+</div></details>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="MySQL 8.4 SELECT" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/select.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 SELECT</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/select.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 Window Functions" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/window-functions.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 Window Functions</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/window-functions.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 EXPLAIN" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/using-explain.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 EXPLAIN</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/using-explain.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 Transaction Isolation" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 Transaction Isolation</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 Locking Reads" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 Locking Reads</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="MySQL 8.4 Backup and Recovery" target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.4/en/backup-and-recovery.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.mysql.com/favicon.ico"/></div><div class="right"><p class="text">MySQL 8.4 Backup and Recovery</p><p class="url">https://dev.mysql.com/doc/refman/8.4/en/backup-and-recovery.html</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="20"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fmysql%2FMySQL(%E5%8D%81%E4%BA%94)%E7%BB%BC%E5%90%88%E5%AE%9E%E6%88%98.md" title="复习本篇 · 20 张卡片" aria-label="复习本篇 · 20 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 20 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/e11b5c6b/">https://koco-co.github.io/posts/e11b5c6b/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BB%BC%E5%90%88%E5%AE%9E%E6%88%98/">综合实战</a><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/5ad9ac4a/" title="MySQL(十四)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">MySQL(十四)进阶路线</div></div><div class="info-2"><div class="info-item-1">按存储对象、JSON与分区、监控、复制专项和 8.0→8.4 迁移五条分支选择后续能力。</div></div></div></a><a class="pagination-related" href="/posts/6d8f8f0/" title="MySQL(六)CTE与窗口函数"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">MySQL(六)CTE与窗口函数</div></div><div class="info-2"><div class="info-item-1">用 CTE 和窗口函数解决分组 Top N、去重、累计、排名与连续登录等需要保留行明细的 SQL 场景。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(三)数据写入与约束</div></div><div class="info-2"><div class="info-item-1">掌握 INSERT、UPSERT、UPDATE、DELETE、约束失败、隐式提交和受控写入，避免不可恢复的数据修改。</div></div></div></a><a class="pagination-related" href="/posts/55ce38b/" title="MySQL(五)多表查询与子查询"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(五)多表查询与子查询</div></div><div class="info-2"><div class="info-item-1">从连接、存在性判断和集合运算推进到标量、相关与派生子查询，解决跨表 SQL 面试场景。</div></div></div></a><a class="pagination-related" href="/posts/aa88466a/" title="MySQL(十二)安全与权限"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(十二)安全与权限</div></div><div class="info-2"><div class="info-item-1">从账户主机匹配、角色和最小权限推进到连接加密、预处理语句和认证迁移，设计可审计的应用访问边界。</div></div></div></a><a class="pagination-related" href="/posts/7cc76b1d/" title="MySQL(十)事务与MVCC"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(十)事务与MVCC</div></div><div class="info-2"><div class="info-item-1">从事务边界、隔离级别和一致性读理解 InnoDB 的版本链与 Read View，并用回滚场景验证原子性。</div></div></div></a><a class="pagination-related" href="/posts/80283a7e/" title="MySQL(四)查询基础与聚合"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(四)查询基础与聚合</div></div><div class="info-2"><div class="info-item-1">从 SELECT 逻辑顺序、NULL 和表达式推进到聚合、HAVING、排序与分页，写出结果确定的查询。</div></div></div></a><a class="pagination-related" href="/posts/6d8f8f0/" title="MySQL(六)CTE与窗口函数"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">MySQL(六)CTE与窗口函数</div></div><div class="info-2"><div class="info-item-1">用 CTE 和窗口函数解决分组 Top N、去重、累计、排名与连续登录等需要保留行明细的 SQL 场景。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">实验初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%B8%85%E5%8D%95"><span class="toc-number">2.</span> <span class="toc-text">题目清单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%94%E9%A2%98%E6%B5%81%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">答题流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E9%97%AA%E5%8D%A1"><span class="toc-number">4.</span> <span class="toc-text">场景闪卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E5%88%86%E5%A4%8D%E7%9B%98"><span class="toc-number">5.</span> <span class="toc-text">评分复盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/12331af3/" title="MySQL(七)索引原理与设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(七)索引原理与设计"></a><div class="content"><a class="title" href="/posts/12331af3/" title="MySQL(七)索引原理与设计">MySQL(七)索引原理与设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(三)数据写入与约束"></a><div class="content"><a class="title" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束">MySQL(三)数据写入与约束</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b67bacc6/" title="MySQL(九)InnoDB与日志"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(九)InnoDB与日志"></a><div class="content"><a class="title" href="/posts/b67bacc6/" title="MySQL(九)InnoDB与日志">MySQL(九)InnoDB与日志</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/54906a1/" title="MySQL(二)数据库基础与表设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(二)数据库基础与表设计"></a><div class="content"><a class="title" href="/posts/54906a1/" title="MySQL(二)数据库基础与表设计">MySQL(二)数据库基础与表设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/55ce38b/" title="MySQL(五)多表查询与子查询"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(五)多表查询与子查询"></a><div class="content"><a class="title" href="/posts/55ce38b/" title="MySQL(五)多表查询与子查询">MySQL(五)多表查询与子查询</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3bb0fc53/" title="MySQL(八)执行计划与查询优化"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(八)执行计划与查询优化"></a><div class="content"><a class="title" href="/posts/3bb0fc53/" title="MySQL(八)执行计划与查询优化">MySQL(八)执行计划与查询优化</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7cc76b1d/" title="MySQL(十)事务与MVCC"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十)事务与MVCC"></a><div class="content"><a class="title" href="/posts/7cc76b1d/" title="MySQL(十)事务与MVCC">MySQL(十)事务与MVCC</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/94d5d11f/" title="MySQL(十三)备份恢复与复制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十三)备份恢复与复制"></a><div class="content"><a class="title" href="/posts/94d5d11f/" title="MySQL(十三)备份恢复与复制">MySQL(十三)备份恢复与复制</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/aa88466a/" title="MySQL(十二)安全与权限"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十二)安全与权限"></a><div class="content"><a class="title" href="/posts/aa88466a/" title="MySQL(十二)安全与权限">MySQL(十二)安全与权限</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2d2f0ce4/" title="MySQL(十一)锁与并发控制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十一)锁与并发控制"></a><div class="content"><a class="title" href="/posts/2d2f0ce4/" title="MySQL(十一)锁与并发控制">MySQL(十一)锁与并发控制</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6d8f8f0/" title="MySQL(六)CTE与窗口函数"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(六)CTE与窗口函数"></a><div class="content"><a class="title" href="/posts/6d8f8f0/" title="MySQL(六)CTE与窗口函数">MySQL(六)CTE与窗口函数</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e11b5c6b/" title="MySQL(十五)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十五)综合实战"></a><div class="content"><a class="title" href="/posts/e11b5c6b/" title="MySQL(十五)综合实战">MySQL(十五)综合实战</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5ad9ac4a/" title="MySQL(十四)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(十四)进阶路线"></a><div class="content"><a class="title" href="/posts/5ad9ac4a/" title="MySQL(十四)进阶路线">MySQL(十四)进阶路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/80283a7e/" title="MySQL(四)查询基础与聚合"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(四)查询基础与聚合"></a><div class="content"><a class="title" href="/posts/80283a7e/" title="MySQL(四)查询基础与聚合">MySQL(四)查询基础与聚合</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(一)入门路线"/></a><div class="content"><a class="title" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线">Pytest(一)入门路线</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(二)测试基础与执行模型"/></a><div class="content"><a class="title" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型">Pytest(二)测试基础与执行模型</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/12331af3/" title="MySQL(七)索引原理与设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(七)索引原理与设计"/></a><div class="content"><a class="title" href="/posts/12331af3/" title="MySQL(七)索引原理与设计">MySQL(七)索引原理与设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(三)数据写入与约束"/></a><div class="content"><a class="title" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束">MySQL(三)数据写入与约束</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

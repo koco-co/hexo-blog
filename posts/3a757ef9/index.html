@@ -1,0 +1,652 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux(八)网络连接与远程排障 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="按接口、路由、DNS、Socket、应用请求与抓包证据逐层定位网络和远程连接故障。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux(八)网络连接与远程排障">
+<meta property="og:url" content="https://koco-co.github.io/posts/3a757ef9/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="按接口、路由、DNS、Socket、应用请求与抓包证据逐层定位网络和远程连接故障。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/linux-course-cover.png">
+<meta property="article:published_time" content="2026-08-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-26T08:20:40.395Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="网络排障">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/linux-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux(八)网络连接与远程排障",
+  "url": "https://koco-co.github.io/posts/3a757ef9/",
+  "image": "https://koco-co.github.io/img/picgo-images/linux-course-cover.png",
+  "datePublished": "2026-08-24T16:00:00.000Z",
+  "dateModified": "2026-08-26T08:20:40.395Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/3a757ef9/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux(八)网络连接与远程排障',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/linux-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux(八)网络连接与远程排障</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux(八)网络连接与远程排障<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/linux/Linux(八)网络连接与远程排障.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-26T08:20:40.395Z" title="更新于 2026-08-26 16:20:40">2026-08-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="Linux 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>Linux 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="13" aria-valuenow="8"><span style="width: 61.5385%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/89ce5b85/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">Linux(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/6153b09f/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">Linux(二)系统与命令行基础</span></a></li><li class="course-series-nav__item"><a href="/posts/5297e207/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">Linux(三)文件与存储管理</span></a></li><li class="course-series-nav__item"><a href="/posts/33859692/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">Linux(四)文本处理与数据提取</span></a></li><li class="course-series-nav__item"><a href="/posts/72c1404c/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">Linux(五)Shell 语法与命令组合</span></a></li><li class="course-series-nav__item"><a href="/posts/5a63b164/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">Linux(六)用户权限与软件管理</span></a></li><li class="course-series-nav__item"><a href="/posts/23ca1872/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">Linux(七)进程任务与服务管理</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/3a757ef9/" aria-current="page"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">Linux(八)网络连接与远程排障</span></a></li><li class="course-series-nav__item"><a href="/posts/cade4656/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">Linux(九)日志查看与故障定位</span></a></li><li class="course-series-nav__item"><a href="/posts/997240e7/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">Linux(十)性能分析与资源诊断</span></a></li><li class="course-series-nav__item"><a href="/posts/496664b1/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">Linux(十一)Bash 脚本与任务自动化</span></a></li><li class="course-series-nav__item"><a href="/posts/9efa11cb/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">Linux(十二)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/c0dffe07/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">Linux(十三)综合实战</span></a></li></ol></nav>
+<div class="note info flat"><p>“网络不通”必须拆层验证：链路和地址、路由、DNS、端口、TLS、应用请求与抓包。本文从本机状态开始逐层缩小范围；ping 成功不能证明 HTTPS 正常，抓包内容也不能当作可公开的日志。</p>
+</div>
+<h2 id="排障分层"><a href="#排障分层" class="headerlink" title="排障分层"></a>排障分层</h2><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  A[网卡与地址] --&gt; B[路由与邻居]
+  B --&gt; C[DNS 解析]
+  C --&gt; D[TCP&#x2F;UDP Socket]
+  D --&gt; E[TLS 与应用请求]
+  E --&gt; F[抓包确认]
+  </pre></div>
+<div class="note primary flat"><p>每层都有独立成功标准：ip 说明本机状态，tracepath 或 traceroute 说明路径，dig 说明 DNS，ss 或 nc 说明端口，curl 说明应用协议，tcpdump 留下受限报文证据。先记录上一层已知事实，避免跳过路由或 DNS 直接猜应用故障。</p>
+</div>
+<h2 id="接口与路由"><a href="#接口与路由" class="headerlink" title="接口与路由"></a>接口与路由</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip <span class="built_in">link</span></span><br><span class="line">ip addr</span><br><span class="line">ip route</span><br><span class="line">ip neigh</span><br><span class="line">bridge <span class="built_in">link</span></span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>ip link 看接口状态和 MTU，ip addr 看 IPv4/IPv6 与前缀，ip route 看 default 与下一跳，ip neigh 看二层邻居。bridge link 只在桥接或虚拟化网络中补充桥成员信息；没有 bridge 并不代表普通主机网络异常。</p>
+</div>
+<h2 id="路径与可达性"><a href="#路径与可达性" class="headerlink" title="路径与可达性"></a>路径与可达性</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TARGET=example.com</span><br><span class="line">ping -c 2 <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line">tracepath <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line">traceroute <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>ping 验证 ICMP 可达，可能被限速或防火墙丢弃；tracepath 与 traceroute 的中间跳也可能隐藏。把“无 ICMP 回应”和“TCP/HTTPS 应用失败”分开记录，不能用一次 ping 的结果覆盖全部网络层。</p>
+</div>
+<h2 id="DNS-解析"><a href="#DNS-解析" class="headerlink" title="DNS 解析"></a>DNS 解析</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TARGET=example.com</span><br><span class="line">dig +<span class="keyword">time</span>=2 +tries=1 A <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line">dig +<span class="keyword">time</span>=2 +tries=1 AAAA <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>dig 适合记录查询类型、服务器、TTL 与响应状态。无记录、解析超时、返回错误地址、缓存差异和应用绕过系统解析器是不同故障；先保存回答了哪个问题，再继续检查端口。</p>
+</div>
+<h2 id="Socket-与端口"><a href="#Socket-与端口" class="headerlink" title="Socket 与端口"></a>Socket 与端口</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TARGET=example.com</span><br><span class="line">PORT=443</span><br><span class="line"></span><br><span class="line">ss -lntup</span><br><span class="line">ss -ntp</span><br><span class="line">nc -vz -w 3 <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span> <span class="string">&quot;<span class="variable">$PORT</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>ss 是内核 Socket 快照：监听与已连接状态回答不同问题；nc 只验证基础连接建立或监听，不证明 TLS、认证和应用健康。ss 的 PID、用户名与内网地址可能敏感，分享前先删减。</p>
+</div>
+<h2 id="请求与远程操作"><a href="#请求与远程操作" class="headerlink" title="请求与远程操作"></a>请求与远程操作</h2><h3 id="HTTP-HTTPS"><a href="#HTTP-HTTPS" class="headerlink" title="HTTP/HTTPS"></a>HTTP/HTTPS</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TARGET=https://example.com</span><br><span class="line">curl -fsSI --max-time 5 <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line">curl -v --max-time 5 <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>curl -I 或 -fsSI 适合快速看状态和响应头；-v 会显示握手和请求细节，可能含 Cookie、Authorization 或内部地址，收集证据前必须脱敏。wget 的 spider 模式可用于同类只取元数据检查，但不要把两个客户端的成功当作完全相同的代理或 TLS 行为。</p>
+</div>
+<h3 id="SSH-与同步"><a href="#SSH-与同步" class="headerlink" title="SSH 与同步"></a>SSH 与同步</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SSH_TARGET=approved-host</span><br><span class="line">ssh -G <span class="string">&quot;<span class="variable">$SSH_TARGET</span>&quot;</span></span><br><span class="line">ssh -o BatchMode=<span class="built_in">yes</span> -o ConnectTimeout=5 <span class="string">&quot;<span class="variable">$SSH_TARGET</span>&quot;</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">LOCAL_DIR=./report</span><br><span class="line">rsync -av --dry-run <span class="string">&quot;<span class="variable">$LOCAL_DIR</span>/&quot;</span> <span class="string">&quot;<span class="variable">$SSH_TARGET</span>:/srv/report/&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>先用 ssh -G 读取最终配置，再对已经获准的主机做非交互连接；BatchMode=yes 能把“等待密码”变成明确的认证失败。rsync 的 dry-run 只预览将同步的路径，仍会连接远端；确认源、目标、符号链接和删除语义后才允许真实写入。</p>
+</div>
+<div class="note danger flat"><p>ssh-keyscan 只能收集主机公钥，不能证明它可信；首次连接和密钥变更要通过独立可信渠道核对指纹。创建密钥、启动 agent、添加私钥、scp 写远端文件都不是排障试验：私钥、agent socket、Cookie 与详细调试输出不得公开。</p>
+</div>
+<h2 id="抓包证据"><a href="#抓包证据" class="headerlink" title="抓包证据"></a>抓包证据</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TARGET=example.com</span><br><span class="line">PORT=443</span><br><span class="line">INTERFACE=any</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> tcpdump -ni <span class="string">&quot;<span class="variable">$INTERFACE</span>&quot;</span> -c 20 <span class="string">&quot;host <span class="variable">$TARGET</span> and port <span class="variable">$PORT</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>抓包前限制接口、主机、端口和包数，上例最多读取 20 个匹配包。报文会暴露地址、主机名、协议元数据甚至未加密内容；TLS 正文通常不能直接从抓包中读取，应和应用日志、curl 输出交叉验证。</p>
+</div>
+<h2 id="低频入口"><a href="#低频入口" class="headerlink" title="低频入口"></a>低频入口</h2><details class="folding-tag" blue><summary> 远程工具的选择边界 </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th>工具</th><th>中文用途</th><th>选择与排除边界</th></tr></thead><tbody><tr><td>bridge</td><td>查看 Linux bridge 与端口成员</td><td>普通单网卡主机没有 bridge 是正常情况</td></tr><tr><td>host、nslookup</td><td>快速或兼容性 DNS 查询</td><td>需要完整证据优先 dig，三者结果差异要记录查询器与服务器</td></tr><tr><td>wget</td><td>只取元数据或下载文件</td><td>HTTP 调试细节优先 curl；下载会写入本地文件</td></tr><tr><td>scp</td><td>简单的单次 SSH 文件复制</td><td>无 dry-run；大目录或增量同步优先 rsync 并先预览</td></tr><tr><td>ssh-keygen、ssh-agent、ssh-add</td><td>创建与管理 SSH 密钥、agent</td><td>属于凭据生命周期，不在陌生主机或日志中试验</td></tr><tr><td>ssh-keyscan</td><td>收集远端公开主机密钥</td><td>它不完成可信校验，必须另行核对指纹</td></tr></tbody></table></div>
+              </div>
+            </details>
+<h2 id="结果验证"><a href="#结果验证" class="headerlink" title="结果验证"></a>结果验证</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TARGET=example.com</span><br><span class="line">PORT=443</span><br><span class="line"></span><br><span class="line">ip route</span><br><span class="line">dig +<span class="keyword">time</span>=2 +tries=1 A <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line">nc -vz -w 3 <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span> <span class="string">&quot;<span class="variable">$PORT</span>&quot;</span></span><br><span class="line">curl -fsSI --max-time 5 <span class="string">&quot;https://<span class="variable">$TARGET</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note success flat"><p>一份合格网络报告包含目标、源地址、命令、时间、层级、输出摘要和下一步，而不是一句“网络不通”。同一目标至少用一个被动观察和一个主动请求交叉验证；某层失败时，把结论限制在该层，不要跳到“整个网络坏了”。</p>
+</div>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a8-ping-curl" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82">#网络分层</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a></div>
+      <div class="hfc-question"><p>ping 成功能否证明 HTTPS 正常？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82">#网络分层</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>ping 成功能否证明 HTTPS 正常？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>不能。ping 验证 ICMP 可达，HTTPS 还需要 DNS、TCP、TLS、代理和应用层响应。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>按 ip/route、dig、ss/nc、curl -v 分层检查，避免把某一层的成功扩展成端到端结论。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a8-dns-tools" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=DNS">#DNS</a><a class="hfc-topic" href="/learn-topic/?tag=dig">#dig</a></div>
+      <div class="hfc-question"><p>dig、host 和 nslookup 如何选择？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=DNS">#DNS</a><a class="hfc-topic" href="/learn-topic/?tag=dig">#dig</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>dig、host 和 nslookup 如何选择？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>dig 适合详细记录与调试，host 适合快速查询，nslookup 主要用于兼容性排查。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>记录查询类型、服务器、TTL 和响应状态；应用可能使用缓存、DoH 或自带解析器。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a8-ssh-keyscan" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=SSH">#SSH</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%BB%E6%9C%BA%E5%AF%86%E9%92%A5">#主机密钥</a></div>
+      <div class="hfc-question"><p>ssh-keyscan 能证明远端主机可信么？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=SSH">#SSH</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%B8%BB%E6%9C%BA%E5%AF%86%E9%92%A5">#主机密钥</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>ssh-keyscan 能证明远端主机可信么？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>不能，它只收集公钥；可信性需要和独立可信渠道的指纹比对。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>首次连接和密钥变更都要审查指纹，私钥和 agent 信息不应写进日志。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a8-rsync-scp" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BC%A0%E8%BE%93">#传输</a><a class="hfc-topic" href="/learn-topic/?tag=rsync">#rsync</a></div>
+      <div class="hfc-question"><p>scp 和 rsync 的主要选择边界是什么？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BC%A0%E8%BE%93">#传输</a><a class="hfc-topic" href="/learn-topic/?tag=rsync">#rsync</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>scp 和 rsync 的主要选择边界是什么？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>scp 适合简单复制，rsync 适合增量同步、dry-run 和大目录；两者都需确认远端路径与权限。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>不要默认 rsync 的删除选项安全，先 dry-run，再记录源、目标和排除规则。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="iproute2 Documentation" target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man8/ip.8.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://man7.org/favicon.ico"/></div><div class="right"><p class="text">iproute2 Documentation</p><p class="url">https://man7.org/linux/man-pages/man8/ip.8.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="OpenSSH Manual Pages" target="_blank" rel="noopener" href="https://www.openssh.com/manual.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.openssh.com/favicon.ico"/></div><div class="right"><p class="text">OpenSSH Manual Pages</p><p class="url">https://www.openssh.com/manual.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="curl Documentation" target="_blank" rel="noopener" href="https://curl.se/docs/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://curl.se/favicon.ico"/></div><div class="right"><p class="text">curl Documentation</p><p class="url">https://curl.se/docs/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="tcpdump Manual" target="_blank" rel="noopener" href="https://www.tcpdump.org/manpages/tcpdump.1.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.tcpdump.org/favicon.ico"/></div><div class="right"><p class="text">tcpdump Manual</p><p class="url">https://www.tcpdump.org/manpages/tcpdump.1.html</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="4"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Flinux%2FLinux(%E5%85%AB)%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%8E%92%E9%9A%9C.md" title="复习本篇 · 4 张卡片" aria-label="复习本篇 · 4 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 4 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/3a757ef9/">https://koco-co.github.io/posts/3a757ef9/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/997240e7/" title="Linux(十)性能分析与资源诊断"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux(十)性能分析与资源诊断</div></div><div class="info-2"><div class="info-item-1">用同一时间窗的 CPU、内存、I/O、进程与系统调用证据定位性能瓶颈。</div></div></div></a><a class="pagination-related" href="/posts/72c1404c/" title="Linux(五)Shell 语法与命令组合"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux(五)Shell 语法与命令组合</div></div><div class="info-2"><div class="info-item-1">理解 Shell 解析、引号、重定向、管道、作用域和兼容边界，写出可验证的组合命令。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(七)抓包与网络排障</div></div><div class="info-2"><div class="info-item-1">把 DevTools、curl、tcpdump/Wireshark 和六个安全可回收场景串成 DNS、TCP、TLS、HTTP 的证据链排障方法。</div></div></div></a><a class="pagination-related" href="/posts/496664b1/" title="Linux(十一)Bash 脚本与任务自动化"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(十一)Bash 脚本与任务自动化</div></div><div class="info-2"><div class="info-item-1">把交互式命令变成输入明确、错误可见、可清理和可测试的 Bash 脚本。</div></div></div></a><a class="pagination-related" href="/posts/72c1404c/" title="Linux(五)Shell 语法与命令组合"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(五)Shell 语法与命令组合</div></div><div class="info-2"><div class="info-item-1">理解 Shell 解析、引号、重定向、管道、作用域和兼容边界，写出可验证的组合命令。</div></div></div></a><a class="pagination-related" href="/posts/9efa11cb/" title="Linux(十二)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(十二)进阶路线</div></div><div class="info-2"><div class="info-item-1">按可移植性、启动恢复、隔离资源、存储网络、安全和深度观测选择后续方向。</div></div></div></a><a class="pagination-related" href="/posts/cade4656/" title="Linux(九)日志查看与故障定位"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(九)日志查看与故障定位</div></div><div class="info-2"><div class="info-item-1">跨 Journal、内核消息、崩溃转储与轮转历史重建可复核的故障时间线。</div></div></div></a><a class="pagination-related" href="/posts/c0dffe07/" title="Linux(十三)综合实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(十三)综合实战</div></div><div class="info-2"><div class="info-item-1">把日志、进程、服务、资源、磁盘和网络证据串成完整故障诊断和面试复述。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E9%9A%9C%E5%88%86%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">排障分层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E4%B8%8E%E8%B7%AF%E7%94%B1"><span class="toc-number">2.</span> <span class="toc-text">接口与路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E4%B8%8E%E5%8F%AF%E8%BE%BE%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">路径与可达性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E8%A7%A3%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">DNS 解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Socket-%E4%B8%8E%E7%AB%AF%E5%8F%A3"><span class="toc-number">5.</span> <span class="toc-text">Socket 与端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%93%8D%E4%BD%9C"><span class="toc-number">6.</span> <span class="toc-text">请求与远程操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-HTTPS"><span class="toc-number">6.1.</span> <span class="toc-text">HTTP&#x2F;HTTPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E4%B8%8E%E5%90%8C%E6%AD%A5"><span class="toc-number">6.2.</span> <span class="toc-text">SSH 与同步</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%93%E5%8C%85%E8%AF%81%E6%8D%AE"><span class="toc-number">7.</span> <span class="toc-text">抓包证据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8E%E9%A2%91%E5%85%A5%E5%8F%A3"><span class="toc-number">8.</span> <span class="toc-text">低频入口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E9%AA%8C%E8%AF%81"><span class="toc-number">9.</span> <span class="toc-text">结果验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/89ce5b85/" title="Linux(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(一)入门路线"></a><div class="content"><a class="title" href="/posts/89ce5b85/" title="Linux(一)入门路线">Linux(一)入门路线</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5297e207/" title="Linux(三)文件与存储管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(三)文件与存储管理"></a><div class="content"><a class="title" href="/posts/5297e207/" title="Linux(三)文件与存储管理">Linux(三)文件与存储管理</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/23ca1872/" title="Linux(七)进程任务与服务管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(七)进程任务与服务管理"></a><div class="content"><a class="title" href="/posts/23ca1872/" title="Linux(七)进程任务与服务管理">Linux(七)进程任务与服务管理</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cade4656/" title="Linux(九)日志查看与故障定位"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(九)日志查看与故障定位"></a><div class="content"><a class="title" href="/posts/cade4656/" title="Linux(九)日志查看与故障定位">Linux(九)日志查看与故障定位</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6153b09f/" title="Linux(二)系统与命令行基础"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(二)系统与命令行基础"></a><div class="content"><a class="title" href="/posts/6153b09f/" title="Linux(二)系统与命令行基础">Linux(二)系统与命令行基础</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/72c1404c/" title="Linux(五)Shell 语法与命令组合"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(五)Shell 语法与命令组合"></a><div class="content"><a class="title" href="/posts/72c1404c/" title="Linux(五)Shell 语法与命令组合">Linux(五)Shell 语法与命令组合</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3a757ef9/" title="Linux(八)网络连接与远程排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(八)网络连接与远程排障"></a><div class="content"><a class="title" href="/posts/3a757ef9/" title="Linux(八)网络连接与远程排障">Linux(八)网络连接与远程排障</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/997240e7/" title="Linux(十)性能分析与资源诊断"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十)性能分析与资源诊断"></a><div class="content"><a class="title" href="/posts/997240e7/" title="Linux(十)性能分析与资源诊断">Linux(十)性能分析与资源诊断</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5a63b164/" title="Linux(六)用户权限与软件管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(六)用户权限与软件管理"></a><div class="content"><a class="title" href="/posts/5a63b164/" title="Linux(六)用户权限与软件管理">Linux(六)用户权限与软件管理</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/496664b1/" title="Linux(十一)Bash 脚本与任务自动化"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十一)Bash 脚本与任务自动化"></a><div class="content"><a class="title" href="/posts/496664b1/" title="Linux(十一)Bash 脚本与任务自动化">Linux(十一)Bash 脚本与任务自动化</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c0dffe07/" title="Linux(十三)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十三)综合实战"></a><div class="content"><a class="title" href="/posts/c0dffe07/" title="Linux(十三)综合实战">Linux(十三)综合实战</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9efa11cb/" title="Linux(十二)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十二)进阶路线"></a><div class="content"><a class="title" href="/posts/9efa11cb/" title="Linux(十二)进阶路线">Linux(十二)进阶路线</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/33859692/" title="Linux(四)文本处理与数据提取"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(四)文本处理与数据提取"></a><div class="content"><a class="title" href="/posts/33859692/" title="Linux(四)文本处理与数据提取">Linux(四)文本处理与数据提取</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(一)入门路线"/></a><div class="content"><a class="title" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线">Pytest(一)入门路线</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(二)测试基础与执行模型"/></a><div class="content"><a class="title" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型">Pytest(二)测试基础与执行模型</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/12331af3/" title="MySQL(七)索引原理与设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(七)索引原理与设计"/></a><div class="content"><a class="title" href="/posts/12331af3/" title="MySQL(七)索引原理与设计">MySQL(七)索引原理与设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(三)数据写入与约束"/></a><div class="content"><a class="title" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束">MySQL(三)数据写入与约束</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

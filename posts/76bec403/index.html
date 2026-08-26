@@ -1,0 +1,784 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Python(三)对象、变量与运算 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="用名称绑定、身份、相等性和可变性建立 Python 对象模型，并掌握数字、字符串与字节的常见边界。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python(三)对象、变量与运算">
+<meta property="og:url" content="https://koco-co.github.io/posts/76bec403/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="用名称绑定、身份、相等性和可变性建立 Python 对象模型，并掌握数字、字符串与字节的常见边界。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/python-course-cover.png">
+<meta property="article:published_time" content="2026-08-25T05:13:45.000Z">
+<meta property="article:modified_time" content="2026-08-26T08:20:40.400Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="系统学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/python-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Python(三)对象、变量与运算",
+  "url": "https://koco-co.github.io/posts/76bec403/",
+  "image": "https://koco-co.github.io/img/picgo-images/python-course-cover.png",
+  "datePublished": "2026-08-25T05:13:45.000Z",
+  "dateModified": "2026-08-26T08:20:40.400Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/76bec403/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Python(三)对象、变量与运算',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/python-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">Python(三)对象、变量与运算</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Python(三)对象、变量与运算<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/python/Python(三)对象、变量与运算.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-26T08:20:40.400Z" title="更新于 2026-08-26 16:20:40">2026-08-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/Python/">Python</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="Python 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>Python 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="12" aria-valuenow="3"><span style="width: 25.0000%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/1480bf96/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">Python(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/5891c180/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">Python(二)运行环境与代码组织</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/76bec403/" aria-current="page"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">Python(三)对象、变量与运算</span></a></li><li class="course-series-nav__item"><a href="/posts/c43fdd4/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">Python(四)内置类型与容器</span></a></li><li class="course-series-nav__item"><a href="/posts/a62147da/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">Python(五)流程控制与函数</span></a></li><li class="course-series-nav__item"><a href="/posts/be636c04/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">Python(六)迭代器、生成器与装饰器</span></a></li><li class="course-series-nav__item"><a href="/posts/1aeb52d0/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">Python(七)面向对象与数据模型</span></a></li><li class="course-series-nav__item"><a href="/posts/c31bf4bb/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">Python(八)异常、上下文与文件</span></a></li><li class="course-series-nav__item"><a href="/posts/62348dbe/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">Python(九)类型与质量保障</span></a></li><li class="course-series-nav__item"><a href="/posts/fa1b960c/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">Python(十)内存、并发与性能</span></a></li><li class="course-series-nav__item"><a href="/posts/a99f76bc/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">Python(十一)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/c55cda53/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">Python(十二)项目实战</span></a></li></ol></nav>
+<div class="note info flat"><p>Python 变量不是装值的盒子，而是把<strong>名称</strong>绑定到<strong>对象</strong>。一旦先用这句话解释程序，再讨论赋值、参数、可变性和 <code>is</code>，多数“Python 到底按值还是按引用传递”的争论都会消失。</p>
+</div>
+<h2 id="名称与对象"><a href="#名称与对象" class="headerlink" title="名称与对象"></a>名称与对象</h2><div class="note primary flat"><p>对象有类型、值与身份；赋值语句只会让左侧名称指向右侧对象。<code>del name</code> 解除名称绑定，不等于立刻销毁对象；对象是否能回收取决于是否还存在可达引用。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">score = <span class="number">42</span></span><br><span class="line">alias = score</span><br><span class="line">score = <span class="number">99</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(alias, score)  <span class="comment"># 42 99：score 被重新绑定，alias 没有变化</span></span><br><span class="line"></span><br><span class="line">items = [<span class="string">&quot;Python&quot;</span>]</span><br><span class="line">other = items</span><br><span class="line">other.append(<span class="string">&quot;面试&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(items)  <span class="comment"># [&#x27;Python&#x27;, &#x27;面试&#x27;]：两个名称仍指向同一个列表</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>函数调用也遵循名称绑定：形参在函数局部名称空间中绑定到传入对象。它既不是 C++ 意义的“传引用”，也不是对一切对象都复制的“传值”；函数是否影响调用方，取决于它修改了共享的可变对象，还是仅让形参重新绑定。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>发生的事</th>
+<th>用来回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name = value</code></td>
+<td>名称绑定到对象</td>
+<td>赋值会不会复制？通常不会</td>
+</tr>
+<tr>
+<td><code>name = other</code></td>
+<td>新名称绑定到同一对象</td>
+<td>两处为何同步变化？</td>
+</tr>
+<tr>
+<td><code>name = name + x</code></td>
+<td>计算新对象后重新绑定</td>
+<td>原对象会不会被改？取决于类型和运算</td>
+</tr>
+<tr>
+<td><code>del name</code></td>
+<td>删除当前名称绑定</td>
+<td>对象是否还有别的引用？</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="folding-tag" 名称、字面量与缩进边界><summary> open </summary>
+              <div class='content'>
+              <p>标识符不能是关键字；<code>_name</code> 只是约定，<code>__name</code> 可能触发类中的名称改写，稍后在面向对象一篇解释。字符串、数字、<code>None</code>、<code>...</code> 等字面量直接创建或取得对象。逻辑行以换行结束，圆括号、方括号和花括号内可以隐式续行；缩进决定语句块，所以不要混用制表符和空格。</p>
+              </div>
+            </details>
+<h2 id="身份与相等"><a href="#身份与相等" class="headerlink" title="身份与相等"></a>身份与相等</h2><div class="note primary flat"><p><code>==</code> 比较值是否相等，可能调用类型实现的比较协议；<code>is</code> 比较是否为同一个对象。业务值比较几乎总用 <code>==</code>，身份比较主要用于单例哨兵，最常见的是 <code>value is None</code>。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">first = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">second = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">same = first</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(first == second)  <span class="comment"># True：内容相等</span></span><br><span class="line"><span class="built_in">print</span>(first <span class="keyword">is</span> second)  <span class="comment"># False：不是同一列表</span></span><br><span class="line"><span class="built_in">print</span>(first <span class="keyword">is</span> same)    <span class="comment"># True：同一对象</span></span><br><span class="line"><span class="built_in">print</span>(<span class="literal">None</span> <span class="keyword">is</span> <span class="literal">None</span>)     <span class="comment"># True：None 是单例</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>不要从 <code>a is b</code> 在某次交互式运行中恰好为真，推导“短字符串或小整数总会驻留”。对象复用是实现和上下文相关的优化，不是语言承诺；测试值相等使用 <code>==</code>，判断缺失值使用 <code>is None</code>。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>比较</th>
+<th>适用对象</th>
+<th>可靠结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>left == right</code></td>
+<td>数字、字符串、容器、自定义值对象</td>
+<td>值相等；类型可以自定义比较</td>
+</tr>
+<tr>
+<td><code>left is right</code></td>
+<td><code>None</code>、明确的唯一哨兵</td>
+<td>同一对象；不表示值更“相等”</td>
+</tr>
+<tr>
+<td><code>id(value)</code></td>
+<td>临时诊断</td>
+<td>当前生命周期内的身份标识，不应用于业务逻辑</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="可变性"><a href="#可变性" class="headerlink" title="可变性"></a>可变性</h2><div class="note primary flat"><p>可变对象能在原地改变，例如列表、字典、集合和 <code>bytearray</code>；不可变对象如 <code>int</code>、<code>str</code>、<code>tuple</code> 不能原地改值。可变性不是“名称能不能重新赋值”，而是对象本身能不能被原地修改。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">numbers = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">alias = numbers</span><br><span class="line">numbers += [<span class="number">3</span>]          <span class="comment"># 列表通常原地扩展</span></span><br><span class="line"><span class="built_in">print</span>(alias)            <span class="comment"># [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line">word = <span class="string">&quot;py&quot;</span></span><br><span class="line">old = word</span><br><span class="line">word += <span class="string">&quot;thon&quot;</span>         <span class="comment"># 字符串不可变，得到新对象并重新绑定</span></span><br><span class="line"><span class="built_in">print</span>(old, word)        <span class="comment"># py python</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>默认参数只在函数定义时求值一次。把可变对象写成默认值会让多次调用共享同一对象；用 <code>None</code> 作为哨兵，在函数体内创建新容器。这个边界会在函数一篇再次用参数模型验证。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">collect</span>(<span class="params">item: <span class="built_in">str</span>, bucket: <span class="built_in">list</span>[<span class="built_in">str</span>] | <span class="literal">None</span> = <span class="literal">None</span></span>) -&gt; <span class="built_in">list</span>[<span class="built_in">str</span>]:</span><br><span class="line">    <span class="keyword">if</span> bucket <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        bucket = []</span><br><span class="line">    bucket.append(item)</span><br><span class="line">    <span class="keyword">return</span> bucket</span><br></pre></td></tr></table></figure>
+<h2 id="数字与运算"><a href="#数字与运算" class="headerlink" title="数字与运算"></a>数字与运算</h2><div class="note primary flat"><p>整数精确且精度不限；二进制浮点数适合科学计算和近似值，不适合精确十进制金额。金额、税率等需要十进制规则时从字符串构造 <code>Decimal</code>，而不是从已近似的 <code>float</code> 构造。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> Decimal</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="number">0.1</span> + <span class="number">0.2</span> == <span class="number">0.3</span>)                    <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(Decimal(<span class="string">&quot;0.1&quot;</span>) + Decimal(<span class="string">&quot;0.2&quot;</span>) == Decimal(<span class="string">&quot;0.3&quot;</span>))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(-<span class="number">7</span> // <span class="number">3</span>, -<span class="number">7</span> % <span class="number">3</span>)                      <span class="comment"># -3 2，满足 a == (a // b) * b + a % b</span></span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>关键规则</th>
+<th>常见误解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code>、<code>//</code>、<code>%</code></td>
+<td><code>/</code> 是真除法，<code>//</code> 向下取整，<code>%</code> 保持等式关系</td>
+<td>负数整除不是“截断到零”</td>
+</tr>
+<tr>
+<td><code>and</code>、<code>or</code></td>
+<td>从左到右短路，并返回参与计算的操作数</td>
+<td>结果不一定是布尔值</td>
+</tr>
+<tr>
+<td>比较链</td>
+<td><code>a &lt; b &lt; c</code> 等价于带短路的两次比较，<code>b</code> 只求值一次</td>
+<td>不等于 <code>(a &lt; b) &lt; c</code></td>
+</tr>
+<tr>
+<td>优先级</td>
+<td>先用括号表达意图，再记忆规则</td>
+<td>不要依赖难读的优先级猜测</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note success flat"><p>对于浮点近似比较，使用 <code>math.isclose()</code> 并按领域指定绝对或相对容差；不要把格式化后的字符串或 <code>round()</code> 当作通用的相等判定。</p>
+</div>
+<h2 id="字符串与字节"><a href="#字符串与字节" class="headerlink" title="字符串与字节"></a>字符串与字节</h2><div class="note primary flat"><p><code>str</code> 表示 Unicode 文本，<code>bytes</code> 表示原始字节序列。边界只有两次：读入字节时用 <code>decode(encoding)</code> 变为文本，写出文本时用 <code>encode(encoding)</code> 变为字节；不要在业务层把两者混为一谈。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">&quot;你好, Python&quot;</span></span><br><span class="line">payload = text.encode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(payload)                 <span class="comment"># b&#x27;...&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(payload.decode(<span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># 你好, Python</span></span><br><span class="line"></span><br><span class="line">path = <span class="string">r&quot;C:\work\notes&quot;</span></span><br><span class="line"><span class="built_in">print</span>(path)</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>原始字符串只减少反斜杠转义，不会跳过所有语法规则：它不能以单个反斜杠结束。遇到 <code>UnicodeDecodeError</code>，先确认真实编码和数据来源，再选择 <code>errors=&quot;strict&quot;</code>、<code>&quot;replace&quot;</code> 或领域允许的恢复策略；不要默认悄悄丢失数据。</p>
+</div>
+<h3 id="方法族"><a href="#方法族" class="headerlink" title="方法族"></a>方法族</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>常用方法</th>
+<th>边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>清理和前后缀</td>
+<td><code>strip</code>、<code>removeprefix</code>、<code>removesuffix</code></td>
+<td><code>strip(&quot;ab&quot;)</code> 删除两端字符集合，不是删除子串</td>
+</tr>
+<tr>
+<td>搜索与判定</td>
+<td><code>find</code>、<code>count</code>、<code>startswith</code>、<code>isidentifier</code></td>
+<td>查找失败时 <code>find</code> 返回 <code>-1</code>，<code>index</code> 抛异常</td>
+</tr>
+<tr>
+<td>组合文本</td>
+<td><code>split</code>、<code>partition</code>、<code>&quot;-&quot;.join(...)</code></td>
+<td>用 <code>join</code> 连接一组文本，不在循环中反复 <code>+</code></td>
+</tr>
+<tr>
+<td>替换与格式化</td>
+<td><code>replace</code>、<code>translate</code>、f-string、<code>format</code></td>
+<td>f-string 适合本地格式化，不把不可信模板直接执行</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabs"><div class="nav-tabs"><button type="button" class="tab active">Unicode 与归一化</button><button type="button" class="tab">格式化与版本边界</button></div><div class="tab-contents"><div class="tab-item-content active"><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unicodedata</span><br><span class="line"></span><br><span class="line">left = <span class="string">&quot;café&quot;</span></span><br><span class="line">right = <span class="string">&quot;cafe\u0301&quot;</span></span><br><span class="line"><span class="built_in">print</span>(left == right)  <span class="comment"># False：码位序列可以不同</span></span><br><span class="line"><span class="built_in">print</span>(unicodedata.normalize(<span class="string">&quot;NFC&quot;</span>, left) == unicodedata.normalize(<span class="string">&quot;NFC&quot;</span>, right))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Straße&quot;</span>.casefold() == <span class="string">&quot;STRASSE&quot;</span>.casefold())</span><br></pre></td></tr></table></figure></div><div class="tab-item-content"><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name, count = <span class="string">&quot;Python&quot;</span>, <span class="number">3</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>: <span class="subst">&#123;count:04d&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Python 3.14 新增 t-string（模板字符串）语法及 string.templatelib；</span></span><br><span class="line"><span class="comment"># 课程项目仍以 f-string 作为普通格式化首选，运行前先核对解释器版本。</span></span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<div class="note info flat"><p>字符串方法返回新字符串；<code>bytes</code> 也有许多平行方法，而 <code>bytearray</code> 是可变字节缓冲区。处理网络协议、压缩或二进制文件时再进入 <code>bytes</code>/<code>bytearray</code>；普通用户文本保持为 <code>str</code>，编码边界越少越可靠。</p>
+</div>
+<h2 id="对象实验"><a href="#对象实验" class="headerlink" title="对象实验"></a>对象实验</h2><div class="note info flat"><p>运行这个实验前先预测五行输出：哪些名称共享列表、哪些比较值、哪些比较身份，以及为什么浮点式没有精确相等。预测和实际不一致时，逐行标出“重新绑定”或“原地修改”。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> Decimal</span><br><span class="line"></span><br><span class="line">left = [<span class="string">&quot;draft&quot;</span>]</span><br><span class="line">right = left</span><br><span class="line">copy = left[:]</span><br><span class="line">right.append(<span class="string">&quot;review&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(left <span class="keyword">is</span> right, left == right)  <span class="comment"># True True</span></span><br><span class="line"><span class="built_in">print</span>(left <span class="keyword">is</span> copy, left == copy)    <span class="comment"># False False</span></span><br><span class="line"><span class="built_in">print</span>(copy)                          <span class="comment"># [&#x27;draft&#x27;]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="number">0.1</span> + <span class="number">0.2</span> == <span class="number">0.3</span>)              <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(Decimal(<span class="string">&quot;0.1&quot;</span>) + Decimal(<span class="string">&quot;0.2&quot;</span>) == Decimal(<span class="string">&quot;0.3&quot;</span>))  <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+<h2 id="结果验证"><a href="#结果验证" class="headerlink" title="结果验证"></a>结果验证</h2><div class="note success flat"><p>完成本篇后，应该能够以对象模型解释输出，而不是记忆零散结论。遇到共享状态时，先检查对象身份、可变性与是否发生了重新绑定，再决定是否需要复制。</p>
+</div>
+<ul>
+<li>[ ] 能解释 <code>alias = items</code> 与 <code>items[:]</code> 的区别。</li>
+<li>[ ] 只在比较 <code>None</code> 或明确哨兵时使用 <code>is</code>。</li>
+<li>[ ] 能写出可变默认参数的安全替代写法。</li>
+<li>[ ] 能说明金额为什么选 <code>Decimal(&quot;...&quot;)</code>，以及浮点近似比较为何选 <code>math.isclose()</code>。</li>
+<li>[ ] 能指出一次文本—字节转换发生在哪个系统边界。</li>
+</ul>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="python-object-is-eq" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B">#对象模型</a><a class="hfc-topic" href="/learn-topic/?tag=is">#is</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%9B%B8%E7%AD%89%E6%80%A7">#相等性</a></div>
+      <div class="hfc-question"><p><code>is</code> 与 <code>==</code> 的区别是什么？什么时候应该写 <code>is None</code>？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B">#对象模型</a><a class="hfc-topic" href="/learn-topic/?tag=is">#is</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%9B%B8%E7%AD%89%E6%80%A7">#相等性</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p><code>is</code> 与 <code>==</code> 的区别是什么？什么时候应该写 <code>is None</code>？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p><code>==</code> 比较值，<code>is</code> 比较是否为同一对象；缺失值判断应写 <code>value is None</code>。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>列表、字符串和自定义对象可以值相等却不是同一对象。短字符串、小整数或常量复用属于实现优化，不能作为业务逻辑依据。<code>None</code> 是语言提供的单例，所以身份判断既清楚又可靠。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="python-object-mutability" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8F%AF%E5%8F%98%E6%80%A7">#可变性</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%88%AB%E5%90%8D">#别名</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A2%9E%E9%87%8F%E8%B5%8B%E5%80%BC">#增量赋值</a></div>
+      <div class="hfc-question"><p>为什么 <code>a = b = []</code> 容易出错？<code>+=</code> 为什么有时会影响别名？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8F%AF%E5%8F%98%E6%80%A7">#可变性</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%88%AB%E5%90%8D">#别名</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%A2%9E%E9%87%8F%E8%B5%8B%E5%80%BC">#增量赋值</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么 <code>a = b = []</code> 容易出错？<code>+=</code> 为什么有时会影响别名？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>两个名称开始时指向同一列表；可变对象的 <code>+=</code> 往往原地修改，所以别名也能看到变化。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>名称绑定不会默认复制对象。列表、字典、集合和 <code>bytearray</code> 可原地改；字符串、整数和元组不可变，相关运算通常创建新对象再重新绑定。遇到共享状态先检查身份和类型。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="python-object-binding" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%B5%8B%E5%80%BC">#赋值</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0">#函数参数</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%90%8D%E7%A7%B0%E7%BB%91%E5%AE%9A">#名称绑定</a></div>
+      <div class="hfc-question"><p>Python 函数参数是“传值”还是“传引用”？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%B5%8B%E5%80%BC">#赋值</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0">#函数参数</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%90%8D%E7%A7%B0%E7%BB%91%E5%AE%9A">#名称绑定</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>Python 函数参数是“传值”还是“传引用”？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>形参是局部名称，调用时绑定到传入对象；修改共享可变对象会被调用方看到，重新绑定形参不会。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>这比二选一术语更准确。<code>items.append(x)</code> 改的是同一个列表；<code>items = []</code> 只让函数内部名称指向新列表。理解对象和名称能正确解释默认参数、闭包和容器副作用。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="python-object-float" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=float">#float</a><a class="hfc-topic" href="/learn-topic/?tag=Decimal">#Decimal</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%95%B0%E5%80%BC">#数值</a></div>
+      <div class="hfc-question"><p>为什么 <code>0.1 + 0.2 == 0.3</code> 通常为假？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Python%20%E5%9F%BA%E7%A1%80">#Python 基础</a><a class="hfc-topic" href="/learn-topic/?tag=Python">#Python</a><a class="hfc-topic" href="/learn-topic/?tag=float">#float</a><a class="hfc-topic" href="/learn-topic/?tag=Decimal">#Decimal</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%95%B0%E5%80%BC">#数值</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么 <code>0.1 + 0.2 == 0.3</code> 通常为假？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>这三个十进制小数多数不能被二进制浮点精确表示，运算结果是相近值而不是精确值。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>近似值比较使用 <code>math.isclose()</code> 和领域容差；需要十进制精确规则时，从字符串构造 <code>Decimal</code>。不要依赖显示时的四舍五入来判断数值是否相等。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="Python 3.14 数据模型" target="_blank" rel="noopener" href="https://docs.python.org/3.14/reference/datamodel.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.python.org/3.14/_static/py.svg"/></div><div class="right"><p class="text">Python 3.14 数据模型</p><p class="url">https://docs.python.org/3.14/reference/datamodel.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Python 3.14 表达式" target="_blank" rel="noopener" href="https://docs.python.org/3.14/reference/expressions.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.python.org/3.14/_static/py.svg"/></div><div class="right"><p class="text">Python 3.14 表达式</p><p class="url">https://docs.python.org/3.14/reference/expressions.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Python 3.14 标准类型" target="_blank" rel="noopener" href="https://docs.python.org/3.14/library/stdtypes.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.python.org/3.14/_static/py.svg"/></div><div class="right"><p class="text">Python 3.14 标准类型</p><p class="url">https://docs.python.org/3.14/library/stdtypes.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Python decimal" target="_blank" rel="noopener" href="https://docs.python.org/3.14/library/decimal.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.python.org/3.14/_static/py.svg"/></div><div class="right"><p class="text">Python decimal</p><p class="url">https://docs.python.org/3.14/library/decimal.html</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="4"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fpython%2FPython(%E4%B8%89)%E5%AF%B9%E8%B1%A1%E3%80%81%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97.md" title="复习本篇 · 4 张卡片" aria-label="复习本篇 · 4 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 4 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/76bec403/">https://koco-co.github.io/posts/76bec403/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/">系统学习</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/5891c180/" title="Python(二)运行环境与代码组织"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Python(二)运行环境与代码组织</div></div><div class="info-2"><div class="info-item-1">从解释器入口、虚拟环境、模块与包到导入缓存建立代码运行模型，并能够诊断常见环境和导入问题。</div></div></div></a><a class="pagination-related" href="/posts/1aeb52d0/" title="Python(七)面向对象与数据模型"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Python(七)面向对象与数据模型</div></div><div class="info-2"><div class="info-item-1">理解类与实例、属性查找、方法绑定、继承与 MRO、数据类和特殊方法，并正确解释名称改写而非私有性。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/1aeb52d0/" title="Python(七)面向对象与数据模型"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Python(七)面向对象与数据模型</div></div><div class="info-2"><div class="info-item-1">理解类与实例、属性查找、方法绑定、继承与 MRO、数据类和特殊方法，并正确解释名称改写而非私有性。</div></div></div></a><a class="pagination-related" href="/posts/1480bf96/" title="Python(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Python(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立 Python 系统课程的版本边界、依赖顺序、能力范围和验证方法，为基础语法、运行机制、质量保障与项目实战提供统一入口。</div></div></div></a><a class="pagination-related" href="/posts/a99f76bc/" title="Python(十一)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Python(十一)进阶路线</div></div><div class="info-2"><div class="info-item-1">面向需要扩展运行时、处理二进制数据、构建发行包或迁移版本的读者，建立 Python 低频高级机制的决策地图。</div></div></div></a><a class="pagination-related" href="/posts/5891c180/" title="Python(二)运行环境与代码组织"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Python(二)运行环境与代码组织</div></div><div class="info-2"><div class="info-item-1">从解释器入口、虚拟环境、模块与包到导入缓存建立代码运行模型，并能够诊断常见环境和导入问题。</div></div></div></a><a class="pagination-related" href="/posts/c55cda53/" title="Python(十二)项目实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Python(十二)项目实战</div></div><div class="info-2"><div class="info-item-1">用一个可安装、可测试的命令行日志分析器串联模块、类型、文件、异常、并发与性能测量，并形成可解释的交付证据。</div></div></div></a><a class="pagination-related" href="/posts/62348dbe/" title="Python(九)类型与质量保障"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Python(九)类型与质量保障</div></div><div class="info-2"><div class="info-item-1">使用类型标注、测试、调试、日志和性能测量建立质量反馈环，同时区分静态检查与运行时行为。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8D%E7%A7%B0%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">名称与对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BA%AB%E4%BB%BD%E4%B8%8E%E7%9B%B8%E7%AD%89"><span class="toc-number">2.</span> <span class="toc-text">身份与相等</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">可变性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E4%B8%8E%E8%BF%90%E7%AE%97"><span class="toc-number">4.</span> <span class="toc-text">数字与运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8E%E5%AD%97%E8%8A%82"><span class="toc-number">5.</span> <span class="toc-text">字符串与字节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E6%97%8F"><span class="toc-number">5.1.</span> <span class="toc-text">方法族</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%AE%9E%E9%AA%8C"><span class="toc-number">6.</span> <span class="toc-text">对象实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E9%AA%8C%E8%AF%81"><span class="toc-number">7.</span> <span class="toc-text">结果验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">8.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">9.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/1480bf96/" title="Python(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(一)入门路线"></a><div class="content"><a class="title" href="/posts/1480bf96/" title="Python(一)入门路线">Python(一)入门路线</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1aeb52d0/" title="Python(七)面向对象与数据模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(七)面向对象与数据模型"></a><div class="content"><a class="title" href="/posts/1aeb52d0/" title="Python(七)面向对象与数据模型">Python(七)面向对象与数据模型</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/76bec403/" title="Python(三)对象、变量与运算"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(三)对象、变量与运算"></a><div class="content"><a class="title" href="/posts/76bec403/" title="Python(三)对象、变量与运算">Python(三)对象、变量与运算</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5891c180/" title="Python(二)运行环境与代码组织"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(二)运行环境与代码组织"></a><div class="content"><a class="title" href="/posts/5891c180/" title="Python(二)运行环境与代码组织">Python(二)运行环境与代码组织</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/62348dbe/" title="Python(九)类型与质量保障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(九)类型与质量保障"></a><div class="content"><a class="title" href="/posts/62348dbe/" title="Python(九)类型与质量保障">Python(九)类型与质量保障</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c31bf4bb/" title="Python(八)异常、上下文与文件"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(八)异常、上下文与文件"></a><div class="content"><a class="title" href="/posts/c31bf4bb/" title="Python(八)异常、上下文与文件">Python(八)异常、上下文与文件</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a62147da/" title="Python(五)流程控制与函数"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(五)流程控制与函数"></a><div class="content"><a class="title" href="/posts/a62147da/" title="Python(五)流程控制与函数">Python(五)流程控制与函数</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/be636c04/" title="Python(六)迭代器、生成器与装饰器"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(六)迭代器、生成器与装饰器"></a><div class="content"><a class="title" href="/posts/be636c04/" title="Python(六)迭代器、生成器与装饰器">Python(六)迭代器、生成器与装饰器</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/fa1b960c/" title="Python(十)内存、并发与性能"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(十)内存、并发与性能"></a><div class="content"><a class="title" href="/posts/fa1b960c/" title="Python(十)内存、并发与性能">Python(十)内存、并发与性能</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a99f76bc/" title="Python(十一)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(十一)进阶路线"></a><div class="content"><a class="title" href="/posts/a99f76bc/" title="Python(十一)进阶路线">Python(十一)进阶路线</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c55cda53/" title="Python(十二)项目实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(十二)项目实战"></a><div class="content"><a class="title" href="/posts/c55cda53/" title="Python(十二)项目实战">Python(十二)项目实战</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c43fdd4/" title="Python(四)内置类型与容器"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python(四)内置类型与容器"></a><div class="content"><a class="title" href="/posts/c43fdd4/" title="Python(四)内置类型与容器">Python(四)内置类型与容器</a><time datetime="2026-08-25T05:13:45.000Z" title="发表于 2026-08-25 13:13:45">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(一)入门路线"/></a><div class="content"><a class="title" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线">Pytest(一)入门路线</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(二)测试基础与执行模型"/></a><div class="content"><a class="title" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型">Pytest(二)测试基础与执行模型</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/12331af3/" title="MySQL(七)索引原理与设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(七)索引原理与设计"/></a><div class="content"><a class="title" href="/posts/12331af3/" title="MySQL(七)索引原理与设计">MySQL(七)索引原理与设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(三)数据写入与约束"/></a><div class="content"><a class="title" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束">MySQL(三)数据写入与约束</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

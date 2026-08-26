@@ -1,0 +1,744 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux(六)用户权限与软件管理 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="用身份、路径权限与包生命周期解释访问失败，并安全选择 sudo、APT&#x2F;dpkg 与跨发行版工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux(六)用户权限与软件管理">
+<meta property="og:url" content="https://koco-co.github.io/posts/5a63b164/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="用身份、路径权限与包生命周期解释访问失败，并安全选择 sudo、APT&#x2F;dpkg 与跨发行版工具。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/linux-course-cover.png">
+<meta property="article:published_time" content="2026-08-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-26T08:20:40.395Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="权限软件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/linux-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux(六)用户权限与软件管理",
+  "url": "https://koco-co.github.io/posts/5a63b164/",
+  "image": "https://koco-co.github.io/img/picgo-images/linux-course-cover.png",
+  "datePublished": "2026-08-24T16:00:00.000Z",
+  "dateModified": "2026-08-26T08:20:40.395Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/5a63b164/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux(六)用户权限与软件管理',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/linux-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux(六)用户权限与软件管理</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux(六)用户权限与软件管理<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/linux/Linux(六)用户权限与软件管理.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-26T08:20:40.395Z" title="更新于 2026-08-26 16:20:40">2026-08-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="Linux 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>Linux 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="13" aria-valuenow="6"><span style="width: 46.1538%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/89ce5b85/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">Linux(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/6153b09f/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">Linux(二)系统与命令行基础</span></a></li><li class="course-series-nav__item"><a href="/posts/5297e207/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">Linux(三)文件与存储管理</span></a></li><li class="course-series-nav__item"><a href="/posts/33859692/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">Linux(四)文本处理与数据提取</span></a></li><li class="course-series-nav__item"><a href="/posts/72c1404c/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">Linux(五)Shell 语法与命令组合</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/5a63b164/" aria-current="page"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">Linux(六)用户权限与软件管理</span></a></li><li class="course-series-nav__item"><a href="/posts/23ca1872/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">Linux(七)进程任务与服务管理</span></a></li><li class="course-series-nav__item"><a href="/posts/3a757ef9/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">Linux(八)网络连接与远程排障</span></a></li><li class="course-series-nav__item"><a href="/posts/cade4656/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">Linux(九)日志查看与故障定位</span></a></li><li class="course-series-nav__item"><a href="/posts/997240e7/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">Linux(十)性能分析与资源诊断</span></a></li><li class="course-series-nav__item"><a href="/posts/496664b1/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">Linux(十一)Bash 脚本与任务自动化</span></a></li><li class="course-series-nav__item"><a href="/posts/9efa11cb/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">Linux(十二)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/c0dffe07/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">Linux(十三)综合实战</span></a></li></ol></nav>
+<div class="note info flat"><p>权限和软件管理都先做“读取事实”，再决定是否改变系统：先确认有效身份、目标对象和包来源，最后才考虑 chmod、sudo 或安装动作。本文不把 root 当作万能修复，也不指导在生产主机上试错式创建账户、修改仓库或安装软件。</p>
+</div>
+<h2 id="身份模型"><a href="#身份模型" class="headerlink" title="身份模型"></a>身份模型</h2><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  A[进程有效 UID&#x2F;GID] --&gt; B[对象所有者与组]
+  B --&gt; C[模式位 rwx]
+  C --&gt; D[父目录搜索权限]
+  D --&gt; E[允许或拒绝]
+  F[sudo 策略] --&gt; A
+  </pre></div>
+<h3 id="读取身份"><a href="#读取身份" class="headerlink" title="读取身份"></a>读取身份</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">id</span></span><br><span class="line"><span class="built_in">groups</span></span><br><span class="line">getent passwd <span class="string">&quot;<span class="subst">$(id -un)</span>&quot;</span></span><br><span class="line">getent group <span class="string">&quot;<span class="subst">$(id -gn)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>id 给出当前有效 UID、主组和附加组；groups 适合快速查看组集合；getent 通过 NSS 查询账户或组数据库，不能只假定信息一定来自 /etc/passwd。验证时，getent 输出应含当前用户名或组名；这些都是只读命令。</p>
+</div>
+<h3 id="账户操作"><a href="#账户操作" class="headerlink" title="账户操作"></a>账户操作</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>中文场景</th>
+<th>选择</th>
+<th>先确认的边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建或回收账户</td>
+<td>useradd、usermod、userdel</td>
+<td>home、文件归属、登录 Shell 与回收计划</td>
+</tr>
+<tr>
+<td>管理工作组</td>
+<td>groupadd、groupmod、groupdel</td>
+<td>现有成员和已归属文件</td>
+</tr>
+<tr>
+<td>设置或锁定凭据</td>
+<td>passwd</td>
+<td>这是认证操作，不会刷新文件权限</td>
+</tr>
+<tr>
+<td>临时切换主组</td>
+<td>newgrp</td>
+<td>只影响新启动的 Shell，会话外仍需重新判断身份</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note warning flat"><p>这些命令会改变真实账户数据库，不提供“可直接复制到生产”的创建样例。面试或排障先说明要用 id、getent 与文件归属证据确认现状；只有在已批准的测试环境中才执行新增、删除或密码操作。</p>
+</div>
+<h2 id="权限计算"><a href="#权限计算" class="headerlink" title="权限计算"></a>权限计算</h2><h3 id="私有实验"><a href="#私有实验" class="headerlink" title="私有实验"></a>私有实验</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">LAB=$(<span class="built_in">mktemp</span> -d) || &#123; <span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> <span class="string">&#x27;无法创建临时目录&#x27;</span> &gt;&amp;2; <span class="built_in">exit</span> 1; &#125;</span><br><span class="line"><span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> <span class="string">&#x27;linux-permission-lab&#x27;</span> &gt;<span class="string">&quot;<span class="variable">$LAB</span>/.linux-permission-lab&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="variable">$LAB</span>/project&quot;</span></span><br><span class="line">TARGET=<span class="string">&quot;<span class="variable">$LAB</span>/project/config&quot;</span></span><br><span class="line">: &gt;<span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">chmod</span> u=rwx,g=rx,o= <span class="string">&quot;<span class="variable">$LAB</span>/project&quot;</span></span><br><span class="line"><span class="built_in">chmod</span> u=rw,g=r,o= <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line"><span class="built_in">chgrp</span> <span class="string">&quot;<span class="subst">$(id -gn)</span>&quot;</span> <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line"><span class="built_in">ls</span> -ld <span class="string">&quot;<span class="variable">$LAB</span>/project&quot;</span> <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line"></span><br><span class="line">( <span class="built_in">umask</span> 027; : &gt;<span class="string">&quot;<span class="variable">$LAB</span>/from-umask&quot;</span>; <span class="built_in">ls</span> -l <span class="string">&quot;<span class="variable">$LAB</span>/from-umask&quot;</span> )</span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>先看目录，再看文件：进入目录需要 x（搜索）权限，读取文件不代表能穿过每一级父目录。chmod 改模式位，chgrp 只改组；上面的对象全在 LAB 内。umask 只参与新对象的默认模式，常见文件起点是 0666、目录起点是 0777，再去掉 umask 指定的位。</p>
+</div>
+<h3 id="归属判断"><a href="#归属判断" class="headerlink" title="归属判断"></a>归属判断</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -n <span class="string">&quot;<span class="variable">$LAB</span>&quot;</span> &amp;&amp; <span class="built_in">test</span> -f <span class="string">&quot;<span class="variable">$LAB</span>/.linux-permission-lab&quot;</span>; <span class="keyword">then</span></span><br><span class="line">  TARGET=<span class="string">&quot;<span class="variable">$LAB</span>/project/config&quot;</span></span><br><span class="line">  <span class="built_in">printf</span> <span class="string">&#x27;uid=%s gid=%s\n&#x27;</span> <span class="string">&quot;<span class="subst">$(id -u)</span>&quot;</span> <span class="string">&quot;<span class="subst">$(id -g)</span>&quot;</span></span><br><span class="line">  <span class="built_in">ls</span> -<span class="built_in">ln</span> <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="built_in">chown</span> <span class="string">&quot;<span class="subst">$(id -un)</span>:<span class="subst">$(id -gn)</span>&quot;</span> <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span>; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> <span class="string">&#x27;owner/group unchanged or accepted&#x27;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> <span class="string">&#x27;chown requires appropriate ownership capability&#x27;</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> <span class="string">&#x27;请先运行“私有实验”创建隔离目录&#x27;</span> &gt;&amp;2</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>chown 同时设置所有者和组，且通常需要比 chgrp 更高的权限；上例只请求当前身份，仍应把失败当作授权证据而非绕过理由。真实故障不要递归修改大目录：把目标、当前 owner:group、需要的访问动作和回滚方式写清楚后再变更。</p>
+</div>
+<h3 id="特殊边界"><a href="#特殊边界" class="headerlink" title="特殊边界"></a>特殊边界</h3><div class="note warning flat"><p>setuid、setgid、sticky bit、ACL、只读挂载、SELinux/AppArmor 和服务沙箱都会改变三组 rwx 的直觉。若 UID/GID、父目录和模式位看似正确仍失败，保留拒绝信息并进入进阶诊断；不要用 777 掩盖原因。</p>
+</div>
+<h2 id="提权边界"><a href="#提权边界" class="headerlink" title="提权边界"></a>提权边界</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> -l</span><br><span class="line"><span class="built_in">sudo</span> -u <span class="string">&quot;<span class="subst">$(id -un)</span>&quot;</span> <span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+<div class="note danger flat"><p>sudo -l 读取当前策略允许的命令；第二条只以当前身份运行 id，用来说明“授权到哪个目标用户”是策略问题。sudo -i、su 和直接 root Shell 会放大影响面；不要把密码放进命令行、脚本或日志。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>选择</th>
+<th>不要混淆</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仅运行一条获准管理员命令</td>
+<td>sudo</td>
+<td>临时授权不等于永久 root 身份</td>
+</tr>
+<tr>
+<td>切换到另一用户的登录环境</td>
+<td>su - 用户名</td>
+<td>这会改变环境与会话上下文</td>
+</tr>
+<tr>
+<td>编辑受保护配置</td>
+<td>sudoedit</td>
+<td>先确认编辑器、备份和策略，而非直接用 sudo 编辑器</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>Ubuntu 26.04 的 sudo 默认提供者为 sudo-rs，同时保留经典 sudo.ws 作为替代入口。它们是提供者差异，不是授权模型差异；具体主机以 sudo -V、sudo -l 与受管策略为准。</p>
+</div>
+<h2 id="软件包生命周期"><a href="#软件包生命周期" class="headerlink" title="软件包生命周期"></a>软件包生命周期</h2><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart LR
+  A[仓库索引] --&gt; B[候选版本]
+  B --&gt; C[模拟计划]
+  C --&gt; D[安装或升级]
+  D --&gt; E[包数据库与文件]
+  </pre></div>
+<h3 id="查询与计划"><a href="#查询与计划" class="headerlink" title="查询与计划"></a>查询与计划</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">apt-cache policy bash</span><br><span class="line">apt-cache show bash</span><br><span class="line">dpkg -s bash</span><br><span class="line">dpkg -S /usr/bin/bash</span><br><span class="line"></span><br><span class="line">PACKAGE=tree</span><br><span class="line">apt-get --simulate install <span class="string">&quot;<span class="variable">$PACKAGE</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>apt-cache 读取索引和候选版本；dpkg -s 查询已安装包状态，dpkg -S 反查某文件归属；apt-get —simulate 只展示解析出的改变，不写入系统。先检查候选来源、将新增或删除的包和退出状态，再决定是否执行真实安装。</p>
+</div>
+<h3 id="执行动作"><a href="#执行动作" class="headerlink" title="执行动作"></a>执行动作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PACKAGE=tree</span><br><span class="line"><span class="built_in">sudo</span> apt install <span class="string">&quot;<span class="variable">$PACKAGE</span>&quot;</span></span><br><span class="line"><span class="built_in">sudo</span> apt-mark manual <span class="string">&quot;<span class="variable">$PACKAGE</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>两条都会改变系统，只能在上一节模拟计划符合预期后执行；apt-mark manual 改变自动清理判断，不等于“锁定版本”。apt 适合交互，apt-get 更适合脚本化接口，update 只刷新索引，不等于升级、更不等于服务已经启动。</p>
+</div>
+<h3 id="发行版边界"><a href="#发行版边界" class="headerlink" title="发行版边界"></a>发行版边界</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>Debian/Ubuntu</th>
+<th>RHEL 系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>解析仓库依赖</td>
+<td>apt、apt-get</td>
+<td>dnf</td>
+</tr>
+<tr>
+<td>查询已安装包与文件</td>
+<td>dpkg -s、dpkg -S</td>
+<td>rpm -q、rpm -ql</td>
+</tr>
+<tr>
+<td>判断时机</td>
+<td>先看候选与模拟计划</td>
+<td>先看仓库、模块流和事务历史</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>dnf 负责仓库与依赖求解，rpm 负责本地包元数据与文件查询；它们不能与 APT 的包名、服务名或配置路径机械互换。APT 第三方源的 signed-by keyring 把一个仓库绑定到指定密钥：记录来源、签名链和回滚方式，绝不使用 apt-key 或未知脚本的密钥管道。</p>
+</div>
+<h2 id="结果验证"><a href="#结果验证" class="headerlink" title="结果验证"></a>结果验证</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -n <span class="string">&quot;<span class="variable">$LAB</span>&quot;</span> &amp;&amp; <span class="built_in">test</span> -f <span class="string">&quot;<span class="variable">$LAB</span>/.linux-permission-lab&quot;</span>; <span class="keyword">then</span></span><br><span class="line">  TARGET=<span class="string">&quot;<span class="variable">$LAB</span>/project/config&quot;</span></span><br><span class="line">  <span class="built_in">test</span> -d <span class="string">&quot;<span class="variable">$LAB</span>/project&quot;</span></span><br><span class="line">  <span class="built_in">test</span> -r <span class="string">&quot;<span class="variable">$TARGET</span>&quot;</span></span><br><span class="line">  <span class="built_in">printf</span> <span class="string">&#x27;effective-id=%s\n&#x27;</span> <span class="string">&quot;<span class="subst">$(id -u)</span>&quot;</span></span><br><span class="line">  <span class="built_in">printf</span> <span class="string">&#x27;primary-group=%s\n&#x27;</span> <span class="string">&quot;<span class="subst">$(id -gn)</span>&quot;</span></span><br><span class="line">  <span class="built_in">printf</span> <span class="string">&#x27;保留临时目录供检查：%s\n&#x27;</span> <span class="string">&quot;<span class="variable">$LAB</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> <span class="string">&#x27;请先运行“私有实验”创建隔离目录&#x27;</span> &gt;&amp;2</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">apt-cache policy bash</span><br><span class="line">dpkg -s bash &gt;/dev/null &amp;&amp; <span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> <span class="string">&#x27;bash package metadata available&#x27;</span></span><br></pre></td></tr></table></figure>
+<div class="note success flat"><p>权限验证要能回答“谁在访问、父目录能否搜索、文件模式与归属是什么”；软件验证要能回答“候选来自哪里、计划会改变什么、已安装数据库是否有记录”。LAB 不会被自动删除，检查完再按你的环境安全清理。</p>
+</div>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a6-id-getent" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BA%AB%E4%BB%BD">#身份</a><a class="hfc-topic" href="/learn-topic/?tag=NSS">#NSS</a></div>
+      <div class="hfc-question"><p>id、groups 和 getent 分别回答什么问题？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BA%AB%E4%BB%BD">#身份</a><a class="hfc-topic" href="/learn-topic/?tag=NSS">#NSS</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>id、groups 和 getent 分别回答什么问题？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>id 看有效 UID/GID 与附加组，groups 快速列组，getent 通过 NSS 查询账户或组数据库。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>目录服务环境中不能只读 /etc/passwd；权限判断还要结合父目录和服务上下文。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a6-chmod-umask" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9D%83%E9%99%90">#权限</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%A8%A1%E5%BC%8F%E4%BD%8D">#模式位</a></div>
+      <div class="hfc-question"><p>chmod 和 umask 的作用有什么不同？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%9D%83%E9%99%90">#权限</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%A8%A1%E5%BC%8F%E4%BD%8D">#模式位</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>chmod 和 umask 的作用有什么不同？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>chmod 修改已有对象模式；umask 参与新建对象的默认权限计算。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>目录需要搜索权限；不要用 777 代替所有权、组和父目录检查。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a6-apt-dpkg" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=APT">#APT</a><a class="hfc-topic" href="/learn-topic/?tag=dpkg">#dpkg</a></div>
+      <div class="hfc-question"><p>apt-cache、apt-get —simulate 和 dpkg 分别提供什么证据？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=APT">#APT</a><a class="hfc-topic" href="/learn-topic/?tag=dpkg">#dpkg</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>apt-cache、apt-get —simulate 和 dpkg 分别提供什么证据？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>apt-cache 看索引和候选版本，apt-get —simulate 预演依赖变化，dpkg 查询已安装包和文件归属。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>模拟计划通过后才考虑安装；安装成功也不代表服务已启动，运行状态要另外验证。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="linux-a6-sudo-su" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=sudo">#sudo</a><a class="hfc-topic" href="/learn-topic/?tag=su">#su</a></div>
+      <div class="hfc-question"><p>sudo 与 su - 的主要边界是什么？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Linux">#Linux</a><a class="hfc-topic" href="/learn-topic/?tag=sudo">#sudo</a><a class="hfc-topic" href="/learn-topic/?tag=su">#su</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>sudo 与 su - 的主要边界是什么？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>sudo 通常授权执行特定命令；su - 切换到另一个用户的登录环境，影响的会话上下文更大。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>先用 sudo -l 看策略；临时管理员操作也需要目标、影响范围和回滚证据。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="POSIX.1-2024 Utilities" target="_blank" rel="noopener" href="https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/contents.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pubs.opengroup.org/favicon.ico"/></div><div class="right"><p class="text">POSIX.1-2024 Utilities</p><p class="url">https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/contents.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Ubuntu sources.list Manual" target="_blank" rel="noopener" href="https://manpages.ubuntu.com/manpages/resolute/man5/sources.list.5.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://manpages.ubuntu.com/favicon.ico"/></div><div class="right"><p class="text">Ubuntu sources.list Manual</p><p class="url">https://manpages.ubuntu.com/manpages/resolute/man5/sources.list.5.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Ubuntu 26.04 Summary for LTS Users" target="_blank" rel="noopener" href="https://documentation.ubuntu.com/release-notes/26.04/summary-for-lts-users/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://documentation.ubuntu.com/favicon.ico"/></div><div class="right"><p class="text">Ubuntu 26.04 Summary for LTS Users</p><p class="url">https://documentation.ubuntu.com/release-notes/26.04/summary-for-lts-users/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Red Hat DNF Documentation" target="_blank" rel="noopener" href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_software_with_the_dnf_tool/index"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.redhat.com/favicon.ico"/></div><div class="right"><p class="text">Red Hat DNF Documentation</p><p class="url">https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_software_with_the_dnf_tool/index</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="4"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Flinux%2FLinux(%E5%85%AD)%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E4%B8%8E%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86.md" title="复习本篇 · 4 张卡片" aria-label="复习本篇 · 4 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 4 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/5a63b164/">https://koco-co.github.io/posts/5a63b164/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/%E6%9D%83%E9%99%90%E8%BD%AF%E4%BB%B6/">权限软件</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/496664b1/" title="Linux(十一)Bash 脚本与任务自动化"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux(十一)Bash 脚本与任务自动化</div></div><div class="info-2"><div class="info-item-1">把交互式命令变成输入明确、错误可见、可清理和可测试的 Bash 脚本。</div></div></div></a><a class="pagination-related" href="/posts/997240e7/" title="Linux(十)性能分析与资源诊断"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux(十)性能分析与资源诊断</div></div><div class="info-2"><div class="info-item-1">用同一时间窗的 CPU、内存、I/O、进程与系统调用证据定位性能瓶颈。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/5297e207/" title="Linux(三)文件与存储管理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(三)文件与存储管理</div></div><div class="info-2"><div class="info-item-1">理解 Linux 文件模型并安全完成文件、链接、归档、挂载和容量分析。</div></div></div></a><a class="pagination-related" href="/posts/496664b1/" title="Linux(十一)Bash 脚本与任务自动化"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(十一)Bash 脚本与任务自动化</div></div><div class="info-2"><div class="info-item-1">把交互式命令变成输入明确、错误可见、可清理和可测试的 Bash 脚本。</div></div></div></a><a class="pagination-related" href="/posts/6153b09f/" title="Linux(二)系统与命令行基础"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(二)系统与命令行基础</div></div><div class="info-2"><div class="info-item-1">掌握 Linux 系统组成、目录层级、Shell、环境变量、命令解析和帮助系统。</div></div></div></a><a class="pagination-related" href="/posts/23ca1872/" title="Linux(七)进程任务与服务管理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(七)进程任务与服务管理</div></div><div class="info-2"><div class="info-item-1">用 PID、状态、信号、作业、优先级与 systemd 证据判断任务是否真正生效。</div></div></div></a><a class="pagination-related" href="/posts/89ce5b85/" title="Linux(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立 Linux 命令学习、实验安全、课程依赖和证据化排障的完整入口。</div></div></div></a><a class="pagination-related" href="/posts/3a757ef9/" title="Linux(八)网络连接与远程排障"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">Linux(八)网络连接与远程排障</div></div><div class="info-2"><div class="info-item-1">按接口、路由、DNS、Socket、应用请求与抓包证据逐层定位网络和远程连接故障。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">120</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">身份模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E8%BA%AB%E4%BB%BD"><span class="toc-number">1.1.</span> <span class="toc-text">读取身份</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A6%E6%88%B7%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">账户操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E8%AE%A1%E7%AE%97"><span class="toc-number">2.</span> <span class="toc-text">权限计算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%AE%9E%E9%AA%8C"><span class="toc-number">2.1.</span> <span class="toc-text">私有实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%92%E5%B1%9E%E5%88%A4%E6%96%AD"><span class="toc-number">2.2.</span> <span class="toc-text">归属判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E8%BE%B9%E7%95%8C"><span class="toc-number">2.3.</span> <span class="toc-text">特殊边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E8%BE%B9%E7%95%8C"><span class="toc-number">3.</span> <span class="toc-text">提权边界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">4.</span> <span class="toc-text">软件包生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E8%AE%A1%E5%88%92"><span class="toc-number">4.1.</span> <span class="toc-text">查询与计划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%8A%A8%E4%BD%9C"><span class="toc-number">4.2.</span> <span class="toc-text">执行动作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E8%A1%8C%E7%89%88%E8%BE%B9%E7%95%8C"><span class="toc-number">4.3.</span> <span class="toc-text">发行版边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E9%AA%8C%E8%AF%81"><span class="toc-number">5.</span> <span class="toc-text">结果验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/89ce5b85/" title="Linux(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(一)入门路线"></a><div class="content"><a class="title" href="/posts/89ce5b85/" title="Linux(一)入门路线">Linux(一)入门路线</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5297e207/" title="Linux(三)文件与存储管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(三)文件与存储管理"></a><div class="content"><a class="title" href="/posts/5297e207/" title="Linux(三)文件与存储管理">Linux(三)文件与存储管理</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/23ca1872/" title="Linux(七)进程任务与服务管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(七)进程任务与服务管理"></a><div class="content"><a class="title" href="/posts/23ca1872/" title="Linux(七)进程任务与服务管理">Linux(七)进程任务与服务管理</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cade4656/" title="Linux(九)日志查看与故障定位"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(九)日志查看与故障定位"></a><div class="content"><a class="title" href="/posts/cade4656/" title="Linux(九)日志查看与故障定位">Linux(九)日志查看与故障定位</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6153b09f/" title="Linux(二)系统与命令行基础"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(二)系统与命令行基础"></a><div class="content"><a class="title" href="/posts/6153b09f/" title="Linux(二)系统与命令行基础">Linux(二)系统与命令行基础</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/72c1404c/" title="Linux(五)Shell 语法与命令组合"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(五)Shell 语法与命令组合"></a><div class="content"><a class="title" href="/posts/72c1404c/" title="Linux(五)Shell 语法与命令组合">Linux(五)Shell 语法与命令组合</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3a757ef9/" title="Linux(八)网络连接与远程排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(八)网络连接与远程排障"></a><div class="content"><a class="title" href="/posts/3a757ef9/" title="Linux(八)网络连接与远程排障">Linux(八)网络连接与远程排障</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/997240e7/" title="Linux(十)性能分析与资源诊断"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十)性能分析与资源诊断"></a><div class="content"><a class="title" href="/posts/997240e7/" title="Linux(十)性能分析与资源诊断">Linux(十)性能分析与资源诊断</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5a63b164/" title="Linux(六)用户权限与软件管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(六)用户权限与软件管理"></a><div class="content"><a class="title" href="/posts/5a63b164/" title="Linux(六)用户权限与软件管理">Linux(六)用户权限与软件管理</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/496664b1/" title="Linux(十一)Bash 脚本与任务自动化"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十一)Bash 脚本与任务自动化"></a><div class="content"><a class="title" href="/posts/496664b1/" title="Linux(十一)Bash 脚本与任务自动化">Linux(十一)Bash 脚本与任务自动化</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c0dffe07/" title="Linux(十三)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十三)综合实战"></a><div class="content"><a class="title" href="/posts/c0dffe07/" title="Linux(十三)综合实战">Linux(十三)综合实战</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9efa11cb/" title="Linux(十二)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(十二)进阶路线"></a><div class="content"><a class="title" href="/posts/9efa11cb/" title="Linux(十二)进阶路线">Linux(十二)进阶路线</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/33859692/" title="Linux(四)文本处理与数据提取"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/linux-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux(四)文本处理与数据提取"></a><div class="content"><a class="title" href="/posts/33859692/" title="Linux(四)文本处理与数据提取">Linux(四)文本处理与数据提取</a><time datetime="2026-08-24T16:00:00.000Z" title="发表于 2026-08-25 00:00:00">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(一)入门路线"/></a><div class="content"><a class="title" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线">Pytest(一)入门路线</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(二)测试基础与执行模型"/></a><div class="content"><a class="title" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型">Pytest(二)测试基础与执行模型</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/12331af3/" title="MySQL(七)索引原理与设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(七)索引原理与设计"/></a><div class="content"><a class="title" href="/posts/12331af3/" title="MySQL(七)索引原理与设计">MySQL(七)索引原理与设计</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(三)数据写入与约束"/></a><div class="content"><a class="title" href="/posts/4df9aab4/" title="MySQL(三)数据写入与约束">MySQL(三)数据写入与约束</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

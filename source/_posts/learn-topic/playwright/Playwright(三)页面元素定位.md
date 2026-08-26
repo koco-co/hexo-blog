@@ -25,7 +25,9 @@ date: 2026-08-24 12:10:00
 
 ## 定位模型
 
+{% note info flat %}
 Locator 保存查询规则，执行操作时才在当前页面重新查找元素：
+{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -58,7 +60,9 @@ Locator 可以从 `Page`、`FrameLocator` 或另一个 Locator 开始，并继�
 
 ### 定位优先级
 
+{% note info flat %}
 推荐从用户语义到实现细节依次选择：
+{% endnote %}
 
 | 优先级 | API | 适用对象 |
 | --- | --- | --- |
@@ -70,7 +74,9 @@ Locator 可以从 `Page`、`FrameLocator` 或另一个 Locator 开始，并继�
 | 6 | `get_by_test_id()` | 无稳定用户语义但有测试契约 |
 | 7 | CSS 或 XPath | 只能依赖 DOM 结构的特殊情况 |
 
+{% note info flat %}
 示例页面：
+{% endnote %}
 
 ```html
 <main>
@@ -82,7 +88,9 @@ Locator 可以从 `Page`、`FrameLocator` 或另一个 Locator 开始，并继�
 </main>
 ```
 
+{% note info flat %}
 对应定位：
+{% endnote %}
 
 ```python
 heading = page.get_by_role("heading", name="创建订单")
@@ -97,7 +105,9 @@ message = page.get_by_text("订单将在 24 小时内处理")
 
 ### 语义定位
 
+{% note info flat %}
 角色定位同时检查元素类型和名称：
+{% endnote %}
 
 ```python
 page.get_by_role("button", name="保存")
@@ -124,7 +134,9 @@ HTML 原生元素通常自带正确角色。优先修复产品语义，而不是
 
 ### 文本边界
 
+{% note info flat %}
 文本定位适合标题、状态和说明，不宜替代控件角色：
+{% endnote %}
 
 ```python
 # 精确匹配，避免同时命中“订单”和“订单详情”
@@ -139,9 +151,9 @@ page.get_by_text(re.compile(r"订单号：A-\d+"))
 按钮同时包含文本时，优先 `get_by_role("button", name="提交")`，因为测试明确表达了“点击按钮”，而不仅是寻找一段文字。
 {% endnote %}
 
-{% tip warning %}
+{% note warning flat %}
 国际化页面不要把易变翻译文案散落在测试中。可以使用稳定测试 ID，或由数据层集中提供当前语言的预期文本。
-{% endtip %}
+{% endnote %}
 
 ### 严格模式
 
@@ -162,7 +174,9 @@ order = page.get_by_role("row", name="订单 A-100")
 order.get_by_role("button", name="删除").click()
 ```
 
+{% note warning flat %}
 只有目标本来就由稳定顺序定义时才使用 `first`、`last` 或 `nth()`：
+{% endnote %}
 
 ```python
 first_result = page.get_by_role("listitem").first
@@ -180,7 +194,9 @@ first_row.locator("button").click()
 
 ### 过滤与组合
 
+{% note info flat %}
 列表中多个卡片结构相同时，先定位集合，再按内容过滤：
+{% endnote %}
 
 ```python
 product = page.get_by_role("listitem").filter(
@@ -189,13 +205,17 @@ product = page.get_by_role("listitem").filter(
 product.get_by_role("button", name="加入购物车").click()
 ```
 
+{% note info flat %}
 按文本过滤：
+{% endnote %}
 
 ```python
 paid_order = page.get_by_role("row").filter(has_text="已支付")
 ```
 
+{% note info flat %}
 排除包含特定子元素的项：
+{% endnote %}
 
 ```python
 available = page.get_by_role("listitem").filter(
@@ -203,7 +223,9 @@ available = page.get_by_role("listitem").filter(
 )
 ```
 
+{% note info flat %}
 两个独立条件可以使用 `and_()`：
+{% endnote %}
 
 ```python
 confirm = page.get_by_role("button").and_(page.get_by_title("确认订单"))
@@ -220,9 +242,9 @@ result.first.wait_for(state="visible")
 
 ### 参数边界
 
-{% tip warning %}
+{% note warning flat %}
 定位参数要表达筛选意图，不要把所有条件都堆进 CSS：
-{% endtip %}
+{% endnote %}
 
 ```python
 # exact=True 只匹配完整可访问名称；默认值允许按 Playwright 的文本规则匹配
@@ -240,13 +262,15 @@ visible_cards = page.get_by_role("listitem").filter(visible=True)
 without_badge = visible_cards.filter(has_not=page.get_by_text("已售罄"))
 ```
 
-{% tip warning %}
+{% note warning flat %}
 `has_text`/`has_not_text` 适合稳定的文本片段，`has`/`has_not` 适合子结构；嵌套 Locator 必须从同一个 `Page`、`Frame` 或父 Locator 构造，不能把一个页面的 Locator 塞进另一个框架。`exact` 只影响文本或名称匹配，不会把动态数据变成稳定合同。
-{% endtip %}
+{% endnote %}
 
 ### 测试契约
 
+{% note info flat %}
 当画布、图表、无文本图标或第三方组件没有可靠用户语义时，可以建立显式测试 ID：
+{% endnote %}
 
 ```html
 <canvas data-testid="sales-chart"></canvas>
@@ -256,14 +280,18 @@ without_badge = visible_cards.filter(has_not=page.get_by_text("已售罄"))
 chart = page.get_by_test_id("sales-chart")
 ```
 
+{% note info flat %}
 测试 ID 应描述稳定职责，而不是样式或位置：
+{% endnote %}
 
 ```text
 推荐：checkout-submit、order-total、sales-chart
 避免：blue-button、right-column-2、div-17
 ```
 
+{% note info flat %}
 如果项目使用其他属性，可统一配置：
+{% endnote %}
 
 ```python
 from playwright.sync_api import Playwright
@@ -279,15 +307,17 @@ def configure_test_id(playwright: Playwright) -> None:
 
 ## 特殊场景
 
+{% note info flat %}
 CSS 适合没有可访问语义、但 DOM 合同确实稳定的结构：
+{% endnote %}
 
 ```python
 page.locator("article[data-order-id='A-100']")
 ```
 
-{% tip ban %}
+{% note warning flat %}
 避免长链：
-{% endtip %}
+{% endnote %}
 
 ```python
 # 脆弱：任何中间层调整都会破坏定位
@@ -300,7 +330,9 @@ XPath 同样能定位元素，但容易与页面内部结构耦合。使用前�
 
 ### 嵌套文档
 
-iframe 内的元素必须从 `FrameLocator` 开始定位：
+{% note info flat %}
+普通 iframe 交互优先从 `FrameLocator` 开始定位：
+{% endnote %}
 
 ```python
 checkout = page.frame_locator("iframe[title='支付']")
@@ -312,44 +344,15 @@ nested = checkout.frame_locator("iframe[title='3-D Secure']")
 nested.get_by_role("textbox", name="验证码").fill("123456")
 ```
 
-当 iframe 是动态列表中的一项，可以先在父 Locator 上选择目标，再通过 `content_frame` 进入：
-
-```python
-payment_frame = page.locator("iframe[data-provider='bank']").first.content_frame
-payment_frame.get_by_role("textbox", name="验证码").fill("123456")
-
-# Locator.locator() 仍然返回可重新查询的 Locator
-order = page.get_by_role("row", name="订单 A-100")
-order.locator("button[data-action='pay']").click()
-
-# Locator.frame_locator() 适合从已定位的组件容器进入其 iframe
-checkout_shell = page.get_by_test_id("checkout-shell")
-checkout_shell.frame_locator("iframe").get_by_role("button", name="确认").click()
-```
-
 {% note info flat %}
-旧的 `FrameLocator.first`、`last`、`nth()` 已进入迁移清单；顺序选择应发生在普通 Locator 上，再通过 `content_frame` 进入 frame：
-{% endnote %}
-
-```python
-# 旧写法：FrameLocator 上的顺序属性已不再推荐
-legacy_first = page.frame_locator("iframe").first
-legacy_last = page.frame_locator("iframe").last
-legacy_third = page.frame_locator("iframe").nth(2)
-
-# 新写法：先选择 iframe，再取得对应的 FrameLocator
-first_frame = page.locator("iframe").first.content_frame
-last_frame = page.locator("iframe").last.content_frame
-third_frame = page.locator("iframe").nth(2).content_frame
-```
-
-{% note info flat %}
-异步 API 只改变等待方式：`content_frame` 仍然是属性，进入 frame 后的 Locator 操作才使用 `await`。跨域 iframe 仍可定位其可访问 DOM，但不能用页面脚本越过浏览器同源策略读取内部状态。
+当 iframe 本身已经由 Locator 稳定选出时，`content_frame` 可以取得当前 Frame；这里仅把它作为迁移入口，不展开文件与生命周期管理。跨域 iframe 仍可定位其可访问 DOM，但不能用页面脚本越过浏览器同源策略读取内部状态。
 {% endnote %}
 
 ## 定位验证
 
+{% note info flat %}
 语义定位无法表达目标时再使用调试或 DOM 级能力：
+{% endnote %}
 
 | 能力 | 使用时机 | 注意事项 |
 | --- | --- | --- |
@@ -358,6 +361,8 @@ third_frame = page.locator("iframe").nth(2).content_frame
 | `bounding_box()` | 需要验证几何位置或排查遮挡 | 返回 `None` 时先确认元素已渲染 |
 | `evaluate()`、`evaluate_all()` | 页面没有对应 Playwright API 的只读诊断 | 不要用脚本点击绕过 Actionability |
 | `element_handle()`、`element_handles()` | 仅为兼容旧库或底层 API | 优先改回 Locator；句柄不会自动重新定位 |
+
+### 句柄迁移
 
 {% note info flat %}
 ElementHandle 会把一次查询的结果固定下来；动态列表或重渲染页面应直接保留 Locator。单元素和多元素迁移分别如下：
@@ -387,6 +392,8 @@ for index in range(items.count()):
 {% note info flat %}
 只有 `element_handle(timeout=...)` 接受 `timeout`，`element_handles()` 不接受该参数；它们的等待只发生在句柄解析阶段。迁移后由 Locator 操作或 Web-first 断言负责等待。异步版本分别写成 `await locator.element_handle()`、`await locator.element_handles()`，但推荐的替代代码仍是 `await locator.click()`、`await expect(items).to_have_count(3)`。
 {% endnote %}
+
+### 自定义选择器
 
 {% note info flat %}
 自定义选择器只在项目确实需要跨组件复用选择算法时注册，并明确注册时机、脚本位置和安全边界。选择器名称只能使用字母、数字和下划线；引擎至少实现 `query` 与 `queryAll`，并且必须在创建 Page 前注册：
@@ -420,29 +427,35 @@ assert save.inner_text() == "保存"
 
 ### 动态列表
 
+{% note info flat %}
 列表会延迟加载或重排时，先保留集合 Locator，再用 Web-first 断言等待数量或内容：
+{% endnote %}
 
 ```python
 orders = page.get_by_role("row").filter(has_not=page.get_by_role("columnheader"))
 ```
 
-{% tip ban %}
+{% note warning flat %}
 不要立即调用 `all()` 并期待它自动等待列表完成。`locator.all()` 返回当前匹配集合；列表仍在变化时会产生不稳定结果。需要逐项检查时，先等待列表达到业务稳定条件，再遍历。
-{% endtip %}
+{% endnote %}
 
 ### 定位检查
 
+{% note info flat %}
 Codegen 可以帮助观察推荐 Locator：
+{% endnote %}
 
 ```bash
 uv run playwright codegen https://example.com
 ```
 
 {% note info flat %}
-生成结果只是起点。检查是否依赖易变文本、顺序或长 CSS，并把定位缩小到业务容器。第十篇会完整介绍 Codegen 和 Inspector。
+生成结果只是起点。检查是否依赖易变文本、顺序或长 CSS，并把定位缩小到业务容器；录制与逐步调试按调试流程管理。
 {% endnote %}
 
+{% note success flat %}
 完成本篇时，应能为一个重复订单列表写出：
+{% endnote %}
 
 ```python
 order = page.get_by_role("row").filter(has_text="A-100")
@@ -455,13 +468,13 @@ pay = order.get_by_role("button", name="支付")
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `FrameLocator` | `frame_locator()` | — | `get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()`、`owner` | `first`、`last`、`nth()` |
 | `Locator` | `and_()`、`filter()`、`first`、`frame_locator()`、`get_by_role()`、`last`、`locator()`、`nth()`、`or_()` | — | `all()`、`all_inner_texts()`、`all_text_contents()`、`aria_snapshot()`、`bounding_box()`、`count()`、`describe()`、`description`、`evaluate()`、`evaluate_all()`、`evaluate_handle()`、`get_attribute()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`hide_highlight()`、`highlight()`、`inner_html()`、`inner_text()`、`input_value()`、`normalize()`、`page`、`text_content()` | `element_handle()`、`element_handles()` |
@@ -520,7 +533,7 @@ pay = order.get_by_role("button", name="支付")
 
 ## 常见问题
 
-{% flashcard basic id:playwright-locator-role deck:"Playwright" priority:2 tags:"Locator,语义定位" %}
+{% flashcard basic id:playwright-locator-role deck:"Playwright" priority:1 tags:"Locator,语义定位" %}
 --- question
 为什么优先使用 `get_by_role()`？
 --- answer
@@ -529,7 +542,7 @@ pay = order.get_by_role("button", name="支付")
 角色定位更接近真实交互合同，能降低 DOM 重构带来的影响，也能暴露缺少名称或错误角色等语义问题。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-locator-strict deck:"Playwright" priority:2 tags:"Locator,严格模式" answer:C %}
+{% flashcard choice id:playwright-locator-strict deck:"Playwright" priority:1 tags:"Locator,严格模式" answer:C %}
 --- question
 两个订单行都有“删除”按钮，哪种定位最合适？
 - [A] 直接使用第一个删除按钮

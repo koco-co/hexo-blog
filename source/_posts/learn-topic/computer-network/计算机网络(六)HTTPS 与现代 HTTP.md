@@ -57,41 +57,15 @@ flowchart TD
 
 ### 持久连接和消息结束
 
-{% note info flat %}
-HTTP/1.1 可以在一条 TCP 连接上连续发送多个请求和响应。连接复用减少了重复握手，但也要求双方准确知道每条消息的边界。常见边界来源包括：
+{% note primary flat %}
+前一篇 HTTP 协议文章已经建立 Content-Length、Transfer-Encoding、chunked、连接关闭和响应语义的消息分帧规则；本文不重复定义这些字段，只把它们作为理解协议演进的入口。HTTP/1.1 的持久连接把多个消息放在同一条 TCP 连接上，HTTP/2/3 则进一步把语义映射到帧和独立的 stream。
 {% endnote %}
 
-- 响应状态或请求方法决定该消息没有内容；
-- Content-Length 明确给出内容字节数；
-- Transfer-Encoding: chunked 使用分块编码和终止块；
-- 连接关闭作为旧式消息结束信号。
-
-{% note info flat %}
-如果中间设备对 Content-Length、Transfer-Encoding 或连接复用的解析不一致，就可能产生请求走私、响应拼接或“客户端一直等待”的风险。排查时需要看原始 HTTP/1.1 字节边界，不要只看浏览器抽象后的 Response 面板。
-{% endnote %}
-
-### 分块传输
-
-{% note info flat %}
-分块传输允许发送方在尚不知道最终内容长度时分段发送：每个块先给十六进制长度，再给内容和换行，最后用长度为 0 的块结束。它解决的是消息分帧，不是压缩，也不代表服务端一定采用流式业务处理。
-{% endnote %}
-
-~~~http
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: text/plain
-
-5
-hello
-6
- world
-0
-
-~~~
-
-{% note info flat %}
-Content-Length 与 Transfer-Encoding 的组合、代理重写和连接复用需要严格按照 HTTP/1.1 规范解释。不要在真实生产请求上手工构造冲突的长度字段；学习时使用隔离夹具并在完成后删除临时数据。
-{% endnote %}
+| 观察对象 | HTTP/1.1 | HTTP/2/3 的变化 |
+| --- | --- | --- |
+| 消息边界 | 依赖语义、长度、分块或连接结束 | 由帧和 stream 的协议规则承载 |
+| 并发单位 | 连接上的连续消息 | 一条连接中的多个逻辑 stream |
+| 本文关注 | 分帧规则的主解释在 HTTP 协议篇 | 本文解释二进制帧、流控、加密承载和回退 |
 
 ## HTTP/2
 
@@ -123,9 +97,9 @@ HTTP/2 的多路复用允许不同 stream 的帧交错发送，避免 HTTP/1.1 �
 
 ### HPACK 和流控
 
-{% tip info %}
+{% note primary flat %}
 HPACK 使用静态表、动态表和索引表示压缩字段，减少重复的 Host、Cookie、User-Agent 等字段占用。压缩上下文是连接状态的一部分，敏感字段压缩、动态表大小和攻击面需要按协议和实现配置理解；“压缩就等于加密”是错误结论。
-{% endtip %}
+{% endnote %}
 
 {% note info flat %}
 HTTP/2 流控分为连接级和 stream 级：接收方用 WINDOW_UPDATE 表示还愿意接收的字节量。发送方遇到窗口耗尽时可能停止发送，即使 TCP 连接本身仍然可写。排障时要区分 HTTP/2 流控、TCP 接收窗口和应用读取速度。
@@ -180,9 +154,9 @@ sequenceDiagram
 不需要背出所有 HKDF 中间变量，也要能说明依赖关系：握手双方先通过密钥交换获得共享秘密，再结合 transcript 和派生标签生成握手流量密钥、应用流量密钥及更新后的密钥。握手消息受保护后，篡改会导致 Finished 校验失败；应用数据使用与握手阶段不同的密钥。
 {% endnote %}
 
-{% tip warning %}
+{% note warning flat %}
 TLS 1.2 的历史静态 RSA premaster 例子可以用来理解“协商共享秘密”的旧路径，但不应当把它当作 TLS 1.3 的握手描述。现代回答应先说 TLS 1.3，再明确旧版本只是迁移背景。
-{% endtip %}
+{% endnote %}
 
 ## QUIC
 
@@ -311,7 +285,7 @@ flowchart TD
   POLICY --> FAIL[证书错误，连接失败或需要明确例外]
 {% endmermaid %}
 
-{% note info flat %}
+{% note warning flat %}
 主机名匹配通常看 Subject Alternative Name，而不是只看 Common Name；证书链要能连接到客户端信任库中的信任锚；有效期、签名算法、用途和客户端策略也会影响结果。使用 curl 的 -k 或浏览器点击继续属于明确降低校验的例外，不应写成生产修复。
 {% endnote %}
 
@@ -354,7 +328,7 @@ HTTPS 可以概括为 HTTP 语义在 TLS 保护下传输，但以下问题属于
 ### 协议验证矩阵
 
 {% note info flat %}
-下表把协议版本和实验现象转成可以执行的输入、步骤、输出和失败边界。`127.0.0.1:18081` 表示本地 loopback 夹具；公共站点只用于读取协商信息。HTTP/2 示例固定使用 `https://example.com/` 和 `/robots.txt` 作为只读目标；HTTP/3 示例默认使用 `https://cloudflare-quic.com/`，也可以由执行者替换为已获授权且先确认支持 h3 的目标。命令是验证输入和预期输出形状，不把未执行的示例冒充为本次构建已经观察到的结果；执行时应保存脱敏后的最小证据。
+下表把协议版本和实验现象转成可以执行的输入、步骤、输出和失败边界。`127.0.0.1:18081` 表示本地 loopback 夹具；公共站点只用于读取协商信息。需要丢弃响应体时，先在同一 shell 运行 `DISCARD_FILE="$(mktemp -t net-discard.XXXXXX)"`，结束后执行 `rm -f "$DISCARD_FILE"`；文章不写死本机临时目录。HTTP/2 示例固定使用 `https://example.com/` 和 `/robots.txt` 作为只读目标；HTTP/3 示例默认使用 `https://cloudflare-quic.com/`，也可以由执行者替换为已获授权且先确认支持 h3 的目标。命令是验证输入和预期输出形状，不把未执行的示例冒充为本次构建已经观察到的结果；执行时应保存脱敏后的最小证据。
 {% endnote %}
 
 | 实验主题 | 输入与步骤 | 预期输出/证据 | 失败边界 |
@@ -369,17 +343,17 @@ HTTPS 可以概括为 HTTP 语义在 TLS 保护下传输，但以下问题属于
 | 流控 | 在本地 HTTP/2 夹具启动后，运行 `curl --http2 --cacert "$H2_DIR/cert.pem" "$H2_URL/slow"`；若有 nghttp2，再运行 `nghttp -nv -y "$H2_URL/slow"` 保留逐 frame 日志 | 大响应触发 stream/connection window 与 `WINDOW_UPDATE`；服务端写入背压和 h2 frame 时序可对照 | 当前 curl 输出不一定显示每个 WINDOW_UPDATE；没有逐 frame 工具或服务端日志时标记 NOT VERIFIED，TCP rwnd 与 HTTP/2 window 不能混为一谈 |
 | stream 生命周期 | HTTP/2 夹具提供的 `curl --http2 --cacert "$H2_DIR/cert.pem" -v "$H2_URL/reset"` 与 `curl --http2 --cacert "$H2_DIR/cert.pem" -v "$H2_URL/goaway"`，有 nghttp2 时再分别运行 `nghttp -nv -y "$H2_URL/reset"` 和 `nghttp -nv -y "$H2_URL/goaway"`，保留客户端和服务端日志 | `/reset` 对单 stream 产生取消，`/goaway` 产生连接级关闭信号；逐 frame 工具可记录 last-stream-ID | curl 只能给出错误/关闭形态时，不把 TCP 断开写成 RST_STREAM；必须标注逐 frame 证据是否存在 |
 | 压缩限制与风险 | HTTP/2 夹具停止第一进程后，分别以 `H2_HEADER_TABLE_SIZE=4096`、`H2_HEADER_TABLE_SIZE=0` 加环境变量重启，再运行 `curl --http2 --cacert "$H2_DIR/cert.pem" -H 'x-demo: repeat' "$H2_URL/headers"` 并记录 SETTINGS | 可对照动态表大小、重复字段和实现日志；头部压缩仍不等于加密 | 不应使用生产 Cookie 做压缩实验；当前没有逐 frame 日志时只报告 SETTINGS/响应字段，并标注 HPACK 线格式未完整验证 |
-| TLS 1.3 握手 | `openssl s_client -connect example.com:443 -servername example.com -alpn h2,http/1.1 -tls1_3 </dev/null` | `Protocol: TLSv1.3`、证书链摘要、ALPN 和握手完成状态 | DNS、TCP、证书或服务端策略失败时，不能直接归因于 TLS 密钥调度 |
-| 密钥调度 | 在获准测试客户端中设置 `SSLKEYLOGFILE=/tmp/net-tls.keys`，执行 `curl --http2 -sS -v https://example.com/ -o /dev/null`，再用 Wireshark 的 `tls.keylog_file` 指向该文件 | key log 只用于本次隔离抓包；可区分握手和应用流量保护阶段，报告不含密钥值 | 先确认 curl 后端支持 key log；不应从公开站点或生产流量导出密钥，文件用后立即删除；没有合法 key log 时只验证握手摘要 |
-| QUIC 传输 | 先用 `tcpdump -D` 选择真实接口并设置 `CAPTURE_IFACE`（macOS 默认可用 `en0`），再运行 `curl --http3 -v https://cloudflare-quic.com/ -o /dev/null` 与 `sudo tcpdump -ni "$CAPTURE_IFACE" -c 40 'udp port 443'` | UDP 包、QUIC packet number/ACK、stream 交换和拥塞/丢包事件（可用 qlog） | `any` 不是 macOS 的通用接口；只有 UDP 包不等于 QUIC 连接成功；curl 不支持 h3、目标不支持 h3 或 UDP 被阻断时要记录回退/能力错误 |
+| TLS 1.3 握手 | `printf '' | openssl s_client -connect example.com:443 -servername example.com -alpn h2,http/1.1 -tls1_3` | `Protocol: TLSv1.3`、证书链摘要、ALPN 和握手完成状态 | DNS、TCP、证书或服务端策略失败时，不能直接归因于 TLS 密钥调度 |
+| 密钥调度 | 先运行 `KEYLOG_FILE="$(mktemp -t net-tls-keylog.XXXXXX)"`，再以 `SSLKEYLOGFILE="$KEYLOG_FILE" curl --http2 -sS -v https://example.com/ -o "$DISCARD_FILE"` 发起请求；用 Wireshark 的 `tls.keylog_file` 指向 `"$KEYLOG_FILE"`，分析后执行 `rm -f "$KEYLOG_FILE"` | key log 只用于本次隔离抓包；可区分握手和应用流量保护阶段，报告不含密钥值 | 先确认 curl 后端支持 key log；不应从公开站点或生产流量导出密钥，文件用后立即删除；没有合法 key log 时只验证握手摘要 |
+| QUIC 传输 | 先用 `tcpdump -D` 选择真实接口并设置 `CAPTURE_IFACE`（macOS 默认可用 `en0`），再运行 `curl --http3 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"` 与 `sudo tcpdump -ni "$CAPTURE_IFACE" -c 40 'udp port 443'` | UDP 包、QUIC packet number/ACK、stream 交换和拥塞/丢包事件（可用 qlog） | `any` 不是 macOS 的通用接口；只有 UDP 包不等于 QUIC 连接成功；curl 不支持 h3、目标不支持 h3 或 UDP 被阻断时要记录回退/能力错误 |
 | QUIC + TLS 1.3 | 先设置 `CAPTURE_IFACE`，再抓包：`sudo tcpdump -ni "$CAPTURE_IFACE" -c 60 -w quic.pcap 'udp port 443'`；请求后用 `tshark -r quic.pcap -Y quic -T fields -e quic.packet_type`，实现支持时另存 qlog | 能把 Initial、Handshake、0/1-RTT 与 `CRYPTO` 语义对应起来；TLS 握手字节位于 QUIC CRYPTO frame，包保护由 QUIC 完成 | 未配置实现级 qlog 或没有合法解密材料时，tshark 可能只能给包级类型；不能只凭 UDP 证明 TLS 成功，实验后删除 pcap/key log |
-| HTTP/3 与 QPACK | `curl --http3 -v https://cloudflare-quic.com/ -o /dev/null`；在支持 HTTP/3 解码的分析器中按连接观察请求 stream、控制 stream 和 QPACK stream | 可区分 HEADERS/DATA、控制帧、QPACK 编解码器流；字段压缩仍不是加密 | 无 qlog/解密材料或分析器不支持 HTTP/3 时不要虚构头部内容，只报告协议协商和包级证据 |
-| 部署与回退 | 先用 `H3_HEADERS=$(mktemp)`，执行 `curl -sSI https://cloudflare-quic.com/ -o "$H3_HEADERS"`，再分别读取 `grep -i '^alt-svc:' "$H3_HEADERS"` 和 `grep -i '^server:' "$H3_HEADERS"`；成功基线运行 `curl --http3 -v https://cloudflare-quic.com/ -o /dev/null` 与 `curl --http2 -v https://cloudflare-quic.com/ -o /dev/null`，最后 `rm -f "$H3_HEADERS"` | 成功路径显示 h3/Alt-Svc；在已获准的网络策略/实验环境阻断 UDP/443 后，`curl --http3-only -v https://cloudflare-quic.com/ -o /dev/null` 失败，HTTP/2 对照仍可记录，浏览器路径再观察 h2 回退 | 当前课程夹具不安全地改动企业网络策略，因此自动浏览器回退标记为 NOT VERIFIED；目标可能变更能力或不返回 Alt-Svc，不能把手工 h2 对照冒充自动回退 |
+| HTTP/3 与 QPACK | `curl --http3 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`；在支持 HTTP/3 解码的分析器中按连接观察请求 stream、控制 stream 和 QPACK stream | 可区分 HEADERS/DATA、控制帧、QPACK 编解码器流；字段压缩仍不是加密 | 无 qlog/解密材料或分析器不支持 HTTP/3 时不要虚构头部内容，只报告协议协商和包级证据 |
+| 部署与回退 | 先用 `H3_HEADERS=$(mktemp)`，执行 `curl -sSI https://cloudflare-quic.com/ -o "$H3_HEADERS"`，再分别读取 `grep -i '^alt-svc:' "$H3_HEADERS"` 和 `grep -i '^server:' "$H3_HEADERS"`；成功基线运行 `curl --http3 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"` 与 `curl --http2 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`，最后 `rm -f "$H3_HEADERS"` | 成功路径显示 h3/Alt-Svc；在已获准的网络策略/实验环境阻断 UDP/443 后，`curl --http3-only -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"` 失败，HTTP/2 对照仍可记录，浏览器路径再观察 h2 回退 | 当前课程夹具不安全地改动企业网络策略，因此自动浏览器回退标记为 NOT VERIFIED；目标可能变更能力或不返回 Alt-Svc，不能把手工 h2 对照冒充自动回退 |
 | 证书链与主机名 | 在本地 TLS 夹具的同一 shell、`LAB_DIR` 和 `localhost:18443` 仍有效时，运行 `curl --cacert "$LAB_DIR/cert.pem" https://localhost:18443/` 与 `openssl verify -CAfile "$LAB_DIR/cert.pem" "$LAB_DIR/cert.pem"` | 信任链、有效期、用途和 `localhost` SAN 通过；不带 `--cacert` 的对照请求应在证书信任阶段失败 | `-k` 只关闭校验，不是修复；夹具清理后 `$LAB_DIR` 不再存在，不能把脱离夹具的命令当作已验证 |
-| SNI 与 ALPN | 在 TLS 夹具服务器仍运行时，`openssl s_client -connect localhost:18443 -servername localhost -alpn h2,http/1.1 -CAfile "$LAB_DIR/cert.pem" </dev/null` | 输出证书主题/SAN、Verify return code 和实际 ALPN；SNI 使用 `localhost` 作为虚拟主机选择输入 | `openssl s_server` 未配置 h2 时可能只协商 http/1.1 或无共同 ALPN；证书正确不等于 ALPN 成功 |
-| TLS 迁移 | 对 loopback TLS 夹具分别执行 `openssl s_client -connect localhost:18443 -servername localhost -tls1_2 -CAfile "$LAB_DIR/cert.pem" </dev/null` 与同样参数的 `-tls1_3` | 记录版本、密码套件、握手消息和服务端允许策略，形成迁移对照 | 不要为了验证旧版本打开已淘汰的弱协议；本地 s_server 的构建和证书算法可能限制 TLS 1.2 对照，失败要标注实现边界 |
+| SNI 与 ALPN | 在 TLS 夹具服务器仍运行时，`printf '' | openssl s_client -connect localhost:18443 -servername localhost -alpn h2,http/1.1 -CAfile "$LAB_DIR/cert.pem"` | 输出证书主题/SAN、Verify return code 和实际 ALPN；SNI 使用 `localhost` 作为虚拟主机选择输入 | `openssl s_server` 未配置 h2 时可能只协商 http/1.1 或无共同 ALPN；证书正确不等于 ALPN 成功 |
+| TLS 迁移 | 对 loopback TLS 夹具分别执行 `printf '' | openssl s_client -connect localhost:18443 -servername localhost -tls1_2 -CAfile "$LAB_DIR/cert.pem"` 与同样参数的 `-tls1_3` | 记录版本、密码套件、握手消息和服务端允许策略，形成迁移对照 | 不要为了验证旧版本打开已淘汰的弱协议；本地 s_server 的构建和证书算法可能限制 TLS 1.2 对照，失败要标注实现边界 |
 | HTTPS 边界 | 在本地代理夹具启动后，执行 `curl --cacert "$PROXY_DIR/cert.pem" -sS -D - https://localhost:18445/fixed-502`，再对照 `curl -sS -D - http://127.0.0.1:18082/fixed-502` 和 `proxy.log` | 第一条是 TLS 客户端→代理→明文上游的同一链路，`X-Proxy-Leg`、502 和两端日志明确终止点与上游协议 | 代理夹具清理后变量和端口失效；若没有代理日志，不能把两个独立请求冒充同一代理链路，也不能把客户端安全推论为上游安全 |
-| 演进面试图 | 对同一授权目标 `https://cloudflare-quic.com/` 分别运行 `curl --http1.1 -v https://cloudflare-quic.com/ -o /dev/null`、`curl --http2 -v https://cloudflare-quic.com/ -o /dev/null`、`curl --http3 -v https://cloudflare-quic.com/ -o /dev/null`，再将 ALPN、Alt-Svc、UDP 和最终 Protocol 列填入回退图 | 得到“语义→线格式→传输→TLS/证书→ALPN→最终 HTTP 版本”的矩阵 | 只看锁图标或最终状态码无法回答协议演进、失败层和回退原因；每个版本都要标记未支持/未验证边界 |
+| 演进面试图 | 对同一授权目标 `https://cloudflare-quic.com/` 分别运行 `curl --http1.1 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`、`curl --http2 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`、`curl --http3 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`，再将 ALPN、Alt-Svc、UDP 和最终 Protocol 列填入回退图 | 得到“语义→线格式→传输→TLS/证书→ALPN→最终 HTTP 版本”的矩阵 | 只看锁图标或最终状态码无法回答协议演进、失败层和回退原因；每个版本都要标记未支持/未验证边界 |
 
 {% note info flat %}
 验证报告至少保留：输入命令、目标与时间、关键输出、抓包/日志过滤器、未验证项和清理动作。正式环境中的授权、隐私和密钥材料优先级高于“拿到更完整的协议截图”。
@@ -392,15 +366,18 @@ HTTPS 可以概括为 HTTP 语义在 TLS 保护下传输，但以下问题属于
 {% endnote %}
 
 ~~~bash
+DISCARD_FILE="$(mktemp -t net-discard.XXXXXX)"
+trap 'rm -f "$DISCARD_FILE"' EXIT
+
 # 查看 TLS 证书、SNI 和 ALPN 选择
-openssl s_client -connect example.com:443 -servername example.com -alpn h2,http/1.1 </dev/null
+printf '' | openssl s_client -connect example.com:443 -servername example.com -alpn h2,http/1.1
 
 # 明确指定 HTTP/1.1 或 HTTP/2；若客户端不支持，命令会报告能力错误
-curl -sS -v --http1.1 https://example.com/ -o /dev/null
-curl -sS -v --http2 https://example.com/ -o /dev/null
+curl -sS -v --http1.1 https://example.com/ -o "$DISCARD_FILE"
+curl -sS -v --http2 https://example.com/ -o "$DISCARD_FILE"
 
 # HTTP/3 需要 curl 和目标站点都支持；失败时记录回退/能力信息
-curl -sS -v --http3 https://example.com/ -o /dev/null
+curl -sS -v --http3 https://example.com/ -o "$DISCARD_FILE"
 ~~~
 
 {% note info flat %}

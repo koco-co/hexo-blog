@@ -4,6 +4,7 @@
     "slug": "computer-network",
     "series": "计算机网络",
     "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
     "topics": [
       "网络分层与局域网",
       "IP 与网络寻址",
@@ -74,99 +75,150 @@
     ]
   },
   "capability_ledger": {
-    "schema_version": "1.0",
+    "schema_version": 2,
     "source_manifest": {
       "frozen_at": "2026-08-25",
       "old_note_sha256": "22a3f12f026e15c65bb23fc4b8f6e51be329fc9df25931ace7904d45c020deae",
+      "collection_contract": {
+        "scope": "以 RFC/ISO/IEEE/注册表、WHATWG Fetch 规范和指定工具官方文档为有限入口；不声称穷尽互联网。",
+        "entry_categories": {
+          "normative": ["M01", "M02", "M03", "M04", "M05", "M06", "M07", "M08", "M09", "M10", "M11", "M12", "M13", "M15", "M16", "M17", "M18", "M19", "M20", "M21", "M22", "M24", "M25", "M26", "M27", "M28", "M29", "M33", "M34", "M35", "M36", "M37", "M38", "M39", "M42", "M43", "M44", "M45"],
+          "registry": ["M14", "M40"],
+          "living-standard": ["M23"],
+          "tool-documentation": ["M30", "M31", "M32"],
+          "scope-artifact": ["M41"]
+        },
+        "final_url_fields": ["url", "urls"],
+        "traversal_end": "逐项只遍历该条目的最终 URL 或规范路径，以及 locator 指定的章节/入口；到该入口的末级规范条目或工具文档章节结束，不扩张到未列入 manifest 的相邻能力。",
+        "inaccessible": []
+      },
       "items": {
         "M01": {
           "title": "ISO/IEC 7498-1:1994",
           "locator": "OSI Basic Reference Model",
+          "url": "https://www.iso.org/standard/20269.html",
           "status": "current"
         },
         "M02": {
           "title": "RFC 1122",
           "locator": "Requirements for Internet Hosts Communication Layers",
+          "url": "https://www.rfc-editor.org/rfc/rfc1122.html",
           "status": "current"
         },
         "M03": {
-          "title": "IEEE 802.3-2022 Clause 3.2; Cisco transparent bridging algorithm",
-          "locator": "Ethernet and bridge learning forwarding filtering flooding",
+          "title": "IEEE 802.3-2022",
+          "locator": "Ethernet MAC operation and local-area-network framing",
+          "url": "https://standards.ieee.org/ieee/802.3/10422/",
           "status": "current"
         },
         "M04": {
           "title": "RFC 826",
           "locator": "An Ethernet Address Resolution Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc826.html",
           "status": "current"
         },
         "M05": {
           "title": "RFC 4861 sections 2-4 and 7",
           "locator": "Neighbor Discovery for IP version 6",
+          "url": "https://www.rfc-editor.org/rfc/rfc4861.html",
           "status": "current"
         },
         "M06": {
           "title": "RFC 791",
           "locator": "Internet Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc791.html",
           "status": "current"
         },
         "M07": {
           "title": "RFC 4632; RFC 3021",
           "locator": "CIDR and Using 31-Bit Prefixes on IPv4 Point-to-Point Links",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc4632.html",
+            "https://www.rfc-editor.org/rfc/rfc3021.html"
+          ],
           "status": "current"
         },
         "M08": {
           "title": "RFC 4291; RFC 8200",
           "locator": "IPv6 Addressing Architecture and IPv6",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc4291.html",
+            "https://www.rfc-editor.org/rfc/rfc8200.html"
+          ],
           "status": "current"
         },
         "M09": {
           "title": "RFC 792; RFC 4443",
           "locator": "ICMP for IPv4 and ICMPv6",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc792.html",
+            "https://www.rfc-editor.org/rfc/rfc4443.html"
+          ],
           "status": "current"
         },
         "M10": {
           "title": "RFC 1812",
           "locator": "Requirements for IP Version 4 Routers",
+          "url": "https://www.rfc-editor.org/rfc/rfc1812.html",
           "status": "current"
         },
         "M11": {
           "title": "RFC 3022",
           "locator": "Traditional IP Network Address Translator",
+          "url": "https://www.rfc-editor.org/rfc/rfc3022.html",
           "status": "current"
         },
         "M12": {
           "title": "RFC 2131",
           "locator": "Dynamic Host Configuration Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc2131.html",
           "status": "current"
         },
         "M13": {
           "title": "RFC 1034; RFC 1035; RFC 7766",
           "locator": "Domain Names and DNS operational requirements",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc1034.html",
+            "https://www.rfc-editor.org/rfc/rfc1035.html",
+            "https://www.rfc-editor.org/rfc/rfc7766.html"
+          ],
           "status": "current"
         },
         "M14": {
           "title": "IANA Service Name and Transport Protocol Port Number Registry",
           "locator": "Registered ports and transport endpoint naming",
+          "url": "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml",
           "status": "current"
         },
         "M15": {
           "title": "RFC 768",
           "locator": "User Datagram Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc768.html",
           "status": "current"
         },
         "M16": {
           "title": "RFC 9293",
           "locator": "Transmission Control Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc9293.html",
           "status": "current"
         },
         "M17": {
           "title": "RFC 6298; RFC 5681; RFC 2018",
           "locator": "TCP retransmission timeout congestion control and SACK",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc6298.html",
+            "https://www.rfc-editor.org/rfc/rfc5681.html",
+            "https://www.rfc-editor.org/rfc/rfc2018.html"
+          ],
           "status": "current"
         },
         "M18": {
           "title": "RFC 1191; RFC 8201",
           "locator": "Path MTU Discovery for IPv4 and IPv6",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc1191.html",
+            "https://www.rfc-editor.org/rfc/rfc8201.html"
+          ],
           "status": "current"
         },
         "M19": {
@@ -279,36 +331,49 @@
         "M33": {
           "title": "RFC 6455",
           "locator": "The WebSocket Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc6455.html",
           "status": "current"
         },
         "M34": {
           "title": "RFC 8484; RFC 7858",
           "locator": "DNS over HTTPS and DNS over TLS",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc8484.html",
+            "https://www.rfc-editor.org/rfc/rfc7858.html"
+          ],
           "status": "current"
         },
         "M35": {
           "title": "RFC 4301",
           "locator": "Security Architecture for the Internet Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc4301.html",
           "status": "current"
         },
         "M36": {
           "title": "RFC 7348",
           "locator": "Virtual eXtensible Local Area Network",
+          "url": "https://www.rfc-editor.org/rfc/rfc7348.html",
           "status": "current"
         },
         "M37": {
           "title": "RFC 2474",
           "locator": "Differentiated Services Field",
+          "url": "https://www.rfc-editor.org/rfc/rfc2474.html",
           "status": "current"
         },
         "M38": {
           "title": "RFC 1112",
           "locator": "Host Extensions for IP Multicasting",
+          "url": "https://www.rfc-editor.org/rfc/rfc1112.html",
           "status": "current"
         },
         "M39": {
           "title": "RFC 2328; RFC 4271",
           "locator": "OSPF and BGP-4",
+          "urls": [
+            "https://www.rfc-editor.org/rfc/rfc2328.html",
+            "https://www.rfc-editor.org/rfc/rfc4271.html"
+          ],
           "status": "current"
         },
         "M40": {
@@ -323,6 +388,7 @@
         "M41": {
           "title": "User requirements local constraints and old note SHA-256 22a3f12f026e15c65bb23fc4b8f6e51be329fc9df25931ace7904d45c020deae",
           "locator": "Scope and migration evidence only; not a protocol authority",
+          "source_kind": "scope",
           "status": "scope"
         },
         "M42": {
@@ -364,6 +430,11 @@
         "target",
         "reason",
         "validation"
+      ],
+      "section_index_fields": [
+        "article",
+        "h2",
+        "h3"
       ]
     },
     "capabilities": {
@@ -1550,15 +1621,6 @@
         "v": "current",
         "m": [],
         "n": "进阶能力，需以前置正文完成为进入条件"
-      },
-      "ADV-010": {
-        "t": "如何扩展网络课程与审计版本",
-        "s": [
-          "M41"
-        ],
-        "v": "current",
-        "m": [],
-        "n": "进阶能力，需以前置正文完成为进入条件"
       }
     },
     "ledger": {
@@ -1595,9 +1657,9 @@
         ],
         "NET-005": [
           "core",
-          "计算机网络(一)入门路线 / OSI 与 TCP/IP 分层模型",
+          "计算机网络(二)网络分层与局域网 / 分层与封装",
           "支撑主线理解、实战定位和面试回答",
-          "路线图结构、Front Matter、Mermaid 与能力账本审计"
+          "分层复习卡片、封装/解封装图与跨层失败边界"
         ],
         "L2-001": [
           "core",
@@ -2051,15 +2113,15 @@
         ],
         "MOD-002": [
           "core",
-          "计算机网络(六)HTTPS 与现代 HTTP / HTTP/1.1 消息分帧",
+          "计算机网络(五)HTTP 协议 / 内容类型、长度和分帧",
           "支撑主线理解、实战定位和面试回答",
-          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+          "HTTP/1.1 原始消息、长度/传输编码边界和固定夹具"
         ],
         "MOD-003": [
           "core",
-          "计算机网络(六)HTTPS 与现代 HTTP / chunked transfer encoding",
+          "计算机网络(五)HTTP 协议 / 内容类型、长度和分帧",
           "支撑主线理解、实战定位和面试回答",
-          "HTTP/1.1→HTTP/2→TLS 1.3→QUIC→HTTP/3 演进图与证书链图"
+          "HTTP/1.1 原始消息、长度/传输编码边界和固定夹具"
         ],
         "MOD-004": [
           "core",
@@ -2173,97 +2235,97 @@
           "core",
           "计算机网络(七)抓包与网络排障 / DevTools 请求瀑布与阶段耗时",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-002": [
           "core",
           "计算机网络(七)抓包与网络排障 / DevTools Headers、Payload 与 Response",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-003": [
           "core",
           "计算机网络(七)抓包与网络排障 / HTTP 状态与网络错误的区分",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-004": [
           "core",
           "计算机网络(七)抓包与网络排障 / HAR 与原始证据",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-005": [
           "core",
           "计算机网络(七)抓包与网络排障 / curl 复现请求",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-006": [
           "core",
           "计算机网络(七)抓包与网络排障 / curl 的 headers、redirect、TLS verbose",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-007": [
           "core",
           "计算机网络(七)抓包与网络排障 / tcpdump 的抓包边界",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-008": [
           "core",
           "计算机网络(七)抓包与网络排障 / Wireshark display filter",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-009": [
           "core",
           "计算机网络(七)抓包与网络排障 / tcp.port 与 ip.addr 表达式",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-010": [
           "core",
           "计算机网络(七)抓包与网络排障 / .invalid DNS 失败夹具",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-011": [
           "core",
           "计算机网络(七)抓包与网络排障 / loopback 未监听端口的拒绝",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-012": [
           "core",
           "计算机网络(七)抓包与网络排障 / 一次性自签名 HTTPS、SAN 与 curl 校验",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-013": [
           "core",
           "计算机网络(七)抓包与网络排障 / 缓存错觉与固定响应头夹具",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-014": [
           "core",
           "计算机网络(七)抓包与网络排障 / 502、504 代理错觉与路径证据",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-015": [
           "core",
           "计算机网络(七)抓包与网络排障 / DNS→TCP→TLS→HTTP 证据链",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "DIAG-016": [
           "core",
           "计算机网络(七)抓包与网络排障 / 抓包安全、脱敏与清理",
           "支撑主线理解、实战定位和面试回答",
-          "DevTools、curl、tcpdump/Wireshark 与四个安全夹具的证据链"
+          "DevTools、curl、tcpdump/Wireshark 与六个安全夹具的证据链"
         ],
         "ADV-001": [
           "advanced",
@@ -2291,40 +2353,661 @@
         ],
         "ADV-005": [
           "advanced",
-          "计算机网络(九)综合实战 / DSCP 与 QoS 标记边界",
+          "计算机网络(八)进阶路线 / DSCP 与 QoS",
           "可选进阶扩展，避免打断主线",
           "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
         ],
         "ADV-006": [
           "advanced",
-          "计算机网络(九)综合实战 / IPv4 组播基础",
+          "计算机网络(八)进阶路线 / IPv4 组播",
           "可选进阶扩展，避免打断主线",
           "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
         ],
         "ADV-007": [
           "advanced",
-          "计算机网络(九)综合实战 / OSPF 与 BGP 路由交换概览",
+          "计算机网络(八)进阶路线 / OSPF 与 BGP",
           "可选进阶扩展，避免打断主线",
           "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
         ],
         "ADV-008": [
           "advanced",
-          "计算机网络(九)综合实战 / WebDAV 与 HTTP 扩展案例",
+          "计算机网络(八)进阶路线 / WebDAV 与 102",
           "可选进阶扩展，避免打断主线",
           "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
         ],
         "ADV-009": [
           "advanced",
-          "计算机网络(九)综合实战 / HTTP 状态注册表与 102 案例",
-          "可选进阶扩展，避免打断主线",
-          "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
-        ],
-        "ADV-010": [
-          "advanced",
-          "计算机网络(九)综合实战 / 如何扩展网络课程与审计版本",
+          "计算机网络(八)进阶路线 / WebDAV 与 102",
           "可选进阶扩展，避免打断主线",
           "DNS→TCP→TLS→HTTP 与 DNS→QUIC→HTTP/3 两条实战链路"
         ]
+      }
+    },
+    "section_index": {
+      "NET-001": {
+        "article": "计算机网络(一)入门路线",
+        "h2": "课程目标",
+        "h3": null
+      },
+      "NET-002": {
+        "article": "计算机网络(一)入门路线",
+        "h2": "学习路径",
+        "h3": null
+      },
+      "NET-003": {
+        "article": "计算机网络(一)入门路线",
+        "h2": "学习路径",
+        "h3": null
+      },
+      "NET-004": {
+        "article": "计算机网络(一)入门路线",
+        "h2": "课程目标",
+        "h3": null
+      },
+      "NET-005": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "分层与封装",
+        "h3": "发送端逐层加头"
+      },
+      "L2-001": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "以太网帧与 MAC",
+        "h3": "帧字段"
+      },
+      "L2-002": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "以太网帧与 MAC",
+        "h3": "帧字段"
+      },
+      "L2-003": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "交换机转发",
+        "h3": "冲突域与广播域"
+      },
+      "L2-004": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "交换机转发",
+        "h3": "FDB 转发"
+      },
+      "L2-005": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "交换机转发",
+        "h3": "FDB 转发"
+      },
+      "L2-006": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "ARP 与 IPv6 邻居发现",
+        "h3": "ARP 交换"
+      },
+      "L2-007": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "ARP 与 IPv6 邻居发现",
+        "h3": "默认网关"
+      },
+      "L2-008": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "ARP 与 IPv6 邻居发现",
+        "h3": "IPv6 邻居发现"
+      },
+      "L2-009": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "交换机转发",
+        "h3": "环路和广播域边界"
+      },
+      "L2-010": {
+        "article": "计算机网络(二)网络分层与局域网",
+        "h2": "交换机转发",
+        "h3": "环路和广播域边界"
+      },
+      "IP-001": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "地址与前缀",
+        "h3": "IPv4 地址"
+      },
+      "IP-002": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "地址与前缀",
+        "h3": "IPv4 地址"
+      },
+      "IP-003": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "地址与前缀",
+        "h3": "CIDR 与 VLSM"
+      },
+      "IP-004": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "地址与前缀",
+        "h3": "CIDR 与 VLSM"
+      },
+      "IP-005": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "地址与前缀",
+        "h3": "CIDR 与 VLSM"
+      },
+      "IP-006": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "地址与前缀",
+        "h3": "分类地址和 /31 迁移"
+      },
+      "IP-007": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "路由、下一跳与 NAT",
+        "h3": "NAT 映射与边界"
+      },
+      "IP-008": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "路由、下一跳与 NAT",
+        "h3": "NAT 映射与边界"
+      },
+      "IP-009": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "路由、下一跳与 NAT",
+        "h3": "最长前缀匹配"
+      },
+      "IP-010": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "路由、下一跳与 NAT",
+        "h3": "最长前缀匹配"
+      },
+      "IP-011": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "IPv6",
+        "h3": "IPv6 地址"
+      },
+      "IP-012": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "IPv6",
+        "h3": "IPv6 地址"
+      },
+      "IP-013": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "IPv6",
+        "h3": "子网结构与邻居边界"
+      },
+      "IP-014": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "控制、配置与名称",
+        "h3": "ICMP 与 PMTUD"
+      },
+      "IP-015": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "控制、配置与名称",
+        "h3": "ICMP 与 PMTUD"
+      },
+      "IP-016": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "控制、配置与名称",
+        "h3": "ICMP 与 PMTUD"
+      },
+      "IP-017": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "控制、配置与名称",
+        "h3": "ICMP 与 PMTUD"
+      },
+      "IP-018": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "控制、配置与名称",
+        "h3": "DHCP DORA"
+      },
+      "IP-019": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "控制、配置与名称",
+        "h3": "DNS 递归与迭代"
+      },
+      "IP-020": {
+        "article": "计算机网络(三)IP 与网络寻址",
+        "h2": "控制、配置与名称",
+        "h3": "端口和端点四元组"
+      },
+      "TR-001": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "UDP 与 TCP",
+        "h3": "UDP 首部和语义"
+      },
+      "TR-002": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "UDP 与 TCP",
+        "h3": "传输层解决什么问题"
+      },
+      "TR-003": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接模型",
+        "h3": "序列与确认"
+      },
+      "TR-004": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接模型",
+        "h3": "TCP 状态机"
+      },
+      "TR-005": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "三次握手",
+        "h3": "握手目的"
+      },
+      "TR-006": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "三次握手",
+        "h3": "握手失败"
+      },
+      "TR-007": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "三次握手",
+        "h3": "半连接队列"
+      },
+      "TR-008": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接关闭",
+        "h3": "FIN 不是“立刻断开”"
+      },
+      "TR-009": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接关闭",
+        "h3": "关闭信号"
+      },
+      "TR-010": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接关闭",
+        "h3": "TIME_WAIT 为什么存在"
+      },
+      "TR-011": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "发送控制",
+        "h3": "RTO 与重传"
+      },
+      "TR-012": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "发送控制",
+        "h3": "拥塞恢复"
+      },
+      "TR-013": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "发送控制",
+        "h3": "拥塞恢复"
+      },
+      "TR-014": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "发送控制",
+        "h3": "SACK 和累计确认"
+      },
+      "TR-015": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "发送控制",
+        "h3": "路径 MTU"
+      },
+      "TR-016": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "发送控制",
+        "h3": "路径 MTU"
+      },
+      "TR-017": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "UDP 与 TCP",
+        "h3": "传输层解决什么问题"
+      },
+      "TR-018": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接关闭",
+        "h3": "保活机制"
+      },
+      "TR-019": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接关闭",
+        "h3": "关闭信号"
+      },
+      "TR-020": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接关闭",
+        "h3": "连接重置与重连"
+      },
+      "TR-021": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "连接关闭",
+        "h3": "监听队列"
+      },
+      "TR-022": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "证据化回答",
+        "h3": "抓包实验"
+      },
+      "TR-023": {
+        "article": "计算机网络(四)UDP 与 TCP",
+        "h2": "证据化回答",
+        "h3": "抓包实验"
+      },
+      "HTTP-001": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "HTTP 消息",
+        "h3": "先区分资源、表示和消息"
+      },
+      "HTTP-002": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "HTTP 消息",
+        "h3": "请求和响应的骨架"
+      },
+      "HTTP-003": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "方法属性"
+      },
+      "HTTP-004": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "方法属性"
+      },
+      "HTTP-005": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "状态码决策表"
+      },
+      "HTTP-006": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "重定向"
+      },
+      "HTTP-007": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "常见客户端错误和服务端错误"
+      },
+      "HTTP-008": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "常见客户端错误和服务端错误"
+      },
+      "HTTP-009": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "常见客户端错误和服务端错误"
+      },
+      "HTTP-010": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "HTTP 消息",
+        "h3": "内容协商"
+      },
+      "HTTP-011": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "HTTP 消息",
+        "h3": "内容类型、长度和分帧"
+      },
+      "HTTP-012": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "缓存与 Cookie",
+        "h3": "Cache-Control"
+      },
+      "HTTP-013": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "缓存与 Cookie",
+        "h3": "条件请求"
+      },
+      "HTTP-014": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "缓存与 Cookie",
+        "h3": "Cookie 的设置与发送"
+      },
+      "HTTP-015": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "Fetch 与 CORS",
+        "h3": "同源和跨源"
+      },
+      "HTTP-016": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "Fetch 与 CORS",
+        "h3": "简单请求和预检"
+      },
+      "HTTP-017": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "中间层",
+        "h3": "Authorization"
+      },
+      "HTTP-018": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "中间层",
+        "h3": "代理与网关"
+      },
+      "HTTP-019": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "消息语义",
+        "h3": "WebDAV 与 102"
+      },
+      "HTTP-020": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "请求证据",
+        "h3": "HTTP 面试分析流程"
+      },
+      "HTTP-021": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "请求证据",
+        "h3": "旧术语到现代模型的迁移"
+      },
+      "MOD-001": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/1.1",
+        "h3": "持久连接和消息结束"
+      },
+      "MOD-002": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "HTTP 消息",
+        "h3": "内容类型、长度和分帧"
+      },
+      "MOD-003": {
+        "article": "计算机网络(五)HTTP 协议",
+        "h2": "HTTP 消息",
+        "h3": "内容类型、长度和分帧"
+      },
+      "MOD-004": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/2",
+        "h3": "HTTP/2 层次"
+      },
+      "MOD-005": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/2",
+        "h3": "HTTP/2 层次"
+      },
+      "MOD-006": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/2",
+        "h3": "HTTP/2 层次"
+      },
+      "MOD-007": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/2",
+        "h3": "HPACK 和流控"
+      },
+      "MOD-008": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/2",
+        "h3": "HPACK 和流控"
+      },
+      "MOD-009": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/2",
+        "h3": "stream 生命周期"
+      },
+      "MOD-010": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/2",
+        "h3": "HPACK 和流控"
+      },
+      "MOD-011": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "TLS 1.3 握手",
+        "h3": "TLS 解决什么问题"
+      },
+      "MOD-012": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "TLS 1.3 握手",
+        "h3": "密钥调度的理解方式"
+      },
+      "MOD-013": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "QUIC",
+        "h3": "QUIC 的传输能力"
+      },
+      "MOD-014": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "QUIC",
+        "h3": "QUIC 中的 TLS 1.3"
+      },
+      "MOD-015": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/3",
+        "h3": "HTTP/3 与 QPACK"
+      },
+      "MOD-016": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTP/3",
+        "h3": "部署回退"
+      },
+      "MOD-017": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "证书校验",
+        "h3": "证书链和主机名"
+      },
+      "MOD-018": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "证书校验",
+        "h3": "SNI 和 ALPN"
+      },
+      "MOD-019": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "TLS 1.3 握手",
+        "h3": "TLS 1.3 的握手主线"
+      },
+      "MOD-020": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTPS 边界",
+        "h3": "HTTPS 的规范和部署边界"
+      },
+      "MOD-021": {
+        "article": "计算机网络(六)HTTPS 与现代 HTTP",
+        "h2": "HTTPS 边界",
+        "h3": "协议验证矩阵"
+      },
+      "DIAG-001": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "DevTools 与 curl",
+        "h3": "DevTools 请求瀑布"
+      },
+      "DIAG-002": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "DevTools 与 curl",
+        "h3": "HAR 验证"
+      },
+      "DIAG-003": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "证据分层",
+        "h3": "HTTP 状态与网络错误"
+      },
+      "DIAG-004": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "DevTools 与 curl",
+        "h3": "HAR 验证"
+      },
+      "DIAG-005": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "DevTools 与 curl",
+        "h3": "curl 的最小证据集"
+      },
+      "DIAG-006": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "DevTools 与 curl",
+        "h3": "curl 的最小证据集"
+      },
+      "DIAG-007": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "抓包与过滤",
+        "h3": "两类过滤器"
+      },
+      "DIAG-008": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "抓包与过滤",
+        "h3": "两类过滤器"
+      },
+      "DIAG-009": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "抓包与过滤",
+        "h3": "两类过滤器"
+      },
+      "DIAG-010": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "安全场景",
+        "h3": "DNS 失败"
+      },
+      "DIAG-011": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "安全场景",
+        "h3": "端口未监听"
+      },
+      "DIAG-012": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "安全场景",
+        "h3": "自签名 HTTPS"
+      },
+      "DIAG-013": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "安全场景",
+        "h3": "HTTP 错误夹具"
+      },
+      "DIAG-014": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "安全场景",
+        "h3": "HTTP 错误夹具"
+      },
+      "DIAG-015": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "证据分层",
+        "h3": "一条请求的证据链"
+      },
+      "DIAG-016": {
+        "article": "计算机网络(七)抓包与网络排障",
+        "h2": "抓包与过滤",
+        "h3": "安全的最小抓包"
+      },
+      "ADV-001": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "应用协议",
+        "h3": "WebSocket 的升级边界"
+      },
+      "ADV-002": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "应用协议",
+        "h3": "DoH 与 DoT 的取舍"
+      },
+      "ADV-003": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "网络安全与覆盖",
+        "h3": "IPsec 的安全模型"
+      },
+      "ADV-004": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "网络安全与覆盖",
+        "h3": "VXLAN 隧道"
+      },
+      "ADV-005": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "网络治理与协议扩展",
+        "h3": "DSCP 与 QoS"
+      },
+      "ADV-006": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "网络治理与协议扩展",
+        "h3": "IPv4 组播"
+      },
+      "ADV-007": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "网络治理与协议扩展",
+        "h3": "OSPF 与 BGP"
+      },
+      "ADV-008": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "网络治理与协议扩展",
+        "h3": "WebDAV 与 102"
+      },
+      "ADV-009": {
+        "article": "计算机网络(八)进阶路线",
+        "h2": "网络治理与协议扩展",
+        "h3": "WebDAV 与 102"
       }
     },
     "legacy_migration": [
@@ -2551,11 +3234,11 @@
       ]
     },
     "summary": {
-      "official_capabilities": 126,
-      "ledger_entries": 126,
+      "official_capabilities": 125,
+      "ledger_entries": 125,
       "core": 110,
       "overview": 4,
-      "advanced": 10,
+      "advanced": 9,
       "migration": 2,
       "excluded": 0,
       "articles": 9,

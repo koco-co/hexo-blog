@@ -1,6 +1,6 @@
 # 当前项目标签写法参考
 
-本参考保存课程写作可以直接复制的标签骨架。Butterfly 示例整理自项目文章 `source/_posts/Butterfly文档(三)标签外挂.md`；Tag Plugins Plus 示例来自当前已安装插件源码与项目维护 Skill。原文章用于展示效果，不是版本真相。
+本参考保存课程写作可以直接复制的标签骨架。Butterfly 示例整理自项目文章 `source/_posts/blog/butterfly/Butterfly文档(三)标签外挂.md`；Tag Plugins Plus 示例来自当前已安装插件源码与项目维护 Skill。原文章用于展示效果，不是版本真相。
 
 每次使用前运行：
 

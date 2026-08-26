@@ -25,7 +25,9 @@ date: 2026-08-24 12:09:00
 
 ## 等待模型
 
-一次典型交互包含三个阶段：
+{% note info flat %}
+一次典型交互可以归纳为定位、动作和结果三个阶段，其中动作阶段还要经过可操作性检查：
+{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -36,7 +38,7 @@ flowchart TD
 {% endmermaid %}
 
 {% note info flat %}
-`locator.click()` 会等待按钮可见、稳定、能够接收事件且启用，然后执行点击。它不知道点击后应该出现成功提示、跳转到订单页还是更新金额，所以业务结果必须由测试断言。
+`locator.click()` 会等待按钮可见、稳定、能够接收事件且启用，并要求 Locator 最终解析为单一目标，然后执行点击。它不知道点击后应该出现成功提示、跳转到订单页还是更新金额，所以业务结果必须由测试断言。
 {% endnote %}
 
 ```python
@@ -45,13 +47,15 @@ submit.click()
 expect(page.get_by_role("status")).to_have_text("订单创建成功")
 ```
 
-{% tip error %}
+{% note warning flat %}
 如果第一行点击超时，检查目标是否可操作；如果最后一行超时，检查业务结果为何没有成立。不要把两类问题统一归因于“页面太慢”。
-{% endtip %}
+{% endnote %}
 
 ### Actionability
 
+{% note info flat %}
 不同操作会执行不同检查，常见检查包括：
+{% endnote %}
 
 | 检查 | 含义 |
 | --- | --- |
@@ -61,7 +65,9 @@ expect(page.get_by_role("status")).to_have_text("订单创建成功")
 | Enabled | 控件未禁用 |
 | Editable | 输入控件允许编辑 |
 
+{% note info flat %}
 例如：
+{% endnote %}
 
 ```python
 page.get_by_label("客户名称").fill("Alice")
@@ -69,11 +75,15 @@ page.get_by_role("button", name="提交订单").click()
 ```
 
 {% note info flat %}
-`fill()` 会等待输入框可见、启用且可编辑；`click()` 会额外关注稳定性和事件接收。如果浮层遮住按钮，强制点击可能让测试“通过动作”却偏离真实用户行为。
+`fill()` 会等待输入框可见、启用且可编辑；`click()` 会额外关注稳定性和事件接收。
+{% endnote %}
+
+{% note warning flat %}
+如果浮层遮住按钮，强制点击可能让测试“通过动作”却偏离真实用户行为。`force=True` 只在明确验证特殊底层行为时使用，不能作为常规修复。
 {% endnote %}
 
 ```python
-# 只在明确验证特殊底层行为时使用，不能作为常规修复
+# 只在明确验证特殊底层行为时使用
 button.click(force=True)
 ```
 
@@ -83,7 +93,9 @@ button.click(force=True)
 
 ## 断言设计
 
+{% note info flat %}
 Playwright 断言会持续重新查询 Locator，直到条件成立或超时：
+{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -106,9 +118,9 @@ def test_order_status(page: Page) -> None:
     expect(page.get_by_role("status")).to_have_text("提交成功")
 ```
 
-{% tip ban %}
+{% note warning flat %}
 不要先读取一次文本再用普通 `assert` 等待动态结果：
-{% endtip %}
+{% endnote %}
 
 ```python
 # 只读取一次，页面稍后更新也不会重新检查
@@ -121,7 +133,9 @@ assert page.get_by_role("status").text_content() == "提交成功"
 
 ### 可见性实例
 
+{% note info flat %}
 `to_be_visible()` 会重新查询 Locator，并等待元素满足可见条件；它不是对一次性 `is_visible()` 结果的包装：
+{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -144,9 +158,9 @@ def test_report_ready(page: Page) -> None:
     expect(report).to_have_text("报告已生成")
 ```
 
-{% tip error %}
-如果元素从未挂载、被 `display:none`/`hidden` 隐藏、尺寸为零或被页面状态阻止，断言会在超时后失败；这时要查看 DOM 快照和业务状态，而不是把 `timeout` 无条件放大。
-{% endtip %}
+{% note warning flat %}
+如果元素从未挂载、被 `display:none`/`hidden` 隐藏、尺寸为零或被页面状态阻止，断言会在超时后失败；前端 hydration 尚未完成时，即使元素已经可操作，业务监听器也可能尚未接好。这时要查看 DOM 快照、业务状态和页面初始化过程，而不是把 `timeout` 无条件放大。
+{% endnote %}
 
 ### 断言类型
 
@@ -208,11 +222,13 @@ expect(page).to_have_url("https://shop.example/orders/A-100")
 expect(page).to_have_url(re.compile(r"/orders/A-\d+$"))
 ```
 
-{% tip warning %}
+{% note warning flat %}
 URL 是导航结果，不要只断言点击没有报错。对于客户端路由，`to_have_url()` 同样会等待地址变化。
-{% endtip %}
+{% endnote %}
 
+{% note info flat %}
 完整导航断言应在触发导航后验证最终地址，并为动态片段使用正则或 glob：
+{% endnote %}
 
 ```python
 import re
@@ -222,13 +238,15 @@ expect(page).to_have_url(re.compile(r"/orders/A-100(?:\?.*)?$") )
 expect(page.get_by_role("heading", name="订单详情")).to_be_visible()
 ```
 
-{% tip warning %}
+{% note warning flat %}
 如果点击没有导航而只是更新组件，`to_have_url()` 不应作为替代品；此时断言组件状态。反向断言 `not_to_have_url()` 也会等待“不匹配”成立，仍需给出明确的业务边界。
-{% endtip %}
+{% endnote %}
 
 ### 超时配置
 
+{% note info flat %}
 超时应按职责设置：
+{% endnote %}
 
 ```python
 from playwright.sync_api import expect
@@ -237,20 +255,26 @@ from playwright.sync_api import expect
 expect.set_options(timeout=10_000)
 ```
 
+{% note info flat %}
 单次断言可以覆盖：
+{% endnote %}
 
 ```python
 expect(report).to_be_visible(timeout=30_000)
 ```
 
+{% note info flat %}
 操作超时和导航超时由 Context 或 Page 配置：
+{% endnote %}
 
 ```python
 page.set_default_timeout(10_000)
 page.set_default_navigation_timeout(30_000)
 ```
 
+{% note info flat %}
 建议区分：
+{% endnote %}
 
 - 普通定位与交互：较短默认超时；
 - 已知慢操作：在该断言上局部提高；
@@ -258,6 +282,10 @@ page.set_default_navigation_timeout(30_000)
 - 测试整体：由 pytest 或 CI 设置更外层上限。
 
 {% note info flat %}
+断言默认重试超时基线是 5 秒；操作超时、导航超时和测试整体超时分别由 Page/Context、导航调用和 pytest/CI 外层控制。单次调用的 `timeout` 优先于默认值，外层测试超时仍会限制整个用例。
+{% endnote %}
+
+{% note warning flat %}
 全局把超时改成一分钟会拖慢真正失败，也掩盖性能退化。局部慢操作必须有业务理由。
 {% endnote %}
 
@@ -281,7 +309,9 @@ page.get_by_role("dialog").wait_for(state="visible")
 page.wait_for_url("**/orders/*")
 ```
 
+{% note info flat %}
 异步 API 只改变调用模型，不改变等待语义：
+{% endnote %}
 
 ```python
 from playwright.async_api import Page
@@ -296,16 +326,18 @@ async def wait_for_legacy_boundary(page: Page) -> None:
 `wait_for_selector()` 与 `wait_for_timeout()` 已列入旧接口迁移清单；新代码优先使用 `expect()`、Locator 的 `wait_for()` 或事件上下文。
 {% endnote %}
 
-{% tip warning %}
+{% note warning flat %}
 导航不要默认依赖 `networkidle`。现代页面可能持续保持统计、轮询或推送连接，“网络空闲”不等于业务就绪。优先等待用户可观察的页面状态：
-{% endtip %}
+{% endnote %}
 
 ```python
 page.goto("https://example.com/orders")
 expect(page.get_by_role("heading", name="订单列表")).to_be_visible()
 ```
 
+{% note warning flat %}
 固定等待只允许短期诊断动画或演示：
+{% endnote %}
 
 ```python
 page.wait_for_timeout(1_000)  # 不作为稳定测试方案
@@ -313,7 +345,9 @@ page.wait_for_timeout(1_000)  # 不作为稳定测试方案
 
 ### 事件等待
 
+{% note info flat %}
 下载、新页面和响应等事件必须先注册等待，再触发动作：
+{% endnote %}
 
 ```python
 with page.expect_response(lambda response: "/api/orders" in response.url) as info:
@@ -323,19 +357,21 @@ response = info.value
 assert response.ok
 ```
 
-{% note info flat %}
-如果先点击再监听，快速事件可能已经结束。第六篇会把这一模式用于弹窗和文件，第九篇会进一步处理网络请求。
+{% note warning flat %}
+如果先点击再监听，快速事件可能已经结束；同样的先监听后触发规则适用于弹窗、文件和网络事件。
 {% endnote %}
 
 ## 失败处理
 
+{% note info flat %}
 负向断言需要明确业务含义：
+{% endnote %}
 
 ```python
 expect(page.get_by_text("支付失败")).not_to_be_visible()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 这可能因为元素根本不存在而通过。如果要求错误容器存在但为空，应写成：
 {% endnote %}
 
@@ -345,13 +381,15 @@ expect(errors).to_be_attached()
 expect(errors).to_be_empty()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 “没有看到错误”与“业务成功”也不是同一个结论。提交订单后应直接断言成功状态、订单号或后端结果。
 {% endnote %}
 
 ### 软断言
 
+{% note info flat %}
 需要一次收集多个独立展示问题时，可以使用软断言：
+{% endnote %}
 
 ```python
 from playwright.sync_api import expect
@@ -361,7 +399,7 @@ expect.soft(page.get_by_test_id("shipping-fee")).to_have_text("¥0.00")
 expect.soft(page.get_by_test_id("discount")).to_have_text("-¥20.00")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 软断言会记录失败并继续执行，最终仍使测试失败。它适合相互独立的展示字段，不适合关键前置条件：登录失败后继续点击结算只会制造连锁噪声。
 {% endnote %}
 
@@ -381,13 +419,15 @@ from playwright.async_api import expect
 await expect.soft(total, "订单总额").to_have_text("¥199.00")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `expect.set_options(timeout=...)` 只设置后续断言的默认超时；单次断言传入的 `timeout` 优先级更高。当前 `pytest-playwright`/`pytest-playwright-asyncio` 软断言集成要求 0.7.3 及以上；本课程冻结基线为 0.9.0。旧锁文件不支持时应升级并重新验证，而不是改用普通 `assert` 假装等价。
 {% endnote %}
 
 ### 断言扩展
 
+{% note info flat %}
 基础断言覆盖可见性、文本、数量、URL 和表单状态；只有在明确质量目标时才进入以下扩展组：
+{% endnote %}
 
 | 扩展组 | 代表 API | 进入条件 |
 | --- | --- | --- |
@@ -397,11 +437,13 @@ await expect.soft(total, "订单总额").to_have_text("¥199.00")
 | ARIA 快照 | `to_match_aria_snapshot()` | 需要冻结组件可访问树，变更需评审快照差异 |
 | 负向断言 | 各类 `not_to_*()` | 先定义“不成立”的业务边界，确认元素不存在与隐藏不是同一含义 |
 
-{% tip info %}
+{% note info flat %}
 这些 API 的完整方法和参数保留在本篇 API 索引中；正文只展开进入条件、等待语义和失败诊断，避免把长尾方法误当成主线流程。
-{% endtip %}
+{% endnote %}
 
+{% note info flat %}
 文本断言的三个常用参数有不同职责：
+{% endnote %}
 
 ```python
 # ignore_case 只放宽大小写，不放宽其他文本差异
@@ -415,7 +457,9 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 `ignore_case` 适合大小写不属于业务合同的界面；如果使用正则，正则自身的 flags 仍应保持清晰。`use_inner_text` 会受到布局、可见性和换行影响，只在产品合同明确关注用户看到的文本时使用；否则保留默认读取方式。`message`（包括 `expect.soft` 的第二个参数）只补充失败上下文，不是预期值，也不会改变重试条件。
 {% endnote %}
 
+{% note info flat %}
 低频等待和状态探针按能力组进入：
+{% endnote %}
 
 | 能力组 | 代表 API | 进入条件与边界 |
 | --- | --- | --- |
@@ -426,7 +470,9 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 
 ### 失败分析
 
+{% note info flat %}
 断言超时时按顺序检查：
+{% endnote %}
 
 1. Locator 是否命中正确且唯一的目标；
 2. 操作是否真正完成；
@@ -435,19 +481,19 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 5. 超时是否符合该业务操作的正常时间；
 6. Trace 中 DOM 快照和网络响应是否支持判断。
 
-{% tip ban %}
+{% note warning flat %}
 不要第一时间增加等待时间。先确认失败属于定位、可操作性、业务结果还是环境依赖。
-{% endtip %}
+{% endnote %}
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `Locator` | — | — | `is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`scroll_into_view_if_needed()`、`wait_for()`、`wait_for_function()` | — |
 | `LocatorAssertions` | `to_be_visible()`、`to_have_text()` | — | `not_to_be_attached()`、`not_to_be_checked()`、`not_to_be_disabled()`、`not_to_be_editable()`、`not_to_be_empty()`、`not_to_be_enabled()`、`not_to_be_focused()`、`not_to_be_hidden()`、`not_to_be_in_viewport()`、`not_to_be_visible()`、`not_to_contain_class()`、`not_to_contain_text()`、`not_to_have_accessible_description()`、`not_to_have_accessible_error_message()`、`not_to_have_accessible_name()`、`not_to_have_attribute()`、`not_to_have_class()`、`not_to_have_count()`、`not_to_have_css()`、`not_to_have_id()`、`not_to_have_js_property()`、`not_to_have_role()`、`not_to_have_text()`、`not_to_have_value()`、`not_to_have_values()`、`not_to_match_aria_snapshot()`、`to_be_attached()`、`to_be_checked()`、`to_be_disabled()`、`to_be_editable()`、`to_be_empty()`、`to_be_enabled()`、`to_be_focused()`、`to_be_hidden()`、`to_be_in_viewport()`、`to_contain_class()`、`to_contain_text()`、`to_have_accessible_description()`、`to_have_accessible_error_message()`、`to_have_accessible_name()`、`to_have_attribute()`、`to_have_class()`、`to_have_count()`、`to_have_css()`、`to_have_id()`、`to_have_js_property()`、`to_have_role()`、`to_have_value()`、`to_have_values()`、`to_match_aria_snapshot()` | — |
@@ -532,7 +578,7 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 
 ## 常见问题
 
-{% flashcard basic id:playwright-wait-boundary deck:"Playwright" priority:2 tags:"自动等待,断言" %}
+{% flashcard basic id:playwright-wait-boundary deck:"Playwright" priority:1 tags:"自动等待,断言" %}
 --- question
 为什么 `click()` 成功后仍然需要断言？
 --- answer
@@ -541,7 +587,7 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 点击会等待元素可操作并发送输入事件；成功提示、URL、订单状态或后端数据属于动作后的业务结果，需要单独使用 Web-first 断言或 API 核验。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-wait-strategy deck:"Playwright" priority:2 tags:"等待,稳定性" answer:C %}
+{% flashcard choice id:playwright-wait-strategy deck:"Playwright" priority:1 tags:"等待,稳定性" answer:C %}
 --- question
 提交后状态会异步变成“完成”，哪种等待方式最合适？
 - [A] 固定等待五秒

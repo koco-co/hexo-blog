@@ -11,62 +11,169 @@ description: 从 InnoDB 页、B+Tree、聚簇与二级索引理解联合、覆�
 cover: /img/picgo-images/mysql-course-cover.png
 series: MySQL
 series_order: 7
-published: false
+published: true
 abbrlink: 12331af3
 date: 2026-08-25 13:18:42
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note primary flat %}
+索引不是越多越快，而是用额外的有序结构换取更少的扫描。设计前先写出真实查询，再判断过滤、排序、回表和写入成本；最后用执行计划和数据分布验证，而不是凭列名猜索引。
+{% endnote %}
 
-## 文章职责
+## B+Tree 页
 
-- 唯一要解决的问题：索引为什么能加速查询，以及怎样设计而不制造无效或昂贵索引。
-- 可观察成果：能够解释回表、最左前缀、覆盖索引、ICP、选择性和索引维护成本。
-- 进入条件：MySQL(二)数据库基础与表设计、MySQL(四)查询基础与聚合
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note info flat %}
+InnoDB 的常用索引是 B+Tree：根页和中间页负责导航，叶子页按键有序。等值查找可以快速定位，范围查找可以顺着叶子页扫描；索引并不保证每次查询都比全表扫描便宜。
+{% endnote %}
 
-## 内容边界
+{% mermaid %}
+flowchart TD
+  R[根页] --> M1[中间页 10-49]
+  R --> M2[中间页 50-99]
+  M1 --> L1[叶子页 10-20]
+  M1 --> L2[叶子页 21-49]
+  M2 --> L3[叶子页 50-79]
+  M2 --> L4[叶子页 80-99]
+  L1 -.叶子链.- L2
+  L2 -.叶子链.- L3
+  L3 -.叶子链.- L4
+{% endmermaid %}
 
-- 能力分配：
+{% note primary flat %}
+树高、页大小、键宽度和数据分布共同影响成本。低选择性条件可能扫描大量叶子页；大字段会减少每页能容纳的键数，增加树高和 I/O。
+{% endnote %}
 
-- 索引结构与设计：`refman8.4:optimization-indexes`、`refman8.4:mysql-indexes`、`refman8.4:primary-key-optimization`、`refman8.4:column-indexes`、`refman8.4:multiple-column-indexes`、`refman8.4:verifying-index-usage`、`refman8.4:index-btree-hash`、`refman8.4:index-extensions`、`refman8.4:generated-column-index-optimizations`、`refman8.4:invisible-indexes`、`refman8.4:descending-indexes`、`refman8.4:create-index`、`refman8.4:drop-index`、`refman8.4:innodb-index-types`、`refman8.4:innodb-physical-structure`、`refman8.4:index-condition-pushdown-optimization`
-- 专项索引识别：`refman8.4:spatial-index-optimization`、`refman8.4:timestamp-lookups`
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+## 聚簇回表
 
-## 正文编排
+{% note info flat %}
+InnoDB 的聚簇索引叶子节点直接保存整行。二级索引叶子节点保存二级键和主键值，命中后还要按主键回聚簇索引取列，这一步就是回表。
+{% endnote %}
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 页与 B+Tree | 建立页与 B+Tree的心智模型 | 理解有序页、层级和范围扫描 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 聚簇与二级索引 | 建立聚簇与二级索引的心智模型 | 追踪主键记录和二级索引回表 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 单列与联合索引 | 建立单列与联合索引的心智模型 | 根据等值、范围、排序设计列顺序 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 覆盖索引与 ICP | 建立覆盖索引与 ICP的心智模型 | 减少回表并识别下推条件 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 索引类型与可见性 | 比较索引类型与可见性 | 识别唯一、降序、函数、隐藏与专项索引 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 成本与验证 | 完成并验证成本与验证 | 比较选择性、空间和写放大 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 查询 | 需要回表吗 | 原因 |
+| --- | --- | --- |
+| `WHERE PRIMARY KEY = ?` | 否 | 主键叶子页就是整行 |
+| `WHERE email = ?` 只取 `id` | 通常否 | 二级叶子已包含主键 |
+| `WHERE email = ?` 取 `display_name` | 是 | 二级索引没有该列 |
+| 覆盖索引查询 | 否 | 所需列都在索引中 |
 
-## 视觉与复习
+{% note warning flat %}
+二级索引不是“复制一份整表”。把所有查询列塞进索引会放大存储和写入成本；只有高频、选择性合理且能明显减少回表的列组合才值得覆盖。
+{% endnote %}
 
-- 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
-- 完整示例：围绕订单按用户和时间查询设计候选索引，比较命中、回表、覆盖和写入成本。
-- 失败边界与踩坑：避免把索引数量当作性能；覆盖低选择性、范围断点、函数包裹、隐式转换和冗余索引。
-- FAQ 候选与来源：SO-707874 用于发现 INDEX、PRIMARY、UNIQUE、FULLTEXT 的常见混淆。
-- 非复习自测：机制闪卡覆盖聚簇索引、联合索引、覆盖索引、回表与索引失效。
-- 图表或实验：B+Tree 层级图、聚簇与二级索引回表图、联合索引匹配表。
-- 参考资料：
+## 联合索引
 
-- https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html
-- https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html
-- https://dev.mysql.com/doc/refman/8.4/en/index-condition-pushdown-optimization.html
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+{% note primary flat %}
+联合索引 `(user_id, ordered_at, id)` 按左到右排序。等值列通常放在范围列前，排序需要的 tie-breaker 放在后面；一旦遇到范围或不连续条件，后续列未必还能用于缩小扫描范围。
+{% endnote %}
 
-## 验收证据
+| 索引 `(a,b,c)` | 常见使用情况 |
+| --- | --- |
+| `a = ?` | 可用 a |
+| `a = ? AND b = ?` | 可用 a、b |
+| `a = ? AND b BETWEEN ...` | a 定位、b 扫描，c 通常不能继续缩小范围 |
+| `b = ?` | 缺少最左列，通常不能按联合索引定位 |
+| `a = ? ORDER BY b,c` | 可能同时利用过滤和排序，须看计划 |
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+```sql
+CREATE INDEX idx_orders_user_time
+  ON orders (user_id, ordered_at DESC, id DESC);
+
+SELECT id, ordered_at, total_amount
+FROM orders
+WHERE user_id = 7
+  AND ordered_at >= '2026-07-01'
+ORDER BY ordered_at DESC, id DESC
+LIMIT 20;
+```
+
+{% note warning flat %}
+`WHERE DATE(ordered_at) = '2026-07-01'`、对列做函数、隐式类型转换或前导 `%` 的 LIKE 都可能让条件无法按原索引范围定位。先改写为可索引的半开区间，再比较计划。
+{% endnote %}
+
+## 覆盖与下推
+
+{% note info flat %}
+覆盖索引让查询只读索引页；Index Condition Pushdown（ICP）则把部分条件下推到存储引擎，减少回表候选。两者都不是强制承诺，是否生效以 `EXPLAIN` 的 `Extra` 和实际行数为证。
+{% endnote %}
+
+```sql
+CREATE INDEX idx_orders_user_status_time
+  ON orders (user_id, status, ordered_at, id, total_amount);
+
+EXPLAIN
+SELECT id, ordered_at, total_amount
+FROM orders
+WHERE user_id = 7
+  AND status = 'paid'
+ORDER BY ordered_at DESC, id DESC;
+```
+
+{% note success flat %}
+覆盖索引的成功标准是“所需列都能从索引读取、回表减少、总成本下降”，不是看到 `Using index` 就结束。低选择性状态列、频繁更新列和超宽索引可能让写放大超过收益。
+{% endnote %}
+
+## 索引可见性
+
+| 能力 | 语法/对象 | 适用边界 |
+| --- | --- | --- |
+| 唯一索引 | `UNIQUE KEY` | 既保证业务唯一又提供查找路径 |
+| 降序索引 | `DESC` 列方向 | 与反向排序模式匹配，仍需看计划 |
+| 隐藏索引 | `ALTER INDEX ... INVISIBLE` | 先观察删除候选索引的影响，不立即破坏结构 |
+| 生成列索引 | 先定义生成列再建索引 | 把 JSON/表达式查询变成可索引列 |
+| 空间索引 | `SPATIAL` | 只适用于空间类型和相应谓词 |
+| 时间查找 | 时间范围/时间戳精度 | 不把字符串格式当作时间索引策略 |
+
+{% folding blue, 安全试验索引变更 %}
+```sql
+CREATE INDEX idx_orders_status_time
+  ON orders (status, ordered_at);
+
+ALTER TABLE orders ALTER INDEX idx_orders_status_time INVISIBLE;
+-- 在同一份数据上比较计划和延迟；确认后再决定保留或 DROP。
+ALTER TABLE orders ALTER INDEX idx_orders_status_time VISIBLE;
+DROP INDEX idx_orders_status_time ON orders;
+
+ALTER TABLE products
+  ADD COLUMN color VARCHAR(32)
+    GENERATED ALWAYS AS (JSON_UNQUOTE(JSON_EXTRACT(attributes, '$.color'))) STORED,
+  ADD INDEX idx_products_color (color);
+```
+{% endfolding %}
+
+{% note warning flat %}
+隐藏索引只影响优化器是否选择它，不会立即释放空间，也不能替代回滚方案。删除索引前检查所有 SQL、写入负载和备用实例；生成列表达式还要确认 NULL、类型长度和字符集。
+{% endnote %}
+
+## 验证成本
+
+```sql
+SHOW INDEX FROM orders;
+SHOW CREATE TABLE orders;
+
+EXPLAIN FORMAT=JSON
+SELECT id, ordered_at, total_amount
+FROM orders
+WHERE user_id = 7
+ORDER BY ordered_at DESC, id DESC
+LIMIT 20;
+```
+
+{% hideToggle 索引自测, cyan, white %}
+给查询 `WHERE status = 'paid' AND ordered_at >= ? ORDER BY ordered_at DESC, id DESC LIMIT 20` 设计候选索引，并写出三个验证问题：是否命中、是否回表、写入成本是否可接受。答案：先测试 `(status, ordered_at, id)`，再看选择性和计划；若 SELECT 还需要少量固定列，再比较覆盖版本，不要一开始把整行都塞进索引。
+{% endhideToggle %}
+
+{% note primary flat %}
+索引验收至少记录 SQL、数据规模、统计信息、执行计划、实际耗时和写入对比。没有这些证据，只能说“有一个候选设计”，不能说“已经优化”。
+{% endnote %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link MySQL 8.4 Optimization and Indexes, https://dev.mysql.com/doc/refman/8.4/en/optimization-indexes.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Multiple-Column Indexes, https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 InnoDB Index Types, https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Index Condition Pushdown, https://dev.mysql.com/doc/refman/8.4/en/index-condition-pushdown-optimization.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Invisible Indexes, https://dev.mysql.com/doc/refman/8.4/en/invisible-indexes.html, https://www.mysql.com/favicon.ico %}
+{% endlinkgroup %}

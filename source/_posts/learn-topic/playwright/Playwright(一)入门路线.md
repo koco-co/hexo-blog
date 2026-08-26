@@ -81,12 +81,12 @@ H --> L
 I --> L
 {% endmermaid %}
 
-{% tip warning %}
+{% note warning flat %}
 顺序不能随意打乱。Locator 是断言和交互的基础；交互稳定后才能理解 Context 隔离；知道资源生命周期后，Fixture 和 Page Object 才不会沦为机械封装；测试具备清晰结构后，再引入网络控制、并行和 CI 才能判断失败来自哪里。
-{% endtip %}
+{% endnote %}
 
 {% note info flat %}
-“进阶路线”是可选篇，项目实战不依赖其中的无障碍、视觉回归、WebSocket、GraphQL 或 BDD。常规 Web 自动化先完成第二至第十篇，再根据项目需要选择进阶能力。
+“进阶路线”是可选篇，项目实战不依赖其中的无障碍、视觉回归、WebSocket、GraphQL 或 BDD。常规 Web 自动化先完成主线内容，再根据项目需要选择进阶能力。
 {% endnote %}
 
 ## 文章安排
@@ -116,9 +116,9 @@ I --> L
 4. 主动制造一次失败，识别错误证据；
 5. 完成文章中的检查清单与闪卡。
 
-{% tip ban %}
+{% note warning flat %}
 不要用 `time.sleep()` 暂时消除失败，也不要一开始就建立庞大的 POM。先写出表达用户行为的直接测试，确认重复和变化边界后再抽象。
-{% endtip %}
+{% endnote %}
 
 ### 工具范围
 

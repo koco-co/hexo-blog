@@ -20,7 +20,7 @@ date: 2026-08-24 12:11:00
 {% course_series %}
 
 {% note info flat %}
-本篇只完成一件事：建立能稳定复现的最小环境，并看懂第一个测试背后的对象关系。后续文章统一使用同步 API；异步 API 在本篇给出完整对照，便于在异步应用或高并发工具中正确选型。
+本篇只完成一件事：建立能稳定复现的最小环境，并看懂第一个测试背后的对象关系。主线示例统一使用同步 API；异步 API 在本篇给出完整对照，便于在异步应用或高并发工具中正确选型。
 {% endnote %}
 
 ## 环境准备
@@ -70,13 +70,15 @@ test-results/
 *.zip
 ```
 
-{% tip key %}
+{% note danger flat %}
 Trace、截图和录像可能包含页面文本、Cookie 或 Token，只在受控位置短期保存，不应无筛选提交到 Git。
-{% endtip %}
+{% endnote %}
 
 ## 首个测试
 
+{% note info flat %}
 新建 `tests/test_home.py`，代码如下：
+{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -96,17 +98,25 @@ def test_home_title(page: Page) -> None:
     )
 ```
 
+{% note info flat %}
 运行测试：
+{% endnote %}
 
 ```bash
 uv run pytest -q
 ```
 
+{% note success flat %}
+成功证据应看到 `1 passed`。如果失败，先确认浏览器二进制与执行命令来自同一个虚拟环境，再根据失败定位和断言信息排查，不要直接增加等待时间。
+{% endnote %}
+
 {% note info flat %}
 `page` 不是自己创建的普通变量，而是 `pytest-playwright` 提供的 Function 级 Fixture。插件在用例开始前创建 Page，在用例结束后回收相关资源。`expect()` 是 Playwright 的 Web-first 断言，会在超时范围内重复查询页面状态。
 {% endnote %}
 
+{% note info flat %}
 需要观察浏览器时运行：
+{% endnote %}
 
 ```bash
 uv run pytest --headed --browser chromium -q
@@ -118,7 +128,9 @@ uv run pytest --headed --browser chromium -q
 
 ## 对象模型
 
+{% note info flat %}
 Playwright 的核心对象具有明确所有权：
+{% endnote %}
 
 {% mermaid %}
 flowchart TD
@@ -138,12 +150,14 @@ flowchart TD
 - `Locator`：如何在 Page 或 Frame 中持续查找目标元素。
 
 {% note info flat %}
-Locator 不是创建时就冻结的 DOM 元素。执行点击或断言时，它会重新查询当前页面，因此能够适应重渲染。第三篇会专门讲定位语义。
+Locator 不是创建时就冻结的 DOM 元素。执行点击或断言时，它会重新查询当前页面，因此能够适应重渲染；定位策略、组合与跨文档边界将在定位专题中展开。
 {% endnote %}
 
 ## 内置 Fixture
 
+{% note info flat %}
 常用 Fixture 如下：
+{% endnote %}
 
 | Fixture | 作用 | 默认生命周期 |
 | --- | --- | --- |
@@ -154,16 +168,20 @@ Locator 不是创建时就冻结的 DOM 元素。执行点击或断言时，它�
 | `browser_channel` | 当前浏览器渠道 | Session |
 | `device` | `--device` 选择的设备名 | Session |
 | `is_chromium` / `is_firefox` / `is_webkit` | 浏览器类型布尔判断 | Session |
-| `launch_browser` | 按当前启动配置创建 Browser 的工厂 | Session |
-| `browser_type_launch_args` | 覆盖 BrowserType 启动参数 | Session |
-| `browser_context_args` | 合并 Context 默认参数 | Session |
-| `connect_options` | 改为连接远端 Playwright 服务 | Session |
-| `new_context` | 创建并自动回收额外 Context 的工厂 | Function |
 | `context` | 隔离浏览器会话 | Function |
 | `page` | 当前标签页 | Function |
-| `output_path` | 当前用例的截图、视频与 Trace 输出目录 | Function |
 
+{% note info flat %}
+命令行选项只会自动应用到插件默认的 `browser`、`context` 和 `page` Fixture；如果用 `browser.new_context()` 等 API 自己创建对象，就要显式传入需要的参数。
+{% endnote %}
+
+{% note info flat %}
+本篇先建立核心 Fixture 的所有权；额外 Context、启动参数和诊断产物应在确定生命周期后再配置，避免把底层选项混入第一个测试。
+{% endnote %}
+
+{% note info flat %}
 测试函数只声明自己需要的资源：
+{% endnote %}
 
 ```python
 from playwright.sync_api import Browser, Page
@@ -174,9 +192,9 @@ def test_fixture_identity(page: Page, browser: Browser, browser_name: str) -> No
     assert browser_name in {"chromium", "firefox", "webkit"}
 ```
 
-{% tip ban %}
+{% note warning flat %}
 不要为了“复用”把 `page` 提升为 Session 级全局对象。页面状态会在用例间残留，失败后也更难恢复。需要复用登录时，应保存 `storage_state`，而不是共享同一个 Page。
-{% endtip %}
+{% endnote %}
 
 ## 同步与异步
 
@@ -194,9 +212,9 @@ def test_fixture_identity(page: Page, browser: Browser, browser_name: str) -> No
 - 异步 pytest 使用 `pytest-playwright-asyncio`，测试和 Fixture 都需要遵循其事件循环契约。
 {% endnote %}
 
-{% tip warning %}
-同步插件与异步插件不能安装在同一个 pytest 环境。异步示例应放在独立空目录中，只安装异步插件。
-{% endtip %}
+{% note warning flat %}
+同步插件与异步插件不能在同一个 pytest 运行中同时启用。异步示例应放在独立空目录中，并按当前插件要求安装异步插件与 `pytest-asyncio`。
+{% endnote %}
 
 {% tabs 同步与异步, 1 %}
 <!-- tab 同步 API -->
@@ -246,11 +264,13 @@ asyncio.run(main())
 mkdir playwright-async-demo
 cd playwright-async-demo
 uv init --python 3.11
-uv add --dev "playwright==1.62.0" "pytest-playwright-asyncio==0.9.0" pytest-asyncio
+uv add --dev "playwright==1.62.0" "pytest-playwright-asyncio==0.9.0" "pytest-asyncio>=0.26.0"
 uv run playwright install chromium
 ```
 
+{% note info flat %}
 事件循环作用域需要与异步插件的 Session 级资源一致：
+{% endnote %}
 
 ```toml
 # pyproject.toml
@@ -273,9 +293,9 @@ async def test_async_home(page: Page) -> None:
 具体标记和事件循环配置应以当前插件文档为准。不要在主线环境同时保留 `pytest-playwright` 与 `pytest-playwright-asyncio`；对于本系列主线，继续使用同步 Fixture，避免同时学习两套测试运行模型。
 {% endnote %}
 
-{% tip info %}
+{% note info flat %}
 两套 API 的公开对象与成员是镜像关系，但“异步方法一律 `await`”是错误规则。异步绑定需要区分四类返回模型：
-{% endtip %}
+{% endnote %}
 
 | 类型 | 写法 | 示例 |
 | --- | --- | --- |
@@ -298,13 +318,13 @@ async with page.expect_response("**/api/orders") as response_info:
 response = await response_info.value
 ```
 
-{% tip info %}
-本文末尾的异步完整镜像索引按这四种模型列出冻结版本的全部对象成员。后续各篇以同步写法讲业务机制；转换时应查成员所在列，而不是机械添加 `await`，也不能在同步 Fixture 中调用异步 Page。
-{% endtip %}
+{% note info flat %}
+本文末尾的异步对照索引按这四种模型整理本篇涉及的冻结版本对象成员。业务代码以同步 API 为主；转换时应查成员所在列，而不是机械添加 `await`，也不能在同步 Fixture 中调用异步 Page。
+{% endnote %}
 
-{% tip error %}
+{% note warning flat %}
 超时、取消与清理也属于异步合同。Playwright 操作超时抛出自身的 `TimeoutError`；`asyncio` 取消任务时会注入 `CancelledError`，清理后必须继续抛出，不能把取消吞掉：
-{% endtip %}
+{% endnote %}
 
 ```python
 import asyncio
@@ -339,7 +359,9 @@ async def inspect_page(url: str) -> None:
 
 ## 运行与验证
 
+{% note info flat %}
 常用命令：
+{% endnote %}
 
 ```bash
 # 指定浏览器
@@ -358,34 +380,38 @@ uv run pytest -s
 uv run pytest -x
 ```
 
+{% note info flat %}
 多浏览器可以重复传入参数：
+{% endnote %}
 
 ```bash
 uv run pytest --browser chromium --browser firefox --browser webkit
 ```
 
 {% note info flat %}
-此时同一用例会分别执行。第十篇会进一步设计跨浏览器、并行和 CI 策略。
+此时同一用例会分别执行；跨浏览器、并行和 CI 应在套件形成后按资源隔离与证据策略设计。
 {% endnote %}
 
+{% note info flat %}
 `pytest-playwright` 0.9.0 的插件参数可按用途分组：
+{% endnote %}
 
 | 用途 | 参数 | 说明 |
 | --- | --- | --- |
 | 浏览器 | `--browser`、`--browser-channel`、`--headed` | 选择引擎、渠道与显示模式 |
-| 调试节奏 | `--slowmo`、`--playwright-debug=cli` | 放慢动作或进入 CLI 调试；后者需要 `-s` 且只能单 worker |
 | 设备 | `--device` | 合并官方设备描述；不要与自定义 Context 参数盲目叠加 |
-| 产物目录 | `--output` | 设置当前测试产物根目录 |
-| Trace | `--tracing=on` / `retain-on-failure` | 全量保留或仅失败保留 |
-| 视频 | `--video=on` / `retain-on-failure` | 控制视频保留策略 |
-| 截图 | `--screenshot=on` / `only-on-failure` | 控制截图策略 |
-| 整页截图 | `--full-page-screenshot` | 让自动截图覆盖完整页面 |
 
+{% note info flat %}
 参数名称与具体可选值以当前插件 `--help` 为准：
+{% endnote %}
 
 ```bash
-uv run pytest --help | rg 'browser|slowmo|device|tracing|video|screenshot|playwright-debug'
+uv run pytest --help | rg 'browser|headed|device'
 ```
+
+{% note info flat %}
+Trace、视频和截图等诊断产物应按失败保留策略配置，并保存到受控目录；本篇只确认插件参数入口，不把诊断配置与首个测试混在一起。
+{% endnote %}
 
 ### 故障处理
 
@@ -403,13 +429,27 @@ uv run pytest --help | rg 'browser|slowmo|device|tracing|video|screenshot|playwr
 版本升级后 Python 包与浏览器二进制可能不匹配，应重新执行安装命令。不要通过硬编码内部缓存路径修补问题。
 {% endnote %}
 
+## 结果验证
+
+{% note success flat %}
+完成本篇时应能回答：
+{% endnote %}
+
+- Python 包、浏览器二进制和系统依赖分别由什么命令准备；
+- `browser`、`context`、`page` 和 `locator` 的所有权关系；
+- 为什么默认 Page 不应跨测试共享；
+- 同步与异步 API 在语法和适用场景上的差异；
+- 如何指定单个测试与浏览器运行。
+
 ## 接口边界
 
 {% note info flat %}
 `playwright.chromium`、`firefox`、`webkit` 分别返回三个 BrowserType；`BrowserType.name` 可读取引擎名，`executable_path` 可用于诊断 Playwright 管理的浏览器路径。`connect()` 连接由 Node.js `BrowserType.launchServer` 创建的 Playwright BrowserServer；Python 端只使用 WebSocket endpoint，连接端与服务端的 Playwright 主、次版本必须匹配。普通本地测试仍优先 `launch()`，不要把 `connect()` 与仅支持 Chromium 的 CDP 连接混用。
 {% endnote %}
 
+{% note info flat %}
 Page 的常用基础成员按任务分组：
+{% endnote %}
 
 | 任务 | 成员 | 选择边界 |
 | --- | --- | --- |
@@ -419,9 +459,9 @@ Page 的常用基础成员按任务分组：
 | 超时 | `set_default_timeout()`、`set_default_navigation_timeout()` | 只设置合理全局基线，单次异常再局部覆盖 |
 | 关闭 | `close()` | 关闭后继续操作会抛错；pytest 的 `page` Fixture 通常由插件回收 |
 
-{% tip warning %}
+{% note warning flat %}
 `goto()` 的 `wait_until` 决定导航完成信号，常规页面保持默认 `load` 或依赖后续 Web-first 断言；`domcontentloaded` 只等待 DOM 解析，`commit` 只确认收到响应，`networkidle` 不应作为通用测试就绪条件。`timeout` 只覆盖这次导航；确有协议合同时可传 `referer`，并且该显式值优先于 `page.set_extra_http_headers()` 中的 Referer。DNS、TLS、连接失败或超时会抛错；HTTP 404/500 通常仍返回 Response，因此还要检查状态或用户可见错误页。
-{% endtip %}
+{% endnote %}
 
 {% note info flat %}
 `launch()` 的常见参数也应按目的使用：`headless` 控制有无窗口，`channel` 选择 Chrome/Edge 等渠道，`slow_mo` 只用于观察动作；`proxy` 配置代理，`downloads_path` 与 `traces_dir` 指定产物目录，`args` 直接传浏览器参数，兼容风险最高。诊断参数不应永久写入共享 Fixture。
@@ -431,7 +471,9 @@ Page 的常用基础成员按任务分组：
 `sync_playwright()` / `async_playwright()` 上下文退出时会调用 `stop()`；手工 `start()` 的代码才需要显式 `stop()`。
 {% endnote %}
 
-API 索引中的 Page 进阶成员只在对应任务出现时进入：
+{% note info flat %}
+API 索引中的 Page 进阶成员只在需要对应任务时进入：
+{% endnote %}
 
 - 页面诊断：`console_messages()`、`clear_console_messages()`、`page_errors()`、`clear_page_errors()`、`requests()`；用于失败后读取或清理页面侧证据。
 - JavaScript 执行与桥接：`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`expose_binding()`、`expose_function()`；仅当 Locator 与页面公开行为无法表达底层合同。
@@ -439,7 +481,7 @@ API 索引中的 Page 进阶成员只在对应任务出现时进入：
 - 定位器拾取与高亮：`pick_locator()`、`cancel_pick_locator()`、`hide_highlight()`；用于工具化调试，不进入普通业务用例。
 - 存储：`local_storage`、`session_storage`；用于受控状态诊断，登录复用仍优先 `storage_state`。
 - 页面视图：`set_viewport_size()`、`bring_to_front()`；前者只改视口，后者只在多页焦点确实属于产品合同时使用。
-- 结构快照：`aria_snapshot()`；用于读取可访问性树结构，专项断言在后续文章按场景使用。
+- 结构快照：`aria_snapshot()`；用于读取可访问性树结构，专项断言按具体质量场景使用。
 
 ### 旧接口迁移
 
@@ -456,28 +498,18 @@ Page 中直接接收 selector 的查询和状态接口已不适合作为新测�
 | `expect_navigation()` | 明确 URL 时用 `wait_for_url()`；下载、弹窗、请求等使用对应 `expect_*` |
 
 {% note info flat %}
-`wait_for_timeout()` 只适合人工调试，正式测试应等待 Locator、URL、请求或业务状态。`Browser.new_page()` 会隐式创建 Context，无法清楚表达资源所有权；新代码使用 `browser.new_context()` → `context.new_page()`。Chromium 的低层 `Browser.start_tracing()` / `stop_tracing()` 不等于 Playwright Trace Viewer 产物，常规诊断使用 `context.tracing`，第十篇会完整介绍。
+`wait_for_timeout()` 只适合人工调试，正式测试应等待 Locator、URL、请求或业务状态。`Browser.new_page()` 会隐式创建 Context，无法清楚表达资源所有权；新代码使用 `browser.new_context()` → `context.new_page()`。Chromium 的低层 `Browser.start_tracing()` / `stop_tracing()` 不等于 Playwright Trace Viewer 产物，常规诊断使用 `context.tracing`；诊断产物的保留与查看应在交付流程中统一管理。
 {% endnote %}
-
-### 结果验证
-
-完成本篇时应能回答：
-
-- Python 包、浏览器二进制和系统依赖分别由什么命令准备；
-- `browser`、`context`、`page` 和 `locator` 的所有权关系；
-- 为什么默认 Page 不应跨测试共享；
-- 同步与异步 API 在语法和适用场景上的差异；
-- 如何指定单个测试与浏览器运行。
 
 ### API 速查
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `BrowserType` | `launch()` | `connect()`、`executable_path`、`name` | — | — |
 | `Page` | `goto()` | `close()`、`content()`、`go_back()`、`go_forward()`、`is_closed()`、`reload()`、`set_content()`、`set_default_navigation_timeout()`、`set_default_timeout()`、`title()`、`url` | `aria_snapshot()`、`bring_to_front()`、`cancel_pick_locator()`、`clear_console_messages()`、`clear_page_errors()`、`console_messages()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`expect_worker()`、`expose_binding()`、`expose_function()`、`frame()`、`hide_highlight()`、`local_storage`、`page_errors()`、`pick_locator()`、`requests()`、`session_storage`、`set_viewport_size()` | `drag_and_drop()`、`expect_navigation()`、`get_attribute()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`query_selector()`、`query_selector_all()`、`text_content()` |
@@ -524,15 +556,15 @@ Page 中直接接收 selector 的查询和状态接口已不适合作为新测�
 
 {% folding blue, 查看 async_api 完整镜像索引 %}
 
-`async_api` 在对象与成员层面镜像下列同步 API，但并非所有方法都需要 `await`。表格按冻结版本的真实返回模型分为协程、同步构造或注册方法、异步事件上下文和属性；这里只核对完整调用模型，不承担其他文章的旧接口迁移教学，迁移项及其主文章在最后一列单独标出。
+`async_api` 在对象与成员层面镜像下列同步 API，但并非所有方法都需要 `await`。表格按冻结版本的真实返回模型分为协程、同步构造或注册方法、异步事件上下文和属性；这里只核对本篇涉及的调用模型，最后一列用方法名提示替代方向，不展开完整迁移教程。
 
-| 异步对象 | 使用 `await` | 直接调用 | 使用 `async with` | 属性 | 迁移项与主文章 |
+| 异步对象 | 使用 `await` | 直接调用 | 使用 `async with` | 属性 | 使用提示 |
 | --- | --- | --- | --- | --- | --- |
 | `async_api.APIRequest` | `new_context()` | — | — | — | — |
 | `async_api.APIRequestContext` | `delete()`、`dispose()`、`fetch()`、`get()`、`head()`、`patch()`、`post()`、`put()`、`storage_state()` | — | — | `tracing` | — |
 | `async_api.APIResponse` | `body()`、`dispose()`、`json()`、`security_details()`、`server_addr()`、`text()` | — | — | `headers`、`headers_array`、`ok`、`status`、`status_text`、`timing`、`url` | — |
 | `async_api.APIResponseAssertions` | `not_to_be_ok()`、`to_be_ok()` | — | — | — | — |
-| `async_api.Browser` | `bind()`、`close()`、`new_browser_cdp_session()`、`new_context()`、`new_page()`、`start_tracing()`、`stop_tracing()`、`unbind()` | `is_connected()` | — | `browser_type`、`contexts`、`version` | `new_page()` → Playwright(七)浏览器上下文.md；`start_tracing()` → Playwright(十一)进阶路线.md；`stop_tracing()` → Playwright(十一)进阶路线.md |
+| `async_api.Browser` | `bind()`、`close()`、`new_browser_cdp_session()`、`new_context()`、`new_page()`、`start_tracing()`、`stop_tracing()`、`unbind()` | `is_connected()` | — | `browser_type`、`contexts`、`version` | `new_page()`；`start_tracing()`；`stop_tracing()` |
 | `async_api.BrowserContext` | `add_cookies()`、`add_init_script()`、`clear_cookies()`、`clear_permissions()`、`close()`、`cookies()`、`expose_binding()`、`expose_function()`、`grant_permissions()`、`new_cdp_session()`、`new_page()`、`route()`、`route_from_har()`、`route_web_socket()`、`set_extra_http_headers()`、`set_geolocation()`、`set_offline()`、`set_storage_state()`、`storage_state()`、`unroute()`、`unroute_all()`、`wait_for_event()` | `is_closed()`、`set_default_navigation_timeout()`、`set_default_timeout()` | `expect_console_message()`、`expect_event()`、`expect_page()` | `background_pages`、`browser`、`clock`、`credentials`、`debugger`、`pages`、`request`、`service_workers`、`tracing` | — |
 | `async_api.BrowserType` | `connect()`、`connect_over_cdp()`、`launch()`、`launch_persistent_context()` | — | — | `executable_path`、`name` | — |
 | `async_api.CDPSession` | `detach()`、`send()` | — | — | — | — |
@@ -543,16 +575,16 @@ Page 中直接接收 selector 的查询和状态接口已不适合作为新测�
 | `async_api.Dialog` | `accept()`、`dismiss()` | — | — | `default_value`、`message`、`page`、`type` | — |
 | `async_api.Disposable` | `close()`、`dispose()` | — | — | — | — |
 | `async_api.Download` | `cancel()`、`delete()`、`failure()`、`path()`、`save_as()` | — | — | `page`、`suggested_filename`、`url` | — |
-| `async_api.ElementHandle` | `bounding_box()`、`check()`、`click()`、`content_frame()`、`dblclick()`、`dispatch_event()`、`dispose()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`fill()`、`focus()`、`get_attribute()`、`get_properties()`、`get_property()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`json_value()`、`owner_frame()`、`press()`、`query_selector()`、`query_selector_all()`、`screenshot()`、`scroll_into_view_if_needed()`、`select_option()`、`select_text()`、`set_checked()`、`set_input_files()`、`tap()`、`text_content()`、`type()`、`uncheck()`、`wait_for_element_state()`、`wait_for_selector()` | `as_element()` | — | — | `as_element()` → Playwright(十一)进阶路线.md；`bounding_box()` → Playwright(十一)进阶路线.md；`check()` → Playwright(十一)进阶路线.md；`click()` → Playwright(十一)进阶路线.md；`content_frame()` → Playwright(十一)进阶路线.md；`dblclick()` → Playwright(十一)进阶路线.md；`dispatch_event()` → Playwright(十一)进阶路线.md；`dispose()` → Playwright(十一)进阶路线.md；`eval_on_selector()` → Playwright(十一)进阶路线.md；`eval_on_selector_all()` → Playwright(十一)进阶路线.md；`evaluate()` → Playwright(十一)进阶路线.md；`evaluate_handle()` → Playwright(十一)进阶路线.md；`fill()` → Playwright(十一)进阶路线.md；`focus()` → Playwright(十一)进阶路线.md；`get_attribute()` → Playwright(十一)进阶路线.md；`get_properties()` → Playwright(十一)进阶路线.md；`get_property()` → Playwright(十一)进阶路线.md；`hover()` → Playwright(十一)进阶路线.md；`inner_html()` → Playwright(十一)进阶路线.md；`inner_text()` → Playwright(十一)进阶路线.md；`input_value()` → Playwright(十一)进阶路线.md；`is_checked()` → Playwright(十一)进阶路线.md；`is_disabled()` → Playwright(十一)进阶路线.md；`is_editable()` → Playwright(十一)进阶路线.md；`is_enabled()` → Playwright(十一)进阶路线.md；`is_hidden()` → Playwright(十一)进阶路线.md；`is_visible()` → Playwright(十一)进阶路线.md；`json_value()` → Playwright(十一)进阶路线.md；`owner_frame()` → Playwright(十一)进阶路线.md；`press()` → Playwright(十一)进阶路线.md；`query_selector()` → Playwright(十一)进阶路线.md；`query_selector_all()` → Playwright(十一)进阶路线.md；`screenshot()` → Playwright(十一)进阶路线.md；`scroll_into_view_if_needed()` → Playwright(十一)进阶路线.md；`select_option()` → Playwright(十一)进阶路线.md；`select_text()` → Playwright(十一)进阶路线.md；`set_checked()` → Playwright(十一)进阶路线.md；`set_input_files()` → Playwright(十一)进阶路线.md；`tap()` → Playwright(十一)进阶路线.md；`text_content()` → Playwright(十一)进阶路线.md；`type()` → Playwright(十一)进阶路线.md；`uncheck()` → Playwright(十一)进阶路线.md；`wait_for_element_state()` → Playwright(十一)进阶路线.md；`wait_for_selector()` → Playwright(十一)进阶路线.md |
+| `async_api.ElementHandle` | `bounding_box()`、`check()`、`click()`、`content_frame()`、`dblclick()`、`dispatch_event()`、`dispose()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`fill()`、`focus()`、`get_attribute()`、`get_properties()`、`get_property()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`json_value()`、`owner_frame()`、`press()`、`query_selector()`、`query_selector_all()`、`screenshot()`、`scroll_into_view_if_needed()`、`select_option()`、`select_text()`、`set_checked()`、`set_input_files()`、`tap()`、`text_content()`、`type()`、`uncheck()`、`wait_for_element_state()`、`wait_for_selector()` | `as_element()` | — | — | `as_element()`；`bounding_box()`；`check()`；`click()`；`content_frame()`；`dblclick()`；`dispatch_event()`；`dispose()`；`eval_on_selector()`；`eval_on_selector_all()`；`evaluate()`；`evaluate_handle()`；`fill()`；`focus()`；`get_attribute()`；`get_properties()`；`get_property()`；`hover()`；`inner_html()`；`inner_text()`；`input_value()`；`is_checked()`；`is_disabled()`；`is_editable()`；`is_enabled()`；`is_hidden()`；`is_visible()`；`json_value()`；`owner_frame()`；`press()`；`query_selector()`；`query_selector_all()`；`screenshot()`；`scroll_into_view_if_needed()`；`select_option()`；`select_text()`；`set_checked()`；`set_input_files()`；`tap()`；`text_content()`；`type()`；`uncheck()`；`wait_for_element_state()`；`wait_for_selector()` |
 | `async_api.FileChooser` | `set_files()` | `is_multiple()` | — | `element`、`page` | — |
-| `async_api.Frame` | `add_script_tag()`、`add_style_tag()`、`check()`、`click()`、`content()`、`dblclick()`、`dispatch_event()`、`drag_and_drop()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`fill()`、`focus()`、`frame_element()`、`get_attribute()`、`goto()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`press()`、`query_selector()`、`query_selector_all()`、`select_option()`、`set_checked()`、`set_content()`、`set_input_files()`、`tap()`、`text_content()`、`title()`、`type()`、`uncheck()`、`wait_for_function()`、`wait_for_load_state()`、`wait_for_selector()`、`wait_for_timeout()`、`wait_for_url()` | `frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`is_detached()`、`locator()` | `expect_navigation()` | `child_frames`、`name`、`page`、`parent_frame`、`url` | `check()` → Playwright(六)常见组件操作.md；`click()` → Playwright(六)常见组件操作.md；`dblclick()` → Playwright(六)常见组件操作.md；`dispatch_event()` → Playwright(六)常见组件操作.md；`drag_and_drop()` → Playwright(六)常见组件操作.md；`eval_on_selector()` → Playwright(六)常见组件操作.md；`eval_on_selector_all()` → Playwright(六)常见组件操作.md；`expect_navigation()` → Playwright(六)常见组件操作.md；`fill()` → Playwright(六)常见组件操作.md；`focus()` → Playwright(六)常见组件操作.md；`get_attribute()` → Playwright(六)常见组件操作.md；`hover()` → Playwright(六)常见组件操作.md；`inner_html()` → Playwright(六)常见组件操作.md；`inner_text()` → Playwright(六)常见组件操作.md；`input_value()` → Playwright(六)常见组件操作.md；`is_checked()` → Playwright(六)常见组件操作.md；`is_disabled()` → Playwright(六)常见组件操作.md；`is_editable()` → Playwright(六)常见组件操作.md；`is_enabled()` → Playwright(六)常见组件操作.md；`is_hidden()` → Playwright(六)常见组件操作.md；`is_visible()` → Playwright(六)常见组件操作.md；`press()` → Playwright(六)常见组件操作.md；`query_selector()` → Playwright(六)常见组件操作.md；`query_selector_all()` → Playwright(六)常见组件操作.md；`select_option()` → Playwright(六)常见组件操作.md；`set_checked()` → Playwright(六)常见组件操作.md；`set_input_files()` → Playwright(六)常见组件操作.md；`tap()` → Playwright(六)常见组件操作.md；`text_content()` → Playwright(六)常见组件操作.md；`type()` → Playwright(六)常见组件操作.md；`uncheck()` → Playwright(六)常见组件操作.md；`wait_for_selector()` → Playwright(六)常见组件操作.md；`wait_for_timeout()` → Playwright(六)常见组件操作.md |
-| `async_api.FrameLocator` | — | `frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()`、`nth()` | — | `first`、`last`、`owner` | `first` → Playwright(三)页面元素定位.md；`last` → Playwright(三)页面元素定位.md；`nth()` → Playwright(三)页面元素定位.md |
+| `async_api.Frame` | `add_script_tag()`、`add_style_tag()`、`check()`、`click()`、`content()`、`dblclick()`、`dispatch_event()`、`drag_and_drop()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`fill()`、`focus()`、`frame_element()`、`get_attribute()`、`goto()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`press()`、`query_selector()`、`query_selector_all()`、`select_option()`、`set_checked()`、`set_content()`、`set_input_files()`、`tap()`、`text_content()`、`title()`、`type()`、`uncheck()`、`wait_for_function()`、`wait_for_load_state()`、`wait_for_selector()`、`wait_for_timeout()`、`wait_for_url()` | `frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`is_detached()`、`locator()` | `expect_navigation()` | `child_frames`、`name`、`page`、`parent_frame`、`url` | `check()`；`click()`；`dblclick()`；`dispatch_event()`；`drag_and_drop()`；`eval_on_selector()`；`eval_on_selector_all()`；`expect_navigation()`；`fill()`；`focus()`；`get_attribute()`；`hover()`；`inner_html()`；`inner_text()`；`input_value()`；`is_checked()`；`is_disabled()`；`is_editable()`；`is_enabled()`；`is_hidden()`；`is_visible()`；`press()`；`query_selector()`；`query_selector_all()`；`select_option()`；`set_checked()`；`set_input_files()`；`tap()`；`text_content()`；`type()`；`uncheck()`；`wait_for_selector()`；`wait_for_timeout()` |
+| `async_api.FrameLocator` | — | `frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()`、`nth()` | — | `first`、`last`、`owner` | `first`；`last`；`nth()` |
 | `async_api.JSHandle` | `dispose()`、`evaluate()`、`evaluate_handle()`、`get_properties()`、`get_property()`、`json_value()` | `as_element()` | — | — | — |
 | `async_api.Keyboard` | `down()`、`insert_text()`、`press()`、`type()`、`up()` | — | — | — | — |
-| `async_api.Locator` | `all()`、`all_inner_texts()`、`all_text_contents()`、`aria_snapshot()`、`blur()`、`bounding_box()`、`check()`、`clear()`、`click()`、`count()`、`dblclick()`、`dispatch_event()`、`drag_to()`、`drop()`、`element_handle()`、`element_handles()`、`evaluate()`、`evaluate_all()`、`evaluate_handle()`、`fill()`、`focus()`、`get_attribute()`、`hide_highlight()`、`highlight()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`normalize()`、`press()`、`press_sequentially()`、`screenshot()`、`scroll_into_view_if_needed()`、`select_option()`、`select_text()`、`set_checked()`、`set_input_files()`、`tap()`、`text_content()`、`type()`、`uncheck()`、`wait_for()`、`wait_for_function()` | `and_()`、`describe()`、`filter()`、`frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()`、`nth()`、`or_()` | — | `content_frame`、`description`、`first`、`last`、`page` | `element_handle()` → Playwright(三)页面元素定位.md；`element_handles()` → Playwright(三)页面元素定位.md；`type()` → Playwright(五)页面交互操作.md |
+| `async_api.Locator` | `all()`、`all_inner_texts()`、`all_text_contents()`、`aria_snapshot()`、`blur()`、`bounding_box()`、`check()`、`clear()`、`click()`、`count()`、`dblclick()`、`dispatch_event()`、`drag_to()`、`drop()`、`element_handle()`、`element_handles()`、`evaluate()`、`evaluate_all()`、`evaluate_handle()`、`fill()`、`focus()`、`get_attribute()`、`hide_highlight()`、`highlight()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`normalize()`、`press()`、`press_sequentially()`、`screenshot()`、`scroll_into_view_if_needed()`、`select_option()`、`select_text()`、`set_checked()`、`set_input_files()`、`tap()`、`text_content()`、`type()`、`uncheck()`、`wait_for()`、`wait_for_function()` | `and_()`、`describe()`、`filter()`、`frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`locator()`、`nth()`、`or_()` | — | `content_frame`、`description`、`first`、`last`、`page` | `element_handle()`；`element_handles()`；`type()` |
 | `async_api.LocatorAssertions` | `not_to_be_attached()`、`not_to_be_checked()`、`not_to_be_disabled()`、`not_to_be_editable()`、`not_to_be_empty()`、`not_to_be_enabled()`、`not_to_be_focused()`、`not_to_be_hidden()`、`not_to_be_in_viewport()`、`not_to_be_visible()`、`not_to_contain_class()`、`not_to_contain_text()`、`not_to_have_accessible_description()`、`not_to_have_accessible_error_message()`、`not_to_have_accessible_name()`、`not_to_have_attribute()`、`not_to_have_class()`、`not_to_have_count()`、`not_to_have_css()`、`not_to_have_id()`、`not_to_have_js_property()`、`not_to_have_role()`、`not_to_have_text()`、`not_to_have_value()`、`not_to_have_values()`、`not_to_match_aria_snapshot()`、`to_be_attached()`、`to_be_checked()`、`to_be_disabled()`、`to_be_editable()`、`to_be_empty()`、`to_be_enabled()`、`to_be_focused()`、`to_be_hidden()`、`to_be_in_viewport()`、`to_be_visible()`、`to_contain_class()`、`to_contain_text()`、`to_have_accessible_description()`、`to_have_accessible_error_message()`、`to_have_accessible_name()`、`to_have_attribute()`、`to_have_class()`、`to_have_count()`、`to_have_css()`、`to_have_id()`、`to_have_js_property()`、`to_have_role()`、`to_have_text()`、`to_have_value()`、`to_have_values()`、`to_match_aria_snapshot()` | — | — | — | — |
 | `async_api.Mouse` | `click()`、`dblclick()`、`down()`、`move()`、`up()`、`wheel()` | — | — | — | — |
-| `async_api.Page` | `add_init_script()`、`add_locator_handler()`、`add_script_tag()`、`add_style_tag()`、`aria_snapshot()`、`bring_to_front()`、`cancel_pick_locator()`、`check()`、`clear_console_messages()`、`clear_page_errors()`、`click()`、`close()`、`console_messages()`、`content()`、`dblclick()`、`dispatch_event()`、`drag_and_drop()`、`emulate_media()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`expose_binding()`、`expose_function()`、`fill()`、`focus()`、`get_attribute()`、`go_back()`、`go_forward()`、`goto()`、`hide_highlight()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`opener()`、`page_errors()`、`pause()`、`pdf()`、`pick_locator()`、`press()`、`query_selector()`、`query_selector_all()`、`reload()`、`remove_locator_handler()`、`request_gc()`、`requests()`、`route()`、`route_from_har()`、`route_web_socket()`、`screenshot()`、`select_option()`、`set_checked()`、`set_content()`、`set_extra_http_headers()`、`set_input_files()`、`set_viewport_size()`、`tap()`、`text_content()`、`title()`、`type()`、`uncheck()`、`unroute()`、`unroute_all()`、`wait_for_event()`、`wait_for_function()`、`wait_for_load_state()`、`wait_for_selector()`、`wait_for_timeout()`、`wait_for_url()` | `frame()`、`frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`is_closed()`、`locator()`、`set_default_navigation_timeout()`、`set_default_timeout()` | `expect_console_message()`、`expect_download()`、`expect_event()`、`expect_file_chooser()`、`expect_navigation()`、`expect_popup()`、`expect_request()`、`expect_request_finished()`、`expect_response()`、`expect_websocket()`、`expect_worker()` | `clock`、`context`、`frames`、`keyboard`、`local_storage`、`main_frame`、`mouse`、`request`、`screencast`、`session_storage`、`touchscreen`、`url`、`video`、`viewport_size`、`workers` | `check()` → Playwright(五)页面交互操作.md；`click()` → Playwright(五)页面交互操作.md；`dblclick()` → Playwright(五)页面交互操作.md；`dispatch_event()` → Playwright(五)页面交互操作.md；`drag_and_drop()` → Playwright(二)快速开始.md；`expect_navigation()` → Playwright(二)快速开始.md；`fill()` → Playwright(五)页面交互操作.md；`focus()` → Playwright(五)页面交互操作.md；`get_attribute()` → Playwright(二)快速开始.md；`hover()` → Playwright(五)页面交互操作.md；`inner_html()` → Playwright(二)快速开始.md；`inner_text()` → Playwright(二)快速开始.md；`input_value()` → Playwright(二)快速开始.md；`is_checked()` → Playwright(二)快速开始.md；`is_disabled()` → Playwright(二)快速开始.md；`is_editable()` → Playwright(二)快速开始.md；`is_enabled()` → Playwright(二)快速开始.md；`is_hidden()` → Playwright(二)快速开始.md；`is_visible()` → Playwright(二)快速开始.md；`press()` → Playwright(五)页面交互操作.md；`query_selector()` → Playwright(二)快速开始.md；`query_selector_all()` → Playwright(二)快速开始.md；`select_option()` → Playwright(五)页面交互操作.md；`set_checked()` → Playwright(五)页面交互操作.md；`set_input_files()` → Playwright(六)常见组件操作.md；`tap()` → Playwright(五)页面交互操作.md；`text_content()` → Playwright(二)快速开始.md；`type()` → Playwright(五)页面交互操作.md；`uncheck()` → Playwright(五)页面交互操作.md；`wait_for_selector()` → Playwright(四)断言与等待.md；`wait_for_timeout()` → Playwright(四)断言与等待.md |
+| `async_api.Page` | `add_init_script()`、`add_locator_handler()`、`add_script_tag()`、`add_style_tag()`、`aria_snapshot()`、`bring_to_front()`、`cancel_pick_locator()`、`check()`、`clear_console_messages()`、`clear_page_errors()`、`click()`、`close()`、`console_messages()`、`content()`、`dblclick()`、`dispatch_event()`、`drag_and_drop()`、`emulate_media()`、`eval_on_selector()`、`eval_on_selector_all()`、`evaluate()`、`evaluate_handle()`、`expose_binding()`、`expose_function()`、`fill()`、`focus()`、`get_attribute()`、`go_back()`、`go_forward()`、`goto()`、`hide_highlight()`、`hover()`、`inner_html()`、`inner_text()`、`input_value()`、`is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()`、`opener()`、`page_errors()`、`pause()`、`pdf()`、`pick_locator()`、`press()`、`query_selector()`、`query_selector_all()`、`reload()`、`remove_locator_handler()`、`request_gc()`、`requests()`、`route()`、`route_from_har()`、`route_web_socket()`、`screenshot()`、`select_option()`、`set_checked()`、`set_content()`、`set_extra_http_headers()`、`set_input_files()`、`set_viewport_size()`、`tap()`、`text_content()`、`title()`、`type()`、`uncheck()`、`unroute()`、`unroute_all()`、`wait_for_event()`、`wait_for_function()`、`wait_for_load_state()`、`wait_for_selector()`、`wait_for_timeout()`、`wait_for_url()` | `frame()`、`frame_locator()`、`get_by_alt_text()`、`get_by_label()`、`get_by_placeholder()`、`get_by_role()`、`get_by_test_id()`、`get_by_text()`、`get_by_title()`、`is_closed()`、`locator()`、`set_default_navigation_timeout()`、`set_default_timeout()` | `expect_console_message()`、`expect_download()`、`expect_event()`、`expect_file_chooser()`、`expect_navigation()`、`expect_popup()`、`expect_request()`、`expect_request_finished()`、`expect_response()`、`expect_websocket()`、`expect_worker()` | `clock`、`context`、`frames`、`keyboard`、`local_storage`、`main_frame`、`mouse`、`request`、`screencast`、`session_storage`、`touchscreen`、`url`、`video`、`viewport_size`、`workers` | `check()`；`click()`；`dblclick()`；`dispatch_event()`；`drag_and_drop()`；`expect_navigation()`；`fill()`；`focus()`；`get_attribute()`；`hover()`；`inner_html()`；`inner_text()`；`input_value()`；`is_checked()`；`is_disabled()`；`is_editable()`；`is_enabled()`；`is_hidden()`；`is_visible()`；`press()`；`query_selector()`；`query_selector_all()`；`select_option()`；`set_checked()`；`set_input_files()`；`tap()`；`text_content()`；`type()`；`uncheck()`；`wait_for_selector()`；`wait_for_timeout()` |
 | `async_api.PageAssertions` | `not_to_have_title()`、`not_to_have_url()`、`not_to_match_aria_snapshot()`、`to_have_title()`、`to_have_url()`、`to_match_aria_snapshot()` | — | — | — | — |
 | `async_api.Playwright` | `stop()` | — | — | `chromium`、`devices`、`firefox`、`request`、`selectors`、`webkit` | — |
 | `async_api.Request` | `all_headers()`、`header_value()`、`headers_array()`、`response()`、`sizes()` | `is_navigation_request()` | — | `existing_response`、`failure`、`frame`、`headers`、`method`、`post_data`、`post_data_buffer`、`post_data_json`、`redirected_from`、`redirected_to`、`resource_type`、`service_worker`、`timing`、`url` | — |
@@ -596,11 +628,18 @@ A
 
 ## 参考资料
 
+### 测试运行
+
 {% linkgroup %}
 {% link uv 项目管理, https://docs.astral.sh/uv/guides/projects/, https://docs.astral.sh/uv/assets/favicon.ico %}
 {% link Playwright Python Library, https://playwright.dev/python/docs/library, https://playwright.dev/img/playwright-logo.svg %}
 {% link Playwright Python 安装, https://playwright.dev/python/docs/intro, https://playwright.dev/img/playwright-logo.svg %}
 {% link Playwright Writing tests, https://playwright.dev/python/docs/writing-tests, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}
+
+### 插件与异步运行
+
+{% linkgroup %}
 {% link Playwright Python 测试运行器, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
 {% link pytest-playwright, https://github.com/microsoft/playwright-pytest, https://github.com/favicon.ico %}
 {% link pytest-playwright-asyncio, https://github.com/microsoft/playwright-pytest/tree/main/pytest-playwright-asyncio, https://github.com/favicon.ico %}

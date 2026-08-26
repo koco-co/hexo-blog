@@ -10,68 +10,268 @@ description: 把交互式命令变成输入明确、错误可见、可清理和�
 cover: /img/picgo-images/linux-course-cover.png
 series: Linux
 series_order: 11
-published: false
+published: true
 abbrlink: 496664b1
 date: 2026-08-25 00:00:00
 ---
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+自动化脚本的成功标准不是“能跑一次”，而是输入、退出状态、清理、日志和重复执行都可解释。本文从最小 Bash 脚本开始，依次处理参数、变量、函数、判断、循环、输入输出、信号和错误边界，最后用 shellcheck 做静态复查。
+{% endnote %}
 
-## 文章职责
+## 脚本骨架
 
-- 唯一要解决的问题：把交互命令转化为输入明确、错误可见、可清理、可验证的脚本。
-- 可观察成果：能够编写并测试系统巡检和日志分析脚本，使失败保持可见。
-- 进入条件：第 4～7 篇。
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+~~~bash
+#!/usr/bin/env bash
+set -u
 
-## 内容边界
+main() {
+  printf '%s\n' "script started"
+}
 
-- 能力分配：
-- 核心详解 / 变量与参数：bash5.3:builtin:index-declare、bash5.3:builtin:index-local、bash5.3:feature:arrays、bash5.3:feature:associative-arrays、bash5.3:toc:Arithmetic-Expansion、bash5.3:toc:Arrays、bash5.3:toc:Positional-Parameters、bash5.3:toc:Shell-Arithmetic、bash5.3:toc:Special-Parameters、posix2024:shell:parameters、posix2024:shell:positional-parameters、posix2024:shell:special-parameters、posix2024:special-builtin:export、posix2024:special-builtin:readonly、posix2024:special-builtin:shift、posix2024:special-builtin:unset
-- 核心详解 / 判断与循环：bash5.3:feature:arithmetic-command、bash5.3:feature:double-bracket、bash5.3:feature:select、bash5.3:toc:Bash-Conditional-Expressions、bash5.3:toc:Conditional-Constructs、bash5.3:toc:Looping-Constructs、posix2024:shell:case、posix2024:shell:for-loop、posix2024:shell:if、posix2024:shell:until、posix2024:shell:while、posix2024:special-builtin:break、posix2024:special-builtin:continue
-- 核心详解 / 错误处理：bash5.3:feature:errexit、bash5.3:toc:Signals、posix2024:special-builtin:colon、posix2024:special-builtin:eval、posix2024:special-builtin:exec、posix2024:special-builtin:exit、posix2024:special-builtin:set、posix2024:special-builtin:trap
-- 核心详解 / 输入输出：bash5.3:feature:mapfile、posix2024:special-builtin:times、posix2024:utility:getopts、posix2024:utility:read
-- 正文简述 / 脚本结构：bash5.3:toc:Bash-Builtins、bash5.3:toc:Bourne-Shell-Builtins、bash5.3:toc:Special-Builtins、bash5.3:toc:The-Set-Builtin、bash5.3:toc:The-Shopt-Builtin
-- 核心详解 / 函数与作用域：bash5.3:toc:Shell-Functions、posix2024:shell:functions、posix2024:special-builtin:dot、posix2024:special-builtin:return
-- 核心详解 / 脚本结构：bash5.3:toc:Shell-Scripts、ubuntu26.04:command:bash
-- 核心详解 / 调试与检查：ubuntu26.04:command:shellcheck
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+main "$@"
+~~~
 
-## 正文编排
+{% note primary flat %}
+脚本要明确解释器；Bash 专有语法不能用 sh 运行。set -u 能尽早发现未定义变量，但仍需为可选参数提供默认值；errexit/pipefail 需要结合条件语句和显式错误处理，不能机械复制。
+{% endnote %}
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 脚本结构 | 建立脚本结构的心智模型 | shebang、解释器选择、注释、权限和调用；POSIX sh 与 Bash 5.3 边界 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 变量与参数 | 建立变量与参数的心智模型 | 赋值、展开、位置参数和特殊参数；引号、默认值、readonly、export、数组和关联数组 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 判断与循环 | 建立判断与循环的心智模型 | test、方括号、双方括号、case 和算术；for、while、until、break、continue 与安全输入循环 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 函数与作用域 | 建立函数与作用域的心智模型 | 函数、local、return、source 和库文件 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 错误处理 | 完成并验证错误处理 | 退出状态、set 选项、errexit、nounset、pipefail；trap、信号、临时文件、清理和幂等性 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 输入输出 | 建立输入输出的心智模型 | read、getopts、mapfile、文件描述符、日志和结构化输出 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 调试与检查 | 完成并验证调试与检查 | bash -n、xtrace、PS4 安全、ShellCheck 和测试夹具 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 自动化任务 | 建立自动化任务的心智模型 | Cron/systemd timer 环境、锁、超时和通知 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 巡检脚本实战 | 完成并验证巡检脚本实战 | 服务、端口、容量、内存压力和近期错误检查 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 成功、失败、并发和清理路径测试 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+## 参数与变量
 
-## 视觉与复习
+### 参数展开
 
-- 贯穿案例：实现可配置巡检脚本，检查服务、端口、容量、内存压力和近期错误，并提供夹具式成功/失败测试。
-- 完整示例：实现可配置巡检脚本，检查服务、端口、容量、内存压力和近期错误，并提供夹具式成功/失败测试。
-- 失败边界与踩坑：避免 set -e 神话、未加引号参数、解析 ls、临时文件竞态、秘密 xtrace、Cron PATH 和并发运行问题。
-- FAQ 候选与来源：set -e 为什么不等于完整错误处理、子 Shell 如何影响变量、cron 与交互 Shell 有何不同。
-- 非复习自测：用中文场景选择命令，解释输出并写出验证步骤。
-- 图表或实验：脚本生命周期、错误传播和 trap 清理状态。
-- 复习卡片：Shell 内建命令、语法构造、错误场景、操作符选择、ShellCheck 和定时任务环境。
-- 参考资料：Bash 5.3、POSIX Shell、ShellCheck、cron 与 systemd timer 文档。
+~~~bash
+name=$1
+if [[ -z $name ]]; then name=guest; fi
+shift || true
+printf 'name=%s argc=%s\n' "$name" "$#"
+printf 'all=%s\n' "$@"
+~~~
 
-正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+{% note info flat %}
+位置参数、特殊参数和环境变量属于不同层次：$0 是脚本名，$# 是参数数量，$? 是上一条状态，$$ 是当前 PID，$! 是最近后台 PID，$@ 适合保留参数边界。declare、export、readonly、unset 和 local 负责变量属性与作用域。
+{% endnote %}
 
-## 验收证据
+### 数组
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+~~~bash
+files=(one.log two.log)
+declare -A counts=([ok]=0 [error]=0)
+files+=(three.log)
+printf '%s\n' "$files"
+counts[ok]=$((counts[ok] + 1))
+printf '%s=%s\n' ok "$counts"
+~~~
+
+{% note info flat %}
+Indexed arrays 按整数索引，Associative arrays 按字符串键；使用数组展开时要保留每个元素边界。declare -p 可观察属性，不要把数组序列化成未经转义的字符串。
+{% endnote %}
+
+## 函数与流程
+
+### 函数与作用域
+
+~~~bash
+log() {
+  local level=$1
+  shift
+  printf '[%s] %s\n' "$level" "$*" >&2
+}
+log INFO "ready"
+~~~
+
+{% note info flat %}
+Shell Functions、Function definition、local、return 和 times 构成函数边界；local 让临时变量不污染调用者。函数的返回值是状态码，不是字符串，输出应通过标准输出或显式变量传递。
+{% endnote %}
+
+### 判断
+
+~~~bash
+if [[ -f $1 ]]; then
+  printf '%s\n' "file"
+elif [[ -d $1 ]]; then
+  printf '%s\n' "directory"
+else
+  printf '%s\n' "missing" >&2
+  exit 1
+fi
+
+case $1 in
+  start|run) printf '%s\n' "go" ;;
+  stop) printf '%s\n' "halt" ;;
+  *) printf '%s\n' "usage" >&2; exit 2 ;;
+esac
+~~~
+
+{% note primary flat %}
+[[ conditional expression ]] 与 Bash Conditional Expressions 适合路径、字符串和模式判断；test 仍是 POSIX 入口。case conditional 适合互斥命令分支，避免把复杂条件塞进一行。
+{% endnote %}
+
+### 循环
+
+~~~bash
+for file in "$files"; do
+  printf '%s\n' "$file"
+done
+
+while IFS= read -r line; do
+  printf '%s\n' "$line"
+done < input.txt
+
+until [[ -f ready.flag ]]; do
+  sleep 1
+done
+~~~
+
+{% note info flat %}
+break、continue、for loop、while loop 和 until loop 要明确退出条件；不要用 while read 处理带 NUL 的任意文件名，需改用 find -print0 与 mapfile/readarray 等更安全的输入模型。
+{% endnote %}
+
+### 交互选择
+
+~~~bash
+select choice in start stop quit; do
+  case $choice in
+    start|stop|quit) break ;;
+  esac
+done
+~~~
+
+{% note info flat %}
+select construct 适合短小交互菜单，不适合无人值守脚本；无 TTY 时必须提供参数或配置替代。
+{% endnote %}
+
+## 算术与输入输出
+
+### 算术
+
+~~~bash
+(( retries += 1 ))
+if (( retries >= 3 )); then
+  printf '%s\n' "stop"
+fi
+total=$((2 + 3))
+~~~
+
+{% note info flat %}
+Arithmetic expansion、Shell Arithmetic 和 (( arithmetic command )) 都使用 Bash 算术语法；算术命令返回值可能因结果为 0 而为非零，放在 set -e 环境中要注意上下文。
+{% endnote %}
+
+### 读取输入
+
+~~~bash
+IFS= read -r answer
+read -r -t 2 answer || printf '%s\n' "timeout" >&2
+mapfile -t lines < input.txt
+getopts "n:v" opt
+~~~
+
+{% note info flat %}
+read、mapfile/readarray、getopts 分别处理一行、数组和短选项；输入来自用户时要限制长度、超时和编码。getopts 解析失败应显示用法并返回非零。
+{% endnote %}
+
+## 错误与清理
+
+### 状态策略
+
+~~~bash
+set -Eeuo pipefail
+tmp=$(mktemp)
+cleanup() { rm -f -- "$tmp"; }
+trap cleanup EXIT
+~~~
+
+{% note warning flat %}
+errexit semantics 会在条件、列表、管道和函数调用等上下文改变；ERR trap 也不是全局异常处理器。先理解每个命令的预期状态，再用 if、||、return 明确处理可恢复失败。
+{% endnote %}
+
+### 信号与子进程
+
+~~~bash
+worker &
+child=$!
+trap 'kill "$child" 2>/dev/null || true' INT TERM EXIT
+wait "$child"
+~~~
+
+{% note info flat %}
+Signals、trap、kill、wait、exec、exit、return、shift 和 :（空命令）是脚本生命周期的基础。export 只把变量传给子进程，readonly 防止本 Shell 改写，unset 删除变量；eval 会重新解析字符串，除非输入完全受控否则不要使用。
+{% endnote %}
+
+## 内置命令索引
+
+{% folding blue, Bash 内置命令与手册定位 %}
+| 分组 | 条目 |
+| --- | --- |
+| 变量与控制 | declare、local、export、readonly、unset、set、shift、times |
+| 函数与流程 | break、continue、return、exit、eval、exec、: |
+| 输入与参数 | getopts、read、mapfile、readarray |
+| 手册入口 | Bourne Shell Builtins、Special Builtins、Bash Builtin Commands、The Set Builtin、The Shopt Builtin |
+{% endfolding %}
+
+{% folding blue, Bash 章节索引 %}
+3.5.5 Arithmetic Expansion、6.7 Arrays、4.2 Bash Builtin Commands、6.4 Bash Conditional Expressions、4.1 Bourne Shell Builtins、3.2.5.2 Conditional Constructs、3.2.5.1 Looping Constructs、3.4.1 Positional Parameters、6.5 Shell Arithmetic、3.3 Shell Functions、3.8 Shell Scripts、3.7.6 Signals、4.4 Special Builtins、3.4.2 Special Parameters、4.3.1 The Set Builtin、4.3.2 The Shopt Builtin、if conditional、Parameters and variables、Positional parameters、Special parameters。
+{% endfolding %}
+
+## 测试与质量
+
+### 可重复测试
+
+~~~bash
+tmpdir=$(mktemp -d)
+trap 'rm -rf -- "$tmpdir"' EXIT
+printf '%s\n' ok > "$tmpdir/input"
+./script.sh "$tmpdir/input"
+status=$?
+[[ $status -eq 0 ]]
+~~~
+
+{% note success flat %}
+每个脚本至少测试成功、缺参、空输入、权限不足、命令不存在、超时、重复执行和中断清理。shellcheck 能发现引用、分词和常见语义问题，但不能替代运行时测试和业务验证。
+{% endnote %}
+
+{% flashcard basic id:linux-a11-set-e deck:"Linux" priority:1 tags:"Bash,错误处理" %}
+--- question
+为什么不能把 set -e 当作完整异常处理？
+--- answer
+errexit 在 if、&&/||、管道、函数和命令替换等上下文有例外，某些失败不会退出。
+--- explanation
+用 pipefail、明确的 if/return、ERR trap 和测试覆盖组合，先定义哪些失败可恢复。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a11-args-at deck:"Linux" priority:1 tags:"Bash,参数" %}
+--- question
+脚本转发参数时为什么优先使用 "$@"？
+--- answer
+"$@" 会把每个原始参数作为独立词传递，保留空格和特殊字符边界。
+--- explanation
+$* 和未加引号的 $@ 可能重新分词；用户输入不要拼进 eval。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a11-array deck:"Linux" priority:1 tags:"Bash,数组" %}
+--- question
+Indexed arrays 和 Associative arrays 何时使用？
+--- answer
+整数顺序索引用 Indexed arrays，字符串键查值用 Associative arrays。
+--- explanation
+遍历时保留数组元素边界，不要依赖把数组拼成空格分隔字符串。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a11-trap-cleanup deck:"Linux" priority:2 tags:"trap,清理" %}
+--- question
+脚本如何保证临时文件在中断后清理？
+--- answer
+创建临时目录后注册 EXIT trap，并在信号处理里等待或终止子进程。
+--- explanation
+trap 不是安全边界；路径必须来自 mktemp，清理目标必须是脚本独占的隔离目录。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link GNU Bash Reference Manual, https://www.gnu.org/software/bash/manual/bash.html, https://www.gnu.org/favicon.ico %}
+{% link Bash ShellCheck Wiki, https://www.shellcheck.net/wiki/, https://www.shellcheck.net/favicon.ico %}
+{% link POSIX.1-2024 Shell and Utilities, https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/, https://pubs.opengroup.org/favicon.ico %}
+{% endlinkgroup %}

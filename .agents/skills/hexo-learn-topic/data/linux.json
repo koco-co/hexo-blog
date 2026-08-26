@@ -99,6 +99,386 @@
         "kind": "final"
       }
     ],
+    "article_block_tag_plans": {
+      "Linux(五)Shell 语法与命令组合": [
+        {
+          "block": "范围与边界",
+          "reader_task": "判断问题属于 Shell 解析与组合，还是文件、文本、进程或脚本自动化。",
+          "core_content": "本文只覆盖参数、文件描述符、状态和作用域的组合语义。",
+          "carrier": "note info flat",
+          "rationale": "范围与排除项必须直接可见，避免跨篇职责混入。",
+          "directly_visible": "本文边界与不覆盖的主题。",
+          "degradation": "样式失效后仍保留完整范围文字。",
+          "validation_status": "已通过发布级内容、标签、构建与本地页面检查。"
+        },
+        {
+          "block": "解析顺序",
+          "reader_task": "解释一行命令从词元到执行为何会改变参数与状态。",
+          "core_content": "词元、展开、分词、路径名展开、重定向和执行的顺序。",
+          "carrier": "TD Mermaid + note primary flat + 代码输出",
+          "rationale": "关系用流程图，参数边界用可观察输出固定。",
+          "directly_visible": "解析顺序、参数边界和不拼接未处理输入的风险。",
+          "degradation": "图失效时图后文字与代码仍完整。",
+          "validation_status": "Mermaid 已在桌面与移动端渲染；示例已在 Bash 临时目录通过。"
+        },
+        {
+          "block": "引号与展开",
+          "reader_task": "预测不同引号和展开后实际传入的参数。",
+          "core_content": "双引号、字段分割、参数和命令替换，以及 Bash 扩展边界。",
+          "carrier": "代码与预期输出 + note warning flat",
+          "rationale": "参数数量需要直接观察，易误用边界使用 warning。",
+          "directly_visible": "输入、输出、Bash 专有标记和未加引号风险。",
+          "degradation": "代码与文本输出不依赖交互或网络。",
+          "validation_status": "Bash 引号、展开与迁移示例已执行；兼容差异已显式标记。"
+        },
+        {
+          "block": "标准流与重定向",
+          "reader_task": "判断 stdout、stderr 和目标文件因重定向顺序落到哪里。",
+          "core_content": "输入、覆盖、追加、描述符复制、here-document 与 Bash 专有 &>。",
+          "carrier": "隔离目录代码实验 + 预期文件内容 + note primary/warning flat",
+          "rationale": "顺序差异必须并列呈现受控输出。",
+          "directly_visible": "覆盖风险、两种顺序差异和兼容边界。",
+          "degradation": "预期输出与风险文字不依赖文件预览。",
+          "validation_status": "已在临时目录逐一核对 stdout、stderr、合并与逆序结果。"
+        },
+        {
+          "block": "管道与状态",
+          "reader_task": "区分管道的数据流和整体退出状态，并选择 &&、|| 或 pipefail。",
+          "core_content": "默认管道状态、Bash pipefail 与空结果/失败的区别。",
+          "carrier": "代码与状态输出 + note warning flat",
+          "rationale": "状态值必须真实输出，warning 说明被最后一步掩盖的失败。",
+          "directly_visible": "失败状态、pipefail 的 Bash 条件和恢复判断。",
+          "degradation": "状态输出和文字可独立阅读。",
+          "validation_status": "默认状态与 pipefail 对照已执行，输出分别为 0 和 1。"
+        },
+        {
+          "block": "命令列表与作用域",
+          "reader_task": "理解花括号、子 Shell 的状态与变量作用域；AND-OR 的状态选择见“管道与状态”，后台列表作为低频入口。",
+          "core_content": "花括号、子 Shell 与状态传播；AND-OR 和后台列表只说明其与当前 Shell 状态的关系，不展开进程管理。",
+          "carrier": "代码与预期变量值 + note info flat",
+          "rationale": "作用域差异需用并列输出解释。",
+          "directly_visible": "花括号/圆括号差异和进程职责边界。",
+          "degradation": "代码和预期输出无需动态组件。",
+          "validation_status": "花括号、子 Shell 与分号列表的变量值和状态已执行验证。"
+        },
+        {
+          "block": "参数批处理",
+          "reader_task": "安全地把受控输入转换为多个参数，不把空格误当分隔符。",
+          "core_content": "xargs 的批处理与 NUL 分隔选择条件。",
+          "carrier": "代码与预期输出 + note warning flat",
+          "rationale": "输入到参数的变化和空格风险必须可见。",
+          "directly_visible": "输入格式、参数结果和 NUL 边界。",
+          "degradation": "命令和文字结果可独立阅读。",
+          "validation_status": "NUL 分隔 xargs 已验证含空格参数仍保持单个边界。"
+        },
+        {
+          "block": "选择 Shell",
+          "reader_task": "按解释器选择 POSIX 写法或 Bash 扩展，并验证语法。",
+          "core_content": "ANSI-C 引号、brace、&>、here-string、pipefail 的替代或无等价边界。",
+          "carrier": "比较表 + note info flat",
+          "rationale": "兼容目标按字段比较，比把连续内容拆成 tabs 更清楚。",
+          "directly_visible": "解释器选择、扩展边界和测试原则。",
+          "degradation": "表格和文字不依赖页签脚本。",
+          "validation_status": "兼容边界已在正文表格直接可见；Bash 相关示例已执行。"
+        },
+        {
+          "block": "低频入口",
+          "reader_task": "识别低频 Bash 语法或工具何时查阅、何时进入进阶路线。",
+          "core_content": "简述项的用途/边界，以及进阶项的进入条件。",
+          "carrier": "note info flat + folding 表格",
+          "rationale": "主线外索引可折叠，但选择标准不能隐藏。",
+          "directly_visible": "选择标准和进阶入口。",
+          "degradation": "details 失效时摘要仍可见，表格仍是文本。",
+          "validation_status": "folding 已在桌面和移动端渲染，并完成展开交互检查。"
+        },
+        {
+          "block": "结果验证与复习",
+          "reader_task": "用参数、文件内容和退出状态证明组合结果，并形成主动回忆。",
+          "core_content": "最小验证链和高价值闪卡。",
+          "carrier": "代码 + note success flat + flashcard",
+          "rationale": "验证条件直接可见，长期复习使用专用卡片。",
+          "directly_visible": "验证命令、成功标准和失败分支。",
+          "degradation": "卡片失效时题面、答案和解析仍为正文文本。",
+          "validation_status": "验证链已执行；5 张卡片在本地页渲染并完成翻卡检查。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅 Shell、Bash 和核心工具的官方资料。",
+          "core_content": "同类官方延伸入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料卡保留可读标题和 URL，图标只是增强。",
+          "directly_visible": "资料名称和目标 URL。",
+          "degradation": "图标失败时文字和链接仍可辨认。",
+          "validation_status": "资料卡已通过发布级内容与标签 lint。"
+        }
+      ],
+      "Linux(六)用户权限与软件管理": [
+        {
+          "block": "范围与边界",
+          "reader_task": "先区分身份、权限、提权和软件包问题，再决定是否变更。",
+          "core_content": "先读取事实，拒绝用 root、777 或盲装包替代诊断。",
+          "carrier": "note info flat",
+          "rationale": "高风险范围与排除项必须在开篇直接可见。",
+          "directly_visible": "本文职责、生产变更边界。",
+          "degradation": "样式失效后仍保留完整风险文字。",
+          "validation_status": "待完成最终静态、构建和页面复核。"
+        },
+        {
+          "block": "身份模型",
+          "reader_task": "用 UID、GID、组和 NSS 解释访问主体。",
+          "core_content": "id、groups、getent 的角色与证据边界。",
+          "carrier": "TD Mermaid + 只读命令 + note primary flat",
+          "rationale": "权限关系适合流程图，身份证据必须可直接运行。",
+          "directly_visible": "身份来源、NSS 边界和预期结果。",
+          "degradation": "图失效时命令和解释仍可独立阅读。",
+          "validation_status": "待完成当前目标环境的只读命令复核。"
+        },
+        {
+          "block": "账户操作",
+          "reader_task": "从中文场景选择账户或组工具，而不在生产环境试错。",
+          "core_content": "user/group/passwd/newgrp 的用途与不可替代的审批边界。",
+          "carrier": "比较表 + note warning flat",
+          "rationale": "改变账户数据库的操作不应伪装成安全练习。",
+          "directly_visible": "选择条件、影响对象和禁止的试错方式。",
+          "degradation": "表格与警告文字不依赖交互组件。",
+          "validation_status": "待完成逐项正文简述对账。"
+        },
+        {
+          "block": "权限计算",
+          "reader_task": "用私有目录验证模式、父目录搜索权限、组和 umask。",
+          "core_content": "chmod/chgrp/chown/umask 的职责、成功和授权失败边界。",
+          "carrier": "隔离目录代码 + note primary/info/warning flat",
+          "rationale": "权限差异需要用同一目标和可见模式验证。",
+          "directly_visible": "实验目录、命令顺序、失败解释和特殊边界。",
+          "degradation": "代码、ls 输出与文字不依赖网络或脚本。",
+          "validation_status": "待完成临时目录示例和 chown 边界复核。"
+        },
+        {
+          "block": "提权边界",
+          "reader_task": "区别受限 sudo 与切换登录环境，并避免扩大权限。",
+          "core_content": "sudo -l、目标用户、su -、sudoedit 与提供者差异。",
+          "carrier": "只读代码 + danger/info notes + 比较表",
+          "rationale": "授权风险必须在命令相邻处强调，比较表适合选择。",
+          "directly_visible": "最小权限、密码安全和提供者不等于授权模型。",
+          "degradation": "文字和命令即使无样式也可读。",
+          "validation_status": "待完成策略不可用分支的表述复核。"
+        },
+        {
+          "block": "软件包生命周期",
+          "reader_task": "从索引、候选、模拟到安装结果选择 APT/dpkg 或 RHEL 工具。",
+          "core_content": "apt-cache、apt-get --simulate、apt、apt-mark、dpkg 与 dnf/rpm 边界。",
+          "carrier": "LR Mermaid + 代码 + note primary/warning/info flat + 表格",
+          "rationale": "生命周期关系用流程图，写入前模拟与发行版差异必须并列可见。",
+          "directly_visible": "只读查询、会写操作、模拟计划和 signed-by 风险。",
+          "degradation": "代码和表格不依赖外部资源。",
+          "validation_status": "待完成模拟命令及资料卡静态检查。"
+        },
+        {
+          "block": "结果验证与复习",
+          "reader_task": "用身份、私有文件和包元数据形成可复述的证据链。",
+          "core_content": "最小断言、成功条件与四张高价值闪卡。",
+          "carrier": "代码 + note success flat + flashcard",
+          "rationale": "核心验证需直接可见，长期记忆用专用卡片。",
+          "directly_visible": "身份、路径权限、候选与已安装元数据证据。",
+          "degradation": "卡片降级为完整题面、答案与解析。",
+          "validation_status": "待完成示例、翻卡和响应式检查。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅标准、Ubuntu 源配置和 RHEL 包管理的一手资料。",
+          "core_content": "官方延伸资料。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料卡保留标题和 URL，图标仅作增强。",
+          "directly_visible": "资料名称和目标地址。",
+          "degradation": "图标加载失败时仍保留可读链接。",
+          "validation_status": "待完成发布级资料卡 lint。"
+        }
+      ],
+      "Linux(七)进程任务与服务管理": [
+        {
+          "block": "范围与边界",
+          "reader_task": "先判断问题属于进程、服务管理器还是定时环境。",
+          "core_content": "先观察证据，再选择信号或动作，拒绝把 KILL 和重启当起点。",
+          "carrier": "note info flat",
+          "rationale": "风险边界需在开篇可见。",
+          "directly_visible": "本文范围与排除项。",
+          "degradation": "文字独立可读。",
+          "validation_status": "待完成最终静态、构建与页面复核。"
+        },
+        {
+          "block": "进程模型",
+          "reader_task": "从受控子进程读出 PID、父子关系、状态和退出状态。",
+          "core_content": "ps、pgrep、wait 与 kill -0 的证据角色。",
+          "carrier": "TD Mermaid + 自己启动的短命进程代码 + note primary flat",
+          "rationale": "关系用图，进程示例必须不作用于真实服务。",
+          "directly_visible": "进程状态、命令、预期状态。",
+          "degradation": "图失效时代码与说明仍完整。",
+          "validation_status": "待完成受控子进程回归。"
+        },
+        {
+          "block": "信号与终止",
+          "reader_task": "先安全识别目标，再以 TERM、pkill 条件和 KILL 边界处理。",
+          "core_content": "单 PID 信号、受限匹配、状态与不可恢复边界。",
+          "carrier": "临时子进程代码 + primary/danger notes + 表格",
+          "rationale": "高风险命令需要受控示例和相邻警告。",
+          "directly_visible": "目标范围、状态、KILL 风险。",
+          "degradation": "代码和表格独立可读。",
+          "validation_status": "待完成 TERM/pkill 受控示例复核。"
+        },
+        {
+          "block": "作业控制",
+          "reader_task": "区分当前 Bash 的作业与系统范围的进程。",
+          "core_content": "jobs、wait、nohup 与 bg/fg/pidwait/watch 的选择边界。",
+          "carrier": "短命作业代码 + note info flat + 表格",
+          "rationale": "主线命令直接可见，TTY/低频入口用表格避免误用。",
+          "directly_visible": "会话边界与 nohup 限制。",
+          "degradation": "无交互脚本时表格仍可读。",
+          "validation_status": "待完成当前 Shell 作业示例复核。"
+        },
+        {
+          "block": "优先级与调度",
+          "reader_task": "用 nice/renice 判断并调整受控进程的调度优先级。",
+          "core_content": "nice 值、权限和非资源配额边界。",
+          "carrier": "临时子进程代码 + note warning flat",
+          "rationale": "修改只落在自身进程，风险文字直接相邻。",
+          "directly_visible": "PID、优先级、恢复边界。",
+          "degradation": "文本与代码不依赖服务。",
+          "validation_status": "待完成受控 PID 的优先级复核。"
+        },
+        {
+          "block": "systemd 服务",
+          "reader_task": "从 unit 状态、字段与临时 scope 区分读取和变更。",
+          "core_content": "systemctl 的状态证据、systemd-run 的最小可控动作和服务动作边界。",
+          "carrier": "只读 unit 代码 + 条件式 user scope + primary/info notes",
+          "rationale": "环境依赖通过条件式可见，避免虚构服务名或改全局 unit。",
+          "directly_visible": "UNIT 输入、状态字段和不可用分支。",
+          "degradation": "命令与说明独立可读。",
+          "validation_status": "待完成目标系统 systemd 可用性复核。"
+        },
+        {
+          "block": "定时与迁移",
+          "reader_task": "按一次性、批处理、周期和主机级动作选择入口。",
+          "core_content": "at/batch/crontab/timer 与 init/skill/snice/电源动作的边界。",
+          "carrier": "比较表 + warning note + folding table",
+          "rationale": "依赖服务的低频选择适合表格，迁移材料可折叠。",
+          "directly_visible": "定时环境风险和主机级动作警告。",
+          "degradation": "details 失效时表格仍是文本。",
+          "validation_status": "待完成正文简述和迁移逐项对账。"
+        },
+        {
+          "block": "结果验证与复习",
+          "reader_task": "形成 PID、状态、unit 和日志证据的最小闭环。",
+          "core_content": "可控进程回归、UNIT 失败边界和四张闪卡。",
+          "carrier": "代码 + note success flat + flashcard",
+          "rationale": "证据标准直接可见，复习用独立卡片。",
+          "directly_visible": "成功条件、失败分支和卡片文本。",
+          "degradation": "卡片降级后仍可阅读。",
+          "validation_status": "待完成进程/页面交互复核。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅 POSIX、Bash 与 systemd 一手资料。",
+          "core_content": "官方资料入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料标题和 URL 保持可读。",
+          "directly_visible": "资料名称和地址。",
+          "degradation": "图标失效不影响阅读。",
+          "validation_status": "待完成资料卡 lint。"
+        }
+      ],
+      "Linux(八)网络连接与远程排障": [
+        {
+          "block": "范围与分层",
+          "reader_task": "把“网络不通”拆为接口、路由、DNS、端口、应用与抓包证据，不跨层猜测。",
+          "core_content": "逐层的独立成功标准、敏感数据边界和排障顺序。",
+          "carrier": "note info flat + TD Mermaid + note primary flat",
+          "rationale": "层级关系适合流程图；结论边界必须在图旁直接可读。",
+          "directly_visible": "排障层次、每层回答的问题和隐私提醒。",
+          "degradation": "图失效时，图前后的文字仍给出完整顺序。",
+          "validation_status": "待完成 Ubuntu 命令语法、发布级静态、构建和页面复核。"
+        },
+        {
+          "block": "接口与路由",
+          "reader_task": "从中文问题选择 ip、ip neigh 或 bridge，判断本机地址、默认路由和桥成员。",
+          "core_content": "接口、地址、路由、邻居的证据角色，以及 bridge 仅为桥接场景补充。",
+          "carrier": "只读代码 + note primary flat",
+          "rationale": "同一 ip 族命令需并列展示，避免把无 bridge 当故障。",
+          "directly_visible": "命令、字段作用和普通主机的排除边界。",
+          "degradation": "命令与说明不依赖动态组件。",
+          "validation_status": "待完成目标发行版命令可用性复核。"
+        },
+        {
+          "block": "路径与 DNS",
+          "reader_task": "区分 ICMP、路径探测和 DNS 回答，避免以单一 ping 结论代替端到端验证。",
+          "core_content": "ping、tracepath、traceroute 与 dig 的层次、限速/隐藏跳和缓存边界。",
+          "carrier": "受限查询代码 + warning/primary notes",
+          "rationale": "网络请求需要有限次数和时间，结果解释必须贴近命令。",
+          "directly_visible": "目标、次数、超时和各协议的结论边界。",
+          "degradation": "命令与文字不依赖网络已成功。",
+          "validation_status": "待完成示例语法和失败分支复核。"
+        },
+        {
+          "block": "Socket 与端口",
+          "reader_task": "用 ss 看本机 Socket，用 nc 判断基础连接是否能建立。",
+          "core_content": "监听、已连接、端口连通与 TLS/认证/应用健康之间的边界。",
+          "carrier": "只读与有超时的代码 + note primary flat",
+          "rationale": "本机快照和主动连接回答不同问题，必须并列说明。",
+          "directly_visible": "选择条件、3 秒超时和输出脱敏提醒。",
+          "degradation": "代码与说明独立可读。",
+          "validation_status": "待完成命令语法和发布级静态检查。"
+        },
+        {
+          "block": "请求与远程操作",
+          "reader_task": "分别选择 curl、ssh 或 rsync，并在连接、凭据与写入前确认边界。",
+          "core_content": "HTTP 元数据/详细输出、SSH 最终配置/非交互认证、rsync dry-run 及主机密钥信任边界。",
+          "carrier": "受限代码 + primary/warning/danger notes",
+          "rationale": "涉及凭据和远端写入的风险不能折叠或隐藏。",
+          "directly_visible": "超时、获准目标、dry-run、敏感输出和指纹核验原则。",
+          "degradation": "命令和安全说明不依赖外部组件。",
+          "validation_status": "待完成无副作用命令复核；不对陌生远端执行连接或写入。"
+        },
+        {
+          "block": "抓包证据",
+          "reader_task": "在已获授权的范围内用 tcpdump 限制接口、主机、端口和包数。",
+          "core_content": "抓包证据的范围控制、隐私风险与和应用层交叉验证的边界。",
+          "carrier": "受限 sudo 代码 + note warning flat",
+          "rationale": "高敏感数据采集需要让过滤条件和风险与命令相邻。",
+          "directly_visible": "20 包上限、过滤表达式和脱敏要求。",
+          "degradation": "文字说明不依赖执行结果。",
+          "validation_status": "待完成语法、权限失败分支和页面复核。"
+        },
+        {
+          "block": "低频入口",
+          "reader_task": "知道 bridge、host、nslookup、wget、scp 与 SSH 凭据工具何时查阅、何时不用。",
+          "core_content": "九项正文简述能力的用途与选择/排除边界。",
+          "carrier": "folding blue + 表格",
+          "rationale": "长尾工具不打断排障主线，但每项的选择边界仍保留可展开文本。",
+          "directly_visible": "折叠标题与每项中文用途、风险或替代选择。",
+          "degradation": "details 失效时表格仍为文本。",
+          "validation_status": "待完成全部简述项与能力账本的逐项对账。"
+        },
+        {
+          "block": "结果验证与复习",
+          "reader_task": "记录分层证据并通过问题卡区分 ICMP、DNS、SSH 信任和文件同步。",
+          "core_content": "最小网络报告、交叉验证准则和四张闪卡。",
+          "carrier": "有界代码 + note success flat + flashcard",
+          "rationale": "验证标准直接可见；复习题用专用卡片。",
+          "directly_visible": "最小复核链、结论范围和完整卡片文本。",
+          "degradation": "卡片失效时题面、答案和解析仍为正文。",
+          "validation_status": "待完成卡片唯一性、渲染与响应式检查。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅 iproute2、OpenSSH、curl 与 tcpdump 官方资料。",
+          "core_content": "一手资料卡入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料名称和目标 URL 必须在无图标时仍可读。",
+          "directly_visible": "资料名称和地址。",
+          "degradation": "图标失效不影响阅读。",
+          "validation_status": "待完成发布级资料卡 lint。"
+        }
+      ]
+    },
     "public_article_contract": "v1"
   },
   "capability_ledger": {
@@ -1684,9 +2064,9 @@
       "summary": {
         "official": 750,
         "ledger": 750,
-        "进阶路线": 296,
-        "核心详解": 331,
-        "正文简述": 68,
+        "进阶路线": 302,
+        "核心详解": 242,
+        "正文简述": 151,
         "明确不纳入": 50,
         "弃用迁移": 5,
         "official_only": 0,
@@ -8792,11 +9172,11 @@
         "name": "3.7.2 Command Search and Execution",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Command-Search-and-Execution",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -8876,11 +9256,11 @@
         "name": "3.1.3 Comments",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Comments",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -8960,11 +9340,11 @@
         "name": "3.2.6 Coprocesses",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Coprocesses",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "进阶路线",
         "mirrors": [],
-        "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令列表与作用域",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "article": "Linux(十二)进阶路线",
+        "chapter": "可移植性与实现",
+        "reason": "低频 Bash 专项、并发或文件描述符语法；正文仅保留选择边界，满足进入条件后在进阶路线深入。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9092,11 +9472,11 @@
         "name": "3.2.7 GNU Parallel",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#GNU-Parallel",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "进阶路线",
         "mirrors": [],
-        "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "参数批处理",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "article": "Linux(十二)进阶路线",
+        "chapter": "可移植性与实现",
+        "reason": "低频 Bash 专项、并发或文件描述符语法；正文仅保留选择边界，满足进入条件后在进阶路线深入。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9116,11 +9496,11 @@
         "name": "3.6.7 Here Strings",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Here-Strings",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "标准流与重定向",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9224,11 +9604,11 @@
         "name": "7.3 Job Control Variables",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Job-Control-Variables",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "进程查找",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "作业控制",
+        "reason": "作业控制变量是交互式终端专项；本文给出会话边界，不单独深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9260,11 +9640,11 @@
         "name": "3.1.2.5 Locale-Specific Translation",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Locale-Translation",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "进阶路线",
         "mirrors": [],
-        "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "article": "Linux(十二)进阶路线",
+        "chapter": "可移植性与实现",
+        "reason": "低频 Bash 专项、并发或文件描述符语法；正文仅保留选择边界，满足进入条件后在进阶路线深入。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9308,11 +9688,11 @@
         "name": "3.6.9 Moving File Descriptors",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Moving-File-Descriptors",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "进阶路线",
         "mirrors": [],
-        "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "标准流与重定向",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "article": "Linux(十二)进阶路线",
+        "chapter": "可移植性与实现",
+        "reason": "低频 Bash 专项、并发或文件描述符语法；正文仅保留选择边界，满足进入条件后在进阶路线深入。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9332,11 +9712,11 @@
         "name": "3.6.10 Opening File Descriptors for Reading and Writing",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Opening-File-Descriptors-for-Reading-and-Writing",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "进阶路线",
         "mirrors": [],
-        "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "标准流与重定向",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "article": "Linux(十二)进阶路线",
+        "chapter": "可移植性与实现",
+        "reason": "低频 Bash 专项、并发或文件描述符语法；正文仅保留选择边界，满足进入条件后在进阶路线深入。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9368,11 +9748,11 @@
         "name": "3.5.8.1 Pattern Matching",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9404,11 +9784,11 @@
         "name": "3.5.6 Process Substitution",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "进阶路线",
         "mirrors": [],
-        "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "article": "Linux(十二)进阶路线",
+        "chapter": "可移植性与实现",
+        "reason": "低频 Bash 专项、并发或文件描述符语法；正文仅保留选择边界，满足进入条件后在进阶路线深入。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9440,11 +9820,11 @@
         "name": "3.5.9 Quote Removal",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Quote-Removal",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9584,11 +9964,11 @@
         "name": "3.2.1 Reserved Words",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Reserved-Words",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9716,11 +10096,11 @@
         "name": "3.7.1 Simple Command Expansion",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Simple-Command-Expansion",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9728,11 +10108,11 @@
         "name": "3.2.2 Simple Commands",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Simple-Commands",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9824,11 +10204,11 @@
         "name": "3.5.2 Tilde Expansion",
         "source": "https://www.gnu.org/software/bash/manual/bash.html#Tilde-Expansion",
         "versionStatus": "Bash 5.3 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9920,11 +10300,11 @@
         "name": "Alias substitution",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9956,11 +10336,11 @@
         "name": "Asynchronous lists",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令列表与作用域",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -9980,11 +10360,11 @@
         "name": "Command search and execution",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10148,11 +10528,11 @@
         "name": "Pattern matching notation",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10184,11 +10564,11 @@
         "name": "Quote removal",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10220,11 +10600,11 @@
         "name": "Reserved words",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10244,11 +10624,11 @@
         "name": "Simple commands",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "命令解析顺序",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10268,11 +10648,11 @@
         "name": "Tilde expansion",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "引号与展开",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10577,11 +10957,11 @@
         "name": "at",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/at.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(七)进程任务与服务管理",
         "chapter": "定时任务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "依赖队列和非交互环境；本文给出按中文场景选择与验证边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10616,11 +10996,11 @@
         "name": "batch",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/batch.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(七)进程任务与服务管理",
         "chapter": "定时任务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "依赖负载与队列；本文给出按中文场景选择与验证边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10640,13 +11020,13 @@
         "name": "bg",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/bg.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "bash5.3:builtin:index-bg"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "前后台任务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "作业控制",
+        "reason": "只在同一交互式终端有效；本文给出选择边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10683,8 +11063,8 @@
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:cat",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnucat"
         ],
-        "article": "Linux(三)文件与存储管理",
-        "chapter": "文件操作",
+        "article": "Linux(四)文本处理与数据提取",
+        "chapter": "处理流水线",
         "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
         "validation": "verified against frozen source and canonicalization contract"
       },
@@ -10791,14 +11171,14 @@
         "name": "comm",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/comm.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:comm",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnucomm"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10820,11 +11200,11 @@
         "name": "compress",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/compress.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10847,11 +11227,11 @@
         "name": "crontab",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/crontab.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(七)进程任务与服务管理",
         "chapter": "定时任务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "依赖调度服务和环境；本文给出按中文场景选择与验证边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10859,14 +11239,14 @@
         "name": "csplit",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/csplit.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:csplit",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnucsplit"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10913,14 +11293,14 @@
         "name": "date",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/date.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:date",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnudate"
         ],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "组合命令设计",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -10928,14 +11308,14 @@
         "name": "dd",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/dd.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:dd",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnudd"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "文件操作",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11012,15 +11392,15 @@
         "name": "echo",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/echo.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "bash5.3:builtin:index-echo",
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:echo",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnuecho"
         ],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "标准流与重定向",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11067,14 +11447,14 @@
         "name": "expand",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/expand.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:expand",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnuexpand"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11082,14 +11462,14 @@
         "name": "expr",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/expr.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:expr",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnuexpr"
         ],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "组合命令设计",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11127,13 +11507,13 @@
         "name": "fg",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/fg.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "bash5.3:builtin:index-fg"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "前后台任务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "作业控制",
+        "reason": "只在同一交互式终端有效；本文给出选择边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11167,14 +11547,14 @@
         "name": "fold",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/fold.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:fold",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnufold"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11414,14 +11794,14 @@
         "name": "link",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/link.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:link",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnulink"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "链接关系",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11661,11 +12041,11 @@
         "name": "newgrp",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/newgrp.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "用于临时切换主组，需说明新 Shell 边界；不在本文展开会话管理。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11700,14 +12080,14 @@
         "name": "nl",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/nl.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:nl",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnunl"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11742,14 +12122,14 @@
         "name": "od",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/od.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:od",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnuod"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11757,14 +12137,14 @@
         "name": "paste",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/paste.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:paste",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnupaste"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11799,11 +12179,11 @@
         "name": "pax",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/pax.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -11811,14 +12191,14 @@
         "name": "pr",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/pr.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:pr",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnupr"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12032,14 +12412,14 @@
         "name": "sleep",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/sleep.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:sleep",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnusleep"
         ],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "组合命令设计",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12062,14 +12442,14 @@
         "name": "split",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/split.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:split",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnusplit"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12077,11 +12457,11 @@
         "name": "strings",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/strings.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12201,14 +12581,14 @@
         "name": "timeout",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/timeout.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:timeout",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnutimeout"
         ],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "管道与状态",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12243,14 +12623,14 @@
         "name": "tr",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/tr.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:tr",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnutr"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12375,13 +12755,13 @@
         "name": "uncompress",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/uncompress.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:gzip@1.14-1~exp2ubuntu1.1 and others:uncompress"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12389,14 +12769,14 @@
         "name": "unexpand",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/unexpand.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:unexpand",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnuunexpand"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12636,13 +13016,13 @@
         "name": "zcat",
         "source": "https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/zcat.html",
         "versionStatus": "POSIX.1-2024 current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:gzip@1.14-1~exp2ubuntu1.1 and others:zcat"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12650,11 +13030,11 @@
         "name": "dnf",
         "source": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_software_with_the_dnf_tool/index",
         "versionStatus": "RHEL 9 current cross-distribution migration capability",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "软件包模型",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "发行版边界",
+        "reason": "跨发行版包管理入口，本文只比较选择边界，不在 Ubuntu 主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12662,11 +13042,11 @@
         "name": "rpm",
         "source": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/packaging_and_distributing_software/index",
         "versionStatus": "RHEL 9 current cross-distribution package capability",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "软件包模型",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "发行版边界",
+        "reason": "跨发行版包数据库入口，本文只比较选择边界，不在 Ubuntu 主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12857,14 +13237,14 @@
         "name": "b2sum",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:b2sum",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnub2sum"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12872,14 +13252,14 @@
         "name": "base32",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:base32",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnubase32"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12887,14 +13267,14 @@
         "name": "base64",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:base64",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnubase64"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12902,14 +13282,14 @@
         "name": "basenc",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:basenc",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnubasenc"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -12987,14 +13367,14 @@
         "name": "bridge",
         "source": "https://packages.ubuntu.com/resolute/amd64/iproute2/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package iproute2 6.19.0-1ubuntu1",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:iproute2@6.19.0-1ubuntu1:bridge"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "地址与路由",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:busctl",
@@ -13686,14 +14066,14 @@
         "name": "fmt",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:fmt",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnufmt"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -13771,13 +14151,13 @@
         "name": "gawk",
         "source": "https://packages.ubuntu.com/resolute/amd64/gawk/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package gawk 1:5.3.2-1ubuntu1.1 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:gawk@1:5.3.2-1ubuntu1.1 and others:gawk"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "字段计算",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -13869,13 +14249,13 @@
         "name": "groupadd",
         "source": "https://packages.ubuntu.com/resolute/amd64/passwd/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package passwd 1:4.17.4-2ubuntu3",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:passwd@1:4.17.4-2ubuntu3:groupadd"
         ],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "会改变真实组数据库；本文提供审批前的选择与风险边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -13883,13 +14263,13 @@
         "name": "groupdel",
         "source": "https://packages.ubuntu.com/resolute/amd64/passwd/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package passwd 1:4.17.4-2ubuntu3",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:passwd@1:4.17.4-2ubuntu3:groupdel"
         ],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "会改变真实组数据库；本文提供审批前的选择与风险边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -13897,13 +14277,13 @@
         "name": "groupmod",
         "source": "https://packages.ubuntu.com/resolute/amd64/passwd/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package passwd 1:4.17.4-2ubuntu3",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:passwd@1:4.17.4-2ubuntu3:groupmod"
         ],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "会改变真实组数据库；本文提供审批前的选择与风险边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -14010,13 +14390,13 @@
         "name": "halt",
         "source": "https://packages.ubuntu.com/resolute/amd64/systemd-sysv/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package systemd-sysv 259.5-0ubuntu3.4 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:systemd-sysv@259.5-0ubuntu3.4 and others:halt"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "systemd 服务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "主机级动作",
+        "reason": "影响整机且需维护流程；本文只给选择与禁止误用边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -14080,14 +14460,14 @@
         "name": "host",
         "source": "https://packages.ubuntu.com/resolute/amd64/bind9-host/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package bind9-host 1:9.20.24-1ubuntu0.2 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:bind9-host@1:9.20.24-1ubuntu0.2 and others:host"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "DNS 查询",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:hostid",
@@ -14366,13 +14746,13 @@
         "name": "less",
         "source": "https://packages.ubuntu.com/resolute/amd64/less/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package less 668-1build1",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:less@668-1build1:less"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "内容查看",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -14744,14 +15124,14 @@
         "name": "md5sum",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:md5sum",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnumd5sum"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -14986,14 +15366,14 @@
         "name": "nslookup",
         "source": "https://packages.ubuntu.com/resolute/amd64/bind9-dnsutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package bind9-dnsutils 1:9.20.24-1ubuntu0.2 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:bind9-dnsutils@1:9.20.24-1ubuntu0.2 and others:nslookup"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "DNS 查询",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:nstat",
@@ -15057,13 +15437,13 @@
         "name": "passwd",
         "source": "https://packages.ubuntu.com/resolute/amd64/passwd/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package passwd 1:4.17.4-2ubuntu3",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:passwd@1:4.17.4-2ubuntu3:passwd"
         ],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "认证凭据操作需受控环境；本文明确其不等于权限刷新。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15113,13 +15493,13 @@
         "name": "pidwait",
         "source": "https://packages.ubuntu.com/resolute/amd64/procps/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package procps 2:4.0.4-9ubuntu1",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:procps@2:4.0.4-9ubuntu1:pidwait"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "进程查找",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "作业控制",
+        "reason": "procps 专项等待入口；本文以 wait 讲清自己启动的子进程。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15226,13 +15606,13 @@
         "name": "poweroff",
         "source": "https://packages.ubuntu.com/resolute/amd64/systemd-sysv/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package systemd-sysv 259.5-0ubuntu3.4 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:systemd-sysv@259.5-0ubuntu3.4 and others:poweroff"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "systemd 服务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "主机级动作",
+        "reason": "影响整机且需维护流程；本文只给选择与禁止误用边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15382,13 +15762,13 @@
         "name": "reboot",
         "source": "https://packages.ubuntu.com/resolute/amd64/systemd-sysv/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package systemd-sysv 259.5-0ubuntu3.4 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:systemd-sysv@259.5-0ubuntu3.4 and others:reboot"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "systemd 服务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "主机级动作",
+        "reason": "影响整机且需维护流程；本文只给选择与禁止误用边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15677,28 +16057,28 @@
         "name": "scp",
         "source": "https://packages.ubuntu.com/resolute/amd64/openssh-client/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package openssh-client 1:10.2p1-2ubuntu3.5 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:openssh-client@1:10.2p1-2ubuntu3.5 and others:scp"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "远程操作",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:seq",
         "name": "seq",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:seq",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnuseq"
         ],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "组合命令设计",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15776,14 +16156,14 @@
         "name": "sha1sum",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:sha1sum",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnusha1sum"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15791,14 +16171,14 @@
         "name": "sha224sum",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:sha224sum",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnusha224sum"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15877,14 +16257,14 @@
         "name": "sha384sum",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:sha384sum",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnusha384sum"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -15906,14 +16286,14 @@
         "name": "sha512sum",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:sha512sum",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnusha512sum"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "归档与压缩",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -16007,13 +16387,13 @@
         "name": "shutdown",
         "source": "https://packages.ubuntu.com/resolute/amd64/systemd-sysv/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package systemd-sysv 259.5-0ubuntu3.4 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:systemd-sysv@259.5-0ubuntu3.4 and others:shutdown"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "systemd 服务",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "主机级动作",
+        "reason": "影响整机且需维护流程；本文只给选择与禁止误用边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -16100,28 +16480,28 @@
         "name": "ssh-add",
         "source": "https://packages.ubuntu.com/resolute/amd64/openssh-client/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package openssh-client 1:10.2p1-2ubuntu3.5 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:openssh-client@1:10.2p1-2ubuntu3.5 and others:ssh-add"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "远程操作",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:ssh-agent",
         "name": "ssh-agent",
         "source": "https://packages.ubuntu.com/resolute/amd64/openssh-client/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package openssh-client 1:10.2p1-2ubuntu3.5 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:openssh-client@1:10.2p1-2ubuntu3.5 and others:ssh-agent"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "远程操作",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:ssh-argv0",
@@ -16156,28 +16536,28 @@
         "name": "ssh-keygen",
         "source": "https://packages.ubuntu.com/resolute/amd64/openssh-client/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package openssh-client 1:10.2p1-2ubuntu3.5 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:openssh-client@1:10.2p1-2ubuntu3.5 and others:ssh-keygen"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "远程操作",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:ssh-keyscan",
         "name": "ssh-keyscan",
         "source": "https://packages.ubuntu.com/resolute/amd64/openssh-client/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package openssh-client 1:10.2p1-2ubuntu3.5 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:openssh-client@1:10.2p1-2ubuntu3.5 and others:ssh-keyscan"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "远程操作",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:start-stop-daemon",
@@ -16465,14 +16845,14 @@
         "name": "sync",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:sync",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnusync"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "文件系统与容量",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -16914,14 +17294,14 @@
         "name": "tac",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:tac",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnutac"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "数据整形",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17167,14 +17547,14 @@
         "name": "truncate",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:truncate",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnutruncate"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "文件操作",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17238,13 +17618,13 @@
         "name": "umount",
         "source": "https://packages.ubuntu.com/resolute/amd64/mount/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package mount 2.41.3-3ubuntu2",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:mount@2.41.3-3ubuntu2:umount"
         ],
         "article": "Linux(三)文件与存储管理",
         "chapter": "文件系统与容量",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17378,13 +17758,13 @@
         "name": "useradd",
         "source": "https://packages.ubuntu.com/resolute/amd64/passwd/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package passwd 1:4.17.4-2ubuntu3",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:passwd@1:4.17.4-2ubuntu3:useradd"
         ],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "会改变真实账户数据库；本文提供审批前的选择与风险边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17392,13 +17772,13 @@
         "name": "userdel",
         "source": "https://packages.ubuntu.com/resolute/amd64/passwd/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package passwd 1:4.17.4-2ubuntu3",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:passwd@1:4.17.4-2ubuntu3:userdel"
         ],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "会改变真实账户数据库；本文提供审批前的选择与风险边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17406,13 +17786,13 @@
         "name": "usermod",
         "source": "https://packages.ubuntu.com/resolute/amd64/passwd/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package passwd 1:4.17.4-2ubuntu3",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:passwd@1:4.17.4-2ubuntu3:usermod"
         ],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "账户操作",
+        "reason": "会改变真实账户数据库；本文提供审批前的选择与风险边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17576,13 +17956,13 @@
         "name": "watch",
         "source": "https://packages.ubuntu.com/resolute/amd64/procps/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package procps 2:4.0.4-9ubuntu1",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:procps@2:4.0.4-9ubuntu1:watch"
         ],
         "article": "Linux(七)进程任务与服务管理",
-        "chapter": "进程查找",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "作业控制",
+        "reason": "周期观察工具不构成证据链；本文给出其不适用边界。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17604,14 +17984,14 @@
         "name": "wget",
         "source": "https://packages.ubuntu.com/resolute/amd64/wget/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package wget 1.25.0-2ubuntu4.4 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:wget@1.25.0-2ubuntu4.4 and others:wget"
         ],
         "article": "Linux(八)网络连接与远程排障",
         "chapter": "HTTP 请求",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
-        "validation": "verified against frozen source and canonicalization contract"
+        "reason": "作为当前网络排障主线的工具选择边界简述：说明用途、何时选择及风险或限制，不展开为完整机制实验。",
+        "validation": "reclassified after article scope and block-plan review"
       },
       {
         "id": "ubuntu26.04:command:whatis",
@@ -17843,14 +18223,14 @@
         "name": "yes",
         "source": "https://packages.ubuntu.com/resolute/amd64/coreutils-from-uutils/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package coreutils-from-uutils 0.0.0~ubuntu25",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:coreutils-from-uutils@0.0.0~ubuntu25:yes",
           "ubuntu26.04:gnu-coreutils@9.7-3ubuntu2:gnuyes"
         ],
         "article": "Linux(五)Shell 语法与命令组合",
-        "chapter": "组合命令设计",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "低频入口",
+        "reason": "需要识别用途与兼容或选择边界，但不进入本文的解析、重定向、状态和作用域主线深挖。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -17942,13 +18322,13 @@
         "name": "zgrep",
         "source": "https://packages.ubuntu.com/resolute/amd64/gzip/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package gzip 1.14-1~exp2ubuntu1.1 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:gzip@1.14-1~exp2ubuntu1.1 and others:zgrep"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "模式匹配",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -18054,13 +18434,13 @@
         "name": "zless",
         "source": "https://packages.ubuntu.com/resolute/amd64/gzip/filelist",
         "versionStatus": "Ubuntu 26.04 LTS package gzip 1.14-1~exp2ubuntu1.1 and others",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [
           "ubuntu26.04:gzip@1.14-1~exp2ubuntu1.1 and others:zless"
         ],
         "article": "Linux(四)文本处理与数据提取",
         "chapter": "内容查看",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "reason": "需要识别用途和选择边界，但不进入主线深挖",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -18158,11 +18538,11 @@
         "name": "sudo-rs is the default sudo provider",
         "source": "https://documentation.ubuntu.com/release-notes/26.04/summary-for-lts-users/",
         "versionStatus": "Ubuntu 26.04 LTS current",
-        "disposition": "核心详解",
+        "disposition": "正文简述",
         "mirrors": [],
         "article": "Linux(六)用户权限与软件管理",
-        "chapter": "身份与账户",
-        "reason": "面试与日常排障高频，需解释机制、示例、失败边界和验证",
+        "chapter": "提权边界",
+        "reason": "提供者差异需要识别，但不改变本文 sudo 策略与最小权限主线。",
         "validation": "verified against frozen source and canonicalization contract"
       },
       {
@@ -18346,9 +18726,9 @@
     "collection_summary": {
       "official": 750,
       "ledger": 750,
-      "进阶路线": 296,
-      "核心详解": 331,
-      "正文简述": 68,
+      "进阶路线": 302,
+      "核心详解": 233,
+      "正文简述": 160,
       "明确不纳入": 50,
       "弃用迁移": 5,
       "official_only": 0,

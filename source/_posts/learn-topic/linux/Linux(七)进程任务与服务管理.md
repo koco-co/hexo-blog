@@ -6,71 +6,250 @@ tags:
 categories:
   - Learn Topic
   - Linux
-description: 掌握进程状态、信号、作业控制、优先级、systemd 服务和定时任务。
+description: 用 PID、状态、信号、作业、优先级与 systemd 证据判断任务是否真正生效。
 cover: /img/picgo-images/linux-course-cover.png
 series: Linux
 series_order: 7
-published: false
+published: true
 abbrlink: 23ca1872
 date: 2026-08-25 00:00:00
 ---
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+服务异常时，先区分“进程不存在”“进程存在但卡住”“服务管理器没有加载”和“定时任务没有触发”。本文先收集 PID、状态和 unit 证据，再选择信号或服务动作；不把 kill -9、重启或关机当成第一步。
+{% endnote %}
 
-## 文章职责
+## 进程模型
 
-- 唯一要解决的问题：掌握进程状态、信号、作业控制、优先级、systemd 服务和定时任务。
-- 可观察成果：能够找到并控制进程或服务，不把 SIGKILL 当作第一选择。
-- 进入条件：第 2、5、6 篇。
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% mermaid %}
+flowchart TD
+  A[Shell 或服务管理器] --> B[进程 PID]
+  B --> C[父进程、进程组、会话]
+  B --> D[状态 R/S/D/T/Z]
+  B --> E[信号与退出状态]
+  B --> F[文件描述符与环境]
+{% endmermaid %}
 
-## 内容边界
+### 可控子进程
 
-- 能力分配：
-- 核心详解 / 进程查找：bash5.3:feature:job-control-builtins、bash5.3:toc:Job-Control-Basics、bash5.3:toc:Job-Control-Builtins、bash5.3:toc:Job-Control-Variables、posix2024:shell:job-control、posix2024:shell:signals、posix2024:utility:ps、ubuntu26.04:command:pgrep、ubuntu26.04:command:pidwait、ubuntu26.04:command:watch
-- 核心详解 / 定时任务：posix2024:utility:at、posix2024:utility:batch、posix2024:utility:crontab
-- 核心详解 / 前后台任务：posix2024:utility:bg、posix2024:utility:fg、posix2024:utility:jobs、posix2024:utility:nohup、posix2024:utility:wait
-- 核心详解 / 信号与终止：posix2024:utility:kill、ubuntu26.04:command:pkill
-- 核心详解 / 优先级与资源：posix2024:utility:nice、posix2024:utility:renice
-- 核心详解 / systemd 服务：ubuntu26.04:command:halt、ubuntu26.04:command:poweroff、ubuntu26.04:command:reboot、ubuntu26.04:command:shutdown、ubuntu26.04:command:systemctl、ubuntu26.04:command:systemd-run
-- 弃用迁移 / systemd 服务：ubuntu26.04:command:init
-- 弃用迁移 / 信号与终止：ubuntu26.04:command:skill
-- 弃用迁移 / 优先级与资源：ubuntu26.04:command:snice
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+~~~bash
+sleep 2 &
+WORKER=$!
 
-## 正文编排
+ps -o pid,ppid,pgid,sid,stat,etime,cmd -p "$WORKER"
+pgrep -a -P "$$"
+kill -0 "$WORKER"
+wait "$WORKER"
+printf 'wait-status=%s\n' "$?"
+~~~
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 进程模型 | 建立进程模型的心智模型 | PID、PPID、进程组、会话、线程和进程树；运行、睡眠、D 状态、停止、僵尸和退出状态 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 进程查找 | 建立进程查找的心智模型 | ps 快照与列选择；pgrep、pidwait、pkill、名称匹配和所有者 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 信号与终止 | 建立信号与终止的心智模型 | 信号投递、处理器、屏蔽和默认动作；SIGINT、SIGTERM、SIGHUP、SIGSTOP、SIGCONT、SIGKILL | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 前后台任务 | 建立前后台任务的心智模型 | jobs、bg、fg、wait、nohup、终端断开和 systemd-run | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 优先级与资源 | 建立优先级与资源的心智模型 | nice、renice 与 CPU 保证的边界 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| systemd 服务 | 建立systemd 服务的心智模型 | unit 状态、依赖、enable/start、reload/restart；systemctl status、show、list-units、失败证据 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 定时任务 | 建立定时任务的心智模型 | at、crontab、systemd timer、环境和错过执行 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 通过进程、服务和日志证据确认变更结果 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note primary flat %}
+这段只启动自己的短命 sleep。ps 给出一次快照，pgrep -P 按父进程找子进程，kill -0 不发信号、只检查目标是否存在且可访问，wait 回收子进程并取得退出状态。R 表示运行或可运行，S 表示可中断睡眠，D 常见于不可中断 I/O 等待，T 是停止，Z 是僵尸；状态必须结合命令、时间和日志判断。
+{% endnote %}
 
-## 视觉与复习
+## 信号与终止
 
-- 贯穿案例：定位异常进程，记录父子关系和打开资源，先温和终止，观察服务恢复及日志，再决定是否升级信号。
-- 完整示例：定位异常进程，记录父子关系和打开资源，先温和终止，观察服务恢复及日志，再决定是否升级信号。
-- 失败边界与踩坑：不要仅凭名称杀进程；注意权限、进程组、僵尸进程、服务依赖和定时任务环境。
-- FAQ 候选与来源：进程与线程、start 与 enable、reload 与 restart、init/telinit 的当前边界。
-- 非复习自测：用中文场景选择命令，解释输出并写出验证步骤。
-- 图表或实验：进程关系图、信号升级流程和服务生命周期。
-- 复习卡片：ps、pgrep、kill、jobs、nohup、nice、systemctl、cron 及 SIGTERM/SIGKILL 选择。
-- 参考资料：procps-ng、systemd 259、Linux signal 与 process 文档。
+### 先温和终止
 
-正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+~~~bash
+sleep 30 &
+WORKER=$!
 
-## 验收证据
+kill -TERM "$WORKER"
+if wait "$WORKER"; then
+  printf '%s\n' 'unexpected normal exit'
+else
+  printf 'term-status=%s\n' "$?"
+fi
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+bash -c '
+  sleep 30 &
+  child=$!
+  pkill -TERM -P "$$"
+  wait "$child"
+  printf "pkill-status=%s\n" "$?"
+'
+~~~
+
+{% note primary flat %}
+kill 针对一个已核对的 PID；pkill 按条件匹配进程，所以示例把它限制在一个临时 Bash 的子进程。SIGTERM 给程序清理资源的机会，正常被终止的 sleep 通常让 wait 得到 143。先用 ps 或 pgrep 核对用户、完整命令行和 PID，再决定是否发送信号。
+{% endnote %}
+
+| 目的 | 选择 | 边界 |
+| --- | --- | --- |
+| 请求程序优雅退出 | SIGTERM | 等待退出与日志，不把无响应立刻当成 KILL 理由 |
+| 通知重载或终端挂断 | SIGHUP | 具体行为由程序定义 |
+| 暂停与继续 | SIGSTOP、SIGCONT | STOP 无法被程序捕获 |
+| 最后手段终止 | SIGKILL | 无清理机会，可能留下锁或半写数据 |
+
+{% note danger flat %}
+不要把真实服务名直接交给 pkill，也不要在不了解进程树时用 -9。信号只解决“让哪个进程接收什么通知”，不能修复 I/O、锁、内存或依赖服务的根因。
+{% endnote %}
+
+## 作业控制
+
+~~~bash
+sleep 2 &
+WORKER=$!
+jobs -l
+wait "$WORKER"
+
+nohup sh -c 'sleep 1' >/dev/null 2>&1 &
+NOHUP_PID=$!
+wait "$NOHUP_PID"
+printf 'nohup-status=%s\n' "$?"
+~~~
+
+{% note info flat %}
+jobs 和 wait 只面向当前 Bash 会话的作业；nohup 主要处理挂断信号与默认输出处理，不等于可靠的服务管理器。Bash job control、POSIX job control 和信号规则共同解释这些边界，但跨会话排障应改用 ps、pgrep 或 systemctl。
+{% endnote %}
+
+| 场景 | 选择 | 不要误解 |
+| --- | --- | --- |
+| 已暂停的当前终端作业继续后台运行 | bg | 只在有交互式 job control 的同一终端有效 |
+| 把当前终端作业带回前台 | fg | 不是按系统 PID 查找进程 |
+| 周期刷新只读观察 | watch | 它不记录证据，也不替代根因分析 |
+| 等待指定进程结束 | pidwait | 是 procps 专项入口，常规脚本优先管理自己启动的 PID |
+
+## 优先级与调度
+
+~~~bash
+sleep 30 &
+WORKER=$!
+
+renice 5 -p "$WORKER"
+ps -o pid,ni,pri,stat,cmd -p "$WORKER"
+kill -TERM "$WORKER"
+wait "$WORKER"
+~~~
+
+{% note warning flat %}
+nice 在启动时给出较低优先级，renice 调整已有 PID 的 nice 值；正数通常降低 CPU 调度优先级。它们不是 CPU 配额，也不能解决 I/O、锁或内存瓶颈。提高优先级需要权限，先记录原值和恢复方案。
+{% endnote %}
+
+## systemd 服务
+
+### 读取 unit
+
+~~~bash
+UNIT=ssh.service
+systemctl is-active "$UNIT"
+printf 'is-active-status=%s\n' "$?"
+systemctl is-enabled "$UNIT"
+systemctl show -p ActiveState -p SubState -p MainPID "$UNIT"
+systemctl cat "$UNIT"
+~~~
+
+{% note primary flat %}
+把 UNIT 换成当前主机已知的服务。is-active 与 is-enabled 分别回答运行态和开机启用关系；show 给出可脚本读取的字段；cat 显示 unit 配置。unit 不存在与服务已停止都可能返回非零，所以必须同时保存命令输出和状态，不能只看一个布尔结果。
+{% endnote %}
+
+### 最小变更
+
+~~~bash
+if systemctl --user show-environment >/dev/null 2>&1; then
+  systemd-run --user --scope /usr/bin/true
+  printf 'user-scope-status=%s\n' "$?"
+else
+  printf '%s\n' '当前会话没有可用的 systemd user manager'
+fi
+~~~
+
+{% note info flat %}
+systemd-run 创建临时 scope 或 service，适合验证服务管理器能否启动一个受控动作；上例不修改系统 unit 文件。start/stop/restart/reload 改变当前运行态，enable/disable 改变开机关系，必须针对已经审批的 unit 执行，并在动作后重新读取 ActiveState、MainPID 和日志。
+{% endnote %}
+
+## 定时任务
+
+| 需求 | 选择 | 验证与边界 |
+| --- | --- | --- |
+| 一次性、指定时间执行 | at | 先确认队列、执行用户、环境和取消办法 |
+| 空闲时批量执行 | batch | 触发依赖系统负载，不能当作准点调度 |
+| 周期性任务 | crontab | 明确 PATH、工作目录、Shell、日志和错过执行策略 |
+| 长期可观测定时服务 | systemd timer | 需 unit、日志与失败重试设计，超出本篇最小操作 |
+
+{% note warning flat %}
+定时任务经常在非交互环境失败：没有 TTY，PATH 和工作目录不同，交互式 alias 也不可靠。先把一条只读或可回滚命令在相同用户、相同环境复现，再写入计划。
+{% endnote %}
+
+## 迁移边界
+
+{% folding blue, 旧入口与当前选择 %}
+| 旧入口 | 当前选择 | 不等价边界 |
+| --- | --- | --- |
+| init | systemctl 管理 unit 状态和目标 | 不把 runlevel 数字或关机动作机械替换为单个 service 命令 |
+| skill | kill 或受限条件的 pkill | 先核对 PID/匹配范围，再发明确信号 |
+| snice | nice、renice | 记录 PID 和原优先级，优先级不是资源配额 |
+| halt、poweroff、reboot、shutdown | 主机级维护流程 | 它们影响整机，不是服务重启的快捷方式 |
+{% endfolding %}
+
+## 结果验证
+
+~~~bash
+UNIT=ssh.service  # 改成当前主机已知的 unit
+
+sleep 1 &
+WORKER=$!
+
+ps -o pid,ppid,stat,etime,cmd -p "$WORKER"
+kill -0 "$WORKER"
+wait "$WORKER"
+printf 'worker-status=%s\n' "$?"
+
+if systemctl show -p LoadState "$UNIT" >/dev/null 2>&1; then
+  systemctl is-active "$UNIT"
+  printf 'unit-status=%s\n' "$?"
+else
+  printf 'unit-not-found-or-systemd-unavailable=%s\n' "$UNIT" >&2
+fi
+~~~
+
+{% note success flat %}
+进程证据至少包含 PID、父进程、状态、命令行、动作后的退出状态；服务证据至少包含 unit 名、ActiveState、MainPID 和相邻日志。若 unit 不存在或 systemd 不可用，先记录这个失败边界，不要把它误报为“服务已停止”。
+{% endnote %}
+
+{% flashcard basic id:linux-a7-term-kill deck:"Linux" priority:1 tags:"信号,进程" %}
+--- question
+为什么通常先发 SIGTERM，再考虑 SIGKILL？
+--- answer
+SIGTERM 给程序清理资源和保存状态的机会，SIGKILL 无法被捕获或清理。
+--- explanation
+先复核 PID 和命令行，观察 TERM 后的退出与日志；KILL 可能留下锁、半写文件或下游依赖异常。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a7-systemctl-enable deck:"Linux" priority:1 tags:"systemd,服务" %}
+--- question
+systemctl start 和 enable 分别改变什么？
+--- answer
+start 改变当前运行状态，enable 建立开机启动关系；enable 不等于立刻启动。
+--- explanation
+用 is-active 和 is-enabled 分别验证，不要只看 systemctl 命令返回码。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a7-jobs-pgrep deck:"Linux" priority:2 tags:"作业控制,查找" %}
+--- question
+jobs 和 pgrep 的观察对象有什么不同？
+--- answer
+jobs 看当前 Bash 会话的作业，pgrep 查系统进程；后台作业可能脱离当前 Shell。
+--- explanation
+终端断开、nohup 或服务管理器都会改变作业边界，跨会话排查要使用 ps、pgrep/systemctl。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a7-schedule deck:"Linux" priority:2 tags:"定时任务,环境" %}
+--- question
+为什么 crontab 中能在交互式 Shell 运行的命令可能失败？
+--- answer
+定时任务的 PATH、工作目录、Shell 和环境变量不同，还可能没有 TTY。
+--- explanation
+使用绝对路径、显式环境和可记录的日志，先在相同用户和非交互环境复现。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link POSIX.1-2024 Process and Job Utilities, https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/contents.html, https://pubs.opengroup.org/favicon.ico %}
+{% link GNU Bash Job Control, https://www.gnu.org/software/bash/manual/bash.html, https://www.gnu.org/favicon.ico %}
+{% link systemd systemctl Manual, https://www.freedesktop.org/software/systemd/man/latest/systemctl.html, https://www.freedesktop.org/favicon.ico %}
+{% endlinkgroup %}

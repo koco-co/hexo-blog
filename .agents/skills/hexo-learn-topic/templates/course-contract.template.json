@@ -4,6 +4,7 @@
     "slug": "{{主题路径段}}",
     "series": "{{主题系列名}}",
     "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
     "topics": [
       "{{第一轮学习主题一}}",
       "{{第一轮学习主题二}}"
@@ -28,7 +29,21 @@
         "file": "{{主题系列名}}(三){{第一轮学习主题二}}.md",
         "kind": "topic"
       }
-    ]
+    ],
+    "article_block_tag_plans": {
+      "{{主题系列名}}(二){{第一轮学习主题一}}": [
+        {
+          "block": "{{简短 H2 或正文块名}}",
+          "reader_task": "{{读者要完成的一个动作或判断}}",
+          "core_content": "{{本块必须直接交付的结论或能力}}",
+          "carrier": "{{一个主承载：note/mermaid/table/code/folding/tabs/list}}",
+          "rationale": "{{该承载为什么能降低理解成本}}",
+          "directly_visible": "{{不能隐藏的命令、风险、结论或验证}}",
+          "degradation": "{{样式、交互、图片或外部资源失效时仍可读到什么}}",
+          "validation_status": "{{构建、桌面/移动、明暗主题和交互检查状态}}"
+        }
+      ]
+    }
   },
   "capability_ledger": {
     "schema_version": "1.0",

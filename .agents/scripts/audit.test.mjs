@@ -469,6 +469,35 @@ test('learn-topic audit rejects naked explanation blocks and repeated course nav
   assert.ok(!tagOnlyReport.errors.some(item => item.code === 'LEARN_TOPIC_LEDGER_COPY_FORBIDDEN'))
 })
 
+test('learn-topic audit rejects local filesystem absolute paths when the course contract enables the gate', () => {
+  const root = makeRoot()
+  const entry = validPlaywrightCoursePost()
+  const baseTopic = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+  const invalidTopic = baseTopic.replace(
+    '说明主题机制、示例和边界。',
+    '说明主题机制、示例和边界；不要写死 `/tmp/result.txt`、`/dev/null` 或 `C:\\work\\notes`。',
+  )
+  const allowedTopic = baseTopic.replace(
+    '说明主题机制、示例和边界。',
+    '说明主题机制、示例和边界；资源使用 `/img/picgo-images/example.png`，接口使用 `/health`。',
+  )
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', entry)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', invalidTopic)
+  writeCourseContract(root)
+  const contractPath = '.agents/skills/hexo-learn-topic/data/playwright.json'
+  const contract = JSON.parse(readFileSync(path.join(root, contractPath), 'utf8'))
+  contract.course.forbid_local_absolute_paths = true
+  write(root, contractPath, JSON.stringify(contract))
+
+  const invalidReport = auditContent({ root, release: true })
+  assert.equal(invalidReport.status, 'blocked')
+  assert.ok(invalidReport.errors.some(item => item.code === 'LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_FORBIDDEN'))
+
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md', allowedTopic)
+  const allowedReport = auditContent({ root, release: true })
+  assert.ok(!allowedReport.errors.some(item => item.code === 'LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_FORBIDDEN'))
+})
+
 test('learn-topic audit requires published reference card groups and valid HTTP links', () => {
   const missingCardsRoot = makeRoot()
   const markdownReferences = validPlaywrightCoursePost().replace(

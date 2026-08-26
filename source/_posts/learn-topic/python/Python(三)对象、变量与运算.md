@@ -6,240 +6,273 @@ tags:
 categories:
   - Learn Topic
   - Python
-description: 理解名称绑定、对象身份、相等性、可变性、数字运算与字符串方法族，并避开驻留和浮点数等常见误区。
+description: 用名称绑定、身份、相等性和可变性建立 Python 对象模型，并掌握数字、字符串与字节的常见边界。
 cover: /img/picgo-images/python-course-cover.png
 series: Python
 series_order: 3
-published: false
+published: true
 abbrlink: 76bec403
 date: 2026-08-25 13:13:45
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+Python 变量不是装值的盒子，而是把<strong>名称</strong>绑定到<strong>对象</strong>。一旦先用这句话解释程序，再讨论赋值、参数、可变性和 `is`，多数“Python 到底按值还是按引用传递”的争论都会消失。
+{% endnote %}
 
-## 文章职责
+## 名称与对象
 
-- 唯一要解决的问题：establish Python's name-binding and object model for values, identity, equality, mutability, numeric/string behavior, and operators.
-- 可观察成果：reader can predict identity/equality and mutation results without relying on accidental interning or IDE behavior.
-- 进入条件：Python(二)运行环境与代码组织.
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note primary flat %}
+对象有类型、值与身份；赋值语句只会让左侧名称指向右侧对象。`del name` 解除名称绑定，不等于立刻销毁对象；对象是否能回收取决于是否还存在可达引用。
+{% endnote %}
 
-## 内容边界
+```python
+score = 42
+alias = score
+score = 99
 
-- 复用或新建依据：rebuild the useful operators, strings, and numeric exercises from the old notes; correct implementation-dependent claims.
+print(alias, score)  # 42 99：score 被重新绑定，alias 没有变化
 
-| 稳定标识 | 处置 | 目标章节 |
+items = ["Python"]
+other = items
+other.append("面试")
+print(items)  # ['Python', '面试']：两个名称仍指向同一个列表
+```
+
+{% note warning flat %}
+函数调用也遵循名称绑定：形参在函数局部名称空间中绑定到传入对象。它既不是 C++ 意义的“传引用”，也不是对一切对象都复制的“传值”；函数是否影响调用方，取决于它修改了共享的可变对象，还是仅让形参重新绑定。
+{% endnote %}
+
+| 写法 | 发生的事 | 用来回答的问题 |
 | --- | --- | --- |
-| `langref:lexical_analysis#lexical-analysis` | 核心详解 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#line-structure` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#logical-lines` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#physical-lines` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#comments` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#encoding-declarations` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#explicit-line-joining` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#implicit-line-joining` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#blank-lines` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#indentation` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#whitespace-between-tokens` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#end-marker` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#other-tokens` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#names-identifiers-and-keywords` | 核心详解 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#keywords` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#soft-keywords` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#reserved-classes-of-identifiers` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#non-ascii-characters-in-names` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#literals` | 核心详解 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#string-and-bytes-literals` | 核心详解 | 字符串与字节 / 编码与解码边界 |
-| `langref:lexical_analysis#triple-quoted-strings` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#string-prefixes` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#formal-grammar` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:lexical_analysis#escape-sequences` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#ignored-end-of-line` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#escaped-characters` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#octal-character` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#hexadecimal-character` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#named-unicode-character` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#hexadecimal-unicode-characters` | 正文简述 | 字符串与字节 / Unicode 字符串 |
-| `langref:lexical_analysis#unrecognized-escape-sequences` | 正文简述 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#bytes-literals` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `langref:lexical_analysis#raw-string-literals` | 核心详解 | 字符串与字节 / 转义与原始字符串 |
-| `langref:lexical_analysis#formatted-string-literals` | 核心详解 | 字符串与字节 / f-string 与 3.14 t-string 识别 |
-| `langref:lexical_analysis#template-string-literals` | 核心详解 | 字符串与字节 / f-string 与 3.14 t-string 识别 |
-| `langref:lexical_analysis#formal-grammar-for-f-strings` | 正文简述 | 字符串与字节 / f-string 与 3.14 t-string 识别 |
-| `langref:lexical_analysis#numeric-literals` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:lexical_analysis#integer-literals` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:lexical_analysis#floating-point-literals` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:lexical_analysis#imaginary-literals` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:lexical_analysis#operators-and-delimiters` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:datamodel#data-model` | 核心详解 | 名称与对象 / 类型、值与身份 |
-| `langref:datamodel#objects-values-and-types` | 核心详解 | 名称与对象 / 类型、值与身份 |
-| `langref:datamodel#none` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:datamodel#notimplemented` | 正文简述 | 身份与相等 / 值比较与类型边界 |
-| `langref:datamodel#ellipsis` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:datamodel#numbers-number` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:datamodel#numbers-integral` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:datamodel#numbers-real-float` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:datamodel#numbers-complex-complex` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:expressions#expressions` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#arithmetic-conversions` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:expressions#atoms` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#built-in-constants` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#atom-identifiers` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#literals` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#literals-and-object-identity` | 核心详解 | 身份与相等 / is 与 == |
-| `langref:expressions#string-literal-concatenation` | 正文简述 | 字符串与字节 / Unicode 字符串 |
-| `langref:expressions#parenthesized-forms` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#primaries` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#attribute-references` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#comma-separated-subscripts` | 正文简述 | 名称与对象 / 标识符、字面量与词法边界 |
-| `langref:expressions#the-power-operator` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:expressions#unary-arithmetic-and-bitwise-operations` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:expressions#binary-arithmetic-operations` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:expressions#shifting-operations` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:expressions#binary-bitwise-operations` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `langref:expressions#comparisons` | 核心详解 | 身份与相等 / 值比较与类型边界 |
-| `langref:expressions#value-comparisons` | 核心详解 | 身份与相等 / 值比较与类型边界 |
-| `langref:expressions#is-not` | 核心详解 | 身份与相等 / is 与 == |
-| `langref:expressions#boolean-operations` | 核心详解 | 数字与运算 / 布尔运算与短路求值 |
-| `langref:expressions#evaluation-order` | 核心详解 | 数字与运算 / 表达式求值顺序与优先级 |
-| `langref:expressions#operator-precedence` | 核心详解 | 数字与运算 / 表达式求值顺序与优先级 |
-| `langref:simple_stmts#expression-statements` | 正文简述 | 可变性 / 别名与共享引用 |
-| `langref:simple_stmts#assignment-statements` | 核心详解 | 名称与对象 / 赋值与重新绑定 |
-| `langref:simple_stmts#augmented-assignment-statements` | 核心详解 | 可变性 / 增量赋值的差异 |
-| `langref:simple_stmts#the-del-statement` | 正文简述 | 可变性 / del 的解绑与容器删除 |
-| `builtin:abs` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:ascii` | 正文简述 | 名称与对象 / 类型、值与身份 |
-| `builtin:bin` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:bool` | 核心详解 | 数字与运算 / 布尔运算与短路求值 |
-| `builtin:chr` | 正文简述 | 字符串与字节 / Unicode 字符串 |
-| `builtin:complex` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:divmod` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:float` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:format` | 正文简述 | 字符串与字节 / 格式化方法族 |
-| `builtin:hex` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:id` | 核心详解 | 身份与相等 / is 与 == |
-| `builtin:int` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:oct` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:ord` | 正文简述 | 字符串与字节 / Unicode 字符串 |
-| `builtin:pow` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `builtin:repr` | 正文简述 | 名称与对象 / 类型、值与身份 |
-| `builtin:round` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:int.bit_length` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:int.bit_count` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:int.to_bytes` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:int.from_bytes` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:int.as_integer_ratio` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:int.is_integer` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:float.from_number` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:float.as_integer_ratio` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:float.is_integer` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:float.hex` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:float.fromhex` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:complex.from_number` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdtype:str` | 正文简述 | 字符串与字节 / Unicode 字符串 |
-| `stdtype:str.capitalize` | 正文简述 | 字符串与字节 / 大小写与 Unicode 归一 |
-| `stdtype:str.casefold` | 正文简述 | 字符串与字节 / 大小写与 Unicode 归一 |
-| `stdtype:str.center` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.count` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.encode` | 核心详解 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:str.endswith` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.expandtabs` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.find` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.format` | 核心详解 | 字符串与字节 / 格式化方法族 |
-| `stdtype:str.format_map` | 正文简述 | 字符串与字节 / 格式化方法族 |
-| `stdtype:str.index` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isalnum` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isalpha` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isascii` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isdecimal` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isdigit` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isidentifier` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.islower` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isnumeric` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isprintable` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isspace` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.istitle` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.isupper` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.join` | 核心详解 | 字符串与字节 / 拆分、分区与连接 |
-| `stdtype:str.ljust` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.lower` | 正文简述 | 字符串与字节 / 大小写与 Unicode 归一 |
-| `stdtype:str.lstrip` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.maketrans` | 正文简述 | 字符串与字节 / 替换与翻译 |
-| `stdtype:str.partition` | 正文简述 | 字符串与字节 / 拆分、分区与连接 |
-| `stdtype:str.removeprefix` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.removesuffix` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.replace` | 核心详解 | 字符串与字节 / 替换与翻译 |
-| `stdtype:str.rfind` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.rindex` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.rjust` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.rpartition` | 正文简述 | 字符串与字节 / 拆分、分区与连接 |
-| `stdtype:str.rsplit` | 正文简述 | 字符串与字节 / 拆分、分区与连接 |
-| `stdtype:str.rstrip` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.split` | 核心详解 | 字符串与字节 / 拆分、分区与连接 |
-| `stdtype:str.splitlines` | 正文简述 | 字符串与字节 / 拆分、分区与连接 |
-| `stdtype:str.startswith` | 正文简述 | 字符串与字节 / 搜索、计数与判定 |
-| `stdtype:str.strip` | 核心详解 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:str.swapcase` | 正文简述 | 字符串与字节 / 大小写与 Unicode 归一 |
-| `stdtype:str.title` | 正文简述 | 字符串与字节 / 大小写与 Unicode 归一 |
-| `stdtype:str.translate` | 正文简述 | 字符串与字节 / 替换与翻译 |
-| `stdtype:str.upper` | 正文简述 | 字符串与字节 / 大小写与 Unicode 归一 |
-| `stdtype:str.zfill` | 正文简述 | 字符串与字节 / 裁剪、前后缀与填充 |
-| `stdtype:bytes` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:bytes.fromhex` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:bytes.hex` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:bytearray` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:bytearray.fromhex` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:bytearray.hex` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:bytes.decode` | 核心详解 | 字符串与字节 / 编码与解码边界 |
-| `stdtype:bytearray.decode` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdlib:cmath` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdlib:codecs` | 正文简述 | 字符串与字节 / 编码与解码边界 |
-| `stdlib:decimal` | 核心详解 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdlib:fractions` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdlib:math` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdlib:numbers` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdlib:operator` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdlib:random` | 正文简述 | 数字与运算 / 整数、浮点数与 Decimal |
-| `stdlib:string` | 正文简述 | 字符串与字节 / 格式化方法族 |
-| `stdlib:string.templatelib` | 正文简述 | 字符串与字节 / f-string 与 3.14 t-string 识别 |
-| `stdlib:unicodedata` | 正文简述 | 字符串与字节 / Unicode 字符串 |
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+| `name = value` | 名称绑定到对象 | 赋值会不会复制？通常不会 |
+| `name = other` | 新名称绑定到同一对象 | 两处为何同步变化？ |
+| `name = name + x` | 计算新对象后重新绑定 | 原对象会不会被改？取决于类型和运算 |
+| `del name` | 删除当前名称绑定 | 对象是否还有别的引用？ |
 
-## 正文编排
+{% folding 名称、字面量与缩进边界, open %}
+标识符不能是关键字；`_name` 只是约定，`__name` 可能触发类中的名称改写，稍后在面向对象一篇解释。字符串、数字、`None`、`...` 等字面量直接创建或取得对象。逻辑行以换行结束，圆括号、方括号和花括号内可以隐式续行；缩进决定语句块，所以不要混用制表符和空格。
+{% endfolding %}
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 名称与对象 | 建立名称与对象的心智模型 | 绑定而非盒子；标识符、字面量与词法边界；类型、值与身份；赋值与重新绑定 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 身份与相等 | 建立身份与相等的心智模型 | is 与 ==；值比较与类型边界；驻留的实现边界 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 可变性 | 建立可变性的心智模型 | 可变与不可变对象；别名与共享引用；增量赋值的差异；del 的解绑与容器删除 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 数字与运算 | 建立数字与运算的心智模型 | 整数、浮点数与 Decimal；整除、取模与负数；布尔运算与短路求值；表达式求值顺序与优先级 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 字符串与字节 | 建立字符串与字节的心智模型 | Unicode 字符串；转义与原始字符串；编码与解码边界；大小写与 Unicode 归一；裁剪、前后缀与填充；搜索、计数与判定；拆分、分区与连接；替换与翻译；格式化方法族；f-string 与 3.14 t-string 识别；3.13 与 3.14 字节接口门控 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 对象实验 | 完成并验证对象实验 | 引用图验证；跨运行方式验证驻留假设 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 结果验证的输入、关键步骤、结果与边界 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 常见问题 | 建立常见问题的心智模型 | 常见问题的输入、关键步骤、结果与边界 | `flashcard` | 真实高价值问题需要进入长期复习队列 | 题面、精简答案和详细解析 | 闪卡脚本失效时题面与答案正文仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 参考资料 | 建立参考资料的心智模型 | 参考资料的输入、关键步骤、结果与边界 | `linkgroup/link` | 官方扩展阅读使用统一资料卡片 | 资料名称、用途和完整 URL | 图片或网络失败时名称与 URL 仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+## 身份与相等
 
-## 视觉与复习
+{% note primary flat %}
+`==` 比较值是否相等，可能调用类型实现的比较协议；`is` 比较是否为同一个对象。业务值比较几乎总用 `==`，身份比较主要用于单例哨兵，最常见的是 `value is None`。
+{% endnote %}
 
-- 贯穿案例与完整示例：run a matrix of literals, raw strings, dynamically created strings, `Decimal`, boolean/conditional expressions, augmented assignment, and built-in cross-type comparisons; verify evaluation order and compare string method families without defining classes or listing every mirrored bytes/bytearray method. Custom `__eq__` implementation is deferred to Python(七).
-- 失败边界与踩坑：`id()` is only unique during an object's lifetime; CPython string interning is not a contract; raw strings still have terminal-backslash constraints; binary floating point is not decimal arithmetic; t-strings and changed bytes inputs are version-gated.
-- FAQ 候选与来源：Programming FAQ on floor division, string modification, Unicode errors, raw strings, object IDs, and identity tests; Design FAQ on floating point and immutable strings.
-- 复习卡片：
-  - `python-object-is-eq` priority 1: `is` versus `==`.
-    - `python-object-mutability` priority 1: mutable versus immutable and augmented assignment.
-    - `python-object-binding` priority 1: assignment and argument binding.
-    - `python-object-float` priority 2: floating-point precision.
-- 图表或实验：object/reference graph and exact comparison table for binding, mutation, equality, and identity.
-- 主要参考资料：Language reference lexical analysis, expressions, data model, built-in types, Decimal and Programming/Design FAQ.
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+```python
+first = [1, 2]
+second = [1, 2]
+same = first
 
-## 验收证据
+print(first == second)  # True：内容相等
+print(first is second)  # False：不是同一列表
+print(first is same)    # True：同一对象
+print(None is None)     # True：None 是单例
+```
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+{% note warning flat %}
+不要从 `a is b` 在某次交互式运行中恰好为真，推导“短字符串或小整数总会驻留”。对象复用是实现和上下文相关的优化，不是语言承诺；测试值相等使用 `==`，判断缺失值使用 `is None`。
+{% endnote %}
+
+| 比较 | 适用对象 | 可靠结论 |
+| --- | --- | --- |
+| `left == right` | 数字、字符串、容器、自定义值对象 | 值相等；类型可以自定义比较 |
+| `left is right` | `None`、明确的唯一哨兵 | 同一对象；不表示值更“相等” |
+| `id(value)` | 临时诊断 | 当前生命周期内的身份标识，不应用于业务逻辑 |
+
+## 可变性
+
+{% note primary flat %}
+可变对象能在原地改变，例如列表、字典、集合和 `bytearray`；不可变对象如 `int`、`str`、`tuple` 不能原地改值。可变性不是“名称能不能重新赋值”，而是对象本身能不能被原地修改。
+{% endnote %}
+
+```python
+numbers = [1, 2]
+alias = numbers
+numbers += [3]          # 列表通常原地扩展
+print(alias)            # [1, 2, 3]
+
+word = "py"
+old = word
+word += "thon"         # 字符串不可变，得到新对象并重新绑定
+print(old, word)        # py python
+```
+
+{% note warning flat %}
+默认参数只在函数定义时求值一次。把可变对象写成默认值会让多次调用共享同一对象；用 `None` 作为哨兵，在函数体内创建新容器。这个边界会在函数一篇再次用参数模型验证。
+{% endnote %}
+
+```python
+def collect(item: str, bucket: list[str] | None = None) -> list[str]:
+    if bucket is None:
+        bucket = []
+    bucket.append(item)
+    return bucket
+```
+
+## 数字与运算
+
+{% note primary flat %}
+整数精确且精度不限；二进制浮点数适合科学计算和近似值，不适合精确十进制金额。金额、税率等需要十进制规则时从字符串构造 `Decimal`，而不是从已近似的 `float` 构造。
+{% endnote %}
+
+```python
+from decimal import Decimal
+
+print(0.1 + 0.2 == 0.3)                    # False
+print(Decimal("0.1") + Decimal("0.2") == Decimal("0.3"))  # True
+print(-7 // 3, -7 % 3)                      # -3 2，满足 a == (a // b) * b + a % b
+```
+
+| 主题 | 关键规则 | 常见误解 |
+| --- | --- | --- |
+| `/`、`//`、`%` | `/` 是真除法，`//` 向下取整，`%` 保持等式关系 | 负数整除不是“截断到零” |
+| `and`、`or` | 从左到右短路，并返回参与计算的操作数 | 结果不一定是布尔值 |
+| 比较链 | `a < b < c` 等价于带短路的两次比较，`b` 只求值一次 | 不等于 `(a < b) < c` |
+| 优先级 | 先用括号表达意图，再记忆规则 | 不要依赖难读的优先级猜测 |
+
+{% note success flat %}
+对于浮点近似比较，使用 `math.isclose()` 并按领域指定绝对或相对容差；不要把格式化后的字符串或 `round()` 当作通用的相等判定。
+{% endnote %}
+
+## 字符串与字节
+
+{% note primary flat %}
+`str` 表示 Unicode 文本，`bytes` 表示原始字节序列。边界只有两次：读入字节时用 `decode(encoding)` 变为文本，写出文本时用 `encode(encoding)` 变为字节；不要在业务层把两者混为一谈。
+{% endnote %}
+
+```python
+text = "你好, Python"
+payload = text.encode("utf-8")
+print(payload)                 # b'...'
+print(payload.decode("utf-8"))  # 你好, Python
+
+path = r"C:\work\notes"
+print(path)
+```
+
+{% note warning flat %}
+原始字符串只减少反斜杠转义，不会跳过所有语法规则：它不能以单个反斜杠结束。遇到 `UnicodeDecodeError`，先确认真实编码和数据来源，再选择 `errors="strict"`、`"replace"` 或领域允许的恢复策略；不要默认悄悄丢失数据。
+{% endnote %}
+
+### 方法族
+
+| 任务 | 常用方法 | 边界 |
+| --- | --- | --- |
+| 清理和前后缀 | `strip`、`removeprefix`、`removesuffix` | `strip("ab")` 删除两端字符集合，不是删除子串 |
+| 搜索与判定 | `find`、`count`、`startswith`、`isidentifier` | 查找失败时 `find` 返回 `-1`，`index` 抛异常 |
+| 组合文本 | `split`、`partition`、`"-".join(...)` | 用 `join` 连接一组文本，不在循环中反复 `+` |
+| 替换与格式化 | `replace`、`translate`、f-string、`format` | f-string 适合本地格式化，不把不可信模板直接执行 |
+
+{% tabs python-string-forms, 1 %}
+<!-- tab Unicode 与归一化 -->
+
+```python
+import unicodedata
+
+left = "café"
+right = "cafe\u0301"
+print(left == right)  # False：码位序列可以不同
+print(unicodedata.normalize("NFC", left) == unicodedata.normalize("NFC", right))
+print("Straße".casefold() == "STRASSE".casefold())
+```
+
+<!-- endtab -->
+<!-- tab 格式化与版本边界 -->
+
+```python
+name, count = "Python", 3
+print(f"{name}: {count:04d}")
+
+# Python 3.14 新增 t-string（模板字符串）语法及 string.templatelib；
+# 课程项目仍以 f-string 作为普通格式化首选，运行前先核对解释器版本。
+```
+
+<!-- endtab -->
+{% endtabs %}
+
+{% note info flat %}
+字符串方法返回新字符串；`bytes` 也有许多平行方法，而 `bytearray` 是可变字节缓冲区。处理网络协议、压缩或二进制文件时再进入 `bytes`/`bytearray`；普通用户文本保持为 `str`，编码边界越少越可靠。
+{% endnote %}
+
+## 对象实验
+
+{% note info flat %}
+运行这个实验前先预测五行输出：哪些名称共享列表、哪些比较值、哪些比较身份，以及为什么浮点式没有精确相等。预测和实际不一致时，逐行标出“重新绑定”或“原地修改”。
+{% endnote %}
+
+```python
+from decimal import Decimal
+
+left = ["draft"]
+right = left
+copy = left[:]
+right.append("review")
+
+print(left is right, left == right)  # True True
+print(left is copy, left == copy)    # False False
+print(copy)                          # ['draft']
+print(0.1 + 0.2 == 0.3)              # False
+print(Decimal("0.1") + Decimal("0.2") == Decimal("0.3"))  # True
+```
+
+## 结果验证
+
+{% note success flat %}
+完成本篇后，应该能够以对象模型解释输出，而不是记忆零散结论。遇到共享状态时，先检查对象身份、可变性与是否发生了重新绑定，再决定是否需要复制。
+{% endnote %}
+
+- [ ] 能解释 `alias = items` 与 `items[:]` 的区别。
+- [ ] 只在比较 `None` 或明确哨兵时使用 `is`。
+- [ ] 能写出可变默认参数的安全替代写法。
+- [ ] 能说明金额为什么选 `Decimal("...")`，以及浮点近似比较为何选 `math.isclose()`。
+- [ ] 能指出一次文本—字节转换发生在哪个系统边界。
+
+## 常见问题
+
+{% flashcard basic id:python-object-is-eq deck:"Python 基础" priority:1 tags:"Python,对象模型,is,相等性" %}
+--- question
+`is` 与 `==` 的区别是什么？什么时候应该写 `is None`？
+--- answer
+`==` 比较值，`is` 比较是否为同一对象；缺失值判断应写 `value is None`。
+--- explanation
+列表、字符串和自定义对象可以值相等却不是同一对象。短字符串、小整数或常量复用属于实现优化，不能作为业务逻辑依据。`None` 是语言提供的单例，所以身份判断既清楚又可靠。
+{% endflashcard %}
+
+{% flashcard basic id:python-object-mutability deck:"Python 基础" priority:1 tags:"Python,可变性,别名,增量赋值" %}
+--- question
+为什么 `a = b = []` 容易出错？`+=` 为什么有时会影响别名？
+--- answer
+两个名称开始时指向同一列表；可变对象的 `+=` 往往原地修改，所以别名也能看到变化。
+--- explanation
+名称绑定不会默认复制对象。列表、字典、集合和 `bytearray` 可原地改；字符串、整数和元组不可变，相关运算通常创建新对象再重新绑定。遇到共享状态先检查身份和类型。
+{% endflashcard %}
+
+{% flashcard basic id:python-object-binding deck:"Python 基础" priority:1 tags:"Python,赋值,函数参数,名称绑定" %}
+--- question
+Python 函数参数是“传值”还是“传引用”？
+--- answer
+形参是局部名称，调用时绑定到传入对象；修改共享可变对象会被调用方看到，重新绑定形参不会。
+--- explanation
+这比二选一术语更准确。`items.append(x)` 改的是同一个列表；`items = []` 只让函数内部名称指向新列表。理解对象和名称能正确解释默认参数、闭包和容器副作用。
+{% endflashcard %}
+
+{% flashcard basic id:python-object-float deck:"Python 基础" priority:2 tags:"Python,float,Decimal,数值" %}
+--- question
+为什么 `0.1 + 0.2 == 0.3` 通常为假？
+--- answer
+这三个十进制小数多数不能被二进制浮点精确表示，运算结果是相近值而不是精确值。
+--- explanation
+近似值比较使用 `math.isclose()` 和领域容差；需要十进制精确规则时，从字符串构造 `Decimal`。不要依赖显示时的四舍五入来判断数值是否相等。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Python 3.14 数据模型, https://docs.python.org/3.14/reference/datamodel.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 表达式, https://docs.python.org/3.14/reference/expressions.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 标准类型, https://docs.python.org/3.14/library/stdtypes.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python decimal, https://docs.python.org/3.14/library/decimal.html, https://docs.python.org/3.14/_static/py.svg %}
+{% endlinkgroup %}

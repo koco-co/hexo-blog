@@ -56,6 +56,12 @@ const REFERENCE_OFFICIAL_CDN_ALIASES = [
   },
 ]
 const LEARN_TOPIC_NAVIGATION_CARD_PATTERN = /从哪一篇|从第[一二三四五六七八九十]+篇|课程.{0,12}(?:开始|顺序)|(?:是否|会不会).{0,8}阻塞.{0,8}(?:实战|主线|路线)|如何使用(?:这套)?课程|哪一篇.{0,8}(?:开始|选学)/
+const LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_PATTERNS = [
+  /(?<![A-Za-z0-9/:])\/(?:Users|home|Volumes|private|tmp|var|etc|usr|opt|Library|System|Applications|bin|sbin|dev|proc|sys|mnt|root|run|srv)(?:\/[^\s`"'<>),;|]+)*/gi,
+  /file:\/\/\/[^\s`"'<>),;|]+/gi,
+  /(?<![A-Za-z0-9])[A-Za-z]:[\/\\][^\s`"'<>),;|]+/g,
+  /(?<![A-Za-z0-9])\\\\[^\s`"'<>),;|]+/g,
+]
 const TAG_PLUGIN_EXPECTED_TAGS = [
   'audio', 'bdage', 'btns', 'bubble', 'carousel', 'cell', 'checkbox',
   'del', 'emp', 'folding', 'ghcard', 'ghcardgroup', 'icon', 'image',
@@ -1294,6 +1300,9 @@ function validateCourseContract(report, projectRoot, courseKey, articles, series
   if (course.public_article_contract !== undefined && course.public_article_contract !== 'v1') {
     fail('course.public_article_contract 只能使用当前公开正文合同版本 v1。')
   }
+  if (course.forbid_local_absolute_paths !== undefined && typeof course.forbid_local_absolute_paths !== 'boolean') {
+    fail('course.forbid_local_absolute_paths 必须是布尔值。')
+  }
   if (course.slug !== courseKey) fail('course.slug 必须与课程目录名一致。')
   if (!isNonEmptyString(course.series)) fail('course.series 必须是非空字符串。')
   if (seriesNames.size === 1 && !seriesNames.has(course.series)) fail('course.series 与文章 Front Matter 的 series 不一致。')
@@ -1446,12 +1455,25 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
       const pathParts = relativeFile.split('/')
       const courseKey = pathParts[3] ?? ''
       let enforcesPublishedArticleContract = false
+      let forbidsLocalAbsolutePaths = false
       const courseContractTarget = path.join(projectRoot, LEARN_TOPIC_CONTRACT_ROOT, `${courseKey}.json`)
       if (existsSync(courseContractTarget)) {
         try {
-          enforcesPublishedArticleContract = readJson(courseContractTarget)?.course?.public_article_contract === 'v1'
+          const courseContract = readJson(courseContractTarget)
+          enforcesPublishedArticleContract = courseContract?.course?.public_article_contract === 'v1'
+          forbidsLocalAbsolutePaths = courseContract?.course?.forbid_local_absolute_paths === true
         } catch {
           enforcesPublishedArticleContract = false
+          forbidsLocalAbsolutePaths = false
+        }
+      }
+      if (forbidsLocalAbsolutePaths) {
+        for (const issue of learnTopicLocalAbsolutePathIssues(text)) {
+          report.errors.push(finding(
+            'LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_FORBIDDEN',
+            relativeFile,
+            `第 ${issue.line} 行包含本机文件系统绝对路径 ${issue.text}；请改用 mktemp 变量、相对文件或标准输入输出。`,
+          ))
         }
       }
       if (pathParts.length !== 5 || !courseKey) {
@@ -2085,6 +2107,16 @@ function symlinkTarget(target) {
 
 function lineForOffset(text, offset) {
   return text.slice(0, Math.max(0, offset)).split(/\r?\n/).length
+}
+
+function learnTopicLocalAbsolutePathIssues(text) {
+  const issues = []
+  for (const pattern of LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_PATTERNS) {
+    for (const match of text.matchAll(pattern)) {
+      issues.push({ line: lineForOffset(text, match.index), text: match[0] })
+    }
+  }
+  return issues.sort((left, right) => left.line - right.line || left.text.localeCompare(right.text))
 }
 
 function cssSyntaxError(text) {

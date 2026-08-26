@@ -19,7 +19,7 @@ date: 2026-08-24 12:06:00
 
 {% course_series %}
 
-{% note warning no-icon modern %}
+{% note warning flat %}
 BrowserContext 隔离 Cookie、localStorage、权限和页面，却不会复制后端数据库。本文把 ShopLab 定义为文章代码块中的本地训练服务；代码只使用环回地址与虚构账号，不包含真实 OAuth、2FA 或凭据。
 {% endnote %}
 
@@ -110,7 +110,7 @@ def test_two_regions(new_context: CreateContextCallback, shoplab_url: str) -> No
 ## 状态隔离
 
 {% note info flat %}
-ShopLab 在第七、九、十二篇中使用同一份合同。读者可把下面代码块保存为 `shoplab_server.py`；它使用随机环回端口、内存数据和虚构会话，进程结束后全部状态消失。
+ShopLab 的不同测试场景共用同一份合同。读者可把下面代码块保存为 `shoplab_server.py`；它使用随机环回端口、内存数据和虚构会话，进程结束后全部状态消失。
 {% endnote %}
 
 ```python
@@ -513,7 +513,9 @@ if __name__ == "__main__":
         Event().wait()
 ```
 
-pytest fixture 只负责把服务生命周期接入套件：
+{% note info flat %}
+pytest Fixture 只负责把服务生命周期接入套件：
+{% endnote %}
 
 ```python
 # conftest.py
@@ -530,7 +532,9 @@ def shoplab_url() -> Iterator[str]:
         yield url
 ```
 
+{% note info flat %}
 两个 Context 可以有不同 Cookie 和 localStorage，但如果登录为同一个后端主体，它们仍共享购物车：
+{% endnote %}
 
 ```python
 from uuid import uuid4
@@ -656,13 +660,13 @@ def test_buyer_and_admin(
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `Browser` | `new_context()` | `browser_type`、`close()`、`contexts`、`is_connected()`、`version` | `bind()`、`unbind()` | `new_page()` |
 | `BrowserContext` | `new_page()`、`storage_state()` | — | `add_cookies()`、`add_init_script()`、`background_pages`、`browser`、`clear_cookies()`、`clear_permissions()`、`close()`、`cookies()`、`credentials`、`expect_page()`、`expose_binding()`、`expose_function()`、`grant_permissions()`、`is_closed()`、`pages`、`set_default_navigation_timeout()`、`set_default_timeout()`、`set_extra_http_headers()`、`set_geolocation()`、`set_offline()`、`set_storage_state()` | — |
@@ -699,7 +703,7 @@ def test_buyer_and_admin(
 
 ## 常见问题
 
-{% flashcard basic id:playwright-context-isolation deck:"Playwright" priority:2 tags:"BrowserContext,测试隔离" %}
+{% flashcard basic id:playwright-context-isolation deck:"Playwright" priority:1 tags:"BrowserContext,测试隔离" %}
 --- question
 BrowserContext 隔离是否等于测试数据隔离？
 --- answer
@@ -708,7 +712,7 @@ BrowserContext 隔离是否等于测试数据隔离？
 数据库记录、缓存、消息队列和第三方沙箱仍可能共享。测试必须使用唯一数据标识，并由创建数据的 Fixture 负责清理。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-storage-state deck:"Playwright" priority:2 tags:"BrowserContext,登录状态" answer:B %}
+{% flashcard choice id:playwright-storage-state deck:"Playwright" priority:1 tags:"BrowserContext,登录状态" answer:B %}
 --- question
 业务回归套件需要复用登录时，哪种方式更合适？
 - [A] 所有测试共享同一个 Page

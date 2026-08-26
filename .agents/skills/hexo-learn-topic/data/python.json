@@ -92,7 +92,224 @@
         "kind": "final"
       }
     ],
-    "public_article_contract": "v1"
+    "public_article_contract": "v1",
+    "article_load_plan": {
+      "schema_version": 1,
+      "rule_order": "first_match_wins; rules only refine entries already assigned to the named article and never change its disposition or mainArticle",
+      "Python(八)异常、上下文与文件": {
+        "reader_thread": "从识别失败类型，到控制传播，再到确定性释放日志读取资源。",
+        "target_subsection_rules": [
+          {
+            "targetSubsection": "异常链与诊断信息",
+            "stableIds": [
+              "langref:simple_stmts#the-raise-statement",
+              "exception:BaseException.__context__",
+              "exception:BaseException.__cause__",
+              "exception:BaseException.__suppress_context__",
+              "exception:BaseException.with_traceback",
+              "exception:BaseException.__traceback__",
+              "exception:BaseException.add_note",
+              "exception:BaseException.__notes__"
+            ]
+          },
+          {
+            "targetSubsection": "try、except、else 与 finally",
+            "stableIds": [
+              "langref:executionmodel#exceptions",
+              "langref:compound_stmts#the-try-statement",
+              "langref:compound_stmts#except-clause",
+              "langref:compound_stmts#else-clause",
+              "langref:compound_stmts#finally-clause"
+            ]
+          },
+          {
+            "targetSubsection": "ExceptionGroup 与 except*",
+            "stableIdPrefixes": [
+              "exception:ExceptionGroup",
+              "exception:BaseExceptionGroup"
+            ],
+            "stableIds": [
+              "langref:compound_stmts#except-star"
+            ]
+          },
+          {
+            "targetSubsection": "上下文协议与 contextlib",
+            "stableIds": [
+              "langref:datamodel#with-statement-context-managers",
+              "langref:compound_stmts#the-with-statement",
+              "stdtype:contextmanager.__enter__",
+              "stdtype:contextmanager.__exit__",
+              "stdlib:contextlib"
+            ]
+          },
+          {
+            "targetSubsection": "文本、二进制与编码错误",
+            "stableIds": [
+              "builtin:open",
+              "exception:ImportError.path",
+              "exception:OSError.filename",
+              "exception:OSError.filename2",
+              "exception:SyntaxError.filename",
+              "exception:UnicodeError.encoding",
+              "exception:EncodingWarning",
+              "stdlib:io",
+              "stdlib:csv",
+              "stdlib:fileinput",
+              "stdlib:json",
+              "stdlib:pickle"
+            ]
+          },
+          {
+            "targetSubsection": "路径、目录与临时资源",
+            "stableIds": [
+              "langref:datamodel#i-o-objects-also-known-as-file-objects",
+              "exception:FileExistsError",
+              "exception:FileNotFoundError",
+              "stdlib:os",
+              "stdlib:os.path",
+              "stdlib:pathlib",
+              "stdlib:pathlib.types",
+              "stdlib:fnmatch",
+              "stdlib:glob",
+              "stdlib:shutil",
+              "stdlib:stat",
+              "stdlib:tempfile"
+            ]
+          },
+          {
+            "targetSubsection": "正则验证边界",
+            "stableIds": [
+              "stdlib:re"
+            ]
+          },
+          {
+            "targetSubsection": "异常分类与层级",
+            "stableIdPrefixes": [
+              "exception:"
+            ]
+          },
+          {
+            "targetSubsection": "退出与资源边界",
+            "stableIds": [
+              "stdlib:atexit"
+            ]
+          }
+        ],
+        "completion_check": "异常名称只在按层级分组的表中索引；每个核心机制在异常链、try 流程、with、文本路径或正则小节中有可运行证据。"
+      },
+      "Python(十一)进阶路线": {
+        "reader_thread": "先根据问题选择进阶分支；随后只深入一个机制，并把低频条目保留为可检索索引。",
+        "target_subsection_rules": [
+          {
+            "targetSubsection": "描述符、slots 与动态属性",
+            "stableIds": [
+              "langref:datamodel#customizing-module-attribute-access",
+              "langref:datamodel#implementing-descriptors",
+              "langref:datamodel#invoking-descriptors",
+              "langref:datamodel#slots"
+            ]
+          },
+          {
+            "targetSubsection": "类创建与泛型钩子",
+            "stableIds": [
+              "langref:datamodel#customizing-class-creation",
+              "langref:datamodel#metaclasses",
+              "langref:datamodel#determining-the-appropriate-metaclass",
+              "langref:datamodel#executing-the-class-body",
+              "langref:datamodel#creating-the-class-object",
+              "langref:datamodel#uses-for-metaclasses",
+              "langref:datamodel#emulating-generic-types",
+              "langref:datamodel#the-purpose-of-class-getitem",
+              "langref:datamodel#class-getitem-versus-getitem"
+            ]
+          },
+          {
+            "targetSubsection": "bytes、bytearray 方法族",
+            "stableIdPrefixes": [
+              "stdtype:bytes.",
+              "stdtype:bytearray."
+            ]
+          },
+          {
+            "targetSubsection": "buffer 协议与 memoryview",
+            "stableIdPrefixes": [
+              "stdtype:memoryview"
+            ],
+            "stableIds": [
+              "langref:datamodel#emulating-buffer-types"
+            ]
+          },
+          {
+            "targetSubsection": "编译、字节码与反射边界",
+            "stableIds": [
+              "langref:datamodel#internal-types",
+              "langref:datamodel#code-objects",
+              "langref:datamodel#index-64",
+              "langref:datamodel#methods-on-code-objects",
+              "langref:datamodel#frame-objects",
+              "langref:datamodel#index-70",
+              "langref:datamodel#index-71",
+              "langref:datamodel#frame-object-methods",
+              "langref:datamodel#traceback-objects",
+              "builtin:compile",
+              "builtin:eval",
+              "builtin:exec",
+              "builtin:globals",
+              "builtin:locals",
+              "stdlib:ast",
+              "stdlib:compileall",
+              "stdlib:dis",
+              "stdlib:marshal",
+              "stdlib:py_compile",
+              "stdlib:symtable",
+              "stdlib:sys.monitoring",
+              "stdlib:token",
+              "stdlib:tokenize"
+            ]
+          },
+          {
+            "targetSubsection": "导入扩展与资源加载",
+            "stableIdPrefixes": [
+              "langref:import#",
+              "stdlib:importlib"
+            ],
+            "stableIds": [
+              "builtin:import__",
+              "stdlib:modulefinder",
+              "stdlib:zipimport"
+            ]
+          },
+          {
+            "targetSubsection": "多解释器与自由线程",
+            "stableIds": [
+              "stdlib:concurrent.interpreters"
+            ]
+          },
+          {
+            "targetSubsection": "打包、分发与元数据",
+            "stableIds": [
+              "stdlib:importlib.metadata",
+              "stdlib:tomllib",
+              "stdlib:zipapp"
+            ]
+          },
+          {
+            "targetSubsection": "旧接口迁移",
+            "stableIdPrefixes": [
+              "legacy-stdlib:"
+            ],
+            "stableIds": [
+              "stdlib:optparse"
+            ]
+          },
+          {
+            "targetSubsection": "低频标准库索引",
+            "fallback": true
+          }
+        ],
+        "completion_check": "正文以选择分支的决策图开场；bytes/bytearray、memoryview 与迁移条目只给方法族或用途地图，低频标准库放在折叠索引且摘要保持可见。"
+      }
+    }
   },
   "capability_ledger": {
     "schema_version": 1,

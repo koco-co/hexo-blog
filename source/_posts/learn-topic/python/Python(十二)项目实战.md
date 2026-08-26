@@ -6,69 +6,238 @@ tags:
 categories:
   - Learn Topic
   - Python
-description: 综合课程主线完成带类型、测试、资源安全和性能验证的命令行日志分析器，并能够解释关键设计取舍。
+description: 用一个可安装、可测试的命令行日志分析器串联模块、类型、文件、异常、并发与性能测量，并形成可解释的交付证据。
 cover: /img/picgo-images/python-course-cover.png
 series: Python
 series_order: 12
-published: false
+published: true
 abbrlink: c55cda53
 date: 2026-08-25 13:13:45
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+项目的目标不是写一个“大而全”的脚本，而是完成一条可验证的交付链：可安装的包、明确的输入格式、可恢复的错误、可测试的核心逻辑，以及对性能和并发是否必要的证据。
+{% endnote %}
 
-## 文章职责
+## 项目目标
 
-- 唯一要解决的问题：integrate the core course into a typed, tested command-line log analyzer with streaming, resource safety, and measured concurrency.
-- 可观察成果：reader can build and verify the project from an empty directory and defend design choices in interview follow-ups.
-- 进入条件：Python(十)内存、并发与性能. Python(十一)进阶路线 is optional and not required.
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note primary flat %}
+实现 `logscan`：读取 UTF-8 文本日志，解析 `LEVEL message` 行，输出各级别计数和匹配关键字的条目数。项目只处理定义明确的文本格式；损坏行要报告行号，不把猜测的解析结果写进统计。
+{% endnote %}
 
-## 内容边界
-
-- 复用或新建依据：new article; evolves the old login-log and regex exercises into a coherent project.
-
-| 稳定标识 | 处置 | 目标章节 |
+| 输入 | 规则 | 输出 |
 | --- | --- | --- |
-| `stdlib:argparse` | 核心详解 | 项目结构 |
-| `stdlib:datetime` | 正文简述 | 解析管道 |
-| `stdlib:getopt` | 正文简述 | 项目结构 |
-| `stdlib:statistics` | 正文简述 | 解析管道 |
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+| `INFO service started` | 级别为大写单词，后面是消息 | `INFO: 1` |
+| `ERROR disk full` | 同上 | `ERROR: 1` |
+| 空行 | 跳过 | 不计数 |
+| `broken` | 不符合格式 | 明确的行号错误 |
 
-## 正文编排
+## 目录结构
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 项目需求 | 建立项目需求的心智模型 | 输入与输出；错误与性能边界；验收标准 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 项目结构 | 建立项目结构的心智模型 | 包布局；领域模型；命令行入口；argparse 与 getopt/optparse 边界 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 解析管道 | 建立解析管道的心智模型 | 逐行生成器；正则校验；聚合与排序 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 资源与错误 | 建立资源与错误的心智模型 | 上下文管理；异常链；临时输出 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 类型与测试 | 比较类型与测试 | 类型合同；单元测试；失败用例 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 并发与测量 | 建立并发与测量的心智模型 | 基线实现；线程或进程实验；结果解释 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 面试复盘 | 建立面试复盘的心智模型 | 设计选择；追问路径；继续演进 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 结果验证的输入、关键步骤、结果与边界 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 常见问题 | 建立常见问题的心智模型 | 常见问题的输入、关键步骤、结果与边界 | `flashcard` | 真实高价值问题需要进入长期复习队列 | 题面、精简答案和详细解析 | 闪卡脚本失效时题面与答案正文仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 参考资料 | 建立参考资料的心智模型 | 参考资料的输入、关键步骤、结果与边界 | `linkgroup/link` | 官方扩展阅读使用统一资料卡片 | 资料名称、用途和完整 URL | 图片或网络失败时名称与 URL 仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note primary flat %}
+把可导入代码放入 `src/`，入口、解析、汇总和测试分开。这样命令行只是薄壳，核心函数可以不启动进程就被测试；虚拟环境和安装流程也能暴露导入路径错误。
+{% endnote %}
 
-## 视觉与复习
+```text
+logscan/
+├── pyproject.toml
+├── src/
+│   └── logscan/
+│       ├── __init__.py
+│       ├── __main__.py
+│       ├── parser.py
+│       └── service.py
+└── tests/
+    └── test_service.py
+```
 
-- 贯穿案例与完整示例：complete local project with sample logs, expected JSON summary, invalid records, deterministic tests, and benchmark script. No external upload or service.
-- 失败边界与踩坑：do not claim concurrency speedup without measurement; malformed input must remain diagnosable; project does not become a production observability platform.
-- FAQ 候选与来源：cross-article official FAQs, linked by `flashcard_ref` rather than duplicating card definitions.
-- 复习卡片：
-  only `flashcard_ref` to `python-env-import`, `python-object-is-eq`, `python-container-copy`, `python-function-default-mutable`, `python-iteration-yield-return`, `python-oop-mro-super`, `python-error-context`, `python-quality-typing-runtime`, `python-runtime-gil`, and `python-runtime-thread-process-async`.
-- 图表或实验：TD architecture/data-flow diagram and exact acceptance table.
-- 主要参考资料：`argparse`, `pathlib`, `re`, `json`, `dataclasses`, `typing`, `unittest`, `concurrent.futures`, plus referenced article sources.
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+```toml
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
 
-## 验收证据
+[project]
+name = "logscan"
+version = "0.1.0"
+requires-python = ">=3.13"
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+[project.scripts]
+logscan = "logscan.__main__:main"
+```
+
+## 解析管道
+
+{% note primary flat %}
+解析函数接受文本行并返回一个不可变事件；读取器只负责逐行和编码，汇总器只负责计数。职责分开后，格式错误可以被定位，统计函数也可直接用内存中的事件测试。
+{% endnote %}
+
+```python
+# src/logscan/parser.py
+from dataclasses import dataclass
+import re
+
+LINE = re.compile(r"(?P<level>[A-Z]+)\s+(?P<message>.+)")
+
+@dataclass(frozen=True)
+class Event:
+    level: str
+    message: str
+
+def parse_line(line: str, line_number: int) -> Event | None:
+    stripped = line.strip()
+    if not stripped:
+        return None
+    match = LINE.fullmatch(stripped)
+    if match is None:
+        raise ValueError(f"第 {line_number} 行格式无效")
+    return Event(**match.groupdict())
+```
+
+{% note warning flat %}
+这里使用 `fullmatch` 是因为日志格式需要整行符合规则；若把 `search` 换进来，`noise ERROR disk full` 会被悄悄当成合法事件。解析器的严格性应由产品格式决定，而不是由正则写起来是否省事决定。
+{% endnote %}
+
+## 资源与错误
+
+{% note primary flat %}
+文件读取用 `Path`、明确编码和 `with`。最靠近文件的层保留 `OSError` 原因，命令行边界再把它转换为可读的失败信息和非零退出码；不要在底层 `print` 后继续返回伪成功统计。
+{% endnote %}
+
+```python
+# src/logscan/service.py
+from collections import Counter
+from pathlib import Path
+from .parser import Event, parse_line
+
+def read_events(path: Path) -> list[Event]:
+    events: list[Event] = []
+    with path.open(encoding="utf-8") as file:
+        for line_number, line in enumerate(file, start=1):
+            event = parse_line(line, line_number)
+            if event is not None:
+                events.append(event)
+    return events
+
+def summarize(events: list[Event]) -> Counter[str]:
+    return Counter(event.level for event in events)
+```
+
+{% folding 大文件的替代方案, open %}
+若日志很大，`read_events()` 不应先积累列表：把返回类型改为 `Iterator[Event]`，让 `summarize()` 消费生成器。代价是输入只能消费一次，错误可能在消费时才出现；是否切换必须由输入规模和内存测量决定，而不是预先“优化”。
+{% endfolding %}
+
+## 类型与测试
+
+{% note primary flat %}
+类型注解记录 `Event`、路径和聚合器的接口；测试验证输入输出。测试在临时目录创建文件，避免依赖开发机的真实日志或当前工作目录；每个失败用例都应检查异常类型和可诊断消息。
+{% endnote %}
+
+```python
+# tests/test_service.py
+import tempfile
+import unittest
+from pathlib import Path
+
+from logscan.service import read_events, summarize
+
+class ServiceTests(unittest.TestCase):
+    def test_summarizes_levels(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "app.log"
+            path.write_text("INFO started\nERROR disk full\nINFO ready\n", encoding="utf-8")
+            self.assertEqual(summarize(read_events(path)), {"INFO": 2, "ERROR": 1})
+
+    def test_reports_bad_line(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "app.log"
+            path.write_text("broken\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "第 1 行"):
+                read_events(path)
+```
+
+## 命令行入口
+
+{% note primary flat %}
+入口层只负责参数、返回码和呈现。核心函数不读 `sys.argv`、不直接退出，因此可以在测试、批任务或其他程序中复用；`argparse` 为缺少参数和 `--help` 提供标准行为。
+{% endnote %}
+
+```python
+# src/logscan/__main__.py
+import argparse
+from pathlib import Path
+from .service import read_events, summarize
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", type=Path)
+    args = parser.parse_args()
+    try:
+        for level, count in sorted(summarize(read_events(args.path)).items()):
+            print(f"{level}: {count}")
+    except (OSError, ValueError) as error:
+        parser.error(str(error))
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+```
+
+{% note warning flat %}
+`parser.error()` 会以非零状态退出，这适合无效命令行输入；库函数不应调用它或 `sys.exit()`。错误边界要和所有权一致：谁拥有进程界面，谁决定退出码；谁提供可复用逻辑，谁返回值或抛领域异常。
+{% endnote %}
+
+## 并发与测量
+
+{% note primary flat %}
+单个本地文本文件通常不需要并发。只有需要扫描大量相互独立的文件，且测量显示读取或解析是瓶颈时，才将“每个文件的独立统计”提交给线程池或进程池；聚合时仍让单一所有者合并 Counter，避免共享可变状态。
+{% endnote %}
+
+```python
+import timeit
+
+seconds = timeit.timeit(
+    "sum(1 for _ in range(100_000))",
+    number=100,
+)
+print(seconds)
+```
+
+{% note warning flat %}
+不要根据微基准就把项目改成并发。必须记录文件数量、大小、存储介质、CPU、解释器版本和错误策略；并发读写可能更慢，还会让错误排序、日志和取消语义复杂化。
+{% endnote %}
+
+## 复盘清单
+
+{% note success flat %}
+提交前逐项检查：包能否在干净虚拟环境安装、入口能否显示帮助、正常/错误日志能否得到预期结果、测试是否隔离、错误是否保留原因、性能结论是否有测量。缺少任何一项时，先补证据，不把“本地跑过一次”当成交付。
+{% endnote %}
+
+- [ ] `python -m pip install -e .` 后 `python -m logscan --help` 可用。
+- [ ] UTF-8 正常日志输出稳定、排序明确的统计结果。
+- [ ] 缺失文件、错误编码和坏行都有可诊断失败。
+- [ ] `python -m unittest` 在空白临时目录也能通过。
+- [ ] 大文件策略在真实输入规模下有内存/耗时证据。
+
+## 常见问题
+
+{% flashcard_ref id="python-env-import" %}
+{% flashcard_ref id="python-object-is-eq" %}
+{% flashcard_ref id="python-container-copy" %}
+{% flashcard_ref id="python-function-default-mutable" %}
+{% flashcard_ref id="python-iteration-yield-return" %}
+{% flashcard_ref id="python-oop-mro-super" %}
+{% flashcard_ref id="python-error-context" %}
+{% flashcard_ref id="python-quality-typing-runtime" %}
+{% flashcard_ref id="python-runtime-gil" %}
+{% flashcard_ref id="python-runtime-thread-process-async" %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Python argparse, https://docs.python.org/3.14/library/argparse.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python pathlib, https://docs.python.org/3.14/library/pathlib.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python unittest, https://docs.python.org/3.14/library/unittest.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link PyPA 打包项目, https://packaging.python.org/en/latest/tutorials/packaging-projects/, https://packaging.python.org/favicon.ico %}
+{% endlinkgroup %}

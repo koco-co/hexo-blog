@@ -7,67 +7,172 @@ tags:
 categories:
   - Learn Topic
   - MySQL
-description: 从事务边界、隔离异常、版本链和 Read View 理解一致性读，并用失败回滚验证业务原子性。
+description: 从事务边界、隔离级别和一致性读理解 InnoDB 的版本链与 Read View，并用回滚场景验证原子性。
 cover: /img/picgo-images/mysql-course-cover.png
 series: MySQL
 series_order: 10
-published: false
-abbrlink: 1c1b06f2
+published: true
+abbrlink: 7cc76b1d
 date: 2026-08-25 13:18:42
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note primary flat %}
+事务把多条语句变成一个原子业务动作；MVCC 让普通一致性读看到符合快照规则的版本。先划清事务边界，再谈隔离级别，最后用两个会话观察提交、回滚和快照差异。
+{% endnote %}
 
-## 文章职责
+## 事务边界
 
-- 唯一要解决的问题：并发事务为什么会看到不同数据，以及怎样选择正确事务边界和隔离级别。
-- 可观察成果：能够解释 ACID、隔离异常、Read View、版本可见性和一致性读，并设计可回滚业务。
-- 进入条件：MySQL(九)InnoDB与日志
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note info flat %}
+InnoDB 事务至少要回答：何时开始、哪些语句属于同一业务动作、何时提交、失败如何回滚。自动提交开启时，每条 DML 可能就是一个独立事务；显式 `START TRANSACTION` 才能把订单头、明细和库存操作绑在一起。
+{% endnote %}
 
-## 内容边界
+```sql
+SET autocommit = 0;
+START TRANSACTION;
 
-- 能力分配：
+INSERT INTO orders (user_id, status, total_amount)
+VALUES (1, 'pending', 288.00);
+SET @order_id = LAST_INSERT_ID();
 
-- 事务与MVCC：`refman8.4:sql-transactional-statements`、`refman8.4:commit`、`refman8.4:cannot-roll-back`、`refman8.4:savepoint`、`refman8.4:set-transaction`、`refman8.4:innodb-transaction-model`、`refman8.4:innodb-transaction-isolation-levels`、`refman8.4:innodb-consistent-read`、`refman8.4:innodb-multi-versioning`、`refman8.4:mysql-acid`
-- 事务扩展：`refman8.4:xa`、`refman8.4:xa-states`、`refman8.4:xa-restrictions`
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+VALUES (@order_id, 101, 1, 199.00),
+       (@order_id, 102, 1, 89.00);
 
-## 正文编排
+SELECT @order_id AS order_id;
+COMMIT;
+SET autocommit = 1;
+```
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 事务边界与 ACID | 判断事务边界与 ACID | 识别开始、提交、回滚和不可回滚操作 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 并发异常 | 判断并发异常 | 区分脏读、不可重复读和幻读现象 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 隔离级别 | 建立隔离级别的心智模型 | 比较 READ COMMITTED 与 REPEATABLE READ | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| undo 版本链 | 建立undo 版本链的心智模型 | 追踪记录历史版本 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| Read View 与可见性 | 建立Read View 与可见性的心智模型 | 判断事务能看到哪个版本 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 一致性读与当前读概念 | 建立一致性读与当前读概念的心智模型 | 把读取现象与后续锁篇衔接 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 失败回滚实验 | 完成并验证失败回滚实验 | 验证订单与明细的业务原子性 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note danger flat %}
+不要在没有确认提交的情况下把事务连接交还连接池；也不要把用户输入、远程调用和长时间等待放在持锁事务中。异常路径必须显式 ROLLBACK，并确认连接状态已经复位。
+{% endnote %}
 
-## 视觉与复习
+## ACID 模型
 
-- 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
-- 完整示例：单会话创建订单与明细，故意触发 CHECK 失败后回滚并核对两张表均未留下半成品。
-- 失败边界与踩坑：本文不使用显式锁；幻读只讲现象和 MVCC 可见性，Next-Key Lock 归入下一篇。
-- FAQ 候选与来源：自动提交是否等于没有事务；一致性读为什么可能看不到刚由别的事务提交的数据。
-- 非复习自测：SQL 卡 mysql84-10-order-rollback-p1；机制卡覆盖隔离级别与 Read View。
-- 图表或实验：undo 版本链、Read View 可见性表和双会话时间线。
-- 参考资料：
+| 属性 | 在 ShopLab 中的观察 |
+| --- | --- |
+| Atomicity | 订单头成功但明细失败时整体回滚 |
+| Consistency | 外键、CHECK 和业务约束在提交前后成立 |
+| Isolation | 并发事务按隔离级别看到彼此的版本 |
+| Durability | 提交后的修改由日志保证崩溃后可恢复 |
 
-- https://dev.mysql.com/doc/refman/8.4/en/commit.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+{% note primary flat %}
+ACID 不是四个互相独立的开关：约束提供一致性，redo 提供持久化，锁与 MVCC 共同实现隔离，事务边界把它们组合成业务结果。解释面试题时要给出具体语句和可观察证据。
+{% endnote %}
 
-## 验收证据
+## MVCC 版本链
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+{% mermaid %}
+flowchart LR
+  N[当前记录 value=30\nDB_TRX_ID=T3] --> U[undo 旧版本 value=20\nT2]
+  U --> V[undo 更旧版本 value=10\nT1]
+  R[Read View] -.可见性判断.- N
+  R -.不可见则沿 undo 回溯.- U
+{% endmermaid %}
+
+{% note info flat %}
+InnoDB 在行记录中维护事务标记和 undo 链。普通一致性读根据 Read View 判断当前版本是否可见，不可见就沿 undo 找到满足快照的旧版本；这不等同于复制整张表。
+{% endnote %}
+
+## 隔离级别
+
+| 级别 | 典型现象 | InnoDB 说明 |
+| --- | --- | --- |
+| READ UNCOMMITTED | 可能读到未提交值 | 很少用于业务一致性查询 |
+| READ COMMITTED | 每次语句建立新的快照 | 减少脏读，但同一事务两次查询可能不同 |
+| REPEATABLE READ | 同一事务的一致性读通常复用快照 | InnoDB 默认级别；锁定读另有语义 |
+| SERIALIZABLE | 普通读也更强地参与锁定 | 并发度低，需明确业务收益 |
+
+```sql
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION WITH CONSISTENT SNAPSHOT;
+SELECT @@transaction_isolation;
+SELECT id, quantity FROM inventory WHERE product_id = 101;
+-- 其他会话提交库存修改后，本会话再次普通 SELECT 仍按快照规则读取。
+COMMIT;
+```
+
+{% note warning flat %}
+“可重复读”只描述一致性读的快照，不意味着所有读都不等待。`SELECT ... FOR UPDATE` 是锁定读，读取当前最新版本并加锁；隔离级别、读类型和锁必须同时说明。
+{% endnote %}
+
+## 保存点回滚
+
+{% note primary flat %}
+Savepoint 允许回滚事务的一段工作而不放弃前面的修改。它适合批量导入中逐批处理，但不能跨事务存在，也不能把已经提交的 DDL 或外部副作用变回来。
+{% endnote %}
+
+```sql
+START TRANSACTION;
+INSERT INTO user_imports (source_name, external_id, email, raw_payload)
+VALUES ('crm', 'u-100', 'a@example.com', JSON_OBJECT('name', 'A'));
+
+SAVEPOINT before_second_row;
+INSERT INTO user_imports (source_name, external_id, email, raw_payload)
+VALUES ('crm', 'u-101', 'b@example.com', JSON_OBJECT('name', 'B'));
+
+-- 第二批校验失败时只撤销它
+ROLLBACK TO SAVEPOINT before_second_row;
+RELEASE SAVEPOINT before_second_row;
+COMMIT;
+```
+
+{% note danger flat %}
+普通事务回滚不等于“所有动作都消失”。隐式提交的语句、已发送的邮件、外部 HTTP 调用和已写出的日志不会被数据库 ROLLBACK 撤销；设计时把外部副作用放在提交后事件或可重试 outbox 中。
+{% endnote %}
+
+## 回滚实验
+
+{% timeline 订单失败回滚, blue %}
+<!-- timeline 开始 -->
+START TRANSACTION，记录当前库存和订单数量。
+<!-- endtimeline -->
+<!-- timeline 写入 -->
+插入订单头，故意让第二条明细引用不存在的商品，观察外键错误。
+<!-- endtimeline -->
+<!-- timeline 回滚 -->
+执行 ROLLBACK，再查询订单、明细和库存，三者都应回到开始值。
+<!-- endtimeline -->
+<!-- timeline 解释 -->
+说明原子性来自事务边界，约束失败阻止非法行，redo/undo 则分别支持持久化和回退。
+<!-- endtimeline -->
+{% endtimeline %}
+
+{% note success flat %}
+实验的证据是失败码、回滚后每张表的行数/值，以及同一连接的事务状态。只看到“客户端报错”而没有回读数据，不能证明回滚真的发生。
+{% endnote %}
+
+## XA 边界
+
+{% folding yellow, XA 只作扩展认识 %}
+XA 把事务拆成 prepare、commit/rollback 等状态，适合需要两阶段提交的外部资源协调，但会引入悬挂事务、恢复和超时管理。它不是普通单库订单事务的默认升级路径，使用前必须验证驱动、资源管理器和故障恢复流程。
+{% endfolding %}
+
+## 常见问题
+
+{% flashcard basic id:mysql84-10-order-rollback-p1 deck:"mysql-8.4-interview" priority:1 tags:"事务,回滚,外键" %}
+--- question
+订单头插入成功、第二条明细因外键失败；如何保证订单头不会孤零零地留下？
+--- answer
+```sql
+START TRANSACTION;
+INSERT INTO orders (user_id, status, total_amount) VALUES (1, 'pending', 288.00);
+INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (LAST_INSERT_ID(), 999, 1, 1.00);
+-- 任一语句失败：ROLLBACK；全部成功：COMMIT
+```
+--- explanation
+外键只能阻止错误明细，不能自动删除已经提交的订单头；事务边界才提供原子性。实验时同时回读 orders、order_items、inventory 的行数和值，并注意 DDL 或外部副作用不属于可回滚范围。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link MySQL 8.4 Transaction Statements, https://dev.mysql.com/doc/refman/8.4/en/sql-transactional-statements.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 COMMIT, https://dev.mysql.com/doc/refman/8.4/en/commit.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 SAVEPOINT, https://dev.mysql.com/doc/refman/8.4/en/savepoint.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Transaction Isolation Levels, https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Consistent Nonlocking Reads, https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 InnoDB Multi-Versioning, https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html, https://www.mysql.com/favicon.ico %}
+{% endlinkgroup %}

@@ -25,7 +25,9 @@ date: 2026-08-24 12:08:00
 
 ## 操作原则
 
+{% note info flat %}
 每个交互场景都遵循四步：
+{% endnote %}
 
 1. 用业务语义定位控件；
 2. 使用最接近用户行为的高层操作；
@@ -45,7 +47,9 @@ expect(page.get_by_role("status")).to_have_text("保存成功")
 
 ## 表单交互
 
+{% note info flat %}
 输入 API 不是同义词，先按产品实际监听的事件选择：
+{% endnote %}
 
 | API | 事件特点 | 适用场景 |
 | --- | --- | --- |
@@ -56,7 +60,9 @@ expect(page.get_by_role("status")).to_have_text("保存成功")
 | `page.keyboard.insert_text()` | 只触发文本输入，不发送 `keydown`/`keyup` | 输入法文本或只关心 `input` 的组件 |
 | `locator.type()`、`page.type()`、`frame.type()` | 旧式逐键输入 | 已弃用或不推荐；迁移到 `fill()`、`press_sequentially()` 或 `press()` |
 
+{% note info flat %}
 `fill()` 会先清空再填入完整文本，适合普通输入框：
+{% endnote %}
 
 ```python
 page.get_by_label("客户名称").fill("Alice")
@@ -76,7 +82,9 @@ page.get_by_role("button", name="保存").click()
 expect(page.get_by_role("status")).to_have_text("保存成功")
 ```
 
+{% note info flat %}
 需要逐键触发搜索建议、掩码或快捷键逻辑时使用 `press_sequentially()`：
+{% endnote %}
 
 ```python
 search = page.get_by_role("searchbox", name="搜索商品")
@@ -84,11 +92,13 @@ search.press_sequentially("keyboard", delay=80)
 expect(page.get_by_role("option", name="机械键盘")).to_be_visible()
 ```
 
-{% tip ban %}
+{% note danger flat %}
 不要通过逐键输入模拟“真人”来规避反自动化机制。受验证码或风控保护的第三方系统不应成为普通自动化练习目标。
-{% endtip %}
+{% endnote %}
 
+{% note info flat %}
 清空与追加：
+{% endnote %}
 
 ```python
 coupon = page.get_by_label("优惠码")
@@ -102,7 +112,9 @@ coupon.fill("WELCOME20")
 
 ### 选择控件
 
+{% note info flat %}
 原生 `<select>` 使用 `select_option()`：
+{% endnote %}
 
 ```python
 country = page.get_by_label("国家或地区")
@@ -117,13 +129,17 @@ expect(country).to_have_value("CN")
 `select_option()` 会等待目标 `<option>` 出现，完成选择后触发 `input` 与 `change` 事件，并返回已选 value 列表。传入不存在的 value 会等待到超时；对自定义下拉框或其他非 `<select>` 元素调用则会报错，此时应改用下方的真实点击路径。
 {% endnote %}
 
+{% note info flat %}
 多选控件传入列表：
+{% endnote %}
 
 ```python
 page.get_by_label("配送方式").select_option(["standard", "pickup"])
 ```
 
+{% note info flat %}
 自定义下拉框通常不是 `<select>`，应按真实交互操作：
+{% endnote %}
 
 ```python
 page.get_by_role("combobox", name="城市").click()
@@ -131,13 +147,15 @@ page.get_by_role("option", name="上海").click()
 expect(page.get_by_role("combobox", name="城市")).to_have_value("上海")
 ```
 
-{% tip ban %}
+{% note warning flat %}
 不要对自定义组件直接修改 DOM value，这会跳过产品自身的事件和校验逻辑。
-{% endtip %}
+{% endnote %}
 
 ### 复选与单选
 
+{% note info flat %}
 布尔选择使用 `check()` 与 `uncheck()`：
+{% endnote %}
 
 ```python
 agreement = page.get_by_role("checkbox", name="接受服务条款")
@@ -148,7 +166,9 @@ agreement.uncheck()
 expect(agreement).not_to_be_checked()
 ```
 
+{% note info flat %}
 `set_checked()` 适合数据驱动场景：
+{% endnote %}
 
 ```python
 agreement.set_checked(case.accept_terms)
@@ -175,7 +195,9 @@ assert attachment.evaluate("input => input.files.length") == 1
 多文件输入传入路径列表；内存文件使用包含 `name`、`mimeType` 与 `buffer` 的字典；传入空列表可以清空选择。相对路径按测试进程的当前工作目录解析，因此团队项目应从固定的 fixture 根目录构造绝对路径。若目标不是文件输入框，或单文件控件收到多个文件，Playwright 会报错。只有按钮点击后动态创建文件选择器时，才使用 `expect_file_chooser()` / `FileChooser` 流程。
 {% endnote %}
 
+{% note info flat %}
 单选按钮按 label 或 role 操作：
+{% endnote %}
 
 ```python
 page.get_by_role("radio", name="到店自取").check()
@@ -187,7 +209,9 @@ page.get_by_role("radio", name="到店自取").check()
 
 ### 按钮与链接
 
+{% note info flat %}
 单击、双击和右键：
+{% endnote %}
 
 ```python
 page.get_by_role("button", name="提交").click()
@@ -195,7 +219,9 @@ page.get_by_text("订单 A-100").dblclick()
 page.get_by_role("row", name="订单 A-100").click(button="right")
 ```
 
+{% note info flat %}
 按修饰键点击：
+{% endnote %}
 
 ```python
 page.get_by_role("link", name="订单详情").click(modifiers=["ControlOrMeta"])
@@ -207,7 +233,9 @@ page.get_by_role("link", name="订单详情").click(modifiers=["ControlOrMeta"])
 
 ## 输入设备
 
+{% note info flat %}
 对已定位控件使用 `press()`：
+{% endnote %}
 
 ```python
 import re
@@ -218,7 +246,9 @@ search.press("Enter")
 expect(page).to_have_url(re.compile(r".*/search\?q=.*$"))
 ```
 
+{% note info flat %}
 常见组合：
+{% endnote %}
 
 ```python
 input_box.press("ControlOrMeta+A")
@@ -239,9 +269,9 @@ page.keyboard.press("Escape")
 expect(dialog).to_be_hidden()
 ```
 
-{% tip error %}
+{% note warning flat %}
 如果焦点落在其他 frame 或控件上，全局按键可能被错误目标消费；这类失败通常表现为按键调用成功但页面状态没有变化，所以结果断言不可省略。
-{% endtip %}
+{% endnote %}
 
 {% note info flat %}
 `ControlOrMeta` 会在 Windows/Linux 使用 Control，在 macOS 使用 Meta，适合跨平台快捷键。全局 `page.keyboard` 依赖当前焦点，使用前先断言焦点或主动 `focus()`：
@@ -254,7 +284,9 @@ expect(editor).to_be_focused()
 page.keyboard.type("优先发货")
 ```
 
+{% note info flat %}
 需要精确控制按住与释放时，用 `down()` / `up()` 包住目标按键，并用 `try/finally` 保证修饰键能够释放：
+{% endnote %}
 
 ```python
 page.keyboard.down("Shift")
@@ -272,7 +304,9 @@ page.keyboard.insert_text("中文输入")
 
 ### 鼠标操作
 
+{% note info flat %}
 Locator 高层操作优先：
+{% endnote %}
 
 ```python
 menu = page.get_by_role("button", name="用户菜单")
@@ -280,7 +314,9 @@ menu.hover()
 expect(page.get_by_role("menu")).to_be_visible()
 ```
 
+{% note warning flat %}
 精确坐标操作仅适用于画布、地图或无法通过 DOM 表达的控件：
+{% endnote %}
 
 ```python
 canvas = page.get_by_test_id("seat-map")
@@ -291,7 +327,9 @@ page.mouse.click(box["x"] + 80, box["y"] + 40)
 expect(page.get_by_role("status")).to_have_text("已选择座位 B4")
 ```
 
+{% note info flat %}
 滚动优先让目标元素自行进入视口；只有验证滚轮处理器或无限列表时才直接发送滚轮事件：
+{% endnote %}
 
 ```python
 target = page.get_by_role("button", name="加载更多")
@@ -316,7 +354,9 @@ expect(page.get_by_text("第 20 条记录")).to_be_visible()
 
 ### 拖拽操作
 
+{% note info flat %}
 标准 HTML 拖拽优先使用 `drag_to()`：
+{% endnote %}
 
 ```python
 source = page.get_by_role("listitem", name="订单 A-100")
@@ -345,7 +385,9 @@ expect(drop_zone).to_contain_text("A-100")
 若目标的 `dragover` 监听器没有调用 `preventDefault()`，目标会拒绝此次 drop，Playwright 会抛错；这正好可以暴露组件没有实现可接收区域的问题。
 {% endnote %}
 
+{% note warning flat %}
 自定义组件需要更细粒度事件时，再使用鼠标：
+{% endnote %}
 
 ```python
 source_box = source.bounding_box()
@@ -371,7 +413,9 @@ page.mouse.up()
 
 ### 触控与移动端
 
+{% note info flat %}
 移动端测试可以在 Context 中启用触控，再使用 `tap()`：
+{% endnote %}
 
 ```python
 import pytest
@@ -403,7 +447,7 @@ def test_mobile_menu(browser: Browser) -> None:
 ```
 
 {% note info flat %}
-设置 viewport 只是改变页面尺寸；`has_touch` 与 `is_mobile` 才会进一步影响输入和页面行为。`is_mobile` 不支持 Firefox，因此示例显式限制 Chromium；Firefox 响应式检查只设置 viewport，并继续使用鼠标/键盘路径。第七篇会系统介绍设备模拟。
+设置 viewport 只是改变页面尺寸；`has_touch` 与 `is_mobile` 才会进一步影响输入和页面行为。`is_mobile` 不支持 Firefox，因此示例显式限制 Chromium；Firefox 响应式检查只设置 viewport，并继续使用鼠标/键盘路径。更完整的设备模拟应按浏览器能力与测试目标单独配置。
 {% endnote %}
 
 {% note info flat %}
@@ -421,7 +465,9 @@ expect(page.get_by_role("status")).to_have_text("已选择地图坐标")
 
 ## 事件边界
 
+{% note info flat %}
 `dispatch_event()` 可以发送 DOM 事件：
+{% endnote %}
 
 ```python
 page.get_by_label("上传区域").dispatch_event("dragenter")
@@ -433,9 +479,9 @@ page.get_by_label("上传区域").dispatch_event("dragenter")
 
 ### 操作参数
 
-{% tip warning %}
+{% note warning flat %}
 动作参数用于表达特殊产品合同，不应成为默认模板：
-{% endtip %}
+{% endnote %}
 
 | 参数 | 用途与边界 | 同步与异步调用 |
 | --- | --- | --- |
@@ -450,9 +496,9 @@ page.get_by_label("上传区域").dispatch_event("dragenter")
 | `steps` | 让 Locator 指针动作经过多个中间点并产生中间 `mousemove` 事件；拖拽轨迹需要渐进移动时使用 | `source.drag_to(target, steps=10)` / `await source.drag_to(target, steps=10)` |
 | `scroll` | Playwright 1.62 的部分 Locator 动作可选择自动滚动或 `"none"`；禁用自动滚动后必须自行证明目标可达 | `button.click(scroll="none")` / `await button.click(scroll="none")` |
 
-{% tip warning %}
+{% note warning flat %}
 `no_wait_after` 不能作为统一的“关闭等待”开关：在若干输入动作上它已经不产生效果；点击与导航相关语义还可能随版本变化。迁移时删除无效参数，并针对业务结果使用 Web-first 断言；需要捕获下载、新页面或请求时，使用对应的 `expect_*` 事件上下文。
-{% endtip %}
+{% endnote %}
 
 ### 旧接口迁移
 
@@ -473,7 +519,9 @@ Page 选择器式动作会在每次调用时重新解析字符串选择器，官
 迁移不是机械替换：同时把 CSS 字符串升级为 role、label 或 test id 等稳定定位，并为动作后的用户可观察结果添加断言。
 {% endnote %}
 
+{% note info flat %}
 异步 API 使用完全相同的替代方向，但旧调用和新调用都属于浏览器 I/O，需要 `await`：
+{% endnote %}
 
 ```python
 # 旧式异步 Page 动作 → 异步 Locator 动作
@@ -531,13 +579,13 @@ def test_create_order(page: Page) -> None:
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `Keyboard` | `press()` | `down()`、`insert_text()`、`type()`、`up()` | — | — |
 | `Locator` | `check()`、`click()`、`drag_to()`、`fill()`、`press()`、`select_option()`、`set_checked()`、`set_input_files()`、`uncheck()` | `blur()`、`clear()`、`dblclick()`、`dispatch_event()`、`drop()`、`focus()`、`hover()`、`press_sequentially()`、`select_text()`、`tap()` | — | `type()` |
@@ -594,7 +642,7 @@ def test_create_order(page: Page) -> None:
 
 ## 常见问题
 
-{% flashcard basic id:playwright-fill-type deck:"Playwright" priority:2 tags:"表单,输入" %}
+{% flashcard basic id:playwright-fill-type deck:"Playwright" priority:1 tags:"表单,输入" %}
 --- question
 `fill()` 与 `press_sequentially()` 的主要区别是什么？
 --- answer

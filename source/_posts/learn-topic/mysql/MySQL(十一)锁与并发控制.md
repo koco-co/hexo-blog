@@ -7,68 +7,201 @@ tags:
 categories:
   - Learn Topic
   - MySQL
-description: 掌握记录锁、Gap Lock、Next-Key Lock、锁定读、元数据锁和死锁诊断，解决超卖与任务争抢。
+description: 从记录锁、间隙锁和 next-key lock 推进到锁定读、死锁诊断和 SKIP LOCKED 任务领取，建立并发写入的可验证模型。
 cover: /img/picgo-images/mysql-course-cover.png
 series: MySQL
 series_order: 11
-published: false
-abbrlink: b829023d
+published: true
+abbrlink: 2d2f0ce4
 date: 2026-08-25 13:18:42
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note primary flat %}
+锁解决的是并发事务之间如何排队，不是“让 SQL 自动正确”。正确的扣库存流程要同时具备事务边界、锁定读、条件校验、短持锁时间和失败重试；本篇把等待和死锁当作可观察结果来处理。
+{% endnote %}
 
-## 文章职责
+## 锁模型
 
-- 唯一要解决的问题：并发写入为什么阻塞或超卖，以及怎样判断锁住了记录、区间还是元数据。
-- 可观察成果：能够设计锁定读、识别等待关系、处理死锁，并解释 NOWAIT 与 SKIP LOCKED 的边界。
-- 进入条件：MySQL(十)事务与MVCC
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% mermaid %}
+flowchart TD
+  R[索引记录] --> RR[Record Lock]
+  R --> GG[Gap Lock]
+  R --> NK[Next-Key Lock = Record + Gap]
+  T[表级意图锁] --> RR
+  T --> GG
+  T --> NK
+  M[元数据锁 MDL] -.保护表定义.- R
+{% endmermaid %}
 
-## 内容边界
+{% note info flat %}
+InnoDB 尽量在索引记录上加锁。记录锁保护已存在的索引项，间隙锁保护两个索引项之间的空档，next-key lock 把记录和前面的间隙一起锁住；意图锁让表级与行级锁的兼容关系可判断，MDL 则保护表定义。
+{% endnote %}
 
-- 能力分配：
+| 锁 | 保护范围 | 典型触发 |
+| --- | --- | --- |
+| 共享锁 S | 允许多个读者，阻止冲突写 | `FOR SHARE` |
+| 排他锁 X | 互斥读写 | `UPDATE`、`DELETE`、`FOR UPDATE` |
+| Record | 一个索引记录 | 唯一索引等值命中 |
+| Gap | 索引记录之间的范围 | 范围锁定读（隔离级别相关） |
+| Next-key | 记录 + 前间隙 | RR 下的范围扫描 |
+| Insert intention | 同一间隙中不同插入位置 | 并发 INSERT |
+| AUTO-INC | 自增分配协调 | 自增列写入 |
 
-- 锁与并发控制：`refman8.4:innodb-next-key-locking`、`refman8.4:innodb-locking`、`refman8.4:innodb-locking#innodb-shared-exclusive-locks`、`refman8.4:innodb-locking#innodb-intention-locks`、`refman8.4:innodb-locking#innodb-record-locks`、`refman8.4:innodb-locking#innodb-gap-locks`、`refman8.4:innodb-locking#innodb-next-key-locks`、`refman8.4:innodb-locking#innodb-insert-intention-locks`、`refman8.4:innodb-locking#innodb-auto-inc-locks`、`refman8.4:innodb-locks-set`、`refman8.4:innodb-locking-reads`、`refman8.4:innodb-deadlocks`、`refman8.4:innodb-deadlock-detection`、`refman8.4:performance-schema-lock-tables`、`refman8.4:information-schema-innodb-trx-table`、`refman8.4:metadata-locking`
-- 锁诊断边界：`refman8.4:internal-locking`、`refman8.4:locking-issues`
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+## 锁定读
 
-## 正文编排
+{% note primary flat %}
+普通 SELECT 是一致性读，通常不阻塞写；`FOR UPDATE` 读取当前版本并申请排他锁，`FOR SHARE` 申请共享锁。锁定读必须在显式事务中，否则语句结束后锁很快释放，无法保护后续业务动作。
+{% endnote %}
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 锁模式与意向锁 | 建立锁模式与意向锁的心智模型 | 理解 S、X 和表级意向锁 | `mermaid` | 锁兼容关系和表级意向需要用关系图建立整体模型 | 图前定义、兼容结论和等待边界 | 图表失效时由兼容矩阵和文字结论兜底 | S/X/IS/IX 的兼容关系与双会话证据 | 计划 |
-| 记录、间隙与 Next-Key Lock | 判断索引区间的锁范围 | 用索引区间解释锁范围 | `mermaid` | 记录、间隙和 Next-Key Lock 是连续索引区间关系 | 查询条件、命中区间和边界结论 | 图表失效时用有序区间清单兜底 | 唯一索引、范围查询与不存在记录对照 | 计划 |
-| 语句设置哪些锁 | 比较不同语句的加锁结果 | 根据索引、条件和隔离级别分析 | `Markdown 表格` | 需要同时比较语句、索引命中、隔离级别和锁范围 | 比较维度、默认结论和例外条件 | 纯文本表格仍可完成判断 | SELECT/UPDATE/DELETE 的双会话对照 | 计划 |
-| 锁定读 | 为并发任务选择锁定读方式 | 使用 FOR SHARE、FOR UPDATE、NOWAIT、SKIP LOCKED | `Markdown 表格` | 四种语义是平行选择，先按等待与一致性要求比较 | 选择标准、阻塞行为和不适用条件 | 纯文本表格保留选型依据 | 库存扣减与任务领取的对照实验 | 计划 |
-| 插入意向、自增与元数据锁 | 建立插入意向、自增与元数据锁的心智模型 | 识别写入和 DDL 阻塞 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 等待诊断与死锁 | 定位等待链和死锁环 | 使用事务与锁视图构建等待图 | `mermaid` | 等待者、持有者和资源之间是可追踪的有向关系 | 会话、锁资源、等待方向和解除结果 | 图表失效时由会话清单和查询结果兜底 | performance_schema 查询与双会话时间线 | 计划 |
-| 库存与任务队列实验 | 完成并验证库存与任务队列实验 | 验证防超卖和并发领取 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+```sql
+START TRANSACTION;
 
-## 视觉与复习
+SELECT product_id, quantity
+FROM inventory
+WHERE product_id = 101
+FOR UPDATE;
 
-- 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
-- 完整示例：双会话扣减库存并观察等待；再用 SKIP LOCKED 演示多 worker 领取不同任务。
-- 失败边界与踩坑：说明 FOR SHARE 对旧 LOCK IN SHARE MODE 的迁移；SKIP LOCKED 适合队列而非一致业务查询。
-- FAQ 候选与来源：为什么命中索引仍锁住区间；死锁检测和锁等待超时有什么不同。
-- 非复习自测：SQL 卡 mysql84-11-stock-for-update-p1、mysql84-11-skip-locked-worker-p2。
-- 图表或实验：记录与间隙锁区间图、事务等待图和双会话时序图。
-- 参考资料：
+UPDATE inventory
+SET quantity = quantity - 2
+WHERE product_id = 101
+  AND quantity >= 2;
 
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-next-key-locking.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-deadlocks.html
-- https://dev.mysql.com/doc/refman/8.4/en/metadata-locking.html
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+SELECT ROW_COUNT() AS decremented;
+COMMIT;
+```
 
-## 验收证据
+{% note success flat %}
+条件 UPDATE 的影响行数是业务证据：1 表示扣减成功，0 表示库存不足或目标不存在。锁定读用于读取价格、状态等后续决策；最终仍需条件写入，不能只靠先读后的应用判断。
+{% endnote %}
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+## 并发等待
+
+{% note info flat %}
+两个会话按相同顺序取得资源，通常只会排队；取得相反顺序则可能形成环路并触发死锁。死锁检测会回滚其中一个事务，应用必须捕获错误、短暂退避并重试整个事务。
+{% endnote %}
+
+```sql
+-- 会话 A
+START TRANSACTION;
+SELECT id FROM inventory WHERE product_id = 101 FOR UPDATE;
+-- 保持事务不提交
+
+-- 会话 B：会等待 A 释放锁
+START TRANSACTION;
+SELECT id FROM inventory WHERE product_id = 101 FOR UPDATE;
+```
+
+{% timeline 死锁形成与处理, red %}
+<!-- timeline 形成 -->
+A 锁住 101，B 锁住 102；随后 A 请求 102，B 请求 101，形成等待环。
+<!-- endtimeline -->
+<!-- timeline 检测 -->
+InnoDB 发现环路，选择一个事务作为 victim 并返回死锁错误。
+<!-- endtimeline -->
+<!-- timeline 恢复 -->
+被回滚的一方释放已持有锁，应用记录错误并重试完整事务；不能只重试最后一条 SQL。
+<!-- endtimeline -->
+<!-- timeline 预防 -->
+统一资源排序、缩短事务、为访问条件建索引，并避免用户交互期间持锁。
+<!-- endtimeline -->
+{% endtimeline %}
+
+{% note danger flat %}
+锁等待超时、死锁和 MDL 阻塞不是同一个错误。不要用提高 timeout 或杀掉任意连接代替诊断；先找阻塞者、等待者、事务开始时间和 SQL，再决定回滚或修复访问顺序。
+{% endnote %}
+
+## 任务领取
+
+{% note primary flat %}
+队列 worker 可以用 `FOR UPDATE SKIP LOCKED` 跳过已被其他 worker 锁住的任务，避免所有消费者排队；它牺牲了严格顺序，适合可重试、可恢复的任务，不适合要求全局顺序的结算流程。
+{% endnote %}
+
+```sql
+START TRANSACTION;
+
+SELECT id, user_id
+FROM orders
+WHERE status = 'pending'
+ORDER BY id
+LIMIT 10
+FOR UPDATE SKIP LOCKED;
+
+UPDATE orders
+SET status = 'processing'
+WHERE id IN (101, 102, 103);
+
+COMMIT;
+```
+
+{% note warning flat %}
+上例中的 id 集合必须由同一事务、同一 worker 根据实际返回结果生成；示例中的固定值只是说明位置。领取后要有超时回收或幂等重试，否则 worker 崩溃会留下 processing 孤儿任务。
+{% endnote %}
+
+## 锁诊断
+
+```sql
+SELECT *
+FROM performance_schema.data_lock_waits;
+
+SELECT ENGINE_TRANSACTION_ID, THREAD_ID, trx_started,
+       trx_state, trx_query
+FROM information_schema.INNODB_TRX
+ORDER BY trx_started;
+
+SHOW ENGINE INNODB STATUS;
+```
+
+{% note success flat %}
+诊断记录应包含等待者、阻塞者、对象/索引、锁模式、事务开始时间、SQL 和最终处理动作。没有阻塞链，单凭“数据库变慢”不能归因于行锁。
+{% endnote %}
+
+## 诊断边界
+
+{% folding cyan, 服务层锁与内部锁 %}
+应用互斥锁、连接池串行化和 InnoDB 行锁不在同一层；内部 mutex、MDL 和存储引擎锁也有不同的观察入口。先确认等待事件归属，再选择 Performance Schema、InnoDB 状态或应用 tracing，不要把所有等待都称为“行锁”。
+{% endfolding %}
+
+## 常见问题
+
+{% flashcard basic id:mysql84-11-stock-for-update-p1 deck:"mysql-8.4-interview" priority:1 tags:"FOR UPDATE,库存,防超卖" %}
+--- question
+两个并发请求都要扣减同一商品库存，如何避免超卖？
+--- answer
+```sql
+START TRANSACTION;
+SELECT quantity FROM inventory WHERE product_id = 101 FOR UPDATE;
+UPDATE inventory SET quantity = quantity - 2
+WHERE product_id = 101 AND quantity >= 2;
+SELECT ROW_COUNT();
+-- 1 后 COMMIT；0 后 ROLLBACK
+```
+--- explanation
+锁定读让同一商品的决策串行化，条件 UPDATE 防止应用判断与最终写入脱节。事务要短，失败要可重试；如果只先普通 SELECT 再 UPDATE，两个请求可能都读到旧库存。
+{% endflashcard %}
+
+{% flashcard basic id:mysql84-11-skip-locked-worker-p2 deck:"mysql-8.4-interview" priority:2 tags:"SKIP LOCKED,队列,并发" %}
+--- question
+多个 worker 领取 pending 订单时，如何避免互相等待？`SKIP LOCKED` 的代价是什么？
+--- answer
+```sql
+START TRANSACTION;
+SELECT id FROM orders WHERE status = 'pending'
+ORDER BY id LIMIT 10 FOR UPDATE SKIP LOCKED;
+UPDATE orders SET status = 'processing' WHERE id IN (...);
+COMMIT;
+```
+--- explanation
+该语义适合后台队列而非需要全局顺序的业务。返回的主键必须由当前查询驱动，不能在示例里硬编码；worker 崩溃后的恢复是设计的一部分。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link MySQL 8.4 InnoDB Locking, https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Next-Key Locking, https://dev.mysql.com/doc/refman/8.4/en/innodb-next-key-locking.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Locking Reads, https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Deadlocks, https://dev.mysql.com/doc/refman/8.4/en/innodb-deadlocks.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Performance Schema Lock Tables, https://dev.mysql.com/doc/refman/8.4/en/performance-schema-data-locks-table.html, https://www.mysql.com/favicon.ico %}
+{% endlinkgroup %}

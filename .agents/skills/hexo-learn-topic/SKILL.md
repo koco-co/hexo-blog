@@ -32,7 +32,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 3. 设计并复核文章地图
    - 按第一次确认的学习主题逐项生成同名主题文章，不得在第二轮擅自拆分、合并或改名；确需改变学习主题时退回第一轮重新确认。
    - 为每篇文章确定真实名称、唯一职责、前置、详细大纲、示例、视觉机会和复习编排，并按 `rules/curriculum-quality.md` 检查知识职责、心智模型、操作链路与失败边界是否过载、过碎或重复。入门路线只做主题介绍和阅读入口，不塞面试题或课程生产元信息。正文 H2/H3 只保留简短的对象、动作或边界名，通常不超过 15 个字符；H2 承担完整读者任务，H3 只拆同一任务的子步骤或判断，不用一组扁平 H2 堆积 API。同步冻结全系列共用的一张封面合同：简短系列名称、准确主题标识、4～5 个课程关键词、固定风格参考和本地文件名。
-   - 按 `rules/article-tag-selection.md` 为每个正文块记录读者任务、首选标签、选择理由、核心信息可见性和失败降级。必须从当前完整注册目录中比较候选并说明当前主承载为何合适；直接可见的提示按语义使用 Butterfly `note <级别> flat`，深入补充使用 `folding`，平行方案使用 `tabs`，不能把 `note` 当作连续解释的默认容器，也不能为追求数量硬塞组件。
+   - 按 `rules/article-tag-selection.md` 为每个正文块记录读者任务、首选标签、选择理由、核心信息可见性和失败降级，并持久化到 `data/<主题路径段>.json` 的 `course.article_block_tag_plans[文章标题]`。必须从当前完整注册目录中比较候选并说明当前主承载为何合适；直接可见的提示按语义使用 Butterfly `note <级别> flat`，深入补充使用 `folding`，平行方案使用 `tabs`，不能把 `note` 当作连续解释的默认容器，也不能为追求数量硬塞组件。
    - 把能力全集逐项处置为“核心详解、正文简述、进阶路线、弃用迁移、明确不纳入”。前四类指定唯一主文章，明确不纳入项不得指定文章；不允许未处置、重复或虚构标识。
    - 把冻结的路线、文章地图、能力全集与处置账本交给不继承主对话的独立子代理做全量差集审查；修复阻塞项并重新审查。
    - 完成条件：官方集合与账本集合完全相等，两侧差集、重复和未处置均为 0，Reviewer 无阻塞项，用户完成第二次确认。
@@ -40,11 +40,11 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
    - 第二次确认后先按 `workflows/§04-scaffold-course.md` 的参考图提示词合同生成并验收一张本地系列封面，再在 `source/_posts/learn-topic/<主题路径段>/` 创建动态命名的路线图和全部文章占位。
    - 路线图、占位文章和后续正式文章统一复用同一个 `cover`；不得逐篇生成、随机替换或回退到 Butterfly 随机封面。
    - 路线图可渲染；其他文章带隐藏占位标记并保持 `published: false`，只写 `rules/published-article-contract.md` 配套的文章职责、内容边界、正文编排、视觉与复习、验收证据合同，不填充正式正文或假 FAQ、假闪卡。
-   - 在 `data/<主题路径段>.json` 写入 schema v2 课程契约，持久化第一轮学习主题、可选篇、完整文章清单和无损能力账本，并写入 `course.public_article_contract: "v1"` 激活公开正文合同；课程文章 Front Matter 不保存内部账本。
+   - 在 `data/<主题路径段>.json` 写入 schema v2 课程契约，持久化第一轮学习主题、可选篇、完整文章清单、逐正文块 `course.article_block_tag_plans` 和无损能力账本，并写入 `course.public_article_contract: "v1"` 激活公开正文合同；课程文章 Front Matter 不保存内部账本。
    - 完成条件：文件与路线一一对应，全仓库 lint 通过，路线图真实构建和预览通过。
 5. 完成课程文章
    - 默认只选择路线中下一篇未完成文章；用户明确要求批量完成时，先冻结本批次文章及顺序，再按同一门禁逐篇处理，不并行写入相互依赖的正文。
-   - 每篇先刷新该篇的能力分配及官方来源，再完整读取 `rules/article-tag-selection.md` 与 `references/butterfly-tag-usage.md`，运行标签审计，并调用 `hexo-blog-maintenance` 完成正文结构、逐块语义标签预案、图片、参考资料卡片和未发布文章的草稿验证；初稿必须交给干净上下文 Article Reviewer 逐项查漏。
+   - 每篇先刷新该篇的能力分配及官方来源，再完整读取 `rules/article-tag-selection.md` 与 `references/butterfly-tag-usage.md`，运行标签审计，并调用 `hexo-blog-maintenance` 完成正文结构、逐块语义标签预案、图片、参考资料卡片和未发布文章的草稿验证；把最终预案写回该篇的 `course.article_block_tag_plans`，使新会话和独立 Reviewer 都能读取；初稿必须交给干净上下文 Article Reviewer 逐项查漏。
    - 修复时重新调用维护 Skill 完成受影响验证，再独立复查和执行隔离的公开候选验证。候选通过后，同一工作流立即删除占位标记并把该篇改为 `published: true`，同步路线图；不得等待用户提醒。
    - 完成条件：单篇模式在目标文章状态有证据后停止；批量模式继续下一篇，直至确认批次全部完成或出现阻塞。
 
@@ -59,6 +59,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 - Article Reviewer 一次只审一篇。运行时任务必须完整提供该篇分配、能力全集、处置账本、逐正文块结构与标签计划、按 `rules/article-tag-selection.md` 生成的当前标签能力快照和 Reviewer Prompt，不得用“重点核验 API”或“重点检查标签”等临时摘要替代逐项差集。
 - 正文写作必须完整调用 `hexo-blog-maintenance` 并遵循 `rules/published-article-contract.md`；每个有意义的解释块都必须逐块分配并落实真实标签，普通 Markdown 只保留标题、代码、表格、列表和结构连接。发布正文不得出现占位合同、重复或手写的课程导航、能力账本或“前置文章是……”文案；只保留唯一合法的 `{% course_series %}` 导航。`audit.mjs content --release` 必须直接拦截标签外裸解释块。未发布文章在其验证阶段使用隔离 `--draft` 构建和浏览器验收，Reviewer 修订后重跑受影响的维护验证。
 - 标签预案与可见性、降级和组件门禁统一执行 `rules/article-tag-selection.md`，不得只证明“使用了标签”。
+- 课程契约启用 `course.forbid_local_absolute_paths: true` 时，公开课程正文禁止硬编码本机文件系统绝对路径，包括 `/Users/...`、`/tmp/...`、`/dev/null`、`file:///...`、Windows 盘符路径和 UNC 路径；实验命令使用 `mktemp` 变量、相对文件或标准输入输出。`/img/...`、`/posts/...` 等站点根相对 URL、HTTP 接口路径以及 `localhost`/`127.0.0.1` 网络夹具地址不属于本规则；课程模板默认启用，`audit.mjs content --release` 必须阻断违规路径。
 - 公开课程正文禁止使用 Tag Plugins Plus `tip`。概念、结论、成功标准、注意事项和高风险警告分别使用语义匹配的 Butterfly `note info|primary|success|warning|danger flat`；`warning` 不得误写为 `waring`。长原理、完整配置、日志和次要案例按需改用 `folding`，不得把核心结论藏入折叠区。
 - 每篇文章通过验证前保持占位标记和 `published: false`；不得把普通构建成功当作未发布文章已经被解析。正文通过公开候选门禁后必须在同一流程自动移除标记并切换为 `published: true`。
 - 所有课程 Mermaid 只使用 `{% mermaid %}` 容器。入门路线固定为“课程目标、前置条件、学习路径、文章安排、开始学习、参考资料”六个 H2，不放 flashcard；主题、进阶和实战文章可按复习价值选择 FAQ 与闪卡，存在 `常见问题` 才要求其中有 `flashcard`/`flashcard_ref`。公开课程的 `参考资料` 必须使用 `{% linkgroup %}` / `{% link %}` 资料卡并包含有效 HTTP(S) 链接；每个资料卡必须显式提供与目标资料同域或同组织的官方图标，只有能明确证明属于目标资料的官方产品 CDN 才可例外，禁止默认头像、封面、占位图、资料页本身或无关域名图片。每篇已发布课程文章还必须通过标签渲染组合门禁，不能只有 `course_series`、资料链接或纯 Markdown 正文。最终交付前运行 `node .agents/scripts/audit.mjs lint --json`，由该入口统一检查项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、标签和图片资源；只在 `status: pass` 时进入用户验收，否则按输出的具体文件修复并重跑。

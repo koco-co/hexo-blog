@@ -20,7 +20,7 @@ date: 2026-08-24 12:03:00
 
 {% course_series %}
 
-{% note info no-icon modern %}
+{% note info flat %}
 调试不是“失败后多截几张图”。可靠流程是：生成起点 → 重构语义 Locator → 交互式复现 → 保留最小证据 → 在 Trace 中重建因果链。
 {% endnote %}
 
@@ -67,14 +67,18 @@ finally:
     server.server_close()
 ```
 
+{% note info flat %}
 终端 A 保持服务运行，并记下实际输出 URL：
+{% endnote %}
 
 ```bash
 uv run python todo_server.py
 # Todo URL: http://127.0.0.1:<随机端口>/todo
 ```
 
+{% note info flat %}
 终端 B 把上一步真实 URL 传给 Codegen：
+{% endnote %}
 
 ```bash
 uv run playwright codegen --target python-pytest http://127.0.0.1:<实际端口>/todo
@@ -134,7 +138,9 @@ def test_delayed_status(page: Page) -> None:
 | `page.pause()` | 在代码中设置断点 | 到达特定业务状态后检查 | 只用于本地调试，提交前移除 |
 | CLI Debugger | `uv run pytest -s --playwright-debug=cli ...` | 终端环境交互定位 | 必须关闭 capture，避免多 worker |
 
+{% note info flat %}
 CLI Debugger 是双终端流程，要求 Playwright 1.59+；课程基线 1.62.0 满足：
+{% endnote %}
 
 ```bash
 # 终端 A：pytest 会暂停并打印 tw-xxxxxx 会话名
@@ -157,7 +163,9 @@ pytest 继续后，会话随 Context 关闭。若启用输出捕获或 `-n 2`，
 
 ## 失败证据
 
+{% note info flat %}
 pytest 插件 0.9.0 的核心开关：
+{% endnote %}
 
 ```bash
 uv run pytest \
@@ -184,7 +192,9 @@ uv run pytest \
 
 ### Trace Viewer
 
+{% note info flat %}
 继续使用前面已经保存的 `tests/test_trace.py`：
+{% endnote %}
 
 ```bash
 uv run pytest tests/test_trace.py --tracing=on
@@ -232,14 +242,18 @@ Trace 可以本地 `show-trace`，也可以拖入 `trace.playwright.dev`。官�
 
 ## 执行策略
 
+{% note info flat %}
 同一套 Playwright Python API 可以驱动 Chromium、Firefox 和 WebKit，但三个引擎需要分别安装：
+{% endnote %}
 
 ```bash
 uv run playwright install chromium firefox webkit
 uv run playwright install --list
 ```
 
+{% note info flat %}
 先串行运行每个引擎：
+{% endnote %}
 
 ```bash
 uv run pytest --browser chromium
@@ -247,7 +261,9 @@ uv run pytest --browser firefox
 uv run pytest --browser webkit
 ```
 
+{% note info flat %}
 也可以在一个 pytest 进程中重复传入参数：
+{% endnote %}
 
 ```bash
 uv run pytest \
@@ -262,7 +278,9 @@ uv run pytest \
 
 ### 并行执行
 
+{% note info flat %}
 `pytest-xdist` 通过多个 worker 进程并行分发用例：
+{% endnote %}
 
 ```bash
 uv add --dev pytest-xdist
@@ -283,7 +301,9 @@ flowchart TD
     N1 --> D
 {% endmermaid %}
 
+{% note info flat %}
 为每个 worker 分配唯一数据命名空间：
+{% endnote %}
 
 ```python
 from uuid import uuid4
@@ -301,9 +321,9 @@ def order_number(run_namespace: str, request: pytest.FixtureRequest) -> str:
     return f"{run_namespace}-{request.node.name}"
 ```
 
-{% tip sync %}
+{% note primary flat %}
 并发失败时用同一 node id 回到串行：
-{% endtip %}
+{% endnote %}
 
 ```bash
 uv run pytest tests/e2e/test_checkout.py::test_submit_order \
@@ -347,7 +367,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: "3.11"
 
       - uses: astral-sh/setup-uv@v6
         with:
@@ -387,9 +407,9 @@ jobs:
             test-results/**/*.png
 ```
 
-{% tip key %}
+{% note danger flat %}
 示例使用最小 `contents: read` 权限和产物白名单。不要上传整个工作区；`storage_state`、HAR、下载文件、环境变量文件和未脱敏日志都可能包含敏感数据。
-{% endtip %}
+{% endnote %}
 
 ### 重试与报告
 
@@ -410,9 +430,9 @@ uv run pytest \
 将支持这些参数的插件版本锁入 `uv.lock`。`--rerun-show-tracebacks` 保留早期失败线索，`--fail-on-flaky` 让“首次失败、重跑通过”的用例仍以失败退出，避免 CI 假绿。
 {% endnote %}
 
-{% tip warning %}
+{% note warning flat %}
 以下情况不能用重试结案：
-{% endtip %}
+{% endnote %}
 
 - 同一断言稳定失败；
 - 仅并行时失败，疑似资源冲突；
@@ -426,13 +446,13 @@ JUnit 适合 CI 汇总；需要人类可读 HTML 时可以接入 pytest 生态�
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `BrowserContext` | — | — | `expect_console_message()`、`expect_event()`、`tracing`、`wait_for_event()` | — |
 | `ConsoleMessage` | — | — | `args`、`location`、`page`、`text`、`timestamp`、`type`、`worker` | — |
@@ -468,7 +488,7 @@ Trace Viewer 最适合回答什么问题？
 Trace 将 Action、DOM 快照、网络、Console 和源码关联起来，适合重建失败因果；业务正确仍需明确断言和需求合同。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-xdist-session deck:"Playwright" priority:2 tags:"pytest-xdist,并行" answer:B %}
+{% flashcard choice id:playwright-xdist-session deck:"Playwright" priority:3 tags:"pytest-xdist,并行" answer:B %}
 --- question
 启用 pytest-xdist 后，Session 级 Fixture 通常执行多少次？
 - [A] 整台机器只执行一次

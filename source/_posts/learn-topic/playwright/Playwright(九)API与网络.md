@@ -19,8 +19,8 @@ date: 2026-08-24 12:04:00
 
 {% course_series %}
 
-{% note info no-icon modern %}
-UI 测试不应该用 UI 完成所有准备和清理。本文复用第七篇的 ShopLab 服务：`POST /api/orders` 造订单、`GET /api/orders/{id}` 核验、`DELETE /api/test/orders/{id}` 清理；浏览器只负责用户真正关心的提交动作。
+{% note info flat %}
+UI 测试不应该用 UI 完成所有准备和清理。本文复用同一份 ShopLab 服务：`POST /api/orders` 造订单、`GET /api/orders/{id}` 核验、`DELETE /api/test/orders/{id}` 清理；浏览器只负责用户真正关心的提交动作。
 {% endnote %}
 
 ## 请求模型
@@ -80,15 +80,17 @@ assert updated.json()["status"] == "ready"
 `to_be_ok()` 只接受 `APIResponse`，通过条件是 2xx；反向条件使用 `expect(response).not_to_be_ok()`。默认情况下 4xx/5xx 不会让请求方法抛错，而是由 `status`、`ok` 或断言暴露；`fail_on_status_code=True` 才会把它们转成异常。`max_redirects` 限制重定向次数，`max_retries` 在 1.62 只重试 `ECONNRESET`，不会按 HTTP 状态码重试，`ignore_https_errors` 只应在受控测试证书环境中启用。
 {% endnote %}
 
-{% tip info %}
+{% note info flat %}
 APIResponse 按验证目标选择读取方式：`status` 是整数状态码，`status_text` 是状态文本，`ok` 是“是否为 2xx”的布尔值；`headers` 返回便于按名称读取的字典，`headers_array` 则保留原始大小写与重复 header；`json()` 解析 JSON，`text()` 解析文本，`body()` 保留原始 bytes，`url` 查看最终地址。JSON 格式错误会在 `json()` 处失败；大型响应不再使用后应 `dispose()` 释放内存。`security_details()`、`server_addr()` 与 `timing` 属于 TLS、服务器地址和性能诊断入口，本篇索引保留但不作为普通业务断言。
-{% endtip %}
+{% endnote %}
 
 {% note info flat %}
 `new_context()` 的长参数表按进入条件选择：`http_credentials`、`extra_http_headers` 和 `storage_state` 用于认证；`proxy`、`client_certificates` 和 `ignore_https_errors` 只在受控网络或测试证书环境使用；`timeout`、`max_redirects` 与请求方法上的 `max_retries` 用于限制等待和重试；需要录制或回放时再进入 Context 的 HAR 配置。不要为了“让请求成功”同时打开所有开关。
 {% endnote %}
 
+{% note info flat %}
 API 登录状态可以转给 BrowserContext：
+{% endnote %}
 
 ```python
 login = admin_api.post("/api/test/login", data={"role": "buyer"})
@@ -104,11 +106,13 @@ finally:
     context.close()
 ```
 
-{% tip key %}
-`storage_state()` 可能含 Cookie 与本地认证数据，只能使用专用测试账号，不应提交真实凭据。`page.request` / `context.request` 与当前 BrowserContext 共享 Cookie，适合以当前角色直接核验 API；独立 `playwright.request.new_context()` 适合后台造数。`APIRequestContext.tracing` 用于请求上下文的低层追踪入口，UI 失败取证仍以第十篇的 BrowserContext Trace 为主。
-{% endtip %}
+{% note danger flat %}
+`storage_state()` 可能含 Cookie 与本地认证数据，只能使用专用测试账号，不应提交真实凭据。`page.request` / `context.request` 与当前 BrowserContext 共享 Cookie，适合以当前角色直接核验 API；独立 `playwright.request.new_context()` 适合后台造数。`APIRequestContext.tracing` 用于请求上下文的低层追踪入口，UI 失败取证仍以 BrowserContext Trace 为主。
+{% endnote %}
 
+{% note info flat %}
 共享 Cookie 不是概念上的“可能共享”，可以直接验证登录前后权限：
+{% endnote %}
 
 ```python
 page.goto(f"{shoplab_url}/login?role=buyer&subject=buyer-test")
@@ -201,7 +205,9 @@ def test_recommendation_offline(page, shoplab_url):
     )
 ```
 
+{% note info flat %}
 需要保留真实请求但增加测试 header 时使用 `continue_()`：
+{% endnote %}
 
 ```python
 page.route(
@@ -212,9 +218,9 @@ page.route(
 )
 ```
 
-{% tip key %}
+{% note danger flat %}
 `continue_()` 可以修改普通 header，但 Cookie 仍由 BrowserContext 的 Cookie store 管理。认证状态应使用 Context Cookie API 或 `storage_state`，不要把路由 header 改写当成 Cookie 注入方案。
-{% endtip %}
+{% endnote %}
 
 {% note info flat %}
 `continue_()` 会立即把请求发送到网络并结束路由链；分层处理器应使用 `fallback()`。多个匹配处理器按注册的逆序执行：
@@ -238,7 +244,9 @@ page.route("**/api/**", add_run_id)
 `fallback()` 还可以修改 `method`、`post_data`、`headers` 和同协议 `url`，让下一个处理器看到修改后的请求。`continue_(method=..., post_data=..., headers=..., url=...)` 也能覆盖原请求，但会立即发送网络并终止路由链；`method`、`post_data` 与 `url` 只作用于原请求，不会自动延续到后续重定向，只有 header 会传播到重定向请求，且 `url` 必须保持协议不变。只想拦截一次时使用 `page.route(pattern, handler, times=1)`。
 {% endnote %}
 
+{% note info flat %}
 需要保留真实响应、只改其中一部分时使用 `fetch()` 后再 `fulfill()`：
+{% endnote %}
 
 ```python
 def add_test_item(route):
@@ -293,13 +301,13 @@ def test_context_route_covers_popup(context, page):
 {% endnote %}
 
 {% note info flat %}
-WebSocket 拦截必须在目标连接创建前注册。`page.route_web_socket()` 只作用于当前页面，`context.route_web_socket()` 覆盖 Context；本文只负责入口与范围，第十一篇再讲 `WebSocketRoute` 的消息转发、修改和关闭。
+WebSocket 拦截必须在目标连接创建前注册。`page.route_web_socket()` 只作用于当前页面，`context.route_web_socket()` 覆盖 Context；本文只负责入口与范围，消息转发、修改和关闭属于 `WebSocketRoute` 的进一步用法。
 {% endnote %}
 
 ### HAR 回放
 
 {% note info flat %}
-HAR 回放适合响应大而固定、逐个 `fulfill()` 成本高的依赖。下面的练习先启动第七篇服务录制推荐响应，关闭真实服务后再从 HAR 回放同一 URL：
+HAR 回放适合响应大而固定、逐个 `fulfill()` 成本高的依赖。下面的练习先启动本地 ShopLab 服务录制推荐响应，关闭真实服务后再从 HAR 回放同一 URL：
 {% endnote %}
 
 ```python
@@ -348,7 +356,9 @@ Playwright 的 page/context route 无法拦截已经被 Service Worker 接管的
 
 ### 请求断言
 
+{% note info flat %}
 页面网络对象遵循两个主要生命周期：
+{% endnote %}
 
 ```text
 成功或 HTTP 错误：request → response → requestfinished
@@ -393,11 +403,13 @@ def test_submit_payload(page, admin_api, shoplab_url):
         admin_api.delete(f"/api/test/orders/{order_id}")
 ```
 
-{% tip warning %}
+{% note warning flat %}
 请求断言证明浏览器发出了预期协议，但不能替代 UI 结果或后端最终状态。完整证据通常需要 UI、请求和 API verify 三层。
-{% endtip %}
+{% endnote %}
 
+{% note info flat %}
 Request 成员按诊断任务选择：
+{% endnote %}
 
 | 任务 | 成员 | 边界 |
 | --- | --- | --- |
@@ -407,11 +419,13 @@ Request 成员按诊断任务选择：
 | 生命周期 | `response()`、`failure` | 前者等待关联响应；传输失败读取 `failure`，HTTP 错误不属于 failure |
 | 重定向 | `redirected_from`、`redirected_to` | 沿请求链向前或向后诊断，不能只看最终 URL |
 
-{% tip info %}
+{% note info flat %}
 `existing_response` 只返回当前已经存在的关联响应，不会等待；`response()` 才适合需要等待响应的流程。`is_navigation_request()`、`frame`、`service_worker` 用于判断请求发起方，`timing` 与 `sizes()` 用于性能诊断。这些低频诊断成员保留在进阶索引中，不应作为脆弱的日常业务断言。
-{% endtip %}
+{% endnote %}
 
+{% note info flat %}
 Response 成员也按任务分组：
+{% endnote %}
 
 | 任务 | 成员 | 边界 |
 | --- | --- | --- |
@@ -453,13 +467,13 @@ assert failed and failed[0].failure is not None
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `APIRequest` | `new_context()` | — | — | — |
 | `APIRequestContext` | `delete()`、`fetch()`、`get()`、`post()`、`storage_state()` | `dispose()`、`head()`、`patch()`、`put()`、`tracing` | — | — |
@@ -507,7 +521,7 @@ assert failed and failed[0].failure is not None
 
 ## 常见问题
 
-{% flashcard basic id:playwright-api-seed deck:"Playwright" priority:2 tags:"APIRequestContext,测试数据" %}
+{% flashcard basic id:playwright-api-seed deck:"Playwright" priority:1 tags:"APIRequestContext,测试数据" %}
 --- question
 什么时候用 API 准备数据，什么时候必须走 UI？
 --- answer

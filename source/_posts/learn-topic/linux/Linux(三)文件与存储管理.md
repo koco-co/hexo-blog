@@ -10,63 +10,265 @@ description: 理解 Linux 文件模型并安全完成文件、链接、归档、
 cover: /img/picgo-images/linux-course-cover.png
 series: Linux
 series_order: 3
-published: false
+published: true
 abbrlink: '5297e207'
 date: 2026-08-25 00:00:00
 ---
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+当程序报告“文件不存在”“磁盘满了”或“归档解不开”时，先把问题拆成文件对象、目录项、inode、文件描述符、文件系统和挂载点六层。本文用一个隔离目录完成创建、复制、校验、归档和容量观察；不在真实设备上执行破坏性写入。
+{% endnote %}
 
-## 文章职责
+## 文件模型
 
-- 唯一要解决的问题：掌握文件、目录项、inode、文件描述符、链接、归档、文件系统和容量。
-- 可观察成果：能够安全检查、创建、复制、移动、查找、归档、挂载并解释存储占用。
-- 进入条件：第 2 篇。
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% mermaid %}
+flowchart TD
+  A[路径字符串] --> B[目录项]
+  B --> C[inode 元数据]
+  C --> D[数据块]
+  E[进程] --> F[文件描述符]
+  F --> G[打开文件描述]
+  G --> C
+{% endmermaid %}
 
-## 内容边界
+{% note primary flat %}
+目录项把名字映射到 inode；inode 记录类型、所有者、大小和时间等元数据；文件描述符先指向“打开文件描述”，再引用 inode。只有目录项链接数已经归零，且所有打开引用都关闭后，删除名字对应的数据才会回收。
+{% endnote %}
 
-- 能力分配：
-- 核心详解 / 文件操作：posix2024:utility:cat、posix2024:utility:cp、posix2024:utility:dd、posix2024:utility:dirname、posix2024:utility:file、posix2024:utility:mkdir、posix2024:utility:mkfifo、posix2024:utility:mv、posix2024:utility:rm、posix2024:utility:rmdir、posix2024:utility:touch、ubuntu26.04:command:mktemp、ubuntu26.04:command:stat、ubuntu26.04:command:truncate、ubuntu26.04:provider:cp-mv-rm-gnu-exception
-- 核心详解 / 归档与压缩：posix2024:utility:cksum、posix2024:utility:compress、posix2024:utility:pax、posix2024:utility:uncompress、posix2024:utility:zcat、ubuntu26.04:command:b2sum、ubuntu26.04:command:base32、ubuntu26.04:command:base64、ubuntu26.04:command:basenc、ubuntu26.04:command:gunzip、ubuntu26.04:command:gzip、ubuntu26.04:command:md5sum、ubuntu26.04:command:sha1sum、ubuntu26.04:command:sha224sum、ubuntu26.04:command:sha256sum、ubuntu26.04:command:sha384sum、ubuntu26.04:command:sha512sum、ubuntu26.04:command:tar、ubuntu26.04:command:unzip、ubuntu26.04:command:xz、ubuntu26.04:command:zip
-- 核心详解 / 文件系统与容量：posix2024:utility:df、posix2024:utility:du、ubuntu26.04:command:lsblk、ubuntu26.04:command:mount、ubuntu26.04:command:sync、ubuntu26.04:command:umount
-- 核心详解 / 文件查找：posix2024:utility:find
-- 核心详解 / 链接关系：posix2024:utility:link、posix2024:utility:ln、posix2024:utility:unlink
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+### 类型与元数据
 
-## 正文编排
+~~~bash
+START_DIR=$PWD
+LAB=$(mktemp -d) || {
+  printf '%s\n' '无法创建隔离目录；停止本页实验。' >&2
+  exit 1
+}
+cd "$LAB" || {
+  printf '%s\n' '无法进入隔离目录；停止本页实验。' >&2
+  exit 1
+}
+printf '实验目录：%s\n' "$LAB"
+printf '%s\n' 'alpha' > sample.txt
+file sample.txt
+stat sample.txt
+ls -li sample.txt
+dirname "$PWD/sample.txt"
+~~~
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 文件模型 | 建立文件模型的心智模型 | 路径名、目录项、inode、元数据和文件描述符；普通文件、目录、链接、设备、FIFO 和 Socket | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 文件操作 | 完成并验证文件操作 | 列出、创建、复制、移动、重命名和元数据；安全删除、glob、双横线和预检查 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 链接关系 | 建立链接关系的心智模型 | 硬链接身份与链接数；符号链接解析与断链 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 文件查找 | 建立文件查找的心智模型 | find 条件、动作、优先级和 prune；索引查找与实时遍历 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 归档与压缩 | 建立归档与压缩的心智模型 | tar 模型；gzip、xz、zip、校验和解压安全 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 文件系统与容量 | 建立文件系统与容量的心智模型 | 块设备、分区、文件系统、挂载点和命名空间；df、du、lsblk、mount、umount、inode 耗尽与删除后仍打开的文件 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 故障实验 | 完成并验证故障实验 | df 与 du 差异；隐藏挂载数据和 open-deleted 日志 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 通过容量、inode 和打开文件证据闭合结论 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 观察工具 | 解决的问题 | 边界 |
+| --- | --- | --- |
+| ls -li | 快速看 inode、链接数和目录项 | 展示受终端和选项影响 |
+| stat | 查看完整元数据 | 不负责解释文件内容 |
+| file | 按内容和魔数判断类型 | 不能证明文件一定安全 |
+| dirname | 取父目录部分 | 不检查路径是否存在 |
 
-## 视觉与复习
+## 文件操作
 
-- 贯穿案例：构造样例树，比较硬链接和符号链接，归档并校验，挂载 loopback 文件系统，制造删除后仍打开的文件并解释 df/du/lsof。
-- 完整示例：构造样例树，比较硬链接和符号链接，归档并校验，挂载 loopback 文件系统，制造删除后仍打开的文件并解释 df/du/lsof。
-- 失败边界与踩坑：递归删除、覆盖、稀疏文件、符号链接遍历、不可信归档、挂载路径和设备写入均需先确认边界。
-- FAQ 候选与来源：df 与 du 为什么不同、删除文件为何仍占空间、硬链接与软链接如何选择。
-- 非复习自测：用中文场景选择命令，解释输出并写出验证步骤。
-- 图表或实验：inode/链接关系、存储栈和 df-versus-du 决策流。
-- 复习卡片：cp、mv、rm、find、tar、df、du、lsblk、mount、lsof 与破坏性操作安全卡。
-- 参考资料：util-linux、GNU coreutils、Linux 文件系统与 Ubuntu 存储文档。
+### 创建与清理
 
-正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+~~~bash
+mkdir -p work/inbox work/empty
+touch work/inbox/one.log
+mktemp work/inbox/tmp.XXXXXX
+rmdir work/empty
+unlink work/inbox/one.log
+~~~
 
-## 验收证据
+{% note warning flat %}
+rm、rmdir、unlink 的目标必须先用 pwd、ls -ld 和 find 的结果确认；生产环境禁止直接复制 rm -rf。mkfifo 会创建命名管道，读写两端不配对时会阻塞，先在隔离目录验证。
+{% endnote %}
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+### 复制与移动
+
+~~~bash
+cp sample.txt work/copy.txt
+cp -r work copied-work
+mv work/copy.txt work/moved.txt
+~~~
+
+| 命令 | 主用途 | 选择边界 |
+| --- | --- | --- |
+| cp | 复制文件或目录 | 目录需要递归选项，覆盖前先确认目标 |
+| mv | 移动或改名 | 同文件系统内通常只改目录项 |
+| rm、rmdir | 删除文件或空目录 | 删除是不可逆动作，先列出目标 |
+
+{% note info flat %}
+Ubuntu 26.04 的 uutils 迁移不覆盖 `cp`、`mv`、`rm`：它们仍由 GNU 实现提供。这里关心的是文件操作的语义；遇到版本差异时回到 `type -a` 和 `--version` 确认提供者，而不是根据命令名猜测。
+{% endnote %}
+
+### 链接与管道
+
+~~~bash
+ln sample.txt hard.txt
+ln -s sample.txt soft.txt
+mkfifo events.pipe
+ls -li sample.txt hard.txt soft.txt events.pipe
+~~~
+
+{% note info flat %}
+硬链接共享 inode，删除其中一个名字不影响其他名字；符号链接保存目标路径，目标改名后可能悬空。mkfifo 是按名字连接两个进程的特殊文件，不是普通磁盘文件。
+{% endnote %}
+
+### 查找与校验
+
+~~~bash
+find . -type f -name '*.txt' -print
+cksum sample.txt
+md5sum sample.txt
+sha256sum sample.txt
+~~~
+
+{% note primary flat %}
+校验和用于回答“内容是否相同”，不能单独回答“来源是否可信”。跨机器传输时优先记录 SHA-256；`cksum` 适合 POSIX 兼容的快速检查。`find` 的模式、起点和类型必须先缩小，否则会把挂载点或无关目录也纳入结果。
+{% endnote %}
+
+{% note info flat %}
+`link`、`dd`、`truncate`、`sync`、`umount` 和各种低频归档/摘要工具在本篇只建立选择边界：它们要么风险高，要么只在特定格式或协议下出现。常用文件操作、容量观察和 tar/zip/xz 仍是主线。
+{% endnote %}
+
+{% folding blue, 低频格式、校验与实现索引 %}
+| 条目 | 何时使用 | 不要把它当成 |
+| --- | --- | --- |
+| link | 需要直接创建硬链接时；日常优先用 `ln` | 符号链接或跨文件系统链接 |
+| b2sum、md5sum、sha1sum、sha224sum、sha384sum、sha512sum | 协议或已有制品明确要求该摘要算法 | 来源可信证明或加密；新传输默认仍优先 SHA-256 |
+| base32、base64、basenc | 在文本协议中编码二进制数据 | 压缩、加密或文件归档 |
+| compress、uncompress、zcat、pax | 兼容旧 `.Z`、gzip 流式查看或 POSIX 归档交换 | 新项目的默认归档格式；先按对方格式选择 |
+| sync、dd、truncate、umount | 需要刷新缓存、块级复制、调整长度或卸载文件系统 | 普通文件编辑；任何真实设备操作都要有备份、目标复核和恢复窗口 |
+{% endfolding %}
+
+## 容量与设备
+
+### 文件系统容量
+
+~~~bash
+df -h .
+du -sh .
+du -h . --max-depth=1
+lsblk
+~~~
+
+| 问题 | 命令 | 证据 |
+| --- | --- | --- |
+| 哪个文件系统满了 | df | 文件系统、已用、可用和挂载点 |
+| 哪个目录占空间 | du | 目录树汇总，注意跨挂载边界 |
+| 有哪些块设备和挂载关系 | lsblk | 设备、分区、文件系统和挂载点 |
+
+### 挂载边界
+
+~~~bash
+mount
+sync
+~~~
+
+{% note danger flat %}
+mount、umount、dd、truncate 和 sync 可能影响真实数据。本文只展示观察和可恢复的实验；不要把真实块设备标识或生产挂载点替换进示例，任何设备写入都必须先有镜像、备份和恢复窗口。
+{% endnote %}
+
+| 能力 | 条目 | 说明 |
+| --- | --- | --- |
+| 观察挂载 | mount、lsblk | 先确认设备、文件系统和挂载点 |
+| 高风险入口 | sync、dd、truncate、umount | 只在低频索引中建立用途与恢复边界，不直接对真实设备实验 |
+
+## 归档与压缩
+
+### tar 归档
+
+~~~bash
+tar -cf sample.tar sample.txt
+tar -tf sample.tar
+mkdir -p unpacked-tar unpacked-zip
+tar -xf sample.tar -C unpacked-tar
+tar -czf sample.tar.gz sample.txt
+tar -cJf sample.tar.xz sample.txt
+~~~
+
+{% note info flat %}
+归档把多个文件组织为一个流，压缩减少体积；tar 本身不等于压缩。解包前用 tar -tf 检查成员名，避免把绝对路径或 ../ 路径写出实验目录。
+{% endnote %}
+
+### 常见格式
+
+| 格式 | 创建/解压 | 查看或流式读取 |
+| --- | --- | --- |
+| gzip | gzip、gunzip | zcat |
+| compress | compress、uncompress | 兼容历史 .Z 文件 |
+| xz | xz | 使用 xz 本身的解压选项 |
+| zip | zip、unzip | unzip -l 预览成员 |
+| pax | pax | POSIX 归档交换格式 |
+
+~~~bash
+gzip -c sample.txt > sample.txt.gz
+gunzip -c sample.txt.gz
+zip sample.zip sample.txt
+unzip -l sample.zip
+unzip -oq sample.zip -d unpacked-zip
+xz -c sample.txt > sample.txt.xz
+xz -dc sample.txt.xz
+~~~
+
+## 结果验证
+
+### 最小实验与清理
+
+~~~bash
+ls -li sample.txt hard.txt soft.txt
+stat sample.txt
+sha256sum sample.txt hard.txt
+df -h .
+du -sh .
+tar -tf sample.tar
+find unpacked-tar unpacked-zip -type f -print
+cd "$START_DIR"
+rm -rf -- "$LAB"
+~~~
+
+{% note success flat %}
+实验完成的证据是：文件类型与 inode 关系可解释，硬链接和符号链接行为可复现，复制/移动目标明确，归档清单可先验，校验和符合预期，容量命令的挂载点没有越界。最后只删除由同一 Shell 的 `mktemp -d` 创建并已打印确认的 `LAB` 目录；变量为空或路径不明时停止，不要执行清理命令。
+{% endnote %}
+
+{% flashcard basic id:linux-a3-inode-link deck:"Linux" priority:1 tags:"inode,链接" %}
+--- question
+硬链接和符号链接的核心区别是什么？
+--- answer
+硬链接直接共享 inode；符号链接保存目标路径，目标改名或删除后可能悬空。
+--- explanation
+用 ls -li 比较 inode，再用 ls -l 查看符号链接目标；目录通常不能随意创建硬链接，跨文件系统也不能创建硬链接。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a3-df-du deck:"Linux" priority:1 tags:"容量,排障" %}
+--- question
+磁盘空间告急时为什么要同时看 df 和 du？
+--- answer
+df 看文件系统层面的可用块，du 汇总目录可见文件；打开后删除的文件或其他挂载边界可能让两者不一致。
+--- explanation
+先用 df 找满的文件系统，再用 du 定位目录；若差距很大，继续检查打开文件、挂载点和保留块。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a3-tar-compression deck:"Linux" priority:2 tags:"归档,压缩" %}
+--- question
+tar 和 gzip 的职责有什么不同？
+--- answer
+tar 负责把多个文件组织成归档，gzip/xz 负责压缩归档流；tar -czf 是两者组合。
+--- explanation
+解包前用 tar -tf 预览成员；压缩不提供加密和来源可信证明，敏感归档需要另行设计。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a3-safe-delete deck:"Linux" priority:1 tags:"文件操作,安全" %}
+--- question
+执行删除命令前最小的安全检查是什么？
+--- answer
+用 pwd 确认当前位置，用 ls -ld 或 find 列出精确目标，并确认没有把变量展开为空或指向根目录。
+--- explanation
+删除不可逆；rmdir 只删除空目录，rm/unlink 的能力更强，真实设备和生产挂载点必须有备份与恢复方案。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link POSIX.1-2024 Utilities, https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/contents.html, https://pubs.opengroup.org/favicon.ico %}
+{% link GNU Coreutils Manual, https://www.gnu.org/software/coreutils/manual/coreutils.html, https://www.gnu.org/favicon.ico %}
+{% link Ubuntu 26.04 Summary for LTS Users, https://documentation.ubuntu.com/release-notes/26.04/summary-for-lts-users/, https://documentation.ubuntu.com/favicon.ico %}
+{% link Ubuntu Manpages, https://manpages.ubuntu.com/, https://manpages.ubuntu.com/favicon.ico %}
+{% endlinkgroup %}

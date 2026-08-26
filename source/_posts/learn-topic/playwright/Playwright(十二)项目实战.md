@@ -20,7 +20,7 @@ date: 2026-08-24 12:01:00
 {% course_series %}
 
 {% note info flat %}
-项目实战不是再学一个新 API，而是证明你能把第二至第十篇的主线能力组合成一套可重复、可诊断、可安全交付的测试套件。项目载体叫 **ShopLab**：买家把商品加入购物车并提交订单，管理员在独立会话中处理订单，测试通过 API 造数、核验和清理。
+项目实战不是再学一个新 API，而是把课程主线能力组合成一套可重复、可诊断、可安全交付的测试套件。项目载体叫 **ShopLab**：买家把商品加入购物车并提交订单，管理员在独立会话中处理订单，测试通过 API 造数、核验和清理。
 {% endnote %}
 
 {% note info flat %}
@@ -74,12 +74,12 @@ DELETE /api/test/products/{id} 测试专用：清理商品
 ```
 
 {% note info flat %}
-这不是另一套 ShopLab：服务实现以第七篇 `shoplab_server.py` 为唯一实现，第九篇只增加调用和 HAR 练习。固定协议还包括：测试 API 使用 `X-Test-Token: local-test-only`；session 创建响应含 `id` 与可直接传给 `new_context(storage_state=...)` 的 `storage_state`；浏览器 Cookie 名为 `session`；`/shop` 用有 accessible name 的 article 展示商品；`/checkout` 暴露“订单摘要”region，提交成功的 status 同时显示订单号与 `submitted`，并含 `data-order-id`；`/admin/orders` 用 row 展示订单号、状态和“标记为已处理”按钮。
+这不是另一套 ShopLab：服务实现以本文约定的 `shoplab_server.py` 为唯一实现；API 练习只增加调用和 HAR 练习。固定协议还包括：测试 API 使用 `X-Test-Token: local-test-only`；session 创建响应含 `id` 与可直接传给 `new_context(storage_state=...)` 的 `storage_state`；浏览器 Cookie 名为 `session`；`/shop` 用有 accessible name 的 article 展示商品；`/checkout` 暴露“订单摘要”region，提交成功的 status 同时显示订单号与 `submitted`，并含 `data-order-id`；`/admin/orders` 用 row 展示订单号、状态和“标记为已处理”按钮。
 {% endnote %}
 
-{% tip key %}
+{% note danger flat %}
 测试专用接口只能在本地或隔离测试环境开启，并通过单独凭据和网络策略保护。不要把绕过 UI 的 seed/cleanup API 暴露到生产环境。
-{% endtip %}
+{% endnote %}
 
 ### 证据边界
 
@@ -121,17 +121,19 @@ shoplab-e2e/
 ```
 
 {% note info flat %}
-`shoplab_server.py` 必须逐字复制第七篇的完整同名代码块；本文不再复制第二份实现，以免两份“真相”漂移。上面的树只是读者练习项目的逻辑结构，所有示例在博客仓库中仍只存在于 Markdown 代码块。
+`shoplab_server.py` 必须逐字复制本文约定的完整同名代码块；本文不再复制第二份实现，以免两份“真相”漂移。上面的树只是读者练习项目的逻辑结构，所有示例在博客仓库中仍只存在于 Markdown 代码块。
 {% endnote %}
 
-依赖保持最小：
+{% note info flat %}
+依赖保持最小，先锁定课程示例真正使用的运行时与测试依赖：
+{% endnote %}
 
 ```toml
 # pyproject.toml
 [project]
 name = "shoplab-e2e"
 version = "0.1.0"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = []
 
 [dependency-groups]
@@ -207,7 +209,9 @@ def product(api: APIRequestContext, namespace: str) -> Iterator[dict]:
 这里用整数分表示金额，避免浮点误差。清理断言也不能静默忽略，否则下一次运行会继承污染数据。
 {% endnote %}
 
+{% note info flat %}
 登录状态由 API 创建，但仍由浏览器真实消费：
+{% endnote %}
 
 ```python
 from collections.abc import Iterator
@@ -512,9 +516,9 @@ def test_shop_survives_recommendation_failure(
     shop.add(product)
 ```
 
-{% tip error %}
+{% note warning flat %}
 如果想演练真正的连接失败，可以用 `route.abort("connectionfailed")`；但断言仍应落在用户可见的降级结果，而不是仅断言某个请求报错。
-{% endtip %}
+{% endnote %}
 
 ## 失败交付
 
@@ -556,7 +560,7 @@ Trace 可能包含订单内容和会话信息。课程要求只用虚构数据�
 
 ### CI 交付
 
-复用第十篇的浏览器矩阵，每个 job 只安装自身引擎，每个 worker 使用独立 namespace：
+复用浏览器矩阵，每个 job 只安装自身引擎，每个 worker 使用独立 namespace：
 
 ```bash
 uv run pytest tests \
@@ -612,7 +616,7 @@ CI 中分别替换为 `firefox` 和 `webkit`。报告至少要记录提交、浏
 - [ ] 未执行的线上层级标为 `NOT VERIFIED`。
 
 {% note info flat %}
-无障碍、视觉回归、GraphQL、WebSocket 和 BDD 属于第十一篇的按需扩展，不作为本项目的主线验收条件。真实项目如果启用其中任一能力，应单独定义覆盖范围、负责人和失败处理。
+无障碍、视觉回归、GraphQL、WebSocket 和 BDD 属于按需扩展，不作为本项目的主线验收条件。真实项目如果启用其中任一能力，应单独定义覆盖范围、负责人和失败处理。
 {% endnote %}
 
 ### 证据记录

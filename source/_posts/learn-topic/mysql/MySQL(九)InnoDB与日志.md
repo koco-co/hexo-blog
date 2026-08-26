@@ -11,65 +11,132 @@ description: 理解 Buffer Pool、redo、undo、doublewrite、checkpoint、binlo
 cover: /img/picgo-images/mysql-course-cover.png
 series: MySQL
 series_order: 9
-published: false
+published: true
 abbrlink: b67bacc6
 date: 2026-08-25 13:18:42
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note primary flat %}
+一条 UPDATE 从客户端到磁盘并不是“直接写文件”：InnoDB 先在内存页上修改，用 redo 保证崩溃后能重做，用 undo 支持回滚和一致性读，binlog 再把已提交的逻辑变更交给复制和时间点恢复。
+{% endnote %}
 
-## 文章职责
+## 写入链路
 
-- 唯一要解决的问题：一条写入如何从内存变成可恢复的数据，以及不同日志各自负责什么。
-- 可观察成果：能够解释脏页、WAL、undo、binlog、两阶段提交和崩溃恢复的职责边界。
-- 进入条件：MySQL(七)索引原理与设计
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% mermaid %}
+flowchart LR
+  C[SQL 请求] --> B[Buffer Pool\n数据页变脏]
+  B --> R[Redo Log Buffer]
+  R --> F[Redo Log 文件]
+  B --> D[Doublewrite / Tablespace]
+  C --> U[Undo Log]
+  C --> X[Binary Log]
+  F --> Q[崩溃恢复重做]
+  X --> P[复制与 PITR]
+{% endmermaid %}
 
-## 内容边界
+{% note info flat %}
+提交时优先保证日志记录落盘，脏数据页可以稍后由刷脏线程写入表空间；这就是 WAL（Write-Ahead Logging）的核心。redo、undo 和 binlog 的格式、生命周期与用途不同，不能互相替代。
+{% endnote %}
 
-- 能力分配：
+## Buffer Pool
 
-- 存储与日志链路：`refman8.4:innodb-storage-engine`、`refman8.4:innodb-architecture`、`refman8.4:innodb-buffer-pool`、`refman8.4:innodb-buffer-pool-optimization`、`refman8.4:innodb-redo-log`、`refman8.4:innodb-undo-logs`、`refman8.4:innodb-doublewrite-buffer`、`refman8.4:innodb-checkpoints`、`refman8.4:innodb-recovery`、`refman8.4:innodb-tablespace`、`refman8.4:innodb-row-format`、`refman8.4:innodb-change-buffer`、`refman8.4:binary-log`
-- 8.4运行边界：`refman8.4:optimizing-innodb-logging`、`refman8.4:innodb-dedicated-server`
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+{% note primary flat %}
+Buffer Pool 缓存表页和索引页，命中时读写避免磁盘 I/O。被修改过但尚未写回的页是脏页；checkpoint 推进表示哪些 redo 之前的脏页已经安全写回，可以回收日志空间。
+{% endnote %}
 
-## 正文编排
+| 组件 | 主要职责 | 失败/恢复意义 |
+| --- | --- | --- |
+| Buffer Pool | 缓存数据页、索引页、自适应哈希等 | 进程重启后需要从磁盘和 redo 恢复 |
+| Redo Log | 记录页级物理变化的持久化顺序 | 崩溃后重做未写回的变化 |
+| Undo Log | 保存旧版本或反向信息 | 回滚、MVCC 一致性读 |
+| Doublewrite | 先写完整页副本再写数据页 | 防止部分页写造成 torn page |
+| Tablespace | 持久保存表、索引和 undo 等对象 | 恢复和备份的物理边界 |
+| Binary Log | 记录服务器级逻辑事件 | 复制、审计和 PITR |
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| InnoDB 架构 | 建立InnoDB 架构的心智模型 | 定位内存、线程、表空间与日志 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 页与 Buffer Pool | 建立页与 Buffer Pool的心智模型 | 理解缓存、脏页和刷盘 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| redo 与 checkpoint | 建立redo 与 checkpoint的心智模型 | 理解 WAL 和恢复起点 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| undo 与多版本 | 建立undo 与多版本的心智模型 | 理解回滚和历史版本来源 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| doublewrite 与部分页写 | 建立doublewrite 与部分页写的心智模型 | 识别页完整性保护 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| binlog 与 redo | 建立binlog 与 redo的心智模型 | 区分复制恢复日志与引擎恢复日志 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 两阶段提交与崩溃恢复 | 建立两阶段提交与崩溃恢复的心智模型 | 追踪提交各阶段的恢复判断 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note warning flat %}
+Buffer Pool 命中率高不等于查询一定快：低选择性扫描、排序、锁等待和网络都可能成为瓶颈；反过来，调大 Buffer Pool 也不能代替合适索引和事务设计。
+{% endnote %}
 
-## 视觉与复习
+## 三类日志
 
-- 贯穿案例：ShopLab 九表订单、库存、员工与登录数据。
-- 完整示例：沿一次订单状态更新追踪 Buffer Pool、undo、redo、binlog、提交和宕机后的恢复决策。
-- 失败边界与踩坑：不把 binlog 当 redo，也不把事务提交等同于数据页立刻落盘。
-- FAQ 候选与来源：为什么有 redo 还需要 doublewrite；为什么备份恢复仍需要 binlog。
-- 非复习自测：机制闪卡覆盖 redo/undo/binlog、checkpoint、doublewrite 和两阶段提交。
-- 图表或实验：redo、undo、binlog 写入链和崩溃恢复决策图。
-- 参考资料：
+{% note info flat %}
+redo 关注“这次页修改是否能在崩溃后重做”；undo 关注“如何回到旧版本或撤销本次事务”；binlog 关注“服务器对外产生了什么逻辑事件”。面试解释时按这三个问题分层，不要说成三个“备份文件”。
+{% endnote %}
 
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-architecture.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-buffer-pool.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-undo-logs.html
-- https://dev.mysql.com/doc/refman/8.4/en/innodb-recovery.html
-- https://dev.mysql.com/doc/refman/8.4/en/binary-log.html
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+```sql
+SHOW VARIABLES LIKE 'innodb%log%';
+SHOW VARIABLES LIKE 'log_bin';
+SHOW BINARY LOGS;
+SHOW ENGINE INNODB STATUS;
+```
 
-## 验收证据
+{% note primary flat %}
+InnoDB 与 binlog 的提交需要协调：事务先写 redo，binlog 记录事务事件，提交阶段让二者状态一致。若只看到某一份日志，不能推断事务已对外可见；恢复和复制还要核对 GTID/位置与提交状态。
+{% endnote %}
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+## 刷脏与恢复
+
+{% timeline 从写入到恢复, blue %}
+<!-- timeline 修改 -->
+事务修改 Buffer Pool 中的页，产生 undo 和 redo；数据页此时可能仍是脏页。
+<!-- endtimeline -->
+<!-- timeline 提交 -->
+redo 和 binlog 在提交协议中完成持久化协调，客户端得到成功响应。
+<!-- endtimeline -->
+<!-- timeline checkpoint -->
+后台线程刷脏页并推进 checkpoint；日志空间达到压力阈值时会反过来限制写入。
+<!-- endtimeline -->
+<!-- timeline 崩溃 -->
+重启时扫描 checkpoint 后的 redo，重做已记录但未写入的数据页；再根据事务状态处理未完成事务。
+<!-- endtimeline -->
+{% endtimeline %}
+
+{% note success flat %}
+“提交成功”意味着事务的持久化承诺已满足，不意味着每个脏页都立刻写入最终表空间。验证崩溃恢复要看重启后的数据、事务状态、redo LSN 和 binlog 连续性。
+{% endnote %}
+
+## 8.4 运行边界
+
+{% folding cyan, 专用服务器与日志容量 %}
+MySQL 8.4 可以通过 `innodb_dedicated_server` 根据机器内存自动估算部分 InnoDB 配置；它只适合明确由单个 MySQL 实例专用的服务器，容器共享节点或手工调优环境不应盲目开启。日志容量、刷脏阈值和 I/O 能力要结合恢复时间目标设置。
+{% endfolding %}
+
+{% note danger flat %}
+不要为了“让日志更快”随意关闭 doublewrite、降低持久化策略或删除 binlog。任何持久化配置变化都必须先说明 durability、恢复窗口、复制和备份后果，并保留可回滚的配置版本。
+{% endnote %}
+
+## 验证证据
+
+```sql
+SELECT NAME, SPACE, SPACE_TYPE, FILE_SIZE, ALLOCATED_SIZE
+FROM information_schema.INNODB_TABLESPACES
+ORDER BY NAME;
+
+SELECT VARIABLE_NAME, VARIABLE_VALUE
+FROM performance_schema.global_variables
+WHERE VARIABLE_NAME IN (
+  'innodb_buffer_pool_size',
+  'innodb_redo_log_capacity',
+  'innodb_doublewrite',
+  'innodb_flush_log_at_trx_commit',
+  'sync_binlog'
+);
+```
+
+{% note success flat %}
+一次可复现的实验至少记录版本、关键持久化变量、事务提交结果、重启前后的行值、binlog 文件/位置或 GTID，以及恢复后的一致性查询。缺少其中任一项，只能说明“读到了当前数据”，不能证明完成了崩溃恢复验证。
+{% endnote %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link MySQL 8.4 InnoDB Architecture, https://dev.mysql.com/doc/refman/8.4/en/innodb-architecture.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Buffer Pool, https://dev.mysql.com/doc/refman/8.4/en/innodb-buffer-pool.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Redo Log, https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Undo Logs, https://dev.mysql.com/doc/refman/8.4/en/innodb-undo-logs.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Doublewrite Buffer, https://dev.mysql.com/doc/refman/8.4/en/innodb-doublewrite-buffer.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Recovery, https://dev.mysql.com/doc/refman/8.4/en/innodb-recovery.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Binary Log, https://dev.mysql.com/doc/refman/8.4/en/binary-log.html, https://www.mysql.com/favicon.ico %}
+{% endlinkgroup %}

@@ -20,7 +20,7 @@ date: 2026-08-24 12:05:00
 
 {% course_series %}
 
-{% note info no-icon modern %}
+{% note info flat %}
 当测试从 5 条增长到 100 条，真正的风险不是代码行数，而是数据、生命周期和职责互相缠绕。本篇用“订单折扣”案例组织参数化、外部数据、fixture 分层和 Page Object。
 {% endnote %}
 
@@ -112,9 +112,9 @@ def test_total(page: Page, level: str, subtotal: int, expected: str) -> None:
 简单、机器生成或只由测试代码维护的数据优先使用 JSON；只有当数据层级较深、需要频繁人工编辑，并且团队愿意承担额外依赖时再选择 YAML。
 {% endnote %}
 
-{% tip key %}
+{% note danger flat %}
 两种格式都不能保存账号密码等敏感值。数据文件只放可公开输入，敏感值通过 CI secret 或测试环境的安全注入方式提供。
-{% endtip %}
+{% endnote %}
 
 {% tabs 数据格式, 1 %}
 
@@ -162,6 +162,52 @@ YAML 需要额外依赖 `PyYAML`，并应使用 `safe_load()`。
 <!-- endtab -->
 
 {% endtabs %}
+
+### 测试标记
+
+{% note info flat %}
+参数化解决“同一流程换不同数据”，测试标记解决“哪些用例应该运行，以及未运行或预期失败如何解释”。先集中注册项目标记，并开启严格检查，避免把拼写错误当成有效筛选条件：
+{% endnote %}
+
+```toml
+[tool.pytest.ini_options]
+addopts = "--strict-markers"
+markers = [
+  "smoke: 关键冒烟用例",
+  "browser_matrix: 需要完整浏览器矩阵的用例",
+]
+```
+
+```python
+import sys
+import pytest
+
+
+@pytest.mark.smoke
+def test_checkout_smoke(page):
+    ...
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="当前环境没有受支持的本地服务")
+def test_local_service(page):
+    ...
+
+
+@pytest.mark.xfail(reason="等待 ISSUE-142 修复", strict=True)
+def test_known_upstream_bug(page):
+    ...
+```
+
+{% note warning flat %}
+`skip`/`skipif` 只表示前置条件不满足或当前平台不支持，不能用来隐藏一个本应修复的失败；`xfail(strict=True)` 只适合有明确缺陷记录的预期失败，修复后意外通过也应让 CI 暴露出来。`pytest-playwright` 的 `only_browser` 与 `skip_browser` 则专门表达浏览器矩阵选择，不能替代业务断言。
+{% endnote %}
+
+常用筛选命令如下：
+
+```bash
+uv run pytest -m smoke
+uv run pytest -m "browser_matrix and not slow"
+```
 
 ## Fixture 设计
 
@@ -220,7 +266,7 @@ def order(order_store: OrderStore, order_id: str) -> Iterator[dict]:
 ```
 
 {% note info flat %}
-这段内存 store 只用于讲 Fixture 所有权，不依赖第九篇 API。即使测试中的断言故意失败，`yield` 之后的删除和 `order_store` 的空状态检查仍会执行。
+这段内存 store 只用于讲 Fixture 所有权，不依赖 API 造数。即使测试中的断言故意失败，`yield` 之后的删除和 `order_store` 的空状态检查仍会执行。
 {% endnote %}
 
 {% note info flat %}
@@ -306,9 +352,9 @@ class ShopPage:
 
 ### Fixture 注入
 
-{% tip warning %}
+{% note warning flat %}
 Page Object 可以由 Function 级 Fixture 构造，但不应扩大 Page 生命周期：
-{% endtip %}
+{% endnote %}
 
 ```python
 import pytest
@@ -344,18 +390,18 @@ Fixture 负责对象装配，Page Object 负责页面语言，测试仍然负责
 {% endnote %}
 
 {% hideToggle 参考划分, #f0f4ff, #1f2d3d %}
-账号类型、商品和期望状态属于参数数据；资源创建与无条件清理属于 Fixture；打开页面、填写和点击属于 Page Object；“提交后状态正确”与最终业务后置条件留在测试中。API cleanup 在第九篇实现，这里只判断职责。
+账号类型、商品和期望状态属于参数数据；资源创建与无条件清理属于 Fixture；打开页面、填写和点击属于 Page Object；“提交后状态正确”与最终业务后置条件留在测试中。API cleanup 在资源治理层实现，这里只判断职责。
 {% endhideToggle %}
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | pytest 资源 Fixture | `new_context` | `playwright`、`browser_type`、`browser`、`context`、`page`、`launch_browser` | — | — |
 | pytest 信息 Fixture | — | `browser_name`、`browser_channel`、`device`、`is_chromium`、`is_firefox`、`is_webkit`、`output_path` | — | — |
@@ -365,7 +411,7 @@ Fixture 负责对象装配，Page Object 负责页面语言，测试仍然负责
 
 ## 常见问题
 
-{% flashcard basic id:playwright-pom-boundary deck:"Playwright" priority:2 tags:"POM,测试框架" %}
+{% flashcard basic id:playwright-pom-boundary deck:"Playwright" priority:1 tags:"POM,测试框架" %}
 --- question
 Page Object 最重要的职责边界是什么？
 --- answer
@@ -374,7 +420,7 @@ Page Object 最重要的职责边界是什么？
 Page Object 集中 Locator 与用户操作；Fixture 管资源，API Client 管服务调用，测试保留关键业务目标和断言，失败报告才容易理解。
 {% endflashcard %}
 
-{% flashcard choice id:playwright-fixture-scope deck:"Playwright" priority:2 tags:"pytest,Fixture" answer:C %}
+{% flashcard choice id:playwright-fixture-scope deck:"Playwright" priority:1 tags:"pytest,Fixture" answer:C %}
 --- question
 可变的 BrowserContext、Page 和订单数据通常应使用什么作用域？
 - [A] Session
@@ -386,11 +432,24 @@ C
 Function 级资源把状态污染限制在单条用例。只有创建成本高且本身可安全共享的只读资源，才考虑更大作用域。
 {% endflashcard %}
 
+{% flashcard choice id:playwright-pytest-markers deck:"Playwright" priority:2 tags:"pytest,标记" answer:B %}
+--- question
+已知某个能力只在 Chromium 中受支持，怎样表达浏览器范围？
+- [A] 在测试体内捕获所有异常
+- [B] 使用 `only_browser("chromium")` 或等价的浏览器矩阵标记
+- [C] 把用例永久标记为 `xfail`
+--- answer
+B
+--- explanation
+浏览器不支持属于运行矩阵边界，应使用插件提供的浏览器选择标记；`xfail` 只表示有明确记录的预期缺陷，不能把环境差异伪装成产品失败。
+{% endflashcard %}
+
 ## 参考资料
 
 {% linkgroup %}
 {% link pytest Fixtures, https://docs.pytest.org/en/stable/how-to/fixtures.html, https://docs.pytest.org/en/stable/_static/favicon.png %}
 {% link pytest Parametrize, https://docs.pytest.org/en/stable/how-to/parametrize.html, https://docs.pytest.org/en/stable/_static/favicon.png %}
+{% link pytest Marks, https://docs.pytest.org/en/stable/how-to/mark.html, https://docs.pytest.org/en/stable/_static/favicon.png %}
 {% link pytest-playwright Reference, https://playwright.dev/python/docs/test-runners, https://playwright.dev/img/playwright-logo.svg %}
 {% link Page Object Models, https://playwright.dev/python/docs/pom, https://playwright.dev/img/playwright-logo.svg %}
 {% endlinkgroup %}

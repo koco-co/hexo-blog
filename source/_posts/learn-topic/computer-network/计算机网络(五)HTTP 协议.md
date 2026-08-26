@@ -111,7 +111,7 @@ Cache-Control: max-age=60
 Content-Type 说明内容的媒体类型以及可能的参数，例如 application/json 或 text/html; charset=utf-8。Content-Length 表示消息内容的字节数；它不是字符数，也不是压缩前的源文件大小。HTTP/1.1 的消息分帧还涉及 Transfer-Encoding、连接关闭和响应语义，后续现代 HTTP 文章会继续解释 HTTP/2 和 HTTP/3 的帧层。
 {% endnote %}
 
-{% note info flat %}
+{% note danger flat %}
 在 HTTP/1.1 中，解析消息边界必须先看响应是否按语义没有内容，再看长度和传输编码。若同一消息同时出现 `Transfer-Encoding` 与 `Content-Length`，消息分帧由 `Transfer-Encoding` 控制，`Content-Length` 不能继续作为边界；发送端不应生成这种组合，接收端应把它当作高风险的解析歧义，按 RFC 9112 和本地安全策略拒绝、记录并关闭连接，而不是让不同代理各自猜测。chunked 的每一块以十六进制长度开始，长度为 0 的终止块结束块序列，后面可以有 trailer 字段；连接关闭只能作为明确允许的旧式结束方式，不能拿来掩盖错误长度。
 {% endnote %}
 
@@ -189,6 +189,9 @@ test
 | PATCH | 对目标资源做部分修改 | 否 | 取决于补丁设计 | 不能默认与 PUT 等价 |
 | DELETE | 删除目标资源的当前关联 | 否 | 是 | 首次和重复删除的响应可以不同 |
 | HEAD | 获取与 GET 类似的元数据而不返回内容 | 是 | 是 | 服务器应保持与 GET 的元数据一致性边界 |
+| OPTIONS | 询问目标资源支持的通信选项 | 是 | 是 | CORS 预检只是它在浏览器场景中的一种用法 |
+| CONNECT | 建立到目标的隧道，成功后切换连接语义 | — | — | 常见于 HTTP 代理，不应按普通响应体处理 |
+| TRACE | 回显服务器收到的请求，用于诊断路径 | 是 | 是 | 是否启用取决于服务端安全策略，不用于业务认证 |
 
 {% note info flat %}
 方法选择要通过实际目标状态验证，而不是只看请求体：
@@ -226,9 +229,9 @@ HTTP/1.1 204 No Content
 | 4xx | 请求或客户端上下文有问题 | 参数、认证、权限、资源、方法或限流 |
 | 5xx | 服务端或网关处理失败 | 应用异常、上游不可用、超时或未实现 |
 
-{% tip warning %}
+{% note warning flat %}
 状态码只描述 HTTP 层观察到的结果，不等于网络层故障分类。收到 404 说明已经有 HTTP 响应到达客户端；DNS 失败、TCP 连接拒绝和 TLS 证书错误通常不会产生 HTTP 状态码。
-{% endtip %}
+{% endnote %}
 
 ### 重定向
 
@@ -268,9 +271,9 @@ sequenceDiagram
 | 503 | 当前服务暂不可用或过载 | 不一定是永久故障 |
 | 504 | 网关等待上游响应超时 | 需要看 DNS、TCP、TLS、上游处理时间 |
 
-{% tip warning %}
+{% note warning flat %}
 102 Processing 是 WebDAV 语境中的历史扩展状态，不应当作普通业务 API 的通用处理中状态。遇到 102，应先确认服务器、客户端和注册表所处的规范语境。
-{% endtip %}
+{% endnote %}
 
 ### WebDAV 与 102
 
@@ -354,9 +357,9 @@ ETag 是表示的实体标签，适合做精确的条件验证和并发更新保
 
 ### Cookie 的设置与发送
 
-{% tip key %}
+{% note primary flat %}
 服务器通过 Set-Cookie 建立或更新浏览器保存的 Cookie，浏览器之后依据 Domain、Path、Expires/Max-Age、Secure、HttpOnly、SameSite 等属性决定是否发送 Cookie。Cookie 是 HTTP 状态管理机制，不等于认证本身；认证系统可以把会话标识放在 Cookie，也可以使用 Authorization 等方式。
-{% endtip %}
+{% endnote %}
 
 | 属性 | 控制什么 | 常见误区 |
 | --- | --- | --- |
@@ -379,9 +382,9 @@ HTTP/1.1 200 OK
 Cookie: sid=redacted
 ~~~
 
-{% tip key %}
+{% note danger flat %}
 上面是脱敏的协议形态，不是某个真实账户的输出。验证时要检查请求是否满足 Domain/Path/Secure/SameSite 条件，以及浏览器是否因第三方上下文、跨源凭据或过期时间拒绝发送；不要把 Cookie 值写入文章、HAR 或公共日志。
-{% endtip %}
+{% endnote %}
 
 ## Fetch 与 CORS
 
@@ -472,9 +475,9 @@ fetch("https://api.example.test/items", {
 
 ### Authorization
 
-{% tip key %}
+{% note danger flat %}
 Authorization 字段承载认证方案和凭据，例如 Bearer token。它解决“请求者如何证明身份/持有凭据”的一部分问题，不自动解决权限、会话撤销、Token 泄露、缓存隔离或传输加密。生产排查中不要把真实 Authorization 值写入文章、截图、HAR 或公共 issue。
-{% endtip %}
+{% endnote %}
 
 {% note info flat %}
 Bearer 请求的最小形态是：
@@ -529,27 +532,36 @@ flowchart TD
 
 ### curl 验证
 
-{% tip key %}
+{% note warning flat %}
 下面命令针对公共示例站点，仅产生读取请求。实际复现私有接口时，先脱敏并确认授权；不要把真实 Cookie、Authorization 或内部 Host 放进共享日志。
-{% endtip %}
+{% endnote %}
 
 ~~~bash
+# 输出文件只在本次 shell 中使用，退出时自动清理；不要写死本机临时目录。
+DISCARD_FILE="$(mktemp -t http-discard.XXXXXX)"
+EVIDENCE_DIR="$(mktemp -d -t http-evidence.XXXXXX)"
+cleanup_http_evidence() {
+  rm -f "$DISCARD_FILE" "$EVIDENCE_DIR/headers.txt" "$EVIDENCE_DIR/body.txt"
+  rmdir "$EVIDENCE_DIR" || true
+}
+trap cleanup_http_evidence EXIT
+
 # 查看响应头和重定向，但不下载大响应体
-curl -sS -D - -o /dev/null https://example.com/
+curl -sS -D - -o "$DISCARD_FILE" https://example.com/
 
 # 显式声明客户端希望得到 JSON，并观察详细时间线
 curl -sS -v -H 'Accept: application/json' https://example.com/api/status
 
 # 只跟随重定向并保存最终响应头；先确认目标不会泄露凭据
-curl -sS -L -D /tmp/http-headers.txt -o /tmp/http-body.txt https://example.com/
+curl -sS -L -D "$EVIDENCE_DIR/headers.txt" -o "$EVIDENCE_DIR/body.txt" https://example.com/
 
 # 复刻条件请求的形状，ETag 值应来自你自己的授权响应
 curl -sS -D - -H 'If-None-Match: "article-42-v7"' https://example.com/articles/42
 ~~~
 
-{% tip success %}
+{% note success flat %}
 预期证据是：DNS 解析、TCP/或后续安全连接、请求字段、响应状态、Location、缓存字段和内容类型。`-I` 发送 HEAD，不能把 HEAD 的结果完全当作 GET 的内容证据；`-L` 会改变观察到的请求链，必须同时记录每一跳的状态和方法。
-{% endtip %}
+{% endnote %}
 
 ### 请求验证
 
@@ -558,14 +570,16 @@ curl -sS -D - -H 'If-None-Match: "article-42-v7"' https://example.com/articles/4
 {% endnote %}
 
 ~~~text
-$ curl -sS -D - -o /dev/null http://127.0.0.1:18081/cache
+$ DISCARD_FILE="$(mktemp -t http-discard.XXXXXX)"
+$ curl -sS -D - -o "$DISCARD_FILE" http://127.0.0.1:18081/cache
 HTTP/1.0 200 OK
 Content-Type: text/plain; charset=utf-8
 Cache-Control: max-age=0, must-revalidate
 ETag: "fixture-v1"
 
 $ curl -sS -D - -H 'If-None-Match: "fixture-v1"' http://127.0.0.1:18081/cache
-HTTP/1.0 200 OK
+HTTP/1.1 304 Not Modified
+Cache-Control: max-age=0, must-revalidate
 ETag: "fixture-v1"
 
 $ curl -sS -D - http://127.0.0.1:18081/fixed-502
@@ -578,8 +592,8 @@ Access-Control-Allow-Origin: https://app.example.test
 Vary: Origin
 ~~~
 
-{% note info flat %}
-这是输出模板而非对线上状态的断言；若夹具使用 HTTP/1.0、实现没有条件请求或路由不同，结果会不同。验证要对照实际状态、字段、响应体长度和服务器日志；对 502/504 还要关联上游 DNS/TCP/TLS 证据。
+{% note warning flat %}
+这是输出模板而非对线上状态的断言。对 GET/HEAD，匹配的 ETag 通常应得到 `304 Not Modified`；如果实际夹具或目标返回 200，说明它没有按条件请求处理或存在实现差异，不能把 200 当成规范结论。验证要对照实际状态、字段、响应体长度和服务器日志；对 502/504 还要关联上游 DNS/TCP/TLS 证据。
 {% endnote %}
 
 ### 固定响应夹具与状态边界

@@ -6,108 +6,213 @@ tags:
 categories:
   - Learn Topic
   - Python
-description: 理解 CPython 对象生命周期、GC 与 GIL 边界，并依据工作负载选择线程、进程或 asyncio。
+description: 区分语言语义与 CPython 实现，理解对象生命周期、GC、GIL、线程、进程、asyncio 与性能测量的选择边界。
 cover: /img/picgo-images/python-course-cover.png
 series: Python
 series_order: 10
-published: false
+published: true
 abbrlink: fa1b960c
 date: 2026-08-25 13:13:45
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+并发题最容易把四件事混在一起：对象何时可回收、代码能否交错、CPU 能否真正并行、程序的瓶颈在哪里。先分清语言保证与 CPython 当前实现，再选线程、进程或 asyncio，答案才有边界。
+{% endnote %}
 
-## 文章职责
+## 对象生命周期
 
-- 唯一要解决的问题：explain CPython object lifetime and choose concurrency models based on task and runtime constraints.
-- 可观察成果：reader can explain reference counting, cyclic GC, the default GIL build versus free-threaded builds, and choose threads/processes/asyncio for a measured workload.
-- 进入条件：Python(九)类型与质量保障.
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note primary flat %}
+Python 语言保证对象在不再可达时可被回收，但不保证具体时机。CPython 通常以引用计数为主，并用循环垃圾回收器处理引用环；这是 CPython 实现细节，不应当作所有 Python 实现的语义承诺。
+{% endnote %}
 
-## 内容边界
+```python
+import gc
+import weakref
 
-- 复用或新建依据：new article; old notes do not cover these mechanisms.
+class Note:
+    pass
 
-| 稳定标识 | 处置 | 目标章节 |
+note = Note()
+reference = weakref.ref(note)
+del note
+gc.collect()
+print(reference() is None)  # 通常为 True，但业务逻辑不应依赖收集时机
+```
+
+{% note warning flat %}
+不要把 `__del__` 当作关闭文件、提交事务或释放锁的可靠机制。终结时机和解释器关闭顺序不稳定，引用环还会复杂化行为；资源应由 `with`、显式 `close()` 或明确生命周期管理释放。
+{% endnote %}
+
+| 工具 | 适用问题 | 不承担的职责 |
 | --- | --- | --- |
-| `langref:datamodel#coroutine-functions` | 核心详解 | 执行模型选择 |
-| `langref:datamodel#asynchronous-generator-functions` | 核心详解 | 执行模型选择 / 异步迭代、async for 与异步生成器 |
-| `langref:datamodel#coroutines` | 核心详解 | 执行模型选择 |
-| `langref:datamodel#awaitable-objects` | 核心详解 | 执行模型选择 |
-| `langref:datamodel#coroutine-objects` | 核心详解 | 执行模型选择 |
-| `langref:datamodel#asynchronous-iterators` | 核心详解 | 执行模型选择 / 异步迭代、async for 与异步生成器 |
-| `langref:datamodel#asynchronous-context-managers` | 正文简述 | 并发与并行 |
-| `langref:executionmodel#runtime-components` | 正文简述 | 并发与并行 |
-| `langref:executionmodel#python-runtime-model` | 正文简述 | 并发与并行 |
-| `langref:expressions#asynchronous-generator-functions` | 核心详解 | 执行模型选择 / 异步迭代、async for 与异步生成器 |
-| `langref:expressions#asynchronous-generator-iterator-methods` | 核心详解 | 执行模型选择 / 异步迭代、async for 与异步生成器 |
-| `langref:expressions#await-expression` | 核心详解 | 执行模型选择 |
-| `langref:compound_stmts#coroutines` | 核心详解 | 执行模型选择 |
-| `langref:compound_stmts#coroutine-function-definition` | 核心详解 | 执行模型选择 |
-| `langref:compound_stmts#the-async-for-statement` | 核心详解 | 执行模型选择 / 异步迭代、async for 与异步生成器 |
-| `langref:compound_stmts#the-async-with-statement` | 正文简述 | 执行模型选择 |
-| `builtin:aiter` | 正文简述 | 执行模型选择 / 异步迭代、async for 与异步生成器 |
-| `builtin:anext` | 正文简述 | 执行模型选择 / 异步迭代、async for 与异步生成器 |
-| `stdlib:_thread` | 正文简述 | 执行模型选择 / 底层 _thread 与高层接口边界 |
-| `stdlib:asyncio` | 核心详解 | 执行模型选择 |
-| `stdlib:concurrent.futures` | 核心详解 | 执行模型选择 |
-| `stdlib:contextvars` | 正文简述 | 共享状态与取消 / ContextVar 与任务上下文 |
-| `stdlib:gc` | 核心详解 | 对象生命周期 |
-| `stdlib:mmap` | 正文简述 | 对象生命周期 |
-| `stdlib:multiprocessing` | 核心详解 | 执行模型选择 |
-| `stdlib:multiprocessing.connection` | 正文简述 | 执行模型选择 |
-| `stdlib:multiprocessing.dummy` | 正文简述 | 执行模型选择 |
-| `stdlib:multiprocessing.managers` | 正文简述 | 执行模型选择 |
-| `stdlib:multiprocessing.pool` | 正文简述 | 执行模型选择 |
-| `stdlib:multiprocessing.shared_memory` | 正文简述 | 共享状态与取消 |
-| `stdlib:multiprocessing.sharedctypes` | 正文简述 | 共享状态与取消 |
-| `stdlib:queue` | 核心详解 | 共享状态与取消 |
-| `stdlib:resource` | 正文简述 | 对象生命周期 |
-| `stdlib:sched` | 正文简述 | 并发与并行 |
-| `stdlib:selectors` | 正文简述 | 并发与并行 |
-| `stdlib:signal` | 正文简述 | 共享状态与取消 |
-| `stdlib:subprocess` | 正文简述 | 执行模型选择 |
-| `stdlib:threading` | 核心详解 | 执行模型选择 |
-| `stdlib:time` | 正文简述 | 并发与并行 |
-| `stdlib:tracemalloc` | 正文简述 | 对象生命周期 |
-| `stdlib:weakref` | 核心详解 | 对象生命周期 |
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+| `gc` | 诊断循环与收集器行为 | 代替资源所有权 |
+| `weakref` | 缓存、观察对象而不延长寿命 | 保证对象一直存在 |
+| `tracemalloc` | 比较 Python 内存分配快照 | 解释全部系统内存 |
+| `sys.getsizeof` | 单个对象的直接大小 | 递归计算完整对象图 |
 
-## 正文编排
+## 并发与并行
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 对象生命周期 | 建立对象生命周期的心智模型 | 引用计数；循环引用与垃圾回收；弱引用与资源释放 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 并发与并行 | 建立并发与并行的心智模型 | 任务、线程与进程；协作式与抢占式调度；CPU 密集与 I/O 密集 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| GIL 边界 | 判断GIL 边界 | 传统 CPython 构建；阻塞 I/O 与扩展释放 GIL；3.14 自由线程支持 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 执行模型选择 | 比较执行模型选择 | threading；底层 _thread 与高层接口边界；multiprocessing 与 ProcessPoolExecutor；asyncio；异步迭代、async for 与异步生成器；async with 与异步资源清理 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 共享状态与取消 | 建立共享状态与取消的心智模型 | 锁、队列与竞争条件；ContextVar 与任务上下文；异常传播；关闭与清理 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 并发性能实验 | 完成并验证并发性能实验 | I/O 工作负载；CPU 工作负载；测量与解释 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 结果验证的输入、关键步骤、结果与边界 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 常见问题 | 建立常见问题的心智模型 | 常见问题的输入、关键步骤、结果与边界 | `flashcard` | 真实高价值问题需要进入长期复习队列 | 题面、精简答案和详细解析 | 闪卡脚本失效时题面与答案正文仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 参考资料 | 建立参考资料的心智模型 | 参考资料的输入、关键步骤、结果与边界 | `linkgroup/link` | 官方扩展阅读使用统一资料卡片 | 资料名称、用途和完整 URL | 图片或网络失败时名称与 URL 仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note primary flat %}
+并发表示多项工作在时间上交错推进；并行表示多个 CPU 核心同时执行。线程常用于等待 I/O，进程可利用多核执行 CPU 密集任务，`asyncio` 在一个线程内协作式调度大量等待型任务。选择依据是工作负载和边界，不是语法偏好。
+{% endnote %}
 
-## 视觉与复习
+| 工作负载 | 常见选择 | 主要代价 |
+| --- | --- | --- |
+| 大量可等待 I/O、已有 async 库 | `asyncio` | 需端到端 async，阻塞调用会卡住循环 |
+| 少量阻塞 I/O、已有同步库 | `threading` / 线程池 | 共享状态与取消更复杂 |
+| CPU 密集且任务可序列化 | `multiprocessing` / 进程池 | 进程启动、复制/序列化、IPC 成本 |
+| 小任务或单一顺序流程 | 不并发 | 可读性和调试成本最低 |
 
-- 贯穿案例与完整示例：run equivalent log-processing workloads sequentially, with threads, a process pool, and asyncio; drive an async generator through both `async for` and explicit `aiter`/`anext`, verify exhaustion via `StopAsyncIteration`, use an async context manager around a cancellable resource, inject shared-state/cancellation failures, and verify exception propagation plus `__aexit__` cleanup before interpreting measurements.
-- 失败边界与踩坑：the GIL does not make compound operations thread-safe; async context managers must preserve exception propagation and cleanup during cancellation; free-threaded builds can re-enable the GIL for incompatible extensions; speed depends on workload and platform.
-- FAQ 候选与来源：Library FAQ thread/GIL questions and Programming/Design FAQ memory/performance questions.
-- 复习卡片：
-  - `python-runtime-gc` priority 1.
-    - `python-runtime-gil` priority 1.
-    - `python-runtime-thread-process-async` priority 1.
-    - `python-runtime-race` priority 1.
-- 图表或实验：object-reference/GC graph, concurrency selection matrix, and timeline comparison.
-- 主要参考资料：`gc`, `weakref`, concurrency library index, `threading`, `multiprocessing`, `asyncio`, free-threading HOWTO, C API GIL explanation for CPython implementation evidence.
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+## GIL 边界
 
-## 验收证据
+{% note primary flat %}
+在传统 CPython 构建中，全局解释器锁（GIL）限制同一解释器内多个线程同时执行 Python 字节码；它不阻止 I/O 等待期间切换，也不阻止多个进程并行。其他实现以及 CPython 的可选 free-threaded 构建可能不同，所以讨论 GIL 时必须说明实现和构建。
+{% endnote %}
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+{% note warning flat %}
+“有 GIL 所以线程没有用”是错误结论。线程对 I/O 并发、阻塞库适配和响应性仍然有用；反过来，free-threaded 构建也不会自动消除竞态、死锁、锁粒度和第三方扩展兼容性问题。
+{% endnote %}
+
+## 执行模型
+
+{% note primary flat %}
+线程共享进程内对象，进程默认隔离内存，协程共享线程并只在 `await` 等协作点让出执行权。三者都可能有共享资源：线程需要锁或队列，进程需要消息和序列化协议，协程需要避免跨 await 的不一致状态。
+{% endnote %}
+
+```python
+import asyncio
+
+async def work(name: str, delay: float) -> str:
+    await asyncio.sleep(delay)
+    return name
+
+async def main() -> None:
+    results = await asyncio.gather(work("a", 0.01), work("b", 0.01))
+    print(results)
+
+asyncio.run(main())
+```
+
+{% folding 取消与超时, open %}
+取消是协作请求，不是强制终止。线程常通过 `threading.Event` 轮询退出；协程会在 await 点收到取消，清理代码应放在 `finally`。进程任务的终止代价更高，必须设计幂等外部操作与可恢复状态。超时要定义是放弃等待、取消任务，还是让后台继续。
+{% endfolding %}
+
+## 共享状态
+
+{% note primary flat %}
+竞态发生在结果依赖交错顺序、而程序未建立同步关系时。一次 `counter += 1` 不是应用层的事务；即使某次运行看似正确，也不能说明没有竞态。优先传递不可变消息、使用队列，或把临界区缩到最小。
+{% endnote %}
+
+```python
+from threading import Lock
+
+class Counter:
+    def __init__(self) -> None:
+        self._value = 0
+        self._lock = Lock()
+
+    def increment(self) -> int:
+        with self._lock:
+            self._value += 1
+            return self._value
+
+    @property
+    def value(self) -> int:
+        with self._lock:
+            return self._value
+```
+
+{% note warning flat %}
+锁解决的是临界区互斥，不是所有设计问题。持锁期间执行网络、磁盘或未知回调会放大阻塞甚至死锁；统一锁顺序、避免嵌套锁、缩小临界区，并以测试制造竞争条件验证设计。
+{% endnote %}
+
+## 性能选择
+
+{% note primary flat %}
+性能优化先识别输入规模和瓶颈，再选择算法、数据结构、批处理或并发模型。缓存必须有失效策略和容量边界；并发必须抵消调度与同步成本。Python 代码的可读性是长期性能的一部分，因为它决定调优是否能被验证。
+{% endnote %}
+
+```python
+import timeit
+
+statement = "sum(value * value for value in range(10_000))"
+seconds = timeit.timeit(statement, number=100)
+print(seconds)
+```
+
+## 并发实验
+
+{% note info flat %}
+这个例子不试图测出“线程一定更快”，而是验证锁保护了共享计数器。可将锁暂时去掉、多次运行，观察结果是否仍能可靠；测试偶然通过不构成正确性证据。
+{% endnote %}
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+
+counter = Counter()
+with ThreadPoolExecutor(max_workers=4) as executor:
+    list(executor.map(lambda _: counter.increment(), range(100)))
+
+print(counter.value)  # 100
+```
+
+## 结果验证
+
+{% note success flat %}
+完成本篇后，应能用“工作负载、共享模型、取消方式、测量证据”解释并发选型，而不是只背 GIL。任何性能建议都要标注 CPython/版本、输入规模和 I/O 环境，避免把一次机器上的偶然结果推广为语言规则。
+{% endnote %}
+
+- [ ] 能区分语言回收语义与 CPython 引用计数实现。
+- [ ] 不用析构器管理外部资源。
+- [ ] 能解释 GIL 对 CPU 字节码、I/O 与多进程的不同影响。
+- [ ] 能为共享可变状态选择锁、队列或消息边界。
+- [ ] 能说明 asyncio 何时让出执行权及如何清理取消。
+
+## 常见问题
+
+{% flashcard basic id:python-runtime-gc deck:"Python 基础" priority:1 tags:"Python,GC,CPython,引用计数" %}
+--- question
+Python 的垃圾回收能否保证对象何时销毁？
+--- answer
+不能保证具体时机；CPython 常用引用计数和循环 GC，但这是实现细节。
+--- explanation
+业务逻辑不应依赖析构器或某次 gc.collect()。文件、锁、连接等资源应以 with 或明确关闭来管理；弱引用适合不应延长对象寿命的缓存和观察关系。
+{% endflashcard %}
+
+{% flashcard basic id:python-runtime-gil deck:"Python 基础" priority:1 tags:"Python,GIL,CPython,线程" %}
+--- question
+传统 CPython 的 GIL 对线程意味着什么？
+--- answer
+同一解释器内线程不能同时执行 Python 字节码，但 I/O 等待可交错，多个进程可并行。
+--- explanation
+GIL 是 CPython 与构建相关的实现边界，不代表线程无用。I/O 任务常适合线程；CPU 密集任务常考虑进程或兼容的其他运行时策略；free-threaded 构建仍需处理竞态。
+{% endflashcard %}
+
+{% flashcard basic id:python-runtime-thread-process-async deck:"Python 基础" priority:1 tags:"Python,threading,multiprocessing,asyncio" %}
+--- question
+线程、进程和 asyncio 如何按任务选择？
+--- answer
+阻塞 I/O 常用线程，CPU 密集且可序列化的任务常用进程，大量可等待 I/O 且链路可 async 时用 asyncio。
+--- explanation
+线程共享内存，进程隔离且有序列化成本，协程在一个线程内协作调度。先测量瓶颈和依赖库，再选择最小复杂度的方案。
+{% endflashcard %}
+
+{% flashcard basic id:python-runtime-race deck:"Python 基础" priority:1 tags:"Python,竞态,锁,并发" %}
+--- question
+什么是竞态条件？锁为什么不能解决所有并发问题？
+--- answer
+竞态是结果依赖执行交错顺序；锁只保护明确临界区，不能自动设计消息边界、取消或避免死锁。
+--- explanation
+共享可变状态要么用短临界区和固定锁顺序保护，要么改为队列和不可变消息。不要在持锁期间执行慢 I/O 或未知回调，并用压力测试验证实际交错。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Python 3.14 gc, https://docs.python.org/3.14/library/gc.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 threading, https://docs.python.org/3.14/library/threading.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 multiprocessing, https://docs.python.org/3.14/library/multiprocessing.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 asyncio, https://docs.python.org/3.14/library/asyncio.html, https://docs.python.org/3.14/_static/py.svg %}
+{% endlinkgroup %}

@@ -288,7 +288,7 @@ dig example.com
 ping -c 1 198.51.100.20
 ~~~
 
-{% note info flat %}
+{% note warning flat %}
 不要为了让 ping 通而随意关闭防火墙、改默认路由或清空邻居状态。
 {% endnote %}
 

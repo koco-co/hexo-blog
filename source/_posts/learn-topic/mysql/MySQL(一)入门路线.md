@@ -84,20 +84,20 @@ flowchart TD
 | 顺序 | 文章 | 解决的问题 | 前置 | 状态 |
 | --- | --- | --- | --- | --- |
 | 一 | MySQL(一)入门路线 | 课程入口 | 无 | 公开路线图 |
-| 二 | MySQL(二)数据库基础与表设计 | 数据库基础与表设计 | 入门路线 | 未发布占位 |
-| 三 | MySQL(三)数据写入与约束 | 数据写入与约束 | 表设计 | 未发布占位 |
-| 四 | MySQL(四)查询基础与聚合 | 查询基础与聚合 | 数据写入 | 未发布占位 |
-| 五 | MySQL(五)多表查询与子查询 | 多表查询与子查询 | 查询基础 | 未发布占位 |
-| 六 | MySQL(六)CTE与窗口函数 | CTE与窗口函数 | 多表查询 | 未发布占位 |
-| 七 | MySQL(七)索引原理与设计 | 索引原理与设计 | 表设计、查询基础 | 未发布占位 |
-| 八 | MySQL(八)执行计划与查询优化 | 执行计划与查询优化 | 多表、窗口、索引 | 未发布占位 |
-| 九 | MySQL(九)InnoDB与日志 | InnoDB与日志 | 索引 | 未发布占位 |
-| 十 | MySQL(十)事务与MVCC | 事务与MVCC | InnoDB与日志 | 未发布占位 |
-| 十一 | MySQL(十一)锁与并发控制 | 锁与并发控制 | 事务与MVCC | 未发布占位 |
-| 十二 | MySQL(十二)安全与权限 | 安全与权限 | 表设计、数据写入 | 未发布占位 |
-| 十三 | MySQL(十三)备份恢复与复制 | 备份恢复与复制 | 日志、事务、安全 | 未发布占位 |
-| 十四 | MySQL(十四)进阶路线 | 可选专项 | 按分支选择 | 未发布占位 |
-| 十五 | MySQL(十五)综合实战 | 20 道场景题 | 核心篇二至十三 | 未发布占位 |
+| 二 | MySQL(二)数据库基础与表设计 | 数据库基础与表设计 | 入门路线 | 已发布 |
+| 三 | MySQL(三)数据写入与约束 | 数据写入与约束 | 表设计 | 已发布 |
+| 四 | MySQL(四)查询基础与聚合 | 查询基础与聚合 | 数据写入 | 已发布 |
+| 五 | MySQL(五)多表查询与子查询 | 多表查询与子查询 | 查询基础 | 已发布 |
+| 六 | MySQL(六)CTE与窗口函数 | CTE与窗口函数 | 多表查询 | 已发布 |
+| 七 | MySQL(七)索引原理与设计 | 索引原理与设计 | 表设计、查询基础 | 已发布 |
+| 八 | MySQL(八)执行计划与查询优化 | 执行计划与查询优化 | 多表、窗口、索引 | 已发布 |
+| 九 | MySQL(九)InnoDB与日志 | InnoDB与日志 | 索引 | 已发布 |
+| 十 | MySQL(十)事务与MVCC | 事务与MVCC | InnoDB与日志 | 已发布 |
+| 十一 | MySQL(十一)锁与并发控制 | 锁与并发控制 | 事务与MVCC | 已发布 |
+| 十二 | MySQL(十二)安全与权限 | 安全与权限 | 表设计、数据写入 | 已发布 |
+| 十三 | MySQL(十三)备份恢复与复制 | 备份恢复与复制 | 日志、事务、安全 | 已发布 |
+| 十四 | MySQL(十四)进阶路线 | 可选专项 | 按分支选择 | 已发布 |
+| 十五 | MySQL(十五)综合实战 | 20 道场景题 | 核心篇二至十三 | 已发布 |
 
 ## 开始学习
 
@@ -132,5 +132,3 @@ flowchart TD
 {% link MySQL 8.4 Backup and Recovery, https://dev.mysql.com/doc/refman/8.4/en/backup-and-recovery.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 InnoDB Storage Engine, https://dev.mysql.com/doc/refman/8.4/en/innodb-storage-engine.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}
-
-<!-- capability-ledger: stored in Front Matter as a single-line JSON string; it is not rendered into the article body. -->

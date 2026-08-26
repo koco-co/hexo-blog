@@ -56,7 +56,9 @@ sequenceDiagram
 
 ## 窗口与对话框
 
+{% note info flat %}
 由当前 Page 打开的窗口使用 `expect_popup()`：
+{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -78,23 +80,9 @@ def test_receipt_popup(page: Page) -> None:
     receipt.close()
 ```
 
-如果新页面不是由某个已知 Page 触发，可以在 Context 上等待：
-
-```python
-page.set_content("""
-  <button onclick="window.open('about:blank')">打开帮助中心</button>
-""")
-
-with page.context.expect_page() as page_info:
-    page.get_by_role("button", name="打开帮助中心").click()
-
-help_page = page_info.value
-help_page.wait_for_load_state("domcontentloaded")
-expect(help_page).to_have_url("about:blank")
-help_page.set_content("<h1>帮助中心</h1>")
-expect(help_page.get_by_role("heading", name="帮助中心")).to_be_visible()
-help_page.close()
-```
+{% note info flat %}
+如果新页面不是由某个已知 Page 触发，可以在 Context 上用 `context.expect_page()` 建立同样的先监听后触发边界；本篇只强调事件归属，多个会话和页面生命周期仍要由创建它们的 Context 管理。
+{% endnote %}
 
 {% note info flat %}
 `pages[-1]` 只是在当前列表中取最后一项，无法证明它就是本次动作产生的页面。事件等待能明确因果关系。
@@ -102,11 +90,11 @@ help_page.close()
 
 ### 原生对话框
 
-{% tip warning %}
+{% note warning flat %}
 JavaScript 的 `alert`、`confirm`、`prompt` 和 `beforeunload` 不属于 DOM，不能用 Locator 查找。注册处理器后必须接受或关闭。
 
 如果没有注册监听器，Playwright 会自动关闭 Dialog；需要读取消息、输入 prompt 或验证业务结果时才显式注册。注册监听器后如果既不 `accept()` 也不 `dismiss()`，页面动作会被阻塞。`beforeunload` 也不是 DOM 元素，需要在关闭页面前监听并处理。
-{% endtip %}
+{% endnote %}
 
 {% tabs Dialog 处理, 1 %}
 <!-- tab alert -->
@@ -170,7 +158,9 @@ expect(page.get_by_role("status")).to_have_text("已保留订单")
 <!-- endtab -->
 {% endtabs %}
 
+{% note info flat %}
 `beforeunload` 的处理方式如下：
+{% endnote %}
 
 ```python
 def handle_beforeunload(dialog) -> None:
@@ -182,63 +172,32 @@ page.on("dialog", handle_beforeunload)
 page.close(run_before_unload=True)
 ```
 
-{% tip warning %}
+{% note warning flat %}
 `beforeunload` 的处理只适用于确实需要验证离开保护的页面；普通测试不应为了关闭页面而强行打开该流程。
-{% endtip %}
+{% endnote %}
 
 ## 嵌入与文件
 
 {% note info flat %}
-iframe 有独立文档上下文。使用 `frame_locator()` 进入范围，之后继续使用语义 Locator：
+iframe 有独立文档上下文。定位范围和语义组合应保持在 `FrameLocator` 中；本篇只补充 Frame 生命周期、动态文档和文件事件的边界。
 {% endnote %}
 
-```python
-def test_payment_frame(page: Page) -> None:
-    page.set_content("""
-      <iframe title="支付组件" srcdoc="
-        <label>卡号 <input></label>
-        <button>确认支付</button>
-        <p role='status'>待支付</p>
-        <script>
-          document.querySelector('button').onclick = () => {
-            document.querySelector('[role=status]').textContent = '支付成功';
-          };
-        </script>
-      "></iframe>
-    """)
-
-    payment = page.frame_locator("iframe[title='支付组件']")
-    payment.get_by_label("卡号").fill("4111 1111 1111 1111")
-    payment.get_by_role("button", name="确认支付").click()
-
-    expect(payment.get_by_role("status")).to_have_text("支付成功")
-```
-
-多个 Frame 中内容相同时，先稳定定位 iframe 元素：
-
-```python
-shipping = page.frame_locator("iframe[title='配送地址']")
-shipping.get_by_label("城市").fill("上海")
-```
-
-{% note info flat %}
-`page.get_by_text()` 不会自动跨入 iframe。跨域 iframe 仍可通过 Playwright 操作，但页面自身的 CSP、授权和第三方安全流程仍然有效。
+{% note warning flat %}
+如果 iframe 被替换、重载或移除，缓存的 Frame 可能变成分离对象；`is_detached()` 只用于诊断，稳定交互应重新取得范围。跨域 iframe 仍受页面自身 CSP、授权和第三方安全流程约束。
 {% endnote %}
 
 {% note info flat %}
-如果 Frame 会重载，优先使用 FrameLocator。缓存旧 Frame 后再操作，可能得到分离或导航后的失效对象。
+已拿到当前 Frame 对象时，可以读取其范围内的元数据或语义状态；不要把它当成长期缓存的 DOM 容器。
 {% endnote %}
-
-已拿到当前 Frame 对象时，也可以使用语义方法读取其范围内的内容：
 
 ```python
 main_frame = page.main_frame
 expect(main_frame.get_by_role("heading", name="结算")).to_be_visible()
 ```
 
-{% tip warning %}
-但不应把 Frame 当成长期缓存的 DOM 容器。跨导航或动态 iframe 优先回到 `page.frame_locator()`、`locator.content_frame`，让 Playwright 在动作时重新确认目标。
-{% endtip %}
+{% note info flat %}
+跨导航或动态 iframe 优先重新取得 `page.frame_locator()` 或 `locator.content_frame`，让 Playwright 在动作时重新确认目标。
+{% endnote %}
 
 ### Frame 对象
 
@@ -263,7 +222,9 @@ frame.locator("[data-testid='submit']").click()
 tax_frame = frame.frame_locator("iframe[title='税费']")
 ```
 
+{% note info flat %}
 当用户语义不足但属性稳定时，`Frame` 也提供同一组补充入口：
+{% endnote %}
 
 | 入口 | 适用边界 |
 | --- | --- |
@@ -273,9 +234,9 @@ tax_frame = frame.frame_locator("iframe[title='税费']")
 | `get_by_title()` | title 是明确交互提示，而不是偶然 DOM 属性时使用 |
 | `goto()` | 需要从已知 Frame 导航并控制 `wait_until`、`timeout` 或 `referer` 时使用；普通页面导航优先 `Page.goto()` |
 
-{% tip info %}
+{% note info flat %}
 这些入口的 `exact`、`text`、`test_id`、`selector` 等参数完整列在本文索引中；参数只改变匹配或导航边界，不改变 Frame 的生命周期规则。
-{% endtip %}
+{% endnote %}
 
 ### 旧式 Frame API
 
@@ -295,7 +256,9 @@ submit.click()
 expect(submit).to_be_enabled()
 ```
 
+{% note info flat %}
 迁移时按行为选择替代项，而不是机械替换方法名：
+{% endnote %}
 
 | 旧式接口 | 当前替代项 | 边界 |
 | --- | --- | --- |
@@ -305,9 +268,10 @@ expect(submit).to_be_enabled()
 | `Frame.query_selector()` / `query_selector_all()` | `frame.locator(selector)`、`all()`、`count()`、`nth()` | Locator 会重新查询并保留 Actionability；句柄只适合底层兼容 |
 | `Frame.drag_and_drop()` | `frame.locator(source).drag_to(frame.locator(target))` | 把拖拽的两个业务目标都表达为 Locator |
 | `Frame.eval_on_selector()` / `eval_on_selector_all()` | `frame.locator(selector).evaluate()` / `evaluate_all()` | 仅做没有对应 Playwright API 的只读诊断，不用脚本绕过交互检查 |
-| `Page.set_input_files()` | `page.locator(selector).set_input_files()` 或语义 Locator | 页面级 selector API 迁移到组件级 Locator，文件数据和验证保持不变 |
 
+{% note info flat %}
 普通的 selector/action 迁移也要逐项落实，不能只把它们留在索引中：
+{% endnote %}
 
 | 迁移组 | 旧式 Frame 成员 | 当前替代项与边界 |
 | --- | --- | --- |
@@ -315,48 +279,19 @@ expect(submit).to_be_enabled()
 | 读取 | `get_attribute()`、`inner_html()`、`inner_text()`、`input_value()`、`text_content()` | `frame.locator(selector).get_attribute()`、`.inner_html()`、`.inner_text()`、`.input_value()`、`.text_content()`；展示文本和输入值优先使用 `expect(locator).to_have_text()` / `to_have_value()` |
 | 状态 | `is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()` | `frame.locator(selector).is_checked()`、`.is_disabled()`、`.is_editable()`、`.is_enabled()`、`.is_hidden()`、`.is_visible()`；需要稳定等待时改用对应 Web-first 断言 |
 
-{% tip info %}
+{% note info flat %}
 旧接口的 `selector`、`strict`、`timeout`、动作参数和 `no_wait_after` 等完整签名仍保留在 API 索引中，便于维护历史套件；新代码不应为了绕过严格模式或 Actionability 把 selector API 重新引入。
-{% endtip %}
+{% endnote %}
 
 ### 文件上传
 
-有 `<input type="file">` 时使用 `set_input_files()`，即使输入框在视觉上隐藏：
+{% note info flat %}
+已知 `<input type="file">` 的普通上传由语义 Locator 调用 `set_input_files()` 负责；动态创建输入框时才需要 `expect_file_chooser()`。本节只保留事件对象、单/多文件边界和受控路径说明。
+{% endnote %}
 
-```python
-def test_upload_csv(page: Page) -> None:
-    page.set_content("""
-      <label>导入订单 <input type="file" accept=".csv"></label>
-      <output></output>
-      <script>
-        document.querySelector('input').onchange = event => {
-          document.querySelector('output').textContent = event.target.files[0].name;
-        };
-      </script>
-    """)
-
-    page.get_by_label("导入订单").set_input_files({
-        "name": "orders.csv",
-        "mimeType": "text/csv",
-        "buffer": b"id,total\nA-100,199\n",
-    })
-
-    expect(page.locator("output")).to_have_text("orders.csv")
-```
-
-文件也可以来自测试项目的受控路径：
-
-```python
-page.get_by_label("上传头像").set_input_files("tests/fixtures/avatar.png")
-```
-
-清空文件选择：
-
-```python
-page.get_by_label("上传头像").set_input_files([])
-```
-
-如果点击自定义按钮后才动态创建 file input，等待文件选择器事件：
+{% note info flat %}
+动态创建 file input 时，等待文件选择器事件：
+{% endnote %}
 
 ```python
 page.set_content("""
@@ -379,12 +314,14 @@ chooser.set_files("tests/fixtures/orders.csv")
 ```
 
 {% note info flat %}
-`FileChooser.page` 用于确认事件属于哪个 Page，`is_multiple()` 用于决定测试数据是单文件还是文件列表，`element` 只在需要兼容底层 DOM 句柄时读取；常规上传仍应优先直接对 Locator 调用 `set_input_files()`。
+`FileChooser.page` 用于确认事件属于哪个 Page，`is_multiple()` 用于决定测试数据是单文件还是文件列表；`is_multiple()` 为真时传入文件列表。`element` 只在需要兼容底层 DOM 句柄时读取。路径相对于当前工作目录或测试 Fixture 约定的根目录解析，普通上传仍应优先直接对 Locator 调用 `set_input_files()`。
 {% endnote %}
 
 ### 文件下载
 
+{% note info flat %}
 下载事件同样需要先监听：
+{% endnote %}
 
 ```python
 def test_download_receipt(page: Page) -> None:
@@ -402,15 +339,17 @@ def test_download_receipt(page: Page) -> None:
     assert download.path().read_text(encoding="utf-8") == "order A-100"
 ```
 
+{% note info flat %}
 需要作为 CI 产物保留时显式保存：
+{% endnote %}
 
 ```python
 download.save_as("test-results/receipt.txt")
 ```
 
-{% tip key %}
+{% note primary flat %}
 Context 关闭后临时下载文件会被清理。保存前检查文件名，避免把页面提供的未验证路径直接用于敏感位置。
-{% endtip %}
+{% endnote %}
 
 #### 下载边界
 
@@ -426,20 +365,24 @@ assert download.path().exists()
 download.save_as("test-results/receipt.txt")
 ```
 
-{% tip ban %}
-不要把 `path()` 当作长期稳定路径，也不要在未判断 `failure()` 前断言文件内容；这些属性和清理方法属于下载生命周期的补充能力，不替代 `expect_download()` 的事件顺序。
-{% endtip %}
+{% note warning flat %}
+不要把 `path()` 当作长期稳定路径，也不要在未判断 `failure()` 前断言文件内容；这些属性和清理方法属于下载生命周期的补充能力，不替代 `expect_download()` 的事件顺序。远程连接或 BrowserServer 场景下临时路径可能无法直接访问，优先使用 `save_as()` 把文件保存到测试产物目录。
+{% endnote %}
 
 ## 复杂控件
 
+{% note info flat %}
 原生输入可以直接填入浏览器接受的格式：
+{% endnote %}
 
 ```python
 page.get_by_label("配送日期").fill("2026-08-30")
 expect(page.get_by_label("配送日期")).to_have_value("2026-08-30")
 ```
 
+{% note info flat %}
 自定义日期选择器应按按钮、网格和选项角色操作：
+{% endnote %}
 
 ```python
 page.get_by_role("button", name="选择配送日期").click()
@@ -447,7 +390,7 @@ page.get_by_role("gridcell", name="30").click()
 ```
 
 {% note info flat %}
-如果业务依赖系统时间、计时器或倒计时，使用 Clock API 的进阶方案，见第十一篇。
+如果业务依赖系统时间、计时器或倒计时，使用 Clock API 的进阶方案，按需纳入时间控制专项。
 {% endnote %}
 
 ## 验证与扩展
@@ -460,9 +403,9 @@ page.get_by_role("gridcell", name="30").click()
 | 文件选择器 | `expect_file_chooser()` | 已选文件及页面反馈 |
 | 下载 | `expect_download()` | 文件名、内容或保存产物 |
 
-{% tip warning %}
+{% note warning flat %}
 事件成功只证明浏览器产生了对象，不等于业务成功。新页面还要断言内容，下载还要验证文件，Dialog 还要验证接受或拒绝后的结果。
-{% endtip %}
+{% endnote %}
 
 ### 进阶能力
 
@@ -485,7 +428,7 @@ page.get_by_role("gridcell", name="30").click()
 #### Page 与 Locator
 
 {% note info flat %}
-`Page.frames`、`main_frame` 和 `opener` 用于枚举文档、确认打开者或排查 Page 生命周期；普通 iframe 交互优先 `frame_locator()`，新标签页优先 `expect_popup()` / `context.expect_page()`。`Locator.content_frame` 用于从一个已定位的 iframe 取得当前 Frame，`Locator.screenshot()` 用于组件级取证或视觉专项，稳定基线和差异阈值在第十一篇统一处理。
+`Page.frames`、`main_frame` 和 `opener` 用于枚举文档、确认打开者或排查 Page 生命周期；普通 iframe 交互优先 `frame_locator()`，新标签页优先 `expect_popup()` / `context.expect_page()`。`Locator.content_frame` 用于从一个已定位的 iframe 取得当前 Frame，`Locator.screenshot()` 用于组件级取证或视觉专项；稳定基线和差异阈值应纳入视觉回归流程。
 {% endnote %}
 
 #### 参数进入条件
@@ -496,13 +439,13 @@ Frame 的导航参数围绕 `url`、`wait_until`、`timeout`、`referer`；脚�
 
 ## 接口边界
 
-{% tip info %}
-下面的索引用于查漏和选型；主线能力仍以本篇前文的机制、示例和失败边界为准。方法名和公开签名参数按 Playwright Python 1.62.0 的同步 API 归类，异步 API 的对应关系在第二篇统一说明；参数行是完整索引，不等于逐项教程。
-{% endtip %}
+{% note info flat %}
+以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。
+{% endnote %}
 
 {% folding cyan, 查看本文 API 索引 %}
 
-| 对象 | 核心详解 | 正文简述 | 进阶路线 | 弃用迁移 |
+| 对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法 |
 | --- | --- | --- | --- | --- |
 | `Dialog` | — | — | `accept()`、`default_value`、`dismiss()`、`message`、`page`、`type` | — |
 | `Download` | — | — | `cancel()`、`delete()`、`failure()`、`page`、`path()`、`save_as()`、`suggested_filename`、`url` | — |
@@ -574,7 +517,7 @@ Frame 的导航参数围绕 `url`、`wait_until`、`timeout`、`referer`；脚�
 
 ## 常见问题
 
-{% flashcard basic id:playwright-event-order deck:"Playwright" priority:2 tags:"浏览器事件,组件" %}
+{% flashcard basic id:playwright-event-order deck:"Playwright" priority:1 tags:"浏览器事件,组件" %}
 --- question
 为什么 popup、download 和 file chooser 都要先建立等待再触发动作？
 --- answer
@@ -593,6 +536,15 @@ Frame 的导航参数围绕 `url`、`wait_until`、`timeout`、`referer`；脚�
 B
 --- explanation
 iframe 是独立文档。FrameLocator 明确切换搜索范围，并保留 Locator 的重新查询和自动等待能力。
+{% endflashcard %}
+
+{% flashcard basic id:playwright-download-lifecycle deck:"Playwright" priority:2 tags:"下载,生命周期" %}
+--- question
+`expect_download()` 返回 Download 对象后，还要验证哪些边界？
+--- answer
+先判断 `failure()`，再按运行环境选择 `path()` 或 `save_as()`，并在 Context 关闭前完成读取或保存。
+--- explanation
+下载事件只证明对象已产生；临时路径受生命周期和远程连接影响，保存到受控目录比长期依赖临时路径更稳定。
 {% endflashcard %}
 
 ## 参考资料

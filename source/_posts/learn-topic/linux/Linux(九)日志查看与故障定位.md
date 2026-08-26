@@ -6,65 +6,175 @@ tags:
 categories:
   - Learn Topic
   - Linux
-description: 跨应用日志、Journal、内核消息、崩溃信息和轮转历史重建故障时间线。
+description: 跨 Journal、内核消息、崩溃转储与轮转历史重建可复核的故障时间线。
 cover: /img/picgo-images/linux-course-cover.png
 series: Linux
 series_order: 9
-published: false
+published: true
 abbrlink: cade4656
 date: 2026-08-25 00:00:00
 ---
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+日志排障的产物不是一段“看起来异常”的输出，而是一条可复核的时间线：什么组件在何时、以什么级别记录了什么，随后哪项动作改变了状态。先保留原始证据，再用服务、时间、优先级和崩溃信息缩小范围；不要把观察到的事件直接写成因果结论。
+{% endnote %}
 
-## 文章职责
+## 日志来源
 
-- 唯一要解决的问题：关联应用日志、Journal、内核消息、崩溃信息、轮转文件和压缩历史，恢复故障时间线。
-- 可观察成果：能够从大量日志中缩小到可验证的事件序列。
-- 进入条件：第 4、5、7 篇。
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% mermaid %}
+flowchart TD
+  A[应用标准错误或日志文件] --> B[journald]
+  C[内核环形缓冲区] --> D[dmesg]
+  B --> E[journalctl]
+  F[崩溃转储] --> G[coredumpctl]
+  H[轮转策略与旧文件] --> I[logrotate]
+{% endmermaid %}
 
-## 内容边界
+{% note primary flat %}
+先确认事件来自哪里：服务事件优先用 journalctl，内核事件用 dmesg，受控测试事件可用 logger 或 systemd-cat，崩溃记录用 coredumpctl，文件保留和轮转用 logrotate。不同来源的时间戳、时区和保留周期可能不同，拼接前要先校准时间窗。
+{% endnote %}
 
-- 能力分配：
-- 核心详解 / Journal 查询：posix2024:utility:logger、ubuntu26.04:command:journalctl、ubuntu26.04:command:systemd-cat
-- 核心详解 / 内核与崩溃：ubuntu26.04:command:coredumpctl、ubuntu26.04:command:dmesg
-- 核心详解 / 轮转与历史：ubuntu26.04:command:logrotate
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+## Journal 查询
 
-## 正文编排
+### 服务与时间
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 日志体系 | 建立日志体系的心智模型 | 应用文件、syslog、Journal、内核环形缓冲、审计和 coredump；时间戳、时区、优先级、facility、unit、PID、请求 ID | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 文件日志 | 建立文件日志的心智模型 | less、tail -n、tail -f、tail -F、多行上下文和跟随缓冲；grep、sed、awk、cut、sort、uniq 和窗口提取 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| Journal 查询 | 完成并验证Journal 查询 | unit、boot、priority、time、PID、字段、follow 和输出格式；权限、持久化、cursor 和 vacuum | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 内核与崩溃 | 建立内核与崩溃的心智模型 | dmesg 时间戳与权限；coredumpctl list/info/debug 边界与敏感数据 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 轮转与历史 | 建立轮转与历史的心智模型 | inode 替换、copytruncate、tail -F、logrotate、zgrep、zless | `timeline` | 内容按版本、事件或迁移阶段推进，时间线能保留先后关系 | 起点、阶段条件、回退点和最终状态 | 时间线失效时由有序列表保留完整顺序 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 多日志关联 | 建立多日志关联的心智模型 | 统一时间、隔离窗口、关联标识和保留上下文 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 故障实验 | 完成并验证故障实验 | 生成服务失败并重建时间线 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 用多来源证据确认事件顺序与影响范围 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+~~~bash
+UNIT=ssh.service  # 改为当前主机已知的服务
+journalctl --unit "$UNIT" --boot --no-pager
+journalctl --unit "$UNIT" --since "2026-08-25 10:00" --until "2026-08-25 10:30" --no-pager
+journalctl --priority=warning..alert --boot --no-pager
+journalctl --dmesg --boot --no-pager
+~~~
 
-## 视觉与复习
+| 中文问题 | 选择 | 能证明什么 | 不能证明什么 |
+| --- | --- | --- | --- |
+| 某服务在故障窗口发生了什么 | journalctl --unit 与 --since/--until | 该 unit 在指定窗口可见的 Journal 事件 | 应用所有文件日志都已被收集 |
+| 上一次启动前后是否变化 | --boot、--boot=-1 | 事件属于哪次系统启动 | 两次启动间未持久化的日志 |
+| 是否出现高优先级事件 | --priority=warning..alert | 当前筛选范围内的警告到紧急消息 | 没有低优先级根因 |
+| 是否只看内核消息 | --dmesg | journald 收集到的内核消息 | 内核环形缓冲区的全部历史 |
 
-- 贯穿案例：触发样例服务失败，关联请求 ID、unit 日志、内核证据和压缩轮转日志，产出故障时间线。
-- 完整示例：触发样例服务失败，关联请求 ID、unit 日志、内核证据和压缩轮转日志，产出故障时间线。
-- 失败边界与踩坑：注意时区、Journal 权限、二进制日志、多行堆栈、轮转、grep 误报、持久化缺失和 token 泄露。
-- FAQ 候选与来源：tail -f 与 tail -F、Journal 与文件日志、dmesg 权限、如何关联多份日志。
-- 非复习自测：用中文场景选择命令，解释输出并写出验证步骤。
-- 图表或实验：日志来源图、事件时间线和 tail -f/tail -F inode 图。
-- 复习卡片：每个日志命令、筛选字段、轮转差异、输出解释和安全边界。
-- 参考资料：systemd Journal、Linux dmesg/coredump、logrotate 和压缩文本工具文档。
+{% note warning flat %}
+journalctl --follow 会持续跟随输出，复现结束后要停止；--no-pager 适合机器采集，-o short-iso 或 -o json 可固定输出格式。权限、速率限制、未持久化存储和筛选条件都可能产生空结果，因此“没有输出”只能说明当前查询没有返回事件。
+{% endnote %}
 
-正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+### 受控测试事件
 
-## 验收证据
+~~~bash
+TAG="linux-log-lab-$(date +%s)"
+logger -t "$TAG" -- "logger test event"
+printf '%s\n' "systemd-cat test event" | systemd-cat -t "$TAG" -p info
+journalctl -t "$TAG" -n 10 --no-pager
+~~~
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+{% note info flat %}
+logger 写一条系统日志消息；systemd-cat 把标准输入交给 journald。只在获准的测试环境写入带唯一 TAG 的短消息，并用同一 TAG 查询来验证采集链路；若 systemd-cat 不存在或查询为空，记录运行环境、权限和日志服务状态，不要把测试事件伪装成业务故障。
+{% endnote %}
+
+## 内核与崩溃
+
+### 内核消息
+
+~~~bash
+dmesg --level=err,warn
+dmesg --time-format=iso
+journalctl --dmesg --since "10 minutes ago" --no-pager
+~~~
+
+{% note primary flat %}
+dmesg 读取当前内核环形缓冲区，重启或缓冲区覆盖会丢失旧消息；journalctl --dmesg 查询 journald 收集的内核消息。两者都可能受权限和保留策略影响，所以要同时记录命令、时间窗和输出格式。
+{% endnote %}
+
+### 崩溃转储
+
+~~~bash
+coredumpctl list --no-pager
+coredumpctl info --since "today" --no-pager
+
+COREDUMP_PID=1234  # 只替换为 list 中已核对的 PID
+coredumpctl info "$COREDUMP_PID"
+~~~
+
+{% note danger flat %}
+coredump 可能包含进程内存、令牌或用户数据。list 和 info 用于确认是否存在记录与元数据；debug 会启动调试器，导出会复制敏感内容，二者都只能在获授权环境、受控保留期和适当文件权限下进行。没有匹配 PID 的失败是正常查询结果，不应被解释为“没有发生过崩溃”。
+{% endnote %}
+
+## 轮转与保留
+
+~~~bash
+CONFIG=/etc/logrotate.conf
+sudo logrotate -d "$CONFIG"
+ls -l /var/log
+~~~
+
+{% note warning flat %}
+logrotate -d 只模拟并展示拟议动作；真实的 force 轮转会改名、压缩、删除历史文件或触发 postrotate 脚本，不能当成练习命令。执行任何写入动作前，要先审查配置、目标日志、磁盘空间、保留期、服务重开日志文件的方式和回滚安排。
+{% endnote %}
+
+## 时间线方法
+
+### 采集顺序
+
+~~~bash
+UNIT=ssh.service  # 改为当前主机已知的服务
+date --iso-8601=seconds
+journalctl --unit "$UNIT" --since "10 minutes ago" --no-pager
+journalctl --dmesg --since "10 minutes ago" --no-pager
+dmesg --level=err,warn --time-format=iso
+ls -lt /var/log
+~~~
+
+1. 固定时区、主机、服务版本、影响范围和故障起止时间。
+2. 先取服务 Journal，再对齐内核消息、应用文件和轮转历史。
+3. 把每条结论标成“观察”“推断”或“待验证”，并保留原始位置。
+4. 用同一时间窗做一次受控复现或恢复后的复测，确认采集链路没有断裂。
+
+{% note success flat %}
+合格的日志报告要说明来源、查询条件、时间格式、权限与保留盲区。它能让接手者重新运行查询并判断你的推断是否成立，而不是只得到一张截断截图。
+{% endnote %}
+
+{% flashcard basic id:linux-a9-journal-filter deck:"Linux" priority:1 tags:"journalctl,日志" %}
+--- question
+journalctl 排障时最有价值的三个过滤维度是什么？
+--- answer
+服务 unit、故障时间窗和优先级；必要时再加 boot、内核或输出格式。
+--- explanation
+先缩小数据再解释消息，--unit、--since/--until、--priority 和 --boot 能组成可复现查询。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a9-dmesg-journal deck:"Linux" priority:1 tags:"dmesg,内核" %}
+--- question
+dmesg 与 journalctl --dmesg 有什么边界？
+--- answer
+dmesg 读取内核环形缓冲区，journalctl --dmesg 查询 journald 收集的内核消息；保留策略和时间范围可能不同。
+--- explanation
+重启、缓冲区覆盖、权限和持久化配置都会造成缺口，不能只依赖一个来源。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a9-logrotate deck:"Linux" priority:2 tags:"logrotate,保留" %}
+--- question
+为什么 logrotate -d 比直接强制轮转更适合先验证？
+--- answer
+-d 只模拟轮转，强制轮转会立即改名、压缩或删除历史文件。
+--- explanation
+先检查配置、权限、磁盘和 postrotate，再安排维护窗口执行真实变更。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a9-coredump deck:"Linux" priority:2 tags:"崩溃,coredump" %}
+--- question
+coredumpctl list 能否直接证明崩溃原因？
+--- answer
+不能，它只说明系统记录了转储；需要 info、符号和调用栈，并结合服务日志复核。
+--- explanation
+转储含敏感内存，导出与调试必须在授权环境进行。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link systemd journalctl Manual, https://www.freedesktop.org/software/systemd/man/latest/journalctl.html, https://www.freedesktop.org/favicon.ico %}
+{% link systemd coredumpctl Manual, https://www.freedesktop.org/software/systemd/man/latest/coredumpctl.html, https://www.freedesktop.org/favicon.ico %}
+{% link Linux dmesg Manual, https://man7.org/linux/man-pages/man1/dmesg.1.html, https://man7.org/favicon.ico %}
+{% link logrotate Manual, https://man7.org/linux/man-pages/man8/logrotate.8.html, https://man7.org/favicon.ico %}
+{% endlinkgroup %}

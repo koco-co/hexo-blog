@@ -10,61 +10,170 @@ description: 把日志、进程、服务、资源、磁盘和网络证据串成�
 cover: /img/picgo-images/linux-course-cover.png
 series: Linux
 series_order: 13
-published: false
+published: true
 abbrlink: c0dffe07
 date: 2026-08-25 00:00:00
 ---
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+综合实战模拟一个健康检查接口变慢的值班事件：先固定时间窗和影响范围，再沿网络、服务、进程、资源、日志和文件证据链定位，最后给出可回滚的动作和复测结果。命令只是证据采集手段，不能替代假设、验证和沟通。
+{% endnote %}
 
-## 文章职责
+## 事件与边界
 
-- 唯一要解决的问题：把文件、进程、服务、日志、性能和网络能力整合为完整故障诊断，并训练面试复述。
-- 可观察成果：能够诊断并解释同时包含日志、进程、资源、磁盘和网络症状的服务超时。
-- 进入条件：第 3～11 篇；第 12 篇可选。
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+### 现象记录
 
-## 内容边界
+{% note primary flat %}
+报告初始事实：请求延迟升高、错误率、受影响主机、开始时间、调用方和最近变更。不要先写“CPU 高导致慢”，那是待验证假设。
+{% endnote %}
 
-- 能力分配：
-- 本文为课程入口，不直接承载命令能力分配。
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+~~~bash
+date --iso-8601=seconds
+uname -a
+cat /etc/os-release
+printf '%s\n' "$HOSTNAME"
+~~~
 
-## 正文编排
+### 安全边界
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 事件背景 | 建立事件背景的心智模型 | 症状、约束、安全边界和成功标准 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 建立基线 | 建立建立基线的心智模型 | 环境、服务、时间、容量和连通性 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 服务与进程 | 建立服务与进程的心智模型 | unit 状态、进程树、信号和打开资源 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 日志时间线 | 建立日志时间线的心智模型 | 应用、Journal、内核和轮转日志关联 | `timeline` | 内容按版本、事件或迁移阶段推进，时间线能保留先后关系 | 起点、阶段条件、回退点和最终状态 | 时间线失效时由有序列表保留完整顺序 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 性能定位 | 建立性能定位的心智模型 | CPU、内存、I/O、容量和进程下钻 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 网络验证 | 完成并验证网络验证 | DNS、监听器、请求、路由和抓包证据 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 根因与修复 | 建立根因与修复的心智模型 | 证据链、最小修复、回滚和复测 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 面试复述 | 建立面试复述的心智模型 | 一分钟结构、命令选择、输出解释和追问 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 交付报告 | 建立交付报告的心智模型 | 现象、证据、结论、修复和复测记录 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 确认根因与修复后的观测变化 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+| 动作 | 风险 | 先做什么 |
+| --- | --- | --- |
+| 重启服务 | 中断连接 | 确认副本、窗口和回滚 |
+| kill 进程 | 数据/锁未清理 | 先 TERM 和日志观察 |
+| 删除日志/临时文件 | 丢失证据 | 先复制、校验和压缩 |
+| 修改网络/存储 | 扩大影响 | 先快照、dry-run 和变更审批 |
 
-## 视觉与复习
+## 网络证据
 
-- 贯穿案例：复现日志轮转、删除后仍打开的文件、I/O 变慢和监听器短暂不可用的本地事件，形成可重复报告。
-- 完整示例：复现日志轮转、删除后仍打开的文件、I/O 变慢和监听器短暂不可用的本地事件，形成可重复报告。
-- 失败边界与踩坑：不能凭一个指标宣称根因；避免破坏性清理；保护时间戳和秘密；区分观察与修复。
-- FAQ 候选与来源：如何组织一分钟面试回答、如何证明根因、如何在证据不足时保持结论边界。
-- 非复习自测：用中文场景选择命令，解释输出并写出验证步骤。
-- 图表或实验：完整事件流、证据时间线和修复前后指标表。
-- 复习卡片：仅引用前文固定的 12 张命令卡，并新增一张证据链卡，不复制定义。
-- 参考资料：课程前 11 篇资料、Linux 故障排查和性能方法文档。
+~~~bash
+ip addr
+ip route
+dig A api.example.com
+ss -ntp
+curl -vk --max-time 5 https://api.example.com/health
+tracepath api.example.com
+~~~
 
-正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+{% note info flat %}
+若 DNS 正常但 curl 超时，比较 ss 中的连接状态、路由和服务监听；若 curl 返回 5xx，网络层已经通到应用，下一步应转向服务、进程和日志。必要时用 tcpdump 限定主机与端口抓取少量样本。
+{% endnote %}
 
-## 验收证据
+## 服务与进程
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+~~~bash
+systemctl status api.service --no-pager
+systemctl show -p ActiveState -p SubState -p MainPID api.service
+pgrep -a -f api
+ps -o pid,ppid,stat,etime,%cpu,%mem,cmd -p PID
+lsof -p PID
+~~~
+
+{% note primary flat %}
+systemctl 给出 unit 与 Main PID，ps 给出进程状态和资源快照，lsof 说明打开的文件/Socket。三者一致才可把“服务故障”缩小为某个进程；PID 已变化时重新采集，不要复用旧结论。
+{% endnote %}
+
+## 资源证据
+
+~~~bash
+uptime
+top -b -n 1
+free -h
+vmstat 1 5
+iostat -xz 1 3
+pidstat -u -d 1 3
+df -h
+du -sh /var/lib/api
+~~~
+
+{% note warning flat %}
+把 CPU、内存、I/O 和容量放进同一时间窗，区分“瓶颈”与“伴随现象”：load 高可能是 I/O，free 的缓存不是泄漏，df 满不一定由当前目录造成。需要深挖时限时使用 perf、strace 或 pmap。
+{% endnote %}
+
+## 日志时间线
+
+~~~bash
+journalctl -u api.service --since "15 minutes ago" --until "now" --no-pager
+journalctl -k --since "15 minutes ago" --no-pager
+grep -nE 'timeout|error|5[0-9][0-9]' /var/log/api/*.log
+dmesg --level=err,warn --time-format=iso
+~~~
+
+{% note info flat %}
+以请求开始、服务错误、资源异常、重试和恢复为节点画时间线；同一事件至少由两类来源相互印证。轮转、时钟偏移、限流和权限造成的空洞要明确标记。
+{% endnote %}
+
+## 可回滚动作
+
+### 先验证后改变
+
+~~~bash
+systemctl reload api.service
+systemctl is-active api.service
+curl -fsS --max-time 5 https://api.example.com/health
+~~~
+
+{% note success flat %}
+如果 reload 不支持或没有改善，记录退出码和日志后再评估 restart；每次只做一个改变，保留变更前后同样的网络、服务和资源采样。
+{% endnote %}
+
+### 复测与交接
+
+~~~bash
+date --iso-8601=seconds
+curl -sS -o /dev/null -w 'code=%{http_code} time=%{time_total}\n' https://api.example.com/health
+systemctl show -p ActiveState -p MainPID api.service
+vmstat 1 3
+~~~
+
+| 交接字段 | 示例内容 |
+| --- | --- |
+| 影响 | 哪些请求、主机、时间段受影响 |
+| 证据 | 命令、时间、关键输出和日志行 |
+| 假设 | 已证实、被否定、待验证 |
+| 动作 | 谁在何时做了什么，是否可回滚 |
+| 结果 | 延迟、错误率、资源和服务状态是否恢复 |
+| 后续 | 监控、容量、限流、代码或配置改进 |
+
+## 面试复述
+
+{% note primary flat %}
+用“现象 → 分层假设 → 最小验证 → 证据排除 → 可回滚动作 → 复测”六句复述。不要罗列几十条命令；每条命令都要说明它排除哪个假设。
+{% endnote %}
+
+{% flashcard basic id:linux-a13-incident-order deck:"Linux" priority:1 tags:"综合排障,证据链" %}
+--- question
+Linux 综合故障排查的推荐顺序是什么？
+--- answer
+先固定现象和时间窗，再查网络可达性、服务/进程、资源、日志和文件证据，最后做可回滚动作并复测。
+--- explanation
+顺序不是固定命令清单，而是从低风险、宽范围观察逐步收敛到高影响动作。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a13-hypothesis deck:"Linux" priority:1 tags:"面试,假设验证" %}
+--- question
+为什么不能看到 CPU 高就直接重启服务？
+--- answer
+CPU 高可能是结果而非原因，也可能来自别的进程、I/O 等待或短暂尖峰；应先用采样和日志验证。
+--- explanation
+重启会改变现场并丢失时序，先保留证据、评估影响和回滚，再选择最小动作。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a13-handoff deck:"Linux" priority:2 tags:"交接,复盘" %}
+--- question
+一份可复用的 Linux 故障交接至少包含什么？
+--- answer
+影响范围、时间窗、命令与关键输出、已证实/排除的假设、变更动作、复测结果和后续计划。
+--- explanation
+把观察、推断和行动分开，接手者才能复核并继续定位。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link systemd journalctl Manual, https://www.freedesktop.org/software/systemd/man/latest/journalctl.html, https://www.freedesktop.org/favicon.ico %}
+{% link curl Documentation, https://curl.se/docs/, https://curl.se/favicon.ico %}
+{% link Linux procps Manual, https://man7.org/linux/man-pages/man1/top.1.html, https://man7.org/favicon.ico %}
+{% link Linux performance tools, https://docs.kernel.org/tools/index.html, https://docs.kernel.org/favicon.ico %}
+{% endlinkgroup %}

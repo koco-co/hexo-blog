@@ -330,13 +330,13 @@ TCP keepalive 是可选的传输层探测：连接空闲一段时间后，内核
 12:00:04.000 client: timeout id=43; reconnect=scheduled
 ~~~
 
-{% tip warning %}
+{% note warning flat %}
 验证时应确认 ACK 的 `id` 与请求一致，超时计时器从发送时刻开始；只有 TCP keepalive 报文而没有应用层 ACK，不能把应用心跳判定为成功。
-{% endtip %}
+{% endnote %}
 
 ### 连接重置与重连
 
-{% note info flat %}
+{% note warning flat %}
 收到 RST、连接超时或 keepalive 失败后，重连不是简单地无限调用 connect。可靠客户端应先关闭旧连接和释放资源，再按指数退避加随机抖动安排下一次尝试，并设置最大重试次数、总时间预算和熔断边界。对可能重复执行的 POST、扣款或消息提交，必须使用业务幂等键、去重 ID 或确认协议，不能因为 TCP 连接断开就盲目重放。
 {% endnote %}
 
@@ -400,9 +400,9 @@ lsof -nP -iTCP:443 -sTCP:LISTEN
 
 ### 抓包实验
 
-{% tip key %}
+{% note danger flat %}
 下面命令只读取本机网络状态或连接公共示例站点，不写入系统配置。实际运行前检查目标主机、接口和隐私边界；不要把真实令牌、Cookie 或内网地址上传到公共抓包分享服务。
-{% endtip %}
+{% endnote %}
 
 ~~~bash
 # 1. 先确认本机的监听端口和连接状态
@@ -621,11 +621,11 @@ SACK 本身是非连续接收区间的报告，不是独立的拥塞信号；重
 
 {% flashcard basic id:CN-TR-014 deck:"计算机网络" priority:1 tags:"TCP,MSS,MTU,抓包" %}
 --- question
-MSS、MTU 和 PMTUD 分别处于什么边界？
+在 TCP 抓包中，如何用 MSS 与路径反馈定位大包黑洞？
 --- answer
-MTU 是链路可承载的 IP 包大小，MSS 是 TCP 数据部分上限，PMTUD 是发现路径可用包大小的机制。
+先比较两端 SYN/SYN-ACK 的 MSS，再观察实际 TCP 载荷、IP 包大小，以及是否出现 ICMP Packet Too Big 或需要分片反馈。
 --- explanation
-隧道、IPv6 和 ICMP 过滤都可能造成路径 MTU 黑洞。排查时同时看握手 MSS、IP 包大小和 ICMP Packet Too Big/需要分片反馈。
+这张卡关注传输层证据链：MSS 是端点在握手中表达的 TCP 载荷上限，MTU 是路径/链路约束，PMTUD 依赖路径反馈。没有反馈时还要考虑 ICMP 过滤、隧道开销和中间设备策略；先分别判断这三个概念，再把它们放回抓包字段和路径反馈中。
 {% endflashcard %}
 
 ## 常见问题

@@ -6,265 +6,246 @@ tags:
 categories:
   - Learn Topic
   - Python
-description: 为描述符、元类、执行内部、导入扩展、打包分发、多解释器和旧接口迁移建立可选进阶入口。
+description: 面向需要扩展运行时、处理二进制数据、构建发行包或迁移版本的读者，建立 Python 低频高级机制的决策地图。
 cover: /img/picgo-images/python-course-cover.png
 series: Python
 series_order: 11
-published: false
+published: true
 abbrlink: a99f76bc
 date: 2026-08-25 13:13:45
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+这是一张按问题进入的进阶地图，不是一份必须背完的 API 清单。只有当默认数据模型、导入机制或打包工作流无法表达真实需求时，才进入对应分支；每个分支都先给出替代方案和风险。
+{% endnote %}
 
-## 文章职责
+## 进入条件
 
-- 唯一要解决的问题：index low-frequency language internals, removed-interface migrations, packaging/distribution, and specialist standard-library directions without making the core project depend on them.
-- 可观察成果：reader can decide which advanced branch is relevant and identify current replacements for removed standard-library modules.
-- 进入条件：Python(十)内存、并发与性能.
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note primary flat %}
+需要自定义属性访问、框架级类创建、二进制缓冲、动态导入、多解释器隔离或发布可安装包时，才使用本篇。普通业务模型优先数据类、组合、明确函数和标准导入；“高级”不等于更好的默认设计。
+{% endnote %}
 
-## 内容边界
+{% mermaid %}
+flowchart TD
+  A[遇到真实约束] --> B{需要什么能力?}
+  B --> C[受控属性或内存布局]
+  B --> D[动态类或框架扩展]
+  B --> E[二进制协议或缓冲]
+  B --> F[动态导入或隔离执行]
+  B --> G[构建与发布]
+  C --> H[descriptor / property / slots]
+  D --> I[__init_subclass__ / metaclass]
+  E --> J[bytes / memoryview / struct]
+  F --> K[importlib / interpreters]
+  G --> L[pyproject.toml / build backend]
+{% endmermaid %}
 
-- 复用或新建依据：new optional article.
+## 属性协议
 
-| 稳定标识 | 处置 | 目标章节 |
+{% note primary flat %}
+描述符是定义 `__get__`、`__set__` 或 `__delete__` 的类属性对象；`property`、普通函数绑定方法和许多 ORM 字段都建立在它上面。数据描述符（带 `__set__` 或 `__delete__`）通常优先于实例字典，非数据描述符则可被实例属性遮蔽。
+{% endnote %}
+
+```python
+class Positive:
+    def __set_name__(self, owner, name):
+        self.name = "_" + name
+
+    def __get__(self, instance, owner=None):
+        return self if instance is None else getattr(instance, self.name)
+
+    def __set__(self, instance, value):
+        if value <= 0:
+            raise ValueError("must be positive")
+        setattr(instance, self.name, value)
+
+class RetryPolicy:
+    retries = Positive()
+
+    def __init__(self, retries):
+        self.retries = retries
+```
+
+{% note warning flat %}
+`__slots__` 限制实例属性存储并可能减少每实例开销，但会影响弱引用、继承、动态属性和工具兼容性；它不是首要性能优化。只有大量同类小对象且已测量内存瓶颈时，再用 slots 并编写兼容性测试。
+{% endnote %}
+
+## 类创建
+
+{% note primary flat %}
+类语句会准备命名空间、执行类体，再由元类创建类对象。多数扩展只需 `__init_subclass__`、类装饰器或协议注册；元类适合必须控制“类本身如何创建”的框架，例如验证声明式字段或生成方法。
+{% endnote %}
+
+```python
+class Plugin:
+    registry: dict[str, type["Plugin"]] = {}
+
+    def __init_subclass__(cls, *, name: str, **kwargs):
+        super().__init_subclass__(**kwargs)
+        Plugin.registry[name] = cls
+
+class JsonPlugin(Plugin, name="json"):
+    pass
+```
+
+{% note warning flat %}
+元类会影响所有子类的创建路径，错误信息和调试成本很高。若只是自动注册子类、验证字段或包一层函数，先选择 `__init_subclass__`、装饰器或显式工厂；只有这些都无法表达时才引入 `type` 子类。
+{% endnote %}
+
+## 执行内部
+
+{% note primary flat %}
+源代码会被编译为代码对象并由解释器执行；`dis` 可用于理解字节码，`compile()` 可生成代码对象。`eval()` 和 `exec()` 处理的是代码执行，不是安全的配置解析器；不可信输入必须使用 JSON、TOML、受限 DSL 或专用解析器。
+{% endnote %}
+
+```python
+import dis
+
+def square(value: int) -> int:
+    return value * value
+
+dis.dis(square)
+code = compile("result = 20 + 22", "<example>", "exec")
+namespace: dict[str, int] = {}
+exec(code, {"__builtins__": {}}, namespace)
+print(namespace["result"])
+```
+
+{% note warning flat %}
+移除 `__builtins__` 不会把 `exec` 变成可靠沙箱；Python 对象图可以绕过许多天真的限制。任何不可信表达式都不要执行，尤其不要把用户输入、配置字段或网络内容传给 eval/exec。
+{% endnote %}
+
+## 导入扩展
+
+{% note primary flat %}
+`importlib` 提供导入系统的程序化入口，适合插件发现、资源读取或显式加载；仍需尊重 `ModuleSpec`、`sys.modules` 缓存和模块初始化顺序。`reload()` 重新执行模块代码，却不会自动刷新其他模块保存的旧引用。
+{% endnote %}
+
+```python
+from importlib import import_module
+
+module = import_module("json")
+print(module.dumps({"ok": True}))
+```
+
+{% tabs python-isolation, 1 %}
+<!-- tab 多解释器 -->
+
+```python
+# Python 3.14 的 concurrent.interpreters 面向隔离的解释器实例。
+# 它们拥有各自的运行时状态；跨解释器通信必须遵守支持的数据/通道协议。
+```
+
+<!-- endtab -->
+<!-- tab 进程隔离 -->
+
+```python
+# 需要强隔离、独立地址空间或兼容既有部署时，进程通常更直观。
+# 代价是启动、序列化和进程间通信，不能只因“绕开 GIL”就默认使用。
+```
+
+<!-- endtab -->
+{% endtabs %}
+
+## 多解释器
+
+{% note primary flat %}
+多解释器提供比线程更强的运行时状态隔离、比进程更轻的某些部署选择，但不是共享内存并发的快捷方式。选择它前先验证目标 Python 版本、第三方扩展兼容性、数据传输方式和故障隔离要求；可移植性通常比新机制更重要。
+{% endnote %}
+
+## 打包分发
+
+{% note primary flat %}
+可导入包、构建产物和发行包名是三个不同概念。`pyproject.toml` 声明构建后端、项目元数据和依赖；构建生成 wheel 或 source distribution，安装后由解释器在环境中发现导入包。发布前在干净虚拟环境安装产物并运行最小导入测试。
+{% endnote %}
+
+```toml
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interview-lab"
+version = "0.1.0"
+requires-python = ">=3.13"
+```
+
+{% note warning flat %}
+不要只在源码目录 `import` 成功就认为包可以发布；当前工作目录可能遮蔽遗漏文件。构建 wheel、在新环境安装、运行入口和测试，才能暴露包数据、依赖、版本约束和导入路径问题。
+{% endnote %}
+
+## 旧接口迁移
+
+{% note primary flat %}
+从 Python 3.13 迁移到 3.14，先阅读对应版本的 What’s New，再用测试、静态检查、依赖锁定和目标平台矩阵验证。注解求值、模板字符串、自由线程构建、标准库弃用与 C 扩展兼容性都应按实际使用范围评估，不能用“本地能启动”代替迁移证据；遗留 CLI 若仍使用 `optparse`，应先保留既有参数语义和错误码，再逐步迁到 `argparse`。
+{% endnote %}
+
+| 变更类型 | 检查动作 | 通过标准 |
 | --- | --- | --- |
-| `langref:datamodel#internal-types` | 进阶路线 | 专项标准库地图 |
-| `langref:datamodel#code-objects` | 进阶路线 | 编译与执行内部 |
-| `langref:datamodel#index-64` | 进阶路线 | 编译与执行内部 / 反射与审计边界 |
-| `langref:datamodel#methods-on-code-objects` | 进阶路线 | 编译与执行内部 |
-| `langref:datamodel#frame-objects` | 进阶路线 | 编译与执行内部 |
-| `langref:datamodel#index-70` | 进阶路线 | 编译与执行内部 / 反射与审计边界 |
-| `langref:datamodel#index-71` | 进阶路线 | 编译与执行内部 / 反射与审计边界 |
-| `langref:datamodel#frame-object-methods` | 进阶路线 | 编译与执行内部 |
-| `langref:datamodel#traceback-objects` | 进阶路线 | 编译与执行内部 |
-| `langref:datamodel#customizing-module-attribute-access` | 进阶路线 | 属性协议 |
-| `langref:datamodel#implementing-descriptors` | 进阶路线 | 属性协议 |
-| `langref:datamodel#invoking-descriptors` | 进阶路线 | 属性协议 |
-| `langref:datamodel#slots` | 进阶路线 | 属性协议 |
-| `langref:datamodel#customizing-class-creation` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#metaclasses` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#resolving-mro-entries` | 进阶路线 | 专项标准库地图 |
-| `langref:datamodel#determining-the-appropriate-metaclass` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#preparing-the-class-namespace` | 进阶路线 | 专项标准库地图 |
-| `langref:datamodel#executing-the-class-body` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#creating-the-class-object` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#uses-for-metaclasses` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#customizing-instance-and-subclass-checks` | 进阶路线 | 专项标准库地图 |
-| `langref:datamodel#emulating-generic-types` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#the-purpose-of-class-getitem` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#class-getitem-versus-getitem` | 进阶路线 | 类创建机制 |
-| `langref:datamodel#emulating-buffer-types` | 进阶路线 | 专项标准库地图 |
-| `langref:import#finders-and-loaders` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#import-hooks` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#the-meta-path` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#loaders` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#module-specs` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#module-reprs` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#cached-bytecode-invalidation` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#the-path-based-finder` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:import#path-entry-finders` | 进阶路线 | 导入扩展 / ZIP 与自定义入口 |
-| `langref:import#path-entry-finder-protocol` | 进阶路线 | 导入扩展 / ZIP 与自定义入口 |
-| `langref:import#replacing-the-standard-import-system` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `langref:grammar#full-grammar-specification` | 进阶路线 | 专项标准库地图 |
-| `builtin:compile` | 进阶路线 | 编译与执行内部 |
-| `builtin:eval` | 进阶路线 | 编译与执行内部 |
-| `builtin:exec` | 进阶路线 | 编译与执行内部 |
-| `builtin:globals` | 进阶路线 | 编译与执行内部 |
-| `builtin:locals` | 进阶路线 | 编译与执行内部 |
-| `builtin:import__` | 进阶路线 | 导入扩展 / importlib |
-| `stdtype:bytearray.resize` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.count` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.count` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.removeprefix` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.removeprefix` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.removesuffix` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.removesuffix` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.endswith` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.endswith` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.find` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.find` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.index` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.index` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.join` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.join` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.maketrans` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.maketrans` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.partition` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.partition` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.replace` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.replace` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.rfind` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.rfind` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.rindex` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.rindex` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.rpartition` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.rpartition` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.startswith` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.startswith` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.translate` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.translate` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.center` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.center` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.ljust` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.ljust` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.lstrip` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.lstrip` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.rjust` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.rjust` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.rsplit` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.rsplit` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.rstrip` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.rstrip` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.split` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.split` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.strip` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.strip` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.capitalize` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.capitalize` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.expandtabs` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.expandtabs` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.isalnum` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.isalnum` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.isalpha` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.isalpha` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.isascii` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.isascii` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.isdigit` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.isdigit` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.islower` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.islower` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.isspace` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.isspace` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.istitle` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.istitle` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.isupper` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.isupper` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.lower` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.lower` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.splitlines` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.splitlines` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.swapcase` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.swapcase` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.title` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.title` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.upper` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.upper` | 进阶路线 | 属性协议 |
-| `stdtype:bytes.zfill` | 进阶路线 | 属性协议 |
-| `stdtype:bytearray.zfill` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.__eq__` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.tobytes` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.hex` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.tolist` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.toreadonly` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.release` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.cast` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.count` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.index` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.obj` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.nbytes` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.readonly` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.format` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.itemsize` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.ndim` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.shape` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.strides` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.suboffsets` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.c_contiguous` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.f_contiguous` | 进阶路线 | 属性协议 |
-| `stdtype:memoryview.contiguous` | 进阶路线 | 属性协议 |
-| `stdlib:ast` | 进阶路线 | 编译与执行内部 |
-| `stdlib:code` | 进阶路线 | 专项标准库地图 |
-| `stdlib:codeop` | 进阶路线 | 专项标准库地图 |
-| `stdlib:compileall` | 进阶路线 | 编译与执行内部 |
-| `stdlib:concurrent.interpreters` | 进阶路线 | 多解释器与自由线程 |
-| `stdlib:copyreg` | 进阶路线 | 专项标准库地图 |
-| `stdlib:ctypes` | 进阶路线 | 专项标准库地图 |
-| `stdlib:dis` | 进阶路线 | 编译与执行内部 |
-| `stdlib:graphlib` | 进阶路线 | 专项标准库地图 |
-| `stdlib:hashlib` | 正文简述 | 旧接口迁移 / crypt 迁移的用途分支 |
-| `stdlib:importlib.abc` | 进阶路线 | 导入扩展 / importlib |
-| `stdlib:importlib.machinery` | 进阶路线 | 导入扩展 / importlib |
-| `stdlib:importlib.metadata` | 进阶路线 | 打包与分发 |
-| `stdlib:importlib.resources` | 进阶路线 | 导入扩展 / importlib |
-| `stdlib:importlib.resources.abc` | 进阶路线 | 导入扩展 / importlib |
-| `stdlib:importlib.util` | 进阶路线 | 导入扩展 / importlib |
-| `stdlib:marshal` | 进阶路线 | 编译与执行内部 |
-| `stdlib:modulefinder` | 进阶路线 | 导入扩展 / 查找器与加载器 |
-| `stdlib:optparse` | 弃用迁移 | 旧接口迁移 |
-| `stdlib:pickletools` | 进阶路线 | 专项标准库地图 |
-| `stdlib:py_compile` | 进阶路线 | 编译与执行内部 |
-| `stdlib:shelve` | 进阶路线 | 专项标准库地图 |
-| `stdlib:symtable` | 进阶路线 | 编译与执行内部 |
-| `stdlib:sys.monitoring` | 进阶路线 | 编译与执行内部 |
-| `stdlib:token` | 进阶路线 | 编译与执行内部 |
-| `stdlib:tokenize` | 进阶路线 | 编译与执行内部 |
-| `stdlib:tomllib` | 进阶路线 | 打包与分发 |
-| `stdlib:zipapp` | 进阶路线 | 打包与分发 |
-| `stdlib:zipimport` | 进阶路线 | 导入扩展 / ZIP 与自定义入口 |
-| `legacy-stdlib:aifc` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:asynchat` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:asyncore` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:audioop` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:cgi` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:cgitb` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:chunk` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:crypt` | 弃用迁移 | 旧接口迁移 / crypt 迁移的用途分支 |
-| `legacy-stdlib:distutils` | 弃用迁移 | 旧接口迁移 / distutils 与 imp |
-| `legacy-stdlib:imghdr` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:imp` | 弃用迁移 | 旧接口迁移 / distutils 与 imp |
-| `legacy-stdlib:mailcap` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:msilib` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:nis` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:nntplib` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:ossaudiodev` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:pipes` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:smtpd` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:sndhdr` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:spwd` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:sunau` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:telnetlib` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:uu` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-| `legacy-stdlib:xdrlib` | 弃用迁移 | 旧接口迁移 / PEP 594 移除模块 |
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+| 语法和标准库 | 运行测试与弃用警告 | 没有未处理的弃用或行为变更 |
+| 依赖与扩展 | 创建新环境安装 | 目标解释器和平台可安装 |
+| 性能/并发 | 基准与压力测试 | 指标与正确性均有记录 |
+| 打包产物 | 构建并重装 wheel | 导入、入口、资源文件完整 |
 
-## 正文编排
+## 标准库地图
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 属性协议 | 建立属性协议的心智模型 | 描述符；__slots__；动态属性；缓冲区协议与 memoryview；低频 bytes 与 bytearray 镜像方法族 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 类创建机制 | 完成并验证类创建机制 | __new__；元类；类装饰器与 __init_subclass__ | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 编译与执行内部 | 建立编译与执行内部的心智模型 | AST；符号表与字节码；反射与审计边界 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 导入扩展 | 建立导入扩展的心智模型 | importlib；查找器与加载器；ZIP 与自定义入口 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 多解释器与自由线程 | 建立多解释器与自由线程的心智模型 | InterpreterPoolExecutor；扩展兼容性；进入条件 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 打包与分发 | 建立打包与分发的心智模型 | pyproject.toml；wheel 与 sdist；现有工具链文章 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 旧接口迁移 | 建立旧接口迁移的心智模型 | PEP 594 移除模块；distutils 与 imp；getopt、optparse 与 argparse；crypt 迁移的用途分支；替代项与无等价迁移 | `timeline` | 内容按版本、事件或迁移阶段推进，时间线能保留先后关系 | 起点、阶段条件、回退点和最终状态 | 时间线失效时由有序列表保留完整顺序 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 专项标准库地图 | 建立专项标准库地图的心智模型 | 专项标准库地图的输入、关键步骤、结果与边界 | `folding` | 只收纳不影响主线的低频补充，核心结论必须先在折叠外给出 | 折叠外摘要、适用条件和继续阅读理由 | 折叠失效时标题概括补充主题，正文仍可顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 常见问题 | 建立常见问题的心智模型 | 常见问题的输入、关键步骤、结果与边界 | `flashcard` | 真实高价值问题需要进入长期复习队列 | 题面、精简答案和详细解析 | 闪卡脚本失效时题面与答案正文仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 参考资料 | 建立参考资料的心智模型 | 参考资料的输入、关键步骤、结果与边界 | `linkgroup/link` | 官方扩展阅读使用统一资料卡片 | 资料名称、用途和完整 URL | 图片或网络失败时名称与 URL 仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note primary flat %}
+下面按任务归类低频模块，目的是让检索起点清楚，而不是在一个页面复制文档。需要具体参数、平台差异或安全边界时，直接回到官方文档和小型实验。
+{% endnote %}
 
-## 视觉与复习
+{% folding 低频标准库索引, open %}
 
-- 贯穿案例与完整示例：inspect a small function's AST and bytecode, demonstrate a descriptor, then read an old `imp`/`distutils` snippet and plan migration without publishing packages.
-- 失败边界与踩坑：metaclasses/descriptors are not default application architecture; bytecode is implementation/version dependent; advanced `memoryview` capabilities are not expanded in the foundations article; `concurrent.interpreters` and related 3.14 modules require explicit version checks; removed modules may lack equivalent stdlib replacements; for removed `crypt`, `hashlib` is only a general-digest branch, `legacycrypt` is compatibility, and `bcrypt`/`argon2-cffi` are password-hashing branches rather than interchangeable substitutes.
-- FAQ 候选与来源：official data model and removed-module pages; PEP 594; PyPA packaging FAQ/specs.
-- 复习卡片：
-  - `python-advanced-descriptor` priority 3.
-    - `python-advanced-metaclass` priority 3.
-    - `python-advanced-slots` priority 3.
-- 图表或实验：advanced branch decision tree and old-to-current migration table.
-- 主要参考资料：data model, `ast`, `dis`, `symtable`, `importlib`, `concurrent.interpreters`, PyPA specifications, PEP 594 and each removed-module page.
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+| 任务 | 起点 | 先问的问题 |
+| --- | --- | --- |
+| 二进制协议与零拷贝视图 | `bytes`、`bytearray`、`memoryview`、`struct` | 谁拥有缓冲区，字节序和长度是否已验证？ |
+| 文本编码与转码 | `codecs`、`unicodedata` | 输入真实编码是什么，错误策略是否会丢数据？ |
+| 运行时检查 | `inspect`、`types`、`weakref` | 是否真需要反射，能否用显式协议替代？ |
+| 上下文和任务局部状态 | `contextvars`、`contextlib` | 状态是否跨 async 任务泄漏？ |
+| 代码对象与诊断 | `dis`、`ast`、`traceback` | 是调试工具还是不可信代码执行？ |
+| 插件和资源 | `importlib`、`importlib.resources` | 导入副作用、缓存和发行包资源是否清楚？ |
 
-## 验收证据
+{% endfolding %}
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+{% note info flat %}
+二进制内容中，`bytes` 适合不可变数据，`bytearray` 适合可变缓冲，`memoryview` 提供不复制的切片视图；使用 `struct` 或 memoryview 前先验证长度、格式和所有权。它们是协议和性能边界工具，不是普通文本处理的替代品。
+{% endnote %}
+
+## 常见问题
+
+{% flashcard basic id:python-advanced-descriptor deck:"Python 基础" priority:3 tags:"Python,descriptor,property,属性查找" %}
+--- question
+描述符是什么？它和 property 有什么关系？
+--- answer
+描述符是定义 `__get__`、`__set__` 或 `__delete__` 的对象；property 是建立在描述符协议上的常见封装。
+--- explanation
+描述符让类属性控制实例属性访问，适合复用验证、延迟计算或框架字段。普通业务代码先使用 property；只有同类访问规则需跨多个字段或类复用时再自定义描述符。
+{% endflashcard %}
+
+{% flashcard basic id:python-advanced-metaclass deck:"Python 基础" priority:3 tags:"Python,metaclass,__init_subclass__,类创建" %}
+--- question
+什么时候应使用元类，什么时候用 `__init_subclass__`？
+--- answer
+只有必须控制类对象创建时用元类；子类注册或轻量验证通常用 `__init_subclass__` 更简单。
+--- explanation
+元类影响整个继承体系的创建逻辑，调试与组合成本高。先尝试类装饰器、工厂、协议或 init_subclass；这些无法表达框架级类创建规则时，才选择 type 子类。
+{% endflashcard %}
+
+{% flashcard basic id:python-advanced-slots deck:"Python 基础" priority:3 tags:"Python,__slots__,内存,对象模型" %}
+--- question
+`__slots__` 的收益和代价是什么？
+--- answer
+它可限制实例属性并可能降低大量实例的内存开销，但会影响动态属性、继承、弱引用和工具兼容性。
+--- explanation
+slots 是已测量内存热点的优化，不是默认风格。使用前后都应测试序列化、继承、弱引用和调试工具；数据类也支持 slots 参数，但同样需要评估边界。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Python 3.14 数据模型, https://docs.python.org/3.14/reference/datamodel.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 importlib, https://docs.python.org/3.14/library/importlib.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 concurrent.interpreters, https://docs.python.org/3.14/library/concurrent.interpreters.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link PyPA 打包项目, https://packaging.python.org/en/latest/tutorials/packaging-projects/, https://packaging.python.org/favicon.ico %}
+{% endlinkgroup %}

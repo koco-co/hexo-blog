@@ -10,201 +10,260 @@ description: 设计异常传播和确定性资源管理，安全处理文件、�
 cover: /img/picgo-images/python-course-cover.png
 series: Python
 series_order: 8
-published: false
+published: true
 abbrlink: c31bf4bb
 date: 2026-08-25 13:13:45
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+可靠程序不会假装失败不存在：它区分可恢复的输入错误、不可恢复的基础设施错误和应立即传播的中断，并在所有路径上关闭文件、锁和连接。异常和上下文管理不是补丁语法，而是资源所有权的接口。
+{% endnote %}
 
-## 文章职责
+## 错误与异常
 
-- 唯一要解决的问题：design failure handling and deterministic resource management for exceptions, files, paths, encodings, and regular expressions.
-- 可观察成果：reader can preserve exception context, implement/use a context manager, and safely process text and binary files across platforms.
-- 进入条件：Python(七)面向对象与数据模型.
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note primary flat %}
+异常对象携带类型、消息和调用栈。`Exception` 是大多数应用错误的基类；`BaseException` 还包括 `KeyboardInterrupt`、`SystemExit` 等控制流信号，业务代码通常不应吞掉它们。优先捕获能真正处理的最具体异常。
+{% endnote %}
 
-## 内容边界
-
-- 复用或新建依据：keep old exception/file/regex cases but replace manual-close patterns and drive-letter-only paths with `with` and `pathlib`.
-
-| 稳定标识 | 处置 | 目标章节 |
+| 情况 | 典型异常 | 合理动作 |
 | --- | --- | --- |
-| `langref:datamodel#i-o-objects-also-known-as-file-objects` | 核心详解 | 文件与路径 |
-| `langref:datamodel#with-statement-context-managers` | 核心详解 | 上下文管理 |
-| `langref:executionmodel#exceptions` | 核心详解 | 异常控制流 |
-| `langref:simple_stmts#the-raise-statement` | 核心详解 | 异常控制流 |
-| `langref:compound_stmts#the-try-statement` | 核心详解 | 异常控制流 |
-| `langref:compound_stmts#except-clause` | 核心详解 | 异常控制流 |
-| `langref:compound_stmts#except-star` | 正文简述 | 异常控制流 |
-| `langref:compound_stmts#else-clause` | 核心详解 | 异常控制流 |
-| `langref:compound_stmts#finally-clause` | 核心详解 | 异常控制流 |
-| `langref:compound_stmts#the-with-statement` | 核心详解 | 上下文管理 |
-| `builtin:open` | 核心详解 | 文件与路径 |
-| `stdtype:contextmanager.__enter__` | 正文简述 | 上下文管理 |
-| `stdtype:contextmanager.__exit__` | 正文简述 | 上下文管理 |
-| `exception:BaseException.__context__` | 正文简述 | 异常控制流 |
-| `exception:BaseException.__cause__` | 正文简述 | 异常控制流 |
-| `exception:BaseException.__suppress_context__` | 正文简述 | 异常控制流 |
-| `exception:BaseException` | 核心详解 | 异常控制流 |
-| `exception:BaseException.args` | 正文简述 | 异常控制流 |
-| `exception:BaseException.with_traceback` | 正文简述 | 异常控制流 |
-| `exception:BaseException.__traceback__` | 正文简述 | 异常控制流 |
-| `exception:BaseException.add_note` | 正文简述 | 异常控制流 |
-| `exception:BaseException.__notes__` | 正文简述 | 异常控制流 |
-| `exception:Exception` | 核心详解 | 异常控制流 |
-| `exception:ArithmeticError` | 核心详解 | 异常控制流 |
-| `exception:BufferError` | 正文简述 | 异常控制流 |
-| `exception:LookupError` | 核心详解 | 异常控制流 |
-| `exception:AssertionError` | 核心详解 | 异常控制流 |
-| `exception:AttributeError` | 核心详解 | 异常控制流 |
-| `exception:AttributeError.name` | 正文简述 | 异常控制流 |
-| `exception:AttributeError.obj` | 正文简述 | 异常控制流 |
-| `exception:EOFError` | 核心详解 | 异常控制流 |
-| `exception:FloatingPointError` | 正文简述 | 异常控制流 |
-| `exception:GeneratorExit` | 正文简述 | 异常控制流 |
-| `exception:ImportError` | 核心详解 | 异常控制流 |
-| `exception:ImportError.name` | 正文简述 | 异常控制流 |
-| `exception:ImportError.path` | 正文简述 | 文件与路径 |
-| `exception:ModuleNotFoundError` | 正文简述 | 异常控制流 |
-| `exception:IndexError` | 核心详解 | 异常控制流 |
-| `exception:KeyError` | 核心详解 | 异常控制流 |
-| `exception:KeyboardInterrupt` | 核心详解 | 异常控制流 |
-| `exception:MemoryError` | 正文简述 | 异常控制流 |
-| `exception:NameError` | 核心详解 | 异常控制流 |
-| `exception:NameError.name` | 正文简述 | 异常控制流 |
-| `exception:NotImplementedError` | 核心详解 | 异常控制流 |
-| `exception:OSError` | 核心详解 | 异常控制流 |
-| `exception:OSError.errno` | 正文简述 | 异常控制流 |
-| `exception:OSError.winerror` | 正文简述 | 异常控制流 |
-| `exception:OSError.strerror` | 正文简述 | 异常控制流 |
-| `exception:OSError.filename` | 正文简述 | 文件与路径 |
-| `exception:OSError.filename2` | 正文简述 | 文件与路径 |
-| `exception:OverflowError` | 正文简述 | 异常控制流 |
-| `exception:PythonFinalizationError` | 正文简述 | 异常控制流 |
-| `exception:RecursionError` | 正文简述 | 异常控制流 |
-| `exception:ReferenceError` | 正文简述 | 异常控制流 |
-| `exception:RuntimeError` | 核心详解 | 异常控制流 |
-| `exception:StopIteration` | 核心详解 | 异常控制流 |
-| `exception:StopIteration.value` | 正文简述 | 异常控制流 |
-| `exception:StopAsyncIteration` | 正文简述 | 异常控制流 |
-| `exception:SyntaxError` | 核心详解 | 异常控制流 |
-| `exception:SyntaxError.filename` | 正文简述 | 文件与路径 |
-| `exception:SyntaxError.lineno` | 正文简述 | 异常控制流 |
-| `exception:SyntaxError.offset` | 正文简述 | 异常控制流 |
-| `exception:SyntaxError.text` | 正文简述 | 异常控制流 |
-| `exception:SyntaxError.end_lineno` | 正文简述 | 异常控制流 |
-| `exception:SyntaxError.end_offset` | 正文简述 | 异常控制流 |
-| `exception:IndentationError` | 正文简述 | 异常控制流 |
-| `exception:TabError` | 正文简述 | 异常控制流 |
-| `exception:SystemError` | 正文简述 | 异常控制流 |
-| `exception:SystemExit` | 正文简述 | 异常控制流 |
-| `exception:SystemExit.code` | 正文简述 | 异常控制流 |
-| `exception:TypeError` | 核心详解 | 异常控制流 |
-| `exception:UnboundLocalError` | 核心详解 | 异常控制流 |
-| `exception:UnicodeError` | 正文简述 | 异常控制流 |
-| `exception:UnicodeError.encoding` | 正文简述 | 文件与路径 |
-| `exception:UnicodeError.reason` | 正文简述 | 异常控制流 |
-| `exception:UnicodeError.object` | 正文简述 | 异常控制流 |
-| `exception:UnicodeError.start` | 正文简述 | 异常控制流 |
-| `exception:UnicodeError.end` | 正文简述 | 异常控制流 |
-| `exception:UnicodeEncodeError` | 正文简述 | 异常控制流 |
-| `exception:UnicodeDecodeError` | 正文简述 | 异常控制流 |
-| `exception:UnicodeTranslateError` | 正文简述 | 异常控制流 |
-| `exception:ValueError` | 核心详解 | 异常控制流 |
-| `exception:ZeroDivisionError` | 核心详解 | 异常控制流 |
-| `exception:EnvironmentError` | 正文简述 | 异常控制流 |
-| `exception:IOError` | 正文简述 | 异常控制流 |
-| `exception:WindowsError` | 正文简述 | 异常控制流 |
-| `exception:BlockingIOError` | 正文简述 | 异常控制流 |
-| `exception:BlockingIOError.characters_written` | 正文简述 | 异常控制流 |
-| `exception:ChildProcessError` | 正文简述 | 异常控制流 |
-| `exception:ConnectionError` | 正文简述 | 异常控制流 |
-| `exception:BrokenPipeError` | 正文简述 | 异常控制流 |
-| `exception:ConnectionAbortedError` | 正文简述 | 异常控制流 |
-| `exception:ConnectionRefusedError` | 正文简述 | 异常控制流 |
-| `exception:ConnectionResetError` | 正文简述 | 异常控制流 |
-| `exception:FileExistsError` | 正文简述 | 文件与路径 |
-| `exception:FileNotFoundError` | 正文简述 | 文件与路径 |
-| `exception:InterruptedError` | 正文简述 | 异常控制流 |
-| `exception:IsADirectoryError` | 正文简述 | 异常控制流 |
-| `exception:NotADirectoryError` | 正文简述 | 异常控制流 |
-| `exception:PermissionError` | 正文简述 | 异常控制流 |
-| `exception:ProcessLookupError` | 正文简述 | 异常控制流 |
-| `exception:TimeoutError` | 正文简述 | 异常控制流 |
-| `exception:Warning` | 正文简述 | 异常控制流 |
-| `exception:UserWarning` | 正文简述 | 异常控制流 |
-| `exception:DeprecationWarning` | 正文简述 | 异常控制流 |
-| `exception:PendingDeprecationWarning` | 正文简述 | 异常控制流 |
-| `exception:SyntaxWarning` | 正文简述 | 异常控制流 |
-| `exception:RuntimeWarning` | 正文简述 | 异常控制流 |
-| `exception:FutureWarning` | 正文简述 | 异常控制流 |
-| `exception:ImportWarning` | 正文简述 | 异常控制流 |
-| `exception:UnicodeWarning` | 正文简述 | 异常控制流 |
-| `exception:EncodingWarning` | 正文简述 | 文件与路径 |
-| `exception:BytesWarning` | 正文简述 | 异常控制流 |
-| `exception:ResourceWarning` | 正文简述 | 异常控制流 |
-| `exception:ExceptionGroup` | 正文简述 | 异常控制流 |
-| `exception:BaseExceptionGroup` | 正文简述 | 异常控制流 |
-| `exception:BaseExceptionGroup.message` | 正文简述 | 异常控制流 |
-| `exception:BaseExceptionGroup.exceptions` | 正文简述 | 异常控制流 |
-| `exception:BaseExceptionGroup.subgroup` | 正文简述 | 异常控制流 |
-| `exception:BaseExceptionGroup.split` | 正文简述 | 异常控制流 |
-| `exception:BaseExceptionGroup.derive` | 正文简述 | 异常控制流 |
-| `stdlib:atexit` | 正文简述 | 错误与异常 |
-| `stdlib:contextlib` | 核心详解 | 上下文管理 |
-| `stdlib:csv` | 正文简述 | 文件与路径 |
-| `stdlib:fileinput` | 正文简述 | 文件与路径 |
-| `stdlib:fnmatch` | 正文简述 | 文件与路径 |
-| `stdlib:glob` | 正文简述 | 文件与路径 |
-| `stdlib:io` | 核心详解 | 文件与路径 |
-| `stdlib:json` | 正文简述 | 文件与路径 |
-| `stdlib:os` | 核心详解 | 文件与路径 |
-| `stdlib:os.path` | 正文简述 | 文件与路径 |
-| `stdlib:pathlib` | 核心详解 | 文件与路径 |
-| `stdlib:pathlib.types` | 正文简述 | 文件与路径 |
-| `stdlib:pickle` | 正文简述 | 文件与路径 |
-| `stdlib:re` | 核心详解 | 正则表达式 |
-| `stdlib:shutil` | 正文简述 | 文件与路径 |
-| `stdlib:stat` | 正文简述 | 文件与路径 |
-| `stdlib:tempfile` | 核心详解 | 文件与路径 |
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+| 用户提供的格式或值无效 | `ValueError`、自定义领域异常 | 给出可修正的反馈 |
+| 键、属性或文件不存在 | `KeyError`、`AttributeError`、`FileNotFoundError` | 补默认值、改路径或显式失败 |
+| 外部 I/O 暂时失败 | `OSError` 及其子类 | 限次重试、记录上下文、失败返回 |
+| 程序不变量被破坏 | `AssertionError` 或明确异常 | 修正调用方或实现，不要静默继续 |
 
-## 正文编排
+{% note warning flat %}
+`except:` 会连中断和退出信号一起捕获，几乎总是错误。`except Exception:` 也只适合最外层请求边界、批任务边界等确实能记录并转换所有应用异常的位置；必须保留异常信息并让失败状态可观察。
+{% endnote %}
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 错误与异常 | 判断错误与异常 | 语法错误与运行时异常；异常层次；捕获范围 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 异常控制流 | 判断异常控制流 | try、except、else、finally；raise 与异常链；自定义异常；ExceptionGroup 与 except* 识别 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 上下文管理 | 建立上下文管理的心智模型 | with 协议；__enter__ 与 __exit__；contextlib | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 文件与路径 | 建立文件与路径的心智模型 | 文本、字节与编码；pathlib；临时文件与原子替换边界 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 正则表达式 | 建立正则表达式的心智模型 | 原始字符串；match、search 与 fullmatch；分组、边界与回溯风险 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 资源处理实验 | 完成并验证资源处理实验 | 安全读取日志；格式校验；失败恢复 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 结果验证的输入、关键步骤、结果与边界 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 常见问题 | 建立常见问题的心智模型 | 常见问题的输入、关键步骤、结果与边界 | `flashcard` | 真实高价值问题需要进入长期复习队列 | 题面、精简答案和详细解析 | 闪卡脚本失效时题面与答案正文仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 参考资料 | 建立参考资料的心智模型 | 参考资料的输入、关键步骤、结果与边界 | `linkgroup/link` | 官方扩展阅读使用统一资料卡片 | 资料名称、用途和完整 URL | 图片或网络失败时名称与 URL 仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+## 异常控制
 
-## 视觉与复习
+{% note primary flat %}
+`try` 放置可能失败的最小代码块；`except` 处理预期异常；`else` 只在没有异常时执行；`finally` 无论成功、失败或提前返回都会执行，适合最后的清理。不要把成功路径塞进 `try`，否则会错误地把自己的 bug 当作输入错误处理。
+{% endnote %}
 
-- 贯穿案例与完整示例：implement a context-managed log reader that validates records with regex, reports chained parse errors, handles encoding failure, demonstrates how grouped failures are separated by `except*`, and cleans temporary resources.
-- 失败边界与踩坑：broad `except` hides failures; `finally` runs during propagation; `except*` splits an exception group rather than behaving like ordinary `except`; regex is not a general parser; `__del__` does not replace `with`; `pathlib.types` is only identified and version-gated on the Python 3.13 baseline.
-- FAQ 候选与来源：Tutorial error chapter, Programming FAQ Unicode/raw-string questions, Library FAQ file questions.
-- 复习卡片：
-  - `python-error-else-finally` priority 1.
-    - `python-error-chain` priority 2.
-    - `python-error-context` priority 1.
-    - `python-error-text-binary` priority 2.
-- 图表或实验：exception propagation/finally flow, context-manager desugaring, and text encoding boundary diagram.
-- 主要参考资料：Built-in exceptions, compound statements, `contextlib`, `io`, `pathlib`, `re`, Tutorial and FAQ.
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+```python
+def parse_port(raw: str) -> int:
+    try:
+        port = int(raw)
+    except ValueError as error:
+        raise ValueError("port 必须是整数") from error
+    else:
+        if not 1 <= port <= 65535:
+            raise ValueError("port 超出范围")
+        return port
+    finally:
+        # 这里只适合无条件清理；不要在 finally 覆盖原异常或 return
+        pass
+```
 
-## 验收证据
+### 异常链
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+{% note primary flat %}
+`raise DomainError(...) from error` 建立显式因果链，保留底层故障同时对调用方提供领域语义。`raise ... from None` 只在底层细节确实无关或不安全时抑制上下文；排障时链通常比一条漂亮但孤立的消息更有价值。
+{% endnote %}
+
+```python
+class ConfigError(Exception):
+    pass
+
+try:
+    int("not-a-port")
+except ValueError as error:
+    raise ConfigError("配置中的 port 无效") from error
+```
+
+### 异常组
+
+{% note primary flat %}
+并发任务可能同时失败。`ExceptionGroup` 把多个异常保留为一组；`except*` 会从组中分离匹配类型并分别处理，未匹配部分继续传播。它不是普通 `except` 的替代，而是多失败场景的精确工具。
+{% endnote %}
+
+```python
+try:
+    raise ExceptionGroup("batch failed", [ValueError("bad input"), OSError("disk")])
+except* ValueError as errors:
+    print("input errors:", len(errors.exceptions))
+except* OSError as errors:
+    print("io errors:", len(errors.exceptions))
+```
+
+## 上下文管理
+
+{% note primary flat %}
+`with resource as value:` 进入时调用上下文管理器的进入协议，离开时无论是否异常都调用退出协议。它是确定性释放资源的默认方式；文件、锁、事务、临时目录和计时器都可以遵守这个结构。
+{% endnote %}
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def labelled_operation(name: str):
+    print("start", name)
+    try:
+        yield
+    finally:
+        print("finish", name)
+
+with labelled_operation("import"):
+    print("work")
+```
+
+{% note warning flat %}
+上下文管理器的退出方法若返回真值会抑制异常。只有当异常已被完整处理且调用方不应再看到失败时才这样做；资源清理失败也应避免遮蔽原始业务异常。
+{% endnote %}
+
+{% note info flat %}
+`atexit` 只在解释器正常退出时执行已登记的回调，不能替代每个文件、锁或事务的 `with` 清理；异常终止、进程被杀或解释器关闭顺序都可能让它不适合作为关键资源释放机制。
+{% endnote %}
+
+## 文件与路径
+
+{% note primary flat %}
+用 `pathlib.Path` 表达路径，用 `with path.open(...)` 读写文件。文本模式必须明确编码；二进制模式读写 `bytes`。路径拼接用 `/` 运算符或 `joinpath()`，不要手工拼接 Windows 或 POSIX 分隔符。
+{% endnote %}
+
+```python
+from pathlib import Path
+
+path = Path("reports") / "summary.txt"
+path.parent.mkdir(parents=True, exist_ok=True)
+
+with path.open("w", encoding="utf-8", newline="\n") as file:
+    file.write("Python\n")
+
+with path.open("r", encoding="utf-8") as file:
+    print(file.read())
+```
+
+{% tabs python-text-binary, 1 %}
+<!-- tab 文本与编码 -->
+
+```python
+text = "你好"
+payload = text.encode("utf-8")
+print(payload.decode("utf-8"))
+
+# 数据损坏时，先调查真实编码；只有业务允许时才使用 errors="replace"。
+```
+
+<!-- endtab -->
+<!-- tab 临时资源 -->
+
+```python
+from tempfile import TemporaryDirectory
+from pathlib import Path
+
+with TemporaryDirectory() as directory:
+    temp_path = Path(directory) / "sample.txt"
+    temp_path.write_text("draft", encoding="utf-8")
+    print(temp_path.read_text(encoding="utf-8"))
+# 离开 with 后目录已清理
+```
+
+<!-- endtab -->
+{% endtabs %}
+
+## 正则表达式
+
+{% note primary flat %}
+正则适合结构化的局部文本规则，不适合替代完整语法解析。使用原始字符串书写模式；`fullmatch` 验证整个输入，`search` 寻找任意位置，`finditer` 按需遍历匹配。模式重复使用时编译一次以表达意图。
+{% endnote %}
+
+```python
+import re
+
+ticket = re.compile(r"[A-Z]{2}-\d{4}")
+print(bool(ticket.fullmatch("PY-2026")))
+print(bool(ticket.fullmatch("see PY-2026")))  # False
+```
+
+{% note warning flat %}
+来自不可信输入、结构很深的文本或复杂嵌套语法不应交给随意的回溯型模式。限制输入长度、使用特定解析器，并为可能的性能问题设置边界；“能匹配”不等于“能安全验证”。
+{% endnote %}
+
+## 资源实验
+
+{% note info flat %}
+该实验模拟读配置、转换异常和写临时报告。先故意把端口改为非数字，确认能同时看到领域错误及其原因；再检查临时目录退出后是否已清理。
+{% endnote %}
+
+```python
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+class ConfigError(Exception):
+    pass
+
+def read_port(raw: str) -> int:
+    try:
+        return int(raw)
+    except ValueError as error:
+        raise ConfigError("port 必须为整数") from error
+
+with TemporaryDirectory() as directory:
+    report = Path(directory) / "result.txt"
+    report.write_text(str(read_port("8080")), encoding="utf-8")
+    print(report.read_text(encoding="utf-8"))
+```
+
+## 结果验证
+
+{% note success flat %}
+完成本篇后，应能根据谁拥有资源决定 `with` 的位置，根据谁能恢复决定捕获位置，并让错误链和日志保留足够上下文。异常处理的成功标准不是“不报错”，而是失败可诊断、资源不泄漏、状态不被伪造。
+{% endnote %}
+
+- [ ] 能为输入错误选择具体异常，而非裸 `except`。
+- [ ] 能解释 `else` 与 `finally` 的不同执行时机。
+- [ ] 能用 `raise ... from error` 保留因果链。
+- [ ] 能用 `Path` 和 `with` 完成 UTF-8 文本读写。
+- [ ] 能区分 `fullmatch` 与 `search` 的验证语义。
+
+## 常见问题
+
+{% flashcard basic id:python-error-else-finally deck:"Python 基础" priority:1 tags:"Python,异常,try,else,finally" %}
+--- question
+`try`、`except`、`else`、`finally` 的职责分别是什么？
+--- answer
+try 放可能失败的最小代码，except 处理预期错误，else 在无异常时运行，finally 总会运行以完成清理。
+--- explanation
+把成功路径放进 else 能避免误捕自己后续代码的异常。finally 不应随意 return 或抛新错误遮盖原异常；资源清理通常优先改用 with。
+{% endflashcard %}
+
+{% flashcard basic id:python-error-chain deck:"Python 基础" priority:2 tags:"Python,异常链,raise from" %}
+--- question
+为什么使用 `raise NewError(...) from error`？
+--- answer
+它保留底层异常作为原因，同时向调用方提供更贴近领域的异常类型和消息。
+--- explanation
+异常链能让日志同时展示“配置无效”和原始 `ValueError`。只有底层细节不应暴露或无关时才用 `from None` 抑制上下文。
+{% endflashcard %}
+
+{% flashcard basic id:python-error-context deck:"Python 基础" priority:1 tags:"Python,with,上下文管理,资源" %}
+--- question
+`with` 解决什么问题？
+--- answer
+它保证进入后的退出清理在成功、异常和提前返回时都执行。
+--- explanation
+文件、锁、事务和临时目录都应由明确的所有者使用上下文管理。退出方法只有完整处理异常时才应抑制它，否则应让异常继续传播以保持失败可见。
+{% endflashcard %}
+
+{% flashcard basic id:python-error-text-binary deck:"Python 基础" priority:2 tags:"Python,文件,编码,bytes,str" %}
+--- question
+文本和二进制文件处理的关键边界是什么？
+--- answer
+文本使用 `str` 和明确编码，二进制使用 `bytes`；读取时 decode，写出时 encode。
+--- explanation
+用 `Path` 构建跨平台路径，并用 with 关闭文件。遇到解码错误应先确认真实编码和数据来源，不要默认丢弃或替换数据。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Python 3.14 异常, https://docs.python.org/3.14/library/exceptions.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 contextlib, https://docs.python.org/3.14/library/contextlib.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 pathlib, https://docs.python.org/3.14/library/pathlib.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 re, https://docs.python.org/3.14/library/re.html, https://docs.python.org/3.14/_static/py.svg %}
+{% endlinkgroup %}

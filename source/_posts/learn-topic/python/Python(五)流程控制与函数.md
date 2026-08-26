@@ -6,116 +6,199 @@ tags:
 categories:
   - Learn Topic
   - Python
-description: 掌握分支、循环、推导式、函数参数、作用域、闭包、递归和高阶函数，并诊断默认值与晚绑定问题。
+description: 用条件、循环、参数模型、作用域、闭包和高阶函数组织可测试的 Python 逻辑，并识别默认参数与延迟绑定陷阱。
 cover: /img/picgo-images/python-course-cover.png
 series: Python
 series_order: 5
-published: false
+published: true
 abbrlink: a62147da
 date: 2026-08-25 13:13:45
 ---
 
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+控制流负责选择和重复，函数负责给一段行为命名并约束输入输出。把判断、遍历和副作用拆开，代码才容易测试；把参数、作用域和返回值说清，面试题也会从背语法变成解释行为。
+{% endnote %}
 
-## 文章职责
+## 条件与循环
 
-- 唯一要解决的问题：explain branching, looping, function calls, parameter binding, scopes, closures, recursion, and higher-order behavior.
-- 可观察成果：reader can design predictable function interfaces and diagnose mutable-default, scope, and late-binding bugs.
-- 进入条件：Python(四)内置类型与容器.
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note primary flat %}
+`if` 依据真值测试分支；空容器、零、`None` 和 `False` 为假，其余对象默认为真但可以自定义。`for` 从可迭代对象依次取值，`while` 适合以状态条件终止；二者都可配合 `break`、`continue` 与 `else`。
+{% endnote %}
 
-## 内容边界
+```python
+for candidate in ["", "draft", "publish"]:
+    if not candidate:
+        continue
+    if candidate == "publish":
+        break
+else:
+    print("没有遇到 publish")
 
-- 复用或新建依据：keep selected control-flow, recursion, and higher-order exercises; replace pyramid-printing volume with dependency-relevant cases.
+print(candidate)  # publish
+```
 
-| 稳定标识 | 处置 | 目标章节 |
+{% note warning flat %}
+循环的 `else` 不是“循环结束后总执行”：只有循环没有被 `break` 中断时才执行。不要用 `for ... else` 隐藏复杂状态机；当退出原因很多时，提取明确的函数或状态变量更易读。
+{% endnote %}
+
+| 目标 | 首选写法 | 说明 |
 | --- | --- | --- |
-| `langref:datamodel#callable-types` | 核心详解 | 参数模型 |
-| `langref:datamodel#user-defined-functions` | 核心详解 | 函数对象 |
-| `langref:datamodel#built-in-functions` | 核心详解 | 函数对象 |
-| `langref:executionmodel#execution-model` | 核心详解 | 函数对象 |
-| `langref:executionmodel#structure-of-a-program` | 核心详解 | 函数对象 |
-| `langref:executionmodel#naming-and-binding` | 核心详解 | 作用域与闭包 |
-| `langref:executionmodel#binding-of-names` | 核心详解 | 作用域与闭包 |
-| `langref:executionmodel#resolution-of-names` | 核心详解 | 函数对象 |
-| `langref:executionmodel#builtins-and-restricted-execution` | 核心详解 | 函数对象 |
-| `langref:executionmodel#interaction-with-dynamic-features` | 核心详解 | 函数对象 |
-| `langref:executionmodel#general-computing-model` | 核心详解 | 函数对象 |
-| `langref:expressions#displays-for-lists-sets-and-dictionaries` | 核心详解 | 流程控制 / 推导式中的循环与条件 |
-| `langref:expressions#list-displays` | 核心详解 | 流程控制 / 推导式中的循环与条件 |
-| `langref:expressions#set-displays` | 核心详解 | 流程控制 / 推导式中的循环与条件 |
-| `langref:expressions#dictionary-displays` | 核心详解 | 流程控制 / 推导式中的循环与条件 |
-| `langref:expressions#calls` | 核心详解 | 参数模型 |
-| `langref:expressions#assignment-expressions` | 核心详解 | 流程控制 |
-| `langref:expressions#conditional-expressions` | 核心详解 | 流程控制 |
-| `langref:expressions#lambda` | 核心详解 | 递归与高阶函数 |
-| `langref:expressions#expression-lists` | 核心详解 | 函数对象 |
-| `langref:simple_stmts#simple-statements` | 正文简述 | 流程控制 |
-| `langref:simple_stmts#the-pass-statement` | 核心详解 | 流程控制 |
-| `langref:simple_stmts#the-return-statement` | 核心详解 | 函数对象 |
-| `langref:simple_stmts#the-break-statement` | 核心详解 | 流程控制 |
-| `langref:simple_stmts#the-continue-statement` | 核心详解 | 流程控制 |
-| `langref:simple_stmts#the-global-statement` | 核心详解 | 作用域与闭包 |
-| `langref:simple_stmts#the-nonlocal-statement` | 核心详解 | 作用域与闭包 |
-| `langref:compound_stmts#compound-statements` | 核心详解 | 函数对象 |
-| `langref:compound_stmts#the-if-statement` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#the-while-statement` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#the-for-statement` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#the-match-statement` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#overview` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#guards` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#irrefutable-case-blocks` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#or-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#as-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#literal-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#capture-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#wildcard-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#value-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#group-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#sequence-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#mapping-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#class-patterns` | 核心详解 | 流程控制 |
-| `langref:compound_stmts#function-definitions` | 核心详解 | 函数对象 |
-| `builtin:callable` | 正文简述 | 函数对象 |
-| `stdlib:inspect` | 正文简述 | 函数对象 |
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+| 过滤或转换一组数据 | 推导式 / 生成器表达式 | 单个、清晰表达式时简洁 |
+| 需要早停、日志、异常处理 | 普通 `for` | 控制路径直观 |
+| 有明确终止条件的重试 | `while` | 必须保证状态会前进 |
+| 同时得到位置和值 | `enumerate()` | 避免手动维护计数器 |
 
-## 正文编排
+## 函数与参数
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 流程控制 | 建立流程控制的心智模型 | if 与条件链；for、while 与循环 else；推导式中的循环与条件；match 模式匹配；模式种类、名称绑定与守卫；不可达模式与失败边界 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 函数对象 | 建立函数对象的心智模型 | 定义、调用与返回；函数是一等对象；文档字符串 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 参数模型 | 建立参数模型的心智模型 | 参数与实参；位置限定与关键字限定；*args 与 **kwargs；可变默认值 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 作用域与闭包 | 建立作用域与闭包的心智模型 | LEGB；global 与 nonlocal；循环闭包晚绑定 | `mermaid` | 存在明确的关系、状态或调用顺序，图示比连续文字更易追踪 | 图前问题、图后结论、关键节点和失败边界 | 图表失效时由节点清单和文字结论兜底 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 递归与高阶函数 | 建立递归与高阶函数的心智模型 | 终止条件与调用栈；lambda 的真实边界；函数作为参数 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 函数实验 | 完成并验证函数实验 | 可配置评分器；故障注入与修复 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 结果验证的输入、关键步骤、结果与边界 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 常见问题 | 建立常见问题的心智模型 | 常见问题的输入、关键步骤、结果与边界 | `flashcard` | 真实高价值问题需要进入长期复习队列 | 题面、精简答案和详细解析 | 闪卡脚本失效时题面与答案正文仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 参考资料 | 建立参考资料的心智模型 | 参考资料的输入、关键步骤、结果与边界 | `linkgroup/link` | 官方扩展阅读使用统一资料卡片 | 资料名称、用途和完整 URL | 图片或网络失败时名称与 URL 仍可读取 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note primary flat %}
+函数定义创建函数对象；调用时，实参按规则绑定到形参。位置参数在前，关键字参数按名绑定；`/` 左侧仅限位置，`*` 右侧仅限关键字，`*args` 收集额外位置参数，`**kwargs` 收集额外关键字参数。
+{% endnote %}
 
-## 视觉与复习
+```python
+def announce(title: str, /, *labels: str, urgent: bool = False, **meta: str) -> str:
+    prefix = "[urgent] " if urgent else ""
+    return f"{prefix}{title} labels={labels} meta={meta}"
 
-- 贯穿案例与完整示例：build a score-processing pipeline with list/set/dict comprehensions, `match`-based record classification, guards, positional-only and keyword-only parameters, configurable callbacks, closure factories, recursion, and invalid-pattern/input tests.
-- 失败边界与踩坑：default values are evaluated once; closures capture names; `return` differs from loop control; recursion depth is finite; capture patterns bind names and an irrefutable case must not hide later cases.
-- FAQ 候选与来源：Programming FAQ on local/global variables, `UnboundLocalError`, loop lambdas, shared defaults, arguments vs parameters, higher-order functions, and slash in parameter lists.
-- 复习卡片：
-  - `python-function-args-params` priority 1.
-    - `python-function-default-mutable` priority 1.
-    - `python-function-legb` priority 1.
-    - `python-function-late-binding` priority 1.
-- 图表或实验：call-binding matrix, LEGB lookup diagram, closure cell timeline, and recursion stack.
-- 主要参考资料：Compound/simple statements, expressions, execution model, Programming FAQ, PEP 570 and PEP 572.
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+print(announce("release", "python", urgent=True, owner="team"))
+```
 
-## 验收证据
+{% note warning flat %}
+默认值在定义函数时计算一次，而不是每次调用时重新计算。不可变默认值通常安全；可变默认值应改为 `None` 哨兵后在函数内创建。类型标注描述接口，但不会自动验证调用者传入的值。
+{% endnote %}
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+```python
+def add_label(label: str, labels: list[str] | None = None) -> list[str]:
+    if labels is None:
+        labels = []
+    labels.append(label)
+    return labels
+```
+
+## 作用域与闭包
+
+{% note primary flat %}
+名称解析遵循 LEGB：Local、Enclosing、Global、Builtins。读取外层名称可以直接发生；要在内层函数重新绑定外层局部名称需 `nonlocal`，重新绑定模块级名称需 `global`。两者都应少用，优先返回新值或封装状态。
+{% endnote %}
+
+```python
+def make_counter(start: int = 0):
+    value = start
+
+    def next_value() -> int:
+        nonlocal value
+        value += 1
+        return value
+
+    return next_value
+
+counter = make_counter()
+print(counter(), counter())  # 1 2
+```
+
+{% note warning flat %}
+闭包捕获的是名称，不是循环时的即时值。因此在循环中创建函数后再调用，常会看到所有函数都读取最后一个值。用默认参数或工厂函数在创建时绑定当前值，而不是依赖后续查找。
+{% endnote %}
+
+```python
+callbacks = [lambda item=item: item for item in range(3)]
+print([callback() for callback in callbacks])  # [0, 1, 2]
+```
+
+## 高阶函数
+
+{% note primary flat %}
+函数是对象：能赋值、传参、返回，也能拥有属性。`map`、`filter`、`sorted(key=...)` 和回调都在使用这一点；若匿名函数变长或需要测试，给它起一个正常函数名通常更清楚。
+{% endnote %}
+
+```python
+def normalize(title: str) -> str:
+    return title.strip().casefold()
+
+titles = [" Python ", "python", "FastAPI"]
+unique = {normalize(title) for title in titles}
+print(sorted(unique))
+```
+
+{% folding 递归的边界, open %}
+递归必须有基例，并且每一步朝基例推进。Python 没有把尾递归优化为无限栈；层数可能很深的遍历优先改为显式栈、迭代器或队列。只有递归能让问题结构明显更简单时才保留它。
+{% endfolding %}
+
+## 函数实验
+
+{% note info flat %}
+运行前预测：两次 `add_label()` 是否共享列表？三个回调会返回哪些数？若答案不对，分别定位默认值的求值时间和闭包的名称查找时间。
+{% endnote %}
+
+```python
+def add_label(label: str, labels: list[str] | None = None) -> list[str]:
+    if labels is None:
+        labels = []
+    labels.append(label)
+    return labels
+
+handlers = [lambda n=n: n * 10 for n in range(3)]
+
+print(add_label("draft"))
+print(add_label("review"))
+print([handler() for handler in handlers])
+```
+
+## 结果验证
+
+{% note success flat %}
+完成本篇后，应能从签名读出调用约束，从输出读出名称解析顺序，并能用最小函数隔离副作用。任何需要共享或修改状态的设计，都应明确它属于对象、闭包还是模块，而不是偶然泄漏出来的变量。
+{% endnote %}
+
+- [ ] 能解释循环 `else` 何时执行。
+- [ ] 能为一个函数区分实参与形参、位置与关键字传参。
+- [ ] 能改正可变默认参数。
+- [ ] 能解释 `nonlocal` 的作用及何时避免它。
+- [ ] 能修复循环中 lambda 的延迟绑定。
+
+## 常见问题
+
+{% flashcard basic id:python-function-args-params deck:"Python 基础" priority:1 tags:"Python,函数,参数,调用" %}
+--- question
+实参和形参有什么区别？`/` 与 `*` 在函数签名中做什么？
+--- answer
+实参是调用时给出的对象，形参是函数内的名称；`/` 前仅限位置，`*` 后仅限关键字。
+--- explanation
+调用会把实参绑定给形参。位置/关键字限制能让公共接口更稳定，防止调用者依赖未来可能调整的参数名或误把语义参数按位置传入。
+{% endflashcard %}
+
+{% flashcard basic id:python-function-default-mutable deck:"Python 基础" priority:1 tags:"Python,函数,默认参数,可变性" %}
+--- question
+为什么不应把 `[]` 或 `{}` 直接作为函数默认参数？
+--- answer
+默认值在函数定义时只创建一次，多次调用会共享同一个可变对象。
+--- explanation
+将默认值设为 `None`，在函数体中创建新容器。这样每次未传参数的调用都有独立状态，且调用方显式传入容器时仍可选择共享。
+{% endflashcard %}
+
+{% flashcard basic id:python-function-legb deck:"Python 基础" priority:1 tags:"Python,LEGB,作用域,闭包" %}
+--- question
+Python 名称查找的 LEGB 顺序是什么？
+--- answer
+Local、Enclosing、Global、Builtins。
+--- explanation
+内层函数读取外层函数局部名称形成闭包。只有要重新绑定外层局部名称时才用 `nonlocal`；重新绑定模块级名称才用 `global`，两者都应让状态边界更清晰而非更隐蔽。
+{% endflashcard %}
+
+{% flashcard basic id:python-function-late-binding deck:"Python 基础" priority:1 tags:"Python,闭包,lambda,循环" %}
+--- question
+为什么循环中创建的多个 lambda 常返回同一个最后值？如何修复？
+--- answer
+闭包在调用时查找循环名称，循环结束后它已是最后值；用默认参数或工厂函数绑定当前值。
+--- explanation
+写成 `lambda item=item: item` 会把当前值放入该函数的默认参数。该技巧不是魔法，而是把“稍后查找外层名称”改成“创建函数时保存对象绑定”。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Python 3.14 复合语句, https://docs.python.org/3.14/reference/compound_stmts.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 简单语句, https://docs.python.org/3.14/reference/simple_stmts.html, https://docs.python.org/3.14/_static/py.svg %}
+{% link Python 3.14 表达式, https://docs.python.org/3.14/reference/expressions.html, https://docs.python.org/3.14/_static/py.svg %}
+{% endlinkgroup %}

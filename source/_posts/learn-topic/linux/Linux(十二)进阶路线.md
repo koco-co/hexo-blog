@@ -10,66 +10,164 @@ description: 按可移植性、启动恢复、隔离资源、存储网络、安�
 cover: /img/picgo-images/linux-course-cover.png
 series: Linux
 series_order: 12
-published: false
+published: true
 abbrlink: 9efa11cb
 date: 2026-08-25 00:00:00
 ---
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；以下内容固定写作边界，不代表正文已经完成。
+{% note info flat %}
+主线完成后，低频能力不应被硬塞进日常排障。进阶路线按进入条件和风险分组：可移植性与实现、隔离与资源控制、深度观测、启动恢复、网络、存储和安全。每组先在实验机验证，再决定是否用于生产。
+{% endnote %}
 
-## 文章职责
+## 进入条件
 
-- 唯一要解决的问题：承接低频、平台相关、需要权限或可能产生较高风险的能力，不阻塞主课程。
-- 可观察成果：能够根据问题选择进阶方向，并知道前置、权限、版本和风险。
-- 进入条件：第 7～11 篇；第 13 篇不要求本篇。
-- 明确不承担：不改变已确认的课程主题、篇序和其他文章的唯一知识归属。
+{% note primary flat %}
+先能独立完成系统识别、文件/文本处理、Shell 组合、权限、进程、网络、日志和性能的基础闭环，再进入本篇。需要内核权限、物理设备、真实密钥或停机窗口的条目只做阅读和隔离演练。
+{% endnote %}
 
-## 内容边界
+## 方向选择
 
-- 能力分配：
-- 进阶路线 / 可移植性与实现：bash5.3:builtin:index-bind、bash5.3:builtin:index-builtin、bash5.3:builtin:index-caller、bash5.3:builtin:index-compgen、bash5.3:builtin:index-complete、bash5.3:builtin:index-compopt、bash5.3:builtin:index-enable、bash5.3:builtin:index-let、bash5.3:builtin:index-logout、bash5.3:builtin:index-shopt、bash5.3:builtin:index-typeset、bash5.3:feature:compatibility、bash5.3:feature:coproc、bash5.3:feature:extglob、bash5.3:feature:process-substitution、bash5.3:feature:restricted-shell、bash5.3:feature:shopt、bash5.3:toc:Bash-POSIX-Mode-1、bash5.3:toc:Bash-Variables、bash5.3:toc:Bourne-Shell-Variables、bash5.3:toc:Controlling-the-Prompt、bash5.3:toc:Directory-Stack-Builtins、bash5.3:toc:Interactive-Shell-Behavior、bash5.3:toc:Invoking-Bash、bash5.3:toc:Is-this-Shell-Interactive_003f、bash5.3:toc:Shell-Compatibility-Mode、bash5.3:toc:The-Restricted-Shell、bash5.3:toc:What-is-an-Interactive-Shell_003f、bash5.3:toc:What-is-POSIX_003f、posix2024:utility:ar、posix2024:utility:cflow、posix2024:utility:ctags、posix2024:utility:make、posix2024:utility:nm、ubuntu26.04:command:accessdb、ubuntu26.04:command:add-shell、ubuntu26.04:command:apropos、ubuntu26.04:command:apt-cdrom、ubuntu26.04:command:apt-config、ubuntu26.04:command:arch、ubuntu26.04:command:busctl、ubuntu26.04:command:catman、ubuntu26.04:command:col、ubuntu26.04:command:colcrt、ubuntu26.04:command:colrm、ubuntu26.04:command:column、ubuntu26.04:command:coreutils、ubuntu26.04:command:dir、ubuntu26.04:command:dircolors、ubuntu26.04:command:dpkg-deb、ubuntu26.04:command:dpkg-divert、ubuntu26.04:command:dpkg-maintscript-helper、ubuntu26.04:command:dpkg-query、ubuntu26.04:command:dpkg-realpath、ubuntu26.04:command:dpkg-split、ubuntu26.04:command:dpkg-statoverride、ubuntu26.04:command:dpkg-trigger、ubuntu26.04:command:factor、ubuntu26.04:command:gawkbug、ubuntu26.04:command:getopt、ubuntu26.04:command:hashsum、ubuntu26.04:command:hd、ubuntu26.04:command:hexdump、ubuntu26.04:command:hostid、ubuntu26.04:command:hostnamectl、ubuntu26.04:command:i386、ubuntu26.04:command:iconvconfig、ubuntu26.04:command:ischroot、ubuntu26.04:command:ld.so、ubuntu26.04:command:ldconfig、ubuntu26.04:command:ldd、ubuntu26.04:command:lessecho、ubuntu26.04:command:lessfile、ubuntu26.04:command:lesskey、ubuntu26.04:command:lesspipe、ubuntu26.04:command:lexgrog、ubuntu26.04:command:linux32、ubuntu26.04:command:linux64、ubuntu26.04:command:localectl、ubuntu26.04:command:look、ubuntu26.04:command:man-recode、ubuntu26.04:command:mandb、ubuntu26.04:command:manpath、ubuntu26.04:command:mcookie、ubuntu26.04:command:namei、ubuntu26.04:command:numfmt、ubuntu26.04:command:pinky、ubuntu26.04:command:rbash、ubuntu26.04:command:remove-shell、ubuntu26.04:command:rev、ubuntu26.04:command:rgrep、ubuntu26.04:command:run-parts、ubuntu26.04:command:savelog、ubuntu26.04:command:setterm、ubuntu26.04:command:sha3-224sum、ubuntu26.04:command:sha3-256sum、ubuntu26.04:command:sha3-384sum、ubuntu26.04:command:sha3-512sum、ubuntu26.04:command:sha3sum、ubuntu26.04:command:shake128sum、ubuntu26.04:command:shake256sum、ubuntu26.04:command:shred、ubuntu26.04:command:shuf、ubuntu26.04:command:start-stop-daemon、ubuntu26.04:command:stdbuf、ubuntu26.04:command:sum、ubuntu26.04:command:systemd-confext、ubuntu26.04:command:systemd-delta、ubuntu26.04:command:systemd-escape、ubuntu26.04:command:systemd-id128、ubuntu26.04:command:systemd-notify、ubuntu26.04:command:systemd-path、ubuntu26.04:command:systemd-socket-activate、ubuntu26.04:command:systemd-stdio-bridge、ubuntu26.04:command:systemd-sysext、ubuntu26.04:command:systemd-vpick、ubuntu26.04:command:tempfile、ubuntu26.04:command:timedatectl、ubuntu26.04:command:tzselect、ubuntu26.04:command:ul、ubuntu26.04:command:update-alternatives、ubuntu26.04:command:update-shells、ubuntu26.04:command:varlinkctl、ubuntu26.04:command:vdir、ubuntu26.04:command:x86_64、ubuntu26.04:command:zdump、ubuntu26.04:command:zic
-- 进阶路线 / 隔离与资源控制：bash5.3:builtin:index-disown、bash5.3:builtin:index-suspend、posix2024:utility:ipcrm、posix2024:utility:ipcs、ubuntu26.04:command:choom、ubuntu26.04:command:chrt、ubuntu26.04:command:flock、ubuntu26.04:command:ionice、ubuntu26.04:command:ipcmk、ubuntu26.04:command:lsipc、ubuntu26.04:command:lslocks、ubuntu26.04:command:lsns、ubuntu26.04:command:nsenter、ubuntu26.04:command:prlimit、ubuntu26.04:command:setarch、ubuntu26.04:command:setsid、ubuntu26.04:command:systemd-cgls、ubuntu26.04:command:systemd-cgtop、ubuntu26.04:command:systemd-detect-virt、ubuntu26.04:command:systemd-inhibit、ubuntu26.04:command:taskset、ubuntu26.04:command:uclampset、ubuntu26.04:command:unshare
-- 进阶路线 / 深度观测：ubuntu26.04:command:acpidbg、ubuntu26.04:command:cifsiostat、ubuntu26.04:command:cpupower、ubuntu26.04:command:pldd、ubuntu26.04:command:pwdx、ubuntu26.04:command:readprofile、ubuntu26.04:command:rtla、ubuntu26.04:command:sadf、ubuntu26.04:command:strace-log-merge、ubuntu26.04:command:sysctl、ubuntu26.04:command:systemd-ac-power、ubuntu26.04:command:systemd-analyze、ubuntu26.04:command:tapestat、ubuntu26.04:command:tload、ubuntu26.04:command:turbostat、ubuntu26.04:command:w、ubuntu26.04:command:x86_energy_perf_policy
-- 进阶路线 / 启动与恢复：ubuntu26.04:command:agetty、ubuntu26.04:command:getty、ubuntu26.04:command:installkernel、ubuntu26.04:command:kernel-install、ubuntu26.04:command:rtcwake、ubuntu26.04:command:sulogin、ubuntu26.04:command:systemd-ask-password、ubuntu26.04:command:systemd-firstboot、ubuntu26.04:command:systemd-machine-id-setup、ubuntu26.04:command:systemd-mute-console、ubuntu26.04:command:systemd-tmpfiles、ubuntu26.04:command:systemd-tty-ask-password-agent
-- 进阶路线 / 网络进阶：ubuntu26.04:command:arpd、ubuntu26.04:command:ctstat、ubuntu26.04:command:dcb、ubuntu26.04:command:delv、ubuntu26.04:command:devlink、ubuntu26.04:command:dpll、ubuntu26.04:command:genl、ubuntu26.04:command:lft.db、ubuntu26.04:command:lnstat、ubuntu26.04:command:mdig、ubuntu26.04:command:netshaper、ubuntu26.04:command:networkctl、ubuntu26.04:command:nft、ubuntu26.04:command:nstat、ubuntu26.04:command:nsupdate、ubuntu26.04:command:ping4、ubuntu26.04:command:ping6、ubuntu26.04:command:rdma、ubuntu26.04:command:routel、ubuntu26.04:command:rrsync、ubuntu26.04:command:rsync-ssl、ubuntu26.04:command:rtacct、ubuntu26.04:command:rtmon、ubuntu26.04:command:rtstat、ubuntu26.04:command:sftp、ubuntu26.04:command:ssh-argv0、ubuntu26.04:command:ssh-copy-id、ubuntu26.04:command:tc、ubuntu26.04:command:tcptraceroute.db、ubuntu26.04:command:tipc、ubuntu26.04:command:traceproto.db、ubuntu26.04:command:traceroute-nanog、ubuntu26.04:command:traceroute6.db、ubuntu26.04:command:usbip、ubuntu26.04:command:usbipd、ubuntu26.04:command:vdpa、ubuntu26.04:command:wcurl
-- 进阶路线 / 存储进阶：ubuntu26.04:command:blkdiscard、ubuntu26.04:command:blkid、ubuntu26.04:command:blockdev、ubuntu26.04:command:fallocate、ubuntu26.04:command:findfs、ubuntu26.04:command:findmnt、ubuntu26.04:command:fsck、ubuntu26.04:command:fsfreeze、ubuntu26.04:command:fstrim、ubuntu26.04:command:funzip、ubuntu26.04:command:gzexe、ubuntu26.04:command:hardlink、ubuntu26.04:command:losetup、ubuntu26.04:command:lzmainfo、ubuntu26.04:command:mkfs、ubuntu26.04:command:mkswap、ubuntu26.04:command:mountpoint、ubuntu26.04:command:partx、ubuntu26.04:command:rmt-tar、ubuntu26.04:command:swaplabel、ubuntu26.04:command:swapoff、ubuntu26.04:command:swapon、ubuntu26.04:command:systemd-mount、ubuntu26.04:command:systemd-umount、ubuntu26.04:command:tarcat、ubuntu26.04:command:unxz、ubuntu26.04:command:unzipsfx、ubuntu26.04:command:wipefs、ubuntu26.04:command:xzcat、ubuntu26.04:command:xzcmp、ubuntu26.04:command:xzdiff、ubuntu26.04:command:xzegrep、ubuntu26.04:command:xzfgrep、ubuntu26.04:command:xzgrep、ubuntu26.04:command:xzless、ubuntu26.04:command:xzmore、ubuntu26.04:command:zcmp、ubuntu26.04:command:zdiff、ubuntu26.04:command:zegrep、ubuntu26.04:command:zfgrep、ubuntu26.04:command:zforce、ubuntu26.04:command:zipcloak、ubuntu26.04:command:zipgrep、ubuntu26.04:command:zipinfo、ubuntu26.04:command:zipnote、ubuntu26.04:command:zipsplit、ubuntu26.04:command:zmore、ubuntu26.04:command:znew、ubuntu26.04:command:zramctl
-- 进阶路线 / 安全机制：ubuntu26.04:command:chage、ubuntu26.04:command:chcon、ubuntu26.04:command:chfn、ubuntu26.04:command:chgpasswd、ubuntu26.04:command:chpasswd、ubuntu26.04:command:chroot、ubuntu26.04:command:chsh、ubuntu26.04:command:cvtsudoers.ws、ubuntu26.04:command:expiry、ubuntu26.04:command:gpasswd、ubuntu26.04:command:grpck、ubuntu26.04:command:grpconv、ubuntu26.04:command:grpunconv、ubuntu26.04:command:loginctl、ubuntu26.04:command:newusers、ubuntu26.04:command:pwck、ubuntu26.04:command:pwconv、ubuntu26.04:command:pwunconv、ubuntu26.04:command:run0、ubuntu26.04:command:runcon、ubuntu26.04:command:runuser、ubuntu26.04:command:setpriv、ubuntu26.04:command:shadowconfig、ubuntu26.04:command:sudo_logsrvd、ubuntu26.04:command:sudo_sendlog.ws、ubuntu26.04:command:sudoedit、ubuntu26.04:command:sudoreplay.ws、ubuntu26.04:command:systemd-creds、ubuntu26.04:command:systemd-sysusers、ubuntu26.04:command:vigr、ubuntu26.04:command:vipw
-- 失败边界：保留原验证计划中的误区、失败表现、恢复动作和不适用条件。
+| 现象或目标 | 进入方向 | 先掌握 |
+| --- | --- | --- |
+| 脚本要跨发行版运行 | 可移植性与实现 | POSIX 与 Bash 差异、解释器选择 |
+| 需要看 cgroup、命名空间或调度 | 隔离与资源控制 | PID/用户/挂载命名空间和配额 |
+| 怀疑内核、频率或设备问题 | 深度观测 | perf、sysfs、内核权限与采样开销 |
+| 救援、首次启动或引导故障 | 启动与恢复 | 控制台、恢复介质和回滚 |
+| 路由、QoS、RDMA 或高级 DNS | 网络进阶 | iproute2、抓包和变更窗口 |
+| 文件系统、交换分区或块设备 | 存储进阶 | 镜像、挂载、备份和只读演练 |
+| 账户、密钥、审计或沙箱 | 安全机制 | 最小权限、审计链和恢复账户 |
 
-## 正文编排
+{% mermaid %}
+flowchart TD
+  A[确认症状与风险] --> B{是否需要特权或物理设备?}
+  B -- 否 --> C[可移植性/网络/深度观测]
+  B -- 是 --> D[隔离实验与回滚方案]
+  D --> E[启动恢复/存储/安全]
+  C --> F[记录指标与复测]
+  E --> F
+{% endmermaid %}
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 可移植性与实现 | 建立可移植性与实现的心智模型 | POSIX、GNU、uutils、BusyBox、BSD 与发行版打包；提供者兼容性测试和命令版本证据 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 启动与恢复 | 建立启动与恢复的心智模型 | 启动目标、rescue、emergency、关机与 Journal 恢复 | `timeline` | 内容按版本、事件或迁移阶段推进，时间线能保留先后关系 | 起点、阶段条件、回退点和最终状态 | 时间线失效时由有序列表保留完整顺序 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 隔离与资源控制 | 建立隔离与资源控制的心智模型 | namespace、cgroup v2、systemd scope 与容器 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 存储进阶 | 建立存储进阶的心智模型 | LVM、RAID、文件系统修复、配额和破坏性边界 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 网络进阶 | 建立网络进阶的心智模型 | tc、bridge、nftables、namespace 和策略路由 | `note info flat` | 核心概念需要直接可见，适合用短结论承接后续示例 | 定义、适用边界和与前后章节的关系 | 样式失效时仍按普通段落顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 安全机制 | 判断安全机制 | AppArmor、SELinux、capabilities、audit 和最小权限 | `tip warning` | 该块以风险、失败边界或恢复动作作为阅读重点 | 触发条件、失败表现、影响范围和恢复动作 | 提示样式失效时警告文字仍直接可读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 深度观测 | 建立深度观测的心智模型 | perf counter 与采样扩展；PSI、tracepoint、ftrace、eBPF、开销与权限 | `folding` | 只收纳不影响主线的低频补充，核心结论必须先在折叠外给出 | 折叠外摘要、适用条件和继续阅读理由 | 折叠失效时标题概括补充主题，正文仍可顺序阅读 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 进入条件与学习选择 | 比较进入条件与学习选择 | 根据问题、风险和环境选择下一条路线 | `Markdown 表格` | 需要精确比较条件、字段或方案取舍 | 比较维度、选择标准、推荐项和不适用条件 | 纯文本表格仍可读取完整比较 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
-| 结果验证 | 完成并验证结果验证 | 只读检查能力、权限和工具可用性 | `代码 + checkbox` | 需要用可复现输入、命令、输出和检查项闭环 | 必要命令、预期结果、失败表现和清理动作 | 交互样式失效后代码与检查文字仍完整 | 贯穿案例、最小示例、失败表现与结果检查 | 计划 |
+{% note warning flat %}
+本篇只给方向索引，不把“命令存在”当作“可以安全执行”。chroot、nsenter、unshare、wipefs、mkfs、fsck、swapon、sysctl、nft、run0 等条目都应先阅读手册和恢复流程。
+{% endnote %}
 
-## 视觉与复习
+## 可移植性与实现
 
-- 贯穿案例：完成只读能力盘点，并在隔离环境观察一个 systemd scope 与 namespace；不做生产调优。
-- 完整示例：完成只读能力盘点，并在隔离环境观察一个 systemd scope 与 namespace；不做生产调优。
-- 失败边界与踩坑：注意特权操作、内核版本依赖、性能开销、安全削弱、文件系统损坏和工具缺失。
-- FAQ 候选与来源：什么时候需要 eBPF、何时使用 tc/nftables、如何判断一个工具是否适合生产环境。
-- 非复习自测：用中文场景选择命令，解释输出并写出验证步骤。
-- 图表或实验：进阶方向决策树、namespace/cgroup 关系图和观测深度阶梯。
-- 复习卡片：只制作进入条件、工具选择和安全边界卡，不为低频命令机械复制卡片。
-- 参考资料：Linux kernel、systemd、iproute2、文件系统和安全机制官方文档。
+{% note info flat %}
+这一组处理 Bash 兼容模式、交互行为、命令提供者和实现差异。bind、builtin、caller、compgen、complete、compopt、enable、let、logout、shopt、typeset 以及 Bash POSIX mode and compatibility 等入口用于理解 Shell；Bourne Shell Variables、Bash Variables、Controlling the Prompt、Directory Stack Builtins、Invoking Bash、Is this Shell Interactive?、Shell Compatibility Mode、The Restricted Shell、What is an Interactive Shell? 和 What is POSIX? 用于定位规则。
+{% endnote %}
 
-正文完成后必须给出可重复的输入、步骤、预期输出、实际验证和清理边界。
-- 标签选型复查：写作前从当前完整标签能力快照重新选择，重点检查 note 单一化、连续同标签、错误折叠和伪平行 tabs。
-- 参考资料卡片：按正文实际使用顺序整理官方资料，公开时使用 linkgroup/link 与官方图标。
+{% folding blue, 可移植性条目索引 %}
+bind、builtin、caller、compgen、complete、compopt、enable、let、logout、shopt、typeset、Bash POSIX mode and compatibility、Coprocesses、Extended pattern matching、Process substitution、Restricted shell、shopt options、6.11.2 Bash POSIX Mode、5.2 Bash Variables、5.1 Bourne Shell Variables、6.9 Controlling the Prompt、6.8.1 Directory Stack Builtins、6.3.3 Interactive Shell Behavior、6.1 Invoking Bash、6.3.2 Is this Shell Interactive?、6.12 Shell Compatibility Mode、6.10 The Restricted Shell、6.3.1 What is an Interactive Shell?、6.11.1 What is POSIX?、ar、cflow、ctags、make、nm、accessdb、add-shell、apropos、apt-cdrom、apt-config、arch、busctl、catman、col、colcrt、colrm、column、coreutils、dir、dircolors、dpkg-deb、dpkg-divert、dpkg-maintscript-helper、dpkg-query、dpkg-realpath、dpkg-split、dpkg-statoverride、dpkg-trigger、factor、gawkbug、getopt、hashsum、hd、hexdump、hostid、hostnamectl、i386、iconvconfig、ischroot、ld.so、ldconfig、ldd、lessecho、lessfile、lesskey、lesspipe、lexgrog、linux32、linux64、localectl、look、man-recode、mandb、manpath、mcookie、namei、numfmt、pinky、rbash、remove-shell、rev、rgrep、run-parts、savelog、setterm、sha3-224sum、sha3-256sum、sha3-384sum、sha3-512sum、sha3sum、shake128sum、shake256sum、shred、shuf、start-stop-daemon、stdbuf、sum、systemd-confext、systemd-delta、systemd-escape、systemd-id128、systemd-notify、systemd-path、systemd-socket-activate、systemd-stdio-bridge、systemd-sysext、systemd-vpick、tempfile、timedatectl、tzselect、ul、update-alternatives、update-shells、varlinkctl、vdir、x86_64、zdump、zic
+{% endfolding %}
 
-## 验收证据
+## 隔离与资源控制
 
-- 机械检查：content、tags、release、lint 和闪卡引用全部通过。
-- 隔离构建：目标草稿完成真实生成，并检查桌面、移动端、明暗主题与实际交互。
-- 正文完成条件：Article Reviewer 无阻塞项，公开候选通过后才删除占位标记并切换 published: true。
+{% note info flat %}
+disown、suspend、ipcrm、ipcs、choom、chrt、flock、ionice、ipcmk、lsipc、lslocks、lsns、nsenter、prlimit、setarch、setsid、systemd-cgls、systemd-cgtop、systemd-detect-virt、systemd-inhibit、taskset、uclampset、unshare 关注 IPC、锁、命名空间、调度和 cgroup；先确认作用域与回滚。
+{% endnote %}
+
+{% folding blue, 隔离与资源条目索引 %}
+disown、suspend、ipcrm、ipcs、choom、chrt、flock、ionice、ipcmk、lsipc、lslocks、lsns、nsenter、prlimit、setarch、setsid、systemd-cgls、systemd-cgtop、systemd-detect-virt、systemd-inhibit、taskset、uclampset、unshare
+{% endfolding %}
+
+## 深度观测
+
+{% note info flat %}
+acpidbg、cifsiostat、cpupower、pldd、pwdx、readprofile、rtla、sadf、strace-log-merge、sysctl、systemd-ac-power、systemd-analyze、tapestat、tload、turbostat、w 和 x86_energy_perf_policy 依赖硬件、内核或 sysstat 工具。先用轻量指标建立基线，再限制采样时间。
+{% endnote %}
+
+{% folding blue, 深度观测条目索引 %}
+acpidbg、cifsiostat、cpupower、pldd、pwdx、readprofile、rtla、sadf、strace-log-merge、sysctl、systemd-ac-power、systemd-analyze、tapestat、tload、turbostat、w、x86_energy_perf_policy
+{% endfolding %}
+
+## 启动与恢复
+
+{% note danger flat %}
+agetty、getty、installkernel、kernel-install、rtcwake、sulogin、systemd-ask-password、systemd-firstboot、systemd-machine-id-setup、systemd-mute-console、systemd-tmpfiles、systemd-tty-ask-password-agent 可能影响启动、凭据或运行时目录。只在恢复介质或快照中演练。
+{% endnote %}
+
+{% folding blue, 启动与恢复条目索引 %}
+agetty、getty、installkernel、kernel-install、rtcwake、sulogin、systemd-ask-password、systemd-firstboot、systemd-machine-id-setup、systemd-mute-console、systemd-tmpfiles、systemd-tty-ask-password-agent
+{% endfolding %}
+
+## 网络进阶
+
+{% note info flat %}
+高级网络条目覆盖邻居、路由、队列、RDMA、USB/IP 和传输工具；先用 ip、ss、dig、tcpdump 建立普通证据，再进入 nft、tc、networkctl、rdma 或命名空间工具。rrsync、rsync-ssl、sftp 和 ssh-copy-id 仍要遵循密钥与路径审查。
+{% endnote %}
+
+{% folding blue, 网络进阶条目索引 %}
+arpd、ctstat、dcb、delv、devlink、dpll、genl、lft.db、lnstat、mdig、netshaper、networkctl、nft、nstat、nsupdate、ping4、ping6、rdma、routel、rrsync、rsync-ssl、rtacct、rtmon、rtstat、sftp、ssh-argv0、ssh-copy-id、tc、tcptraceroute.db、tipc、traceproto.db、traceroute-nanog、traceroute6.db、usbip、usbipd、vdpa、wcurl
+{% endfolding %}
+
+## 存储进阶
+
+{% note danger flat %}
+blkdiscard、blockdev、fallocate、fsck、fsfreeze、fstrim、losetup、mkfs、mkswap、mountpoint、swapoff、swapon、systemd-mount、wipefs 和 zramctl 都可能改变块设备或内存交换。任何实验先使用 loopback 镜像，记录设备映射并在结束后卸载。
+{% endnote %}
+
+{% folding blue, 存储进阶条目索引 %}
+blkdiscard、blkid、blockdev、fallocate、findfs、findmnt、fsck、fsfreeze、fstrim、funzip、gzexe、hardlink、losetup、lzmainfo、mkfs、mkswap、mountpoint、partx、rmt-tar、swaplabel、swapoff、swapon、systemd-mount、systemd-umount、tarcat、unxz、unzipsfx、wipefs、xzcat、xzcmp、xzdiff、xzegrep、xzfgrep、xzgrep、xzless、xzmore、zcmp、zdiff、zegrep、zfgrep、zforce、zipcloak、zipgrep、zipinfo、zipnote、zipsplit、zmore、znew、zramctl
+{% endfolding %}
+
+## 安全机制
+
+{% note warning flat %}
+chage、chcon、chfn、chgpasswd、chpasswd、chroot、chsh、gpasswd、grpck、newusers、pwck、run0、runcon、runuser、setpriv、shadowconfig、sudo_logsrvd、sudo_sendlog.ws、sudoedit、sudoreplay.ws、systemd-creds、systemd-sysusers、vigr、vipw 可能改变账户、标签、凭据和审计。先确认恢复账户、最小权限和审计出口。
+{% endnote %}
+
+{% folding blue, 安全机制条目索引 %}
+chage、chcon、chfn、chgpasswd、chpasswd、chroot、chsh、cvtsudoers.ws、expiry、gpasswd、grpck、grpconv、grpunconv、loginctl、newusers、pwck、pwconv、pwunconv、run0、runcon、runuser、setpriv、shadowconfig、sudo_logsrvd、sudo_sendlog.ws、sudoedit、sudoreplay.ws、systemd-creds、systemd-sysusers、vigr、vipw
+{% endfolding %}
+
+## 结果验证
+
+~~~bash
+command -v name
+name --help
+man name
+printf '%s\n' "$?"
+~~~
+
+{% note success flat %}
+进入任何进阶方向前，至少具备官方手册、最小隔离实验、变更前快照、失败回滚和结果复测五项证据。无法满足其中一项，就停留在阅读阶段。
+{% endnote %}
+
+{% flashcard basic id:linux-a12-advanced-gate deck:"Linux" priority:1 tags:"进阶,安全边界" %}
+--- question
+什么条件下才适合执行 Linux 进阶命令？
+--- answer
+有明确问题、官方手册、隔离环境、变更前快照、回滚方案和复测证据。
+--- explanation
+需要物理设备、内核权限、真实凭据或停机窗口的条目不能用普通练习机直接尝试。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a12-posix-bash deck:"Linux" priority:2 tags:"POSIX,Bash" %}
+--- question
+Bash POSIX mode 的价值是什么？
+--- answer
+它帮助识别 Bash 扩展与 POSIX 语义的边界，便于写可移植脚本。
+--- explanation
+开启模式不会让所有脚本自动可移植，仍需删掉数组、进程替换等扩展并在目标 Shell 实测。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a12-storage-danger deck:"Linux" priority:1 tags:"存储,风险" %}
+--- question
+为什么 mkfs、wipefs、fsck 不能直接在生产设备上练习？
+--- answer
+它们可能重写文件系统元数据或改变设备状态，错误目标会造成不可逆数据损失。
+--- explanation
+先用 loopback 镜像、快照和恢复介质演练，任何设备路径都要人工复核。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link GNU Bash Reference Manual, https://www.gnu.org/software/bash/manual/bash.html, https://www.gnu.org/favicon.ico %}
+{% link systemd Manual, https://www.freedesktop.org/software/systemd/man/latest/, https://www.freedesktop.org/favicon.ico %}
+{% link iproute2 Documentation, https://man7.org/linux/man-pages/man8/ip.8.html, https://man7.org/favicon.ico %}
+{% link Linux kernel Documentation, https://docs.kernel.org/, https://docs.kernel.org/favicon.ico %}
+{% endlinkgroup %}

@@ -44,7 +44,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
    - 完成条件：文件与路线一一对应，全仓库 lint 通过，路线图真实构建和预览通过。
 5. 完成课程文章
    - 默认只选择路线中下一篇未完成文章；用户明确要求批量完成时，先冻结本批次文章及顺序，再按同一门禁逐篇处理，不并行写入相互依赖的正文。
-   - 每篇先刷新该篇的能力分配及官方来源，再完整读取 `rules/article-tag-selection.md` 与 `references/butterfly-tag-usage.md`，运行标签审计，并调用 `hexo-blog-maintenance` 完成正文结构、逐块语义标签预案、图片、参考资料卡片和未发布文章的草稿验证；把最终预案写回该篇的 `course.article_block_tag_plans`，使新会话和独立 Reviewer 都能读取；初稿必须交给干净上下文 Article Reviewer 逐项查漏。
+   - 每篇先刷新该篇的能力分配及官方来源，再完整读取 `../hexo-blog-maintenance/rules/technical-writing-style.md`、`rules/article-tag-selection.md` 与 `references/butterfly-tag-usage.md`，运行标签审计，并调用 `hexo-blog-maintenance` 完成正文结构、自然技术叙述、逐块语义标签预案、图片、参考资料卡片和未发布文章的草稿验证；把最终预案写回该篇的 `course.article_block_tag_plans`，使新会话和独立 Reviewer 都能读取；初稿必须交给干净上下文 Article Reviewer 逐项查漏。
    - 修复时重新调用维护 Skill 完成受影响验证，再独立复查和执行隔离的公开候选验证。候选通过后，同一工作流立即删除占位标记并把该篇改为 `published: true`，同步路线图；不得等待用户提醒。
    - 完成条件：单篇模式在目标文章状态有证据后停止；批量模式继续下一篇，直至确认批次全部完成或出现阻塞。
 
@@ -62,7 +62,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 - 课程契约启用 `course.forbid_local_absolute_paths: true` 时，公开课程正文禁止硬编码本机文件系统绝对路径，包括 `/Users/...`、`/tmp/...`、`/dev/null`、`file:///...`、Windows 盘符路径和 UNC 路径；实验命令使用 `mktemp` 变量、相对文件或标准输入输出。`/img/...`、`/posts/...` 等站点根相对 URL、HTTP 接口路径以及 `localhost`/`127.0.0.1` 网络夹具地址不属于本规则；课程模板默认启用，`audit.mjs content --release` 必须阻断违规路径。
 - 公开课程正文禁止使用 Tag Plugins Plus `tip`。概念、结论、成功标准、注意事项和高风险警告分别使用语义匹配的 Butterfly `note info|primary|success|warning|danger flat`；`warning` 不得误写为 `waring`。长原理、完整配置、日志和次要案例按需改用 `folding`，不得把核心结论藏入折叠区。
 - 每篇文章通过验证前保持占位标记和 `published: false`；不得把普通构建成功当作未发布文章已经被解析。正文通过公开候选门禁后必须在同一流程自动移除标记并切换为 `published: true`。
-- 所有课程 Mermaid 只使用 `{% mermaid %}` 容器。入门路线固定为“课程目标、前置条件、学习路径、文章安排、开始学习、参考资料”六个 H2，不放 flashcard；主题、进阶和实战文章可按复习价值选择 FAQ 与闪卡，存在 `常见问题` 才要求其中有 `flashcard`/`flashcard_ref`。公开课程的 `参考资料` 必须使用 `{% linkgroup %}` / `{% link %}` 资料卡并包含有效 HTTP(S) 链接；每个资料卡必须显式提供与目标资料同域或同组织的官方图标，只有能明确证明属于目标资料的官方产品 CDN 才可例外，禁止默认头像、封面、占位图、资料页本身或无关域名图片。每篇已发布课程文章还必须通过标签渲染组合门禁，不能只有 `course_series`、资料链接或纯 Markdown 正文。最终交付前运行 `node .agents/scripts/audit.mjs lint --json`，由该入口统一检查项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、标签和图片资源；只在 `status: pass` 时进入用户验收，否则按输出的具体文件修复并重跑。
+- 所有课程 Mermaid 只使用 `{% mermaid %}` 容器。入门路线固定为“课程目标、前置条件、学习路径、文章安排、开始学习、参考资料”六个 H2，不放 flashcard；主题、进阶和实战文章可按复习价值选择 FAQ 与闪卡，题数不设固定上限，存在 `常见问题` 才要求其中有 `flashcard`/`flashcard_ref`。闪卡回答保持精简，解析遵循全站技术文风规范并能独立讲清原因、过程和边界；抽象或复杂题至少使用一种合适的 Markdown 辅助表达。公开课程的 `参考资料` 必须使用 `{% linkgroup %}` / `{% link %}` 资料卡并包含有效 HTTP(S) 链接；每个资料卡必须显式提供与目标资料同域或同组织的官方图标，只有能明确证明属于目标资料的官方产品 CDN 才可例外，禁止默认头像、封面、占位图、资料页本身或无关域名图片。每篇已发布课程文章还必须通过标签渲染组合门禁，不能只有 `course_series`、资料链接或纯 Markdown 正文。最终交付前运行 `node .agents/scripts/audit.mjs lint --json`，由该入口统一检查项目、目录与命名、配置与依赖、代码语法、Skill 与软链接、文档链接、全部文章与页面、标签和图片资源；只在 `status: pass` 时进入用户验收，否则按输出的具体文件修复并重跑。
 - 标题与正文文案必须分工：标题只负责让读者定位本节，标签块负责解释“为什么、何时、怎么做”和失败边界。已发布课程文章不得保留 `章节计划`、`学习目标`、`验证方式` 等内部合同，也不得重复课程导航；lint 会对全仓库公开文章检查 H2/H3 风格、公开元文案和标签覆盖。出现具体文件错误时必须修复后重跑，不能靠模型自觉放行。
 
 ## Delivery
@@ -84,6 +84,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 - 调研规则：`rules/research-policy.md`。
 - 路线与拆篇规则：`rules/curriculum-quality.md`。
 - 单篇学习文章规则：`rules/learning-article-quality.md`。
+- 全站技术正文、概念解释和闪卡解析的唯一文风规范：`../hexo-blog-maintenance/rules/technical-writing-style.md`；需要校准表达粒度时读取 `../hexo-blog-maintenance/examples/technical-writing-style.example.md`。
 - 课程正文的完整标签选型规则：`rules/article-tag-selection.md`；当前项目可复制语法与来源边界：`references/butterfly-tag-usage.md`。
 - 第一次确认前的用户回复使用 `templates/learning-outline-reply.template.md`；完整表达参考 `examples/learning-outline-reply.example.md`。
 - 学习路线图与课程占位创建后的用户回复使用 `templates/course-roadmap-created-reply.template.md`；完整表达参考 `examples/course-roadmap-created-reply.example.md`。

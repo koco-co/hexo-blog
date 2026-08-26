@@ -15,6 +15,7 @@ metadata:
 
 - 使用 AI 新建文章，或对已有文章进行整体视觉重构时，完整读取 `workflows/§01-authoring.md`、`workflows/§05-visual-rich-authoring.md` 和 `templates/article-visual-plan.template.md`，先执行“视觉编排确认”分支；用户确认预案前不得创建或修改文章。
 - 选择、插入、组合或排查 Butterfly 内置标签与 Tag Plugins Plus 外挂标签时，完整读取 `workflows/§01-authoring.md`、`workflows/§04-tag-plugins-plus.md`，并按标签所有者读取 `references/butterfly-built-in-tags.md` 或 `references/butterfly-tag-plugins-plus.md`，执行“标签外挂”分支。
+- 新建或编辑技术文章正文时，完整读取 `rules/technical-writing-style.md`；需要校准表达粒度时读取 `examples/technical-writing-style.example.md`。这份规则是全站技术正文、概念解释和闪卡解析的唯一文风规范。
 - 编写或排查课程 FAQ、面试题、自测及跨文章复习引用时，同时完整读取 `references/hexo-flashcard-plugin.md`；`flashcard` 与 `flashcard_ref` 不归 Butterfly 或 Tag Plugins Plus 所有。
 - 对已有文章做不改变整体视觉结构的局部编辑，或编辑独立页面和图片时，完整读取 `workflows/§01-authoring.md` 并执行“内容创作”分支。
 - 新增、迁移、重命名或排查本地图片时，同时完整读取 `workflows/§06-local-images.md`，执行“本地图片”分支。
@@ -41,6 +42,7 @@ metadata:
 
 3. 执行
    - 内容任务完整读取 `workflows/§01-authoring.md`。
+   - 新建或改写技术正文时完整读取 `rules/technical-writing-style.md`，按理解困难选择代码、表格、图示、图片或有边界的类比，不套固定教学栏目。
    - 图片任务同时完整读取 `workflows/§06-local-images.md`。
    - AI 新建文章或整体视觉重构先完整执行 `workflows/§05-visual-rich-authoring.md`，输出文章结构与标签编排预案；只有用户确认后才能写入。
    - 标签外挂任务同时完整读取 `workflows/§04-tag-plugins-plus.md`，并按所有者读取对应参考；不得仅凭历史文章猜测语法。
@@ -57,6 +59,7 @@ metadata:
 
 ## 标题与文案合同
 
+- 正文、概念解释和闪卡解析统一遵循 `rules/technical-writing-style.md`。本节只保留标题与目录的项目特定边界，不另立第二套文风规则。
 - H2/H3 是目录导航，不是摘要或答案；优先使用简短的对象、动作或边界名，通常不超过 15 个字符。
 - 不把“为什么/如何/是否”等聊天式问句、冒号后的解释、多个并列概念或完整结论塞进普通章节标题。把原因、条件、步骤和失败边界放在首段、表格、图示或标签外挂中；问句只放在确有复习价值的 `常见问题` 中。
 - 标题层级与 `常见问题`、`参考资料` 保持同级且简洁；入门路线的六个固定 H2 不改名。公开文案不出现“本文将”“如下”“来源”“核验于”等内部过程话术。
@@ -94,6 +97,7 @@ metadata:
 - 任何写入前完整读取 `rules/project-contract.md`。
 - 需要定位架构、功能或文件所有权时，读取 `references/project-map.md`。
 - 新建或编辑内容时，读取 `workflows/§01-authoring.md`；新文章使用 `templates/post.template.md`。
+- 新建或改写技术正文时完整读取 `rules/technical-writing-style.md`；需要校准自然叙述、辅助表达和解析深度时读取 `examples/technical-writing-style.example.md`。
 - 新增、迁移、重命名或排查图片时，读取 `workflows/§06-local-images.md`。
 - AI 新建文章或整体视觉重构时，读取 `workflows/§05-visual-rich-authoring.md` 和 `templates/article-visual-plan.template.md`；需要确认输出粒度时读取 `examples/article-visual-plan.example.md`。
 - 使用或排查 Butterfly 内置标签时，读取 `workflows/§04-tag-plugins-plus.md` 和 `references/butterfly-built-in-tags.md`；使用 Tag Plugins Plus 时读取同一工作流和 `references/butterfly-tag-plugins-plus.md`。

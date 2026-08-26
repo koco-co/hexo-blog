@@ -1,11 +1,11 @@
 # 内容创作工作流
 
-本工作流处理文章、独立页面、站点数据和内容资源。开始前完整读取 `rules/project-contract.md`；新文章还要读取 `templates/post.template.md`。AI 新建文章或整体视觉重构还要读取 `workflows/§05-visual-rich-authoring.md`。任务涉及 Butterfly 内置标签或 Tag Plugins Plus 时，同时完整读取 `workflows/§04-tag-plugins-plus.md`，并按所有者读取对应标签参考。编辑 `source/_posts/learn-topic/` 时同时读取 `../hexo-learn-topic/rules/published-article-contract.md`，课程正文不另立一套规则。
+本工作流处理文章、独立页面、站点数据和内容资源。开始前完整读取 `rules/project-contract.md`；新建或编辑技术正文时同时完整读取 `rules/technical-writing-style.md`，新文章还要读取 `templates/post.template.md`。AI 新建文章或整体视觉重构还要读取 `workflows/§05-visual-rich-authoring.md`。任务涉及 Butterfly 内置标签或 Tag Plugins Plus 时，同时完整读取 `workflows/§04-tag-plugins-plus.md`，并按所有者读取对应标签参考。编辑 `source/_posts/learn-topic/` 时同时读取 `../hexo-learn-topic/rules/published-article-contract.md`，课程正文不另立一套规则。
 
 ## Phase 1：确定内容类型和事实来源
 
 1. 确认任务属于新文章、已有文章、独立页面、友链数据或图片资源。
-2. 读取目标文件的完整 Front Matter 和与任务相关的正文；新内容选择一篇结构最接近的现有文章作为风格参考。
+2. 读取目标文件的完整 Front Matter 和与任务相关的正文；现有文章用于了解栏目、受众和排版背景，正文表达统一以 `rules/technical-writing-style.md` 为准，不让历史写法覆盖当前规范。
 3. 将内容事实分为用户提供、项目可查和需要外部核对三类。时效性或高风险事实必须使用当前权威来源，不能照抄旧文章。
 4. 如果标题、目标读者、内容范围或是否公开会改变最终结构且无法推断，每轮只确认一个关键决策。
 5. AI 新建文章和整体视觉重构进入视觉丰富分支；不改变整体结构的局部修订沿用现有排版，不强制重新规划整篇文章。
@@ -48,16 +48,18 @@
 ## Phase 4：编写 Markdown 与 Butterfly 标签
 
 1. 使用清晰的标题层级，不跳级制造仅靠字号表达的结构；H2/H3 只写简短对象、动作或边界名，通常不超过 15 个字符，不把解释性副标题和聊天式问句写进普通章节标题。
-2. 中英文相邻处留空格；使用英文半角标点；代码、命令、路径和配置键用反引号。
-3. 围栏代码块注明合适语言；若内容本身要求展示 Markdown 围栏，正确处理嵌套，避免提前结束代码块。
-4. 课程文章按 `published-article-contract.md` 逐正文块确定标签外挂角色，再写入正文；普通 Markdown 仅承载 H2/H3、代码、表格、列表和结构连接。课程文章不得保留公开占位合同、前置文章/进度/能力账本文案，也不得用无关组件硬凑视觉数量；审计器会拒绝标签外裸解释块。
-5. Butterfly 内置标签以 `references/butterfly-built-in-tags.md` 的当前源码契约为准；Tag Plugins Plus 标签以 `references/butterfly-tag-plugins-plus.md` 为准；闪卡以 `references/hexo-flashcard-plugin.md` 为准。
-6. 按 `workflows/§04-tag-plugins-plus.md` 核对标签所有者、配置门禁、外部依赖和组合边界；不得为增加种类使用不适合正文语义的标签。
-7. 不混淆同名或相邻能力：当前 `timeline` 来自 Butterfly；`inlineImg` 来自 Butterfly，`inlineimage` 来自 Tag Plugins Plus；`btn` 与 `btns/cell` 不是同一语法。
-8. 容器标签必须按正确顺序成对闭合；参数分隔符必须保持实现要求的 `,`、`, `、` | ` 或 `||`，不能机械互换。
-9. 新增图片放入 `source/img/picgo-images/`，使用有意义的文件名和替代文本，以 `/img/picgo-images/<文件名>` 引用；同时执行 `workflows/§06-local-images.md`，不上传图床。
-10. 外链使用最终目标 URL，避免把真实 Token、会话链接或私人资源写入公开文章。
-11. 需要长期复习的 FAQ、面试题和自测优先使用 `flashcard`；`basic`、`cloze`、`choice` 必须提供全站唯一 ID、卡组、`priority:1|2|3`、问题、精简回答和详细解析。跨文章复用只使用 `flashcard_ref`，并继承原卡片的优先级。
+2. 按 `rules/technical-writing-style.md` 从读者正在观察的问题、对象或操作进入主题，用因果关系组织解释；代码、表格、图示、图片和类比只在确实降低理解成本时使用，不套固定教学栏目。
+3. 中英文相邻处留空格；使用英文半角标点；代码、命令、路径和配置键用反引号。
+4. 围栏代码块注明合适语言；若内容本身要求展示 Markdown 围栏，正确处理嵌套，避免提前结束代码块。
+5. 课程文章按 `published-article-contract.md` 逐正文块确定标签外挂角色，再写入正文；普通 Markdown 仅承载 H2/H3、代码、表格、列表和结构连接。课程文章不得保留公开占位合同、前置文章/进度/能力账本文案，也不得用无关组件硬凑视觉数量；审计器会拒绝标签外裸解释块。
+6. Butterfly 内置标签以 `references/butterfly-built-in-tags.md` 的当前源码契约为准；Tag Plugins Plus 标签以 `references/butterfly-tag-plugins-plus.md` 为准；闪卡以 `references/hexo-flashcard-plugin.md` 为准。
+7. 按 `workflows/§04-tag-plugins-plus.md` 核对标签所有者、配置门禁、外部依赖和组合边界；不得为增加种类使用不适合正文语义的标签。
+8. 不混淆同名或相邻能力：当前 `timeline` 来自 Butterfly；`inlineImg` 来自 Butterfly，`inlineimage` 来自 Tag Plugins Plus；`btn` 与 `btns/cell` 不是同一语法。
+9. 容器标签必须按正确顺序成对闭合；参数分隔符必须保持实现要求的 `,`、`, `、` | ` 或 `||`，不能机械互换。
+10. 新增图片放入 `source/img/picgo-images/`，使用有意义的文件名和替代文本，以 `/img/picgo-images/<文件名>` 引用；同时执行 `workflows/§06-local-images.md`，不上传图床。
+11. 外链使用最终目标 URL，避免把真实 Token、会话链接或私人资源写入公开文章。
+12. 需要长期复习的 FAQ、面试题和自测优先使用 `flashcard`；题数不设固定上限，由知识密度、易混淆边界和长期复习价值决定。`basic`、`cloze`、`choice` 必须提供全站唯一 ID、卡组、`priority:1|2|3`、问题、精简回答和可独立理解的详细解析；抽象或复杂问题至少使用一种真正有助于理解的 Markdown 辅助表达。跨文章复用只使用 `flashcard_ref`，并继承原卡片的优先级和解析。
+13. 编辑已有文章时，复查该篇全部原始 `flashcard` 定义，不能只修用户指出的一张；未进入当前范围的历史卡片作为待迁移内容报告，不阻断无关文章。
 
 完成信号：结构、标签、代码围栏、链接和图片引用完整；视觉丰富分支与已确认预案一致，没有凭据暴露。
 
@@ -78,6 +80,7 @@
 4. 完整执行 `workflows/§03-verification.md` 的适用步骤。
 5. 构建后运行 `node .agents/scripts/audit.mjs content --release --json`，确认 `abbrlink` 已生成且唯一。
 6. 使用 `checklists/maintenance-acceptance.md` 检查内容语义和真实页面。
-7. 视觉丰富分支逐节对照已确认预案；任何实质偏差必须有用户确认过的修订预案。
+7. 逐段检查 `rules/technical-writing-style.md`，确认正文和闪卡解析自然、可独立理解，没有固定教学栏目或抽象术语堆叠。
+8. 视觉丰富分支逐节对照已确认预案；任何实质偏差必须有用户确认过的修订预案。
 
 失败路径：字段错误、构建失败、标签解析失败、链接或资源缺失时停止交付，修复后重跑受影响检查。

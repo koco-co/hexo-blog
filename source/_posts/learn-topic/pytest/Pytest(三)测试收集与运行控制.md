@@ -11,12 +11,10 @@ description: 能用收集树、Node ID、表达式、标记和缓存精确控制
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 3
-published: false
+published: true
 abbrlink: b5dda780
 date: 2026-08-26 09:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 

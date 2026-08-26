@@ -6,7 +6,7 @@ tags:
 categories:
   - Learn Topic
   - Linux
-description: 把交互式命令变成输入明确、错误可见、可清理和可测试的 Bash 脚本。
+description: 把交互式命令写成输入明确、状态可见、可清理且可重复验证的 Bash 脚本。
 cover: /img/picgo-images/linux-course-cover.png
 series: Linux
 series_order: 11
@@ -18,219 +18,289 @@ date: 2026-08-25 00:00:00
 {% course_series %}
 
 {% note info flat %}
-自动化脚本的成功标准不是“能跑一次”，而是输入、退出状态、清理、日志和重复执行都可解释。本文从最小 Bash 脚本开始，依次处理参数、变量、函数、判断、循环、输入输出、信号和错误边界，最后用 shellcheck 做静态复查。
+自动化脚本的成功标准不是“能跑一次”，而是输入、输出、退出状态、清理和重复执行都能解释。本文用 Bash 把命令组合成小程序：先解析参数和校验输入，再执行受控动作，最后用明确状态和测试说明结果；不把未处理输入重新交给 Shell 解析。
 {% endnote %}
 
-## 脚本骨架
+## 脚本模型
 
-~~~bash
-#!/usr/bin/env bash
-set -u
-
-main() {
-  printf '%s\n' "script started"
-}
-
-main "$@"
-~~~
+{% mermaid %}
+flowchart LR
+  A[参数、标准输入与环境] --> B[解析与校验]
+  B --> C[函数和受控工作]
+  C --> D[标准输出、错误输出与状态]
+  C --> E[EXIT 或信号清理]
+  D --> F[静态检查与重复测试]
+  E --> F
+{% endmermaid %}
 
 {% note primary flat %}
-脚本要明确解释器；Bash 专有语法不能用 sh 运行。set -u 能尽早发现未定义变量，但仍需为可选参数提供默认值；errexit/pipefail 需要结合条件语句和显式错误处理，不能机械复制。
+脚本开头必须选定解释器：含数组、双中括号、mapfile 或 pipefail 的脚本用 Bash 运行，不要改名为 sh 后期待同样行为。把参数作为数据保留在 "$@" 中，必要时用函数和临时目录隔离副作用。
 {% endnote %}
 
 ## 参数与变量
 
-### 参数展开
+### 参数边界
 
 ~~~bash
-name=$1
-if [[ -z $name ]]; then name=guest; fi
-shift || true
-printf 'name=%s argc=%s\n' "$name" "$#"
-printf 'all=%s\n' "$@"
-~~~
+#!/usr/bin/env bash
+set -Euo pipefail
 
-{% note info flat %}
-位置参数、特殊参数和环境变量属于不同层次：$0 是脚本名，$# 是参数数量，$? 是上一条状态，$$ 是当前 PID，$! 是最近后台 PID，$@ 适合保留参数边界。declare、export、readonly、unset 和 local 负责变量属性与作用域。
-{% endnote %}
-
-### 数组
-
-~~~bash
-files=(one.log two.log)
-declare -A counts=([ok]=0 [error]=0)
-files+=(three.log)
-printf '%s\n' "$files"
-counts[ok]=$((counts[ok] + 1))
-printf '%s=%s\n' ok "$counts"
-~~~
-
-{% note info flat %}
-Indexed arrays 按整数索引，Associative arrays 按字符串键；使用数组展开时要保留每个元素边界。declare -p 可观察属性，不要把数组序列化成未经转义的字符串。
-{% endnote %}
-
-## 函数与流程
-
-### 函数与作用域
-
-~~~bash
-log() {
-  local level=$1
+name=${1:-guest}
+if (( $# > 0 )); then
   shift
-  printf '[%s] %s\n' "$level" "$*" >&2
-}
-log INFO "ready"
-~~~
-
-{% note info flat %}
-Shell Functions、Function definition、local、return 和 times 构成函数边界；local 让临时变量不污染调用者。函数的返回值是状态码，不是字符串，输出应通过标准输出或显式变量传递。
-{% endnote %}
-
-### 判断
-
-~~~bash
-if [[ -f $1 ]]; then
-  printf '%s\n' "file"
-elif [[ -d $1 ]]; then
-  printf '%s\n' "directory"
-else
-  printf '%s\n' "missing" >&2
-  exit 1
 fi
 
-case $1 in
-  start|run) printf '%s\n' "go" ;;
-  stop) printf '%s\n' "halt" ;;
-  *) printf '%s\n' "usage" >&2; exit 2 ;;
-esac
+printf 'name=<%s> remaining=%s\n' "$name" "$#"
+printf 'arg=<%s>\n' "$@"
 ~~~
 
 {% note primary flat %}
-[[ conditional expression ]] 与 Bash Conditional Expressions 适合路径、字符串和模式判断；test 仍是 POSIX 入口。case conditional 适合互斥命令分支，避免把复杂条件塞进一行。
+$0 是脚本名，$# 是参数数量，$? 是上一条命令状态，$$ 是当前 PID，$! 是最近后台 PID。${1:-guest} 为可选首参给出默认值；"$@" 把每个原始参数保留为独立参数。未加引号的 $@ 或 $* 会重新分词，不应用来转发路径、名称或用户输入。
 {% endnote %}
 
-### 循环
+### 变量属性
 
 ~~~bash
-for file in "$files"; do
-  printf '%s\n' "$file"
+declare -a files=("one" "two words")
+declare -A counts=([ok]=0 [skipped]=0)
+
+readonly mode=report
+export report_mode="$mode"
+unset unused_value
+
+files+=("three")
+counts[ok]=$(( ${counts[ok]} + 1 ))
+printf 'file=<%s>\n' "${files[@]}"
+printf 'ok=%s mode=%s\n' "${counts[ok]}" "$report_mode"
+~~~
+
+{% note info flat %}
+declare 和 local 控制变量属性与作用域；export 只把变量传给新启动的子进程，readonly 防止当前 Shell 改写，unset 删除变量。Indexed arrays 适合有顺序的参数，Associative arrays 适合按名称计数；它们是 Bash 扩展，跨 Shell 的脚本需要换成 POSIX 数据模型。
+{% endnote %}
+
+## 选项与输入
+
+### 解析短选项
+
+~~~bash
+set -- -n "Ada Lovelace" -v one "two words"
+
+name=guest
+verbose=0
+while getopts ':n:v' opt; do
+  case "$opt" in
+    n) name="$OPTARG" ;;
+    v) verbose=1 ;;
+    :) printf 'option -%s needs a value\n' "$OPTARG" >&2; exit 2 ;;
+    \?) printf 'unknown option: -%s\n' "$OPTARG" >&2; exit 2 ;;
+  esac
+done
+shift "$((OPTIND - 1))"
+
+printf 'name=<%s> verbose=%s remaining=%s\n' "$name" "$verbose" "$#"
+printf 'item=<%s>\n' "$@"
+~~~
+
+{% note primary flat %}
+getopts 负责短选项和缺失参数的状态；解析完成后用 OPTIND 配合 shift，把剩余位置参数交给业务函数。长选项、配置文件和交互输入是不同接口：先定义哪一种是脚本的正式输入，不能让同一含义被多个来源悄悄覆盖。
+{% endnote %}
+
+### 读取文本
+
+~~~bash
+LAB=$(mktemp -d) || { printf '%s\n' '无法创建临时目录' >&2; exit 1; }
+trap 'rm -rf -- "$LAB"' EXIT
+
+printf '%s\n' "one" "two words" >"$LAB/input"
+mapfile -t lines <"$LAB/input"
+
+for line in "${lines[@]}"; do
+  printf 'array=<%s>\n' "$line"
 done
 
 while IFS= read -r line; do
-  printf '%s\n' "$line"
-done < input.txt
-
-until [[ -f ready.flag ]]; do
-  sleep 1
-done
+  printf 'read=<%s>\n' "$line"
+done <"$LAB/input"
 ~~~
 
 {% note info flat %}
-break、continue、for loop、while loop 和 until loop 要明确退出条件；不要用 while read 处理带 NUL 的任意文件名，需改用 find -print0 与 mapfile/readarray 等更安全的输入模型。
+mapfile/readarray 一次读入 Bash 数组，read 适合逐行流式处理；IFS= 与 -r 防止前后空白被剥离、反斜杠被解释。它们处理的是文本行，不是任意文件名协议；需要 NUL 分隔的文件名时，应使用与 NUL 协议匹配的接口。
 {% endnote %}
 
-### 交互选择
+## 函数与控制
+
+### 函数状态
 
 ~~~bash
-select choice in start stop quit; do
-  case $choice in
-    start|stop|quit) break ;;
+classify_item() {
+  local item=$1
+  case "$item" in
+    '') printf '%s\n' 'skip empty item' >&2; return 2 ;;
+    stop) printf '%s\n' 'stop requested' >&2; return 1 ;;
+    *) printf 'process=<%s>\n' "$item"; return 0 ;;
   esac
+}
+
+items=("one" "two words" "" stop "after-stop")
+processed=0
+
+for item in "${items[@]}"; do
+  if classify_item "$item"; then
+    (( processed += 1 ))
+  else
+    status=$?
+    case "$status" in
+      1) break ;;
+      2) continue ;;
+      *) exit "$status" ;;
+    esac
+  fi
 done
+
+printf 'processed=%s\n' "$processed"
 ~~~
 
-{% note info flat %}
-select construct 适合短小交互菜单，不适合无人值守脚本；无 TTY 时必须提供参数或配置替代。
+{% note primary flat %}
+函数用 return 返回 0 到 255 的状态，文本结果写到标准输出；local 让函数临时变量不污染调用者。if、case、for、while 和 until 解决不同控制问题：条件分支选路径，case 选互斥输入，循环处理重复项；break 和 continue 只改变当前循环，不能代替错误处理。
 {% endnote %}
 
-## 算术与输入输出
-
-### 算术
+### 条件与重试
 
 ~~~bash
-(( retries += 1 ))
-if (( retries >= 3 )); then
-  printf '%s\n' "stop"
+attempt=0
+until (( attempt == 2 )); do
+  (( attempt += 1 ))
+  if (( attempt == 1 )); then
+    printf '%s\n' 'first attempt: retry'
+  else
+    printf '%s\n' 'second attempt: done'
+  fi
+done
+
+if [[ -n "value" && -f "." ]]; then
+  printf '%s\n' 'Bash conditional matched'
 fi
-total=$((2 + 3))
 ~~~
 
-{% note info flat %}
-Arithmetic expansion、Shell Arithmetic 和 (( arithmetic command )) 都使用 Bash 算术语法；算术命令返回值可能因结果为 0 而为非零，放在 set -e 环境中要注意上下文。
-{% endnote %}
-
-### 读取输入
-
-~~~bash
-IFS= read -r answer
-read -r -t 2 answer || printf '%s\n' "timeout" >&2
-mapfile -t lines < input.txt
-getopts "n:v" opt
-~~~
-
-{% note info flat %}
-read、mapfile/readarray、getopts 分别处理一行、数组和短选项；输入来自用户时要限制长度、超时和编码。getopts 解析失败应显示用法并返回非零。
+{% note warning flat %}
+(( arithmetic command )) 的状态由算术结果决定：结果为 0 时状态为非零，在 set -e 环境尤其容易误判。[[ ... ]] 是 Bash 的条件表达式，test 或 [ 是 POSIX 入口；选择哪一个取决于解释器，而不是个人偏好。任何重试都应有次数、等待、可观察失败和终止条件，不能写成无限循环。
 {% endnote %}
 
 ## 错误与清理
 
-### 状态策略
-
 ~~~bash
-set -Eeuo pipefail
-tmp=$(mktemp)
-cleanup() { rm -f -- "$tmp"; }
-trap cleanup EXIT
+LAB=$(mktemp -d) || { printf '%s\n' '无法创建临时目录' >&2; exit 1; }
+WORKER=
+
+cleanup() {
+  if test -n "$WORKER"; then
+    kill -TERM "$WORKER" 2>/dev/null || true
+    wait "$WORKER" 2>/dev/null || true
+  fi
+  rm -rf -- "$LAB"
+}
+on_error() {
+  status=$?
+  printf 'error-status=%s\n' "$status" >&2
+}
+trap cleanup EXIT INT TERM
+trap on_error ERR
+
+: >"$LAB/ready"
+if test -f "$LAB/ready"; then
+  printf '%s\n' 'precondition met'
+else
+  printf '%s\n' 'missing input' >&2
+  exit 1
+fi
+
+sleep 30 &
+WORKER=$!
+printf 'worker=%s\n' "$WORKER"
 ~~~
 
 {% note warning flat %}
-errexit semantics 会在条件、列表、管道和函数调用等上下文改变；ERR trap 也不是全局异常处理器。先理解每个命令的预期状态，再用 if、||、return 明确处理可恢复失败。
+set -e 不是完整异常机制：在 if、AND-OR、管道、函数和命令替换等上下文，失败是否退出会变化。先用 if、||、return 或 exit 写明可恢复与不可恢复分支，再按需要组合 set -E、-u 和 pipefail；ERR trap 用于记录意外失败，不应掩盖原始状态。: 是成功的空命令，适合受控地创建或占位；cleanup 只删除 mktemp 产生的独占目录。
 {% endnote %}
-
-### 信号与子进程
-
-~~~bash
-worker &
-child=$!
-trap 'kill "$child" 2>/dev/null || true' INT TERM EXIT
-wait "$child"
-~~~
-
-{% note info flat %}
-Signals、trap、kill、wait、exec、exit、return、shift 和 :（空命令）是脚本生命周期的基础。export 只把变量传给子进程，readonly 防止本 Shell 改写，unset 删除变量；eval 会重新解析字符串，除非输入完全受控否则不要使用。
-{% endnote %}
-
-## 内置命令索引
-
-{% folding blue, Bash 内置命令与手册定位 %}
-| 分组 | 条目 |
-| --- | --- |
-| 变量与控制 | declare、local、export、readonly、unset、set、shift、times |
-| 函数与流程 | break、continue、return、exit、eval、exec、: |
-| 输入与参数 | getopts、read、mapfile、readarray |
-| 手册入口 | Bourne Shell Builtins、Special Builtins、Bash Builtin Commands、The Set Builtin、The Shopt Builtin |
-{% endfolding %}
-
-{% folding blue, Bash 章节索引 %}
-3.5.5 Arithmetic Expansion、6.7 Arrays、4.2 Bash Builtin Commands、6.4 Bash Conditional Expressions、4.1 Bourne Shell Builtins、3.2.5.2 Conditional Constructs、3.2.5.1 Looping Constructs、3.4.1 Positional Parameters、6.5 Shell Arithmetic、3.3 Shell Functions、3.8 Shell Scripts、3.7.6 Signals、4.4 Special Builtins、3.4.2 Special Parameters、4.3.1 The Set Builtin、4.3.2 The Shopt Builtin、if conditional、Parameters and variables、Positional parameters、Special parameters。
-{% endfolding %}
 
 ## 测试与质量
 
-### 可重复测试
-
 ~~~bash
-tmpdir=$(mktemp -d)
-trap 'rm -rf -- "$tmpdir"' EXIT
-printf '%s\n' ok > "$tmpdir/input"
-./script.sh "$tmpdir/input"
-status=$?
-[[ $status -eq 0 ]]
+LAB=$(mktemp -d) || { printf '%s\n' '无法创建临时目录' >&2; exit 1; }
+trap 'rm -rf -- "$LAB"' EXIT
+SCRIPT="$LAB/report.sh"
+LIBRARY="$LAB/library.sh"
+
+cat >"$LIBRARY" <<'BASH'
+format_item() {
+  printf 'item=<%s>\n' "$1"
+}
+BASH
+
+cat >"$SCRIPT" <<'BASH'
+#!/usr/bin/env bash
+set -Euo pipefail
+. "$1"
+shift
+
+name=guest
+while getopts ':n:' opt; do
+  case "$opt" in
+    n) name="$OPTARG" ;;
+    :) exit 2 ;;
+    \?) exit 2 ;;
+  esac
+done
+shift "$((OPTIND - 1))"
+
+main() {
+  local item
+  for item in "$@"; do
+    format_item "$item"
+  done
+  printf 'name=<%s>\n' "$name"
+}
+main "$@"
+BASH
+
+bash -n "$SCRIPT"
+if command -v shellcheck >/dev/null 2>&1; then
+  shellcheck -s bash "$SCRIPT"
+else
+  printf '%s\n' 'shellcheck 未安装：先完成 bash -n，再在目标环境安装后复查' >&2
+fi
+
+"$SCRIPT" "$LIBRARY" -n "Ada Lovelace" one "two words"
+if "$SCRIPT" "$LIBRARY" -n; then
+  printf '%s\n' 'unexpected option success' >&2
+  exit 1
+else
+  test "$?" -eq 2
+fi
 ~~~
 
 {% note success flat %}
-每个脚本至少测试成功、缺参、空输入、权限不足、命令不存在、超时、重复执行和中断清理。shellcheck 能发现引用、分词和常见语义问题，但不能替代运行时测试和业务验证。
+bash -n 只检查语法；shellcheck 发现常见引用、分词和可疑语义；两者都不能代替运行时测试。至少覆盖正常输入、缺参、空输入、权限不足、命令不存在、中断清理和重复执行，并把每个测试的输入、状态和期望输出固定下来。
 {% endnote %}
+
+## 低频入口
+
+{% folding blue, 何时查阅较少用的 Bash 接口 %}
+| 接口或手册入口 | 中文用途 | 选择与排除边界 |
+| --- | --- | --- |
+| select construct | 生成短小交互菜单 | 无人值守脚本应改用参数或配置，不能等待 TTY 输入 |
+| .（source） | 在当前 Shell 导入受控库 | 只导入可信、版本固定的脚本；它会共享变量与副作用 |
+| eval | 重新解析一段字符串 | 未受控输入绝不能使用；通常应改用数组和 "$@" 传参 |
+| exec | 用新程序替换当前 Shell | 适合刻意交接进程时使用；之后 cleanup 和后续代码不会运行 |
+| times | 查看当前 Shell 及子进程累计 CPU 时间 | 用于脚本级粗略统计，不替代 pidstat 或 perf |
+| 3.5.5 Arithmetic Expansion、6.5 Shell Arithmetic、(( arithmetic command )) | 查算术展开与状态规则 | 变量为 0 的状态边界需要先写最小测试 |
+| 6.7 Arrays、Indexed arrays、Associative arrays | 查数组属性与展开方式 | 跨 POSIX Shell 时不要把 Bash 数组带过去 |
+| 3.4.1 Positional Parameters、3.4.2 Special Parameters、Parameters and variables | 查参数、$?、$!、$$ 等规则 | 参数转发优先 "$@"，避免未加引号展开 |
+| 3.2.5.1 Looping Constructs、3.2.5.2 Conditional Constructs、6.4 Bash Conditional Expressions | 查循环、分支与模式判断 | 循环必须有退出和异常分支，Bash 的 [[ ]] 不能假设 sh 支持 |
+| 3.3 Shell Functions、Function definition、return | 查函数作用域和状态返回 | 文本结果走标准输出，return 不用来返回长字符串 |
+| 3.7.6 Signals、errexit semantics、The Set Builtin | 查信号、trap 与 set 的细节 | ERR/set -e 存在上下文例外，先用显式分支定义业务失败 |
+| 3.8 Shell Scripts、Bash Builtin Commands、Bourne Shell Builtins、Special Builtins、The Shopt Builtin | 查解释器、内置命令和行为开关 | 只在知道兼容目标时调整 shopt 或 Shell 选项 |
+{% endfolding %}
 
 {% flashcard basic id:linux-a11-set-e deck:"Linux" priority:1 tags:"Bash,错误处理" %}
 --- question
@@ -268,10 +338,19 @@ Indexed arrays 和 Associative arrays 何时使用？
 trap 不是安全边界；路径必须来自 mktemp，清理目标必须是脚本独占的隔离目录。
 {% endflashcard %}
 
+{% flashcard basic id:linux-a11-getopts deck:"Linux" priority:2 tags:"getopts,参数" %}
+--- question
+getopts 解析完成后为什么要执行 shift "$((OPTIND - 1))"？
+--- answer
+它跳过已消费的选项，使剩余位置参数成为业务函数的真实输入。
+--- explanation
+不 shift 会让 -n 等选项混进业务参数；缺失选项值要显示用法并返回非零。
+{% endflashcard %}
+
 ## 参考资料
 
 {% linkgroup %}
 {% link GNU Bash Reference Manual, https://www.gnu.org/software/bash/manual/bash.html, https://www.gnu.org/favicon.ico %}
-{% link Bash ShellCheck Wiki, https://www.shellcheck.net/wiki/, https://www.shellcheck.net/favicon.ico %}
+{% link ShellCheck Wiki, https://www.shellcheck.net/wiki/, https://www.shellcheck.net/favicon.ico %}
 {% link POSIX.1-2024 Shell and Utilities, https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/, https://pubs.opengroup.org/favicon.ico %}
 {% endlinkgroup %}

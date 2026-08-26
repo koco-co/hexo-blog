@@ -11,12 +11,10 @@ description: 能从断言、异常、警告、输出和日志中提取可定位�
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 4
-published: false
+published: true
 abbrlink: ac715911
 date: 2026-08-26 09:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 

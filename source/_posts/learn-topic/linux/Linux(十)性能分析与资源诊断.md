@@ -12,7 +12,7 @@ series: Linux
 series_order: 10
 published: true
 abbrlink: '997240e7'
-date: 2026-08-25 00:00:00
+date: 2026-03-19 00:00:00
 ---
 
 {% course_series %}
@@ -63,6 +63,7 @@ mpstat -P ALL 1 3
 ### 进程采样
 
 ~~~bash
+(
 LAB=$(mktemp -d) || { printf '%s\n' '无法创建临时目录' >&2; exit 1; }
 CPU_PID=
 cleanup() {
@@ -79,10 +80,11 @@ CPU_PID=$!
 sleep 1
 pidstat -u -p "$CPU_PID" 1 3
 ps -o pid,stat,%cpu,%mem,etime,cmd -p "$CPU_PID"
+)
 ~~~
 
 {% note primary flat %}
-示例只启动并回收自己的短时 CPU 进程。pidstat 把指定 PID 的 CPU 与上下文切换按间隔输出，ps 补充状态和命令行；如果采样前进程已结束，先记录这一事实，再用更长寿命的受控工作负载重试，而不是把零输出解释成系统健康。
+示例只启动并回收自己的短时 CPU 进程；整段放在子 Shell 中，子 Shell 结束时触发 cleanup，不会改写你当前终端已有的 trap。pidstat 把指定 PID 的 CPU 与上下文切换按间隔输出，ps 补充状态和命令行；如果采样前进程已结束，先记录这一事实，再用更长寿命的受控工作负载重试，而不是把零输出解释成系统健康。
 {% endnote %}
 
 ## 内存与回收
@@ -127,20 +129,60 @@ lsof 和 strace 输出可能出现用户名、内部路径、套接字或命令�
 ### perf 与 strace
 
 ~~~bash
+(
 LAB=$(mktemp -d) || { printf '%s\n' '无法创建临时目录' >&2; exit 1; }
 trap 'rm -rf -- "$LAB"' EXIT
+FAILED=0
 
-perf stat -- sleep 1
-perf record -o "$LAB/perf.data" -g -- sleep 1
-strace -f -tt -T -o "$LAB/trace.log" -- sh -c 'printf "%s\n" "trace target"'
-test -s "$LAB/trace.log" && printf '%s\n' 'trace captured'
+if perf stat -- sleep 1; then
+  printf '%s\n' 'perf-stat-captured'
+else
+  printf '%s\n' 'perf stat failed: check perf_event permissions and kernel policy' >&2
+  FAILED=1
+fi
+
+if perf record -o "$LAB/perf.data" -g -- sleep 1; then
+  if test -s "$LAB/perf.data" && perf report --stdio -i "$LAB/perf.data" >"$LAB/perf-report.txt"; then
+    sed -n '1,12p' "$LAB/perf-report.txt"
+    printf '%s\n' 'perf-data-verified'
+  else
+    printf '%s\n' 'perf.data is absent or unreadable' >&2
+    FAILED=1
+  fi
+else
+  printf '%s\n' 'perf record failed: record no data without a permitted event source' >&2
+  FAILED=1
+fi
+
+if strace -f -tt -T -o "$LAB/trace.log" -- sh -c 'printf "%s\n" "trace target"'; then
+  if test -s "$LAB/trace.log"; then
+    sed -n '1,12p' "$LAB/trace.log"
+    printf '%s\n' 'trace-captured'
+  else
+    printf '%s\n' 'trace.log is empty' >&2
+    FAILED=1
+  fi
+else
+  printf '%s\n' 'strace failed: check availability, target permission and ptrace policy' >&2
+  FAILED=1
+fi
+
+if test "$FAILED" -ne 0; then
+  printf '%s\n' 'deep-observation failed; preserve the error and stop before changing the target' >&2
+  exit 1
+fi
+)
 ~~~
 
 {% note danger flat %}
-perf 可能受 perf_event 权限、内核配置和容器限制影响；strace 会改变时序并产生大量、可能敏感的系统调用记录。先用轻量采样缩小范围，再限制持续时间、PID、事件与输出目录；perf record 和 strace 的文件必须放进独占临时目录，分析结束后按环境策略清理。
+perf 可能受 perf_event 权限、内核配置和容器限制影响；strace 会改变时序并产生大量、可能敏感的系统调用记录。先用轻量采样缩小范围，再限制持续时间、PID、事件与输出目录；代码在子 Shell 中验证 perf.data 能被 perf report 读取、trace.log 非空，并在任一失败时返回非零。两类文件只放进独占临时目录，分析结束后仍应按环境策略保留或删除脱敏证据。
 {% endnote %}
 
 ### 低频入口
+
+{% note info flat %}
+需要交互式探索进程树时选 htop；只有已经启用 sysstat 且时间窗匹配时才选 sar；怀疑内核缓存异常时再看 slabtop。它们都不能单独给出根因，先保留本篇的可复现采样证据。
+{% endnote %}
 
 {% folding blue, 何时再使用 htop、sar 或 slabtop %}
 | 工具 | 中文用途 | 选择与排除边界 |

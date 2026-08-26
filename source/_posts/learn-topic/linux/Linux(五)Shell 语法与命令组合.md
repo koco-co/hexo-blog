@@ -12,7 +12,7 @@ series: Linux
 series_order: 5
 published: true
 abbrlink: 72c1404c
-date: 2026-08-25 00:00:00
+date: 2026-03-14 00:00:00
 ---
 
 {% course_series %}

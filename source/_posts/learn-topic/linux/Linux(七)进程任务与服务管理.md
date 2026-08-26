@@ -12,7 +12,7 @@ series: Linux
 series_order: 7
 published: true
 abbrlink: 23ca1872
-date: 2026-08-25 00:00:00
+date: 2026-03-16 00:00:00
 ---
 
 {% course_series %}
@@ -106,6 +106,10 @@ printf 'nohup-status=%s\n' "$?"
 jobs 和 wait 只面向当前 Bash 会话的作业；nohup 主要处理挂断信号与默认输出处理，不等于可靠的服务管理器。Bash job control、POSIX job control 和信号规则共同解释这些边界，但跨会话排障应改用 ps、pgrep 或 systemctl。
 {% endnote %}
 
+{% note info flat %}
+Bash 的 Job Control Variables（作业控制变量，例如 `auto_resume`、`checkjobs`、`huponexit`）只影响当前交互式 Bash 对停止作业、退出和提示的处理。需要操作当前终端的前后台作业时才考虑它们；脚本、非 TTY 或跨会话诊断不能据此判断系统进程，应改用 ps、pgrep 或 systemctl。
+{% endnote %}
+
 | 场景 | 选择 | 不要误解 |
 | --- | --- | --- |
 | 已暂停的当前终端作业继续后台运行 | bg | 只在有交互式 job control 的同一终端有效 |
@@ -116,17 +120,34 @@ jobs 和 wait 只面向当前 Bash 会话的作业；nohup 主要处理挂断信
 ## 优先级与调度
 
 ~~~bash
+(
+NICE_WORKER=
+WORKER=
+cleanup() {
+  for PID in "$NICE_WORKER" "$WORKER"; do
+    [ -n "$PID" ] && kill -TERM "$PID" 2>/dev/null || true
+  done
+}
+trap cleanup EXIT INT TERM
+
+nice -n 5 sleep 30 &
+NICE_WORKER=$!
+
 sleep 30 &
 WORKER=$!
 
+ps -o pid,ni,pri,stat,cmd -p "$NICE_WORKER" -p "$WORKER"
 renice 5 -p "$WORKER"
 ps -o pid,ni,pri,stat,cmd -p "$WORKER"
-kill -TERM "$WORKER"
-wait "$WORKER"
+kill -TERM "$NICE_WORKER" "$WORKER"
+for PID in "$NICE_WORKER" "$WORKER"; do
+  wait "$PID" || printf 'terminated-status=%s\n' "$?"
+done
+)
 ~~~
 
 {% note warning flat %}
-nice 在启动时给出较低优先级，renice 调整已有 PID 的 nice 值；正数通常降低 CPU 调度优先级。它们不是 CPU 配额，也不能解决 I/O、锁或内存瓶颈。提高优先级需要权限，先记录原值和恢复方案。
+nice 在启动时给出较低优先级，renice 调整已有 PID 的 nice 值；第一条 ps 应显示 NICE_WORKER 的 NI 为 5，第二条应显示 WORKER 的 NI 已变为 5。示例在子 Shell 中运行，清理 trap 不会改写当前终端已有的 trap。正数通常降低 CPU 调度优先级；普通用户通常可以把自己的 nice 值调大，却不能把它调回更高优先级。它们不是 CPU 配额，也不能解决 I/O、锁或内存瓶颈。
 {% endnote %}
 
 ## systemd 服务
@@ -175,6 +196,10 @@ systemd-run 创建临时 scope 或 service，适合验证服务管理器能否�
 {% endnote %}
 
 ## 迁移边界
+
+{% note danger flat %}
+halt、poweroff、reboot、shutdown 影响整机可用性，不是 `systemctl restart <unit>` 的替代品。本课程不要求执行它们；只能在已审批的主机维护窗口、确认用户影响和恢复路径后按组织流程操作。
+{% endnote %}
 
 {% folding blue, 旧入口与当前选择 %}
 | 旧入口 | 当前选择 | 不等价边界 |

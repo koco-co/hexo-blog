@@ -12,7 +12,7 @@ series: Linux
 series_order: 6
 published: true
 abbrlink: 5a63b164
-date: 2026-08-25 00:00:00
+date: 2026-03-15 00:00:00
 ---
 
 {% course_series %}
@@ -42,16 +42,20 @@ getent group "$(id -gn)"
 ~~~
 
 {% note primary flat %}
-id 给出当前有效 UID、主组和附加组；groups 适合快速查看组集合；getent 通过 NSS 查询账户或组数据库，不能只假定信息一定来自 /etc/passwd。验证时，getent 输出应含当前用户名或组名；这些都是只读命令。
+id 给出当前有效 UID、主组和附加组；groups 适合快速查看组集合；getent 通过 NSS（名称服务切换）查询账户或组数据库，不能只假定信息一定来自 /etc/passwd。验证时，getent 输出应含当前用户名或组名；这些都是只读命令。
 {% endnote %}
 
 ### 账户操作
 
 | 中文场景 | 选择 | 先确认的边界 |
 | --- | --- | --- |
-| 创建或回收账户 | useradd、usermod、userdel | home、文件归属、登录 Shell 与回收计划 |
-| 管理工作组 | groupadd、groupmod、groupdel | 现有成员和已归属文件 |
-| 设置或锁定凭据 | passwd | 这是认证操作，不会刷新文件权限 |
+| 创建账户 | useradd | home、初始组、登录 Shell 和批准范围 |
+| 修改已有账户属性或附加组 | usermod | 现有会话、文件归属和组变更影响 |
+| 回收账户 | userdel | home、持有文件、运行进程和保留计划 |
+| 创建工作组 | groupadd | 命名、现有目录与成员策略 |
+| 修改工作组 | groupmod | 旧组名、成员和已归属文件 |
+| 删除工作组 | groupdel | 现有成员与仍使用该 GID 的文件 |
+| 设置、过期或锁定凭据 | passwd | 这是认证操作，不会刷新文件权限 |
 | 临时切换主组 | newgrp | 只影响新启动的 Shell，会话外仍需重新判断身份 |
 
 {% note warning flat %}
@@ -71,8 +75,17 @@ TARGET="$LAB/project/config"
 
 chmod u=rwx,g=rx,o= "$LAB/project"
 chmod u=rw,g=r,o= "$TARGET"
-chgrp "$(id -gn)" "$TARGET"
+if chgrp "$(id -gn)" "$TARGET"; then
+  printf 'group-change=%s\n' "$(stat -c '%g' "$TARGET")"
+else
+  printf '%s\n' 'chgrp requires ownership or membership in the target group' >&2
+fi
 ls -ld "$LAB/project" "$TARGET"
+
+test "$(stat -c '%a' "$LAB/project")" = 750
+test "$(stat -c '%a' "$TARGET")" = 640
+test "$(stat -c '%g' "$TARGET")" = "$(id -g)"
+printf 'mode-and-group=%s:%s\n' "$(stat -c '%a' "$TARGET")" "$(stat -c '%g' "$TARGET")"
 
 ( umask 027; : >"$LAB/from-umask"; ls -l "$LAB/from-umask" )
 ~~~
@@ -86,11 +99,14 @@ ls -ld "$LAB/project" "$TARGET"
 ~~~bash
 if test -n "$LAB" && test -f "$LAB/.linux-permission-lab"; then
   TARGET="$LAB/project/config"
-  printf 'uid=%s gid=%s\n' "$(id -u)" "$(id -g)"
+  EXPECTED_OWNER=$(id -u)
+  EXPECTED_GROUP=$(id -g)
+  printf 'uid=%s gid=%s\n' "$EXPECTED_OWNER" "$EXPECTED_GROUP"
   ls -ln "$TARGET"
 
-  if chown "$(id -un):$(id -gn)" "$TARGET"; then
-    printf '%s\n' 'owner/group unchanged or accepted'
+  if chown "$EXPECTED_OWNER:$EXPECTED_GROUP" "$TARGET"; then
+    test "$(stat -c '%u:%g' "$TARGET")" = "$EXPECTED_OWNER:$EXPECTED_GROUP"
+    printf 'owner-and-group=%s\n' "$(stat -c '%u:%g' "$TARGET")"
   else
     printf '%s\n' 'chown requires appropriate ownership capability'
   fi
@@ -114,10 +130,21 @@ setuid、setgid、sticky bit、ACL、只读挂载、SELinux/AppArmor 和服务�
 ~~~bash
 sudo -l
 sudo -u "$(id -un)" id
+
+TEST_USER=
+if test -n "$TEST_USER"; then
+  if su - "$TEST_USER" -c 'id'; then
+    printf 'su-login-verified=%s\n' "$TEST_USER"
+  else
+    printf 'su failed: check authentication, policy, shell and target account state\n' >&2
+  fi
+else
+  printf '%s\n' '仅在获准测试账户中设置 TEST_USER 后验证 su - 的登录环境' >&2
+fi
 ~~~
 
 {% note danger flat %}
-sudo -l 读取当前策略允许的命令；第二条只以当前身份运行 id，用来说明“授权到哪个目标用户”是策略问题。sudo -i、su 和直接 root Shell 会放大影响面；不要把密码放进命令行、脚本或日志。
+sudo -l 读取当前策略允许的命令；第二条只以当前身份运行 id，用来说明“授权到哪个目标用户”是策略问题。设置 TEST_USER 后，su - 会进入那个获准测试账户的登录环境，并以 id 验证实际身份；不要在生产主机随意切换账户，也不要把密码放进命令行、脚本或日志。
 {% endnote %}
 
 | 需求 | 选择 | 不要混淆 |
@@ -133,7 +160,7 @@ Ubuntu 26.04 的 sudo 默认提供者为 sudo-rs，同时保留经典 sudo.ws �
 ## 软件包生命周期
 
 {% mermaid %}
-flowchart LR
+flowchart TD
   A[仓库索引] --> B[候选版本]
   B --> C[模拟计划]
   C --> D[安装或升级]
@@ -142,13 +169,15 @@ flowchart LR
 
 ### 查询与计划
 
-~~~bash
-apt-cache policy bash
-apt-cache show bash
-dpkg -s bash
-dpkg -S /usr/bin/bash
+{% note info flat %}
+本节的 APT 命令只适用于 Debian/Ubuntu 系。先选定一个已审批的候选包，并让候选、模拟、写入和结果验证使用同一个 PACKAGE；不要把 RHEL 的包名或事务选项逐字套到 APT。
+{% endnote %}
 
-PACKAGE=tree
+~~~bash
+PACKAGE=tree  # 改为已审批的候选包
+apt-cache policy "$PACKAGE"
+apt-cache show "$PACKAGE"
+
 apt-get --simulate install "$PACKAGE"
 ~~~
 
@@ -162,10 +191,15 @@ apt-cache 读取索引和候选版本；dpkg -s 查询已安装包状态，dpkg 
 PACKAGE=tree
 sudo apt install "$PACKAGE"
 sudo apt-mark manual "$PACKAGE"
+dpkg -s "$PACKAGE"
+apt-mark showmanual | grep -Fx "$PACKAGE"
+
+INSTALLED_PACKAGE=bash
+dpkg -S "$(command -v "$INSTALLED_PACKAGE")"
 ~~~
 
 {% note warning flat %}
-两条都会改变系统，只能在上一节模拟计划符合预期后执行；apt-mark manual 改变自动清理判断，不等于“锁定版本”。apt 适合交互，apt-get 更适合脚本化接口，update 只刷新索引，不等于升级、更不等于服务已经启动。
+两条都会改变系统，只能在上一节模拟计划符合预期后执行；随后用 dpkg -s 确认安装状态、用 apt-mark showmanual 确认手动标记。apt-mark manual 改变自动清理判断，不等于“锁定版本”。apt 适合交互，apt-get 更适合脚本化接口，update 只刷新索引，不等于升级、更不等于服务已经启动。
 {% endnote %}
 
 ### 发行版边界
@@ -176,8 +210,32 @@ sudo apt-mark manual "$PACKAGE"
 | 查询已安装包与文件 | dpkg -s、dpkg -S | rpm -q、rpm -ql |
 | 判断时机 | 先看候选与模拟计划 | 先看仓库、模块流和事务历史 |
 
+~~~bash
+PACKAGE=bash
+dnf --assumeno install "$PACKAGE"
+rpm -q "$PACKAGE"
+rpm -ql "$PACKAGE"
+~~~
+
 {% note info flat %}
-dnf 负责仓库与依赖求解，rpm 负责本地包元数据与文件查询；它们不能与 APT 的包名、服务名或配置路径机械互换。APT 第三方源的 signed-by keyring 把一个仓库绑定到指定密钥：记录来源、签名链和回滚方式，绝不使用 apt-key 或未知脚本的密钥管道。
+dnf 负责仓库与依赖求解，rpm 负责本地包元数据与文件查询；它们不能与 APT 的包名、服务名或配置路径机械互换。旧笔记中的 yum 入口在 RHEL 系应迁移为 dnf；--assumeno 只预演，不写入事务。APT 第三方源则应迁移离开全局信任的 apt-key，改用仓库行中的 signed-by keyring。
+{% endnote %}
+
+~~~bash
+if grep -R -i -E --include='*.list' --include='*.sources' 'signed-by[[:space:]]*[=:]' /etc/apt 2>/dev/null; then
+  printf '%s\n' 'repository-scoped signed-by entries found'
+else
+  status=$?
+  if test "$status" -eq 1; then
+    printf '%s\n' 'no signed-by entry found in readable APT source definitions' >&2
+  else
+    printf '%s\n' 'APT source definitions could not be fully read' >&2
+  fi
+fi
+~~~
+
+{% note warning flat %}
+上面的只读查询同时识别传统 .list 的 signed-by= 与 Deb822 .sources 的 Signed-By:；无匹配、读取失败会分别给出状态。没有条目可能表示没有第三方源或源未使用 scoped keyring；不要把未知密钥通过管道交给 shell，也不要把 apt-key 的旧写法当作 signed-by 的逐项等价替换。
 {% endnote %}
 
 ## 结果验证
@@ -186,7 +244,9 @@ dnf 负责仓库与依赖求解，rpm 负责本地包元数据与文件查询；
 if test -n "$LAB" && test -f "$LAB/.linux-permission-lab"; then
   TARGET="$LAB/project/config"
   test -d "$LAB/project"
-  test -r "$TARGET"
+  test "$(stat -c '%a' "$LAB/project")" = 750
+  test "$(stat -c '%a' "$TARGET")" = 640
+  test "$(stat -c '%g' "$TARGET")" = "$(id -g)"
   printf 'effective-id=%s\n' "$(id -u)"
   printf 'primary-group=%s\n' "$(id -gn)"
   printf '保留临时目录供检查：%s\n' "$LAB"
@@ -194,8 +254,14 @@ else
   printf '%s\n' '请先运行“私有实验”创建隔离目录' >&2
 fi
 
-apt-cache policy bash
-dpkg -s bash >/dev/null && printf '%s\n' 'bash package metadata available'
+PACKAGE=tree
+apt-cache policy "$PACKAGE"
+apt-get --simulate install "$PACKAGE" >/dev/null && printf '%s\n' 'apt simulation available'
+if dpkg -s "$PACKAGE" >/dev/null 2>&1; then
+  apt-mark showmanual | grep -Fx "$PACKAGE" >/dev/null && printf '%s\n' 'approved package is installed and marked manual'
+else
+  printf '%s\n' 'PACKAGE is not installed: this is expected until an approved install has completed' >&2
+fi
 ~~~
 
 {% note success flat %}
@@ -236,6 +302,15 @@ sudo 与 su - 的主要边界是什么？
 sudo 通常授权执行特定命令；su - 切换到另一个用户的登录环境，影响的会话上下文更大。
 --- explanation
 先用 sudo -l 看策略；临时管理员操作也需要目标、影响范围和回滚证据。
+{% endflashcard %}
+
+{% flashcard basic id:linux-a6-account-group-actions deck:"Linux" priority:2 tags:"账户,用户组" %}
+--- question
+创建、修改、删除用户或组时分别优先选择什么命令？
+--- answer
+用户用 useradd、usermod、userdel；组用 groupadd、groupmod、groupdel。
+--- explanation
+这些都会改变账户数据库。执行前核对 home、成员、登录 Shell、文件归属、运行进程和回收计划；不能用创建账户的命令替代修改或删除。
 {% endflashcard %}
 
 ## 参考资料

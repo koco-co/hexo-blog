@@ -12,7 +12,7 @@ series: Linux
 series_order: 9
 published: true
 abbrlink: cade4656
-date: 2026-08-25 00:00:00
+date: 2026-03-18 00:00:00
 ---
 
 {% course_series %}
@@ -44,7 +44,7 @@ flowchart TD
 UNIT=ssh.service  # 改为当前主机已知的服务
 journalctl --unit "$UNIT" --boot --no-pager
 journalctl --unit "$UNIT" --since "2026-08-25 10:00" --until "2026-08-25 10:30" --no-pager
-journalctl --priority=warning..alert --boot --no-pager
+journalctl --priority=warning --boot --no-pager
 journalctl --dmesg --boot --no-pager
 ~~~
 
@@ -52,11 +52,11 @@ journalctl --dmesg --boot --no-pager
 | --- | --- | --- | --- |
 | 某服务在故障窗口发生了什么 | journalctl --unit 与 --since/--until | 该 unit 在指定窗口可见的 Journal 事件 | 应用所有文件日志都已被收集 |
 | 上一次启动前后是否变化 | --boot、--boot=-1 | 事件属于哪次系统启动 | 两次启动间未持久化的日志 |
-| 是否出现高优先级事件 | --priority=warning..alert | 当前筛选范围内的警告到紧急消息 | 没有低优先级根因 |
+| 是否出现高优先级事件 | --priority=warning | warning 及更严重的 0–4 级消息 | 没有低优先级根因 |
 | 是否只看内核消息 | --dmesg | journald 收集到的内核消息 | 内核环形缓冲区的全部历史 |
 
 {% note warning flat %}
-journalctl --follow 会持续跟随输出，复现结束后要停止；--no-pager 适合机器采集，-o short-iso 或 -o json 可固定输出格式。权限、速率限制、未持久化存储和筛选条件都可能产生空结果，因此“没有输出”只能说明当前查询没有返回事件。
+journalctl 的单个 --priority 值会包含该级别及更严重的消息，所以 --priority=warning 覆盖 warning、err、crit、alert 和 emerg；若使用范围形式，应按 emerg..warning 的顺序书写。--follow 会持续跟随输出，复现结束后要停止；--no-pager 适合机器采集，-o short-iso 或 -o json 可固定输出格式。权限、速率限制、未持久化存储和筛选条件都可能产生空结果，因此“没有输出”只能说明当前查询没有返回事件。
 {% endnote %}
 
 ### 受控测试事件

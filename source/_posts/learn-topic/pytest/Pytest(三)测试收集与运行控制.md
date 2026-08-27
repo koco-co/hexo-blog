@@ -13,7 +13,7 @@ series: Pytest
 series_order: 3
 published: true
 abbrlink: b5dda780
-date: 2026-08-26 09:00:00
+date: 2026-04-21 00:00:00
 ---
 
 {% course_series %}
@@ -184,7 +184,15 @@ python -m pytest --collect-only -q lab/tests/test_discount.py
 --- answer
 `-k` 按 Node ID 的名称表达式匹配，`-m` 按已注册标记匹配；两者都应结合收集数量核对范围。
 --- explanation
-名称筛选适合一次性的关键词组合，标记筛选适合长期稳定的套件分类。不要把测试名中的单词当成标记，也不要把标记拼写错误当成“没有测试”；先用 `--collect-only` 和 `--markers` 观察事实。
+`-k` 在已收集节点的名称表达式上做大小写不敏感匹配，适合临时定位；`-m` 只看已经注册的 marker，适合稳定的套件分类。两者筛选的对象不同：测试函数名里出现 `slow`，并不会自动拥有 `slow` 标记。
+
+```bash
+python -m pytest --collect-only -q -k "discount and not integration"
+python -m pytest --markers
+python -m pytest -q -m "smoke and not slow"
+```
+
+先用 `--collect-only` 核对数量和 Node ID，再执行选择命令；若 `-m` 没有结果，先检查标记注册和拼写，不要把空集合误判成测试通过。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-skip-vs-xfail deck:"Pytest" priority:1 tags:"结果标记" %}
@@ -193,7 +201,20 @@ python -m pytest --collect-only -q lab/tests/test_discount.py
 --- answer
 无法或不应在当前环境执行时用 skip；已知会失败但仍需要执行并追踪缺陷时用 xfail，并关注 XPASS。
 --- explanation
-skip 不提供当前行为证据，适合平台、依赖和外部服务条件；xfail 会运行测试并记录预期失败，最好配合原因和严格模式。缺陷修复后出现 XPASS，应删除或更新标记，而不是长期忽略。
+`skip` 的含义是“当前条件下不执行”，因此它不能证明该行为在本环境成立；`xfail` 仍会执行测试，并把预期失败记录为结果。需要把预期写成可审查的代码：
+
+```python
+@pytest.mark.skipif(sys.platform == "win32", reason="依赖 Unix socket")
+def test_unix_socket():
+    ...
+
+
+@pytest.mark.xfail(reason="upstream issue #123", strict=True)
+def test_known_regression():
+    ...
+```
+
+`strict=True` 会把修复后的 XPASS 变成可见失败，提醒团队删除或更新标记；否则一个已经不再失败的测试可能长期被当成“预期状态”。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-nodeid deck:"Pytest" priority:2 tags:"收集" %}
@@ -202,7 +223,14 @@ Node ID 如何组成，为什么适合精确复跑？
 --- answer
 它由文件、类、函数和参数 ID 组成，能把一次筛选缩小到单个可收集节点。
 --- explanation
-先用 `--collect-only` 获取真实 Node ID，再将该字符串传给 Pytest。参数化实例也有自己的方括号 ID，因此可以复跑某一组数据，而不是重新执行整个函数的所有参数。
+Node ID 是收集树中的路径，例如 `tests/test_discount.py::test_total[vip-20]`：文件、类、测试函数和参数化 ID 逐层连接。它不是手写标签，应该先从收集结果复制：
+
+```bash
+python -m pytest --collect-only -q
+python -m pytest -q 'tests/test_discount.py::test_total[vip-20]'
+```
+
+方括号里的参数 ID 让一次数据集可以单独复跑；如果 ID 不稳定或包含难以转义的内容，失败报告就难以复现，应显式给 `ids` 或 `pytest.param(..., id=...)`。
 {% endflashcard %}
 
 ## 参考资料

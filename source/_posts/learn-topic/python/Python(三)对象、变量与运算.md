@@ -12,7 +12,7 @@ series: Python
 series_order: 3
 published: true
 abbrlink: 76bec403
-date: 2026-08-25 13:13:45
+date: 2026-05-04 00:00:00
 ---
 
 {% course_series %}
@@ -149,7 +149,7 @@ payload = text.encode("utf-8")
 print(payload)                 # b'...'
 print(payload.decode("utf-8"))  # 你好, Python
 
-path = r"C:\work\notes"
+path = r"relative/notes"
 print(path)
 ```
 
@@ -238,7 +238,19 @@ print(Decimal("0.1") + Decimal("0.2") == Decimal("0.3"))  # True
 --- answer
 `==` 比较值，`is` 比较是否为同一对象；缺失值判断应写 `value is None`。
 --- explanation
-列表、字符串和自定义对象可以值相等却不是同一对象。短字符串、小整数或常量复用属于实现优化，不能作为业务逻辑依据。`None` 是语言提供的单例，所以身份判断既清楚又可靠。
+`==` 会调用对象的相等性协议，`is` 只问两个名称是否指向同一对象：
+
+```python
+left = [1, 2]
+right = [1, 2]
+print(left == right)  # True：内容相同
+print(left is right)  # False：两个列表对象
+
+value = None
+print(value is None)  # True：None 的单例判断
+```
+
+短字符串和小整数有时被实现复用，但那是优化，不是业务契约。`None` 是语言明确提供的单例，所以缺失值判断应使用 `is None`，不要用 `== None` 或依赖对象缓存。
 {% endflashcard %}
 
 {% flashcard basic id:python-object-mutability deck:"Python 基础" priority:1 tags:"Python,可变性,别名,增量赋值" %}
@@ -247,7 +259,19 @@ print(Decimal("0.1") + Decimal("0.2") == Decimal("0.3"))  # True
 --- answer
 两个名称开始时指向同一列表；可变对象的 `+=` 往往原地修改，所以别名也能看到变化。
 --- explanation
-名称绑定不会默认复制对象。列表、字典、集合和 `bytearray` 可原地改；字符串、整数和元组不可变，相关运算通常创建新对象再重新绑定。遇到共享状态先检查身份和类型。
+赋值只复制引用关系，不复制对象；`+=` 是否原地修改取决于对象的可变性：
+
+```python
+a = b = []
+a += [1]
+print(a, b, a is b)  # [1] [1] True
+
+x = y = "a"
+x += "b"
+print(x, y, x is y)   # ab a False
+```
+
+列表、字典、集合和 `bytearray` 可以原地改，所以别名能观察到变化；字符串、整数和元组不可变，运算通常创建新对象并只重新绑定左侧名称。遇到意外共享，先检查 `is` 和对象类型，再决定复制或重新设计所有权。
 {% endflashcard %}
 
 {% flashcard basic id:python-object-binding deck:"Python 基础" priority:1 tags:"Python,赋值,函数参数,名称绑定" %}
@@ -256,7 +280,19 @@ Python 函数参数是“传值”还是“传引用”？
 --- answer
 形参是局部名称，调用时绑定到传入对象；修改共享可变对象会被调用方看到，重新绑定形参不会。
 --- explanation
-这比二选一术语更准确。`items.append(x)` 改的是同一个列表；`items = []` 只让函数内部名称指向新列表。理解对象和名称能正确解释默认参数、闭包和容器副作用。
+Python 调用时把形参绑定到传入对象，既没有隐式深拷贝，也不允许函数把调用方的名称重新绑定。对照两个动作即可看出边界：
+
+```python
+def change(items):
+    items.append("seen")  # 改共享对象
+    items = []             # 只改函数内名称
+
+items = []
+change(items)
+print(items)  # ['seen']
+```
+
+因此“传值/传引用”的二选一会遮住真正机制：修改共享可变对象会被观察到，重新绑定形参不会。这个模型也能解释默认参数、闭包和 Fixture 中的容器副作用。
 {% endflashcard %}
 
 {% flashcard basic id:python-object-float deck:"Python 基础" priority:2 tags:"Python,float,Decimal,数值" %}
@@ -265,7 +301,18 @@ Python 函数参数是“传值”还是“传引用”？
 --- answer
 这三个十进制小数多数不能被二进制浮点精确表示，运算结果是相近值而不是精确值。
 --- explanation
-近似值比较使用 `math.isclose()` 和领域容差；需要十进制精确规则时，从字符串构造 `Decimal`。不要依赖显示时的四舍五入来判断数值是否相等。
+二进制浮点保存的是近似值，`0.1`、`0.2` 和 `0.3` 通常都不是精确的二进制分数，因此加法后的误差可能暴露出来：
+
+```python
+from decimal import Decimal
+import math
+
+print(0.1 + 0.2 == 0.3)  # False（常见结果）
+print(math.isclose(0.1 + 0.2, 0.3))
+print(Decimal("0.1") + Decimal("0.2") == Decimal("0.3"))
+```
+
+科学计算先定义相对/绝对容差并用 `math.isclose()`；金额等十进制规则从字符串构造 `Decimal`。显示时四舍五入只改变展示，不会改变底层比较结果。
 {% endflashcard %}
 
 ## 参考资料

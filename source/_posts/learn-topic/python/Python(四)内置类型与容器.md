@@ -12,7 +12,7 @@ series: Python
 series_order: 4
 published: true
 abbrlink: c43fdd4
-date: 2026-08-25 13:13:45
+date: 2026-05-05 00:00:00
 ---
 
 {% course_series %}
@@ -186,7 +186,17 @@ print(labels)             # 两个元素，显示顺序不作承诺
 --- answer
 需要原地增删改时选列表；表示固定、有序记录且不应修改时选元组。
 --- explanation
-元组不可变，所有元素可哈希时可作为字典键或集合元素；列表可变、适合累积数据，但不能直接作为键。选择取决于数据关系和修改边界，不取决于谁的 API 更多。
+两者都保持顺序，但修改边界不同：
+
+```python
+items = ["draft"]
+items.append("published")  # 列表适合逐步累积
+
+point = (120, 80)            # 元组表达固定记录
+mapping = {point: "cursor"} # 元组元素可哈希时可作为键
+```
+
+列表适合拥有明确写入者的可变集合；元组更适合固定结构、不可变记录。元组能否作为键还取决于所有元素是否可哈希，例如 `(1, [])` 仍然不能作为键。选择依据是数据关系和所有权，不是方法数量。
 {% endflashcard %}
 
 {% flashcard basic id:python-container-hashable deck:"Python 基础" priority:1 tags:"Python,hash,dict,set" %}
@@ -195,7 +205,18 @@ print(labels)             # 两个元素，显示顺序不作承诺
 --- answer
 列表可变，哈希值无法稳定；字典键和集合元素必须可哈希。
 --- explanation
-键的位置由哈希和相等性共同决定。若键在放入后还能改变，查找就可能失效。元组只有在其所有元素都可哈希时才可哈希，不能只看它表面上不可变。
+字典和集合用哈希值定位，再用相等性确认对象。若键放入后哈希值能改变，原来的桶位置就不再可靠：
+
+```python
+key = ("region", 1)
+table = {key: "test"}
+print(table[key])
+
+print(hash(("region", 1)))
+print(hash(("region", [])))  # TypeError：内部列表不可哈希
+```
+
+所以可哈希要求不仅是“外层看起来不可变”，还要求参与相等性和哈希的全部成员都稳定。列表、字典和集合不能直接作为键；含有它们的元组也不行。
 {% endflashcard %}
 
 {% flashcard basic id:python-container-copy deck:"Python 基础" priority:1 tags:"Python,浅拷贝,深拷贝,共享引用" %}
@@ -204,7 +225,21 @@ print(labels)             # 两个元素，显示顺序不作承诺
 --- answer
 浅拷贝只新建外层容器，内层对象继续共享；深拷贝递归复制可复制的内部对象。
 --- explanation
-`list.copy()`、切片和 `dict.copy()` 都是浅拷贝。嵌套可变对象是否共享要通过身份或修改实验验证；深拷贝也有成本，并不等于总是更安全。
+浅拷贝只复制第一层，嵌套对象仍共享；深拷贝才会继续复制可复制的子对象：
+
+```python
+import copy
+
+source = [[1], [2]]
+shallow = source.copy()
+deep = copy.deepcopy(source)
+
+source[0].append(9)
+print(shallow)  # [[1, 9], [2]]：共享内层列表
+print(deep)     # [[1], [2]]：内层也已复制
+```
+
+`list.copy()`、切片和 `dict.copy()` 都是浅拷贝。深拷贝可能复制大量对象、破坏共享语义或无法处理外部资源；先明确所有权，必要时用不可变结构或显式转换，不要把 `deepcopy` 当成通用修复。
 {% endflashcard %}
 
 {% flashcard basic id:python-container-sort deck:"Python 基础" priority:2 tags:"Python,sorted,sort,bisect" %}
@@ -213,7 +248,18 @@ print(labels)             # 两个元素，显示顺序不作承诺
 --- answer
 `sorted()` 返回新列表；`list.sort()` 原地修改列表并返回 `None`。
 --- explanation
-二者排序稳定，均可用 `key` 提供比较键。需要保留原始数据时选 `sorted()`；只想重排现有列表时用 `sort()`。已排序序列的插入位置可由 `bisect` 查找。
+`sorted()` 和 `list.sort()` 使用相同的排序规则，但返回值和副作用不同：
+
+```python
+values = [3, 1, 2]
+ordered = sorted(values)
+print(values, ordered)  # [3, 1, 2] [1, 2, 3]
+
+result = values.sort()
+print(values, result)   # [1, 2, 3] None
+```
+
+需要保留原始序列时用 `sorted()`；可以就地重排且调用方不再需要旧顺序时用 `sort()`。二者都支持 `key` 和稳定排序；若只是给已排序序列找插入位置，`bisect` 比重新排序更符合任务。
 {% endflashcard %}
 
 ## 参考资料

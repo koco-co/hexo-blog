@@ -12,7 +12,7 @@ series: Python
 series_order: 10
 published: true
 abbrlink: fa1b960c
-date: 2026-08-25 13:13:45
+date: 2026-05-11 00:00:00
 ---
 
 {% course_series %}
@@ -178,7 +178,22 @@ Python 的垃圾回收能否保证对象何时销毁？
 --- answer
 不能保证具体时机；CPython 常用引用计数和循环 GC，但这是实现细节。
 --- explanation
-业务逻辑不应依赖析构器或某次 gc.collect()。文件、锁、连接等资源应以 with 或明确关闭来管理；弱引用适合不应延长对象寿命的缓存和观察关系。
+语言只规定对象在不可达后“可以被回收”，不规定回收发生的时刻。CPython 的引用计数常让无环对象较快释放，但循环需要 GC，其他实现的策略也可能不同：
+
+```python
+import gc
+import weakref
+
+class Node: pass
+
+node = Node()
+ref = weakref.ref(node)
+del node
+print(ref() is None)  # CPython 常见为 True，但不是业务契约
+gc.collect()          # 只适合诊断或实验，不能代替资源管理
+```
+
+文件、锁和连接应使用 `with` 或明确 `close()`；弱引用适合不应延长对象寿命的缓存或观察关系。不要把 `__del__` 或某次 `gc.collect()` 当作确定的清理时机。
 {% endflashcard %}
 
 {% flashcard basic id:python-runtime-gil deck:"Python 基础" priority:1 tags:"Python,GIL,CPython,线程" %}
@@ -187,7 +202,15 @@ Python 的垃圾回收能否保证对象何时销毁？
 --- answer
 同一解释器内线程不能同时执行 Python 字节码，但 I/O 等待可交错，多个进程可并行。
 --- explanation
-GIL 是 CPython 与构建相关的实现边界，不代表线程无用。I/O 任务常适合线程；CPU 密集任务常考虑进程或兼容的其他运行时策略；free-threaded 构建仍需处理竞态。
+GIL 限制的是传统 CPython 解释器内多个线程同时执行 Python 字节码，不是“线程不能工作”。可以用任务类型比较：
+
+| 场景 | GIL 下的常见选择 | 原因 |
+| --- | --- | --- |
+| 等待网络/磁盘 | 线程或 async | 等待期间可切换其他工作 |
+| Python CPU 计算 | 进程 | 不同进程拥有独立解释器 |
+| C 扩展释放 GIL | 依赖库行为测量 | 是否并行取决于实现 |
+
+free-threaded 构建可能改变字节码并行边界，但不会自动解决竞态、死锁或第三方扩展兼容性；讨论结果时必须写明 CPython 构建和版本。
 {% endflashcard %}
 
 {% flashcard basic id:python-runtime-thread-process-async deck:"Python 基础" priority:1 tags:"Python,threading,multiprocessing,asyncio" %}
@@ -196,7 +219,15 @@ GIL 是 CPython 与构建相关的实现边界，不代表线程无用。I/O 任
 --- answer
 阻塞 I/O 常用线程，CPU 密集且可序列化的任务常用进程，大量可等待 I/O 且链路可 async 时用 asyncio。
 --- explanation
-线程共享内存，进程隔离且有序列化成本，协程在一个线程内协作调度。先测量瓶颈和依赖库，再选择最小复杂度的方案。
+三者的差异可以落到共享模型和让出点：
+
+```python
+async def fetch_two():
+    # 协程只有在 await 处主动让出执行权。
+    return await asyncio.gather(fetch("a"), fetch("b"))
+```
+
+线程共享进程内对象，需要锁或队列；进程默认隔离内存，需要序列化和消息协议；协程通常共享一个线程，只在 `await` 等协作点切换。先测量是 I/O、CPU 还是同步开销，再选择依赖库支持的最小复杂度方案。
 {% endflashcard %}
 
 {% flashcard basic id:python-runtime-race deck:"Python 基础" priority:1 tags:"Python,竞态,锁,并发" %}
@@ -205,7 +236,16 @@ GIL 是 CPython 与构建相关的实现边界，不代表线程无用。I/O 任
 --- answer
 竞态是结果依赖执行交错顺序；锁只保护明确临界区，不能自动设计消息边界、取消或避免死锁。
 --- explanation
-共享可变状态要么用短临界区和固定锁顺序保护，要么改为队列和不可变消息。不要在持锁期间执行慢 I/O 或未知回调，并用压力测试验证实际交错。
+竞态的关键不是“有没有多线程”，而是多个执行者是否能以不同顺序读写同一状态。锁只保护它包围的临界区：
+
+```python
+with lock:
+    current = balance
+    balance = current - amount
+# 慢 I/O 放在锁外，避免把临界区变成整个请求
+```
+
+共享状态可以用短临界区和固定锁顺序保护，也可以改成队列与不可变消息。不要在持锁期间执行慢 I/O 或未知回调；用压力测试、故意延迟和结果不变量验证实际交错，锁本身不能自动设计取消和消息边界。
 {% endflashcard %}
 
 ## 参考资料

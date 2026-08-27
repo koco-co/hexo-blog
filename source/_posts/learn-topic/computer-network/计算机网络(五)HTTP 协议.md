@@ -13,7 +13,7 @@ series: "计算机网络"
 series_order: 5
 published: true
 abbrlink: '366484e7'
-date: 2026-08-25 06:30:00
+date: 2026-03-05 00:00:00
 ---
 
 {% course_series %}
@@ -39,7 +39,7 @@ flowchart TD
     MSG --> CONTENT[内容：表示数据]
 {% endmermaid %}
 
-{% note info flat %}
+{% note primary flat %}
 “实体”“通用头”“请求头”“响应头”是旧资料中常见的分类词。学习旧笔记时可以识别它们，但新的回答优先围绕消息、字段、内容、表示和目标资源来描述，因为同一个字段的语义可能同时影响缓存、条件请求、代理和内容处理。
 {% endnote %}
 
@@ -94,7 +94,7 @@ Cache-Control: max-age=60
 
 ~~~
 
-{% note info flat %}
+{% note warning flat %}
 请求的起始行包含方法、目标和协议版本；响应的起始行包含版本、状态码和原因短语。两者都由字段和可选内容组成。空行标记字段区域结束，但具体消息如何确定内容长度还要看协议版本和分帧规则，不能把“看到空行”直接等同于“响应结束”。
 {% endnote %}
 
@@ -145,7 +145,7 @@ X-Debug: fixture
 验证时应确认客户端收到 hello、识别 0 块结束，并按实现规则处理 trailer；如果删掉 0 块或只发送 3 个字节就关闭连接，结果应被记录为不完整响应，而不是成功内容。
 {% endnote %}
 
-{% note info flat %}
+{% note danger flat %}
 仅用于静态审阅的冲突字段形态如下，不要把它发送到生产代理：
 {% endnote %}
 
@@ -160,7 +160,7 @@ test
 0
 ~~~
 
-{% note info flat %}
+{% note primary flat %}
 预期验证不是“哪个长度优先”的经验答案，而是确认各组件是否按同一 RFC 9112 解析规则拒绝或安全结束连接，并检查是否产生安全告警；真实测试应在隔离代理夹具中完成。
 {% endnote %}
 
@@ -246,7 +246,7 @@ sequenceDiagram
     N-->>C: 最终表示或新的状态
 {% endmermaid %}
 
-{% note info flat %}
+{% note warning flat %}
 301/308 表示永久迁移语义，302/307 表示临时迁移语义；307/308 明确要求保留原方法和内容，而历史客户端对 301/302 可能把 POST 改成 GET。调试重定向时必须查看原始状态、Location、后续请求方法以及是否携带了认证或 Cookie，不能只看最终页面。
 {% endnote %}
 
@@ -277,7 +277,7 @@ sequenceDiagram
 
 ### WebDAV 与 102
 
-{% note info flat %}
+{% note warning flat %}
 WebDAV 在 HTTP 资源模型上增加了面向集合和属性的扩展，例如 PROPFIND 读取资源属性、PROPPATCH 修改属性、MKCOL 创建集合、COPY/MOVE 管理资源关系、LOCK/UNLOCK 处理写锁。它们仍然使用 HTTP 消息、字段和状态码，但服务端、代理和客户端必须明确支持这些方法；收到 405 或 501 时不能把它当成普通 JSON API 的参数错误。
 {% endnote %}
 
@@ -294,7 +294,7 @@ Content-Type: application/xml; charset="utf-8"
 <multistatus xmlns="DAV:">...</multistatus>
 ~~~
 
-{% note info flat %}
+{% note warning flat %}
 这个示例只展示 WebDAV 方法、Depth 字段和 207 Multi-Status 的协议形态，不声称目标站点支持它。验证时要检查 Allow、DAV、Depth、207 内容和服务端权限；不要把 WebDAV 的 102 直接当作普通 API 的“处理中”。
 {% endnote %}
 
@@ -316,7 +316,7 @@ Retry-After: 3
 
 ~~~
 
-{% note info flat %}
+{% note warning flat %}
 401 的挑战字段、405 的 Allow 和 429 的 Retry-After 是后续客户端决策的重要输入；它们不是每个框架都会以相同正文展示。验证时保存原始响应头，不要只截图页面上的错误文案。
 {% endnote %}
 
@@ -460,7 +460,7 @@ fetch("https://api.example.test/items", {
 }).then(response => ({ status: response.status, type: response.type }))
 ~~~
 
-{% note info flat %}
+{% note primary flat %}
 预期证据是：若请求触发预检，先出现 OPTIONS，再出现 POST；若 Allow-Origin 或 Allow-Headers 不匹配，脚本可能无法读取响应；若 DNS/TCP/TLS 失败，则不会产生可供 CORS 检查的 HTTP 响应。代码只是测试输入，必须在自己控制的 origin 和 API 夹具中运行。
 {% endnote %}
 
@@ -492,7 +492,7 @@ HTTP/1.1 401 Unauthorized
 WWW-Authenticate: Bearer realm="api", error="invalid_token"
 ~~~
 
-{% note info flat %}
+{% note danger flat %}
 401 的 WWW-Authenticate 可以告诉客户端认证方案或挑战信息；即使 Token 语法正确，服务端仍可能因过期、权限不足、受众不匹配或撤销而拒绝。使用 curl 复现时只用测试 Token，并在输出中保留 redacted 占位符。
 {% endnote %}
 
@@ -511,7 +511,7 @@ flowchart TD
     end
 {% endmermaid %}
 
-{% note info flat %}
+{% note primary flat %}
 正向代理代表客户端访问外部资源，反向代理代表服务端接收外部请求；网关可能终止 TLS、改写路径、做认证、缓存、限流或把请求转发给上游。收到 502/504 时，要先问错误在哪一跳产生：客户端到网关、网关到上游、还是上游应用内部。
 {% endnote %}
 
@@ -524,7 +524,7 @@ flowchart TD
 | 正向代理 | `curl -x http://proxy.example.test:8080 https://target.example.test/` | 代理 CONNECT、目标 TLS/HTTP 和代理访问日志是否关联 |
 | 反向代理 | `curl -H 'X-Debug-Request: fixture' https://gateway.example.test/api` | 网关请求 ID、上游 Host、502/504 时间线和上游日志是否关联 |
 
-{% note info flat %}
+{% note primary flat %}
 两个命令只是形状示例，不在当前环境声称执行；正向代理命令的代理地址和反向代理命令的 Host 都必须来自明确授权的测试环境。
 {% endnote %}
 
@@ -648,6 +648,16 @@ HTTP 中资源、表示和消息分别是什么？
 资源是请求目标概念，表示是资源在某时刻以某种媒体类型呈现的数据，消息是承载 HTTP 语义、字段和内容的协议载体。
 --- explanation
 同一资源可以按语言、格式或编码产生不同表示；请求/响应消息携带选择和传输这些表示所需的字段。旧资料中的实体术语应迁移到这个现代模型。
+
+阅读一条 HTTP 消息时，可以先拆出语义，再看线格式：
+
+~~~http
+GET /items HTTP/1.1
+Host: example.test
+
+~~~
+
+空行只结束字段区域；内容是否结束还要结合 Content-Length、分块或协议版本。HTTP/2/3 改变线格式，不改变方法、状态、字段和内容这些语义。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-002 deck:"计算机网络" priority:1 tags:"HTTP,请求,响应" %}
@@ -657,6 +667,16 @@ HTTP 请求和响应各自的起始行、字段、内容边界如何阅读？
 请求起始行是方法/目标/版本，响应起始行是版本/状态码/短语；随后是字段，空行后可能有内容，内容长度和分帧还要看字段及协议版本。
 --- explanation
 空行只结束字段区域，不自动说明整个响应的内容长度。HTTP/2/3 的线格式不同，但语义仍可映射到方法、状态、字段和内容。
+
+阅读一条 HTTP 消息时，可以先拆出语义，再看线格式：
+
+~~~http
+GET /items HTTP/1.1
+Host: example.test
+
+~~~
+
+空行只结束字段区域；内容是否结束还要结合 Content-Length、分块或协议版本。HTTP/2/3 改变线格式，不改变方法、状态、字段和内容这些语义。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-003 deck:"计算机网络" priority:1 tags:"HTTP,方法,幂等性" %}
@@ -666,6 +686,16 @@ HTTP 请求和响应各自的起始行、字段、内容边界如何阅读？
 安全性描述方法预期不改变目标状态，幂等性描述重复执行的预期状态效果，可缓存性描述响应能否由缓存复用；三者不能互相直接推导。
 --- explanation
 GET 通常安全且幂等，但不代表业务没有日志等副作用；POST 通常非幂等；缓存还受响应字段、状态、Vary 和用户上下文影响。
+
+这些术语最好分列判断：
+
+| 维度 | 问的是什么 | 例子 |
+| --- | --- | --- |
+| 安全性 | 预期是否改变目标状态 | GET 通常安全 |
+| 幂等性 | 重复执行的预期效果 | PUT 通常可幂等 |
+| 可缓存性 | 响应能否被缓存复用 | 仍受字段和上下文影响 |
+
+方法名称不能替代 API 契约；状态码也只能说明 HTTP 层，不说明 DNS/TCP/TLS 已全部成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-004 deck:"计算机网络" priority:1 tags:"HTTP,GET,POST,PUT,PATCH" %}
@@ -675,6 +705,16 @@ GET、POST、PUT、PATCH、DELETE 的核心边界是什么？
 GET 获取，POST 提交处理或创建，PUT 以给定表示创建/替换，PATCH 做部分修改，DELETE 删除目标当前关联；具体资源语义仍由 API 契约定义。
 --- explanation
 不要把 POST 等同于“有请求体”、PUT 等同于“全量更新”的绝对规则。方法语义、幂等性和应用接口设计要一起阅读。
+
+这些术语最好分列判断：
+
+| 维度 | 问的是什么 | 例子 |
+| --- | --- | --- |
+| 安全性 | 预期是否改变目标状态 | GET 通常安全 |
+| 幂等性 | 重复执行的预期效果 | PUT 通常可幂等 |
+| 可缓存性 | 响应能否被缓存复用 | 仍受字段和上下文影响 |
+
+方法名称不能替代 API 契约；状态码也只能说明 HTTP 层，不说明 DNS/TCP/TLS 已全部成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-005 deck:"计算机网络" priority:1 tags:"HTTP,状态码" %}
@@ -684,6 +724,16 @@ HTTP 状态码 2xx、3xx、4xx、5xx 如何按层次解释？
 2xx 表示成功处理，3xx 表示重定向或条件结果，4xx 表示请求/客户端上下文问题，5xx 表示服务端或网关处理失败。
 --- explanation
 状态码只能证明 HTTP 层的观察结果。DNS 失败、TCP 拒绝、TLS 证书错误通常没有 HTTP 状态码，应先区分是否收到响应。
+
+这些术语最好分列判断：
+
+| 维度 | 问的是什么 | 例子 |
+| --- | --- | --- |
+| 安全性 | 预期是否改变目标状态 | GET 通常安全 |
+| 幂等性 | 重复执行的预期效果 | PUT 通常可幂等 |
+| 可缓存性 | 响应能否被缓存复用 | 仍受字段和上下文影响 |
+
+方法名称不能替代 API 契约；状态码也只能说明 HTTP 层，不说明 DNS/TCP/TLS 已全部成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-006 deck:"计算机网络" priority:1 tags:"HTTP,重定向" %}
@@ -693,6 +743,14 @@ HTTP 状态码 2xx、3xx、4xx、5xx 如何按层次解释？
 301/308 表示永久迁移，302/307 表示临时迁移；307/308 要求后续请求保留原方法和内容，旧客户端对 301/302 可能把 POST 改成 GET。
 --- explanation
 检查重定向必须同时看 Location、后续方法、请求体、认证和 Cookie。最终页面成功不代表中间跳转没有丢失语义。
+
+重定向不要只看最终页面，记录每一跳：
+
+| 字段 | 需要核对 |
+| --- | --- |
+| 状态码 | 永久还是临时 |
+| Location | 下一目标是否正确 |
+| 后续请求 | 方法、请求体、Cookie、认证是否保留 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-007 deck:"计算机网络" priority:1 tags:"HTTP,缓存,ETag" %}
@@ -702,6 +760,15 @@ HTTP 状态码 2xx、3xx、4xx、5xx 如何按层次解释？
 服务端根据条件请求判断客户端已有表示仍可复用，响应通常不重新传输内容；客户端应使用本地缓存表示。
 --- explanation
 304 不是“没有内容”或“服务端没工作”。要检查 If-None-Match/If-Modified-Since、ETag/Last-Modified 和缓存对象的实际版本。
+
+条件缓存可以用请求/响应字段对照：
+
+| 请求 | 响应 | 结论 |
+| --- | --- | --- |
+| If-None-Match | ETag | 可验证对象版本 |
+| If-Modified-Since | Last-Modified | 可按时间验证 |
+| Cache-Control: no-cache | 仍可能保存副本 | 使用前重新验证 |
+| Cache-Control: no-store | 不应保存副本 | 禁止存储 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-008 deck:"计算机网络" priority:1 tags:"HTTP,Cache-Control" %}
@@ -711,6 +778,15 @@ no-cache 和 no-store 的区别是什么？
 no-cache 通常表示使用前必须重新验证，仍可能保存缓存副本；no-store 表示不要存储该请求或响应的缓存副本。
 --- explanation
 指令名称容易造成反向记忆。最终行为还要结合共享/私有缓存、响应状态、Vary 和实现，但不能把两者都简化成“禁止缓存”。
+
+条件缓存可以用请求/响应字段对照：
+
+| 请求 | 响应 | 结论 |
+| --- | --- | --- |
+| If-None-Match | ETag | 可验证对象版本 |
+| If-Modified-Since | Last-Modified | 可按时间验证 |
+| Cache-Control: no-cache | 仍可能保存副本 | 使用前重新验证 |
+| Cache-Control: no-store | 不应保存副本 | 禁止存储 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-009 deck:"计算机网络" priority:1 tags:"HTTP,Cookie,CORS" %}
@@ -720,6 +796,16 @@ Cookie、同源策略和 CORS 分别解决什么问题？
 Cookie 管理 HTTP 状态，同源策略限制脚本跨源交互，CORS 让服务端声明哪些跨源浏览器上下文可被允许。
 --- explanation
 CORS 不是认证，也不是让所有客户端自动遵守的防火墙。curl 通常不会执行浏览器同源策略，因此 curl 成功不能证明 Fetch 成功。
+
+浏览器问题需要保留请求上下文：
+
+~~~http
+Origin: https://app.example
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: authorization
+~~~
+
+服务端的许可字段、凭据模式和实际响应读取权限分别决定预检、发送和脚本可见性；curl 成功不等于浏览器上下文也会成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-010 deck:"计算机网络" priority:1 tags:"HTTP,CORS,预检" %}
@@ -729,6 +815,16 @@ CORS 预检请求会携带什么，服务端需要证明什么？
 浏览器可能先发 OPTIONS，并携带 Origin、Access-Control-Request-Method、Access-Control-Request-Headers；服务端需返回匹配的 Allow-Origin、Allow-Methods、Allow-Headers 等许可。
 --- explanation
 预检失败时实际请求可能根本没有发送；实际请求已有响应但脚本仍报错，则要检查响应读取权限和凭据规则。
+
+浏览器问题需要保留请求上下文：
+
+~~~http
+Origin: https://app.example
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: authorization
+~~~
+
+服务端的许可字段、凭据模式和实际响应读取权限分别决定预检、发送和脚本可见性；curl 成功不等于浏览器上下文也会成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-011 deck:"计算机网络" priority:2 tags:"HTTP,代理,502,504" %}
@@ -738,6 +834,15 @@ CORS 预检请求会携带什么，服务端需要证明什么？
 先确认错误响应由哪个网关产生，再沿客户端到网关、网关到上游、上游内部的时间线检查 DNS、TCP、TLS、响应格式和超时。
 --- explanation
 502 通常表示网关从上游得到无效响应，504 表示等待上游超时；状态码不能替代网关日志和上游证据，也不能直接指向某一段代码。
+
+把网关问题拆成两段链路：
+
+| 链路 | 证据 |
+| --- | --- |
+| 客户端 → 网关 | DNS、TCP、TLS、请求是否到达 |
+| 网关 → 上游 | 上游 DNS、连接、响应格式、超时 |
+
+502 更接近“上游响应无效”，504 更接近“等待上游超时”；状态码本身不能定位具体代码行。
 {% endflashcard %}
 
 ## 常见问题
@@ -752,6 +857,16 @@ HTTP 一定运行在 TCP 上吗？
 不能用这个绝对表述覆盖所有现代 HTTP。HTTP/1.1 和 HTTP/2 常见于 TCP，HTTP/3 使用 QUIC。
 --- explanation
 先建立 HTTP 语义，再区分线格式和传输承载；语义、线格式、传输和加密不是同一层。
+
+先把 HTTP 分成三件事：
+
+| 维度 | 示例 |
+| --- | --- |
+| 语义 | 方法、状态、字段 |
+| 线格式 | HTTP/1.1 文本、HTTP/2 frame |
+| 传输 | TCP 或 QUIC |
+
+HTTP/3 使用 QUIC，不会改变“HTTP 是应用语义”这个判断。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-FAQ-002 deck:"计算机网络" priority:1 tags:"HTTP,404,排障" %}
@@ -761,6 +876,14 @@ HTTP 一定运行在 TCP 上吗？
 通常相反：404 说明请求已经到达某个 HTTP 服务并返回了响应，只是目标资源没有按该请求上下文找到。
 --- explanation
 网络路径仍可能有代理或路由差异，但应先沿响应头、Host、路径、路由和上游日志定位资源选择。
+
+状态码首先说明“某个 HTTP 端点如何回应”：
+
+~~~bash
+curl -i https://example.test/resource
+~~~
+
+收到 404/401/403 说明至少有 HTTP 响应可观察；资源路由、认证、授权和隐藏资源策略仍需结合响应头、请求上下文和 API 契约判断。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-FAQ-003 deck:"计算机网络" priority:1 tags:"HTTP,浏览器,curl,CORS" %}
@@ -770,6 +893,16 @@ HTTP 一定运行在 TCP 上吗？
 两者的请求上下文不同。浏览器可能执行同源策略、CORS 预检、Cookie SameSite、缓存和证书策略，curl 通常只按命令参数发送请求。
 --- explanation
 复现浏览器问题时记录 Origin、方法、请求头、凭据、证书和重定向链，不能只复制 URL。
+
+浏览器问题需要保留请求上下文：
+
+~~~http
+Origin: https://app.example
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: authorization
+~~~
+
+服务端的许可字段、凭据模式和实际响应读取权限分别决定预检、发送和脚本可见性；curl 成功不等于浏览器上下文也会成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-FAQ-004 deck:"计算机网络" priority:2 tags:"HTTP,304,缓存" %}
@@ -779,6 +912,15 @@ HTTP 一定运行在 TCP 上吗？
 304 只说明条件验证命中了客户端已有表示；ETag、缓存键、Vary 或部署版本不一致时，仍可能反复复用错误的旧内容。
 --- explanation
 应保存条件请求和响应字段并检查缓存对象，而不是先盲目关闭缓存。
+
+条件缓存可以用请求/响应字段对照：
+
+| 请求 | 响应 | 结论 |
+| --- | --- | --- |
+| If-None-Match | ETag | 可验证对象版本 |
+| If-Modified-Since | Last-Modified | 可按时间验证 |
+| Cache-Control: no-cache | 仍可能保存副本 | 使用前重新验证 |
+| Cache-Control: no-store | 不应保存副本 | 禁止存储 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-FAQ-005 deck:"计算机网络" priority:1 tags:"HTTP,401,403,认证" %}
@@ -788,6 +930,14 @@ HTTP 一定运行在 TCP 上吗？
 这是常见但不完整的简化：401 关注认证凭据缺失或无效，403 表示服务器理解请求但拒绝授权。
 --- explanation
 实际系统还可能使用 404 隐藏资源存在性，必须结合 API 契约、认证字段和响应内容判断。
+
+状态码首先说明“某个 HTTP 端点如何回应”：
+
+~~~bash
+curl -i https://example.test/resource
+~~~
+
+收到 404/401/403 说明至少有 HTTP 响应可观察；资源路由、认证、授权和隐藏资源策略仍需结合响应头、请求上下文和 API 契约判断。
 {% endflashcard %}
 
 ## 参考资料

@@ -11,12 +11,10 @@ description: 能从订单折扣与通知需求出发交付可维护、可并行�
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 13
-published: false
+published: true
 abbrlink: b428e868
-date: 2026-08-26 09:00:00
+date: 2026-05-01 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -60,7 +58,7 @@ shop/
 ```
 
 ```toml
-[tool.pytest]
+[tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
 strict_markers = true
@@ -181,11 +179,11 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
     if report.when == "call" and report.failed:
-        item.user_properties.append(("region", item.config.getoption("region")))
+        report.user_properties.append(("region", item.config.getoption("region")))
 ```
 
 {% note info flat %}
-验证插件时用 --help、--markers 和一个故意失败的 Node 检查选项、标记和属性；退出码仍应是失败。只有需要在真实插件发现边界验证时，才用 pytester 子进程。
+验证插件时用 --help、--markers 和一个故意失败的 Node ID 检查选项、标记和属性；退出码仍应是失败。只有需要在真实插件发现边界验证时，才用 pytester 子进程。
 {% endnote %}
 
 ## 并行与报告
@@ -211,9 +209,14 @@ flowchart TD
 | 终端日志 | 首次失败、worker、seed | 私有路径和秘密 |
 
 ```bash
+# 先安装可选插件：python -m pip install pytest-xdist pytest-cov allure-pytest
 python -m pytest -n 2 --junitxml=artifacts/junit.xml --cov=src --cov-report=xml:artifacts/coverage.xml
 python -m pytest -n 2 --alluredir=artifacts/allure-results
 ```
+
+{% note info flat %}
+这两条命令分别依赖 pytest-xdist、pytest-cov 和 allure-pytest；它们是交付阶段的可选集成。插件未安装时先执行串行的 JUnit 命令，或跳过对应报告命令，不要把“未知参数”误判为业务测试失败。
+{% endnote %}
 
 {% note info flat %}
 先在串行模式验证正确性，再在两个 worker 验证隔离；不要只看最终绿色。对外部资源设置超时和幂等清理，记录第一次失败的 worker 与 Node ID。
@@ -271,7 +274,20 @@ python -m pytest -n 2 --alluredir=artifacts/allure-results
 --- answer
 按资源所有权、生命周期和隔离边界拆分，让每个 Fixture 有单一职责并能可靠清理。
 --- explanation
-共享只读配置可以提升作用域，写入状态和临时文件通常保持 function 级。测试需要哪个资源就显式声明哪个参数，避免一个巨型 Fixture 同时创建数据库、用户、网络客户端和报告附件。
+Fixture 的边界应同时回答三个问题：谁拥有资源、资源活多久、失败后谁负责清理。可以把同一个项目拆成独立依赖：
+
+```python
+@pytest.fixture(scope="session")
+def config():
+    return load_config()       # 只读配置可共享
+
+
+@pytest.fixture
+def order_file(tmp_path):
+    return tmp_path / "order.json"  # 写入状态按测试隔离
+```
+
+测试函数只声明实际需要的 Fixture，避免一个巨型 Fixture 同时创建数据库、用户、网络客户端和报告附件。共享只读数据才适合提升作用域；写入状态和临时文件通常保持 function 级并在 teardown 中清理。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-delivery-evidence deck:"Pytest" priority:1 tags:"交付证据" %}
@@ -280,7 +296,16 @@ python -m pytest -n 2 --alluredir=artifacts/allure-results
 --- answer
 结果、收集范围、退出码、失败诊断、资源清理、并行稳定性、报告可解析性和产物安全共同通过。
 --- explanation
-单次绿色运行只能证明一次输入。交付还要保留 Node ID、配置/版本、串行与并行差异、覆盖率口径和报告安全检查，并明确未验证的外部服务和平台边界。
+“绿色”只是一个结果，不是完整交付证据。最小证据包应能回答：运行了什么、用什么环境、失败如何定位、产物是否安全。
+
+| 证据 | 用途 |
+| --- | --- |
+| Node ID、收集数量、退出码 | 证明范围和结果 |
+| Python/Pytest 版本、配置摘要 | 解释环境差异 |
+| 串行/并行对照与首次回溯 | 发现隔离或 flaky 问题 |
+| 覆盖率口径、JUnit/Allure 检查 | 说明报告含义和安全边界 |
+
+外部服务、平台差异和未执行场景要明确列出；不要把一次本地绿灯写成所有环境都已验证。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-parallel-isolation deck:"Pytest" priority:1 tags:"并行隔离" %}
@@ -289,7 +314,14 @@ python -m pytest -n 2 --alluredir=artifacts/allure-results
 --- answer
 让 worker 使用独立命名空间，运行串行和多 worker 两次，比较结果、资源清理和报告中的 Node ID/worker 证据。
 --- explanation
-session Fixture 在每个 worker 内独立建立，固定文件、端口和数据库键仍可能碰撞。故意注入共享资源故障，再用 worker_id、锁或临时目录修复并重复测量，才能证明隔离而不是碰巧通过。
+并行隔离要让资源命名包含 worker 边界，并用对照实验证明它确实生效：
+
+```python
+def resource_name(worker_id: str) -> str:
+    return f"orders-{worker_id}"
+```
+
+先串行运行，再以两个 worker 运行同一套件，比较结果、清理状态和报告中的 Node ID/worker；随后故意让两个 worker 竞争固定文件、端口或数据库键，确认它会失败，再用 `worker_id`、锁或临时目录修复并重复测量。只有这样才能区分“真的隔离”和“恰好没有碰撞”。
 {% endflashcard %}
 
 ## 参考资料

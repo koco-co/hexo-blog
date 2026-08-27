@@ -13,7 +13,7 @@ series: MySQL
 series_order: 10
 published: true
 abbrlink: 7cc76b1d
-date: 2026-08-25 13:18:42
+date: 2026-04-01 00:00:00
 ---
 
 {% course_series %}
@@ -65,7 +65,7 @@ ACID 不是四个互相独立的开关：约束提供一致性，redo 提供持�
 ## MVCC 版本链
 
 {% mermaid %}
-flowchart LR
+flowchart TD
   N[当前记录 value=30\nDB_TRX_ID=T3] --> U[undo 旧版本 value=20\nT2]
   U --> V[undo 更旧版本 value=10\nT1]
   R[Read View] -.可见性判断.- N
@@ -91,6 +91,20 @@ START TRANSACTION WITH CONSISTENT SNAPSHOT;
 SELECT @@transaction_isolation;
 SELECT id, quantity FROM inventory WHERE product_id = 101;
 -- 其他会话提交库存修改后，本会话再次普通 SELECT 仍按快照规则读取。
+COMMIT;
+```
+
+{% note info flat %}
+用两个会话可以把级别差异变成结果：会话 A 在 `REPEATABLE READ` 中先读一行，会话 B 修改并提交后，会话 A 再次普通 SELECT 仍读到同一快照；把 A 改为 `READ COMMITTED`，第二次语句会建立新快照并读到已提交值。两者都不等同于锁定读，`FOR UPDATE` 应单独观察等待和当前版本。
+{% endnote %}
+
+```sql
+-- 会话 A
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION WITH CONSISTENT SNAPSHOT;
+SELECT quantity FROM inventory WHERE product_id = 101;
+-- 会话 B 执行 UPDATE ... COMMIT 后，A 再执行同一 SELECT，对比结果。
+SELECT quantity FROM inventory WHERE product_id = 101;
 COMMIT;
 ```
 
@@ -148,6 +162,14 @@ START TRANSACTION，记录当前库存和订单数量。
 
 {% folding yellow, XA 只作扩展认识 %}
 XA 把事务拆成 prepare、commit/rollback 等状态，适合需要两阶段提交的外部资源协调，但会引入悬挂事务、恢复和超时管理。它不是普通单库订单事务的默认升级路径，使用前必须验证驱动、资源管理器和故障恢复流程。
+```sql
+XA START 'shoplab-demo';
+-- DML ...
+XA END 'shoplab-demo';
+XA PREPARE 'shoplab-demo';
+XA RECOVER;
+-- 确认外部协调状态后选择 XA COMMIT 或 XA ROLLBACK。
+```
 {% endfolding %}
 
 ## 常见问题
@@ -163,7 +185,15 @@ INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (LAS
 -- 任一语句失败：ROLLBACK；全部成功：COMMIT
 ```
 --- explanation
-外键只能阻止错误明细，不能自动删除已经提交的订单头；事务边界才提供原子性。实验时同时回读 orders、order_items、inventory 的行数和值，并注意 DDL 或外部副作用不属于可回滚范围。
+外键和事务解决不同问题：
+
+```text
+INSERT 订单头 ──成功──┐
+                     ├─ 任一明细失败 → ROLLBACK（订单头也消失）
+INSERT 明细 ──失败────┘
+```
+
+外键只拒绝不存在的 `product_id`，不会替你撤销已经提交的订单头；事务把多条 DML 绑定为一个原子边界。实验时同时回读订单头、明细和库存，确认失败后都恢复原值；DDL、外部消息和已经发送的网络副作用不属于普通 DML 的回滚范围。
 {% endflashcard %}
 
 ## 参考资料
@@ -175,4 +205,5 @@ INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (LAS
 {% link MySQL 8.4 Transaction Isolation Levels, https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Consistent Nonlocking Reads, https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 InnoDB Multi-Versioning, https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 XA Transactions, https://dev.mysql.com/doc/refman/8.4/en/xa.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}

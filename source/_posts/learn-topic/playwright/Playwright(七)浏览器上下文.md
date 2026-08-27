@@ -14,7 +14,7 @@ series: Playwright
 series_order: 7
 published: true
 abbrlink: 8dafa0dc
-date: 2026-08-24 12:06:00
+date: 2026-04-13 00:00:00
 ---
 
 {% course_series %}
@@ -573,7 +573,7 @@ def test_context_boundary(
         second.close()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 因此并行测试不仅要新建 Context，还要为后端资源生成唯一 namespace，例如 `buyer-{worker_id}-{uuid4().hex}`，并在结束时清理。本例用随机 subject，最后通过已认证 API 清空购物车；服务 fixture 结束时还会销毁整个内存 store。
 {% endnote %}
 
@@ -633,13 +633,13 @@ def test_buyer_and_admin(
 
 ### 多角色会话
 
-{% note info flat %}
+{% note warning flat %}
 若调用 `context.storage_state(path=...)` 落盘，文件必须加入 `.gitignore`。过期检测不能只看文件存在，应访问一个需要认证的页面或 API，确认没有被重定向到登录页。失败时重新生成，不要无限重试。ShopLab session 随本地服务销毁；真实系统还应提供显式 session revoke 或短 TTL。
 {% endnote %}
 
 ## 认证边界
 
-{% note info flat %}
+{% note danger flat %}
 生产 OAuth、短信和硬件密钥不适合在每个 E2E 测试里硬闯。合理策略是：
 {% endnote %}
 
@@ -650,7 +650,7 @@ def test_buyer_and_admin(
 
 ### 多角色检查
 
-{% note info flat %}
+{% note warning flat %}
 为买家、管理员和访客分别写出 Context 配置、认证状态取得方式、后端 namespace 与清理动作。指出哪一项由 BrowserContext 自动保证，哪几项必须由测试架构保证。
 {% endnote %}
 
@@ -710,6 +710,16 @@ BrowserContext 隔离是否等于测试数据隔离？
 不等于，它只负责浏览器端会话隔离。
 --- explanation
 数据库记录、缓存、消息队列和第三方沙箱仍可能共享。测试必须使用唯一数据标识，并由创建数据的 Fixture 负责清理。
+
+BrowserContext 隔离的是浏览器会话，不是整个系统：
+
+| 状态 | Context 能隔离吗 | 仍需处理什么 |
+| --- | --- | --- |
+| Cookie、localStorage、页面缓存 | 通常可以 | storage_state 是否按角色生成 |
+| 数据库订单 | 不能 | 唯一数据标识与清理 |
+| 消息队列、第三方沙箱 | 不能自动 | namespace、租户或专用环境 |
+
+因此 Fixture 既要创建独立 Context，也要负责服务端数据的生命周期。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-storage-state deck:"Playwright" priority:1 tags:"BrowserContext,登录状态" answer:B %}
@@ -722,6 +732,15 @@ BrowserContext 隔离是否等于测试数据隔离？
 B
 --- explanation
 storage_state 可以复用已验证会话，同时保持每个测试独立创建 Context；状态文件必须按凭据管理并验证有效期。
+
+复用登录态的安全边界是“文件可复用，Context 不共享”：
+
+~~~python
+context = browser.new_context(storage_state="buyer.json")
+page = context.new_page()
+~~~
+
+每条用例仍创建自己的 Context；storage_state 只保存经审查的会话材料，不能把真实账号 Cookie 提交到仓库。
 {% endflashcard %}
 
 ## 参考资料

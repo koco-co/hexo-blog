@@ -211,13 +211,24 @@ iostat -xz 1 3
 性能结论至少包含指标含义、时间窗、CPU/容器配额、负载来源和复测结果。“内存 90%”“CPU 100%”是观察值，不是根因；只有证据链能说明下一步该优化代码、容量、配置还是依赖服务。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a10-load-cpu deck:"Linux" priority:1 tags:"性能,CPU" %}
 --- question
 load average 为什么不能直接当作 CPU 使用率？
 --- answer
 load 包含可运行和部分不可中断等待任务，可能被 I/O、锁或设备延迟推高。
 --- explanation
-结合 nproc、mpstat、vmstat 的运行队列和 iowait，才能判断 CPU 是否饱和。
+`load average` 是等待运行或不可中断睡眠的任务数量，不是百分比。先把它和 CPU 数量、运行队列、I/O 等待放在同一时间窗：
+
+```bash
+nproc
+uptime
+mpstat -P ALL 1 3
+vmstat 1 3
+```
+
+如果 load 接近 8，但 8 个 CPU 的 idle 很高而 `wa` 上升，瓶颈更可能在 I/O；如果运行队列持续超过 CPU 数且 idle 接近 0，才支持 CPU 饱和。单看一个平均值无法区分这两种原因。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a10-free-cache deck:"Linux" priority:1 tags:"内存,free" %}
@@ -226,7 +237,16 @@ free 输出中 cached/buffers 很高是否一定是内存泄漏？
 --- answer
 不一定，缓存可在需要时回收；更应看 available、swap、回收和进程 RSS 趋势。
 --- explanation
-用 vmstat、pidstat -r、pmap 分层验证，比较同一时间窗和基线。
+Linux 会把空闲内存用于页缓存，`cached` 高本身不是泄漏证据：
+
+```bash
+free -h
+vmstat 1 3
+pidstat -r 1 3
+pmap -x <PID> | tail -n 1
+```
+
+重点观察 `available`、swap、回收活动和同一进程 RSS 是否持续增长；缓存能被回收而 RSS 持续上升，才更值得沿对象、映射和分配器继续追。不同时间窗的数字不能直接比较，要保留基线和采样间隔。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a10-iostat-pidstat deck:"Linux" priority:1 tags:"I/O,采样" %}
@@ -235,7 +255,14 @@ iostat 和 pidstat -d 如何配合定位 I/O？
 --- answer
 iostat 看设备总体队列和延迟，pidstat -d 看进程读写；两者时间窗和采样间隔要一致。
 --- explanation
-设备忙不等于某一个进程有问题，进程写入也不等于物理盘已落盘。
+两条命令要用相同采样窗口配对：
+
+```bash
+iostat -xz 1 3
+pidstat -d -p ALL 1 3
+```
+
+`iostat` 说明设备队列、利用率和平均等待，`pidstat -d` 说明哪个进程发出了读写请求。设备忙可能来自多个进程或内核回写；进程写入成功也只代表系统调用返回，不能直接证明数据已经持久化到物理介质。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a10-perf-strace deck:"Linux" priority:2 tags:"perf,strace" %}
@@ -244,7 +271,19 @@ iostat 看设备总体队列和延迟，pidstat -d 看进程读写；两者时�
 --- answer
 perf 适合采样 CPU 热点和硬件统计，strace 适合观察系统调用、错误和等待；两者都有开销。
 --- explanation
-先用轻量采样缩小范围，再限时、限 PID、限事件深挖，记录权限和对时序的影响。
+先用低开销工具定位，再选择深入手段：
+
+| 问题 | 工具 | 观察结果 |
+| --- | --- | --- |
+| 哪段 CPU 代码最热 | `perf stat` / `perf record` | 采样热点与硬件计数 |
+| 在等什么系统资源 | `strace -tt -T` | 系统调用、错误与等待时长 |
+
+```bash
+perf stat -p <PID> sleep 10
+strace -f -tt -T -p <PID> -o trace.log
+```
+
+两者都会扰动被测进程，尤其是高频系统调用；先限时、限 PID、限事件，并记录权限、采样版本和是否改变了原问题的时序。
 {% endflashcard %}
 
 ## 参考资料

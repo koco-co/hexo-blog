@@ -92,7 +92,1014 @@
         "kind": "final"
       }
     ],
-    "public_article_contract": "v1"
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "article_block_tag_plans": {
+      "Playwright(一)入门路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自动化测试不仅需要会点击元素，还要理解定位语义、自动等待、浏览器状态边界、pytest 生命周期、网络控制和失败证据。本系列以 Python 同步 API 与 `pytest-playwright` 为主线，从第一个测试逐步走到可维护的跨浏览器测试套件。",
+          "core_content": "开篇直接交付的范围与判断依据：Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自动化测试不仅需要会点击元素，还要理解定位语义、自动等待、浏览器状态边界、pytest 生命周期、网络控制和失败证据。本系列以 Python 同步 API 与 `pytest-playwright` 为主线，从第一个测试逐步走到可维护的跨浏览器测试套件。",
+          "carrier": "note primary/info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自动化测试不仅需要会点击元素，还要理解定位语义、自动等待、浏览器状态边界、pytest 生命周期、网络控制和失败证据。本系列以 Python 同步 API 与 `pytest-playwright` 为主线，从第一个测试逐步走到可维护的跨浏览器测试套件。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "课程目标",
+          "reader_task": "用自己的话说明「课程目标」为何如此，并核对：完成主线后，应当能够： - 使用 `uv` 建立可重复的 Playwright Python 测试环境；",
+          "core_content": "本节直接交付：完成主线后，应当能够： - 使用 `uv` 建立可重复的 Playwright Python 测试环境；",
+          "carrier": "Markdown",
+          "rationale": "「课程目标」需要先看到完成主线后，应当能够： - 使用 `uv` 建立可重复的 Playwright Python 测试环境；；因此采用Markdown，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成主线后，应当能够： - 使用 `uv` 建立可重复的 Playwright Python 测试环境；",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "复现本节示例并解释「前置条件」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：开始课程前需要掌握 Python 的函数、类、上下文管理器、异常和虚拟环境基础。不要求提前了解 pytest Fixture、DOM、ARIA 或浏览器进程模型，这些知识会在对应文章中解释。",
+          "carrier": "code + note warning/danger flat",
+          "rationale": "「前置条件」需要先看到开始课程前需要掌握 Python 的函数、类、上下文管理器、异常和虚拟环境基础。不要求提前了解 pytest Fixture、DOM、ARI；因此采用code + note warning/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：开始课程前需要掌握 Python 的函数、类、上下文管理器、异常和虚拟环境基础。不要求提前了解 pytest Fixture、DOM、ARIA 或浏览器进程模型，这些知识会在对应文章中解释。；示例：Python 3.11+。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "沿图中的关系或时序讲清「学习路径」：顺序不能随意打乱。Locator 是断言和交互的基础；交互稳定后才能理解 Context 隔离；知道资源生命周期后，Fixture 和 Page Object 才不会沦为机械封装；测试具备清晰结构后，再引入网络控制、并行和 CI 才能判断失败来自哪里。",
+          "core_content": "本节直接交付：顺序不能随意打乱。Locator 是断言和交互的基础；交互稳定后才能理解 Context 隔离；知道资源生命周期后，Fixture 和 Page Object 才不会沦为机械封装；测试具备清晰结构后，再引入网络控制、并行和 CI 才能判断失败来自哪里。",
+          "carrier": "mermaid + note warning/info flat",
+          "rationale": "「学习路径」需要先看到顺序不能随意打乱。Locator 是断言和交互的基础；交互稳定后才能理解 Context 隔离；知道资源生命周期后，Fixture 和 Pa；因此采用mermaid + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：顺序不能随意打乱。Locator 是断言和交互的基础；交互稳定后才能理解 Context 隔离；知道资源生命周期后，Fixture 和 Page Object 才不会沦为机械封装；测试具备清晰结构后，再引入网络控制、并行和 CI 才能判断失败来自哪里。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "比较表中的维度，说明「文章安排」在什么条件下成立。",
+          "core_content": "本节直接交付：| 顺序 | 文章 | 核心成果 | 前置 |",
+          "carrier": "table",
+          "rationale": "「文章安排」需要先看到| 顺序 | 文章 | 核心成果 | 前置 |；因此采用table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：| 顺序 | 文章 | 核心成果 | 前置 |；表格字段：顺序 | 文章 | 核心成果 | 前置。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "用自己的话说明「开始学习」为何如此，并核对：不要用 `time.sleep()` 暂时消除失败，也不要一开始就建立庞大的 POM。先写出表达用户行为的直接测试，确认重复和变化边界后再抽象。",
+          "core_content": "本节直接交付：不要用 `time.sleep()` 暂时消除失败，也不要一开始就建立庞大的 POM。先写出表达用户行为的直接测试，确认重复和变化边界后再抽象。",
+          "carrier": "note warning/info flat",
+          "rationale": "「开始学习」需要先看到不要用 `time.sleep()` 暂时消除失败，也不要一开始就建立庞大的 POM。先写出表达用户行为的直接测试，确认重复和变化边界后再抽；因此采用note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：不要用 `time.sleep()` 暂时消除失败，也不要一开始就建立庞大的 POM。先写出表达用户行为的直接测试，确认重复和变化边界后再抽象。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(七)浏览器上下文": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：BrowserContext 隔离 Cookie、localStorage、权限和页面，却不会复制后端数据库。本文把 ShopLab 定义为文章代码块中的本地训练服务；代码只使用环回地址与虚构账号，不包含真实 OAuth、2FA 或凭据。",
+          "core_content": "开篇直接交付的范围与判断依据：BrowserContext 隔离 Cookie、localStorage、权限和页面，却不会复制后端数据库。本文把 ShopLab 定义为文章代码块中的本地训练服务；代码只使用环回地址与虚构账号，不包含真实 OAuth、2FA 或凭据。",
+          "carrier": "note warning flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：BrowserContext 隔离 Cookie、localStorage、权限和页面，却不会复制后端数据库。本文把 ShopLab 定义为文章代码块中的本地训练服务；代码只使用环回地址与虚构账号，不包含真实 OAuth、2FA 或凭据。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "核心模型",
+          "reader_task": "沿图中的关系或时序讲清「核心模型」：一个 Browser 可以创建多个 Context。每个 Context 类似轻量无痕配置文件，可以拥有不同设备、地区、权限与认证状态。",
+          "core_content": "本节直接交付：一个 Browser 可以创建多个 Context。每个 Context 类似轻量无痕配置文件，可以拥有不同设备、地区、权限与认证状态。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「核心模型」需要先看到一个 Browser 可以创建多个 Context。每个 Context 类似轻量无痕配置文件，可以拥有不同设备、地区、权限与认证状态。；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：一个 Browser 可以创建多个 Context。每个 Context 类似轻量无痕配置文件，可以拥有不同设备、地区、权限与认证状态。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "环境模拟",
+          "reader_task": "比较表中的维度，说明「环境模拟」在什么条件下成立。",
+          "core_content": "本节直接交付：插件的 `browser_context_args` 适合为默认 `page` 统一配置；一个测试需要多个角色时使用 `new_context()`，并自行关闭。",
+          "carrier": "code + table + note info flat",
+          "rationale": "「环境模拟」需要先看到插件的 `browser_context_args` 适合为默认 `page` 统一配置；一个测试需要多个角色时使用 `new_contex；因此采用code + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：插件的 `browser_context_args` 适合为默认 `page` 统一配置；一个测试需要多个角色时使用 `new_context()`，并自行关闭。；示例：from pytest_playwright.pytest_playwright import CreateContextCallback；表格字段：Context 选项 | 适合验证 | 不能证明。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "状态隔离",
+          "reader_task": "复现本节示例并解释「状态隔离」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：ShopLab 的不同测试场景共用同一份合同。读者可把下面代码块保存为 `shoplab_server.py`；它使用随机环回端口、内存数据和虚构会话，进程结束后全部状态消失。",
+          "carrier": "code + note info/warning flat",
+          "rationale": "「状态隔离」需要先看到ShopLab 的不同测试场景共用同一份合同。读者可把下面代码块保存为 `shoplab_server.py`；它使用随机环回端口、内存数据；因此采用code + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：ShopLab 的不同测试场景共用同一份合同。读者可把下面代码块保存为 `shoplab_server.py`；它使用随机环回端口、内存数据和虚构会话，进程结束后全部状态消失。；示例：# shoplab_server.py。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "登录状态",
+          "reader_task": "复现本节示例并解释「登录状态」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：认证准备的目标是得到可复用状态，不是把登录步骤复制到每个测试。ShopLab 用带角色和虚构 subject 的训练登录端点生成 Cookie；这里先返回内存中的 `storage_state`，需要跨进程时再保存到受保护文件：",
+          "carrier": "code + note info/warning flat",
+          "rationale": "「登录状态」需要先看到认证准备的目标是得到可复用状态，不是把登录步骤复制到每个测试。ShopLab 用带角色和虚构 subject 的训练登录端点生成 Cooki；因此采用code + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：认证准备的目标是得到可复用状态，不是把登录步骤复制到每个测试。ShopLab 用带角色和虚构 subject 的训练登录端点生成 Cookie；这里先返回内存中的 `storage_state`，需要跨进程时再保存到受保护文件：；示例：from uuid import uuid4。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "认证边界",
+          "reader_task": "用自己的话说明「认证边界」为何如此，并核对：生产 OAuth、短信和硬件密钥不适合在每个 E2E 测试里硬闯。合理策略是：",
+          "core_content": "本节直接交付：生产 OAuth、短信和硬件密钥不适合在每个 E2E 测试里硬闯。合理策略是：",
+          "carrier": "note danger/warning flat",
+          "rationale": "「认证边界」需要先看到生产 OAuth、短信和硬件密钥不适合在每个 E2E 测试里硬闯。合理策略是：；因此采用note danger/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：生产 OAuth、短信和硬件密钥不适合在每个 E2E 测试里硬闯。合理策略是：",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：状态 | Context 能隔离吗 | 仍需处理什么；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(三)页面元素定位": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：定位规则决定测试如何理解页面。稳定的 Locator 应表达“用户正在操作哪个控件”，而不是“元素当前位于第几个 div”。主线从定位优先级进入重复元素、特殊文档与动态页面，断言只用于验证定位结果。",
+          "core_content": "开篇直接交付的范围与判断依据：定位规则决定测试如何理解页面。稳定的 Locator 应表达“用户正在操作哪个控件”，而不是“元素当前位于第几个 div”。主线从定位优先级进入重复元素、特殊文档与动态页面，断言只用于验证定位结果。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：定位规则决定测试如何理解页面。稳定的 Locator 应表达“用户正在操作哪个控件”，而不是“元素当前位于第几个 div”。主线从定位优先级进入重复元素、特殊文档与动态页面，断言只用于验证定位结果。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "定位模型",
+          "reader_task": "比较表中的维度，说明「定位模型」在什么条件下成立。",
+          "core_content": "本节直接交付：Locator 保存查询规则，执行操作时才在当前页面重新查找元素：",
+          "carrier": "code + table + note info/primary/warning flat",
+          "rationale": "「定位模型」需要先看到Locator 保存查询规则，执行操作时才在当前页面重新查找元素：；因此采用code + table + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Locator 保存查询规则，执行操作时才在当前页面重新查找元素：；示例：from playwright.sync_api import Page, expect；表格字段：优先级 | API | 适用对象。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "特殊场景",
+          "reader_task": "复现本节示例并解释「特殊场景」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：CSS 适合没有可访问语义、但 DOM 合同确实稳定的结构：",
+          "carrier": "code + note info/warning/primary flat",
+          "rationale": "「特殊场景」需要先看到CSS 适合没有可访问语义、但 DOM 合同确实稳定的结构：；因此采用code + note info/warning/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：CSS 适合没有可访问语义、但 DOM 合同确实稳定的结构：；示例：page.locator(\"article[data-order-id='A-100']\")。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "定位验证",
+          "reader_task": "比较表中的维度，说明「定位验证」在什么条件下成立。",
+          "core_content": "本节直接交付：语义定位无法表达目标时再使用调试或 DOM 级能力：",
+          "carrier": "code + table + note info/primary/warning/success flat",
+          "rationale": "「定位验证」需要先看到语义定位无法表达目标时再使用调试或 DOM 级能力：；因此采用code + table + note info/primary/warning/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：语义定位无法表达目标时再使用调试或 DOM 级能力：；示例：# 旧写法：先解析成一次性句柄，再操作；表格字段：能力 | 使用时机 | 注意事项。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(九)API与网络": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：UI 测试不应该用 UI 完成所有准备和清理。本文复用同一份 ShopLab 服务：`POST /api/orders` 造订单、`GET /api/orders/{id}` 核验、`DELETE /api/test/orders/{id}` 清理；浏览器只负责用户真正关心的提交动作。",
+          "core_content": "开篇直接交付的范围与判断依据：UI 测试不应该用 UI 完成所有准备和清理。本文复用同一份 ShopLab 服务：`POST /api/orders` 造订单、`GET /api/orders/{id}` 核验、`DELETE /api/test/orders/{id}` 清理；浏览器只负责用户真正关心的提交动作。",
+          "carrier": "note warning flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：UI 测试不应该用 UI 完成所有准备和清理。本文复用同一份 ShopLab 服务：`POST /api/orders` 造订单、`GET /api/orders/{id}` 核验、`DELETE /api/test/orders/{id}` 清理；浏览器只负责用户真正关心的提交动作。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "请求模型",
+          "reader_task": "比较表中的维度，说明「请求模型」在什么条件下成立。",
+          "core_content": "本节直接交付：下面的片段接上文的 `admin_api` Fixture，并假定 `order_id` 已由测试数据工厂创建；单独复制时先补齐这两个变量的来源。",
+          "carrier": "code + table + note info/warning/danger flat",
+          "rationale": "「请求模型」需要先看到下面的片段接上文的 `admin_api` Fixture，并假定 `order_id` 已由测试数据工厂创建；单独复制时先补齐这两个变量的；因此采用code + table + note info/warning/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面的片段接上文的 `admin_api` Fixture，并假定 `order_id` 已由测试数据工厂创建；单独复制时先补齐这两个变量的来源。；示例：import pytest；表格字段：入口 | 认证与 Cookie | 生命周期 | 适用场景。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "网络控制",
+          "reader_task": "沿图中的关系或时序讲清「网络控制」：需要保留真实请求但增加测试 header 时使用 `continue_()`：",
+          "core_content": "本节直接交付：需要保留真实请求但增加测试 header 时使用 `continue_()`：",
+          "carrier": "mermaid + code + table + note info/danger/primary/warning flat",
+          "rationale": "「网络控制」需要先看到需要保留真实请求但增加测试 header 时使用 `continue_()`：；因此采用mermaid + code + table + note info/danger/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：需要保留真实请求但增加测试 header 时使用 `continue_()`：；示例：import json；表格字段：注册位置 | 作用范围 | 选择边界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：动作 | 请求后续 | 适用场景；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(二)快速开始": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本篇只完成一件事：建立能稳定复现的最小环境，并看懂第一个测试背后的对象关系。主线示例统一使用同步 API；异步 API 在本篇给出完整对照，便于在异步应用或高并发工具中正确选型。",
+          "core_content": "开篇直接交付的范围与判断依据：本篇只完成一件事：建立能稳定复现的最小环境，并看懂第一个测试背后的对象关系。主线示例统一使用同步 API；异步 API 在本篇给出完整对照，便于在异步应用或高并发工具中正确选型。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本篇只完成一件事：建立能稳定复现的最小环境，并看懂第一个测试背后的对象关系。主线示例统一使用同步 API；异步 API 在本篇给出完整对照，便于在异步应用或高并发工具中正确选型。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "环境准备",
+          "reader_task": "对照各方案后选择适合「环境准备」的路径，并说明边界。",
+          "core_content": "本节直接交付：两种环境都必须准备 Python 包和匹配的浏览器二进制；Debian/Ubuntu CI 还要同步安装系统依赖。选择标准和成功证据相同：命令使用同一个虚拟环境，并能启动 Chromium。",
+          "carrier": "tabs + code + table + note primary/info/danger flat",
+          "rationale": "「环境准备」需要先看到两种环境都必须准备 Python 包和匹配的浏览器二进制；Debian/Ubuntu CI 还要同步安装系统依赖。选择标准和成功证据相同：命；因此采用tabs + code + table + note primary/info/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：两种环境都必须准备 Python 包和匹配的浏览器二进制；Debian/Ubuntu CI 还要同步安装系统依赖。选择标准和成功证据相同：命令使用同一个虚拟环境，并能启动 Chromium。；示例：uv init --python 3.11；表格字段：层次 | 内容 | 常见误解；页签：本地开发、Debian/Ubuntu CI。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "首个测试",
+          "reader_task": "复现本节示例并解释「首个测试」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：成功证据应看到 `1 passed`。如果失败，先确认浏览器二进制与执行命令来自同一个虚拟环境，再根据失败定位和断言信息排查，不要直接增加等待时间。",
+          "carrier": "code + note success/warning/info flat",
+          "rationale": "「首个测试」需要先看到成功证据应看到 `1 passed`。如果失败，先确认浏览器二进制与执行命令来自同一个虚拟环境，再根据失败定位和断言信息排查，不要直接增加等；因此采用code + note success/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：成功证据应看到 `1 passed`。如果失败，先确认浏览器二进制与执行命令来自同一个虚拟环境，再根据失败定位和断言信息排查，不要直接增加等待时间。；示例：from playwright.sync_api import Page, expect。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "对象模型",
+          "reader_task": "沿图中的关系或时序讲清「对象模型」：Playwright 的核心对象具有明确所有权：",
+          "core_content": "本节直接交付：Playwright 的核心对象具有明确所有权：",
+          "carrier": "mermaid + note primary/info flat",
+          "rationale": "「对象模型」需要先看到Playwright 的核心对象具有明确所有权：；因此采用mermaid + note primary/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Playwright 的核心对象具有明确所有权：",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "内置 Fixture",
+          "reader_task": "比较表中的维度，说明「内置 Fixture」在什么条件下成立。",
+          "core_content": "本节直接交付：常用 Fixture 如下：",
+          "carrier": "code + table + note info/primary/warning flat",
+          "rationale": "「内置 Fixture」需要先看到常用 Fixture 如下：；因此采用code + table + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：常用 Fixture 如下：；示例：from playwright.sync_api import Browser, Page；表格字段：Fixture | 作用 | 默认生命周期。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "同步与异步",
+          "reader_task": "对照各方案后选择适合「同步与异步」的路径，并说明边界。",
+          "core_content": "本节直接交付：两套 API 的对象和能力基本一致，差别在调用方式和运行环境。",
+          "carrier": "tabs + code + table + note info/warning/danger flat",
+          "rationale": "「同步与异步」需要先看到两套 API 的对象和能力基本一致，差别在调用方式和运行环境。；因此采用tabs + code + table + note info/warning/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：两套 API 的对象和能力基本一致，差别在调用方式和运行环境。；示例：from playwright.sync_api import sync_playwright；表格字段：类型 | 写法 | 示例；页签：同步 API、异步 API。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "运行与验证",
+          "reader_task": "比较表中的维度，说明「运行与验证」在什么条件下成立。",
+          "core_content": "本节直接交付：常用命令：",
+          "carrier": "code + table + note info/warning flat",
+          "rationale": "「运行与验证」需要先看到常用命令：；因此采用code + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：常用命令：；示例：# 指定浏览器；表格字段：用途 | 参数 | 说明。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇时应能回答：",
+          "core_content": "本节直接交付：完成本篇时应能回答：",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇时应能回答：；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇时应能回答：",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：`playwright.chromium`、`firefox`、`webkit` 分别返回三个 BrowserType；`BrowserType.name` 可读取引擎名，`executable_path` 可用于诊断 Playwright 管理的浏览器路径。`connect()` 连接由 Node.js `BrowserType.launchServ…",
+          "carrier": "folding + table + note warning/info/primary flat",
+          "rationale": "「接口边界」需要先看到`playwright.chromium`、`firefox`、`webkit` 分别返回三个 BrowserType；`BrowserTy；因此采用folding + table + note warning/info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`playwright.chromium`、`firefox`、`webkit` 分别返回三个 BrowserType；`BrowserType.name` 可读取引擎名，`executable_path` 可用于诊断 Playwright 管理的浏览器路径。`connect()` 连接由 Node.js `BrowserType.launchServ…；表格字段：任务 | 成员 | 选择边界。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：层 | 提供什么 | 典型验证；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(五)页面交互操作": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：页面交互的目标不是调用最多的 API，而是尽量还原用户输入，并对动作后的结果负责。主线从表单控件进入文件输入、键盘、鼠标和拖拽；动态文件选择器、弹窗与 iframe 只在相应跨边界场景中使用。",
+          "core_content": "开篇直接交付的范围与判断依据：页面交互的目标不是调用最多的 API，而是尽量还原用户输入，并对动作后的结果负责。主线从表单控件进入文件输入、键盘、鼠标和拖拽；动态文件选择器、弹窗与 iframe 只在相应跨边界场景中使用。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：页面交互的目标不是调用最多的 API，而是尽量还原用户输入，并对动作后的结果负责。主线从表单控件进入文件输入、键盘、鼠标和拖拽；动态文件选择器、弹窗与 iframe 只在相应跨边界场景中使用。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "操作原则",
+          "reader_task": "复现本节示例并解释「操作原则」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：每个交互场景都遵循四步：",
+          "carrier": "code + note info/warning flat",
+          "rationale": "「操作原则」需要先看到每个交互场景都遵循四步：；因此采用code + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：每个交互场景都遵循四步：；示例：name = page.get_by_label(\"客户名称\")。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "表单交互",
+          "reader_task": "比较表中的维度，说明「表单交互」在什么条件下成立。",
+          "core_content": "本节直接交付：输入 API 不是同义词，先按产品实际监听的事件选择：",
+          "carrier": "code + table + note info/warning/danger/primary flat",
+          "rationale": "「表单交互」需要先看到输入 API 不是同义词，先按产品实际监听的事件选择：；因此采用code + table + note info/warning/danger/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：输入 API 不是同义词，先按产品实际监听的事件选择：；示例：page.get_by_label(\"客户名称\").fill(\"Alice\")；表格字段：API | 事件特点 | 适用场景。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "输入设备",
+          "reader_task": "复现本节示例并解释「输入设备」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：对已定位控件使用 `press()`：",
+          "carrier": "code + note info/primary/warning flat",
+          "rationale": "「输入设备」需要先看到对已定位控件使用 `press()`：；因此采用code + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：对已定位控件使用 `press()`：；示例：import re。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "事件边界",
+          "reader_task": "比较表中的维度，说明「事件边界」在什么条件下成立。",
+          "core_content": "本节直接交付：`dispatch_event()` 可以发送 DOM 事件：",
+          "carrier": "code + table + note info/warning flat",
+          "rationale": "「事件边界」需要先看到`dispatch_event()` 可以发送 DOM 事件：；因此采用code + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`dispatch_event()` 可以发送 DOM 事件：；示例：page.get_by_label(\"上传区域\").dispatch_event(\"dragenter\")；表格字段：参数 | 用途与边界 | 同步与异步调用。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "完整示例",
+          "reader_task": "复现本节示例并解释「完整示例」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：该示例把定位、操作和结果验证分开，失败时可以判断问题位于哪一步。",
+          "carrier": "code + note warning flat",
+          "rationale": "「完整示例」需要先看到该示例把定位、操作和结果验证分开，失败时可以判断问题位于哪一步。；因此采用code + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：该示例把定位、操作和结果验证分开，失败时可以判断问题位于哪一步。；示例：from playwright.sync_api import Page, expect。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(八)测试框架设计": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：当测试从 5 条增长到 100 条，真正的风险不是代码行数，而是数据、生命周期和职责互相缠绕。本篇用“订单折扣”案例组织参数化、外部数据、fixture 分层和 Page Object。",
+          "core_content": "开篇直接交付的范围与判断依据：当测试从 5 条增长到 100 条，真正的风险不是代码行数，而是数据、生命周期和职责互相缠绕。本篇用“订单折扣”案例组织参数化、外部数据、fixture 分层和 Page Object。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：当测试从 5 条增长到 100 条，真正的风险不是代码行数，而是数据、生命周期和职责互相缠绕。本篇用“订单折扣”案例组织参数化、外部数据、fixture 分层和 Page Object。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "框架分层",
+          "reader_task": "沿图中的关系或时序讲清「框架分层」：小套件不必预先创建所有目录。先从直接测试开始，出现真实重复和职责边界后再提取对应层。",
+          "core_content": "本节直接交付：小套件不必预先创建所有目录。先从直接测试开始，出现真实重复和职责边界后再提取对应层。",
+          "carrier": "mermaid + code + note info flat",
+          "rationale": "「框架分层」需要先看到小套件不必预先创建所有目录。先从直接测试开始，出现真实重复和职责边界后再提取对应层。；因此采用mermaid + code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：小套件不必预先创建所有目录。先从直接测试开始，出现真实重复和职责边界后再提取对应层。；示例：tests/。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "数据驱动",
+          "reader_task": "对照各方案后选择适合「数据驱动」的路径，并说明边界。",
+          "core_content": "本节直接交付：运行后 pytest 应收集三个带可读 ID 的 case，并得到 `3 passed`。若把 VIP 的期望故意改成 `100.00`，失败报告应指向 `vip-10-percent`，这正是 case ID 的价值。",
+          "carrier": "tabs + code + note info/primary/danger/warning flat",
+          "rationale": "「数据驱动」需要先看到运行后 pytest 应收集三个带可读 ID 的 case，并得到 `3 passed`。若把 VIP 的期望故意改成 `100.00`，失；因此采用tabs + code + note info/primary/danger/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：运行后 pytest 应收集三个带可读 ID 的 case，并得到 `3 passed`。若把 VIP 的期望故意改成 `100.00`，失败报告应指向 `vip-10-percent`，这正是 case ID 的价值。；示例：import pytest；页签：JSON、YAML（可选）。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "Fixture 设计",
+          "reader_task": "沿图中的关系或时序讲清「Fixture 设计」：作用域越大，速度可能越快，但污染半径也越大。浏览器进程适合 session；Context、Page 和可变业务数据通常保持 function。",
+          "core_content": "本节直接交付：作用域越大，速度可能越快，但污染半径也越大。浏览器进程适合 session；Context、Page 和可变业务数据通常保持 function。",
+          "carrier": "mermaid + code + note info/warning flat",
+          "rationale": "「Fixture 设计」需要先看到作用域越大，速度可能越快，但污染半径也越大。浏览器进程适合 session；Context、Page 和可变业务数据通常保持 functio；因此采用mermaid + code + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：作用域越大，速度可能越快，但污染半径也越大。浏览器进程适合 session；Context、Page 和可变业务数据通常保持 function。；示例：# conftest.py。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "POM 设计",
+          "reader_task": "比较表中的维度，说明「POM 设计」在什么条件下成立。",
+          "core_content": "本节直接交付：官方 Page Object 的核心是用更高层业务 API 包装 Page 并集中 Locator。它不是“每个页面必须一个类”，更不是断言垃圾桶。",
+          "carrier": "code + table + note primary/info/warning flat",
+          "rationale": "「POM 设计」需要先看到官方 Page Object 的核心是用更高层业务 API 包装 Page 并集中 Locator。它不是“每个页面必须一个类”，更不是断言；因此采用code + table + note primary/info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：官方 Page Object 的核心是用更高层业务 API 包装 Page 并集中 Locator。它不是“每个页面必须一个类”，更不是断言垃圾桶。；示例：from playwright.sync_api import Page, expect；表格字段：反模式 | 为什么会塌 | 调整。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "设计检查",
+          "reader_task": "用自己的话说明「设计检查」为何如此，并核对：为“创建订单 → UI 提交 → API 清理”标注：哪些属于参数数据、哪些属于 Fixture、哪些属于 Page Object、哪些必须留在测试断言。若一个动作同时出现在两层，先解释它的唯一所有者。",
+          "core_content": "本节直接交付：为“创建订单 → UI 提交 → API 清理”标注：哪些属于参数数据、哪些属于 Fixture、哪些属于 Page Object、哪些必须留在测试断言。若一个动作同时出现在两层，先解释它的唯一所有者。",
+          "carrier": "note warning flat",
+          "rationale": "「设计检查」需要先看到为“创建订单 → UI 提交 → API 清理”标注：哪些属于参数数据、哪些属于 Fixture、哪些属于 Page Object、哪些必须；因此采用note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：为“创建订单 → UI 提交 → API 清理”标注：哪些属于参数数据、哪些属于 Fixture、哪些属于 Page Object、哪些必须留在测试断言。若一个动作同时出现在两层，先解释它的唯一所有者。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：层 | 适合放什么；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(六)常见组件操作": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：常见组件的难点不是 API 数量，而是动作跨越了哪个边界：新的 Page、浏览器原生 Dialog、Frame 或文件系统。先确定事件和对象归属，再在正确边界中使用 Locator。",
+          "core_content": "开篇直接交付的范围与判断依据：常见组件的难点不是 API 数量，而是动作跨越了哪个边界：新的 Page、浏览器原生 Dialog、Frame 或文件系统。先确定事件和对象归属，再在正确边界中使用 Locator。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：常见组件的难点不是 API 数量，而是动作跨越了哪个边界：新的 Page、浏览器原生 Dialog、Frame 或文件系统。先确定事件和对象归属，再在正确边界中使用 Locator。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "事件顺序",
+          "reader_task": "沿图中的关系或时序讲清「事件顺序」：新页面、下载和文件选择器都是瞬时事件。等待必须在触发动作之前建立：",
+          "core_content": "本节直接交付：新页面、下载和文件选择器都是瞬时事件。等待必须在触发动作之前建立：",
+          "carrier": "mermaid + code + note primary/warning flat",
+          "rationale": "「事件顺序」需要先看到新页面、下载和文件选择器都是瞬时事件。等待必须在触发动作之前建立：；因此采用mermaid + code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：新页面、下载和文件选择器都是瞬时事件。等待必须在触发动作之前建立：；示例：with page.expect_popup() as popup_info:。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "窗口与对话框",
+          "reader_task": "对照各方案后选择适合「窗口与对话框」的路径，并说明边界。",
+          "core_content": "本节直接交付：由当前 Page 打开的窗口使用 `expect_popup()`：",
+          "carrier": "tabs + code + note info/warning flat",
+          "rationale": "「窗口与对话框」需要先看到由当前 Page 打开的窗口使用 `expect_popup()`：；因此采用tabs + code + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：由当前 Page 打开的窗口使用 `expect_popup()`：；示例：from playwright.sync_api import Page, expect；页签：alert、confirm、prompt、dismiss。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "嵌入与文件",
+          "reader_task": "比较表中的维度，说明「嵌入与文件」在什么条件下成立。",
+          "core_content": "本节直接交付：iframe 有独立文档上下文。定位范围和语义组合应保持在 `FrameLocator` 中；本篇只补充 Frame 生命周期、动态文档和文件事件的边界。",
+          "carrier": "code + table + note info/warning/primary flat",
+          "rationale": "「嵌入与文件」需要先看到iframe 有独立文档上下文。定位范围和语义组合应保持在 `FrameLocator` 中；本篇只补充 Frame 生命周期、动态文档和文；因此采用code + table + note info/warning/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：iframe 有独立文档上下文。定位范围和语义组合应保持在 `FrameLocator` 中；本篇只补充 Frame 生命周期、动态文档和文件事件的边界。；示例：main_frame = page.main_frame；表格字段：入口 | 适用边界。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "复杂控件",
+          "reader_task": "复现本节示例并解释「复杂控件」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：原生输入可以直接填入浏览器接受的格式：",
+          "carrier": "code + note info flat",
+          "rationale": "「复杂控件」需要先看到原生输入可以直接填入浏览器接受的格式：；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：原生输入可以直接填入浏览器接受的格式：；示例：page.get_by_label(\"配送日期\").fill(\"2026-08-30\")。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "验证与扩展",
+          "reader_task": "比较表中的维度，说明「验证与扩展」在什么条件下成立。",
+          "core_content": "本节直接交付：事件成功只证明浏览器产生了对象，不等于业务成功。新页面还要断言内容，下载还要验证文件，Dialog 还要验证接受或拒绝后的结果。",
+          "carrier": "table + note warning/info/primary flat",
+          "rationale": "「验证与扩展」需要先看到事件成功只证明浏览器产生了对象，不等于业务成功。新页面还要断言内容，下载还要验证文件，Dialog 还要验证接受或拒绝后的结果。；因此采用table + note warning/info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：事件成功只证明浏览器产生了对象，不等于业务成功。新页面还要断言内容，下载还要验证文件，Dialog 还要验证接受或拒绝后的结果。；表格字段：场景 | 监听或范围 | 最终验证。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(十)调试与交付": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：调试不是“失败后多截几张图”。可靠流程是：生成起点 → 重构语义 Locator → 交互式复现 → 保留最小证据 → 在 Trace 中重建因果链。",
+          "core_content": "开篇直接交付的范围与判断依据：调试不是“失败后多截几张图”。可靠流程是：生成起点 → 重构语义 Locator → 交互式复现 → 保留最小证据 → 在 Trace 中重建因果链。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：调试不是“失败后多截几张图”。可靠流程是：生成起点 → 重构语义 Locator → 交互式复现 → 保留最小证据 → 在 Trace 中重建因果链。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "调试入口",
+          "reader_task": "比较表中的维度，说明「调试入口」在什么条件下成立。",
+          "core_content": "本节直接交付：先把下面代码块复制为 `todo_server.py`。它只使用 Python 标准库，在随机端口提供与录制动作一致的 Todo 页面：",
+          "carrier": "code + table + note info/primary/warning flat",
+          "rationale": "「调试入口」需要先看到先把下面代码块复制为 `todo_server.py`。它只使用 Python 标准库，在随机端口提供与录制动作一致的 Todo 页面：；因此采用code + table + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先把下面代码块复制为 `todo_server.py`。它只使用 Python 标准库，在随机端口提供与录制动作一致的 Todo 页面：；示例：# todo_server.py；表格字段：工具 | 启动方式 | 适合问题 | 约束。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "失败证据",
+          "reader_task": "沿图中的关系或时序讲清「失败证据」：pytest 插件 0.9.0 的核心开关：",
+          "core_content": "本节直接交付：pytest 插件 0.9.0 的核心开关：",
+          "carrier": "timeline + code + table + note primary/danger/warning/info flat",
+          "rationale": "「失败证据」需要先看到pytest 插件 0.9.0 的核心开关：；因此采用timeline + code + table + note primary/danger/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：pytest 插件 0.9.0 的核心开关：；示例：uv run pytest \\；表格字段：产物 | 最擅长回答 | 主要盲区 | 敏感风险。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "执行策略",
+          "reader_task": "沿图中的关系或时序讲清「执行策略」：同一套 Playwright Python API 可以驱动 Chromium、Firefox 和 WebKit，但三个引擎需要分别安装：",
+          "core_content": "本节直接交付：同一套 Playwright Python API 可以驱动 Chromium、Firefox 和 WebKit，但三个引擎需要分别安装：",
+          "carrier": "mermaid + code + note info/warning/primary flat",
+          "rationale": "「执行策略」需要先看到同一套 Playwright Python API 可以驱动 Chromium、Firefox 和 WebKit，但三个引擎需要分别安装：；因此采用mermaid + code + note info/warning/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：同一套 Playwright Python API 可以驱动 Chromium、Firefox 和 WebKit，但三个引擎需要分别安装：；示例：uv run playwright install chromium firefox webkit。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "持续交付",
+          "reader_task": "复现本节示例并解释「持续交付」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：浏览器适合拆成 CI Job，worker 负责每个 Job 内的并行。`pytest-playwright` 没有 Node.js Playwright Test 的 `--shard` 参数；Python 项目使用目录、marker、CI 矩阵或其他 pytest 分组工具。",
+          "carrier": "code + note info/danger/warning flat",
+          "rationale": "「持续交付」需要先看到浏览器适合拆成 CI Job，worker 负责每个 Job 内的并行。`pytest-playwright` 没有 Node.js Pla；因此采用code + note info/danger/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：浏览器适合拆成 CI Job，worker 负责每个 Job 内的并行。`pytest-playwright` 没有 Node.js Playwright Test 的 `--shard` 参数；Python 项目使用目录、marker、CI 矩阵或其他 pytest 分组工具。；示例：# .github/workflows/e2e.yml。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：材料 | 回答什么；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(十一)进阶路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本篇集中介绍常规 Web 自动化主线之外的能力。它们并非“不重要”，而是只在特定架构或质量目标下使用：WebSocket 和 GraphQL 取决于协议，无障碍与视觉回归属于专项质量门，BDD 取决于团队协作方式。",
+          "core_content": "开篇直接交付的范围与判断依据：本篇集中介绍常规 Web 自动化主线之外的能力。它们并非“不重要”，而是只在特定架构或质量目标下使用：WebSocket 和 GraphQL 取决于协议，无障碍与视觉回归属于专项质量门，BDD 取决于团队协作方式。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本篇集中介绍常规 Web 自动化主线之外的能力。它们并非“不重要”，而是只在特定架构或质量目标下使用：WebSocket 和 GraphQL 取决于协议，无障碍与视觉回归属于专项质量门，BDD 取决于团队协作方式。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "特殊 DOM",
+          "reader_task": "复现本节示例并解释「特殊 DOM」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：XPath 不会穿透 Shadow DOM。Closed Shadow Root 也不能被普通 Locator 访问，这是组件实现刻意设置的边界。遇到 closed shadow 时优先验证组件提供的公开用户行为，或与开发团队建立测试接口，不要通过注入脚本强行打开生产组件内部。",
+          "carrier": "code + note danger/primary flat",
+          "rationale": "「特殊 DOM」需要先看到XPath 不会穿透 Shadow DOM。Closed Shadow Root 也不能被普通 Locator 访问，这是组件实现刻意设置的；因此采用code + note danger/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：XPath 不会穿透 Shadow DOM。Closed Shadow Root 也不能被普通 Locator 访问，这是组件实现刻意设置的边界。遇到 closed shadow 时优先验证组件提供的公开用户行为，或与开发团队建立测试接口，不要通过注入脚本强行打开生产组件内部。；示例：page.set_content(\"\"\"。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "运行时控制",
+          "reader_task": "比较表中的维度，说明「运行时控制」在什么条件下成立。",
+          "core_content": "本节直接交付：`ElementHandle` 仍可在兼容代码中出现，但它代表某一时刻的节点引用，不会像 Locator 一样在重渲染后重新查询。新代码按能力组迁移：",
+          "carrier": "code + table + note info/primary/warning/danger flat",
+          "rationale": "「运行时控制」需要先看到`ElementHandle` 仍可在兼容代码中出现，但它代表某一时刻的节点引用，不会像 Locator 一样在重渲染后重新查询。新代码按能；因此采用code + table + note info/primary/warning/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`ElementHandle` 仍可在兼容代码中出现，但它代表某一时刻的节点引用，不会像 Locator 一样在重渲染后重新查询。新代码按能力组迁移：；示例：import datetime；表格字段：旧接口组 | 当前写法 | 迁移边界。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "协议扩展",
+          "reader_task": "复现本节示例并解释「协议扩展」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：GraphQL 通常共享一个 URL，不能只按路径区分接口。路由处理器需要读取 `operationName`：",
+          "carrier": "code + note warning/info/danger/primary flat",
+          "rationale": "「协议扩展」需要先看到GraphQL 通常共享一个 URL，不能只按路径区分接口。路由处理器需要读取 `operationName`：；因此采用code + note warning/info/danger/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：GraphQL 通常共享一个 URL，不能只按路径区分接口。路由处理器需要读取 `operationName`：；示例：import json。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "质量边界",
+          "reader_task": "沿图中的关系或时序讲清「质量边界」：以下能力已经列入本文 API 索引，但只有在明确的工程入口出现时才进入。先判断进入条件，再决定是否引入额外依赖、浏览器限制或更低层的对象：",
+          "core_content": "本节直接交付：以下能力已经列入本文 API 索引，但只有在明确的工程入口出现时才进入。先判断进入条件，再决定是否引入额外依赖、浏览器限制或更低层的对象：",
+          "carrier": "mermaid + code + table + note warning/info/primary/danger flat",
+          "rationale": "「质量边界」需要先看到以下能力已经列入本文 API 索引，但只有在明确的工程入口出现时才进入。先判断进入条件，再决定是否引入额外依赖、浏览器限制或更低层的对象：；因此采用mermaid + code + table + note warning/info/primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下能力已经列入本文 API 索引，但只有在明确的工程入口出现时才进入。先判断进入条件，再决定是否引入额外依赖、浏览器限制或更低层的对象：；示例：from dataclasses import dataclass；表格字段：能力组 | 进入条件 | 主要限制。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：证据 | 用来判断；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(十二)项目实战": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：项目实战不是再学一个新 API，而是把课程主线能力组合成一套可重复、可诊断、可安全交付的测试套件。项目载体叫 **ShopLab**：买家把商品加入购物车并提交订单，管理员在独立会话中处理订单，测试通过 API 造数、核验和清理。",
+          "core_content": "开篇直接交付的范围与判断依据：项目实战不是再学一个新 API，而是把课程主线能力组合成一套可重复、可诊断、可安全交付的测试套件。项目载体叫 **ShopLab**：买家把商品加入购物车并提交订单，管理员在独立会话中处理订单，测试通过 API 造数、核验和清理。",
+          "carrier": "note warning/info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：项目实战不是再学一个新 API，而是把课程主线能力组合成一套可重复、可诊断、可安全交付的测试套件。项目载体叫 **ShopLab**：买家把商品加入购物车并提交订单，管理员在独立会话中处理订单，测试通过 API 造数、核验和清理。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "项目边界",
+          "reader_task": "比较表中的维度，说明「项目边界」在什么条件下成立。",
+          "core_content": "本节直接交付：先写清用户、页面和接口，避免测试过程中不断发明需求。",
+          "carrier": "code + table + note info/danger/primary flat",
+          "rationale": "「项目边界」需要先看到先写清用户、页面和接口，避免测试过程中不断发明需求。；因此采用code + table + note info/danger/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先写清用户、页面和接口，避免测试过程中不断发明需求。；示例：GET /login 登录页；表格字段：角色 | 能做什么 | 不能做什么。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "工程结构",
+          "reader_task": "复现本节示例并解释「工程结构」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`shoplab_server.py` 必须逐字复制本文约定的完整同名代码块；本文不再复制第二份实现，以免两份“真相”漂移。上面的树只是读者练习项目的逻辑结构，所有示例在博客仓库中仍只存在于 Markdown 代码块。",
+          "carrier": "code + note primary/info/warning flat",
+          "rationale": "「工程结构」需要先看到`shoplab_server.py` 必须逐字复制本文约定的完整同名代码块；本文不再复制第二份实现，以免两份“真相”漂移。上面的树只是读者；因此采用code + note primary/info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`shoplab_server.py` 必须逐字复制本文约定的完整同名代码块；本文不再复制第二份实现，以免两份“真相”漂移。上面的树只是读者练习项目的逻辑结构，所有示例在博客仓库中仍只存在于 Markdown 代码块。；示例：shoplab-e2e/。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "业务链路",
+          "reader_task": "复现本节示例并解释「业务链路」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：happy path 先只做一件事：创建商品，买家通过 UI 下单，管理员通过 UI 处理，API 核验最终状态，fixture 最后清理。",
+          "carrier": "code + note warning/info/primary flat",
+          "rationale": "「业务链路」需要先看到happy path 先只做一件事：创建商品，买家通过 UI 下单，管理员通过 UI 处理，API 核验最终状态，fixture 最后清理。；因此采用code + note warning/info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：happy path 先只做一件事：创建商品，买家通过 UI 下单，管理员通过 UI 处理，API 核验最终状态，fixture 最后清理。；示例：# tests/test_order_lifecycle.py。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "失败交付",
+          "reader_task": "沿图中的关系或时序讲清「失败交付」：开启失败保留策略：",
+          "core_content": "本节直接交付：开启失败保留策略：",
+          "carrier": "mermaid + code + table + note info/warning/danger/primary flat",
+          "rationale": "「失败交付」需要先看到开启失败保留策略：；因此采用mermaid + code + table + note info/warning/danger/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：开启失败保留策略：；示例：uv run pytest \\；表格字段：evidence | status | 说明。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：层级 | 能证明 | 不能证明；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Playwright(四)断言与等待": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：稳定测试不等于增加等待时间。Playwright 将等待分成两类：操作前等待元素可操作，断言时等待业务结果成立。理解两者的边界，才能知道超时发生在哪一步。",
+          "core_content": "开篇直接交付的范围与判断依据：稳定测试不等于增加等待时间。Playwright 将等待分成两类：操作前等待元素可操作，断言时等待业务结果成立。理解两者的边界，才能知道超时发生在哪一步。",
+          "carrier": "note warning flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：稳定测试不等于增加等待时间。Playwright 将等待分成两类：操作前等待元素可操作，断言时等待业务结果成立。理解两者的边界，才能知道超时发生在哪一步。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "等待模型",
+          "reader_task": "沿图中的关系或时序讲清「等待模型」：一次典型交互可以归纳为定位、动作和结果三个阶段，其中动作阶段还要经过可操作性检查：",
+          "core_content": "本节直接交付：一次典型交互可以归纳为定位、动作和结果三个阶段，其中动作阶段还要经过可操作性检查：",
+          "carrier": "mermaid + code + table + note info/primary/warning flat",
+          "rationale": "「等待模型」需要先看到一次典型交互可以归纳为定位、动作和结果三个阶段，其中动作阶段还要经过可操作性检查：；因此采用mermaid + code + table + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：一次典型交互可以归纳为定位、动作和结果三个阶段，其中动作阶段还要经过可操作性检查：；示例：submit = page.get_by_role(\"button\", name=\"提交订单\")；表格字段：检查 | 含义。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "断言设计",
+          "reader_task": "复现本节示例并解释「断言设计」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：Playwright 断言会持续重新查询 Locator，直到条件成立或超时：",
+          "carrier": "code + note warning/primary/info flat",
+          "rationale": "「断言设计」需要先看到Playwright 断言会持续重新查询 Locator，直到条件成立或超时：；因此采用code + note warning/primary/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Playwright 断言会持续重新查询 Locator，直到条件成立或超时：；示例：from playwright.sync_api import Page, expect。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "等待边界",
+          "reader_task": "复现本节示例并解释「等待边界」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：大多数场景不需要先 `wait_for_selector()`。Locator 操作和断言已经具备等待能力：",
+          "carrier": "code + note info/primary/warning flat",
+          "rationale": "「等待边界」需要先看到大多数场景不需要先 `wait_for_selector()`。Locator 操作和断言已经具备等待能力：；因此采用code + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：大多数场景不需要先 `wait_for_selector()`。Locator 操作和断言已经具备等待能力：；示例：# 推荐。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "失败处理",
+          "reader_task": "比较表中的维度，说明「失败处理」在什么条件下成立。",
+          "core_content": "本节直接交付：负向断言需要明确业务含义：",
+          "carrier": "code + table + note info/warning flat",
+          "rationale": "「失败处理」需要先看到负向断言需要明确业务含义：；因此采用code + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：负向断言需要明确业务含义：；示例：expect(page.get_by_text(\"支付失败\")).not_to_be_visible()；表格字段：扩展组 | 代表 API | 进入条件。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "接口边界",
+          "reader_task": "比较表中的维度，说明「接口边界」在什么条件下成立。",
+          "core_content": "本节直接交付：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「接口边界」需要先看到以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：以下索引按 Playwright Python 1.62.0 的同步 API 归类，方便在具体场景中选择对象、成员和参数；它是查询表，不替代前文的机制、示例与失败边界。异步 API 只在实际执行 I/O 时使用 await。；表格字段：对象 | 主线成员 | 常用成员 | 扩展成员与参数 | 替代写法。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ]
+    }
   },
   "capability_ledger": {
     "schema_version": 1,

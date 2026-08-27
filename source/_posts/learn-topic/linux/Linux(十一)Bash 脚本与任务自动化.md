@@ -434,13 +434,26 @@ bash -n 只检查语法；shellcheck 发现常见引用、分词和可疑语义�
 | 3.8 Shell Scripts、4.2 Bash Builtin Commands、4.1 Bourne Shell Builtins、4.4 Special Builtins、4.3.1 The Set Builtin、4.3.2 The Shopt Builtin | 查解释器、内置命令和行为开关 | 只在知道兼容目标时调整 shopt 或 Shell 选项 |
 {% endfolding %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a11-set-e deck:"Linux" priority:1 tags:"Bash,错误处理" %}
 --- question
 为什么不能把 set -e 当作完整异常处理？
 --- answer
 errexit 在 if、&&/||、管道、函数和命令替换等上下文有例外，某些失败不会退出。
 --- explanation
-用 pipefail、明确的 if/return、ERR trap 和测试覆盖组合，先定义哪些失败可恢复。
+`set -e` 不是异常类型系统，它会根据语法上下文决定是否退出：
+
+```bash
+set -Eeuo pipefail
+if ! output=$(may_fail); then
+  printf '%s\n' '可恢复失败' >&2
+  exit 1
+fi
+trap 'printf "error line=%s status=%s\\n" "$LINENO" "$?" >&2' ERR
+```
+
+`if` 条件、`&&`/`||`、管道、函数作为条件调用和命令替换都可能改变 `errexit` 的效果。明确使用 `if`/`return` 表达可恢复分支，再用 `pipefail`、`ERR` 日志和测试覆盖补齐证据，不能把“脚本退出了”当作完整错误处理。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a11-args-at deck:"Linux" priority:1 tags:"Bash,参数" %}
@@ -449,7 +462,16 @@ errexit 在 if、&&/||、管道、函数和命令替换等上下文有例外，�
 --- answer
 "$@" 会把每个原始参数作为独立词传递，保留空格和特殊字符边界。
 --- explanation
-$* 和未加引号的 $@ 可能重新分词；用户输入不要拼进 eval。
+通过一个带空格的参数就能看出边界：
+
+```bash
+forward() {
+  printf 'arg=<%s>\n' "$@"
+}
+forward 'two words' '*.log'
+```
+
+`"$@"` 会把每个原始参数作为独立词传给 `forward`；`$*` 或未加引号的 `$@` 可能重新分词并展开通配符。需要重新解释 Shell 语法时才会用 `eval`，普通转发不应把用户输入变成代码。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a11-array deck:"Linux" priority:1 tags:"Bash,数组" %}
@@ -458,7 +480,17 @@ Indexed arrays 和 Associative arrays 何时使用？
 --- answer
 整数顺序索引用 Indexed arrays，字符串键查值用 Associative arrays。
 --- explanation
-遍历时保留数组元素边界，不要依赖把数组拼成空格分隔字符串。
+两种数组分别按数字索引和字符串键访问：
+
+```bash
+files=('two words' '*.log')
+declare -A count=([ok]=2 [failed]=1)
+printf 'first=<%s>\n' "${files[0]}"
+printf 'ok=%s\n' "${count[ok]}"
+for file in "${files[@]}"; do printf 'file=<%s>\n' "$file"; done
+```
+
+`Indexed array` 适合保留顺序的参数，`Associative array` 适合按名称累计状态。始终用带引号的数组展开保留元素边界；把数组拼成空格分隔字符串会丢失空格、通配符和空元素。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a11-trap-cleanup deck:"Linux" priority:2 tags:"trap,清理" %}
@@ -467,7 +499,17 @@ Indexed arrays 和 Associative arrays 何时使用？
 --- answer
 创建临时目录后注册 EXIT trap；INT/TERM handler 以 130/143 退出，再由 EXIT trap 清理。
 --- explanation
-信号 handler 只 cleanup 后返回会让主流程继续；它应退出，让 EXIT trap 回收自建子进程。trap 不是安全边界；路径必须来自 mktemp，清理目标必须是脚本独占的隔离目录。
+让退出路径只有一个清理出口：
+
+```bash
+LAB=$(mktemp -d)
+cleanup() { rm -rf -- "$LAB"; }
+on_signal() { trap - INT TERM; exit 130; }
+trap cleanup EXIT
+trap on_signal INT TERM
+```
+
+`EXIT` 会在正常退出、显式 `exit` 和信号 handler 退出后执行；handler 如果只清理而返回，主流程可能继续写入已删除的目录。`mktemp` 生成的目录必须由脚本独占，不能把外部输入直接交给 `rm -rf`，因为 trap 只是清理机制而不是安全边界。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a11-getopts deck:"Linux" priority:2 tags:"getopts,参数" %}
@@ -476,7 +518,23 @@ getopts 解析完成后为什么要执行 shift "$((OPTIND - 1))"？
 --- answer
 它跳过已消费的选项，使剩余位置参数成为业务函数的真实输入。
 --- explanation
-不 shift 会让 -n 等选项混进业务参数；缺失选项值要显示用法并返回非零。
+`getopts` 解析时会把游标保存在 `OPTIND`：
+
+```bash
+OPTIND=1
+while getopts ':n:v' opt; do
+  case "$opt" in
+    n) name=$OPTARG ;;
+    v) verbose=1 ;;
+    :) printf 'option -%s needs a value\n' "$OPTARG" >&2; exit 2 ;;
+    \?) printf 'unknown option -%s\n' "$OPTARG" >&2; exit 2 ;;
+  esac
+done
+shift "$((OPTIND - 1))"
+printf 'business-arg=<%s>\n' "$1"
+```
+
+`shift` 后，`$@` 才只剩下业务参数；不 shift 会让已消费的 `-n`、`-v` 再次进入业务逻辑。缺少值或未知选项应返回非零并显示用法，不能把错误当成普通位置参数。
 {% endflashcard %}
 
 ## 参考资料

@@ -13,7 +13,7 @@ series: MySQL
 series_order: 3
 published: true
 abbrlink: 4df9aab4
-date: 2026-08-25 13:18:42
+date: 2026-03-25 00:00:00
 ---
 
 {% course_series %}
@@ -70,9 +70,14 @@ COMMIT;
 `INSERT ... SELECT` 的列顺序必须和目标列一一对应；不要在没有唯一键的情况下把“看起来相同”的记录当成重复。批量导入前先用同一筛选条件执行 `SELECT`，记录预计行数和业务键。
 {% endnote %}
 
+{% note info flat %}
+本课程主线使用 `LOAD DATA` 或 `INSERT ... SELECT` 导入 InnoDB 表；旧资料中的 `IMPORT TABLE` 是 MyISAM 文件级导入路径，不是本篇 InnoDB 批量写入的替代方案。遇到这类资料时，先确认存储引擎和版本，再选择可验证的导入方式。
+{% endnote %}
+
 ```sql
 -- CSV 的字段顺序由导入合同固定；生产环境还要限制文件来源与 LOCAL 权限。
-LOAD DATA LOCAL INFILE '/safe/path/users.csv'
+-- 这里使用当前工作目录下的相对文件；实际部署由导入任务传入受控路径。
+LOAD DATA LOCAL INFILE 'users.csv'
 INTO TABLE users
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -158,6 +163,10 @@ COMMIT;
 <!-- endtab -->
 {% endtabs %}
 
+{% note info flat %}
+选择前先回答“是否保留原主键、是否允许删除级联、错误是否必须中止”。如果只是覆盖业务字段，优先保留原行身份；只有明确接受删除后重建，才使用 `REPLACE`；需要跳过可接受脏行时，才考虑 `INSERT IGNORE`，并读取警告。
+{% endnote %}
+
 | 动作 | 是否保留原主键 | 失败可见性 | 推荐场景 |
 | --- | --- | --- | --- |
 | `UPDATE` | 是 | 行数和错误直接可见 | 已知目标行的受控修改 |
@@ -186,7 +195,31 @@ INSERT、UPDATE、DELETE 处在事务中，可以用 ROLLBACK 撤销本事务的
 MySQL 8.4 的原子 DDL 解决的是 DDL 自身崩溃时的原子性，不代表任意 DDL 都能按普通 DML 语义回滚。迁移脚本应把结构变更、数据变更和回退策略分开验证。
 {% endnote %}
 
+```sql
+-- 结构变更单独执行，并在变更后回读结果；它不属于订单 DML 的回滚边界。
+ALTER TABLE user_imports ADD COLUMN import_note VARCHAR(255) NULL;
+SHOW CREATE TABLE user_imports;
+
+-- TRUNCATE 会重建/清空表并触发隐式提交，只对临时或可重建实验表使用。
+TRUNCATE TABLE user_imports;
+
+-- INSERT IGNORE 等非严格写入后，必须读取警告而不是只看客户端成功提示。
+SHOW WARNINGS;
+SHOW ERRORS;
+```
+
 ## 常见问题
+
+下面的清理题假设 staging 表允许重复，先用临时结构演示去重，再把同样的规则迁移到正式导入表：
+
+```sql
+CREATE TEMPORARY TABLE user_imports_raw (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  source_name VARCHAR(64) NOT NULL,
+  external_id VARCHAR(128) NOT NULL,
+  email VARCHAR(320) NOT NULL
+);
+```
 
 {% flashcard basic id:mysql84-03-upsert-stock-p1 deck:"mysql-8.4-interview" priority:1 tags:"UPSERT,库存,幂等" %}
 --- question
@@ -194,7 +227,14 @@ MySQL 8.4 的原子 DDL 解决的是 DDL 自身崩溃时的原子性，不代表
 --- answer
 `INSERT INTO inventory (product_id, quantity) VALUES (101, 5) AS incoming ON DUPLICATE KEY UPDATE quantity = inventory.quantity + incoming.quantity;`
 --- explanation
-`product_id` 必须是主键或唯一键，数据库才知道何时冲突。预期原值 20 变为 25；如果题意是覆盖成 5，应使用 `quantity = incoming.quantity`，不能误把增量和覆盖混写。
+`ON DUPLICATE KEY UPDATE` 只有在唯一键冲突时才进入更新分支，因此 `product_id` 必须是主键或唯一键。把两种业务语义并排看更不容易写错：
+
+| 题意 | 更新表达式 | 原值 20、输入 5 的结果 |
+| --- | --- | --- |
+| 增加入库量 | `quantity = inventory.quantity + incoming.quantity` | 25 |
+| 覆盖库存 | `quantity = incoming.quantity` | 5 |
+
+先确认唯一键和目标语义，再用 `SELECT` 回读结果；不能因为语句返回成功就推断库存一定按预期变化。
 {% endflashcard %}
 
 {% flashcard basic id:mysql84-03-guarded-update-p1 deck:"mysql-8.4-interview" priority:1 tags:"UPDATE,预览,影响行数" %}
@@ -209,7 +249,17 @@ SELECT ROW_COUNT();
 -- 结果异常 ROLLBACK，否则 COMMIT
 ```
 --- explanation
-关键不是开启 safe updates，而是目标条件可复现、影响行数可解释、提交前有证据。没有 WHERE 或预览使用了不同条件，都会让“回滚前确认”失去意义。
+安全性来自可复现的条件和事务证据，而不是某个客户端开关：
+
+```text
+同一 WHERE 预览目标
+        ↓
+START TRANSACTION → UPDATE → ROW_COUNT()
+        ↓                 ↘ 行数/回读异常 → ROLLBACK
+        └────────────────── 正常 → COMMIT
+```
+
+预览和修改必须复用同一 `WHERE`，并按主键保存目标集合；`sql_safe_updates` 只是额外阻拦，不会替你验证业务条件。影响行数异常时先回滚，再查连接是否仍在同一个事务。
 {% endflashcard %}
 
 {% flashcard basic id:mysql84-03-deduplicate-delete-p2 deck:"mysql-8.4-interview" priority:2 tags:"DELETE,重复数据,自连接" %}
@@ -217,6 +267,9 @@ SELECT ROW_COUNT();
 原始导入 staging 表 `user_imports_raw` 中同一 `(source_name, external_id)` 出现重复记录，保留最早 `id`，删除其余记录，SQL 如何写？
 --- answer
 ```sql
+START TRANSACTION;
+
+-- 先预览，再在同一事务中删除
 SELECT r.id
 FROM user_imports_raw AS r
 JOIN user_imports_raw AS keep
@@ -228,12 +281,27 @@ ORDER BY r.id;
 DELETE r
 FROM user_imports_raw AS r
 JOIN user_imports_raw AS keep
+ ON keep.source_name = r.source_name
+ AND keep.external_id = r.external_id
+ AND keep.id < r.id;
+
+SELECT ROW_COUNT() AS deleted_rows;
+-- 结果异常 ROLLBACK；确认只保留每组最早 id 后 COMMIT。
+COMMIT;
+```
+--- explanation
+`keep.id < r.id` 把“最早”写成可审计的排序规则：
+
+```sql
+SELECT r.id AS delete_id, keep.id AS keep_id
+FROM user_imports_raw AS r
+JOIN user_imports_raw AS keep
   ON keep.source_name = r.source_name
  AND keep.external_id = r.external_id
  AND keep.id < r.id;
 ```
---- explanation
-先 SELECT 预览将要删除的 id，再在事务中执行 DELETE；`keep.id < r.id` 明确保留最早记录。staging 表要允许重复，清理后再把唯一键加回生产表，不能把一次清理当作长期约束。
+
+先检查这张预览表，再在同一事务中执行 `DELETE`，核对 `ROW_COUNT()` 和每组剩余行数。临时 staging 表可以允许重复，但正式表要在清理完成后用唯一键防止复发；一次性删除脚本不能替代长期约束。
 {% endflashcard %}
 
 ## 参考资料
@@ -243,6 +311,7 @@ JOIN user_imports_raw AS keep
 {% link MySQL 8.4 INSERT ON DUPLICATE KEY UPDATE, https://dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 UPDATE, https://dev.mysql.com/doc/refman/8.4/en/update.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 DELETE, https://dev.mysql.com/doc/refman/8.4/en/delete.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Import Table, https://dev.mysql.com/doc/refman/8.4/en/import-table.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Implicit Commit, https://dev.mysql.com/doc/refman/8.4/en/implicit-commit.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Atomic Data Definition Statements, https://dev.mysql.com/doc/refman/8.4/en/atomic-ddl.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}

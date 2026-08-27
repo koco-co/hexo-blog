@@ -15,7 +15,7 @@ series: Playwright
 series_order: 10
 published: true
 abbrlink: '23096463'
-date: 2026-08-24 12:03:00
+date: 2026-04-16 00:00:00
 ---
 
 {% course_series %}
@@ -88,7 +88,7 @@ uv run playwright codegen --target python-pytest http://127.0.0.1:<实际端口>
 完成录制后关闭 Inspector，再在终端 A 按 Ctrl+C；服务进入 `finally` 释放端口。
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 Codegen 会优先生成 role、text 与 test id Locator，也能录制断言；但它不知道套件的数据边界、fixture 层次和业务风险。生成后至少审查：
 {% endnote %}
 
@@ -157,13 +157,13 @@ uv run python -m playwright cli -s=tw-xxxxxx resume
 pytest 继续后，会话随 Context 关闭。若启用输出捕获或 `-n 2`，插件会直接报用法错误，这是为了确保 attach 指令可见且调试目标唯一。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 调试并行失败时先用原命令保留证据，再在不启用 xdist 的单 worker 环境复现。CLI Debugger 应使用单一目标，不要一开始就同时改变浏览器、数据和 worker 数量，否则可能把原始条件一起抹掉。
 {% endnote %}
 
 ## 失败证据
 
-{% note info flat %}
+{% note primary flat %}
 pytest 插件 0.9.0 的核心开关：
 {% endnote %}
 
@@ -182,11 +182,11 @@ uv run pytest \
 | 控制台日志 | 前端异常与业务日志 | 元素状态 | Token 被错误打印 |
 | Trace | 动作、DOM snapshot、网络、日志与源码 | 外部系统内部状态 | header、body、DOM 数据 |
 
-{% note info flat %}
+{% note danger flat %}
 全量 `on` 适合短期诊断，不适合长期默认。失败保留策略能降低存储和泄露面，但仍应限制访问与 retention。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 `--output` 必须指向可清空的专用产物目录：pytest-playwright 会在 session 开始时清理它。不要把包含手工证据或其他项目文件的目录传给该参数。
 {% endnote %}
 
@@ -222,11 +222,11 @@ Trace Viewer 建议按顺序检查：
 <!-- endtimeline -->
 {% endtimeline %}
 
-{% note info flat %}
+{% note warning flat %}
 本例中 Action log 会显示断言只等待 100ms，DOM snapshot 仍为“草稿”，而页面脚本明确在 800ms 后更新。修复是使用符合产品 SLA 的断言超时，而不是加入 `sleep(1)`。
 {% endnote %}
 
-{% note info flat %}
+{% note danger flat %}
 Trace 可以本地 `show-trace`，也可以拖入 `trace.playwright.dev`。官方查看器在浏览器内加载文件，但企业环境仍应按数据政策决定是否访问外部域名；敏感 Trace 优先在本机查看。
 {% endnote %}
 
@@ -272,7 +272,7 @@ uv run pytest \
   --browser webkit
 ```
 
-{% note info flat %}
+{% note warning flat %}
 浏览器矩阵的目标是发现渲染、事件、权限和浏览器实现差异，不是简单把执行次数乘三。先确保 Chromium 主线稳定，再加入 Firefox 与 WebKit，失败时分别记录浏览器和操作系统。
 {% endnote %}
 
@@ -332,7 +332,7 @@ uv run pytest tests/e2e/test_checkout.py::test_submit_order \
   -vv
 ```
 
-{% note info flat %}
+{% note warning flat %}
 串行通过、多 worker 失败时，优先检查共享账号、固定订单号、端口、下载文件名和清理时机。不要立即用重试掩盖资源冲突。
 {% endnote %}
 
@@ -413,7 +413,7 @@ jobs:
 
 ### 重试与报告
 
-{% note info flat %}
+{% note warning flat %}
 pytest 核心和 `pytest-playwright` 不提供通用重试。需要吸收已知环境抖动时可评估 `pytest-rerunfailures`，但必须保留首次失败证据并限制次数：
 {% endnote %}
 
@@ -440,7 +440,7 @@ uv run pytest \
 - 首次失败证据会被重跑覆盖；
 - 失败概率持续上升。
 
-{% note info flat %}
+{% note warning flat %}
 JUnit 适合 CI 汇总；需要人类可读 HTML 时可以接入 pytest 生态报告插件。报告只负责呈现结果，不应改变进程退出码，也不能把 rerun 后的通过伪装成从未失败。
 {% endnote %}
 
@@ -486,6 +486,15 @@ Trace Viewer 最适合回答什么问题？
 测试执行了什么，以及浏览器在每一步观察到什么。
 --- explanation
 Trace 将 Action、DOM 快照、网络、Console 和源码关联起来，适合重建失败因果；业务正确仍需明确断言和需求合同。
+
+Trace 的价值在于把动作和观察结果放到同一时间线上：
+
+| 材料 | 回答什么 |
+| --- | --- |
+| Action | 测试当时执行了什么 |
+| DOM 快照 | 页面在该步呈现什么 |
+| Network/Console | 依赖和浏览器报告了什么 |
+| Source | 具体代码路径 |
 {% endflashcard %}
 
 {% flashcard choice id:playwright-xdist-session deck:"Playwright" priority:3 tags:"pytest-xdist,并行" answer:B %}
@@ -498,6 +507,16 @@ Trace 将 Action、DOM 快照、网络、Console 和源码关联起来，适合�
 B
 --- explanation
 xdist worker 是独立进程，各自拥有 Session 生命周期，因此共享外部资源仍需唯一命名、锁或专用隔离。
+
+xdist 改变的是进程边界：
+
+~~~text
+主进程
+  ├─ worker 1：Session Fixture 一次
+  └─ worker 2：Session Fixture 一次
+~~~
+
+因此 Session 不是整台机器唯一执行一次；共享外部资源需要按 worker 命名、加锁，或使用独立隔离环境。
 {% endflashcard %}
 
 ## 参考资料

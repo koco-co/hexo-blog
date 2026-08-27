@@ -12,7 +12,7 @@ series: Python
 series_order: 6
 published: true
 abbrlink: be636c04
-date: 2026-08-25 13:13:45
+date: 2026-05-07 00:00:00
 ---
 
 {% course_series %}
@@ -184,7 +184,21 @@ print(first_review)
 --- answer
 可迭代对象能被 `iter()` 取出迭代器；迭代器用 `next()` 逐项产出；生成器是实现迭代器协议的一种简洁方式。
 --- explanation
-列表可重复迭代，每次 `iter(list)` 通常产生新的迭代器；一个生成器对象通常只能从当前位置向前消费一次。`for` 循环在内部处理 `StopIteration`。
+“能被 `for` 遍历”与“自己保存遍历进度”是两个层次：
+
+```python
+items = ["a", "b"]
+first = iter(items)
+second = iter(items)
+print(next(first), next(first))  # a b
+print(next(second))              # a：另一条独立游标
+
+stream = (value * 2 for value in items)
+print(list(stream))              # ['aa', 'bb']
+print(list(stream))              # []：生成器已耗尽
+```
+
+列表是可重复迭代的可迭代对象；迭代器和生成器保存当前位置，通常只能向前消费一次。`for` 会在内部调用 `iter()`/`next()`，并把 `StopIteration` 转换为正常结束。
 {% endflashcard %}
 
 {% flashcard basic id:python-iteration-yield-return deck:"Python 基础" priority:1 tags:"Python,生成器,yield,return" %}
@@ -193,7 +207,22 @@ print(first_review)
 --- answer
 `yield` 产出一个值并暂停，`return` 结束生成器；带值的 return 成为 StopIteration 的 value。
 --- explanation
-普通 `for` 只消费 yield 的值并在结束时停止，不展示 return 值。生成器函数创建时不运行主体，只有推进时才执行到下一个 yield 或异常。
+`yield` 把一次执行切成多个阶段，`return` 则结束生成器并把值放进 `StopIteration.value`：
+
+```python
+def numbers():
+    yield 1
+    return "done"
+
+iterator = numbers()   # 此时函数体还没有执行
+print(next(iterator))  # 1
+try:
+    next(iterator)
+except StopIteration as error:
+    print(error.value) # done
+```
+
+普通 `for` 只消费 `yield` 的值，不展示 return 值；主体只有在 `next()`、`for` 或其他消费动作发生时才推进。因此错误和资源占用也可能延迟到消费阶段。
 {% endflashcard %}
 
 {% flashcard basic id:python-iteration-decorator-order deck:"Python 基础" priority:1 tags:"Python,装饰器,wraps,调用顺序" %}
@@ -202,7 +231,18 @@ print(first_review)
 --- answer
 等价于 `func = outer(inner(func))`，inner 先包住原函数，outer 再包住结果。
 --- explanation
-定义阶段完成包装，调用阶段执行各层 wrapper。用 `functools.wraps` 保留名称和文档；包装器必须返回原函数结果，并对异常、参数和异步行为保持清晰约定。
+装饰器在定义阶段从下往上应用，调用时却从外往内执行：
+
+```python
+@outer
+@inner
+def work():
+    return "ok"
+
+# 等价于 work = outer(inner(work))
+```
+
+因此 `inner` 先包住原函数，`outer` 再包住 inner 的结果。包装器应使用 `functools.wraps` 保留元数据，并明确透传参数、返回值和异常；若包裹 async 函数，还要保持 `async def`/`await` 的调用模型。
 {% endflashcard %}
 
 {% flashcard basic id:python-iteration-lazy deck:"Python 基础" priority:2 tags:"Python,惰性,生成器,管道" %}
@@ -211,7 +251,16 @@ print(first_review)
 --- answer
 它按需计算，能节省不必要的工作和内存；风险是数据会被一次性耗尽，错误和资源问题也会延后出现。
 --- explanation
-需要重复遍历、快照或随机访问时应物化数据。调试时将迭代器转为列表会改变程序状态，因此测试要明确何处允许消费输入。
+惰性管道只在消费时计算，输入大或后续可能提前停止时能节省工作和内存；代价是它有状态且错误会延后：
+
+```python
+stream = (value * 2 for value in range(3))
+first = next(stream)
+rest = list(stream)
+print(first, rest)  # 0 [2, 4]
+```
+
+如果需要重复遍历、快照或随机访问，应明确物化为列表或重新创建来源。调试时调用 `list(stream)` 会消耗迭代器，之后的生产代码可能只得到空结果；资源型迭代器还必须在消费或关闭边界设计清理。
 {% endflashcard %}
 
 ## 参考资料

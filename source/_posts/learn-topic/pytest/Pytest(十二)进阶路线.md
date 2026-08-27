@@ -11,14 +11,10 @@ description: 能判断何时进入 pytester、自定义 Collector、doctest、�
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 12
-published: false
+published: true
 abbrlink: 76bdbbc7
-date: 2026-08-26 09:00:00
+date: 2026-04-30 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -117,9 +113,45 @@ pytester 通过临时目录创建测试文件并启动 Pytest。进程内运行�
 {% endnote %}
 
 ```python
+pytest_plugins = ["pytester"]
+
+
 def test_yaml_plugin(pytester):
+    # 运行此示例前，在环境中安装 PyYAML。
+    pytester.makepyfile(
+        plugin="""
+import pytest
+import yaml
+from pathlib import Path
+
+
+class YamlItem(pytest.Item):
+    def __init__(self, *, spec, **kwargs):
+        super().__init__(**kwargs)
+        self.spec = spec
+
+    def runtest(self):
+        if self.spec["actual"] != self.spec["expected"]:
+            raise AssertionError(
+                f"{self.name}: {self.spec['actual']!r} != {self.spec['expected']!r}"
+            )
+
+
+class YamlFile(pytest.File):
+    def collect(self):
+        data = yaml.safe_load(self.path.read_text(encoding="utf-8"))
+        for index, spec in enumerate(data.get("tests", []), start=1):
+            name = spec.get("name", f"case-{index}")
+            yield YamlItem.from_parent(self, name=name, spec=spec)
+
+
+def pytest_collect_file(file_path: Path, parent):
+    if file_path.suffix == ".yaml":
+        return YamlFile.from_parent(parent, path=file_path)
+"""
+    )
     pytester.makeconftest(
-        "from plugin import YamlFile, pytest_collect_file\n"
+        "pytest_plugins = ['plugin']\n"
     )
     pytester.makefile(
         ".yaml",
@@ -218,7 +250,13 @@ Collector 与 Item 在收集树中各负责什么？
 --- answer
 Collector 负责发现并生成子节点，Item 表示最终可运行的一条测试数据并执行 runtest。
 --- explanation
-Directory、File 和自定义 Collector 组织层级，Item 才进入 setup、call、teardown。把执行逻辑塞进 Collector 会破坏收集与运行阶段分工，也难以生成稳定失败位置。
+收集树先描述“有哪些节点”，运行阶段再处理“某个节点怎样执行”。可以用这条链定位职责：
+
+```text
+Directory/File Collector → Item → setup → call(runtest) → teardown → Report
+```
+
+Collector 负责发现并生成子节点，Item 才是最终可运行的数据单元。把业务执行塞进 Collector 会让收集阶段产生副作用，也会让失败没有稳定的 Node ID、阶段和回溯位置。
 {% endflashcard %}
 
 {% flashcard basic id:pytester-inprocess-subprocess deck:"Pytest" priority:2 tags:"插件测试" %}
@@ -227,7 +265,14 @@ pytester 的进程内与子进程运行应如何选择？
 --- answer
 进程内适合快速检查输出和结果对象；子进程更能验证真实插件发现、导入、环境和退出码。
 --- explanation
-当测试涉及 conftest、配置文件、环境变量或 entry point 时优先 runpytest_subprocess。两种模式都要断言收集数量、失败节点和退出码，不能只看标准输出字符串。
+进程内模式和子进程模式观察的边界不同：
+
+| 模式 | 能证明什么 | 典型断言 |
+| --- | --- | --- |
+| `runpytest` | 当前 Python 进程中的插件行为 | 结果对象、收集数量 |
+| `runpytest_subprocess` | 真实导入、配置、环境和退出码 | Node ID、退出状态、日志 |
+
+只要问题涉及 `conftest.py`、配置文件、环境变量或 entry point，就优先子进程。两种模式都应断言收集数量、失败节点和退出码，不能把标准输出中偶然出现一句文字当成插件测试通过。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-public-private-api deck:"Pytest" priority:1 tags:"API 边界" %}
@@ -236,7 +281,15 @@ pytester 的进程内与子进程运行应如何选择？
 --- answer
 以稳定 API Reference、公开 Hook 规范和当前弃用说明为准；带下划线的内部模块、缓存和未承诺字段默认不作为合同。
 --- explanation
-公开入口也可能在版本中弃用，因此要记录适用版本和替代项。若功能只能依赖私有字段，应把它隔离在插件适配层并准备升级复验，而不是让业务测试直接调用。
+公开 API 的判断来自稳定 API Reference、Hook 规范和弃用说明，不是来自“当前能 import”。私有字段常以 `_` 开头，可能在小版本中改变，甚至没有兼容承诺：
+
+| 依赖方式 | 处理策略 |
+| --- | --- |
+| 公开 Hook / 配置 | 直接使用，记录适用版本 |
+| 已弃用但仍可用 | 标出替代项和迁移窗口 |
+| 私有模块或字段 | 集中在适配层，单独做升级复验 |
+
+业务测试不应直接依赖私有实现；如果插件暂时无法绕开它，至少把风险封装在一个小适配层，并为升级保留失败证据。
 {% endflashcard %}
 
 ## 参考资料

@@ -113,12 +113,1415 @@
         "kind": "final"
       }
     ],
-    "public_article_contract": "v1"
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "article_block_tag_plans": {
+      "MySQL(一)入门路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "core_content": "开篇直接交付的范围与判断依据：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "课程目标",
+          "reader_task": "用自己的话说明「课程目标」为何如此，并核对：这套课程把旧笔记中分散的 DDL、DML、查询、事务、锁和日志内容升级为 MySQL 8.4 LTS 学习主线。完成核心课程后，你应该能够：",
+          "core_content": "本节直接交付：这套课程把旧笔记中分散的 DDL、DML、查询、事务、锁和日志内容升级为 MySQL 8.4 LTS 学习主线。完成核心课程后，你应该能够：",
+          "carrier": "note info flat",
+          "rationale": "「课程目标」需要先看到这套课程把旧笔记中分散的 DDL、DML、查询、事务、锁和日志内容升级为 MySQL 8.4 LTS 学习主线。完成核心课程后，你应该能够：；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：这套课程把旧笔记中分散的 DDL、DML、查询、事务、锁和日志内容升级为 MySQL 8.4 LTS 学习主线。完成核心课程后，你应该能够：",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "用自己的话说明「前置条件」为何如此，并核对：开始前只需要能够运行一个 MySQL 8.4.x 实例和命令行客户端。第一篇正式课程会从业务模型与建表开始，SQL、索引、事务和运维概念都在课程中逐步补齐。",
+          "core_content": "本节直接交付：开始前只需要能够运行一个 MySQL 8.4.x 实例和命令行客户端。第一篇正式课程会从业务模型与建表开始，SQL、索引、事务和运维概念都在课程中逐步补齐。",
+          "carrier": "note info flat",
+          "rationale": "「前置条件」需要先看到开始前只需要能够运行一个 MySQL 8.4.x 实例和命令行客户端。第一篇正式课程会从业务模型与建表开始，SQL、索引、事务和运维概念都在；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：开始前只需要能够运行一个 MySQL 8.4.x 实例和命令行客户端。第一篇正式课程会从业务模型与建表开始，SQL、索引、事务和运维概念都在课程中逐步补齐。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "沿图中的关系或时序讲清「学习路径」：主线先建立数据模型和查询能力，再进入索引、执行计划、InnoDB、事务与锁；安全与权限从表设计和写入分支进入，最后与日志、事务汇合到备份恢复。进阶路线是可选分支，不是综合实战的前置。",
+          "core_content": "本节直接交付：主线先建立数据模型和查询能力，再进入索引、执行计划、InnoDB、事务与锁；安全与权限从表设计和写入分支进入，最后与日志、事务汇合到备份恢复。进阶路线是可选分支，不是综合实战的前置。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「学习路径」需要先看到主线先建立数据模型和查询能力，再进入索引、执行计划、InnoDB、事务与锁；安全与权限从表设计和写入分支进入，最后与日志、事务汇合到备份恢复；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：主线先建立数据模型和查询能力，再进入索引、执行计划、InnoDB、事务与锁；安全与权限从表设计和写入分支进入，最后与日志、事务汇合到备份恢复。进阶路线是可选分支，不是综合实战的前置。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "比较表中的维度，说明「文章安排」在什么条件下成立。",
+          "core_content": "本节直接交付：| 顺序 | 文章 | 解决的问题 | 前置 | 状态 |",
+          "carrier": "table",
+          "rationale": "「文章安排」需要先看到| 顺序 | 文章 | 解决的问题 | 前置 | 状态 |；因此采用table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：| 顺序 | 文章 | 解决的问题 | 前置 | 状态 |；表格字段：顺序 | 文章 | 解决的问题 | 前置 | 状态。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "用自己的话说明「开始学习」为何如此，并核对：全系列使用九张表：users、departments、employees、products、inventory、orders、order_items、login_events、user_imports。",
+          "core_content": "本节直接交付：全系列使用九张表：users、departments、employees、products、inventory、orders、order_items、login_events、user_imports。",
+          "carrier": "note info flat",
+          "rationale": "「开始学习」需要先看到全系列使用九张表：users、departments、employees、products、inventory、orders、order_i；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：全系列使用九张表：users、departments、employees、products、inventory、orders、order_items、login_events、user_imports。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(七)索引原理与设计": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：索引不是越多越快，而是用额外的有序结构换取更少的扫描。设计前先写出真实查询，再判断过滤、排序、回表和写入成本；最后用执行计划和数据分布验证，而不是凭列名猜索引。",
+          "core_content": "开篇直接交付的范围与判断依据：索引不是越多越快，而是用额外的有序结构换取更少的扫描。设计前先写出真实查询，再判断过滤、排序、回表和写入成本；最后用执行计划和数据分布验证，而不是凭列名猜索引。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：索引不是越多越快，而是用额外的有序结构换取更少的扫描。设计前先写出真实查询，再判断过滤、排序、回表和写入成本；最后用执行计划和数据分布验证，而不是凭列名猜索引。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "B+Tree 页",
+          "reader_task": "沿图中的关系或时序讲清「B+Tree 页」：InnoDB 的常用索引是 B+Tree：根页和中间页负责导航，叶子页按键有序。等值查找可以快速定位，范围查找可以顺着叶子页扫描；索引并不保证每次查询都比全表扫描便宜。Hash 索引适合等值查找但不提供有序范围扫描；InnoDB 的用户索引主线仍是 B+Tree，不能把 MEMORY 的 `USING HASH` 语法套到 InnoDB 表上。",
+          "core_content": "本节直接交付：InnoDB 的常用索引是 B+Tree：根页和中间页负责导航，叶子页按键有序。等值查找可以快速定位，范围查找可以顺着叶子页扫描；索引并不保证每次查询都比全表扫描便宜。Hash 索引适合等值查找但不提供有序范围扫描；InnoDB 的用户索引主线仍是 B+Tree，不能把 MEMORY 的 `USING HASH` 语法套到 InnoDB 表上。",
+          "carrier": "mermaid + note info/primary flat",
+          "rationale": "「B+Tree 页」需要先看到InnoDB 的常用索引是 B+Tree：根页和中间页负责导航，叶子页按键有序。等值查找可以快速定位，范围查找可以顺着叶子页扫描；索引并不保；因此采用mermaid + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：InnoDB 的常用索引是 B+Tree：根页和中间页负责导航，叶子页按键有序。等值查找可以快速定位，范围查找可以顺着叶子页扫描；索引并不保证每次查询都比全表扫描便宜。Hash 索引适合等值查找但不提供有序范围扫描；InnoDB 的用户索引主线仍是 B+Tree，不能把 MEMORY 的 `USING HASH` 语法套到 InnoDB 表上。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "聚簇回表",
+          "reader_task": "比较表中的维度，说明「聚簇回表」在什么条件下成立。",
+          "core_content": "本节直接交付：InnoDB 的聚簇索引叶子节点直接保存整行。二级索引叶子节点保存二级键和主键值，命中后还要按主键回聚簇索引取列，这一步就是回表。",
+          "carrier": "table + note info/primary/warning flat",
+          "rationale": "「聚簇回表」需要先看到InnoDB 的聚簇索引叶子节点直接保存整行。二级索引叶子节点保存二级键和主键值，命中后还要按主键回聚簇索引取列，这一步就是回表。；因此采用table + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：InnoDB 的聚簇索引叶子节点直接保存整行。二级索引叶子节点保存二级键和主键值，命中后还要按主键回聚簇索引取列，这一步就是回表。；表格字段：查询 | 需要回表吗 | 原因。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "联合索引",
+          "reader_task": "比较表中的维度，说明「联合索引」在什么条件下成立。",
+          "core_content": "本节直接交付：联合索引 `(user_id, ordered_at, id)` 按左到右排序。等值列通常放在范围列前，排序需要的 tie-breaker 放在后面；一旦遇到范围或不连续条件，后续列未必还能用于缩小扫描范围。",
+          "carrier": "code + table + note primary/warning/info flat",
+          "rationale": "「联合索引」需要先看到联合索引 `(user_id, ordered_at, id)` 按左到右排序。等值列通常放在范围列前，排序需要的 tie-breaker ；因此采用code + table + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：联合索引 `(user_id, ordered_at, id)` 按左到右排序。等值列通常放在范围列前，排序需要的 tie-breaker 放在后面；一旦遇到范围或不连续条件，后续列未必还能用于缩小扫描范围。；示例：CREATE INDEX idx_orders_user_time；表格字段：索引 `(a,b,c)` | 常见使用情况。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "覆盖与下推",
+          "reader_task": "复现本节示例并解释「覆盖与下推」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：覆盖索引让查询只读索引页；Index Condition Pushdown（ICP）则把部分条件下推到存储引擎，减少回表候选。两者都不是强制承诺，是否生效以 `EXPLAIN` 的 `Extra` 和实际行数为证。",
+          "carrier": "code + note info/success/warning flat",
+          "rationale": "「覆盖与下推」需要先看到覆盖索引让查询只读索引页；Index Condition Pushdown（ICP）则把部分条件下推到存储引擎，减少回表候选。两者都不是强制；因此采用code + note info/success/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：覆盖索引让查询只读索引页；Index Condition Pushdown（ICP）则把部分条件下推到存储引擎，减少回表候选。两者都不是强制承诺，是否生效以 `EXPLAIN` 的 `Extra` 和实际行数为证。；示例：-- 实验一：覆盖索引，所需列都在索引中，预期 Extra 可能出现 Using index。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "索引变体与操作",
+          "reader_task": "比较表中的维度，说明「索引变体与操作」在什么条件下成立。",
+          "core_content": "本节直接交付：隐藏索引只影响优化器是否选择它，不会立即释放空间，也不能替代回滚方案；主键不能按普通隐藏索引方式停用，唯一索引即使隐藏仍然保持唯一约束。删除索引前检查所有 SQL、写入负载和备用实例；生成列表达式还要确认 NULL、结果类型、长度和字符集。",
+          "carrier": "folding + code + table + note warning/info flat",
+          "rationale": "「索引变体与操作」需要先看到隐藏索引只影响优化器是否选择它，不会立即释放空间，也不能替代回滚方案；主键不能按普通隐藏索引方式停用，唯一索引即使隐藏仍然保持唯一约束。删除；因此采用folding + code + table + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：隐藏索引只影响优化器是否选择它，不会立即释放空间，也不能替代回滚方案；主键不能按普通隐藏索引方式停用，唯一索引即使隐藏仍然保持唯一约束。删除索引前检查所有 SQL、写入负载和备用实例；生成列表达式还要确认 NULL、结果类型、长度和字符集。；示例：CREATE INDEX idx_orders_status_time；表格字段：能力 | 语法/对象 | 适用边界。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "验证成本",
+          "reader_task": "复现本节示例并解释「验证成本」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：索引验收至少记录 SQL、数据规模、统计信息、执行计划、实际耗时和写入对比。没有这些证据，只能说“有一个候选设计”，不能说“已经优化”。",
+          "carrier": "code + note primary flat",
+          "rationale": "「验证成本」需要先看到索引验收至少记录 SQL、数据规模、统计信息、执行计划、实际耗时和写入对比。没有这些证据，只能说“有一个候选设计”，不能说“已经优化”。；因此采用code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：索引验收至少记录 SQL、数据规模、统计信息、执行计划、实际耗时和写入对比。没有这些证据，只能说“有一个候选设计”，不能说“已经优化”。；示例：SHOW INDEX FROM orders;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：CREATE INDEX idx_orders_user_status_time_cover；表格字段：候选 | 查询列是否全在索引中 | 重点观察；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(三)数据写入与约束": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：写入的难点不是记住四个动词，而是让每次修改都能回答三个问题：目标行是谁、约束是否满足、失败后能否安全恢复。本篇用库存和导入数据练习这条闭环。",
+          "core_content": "开篇直接交付的范围与判断依据：写入的难点不是记住四个动词，而是让每次修改都能回答三个问题：目标行是谁、约束是否满足、失败后能否安全恢复。本篇用库存和导入数据练习这条闭环。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：写入的难点不是记住四个动词，而是让每次修改都能回答三个问题：目标行是谁、约束是否满足、失败后能否安全恢复。本篇用库存和导入数据练习这条闭环。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "约束边界",
+          "reader_task": "比较表中的维度，说明「约束边界」在什么条件下成立。",
+          "core_content": "本节直接交付：写入前先区分“行内规则”和“跨表规则”。`NOT NULL`、默认值和 `CHECK` 检查一行本身；唯一键和外键还要检查同表其他行或父表。应用层校验可以改善错误提示，但不能替代数据库约束。",
+          "carrier": "table + note info flat",
+          "rationale": "「约束边界」需要先看到写入前先区分“行内规则”和“跨表规则”。`NOT NULL`、默认值和 `CHECK` 检查一行本身；唯一键和外键还要检查同表其他行或父表。；因此采用table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：写入前先区分“行内规则”和“跨表规则”。`NOT NULL`、默认值和 `CHECK` 检查一行本身；唯一键和外键还要检查同表其他行或父表。应用层校验可以改善错误提示，但不能替代数据库约束。；表格字段：失败类型 | 例子 | 数据库反应 | 应对。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "批量写入",
+          "reader_task": "复现本节示例并解释「批量写入」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：批量写入的基本顺序是“准备父行 → 写入子行 → 回读影响范围”。显式列名、固定排序和事务边界比依赖表的隐式列顺序更可靠。",
+          "carrier": "code + note primary/warning/info flat",
+          "rationale": "「批量写入」需要先看到批量写入的基本顺序是“准备父行 → 写入子行 → 回读影响范围”。显式列名、固定排序和事务边界比依赖表的隐式列顺序更可靠。；因此采用code + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：批量写入的基本顺序是“准备父行 → 写入子行 → 回读影响范围”。显式列名、固定排序和事务边界比依赖表的隐式列顺序更可靠。；示例：START TRANSACTION;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "UPSERT",
+          "reader_task": "复现本节示例并解释「UPSERT」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`INSERT ... ON DUPLICATE KEY UPDATE` 适合“存在则更新、不存在则插入”的幂等写入；它依赖唯一键识别冲突，不能凭普通字段相等自动发现重复。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「UPSERT」需要先看到`INSERT ... ON DUPLICATE KEY UPDATE` 适合“存在则更新、不存在则插入”的幂等写入；它依赖唯一键识别冲突，；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`INSERT ... ON DUPLICATE KEY UPDATE` 适合“存在则更新、不存在则插入”的幂等写入；它依赖唯一键识别冲突，不能凭普通字段相等自动发现重复。；示例：INSERT INTO inventory (product_id, quantity)。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "受控修改",
+          "reader_task": "复现本节示例并解释「受控修改」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：安全 UPDATE/DELETE 采用“预览 → 修改 → 核对 → 提交”四步。预览与修改必须复用同一 WHERE 条件，并用主键排序，避免只凭肉眼查看部分结果。",
+          "carrier": "code + note primary/danger flat",
+          "rationale": "「受控修改」需要先看到安全 UPDATE/DELETE 采用“预览 → 修改 → 核对 → 提交”四步。预览与修改必须复用同一 WHERE 条件，并用主键排序，避；因此采用code + note primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：安全 UPDATE/DELETE 采用“预览 → 修改 → 核对 → 提交”四步。预览与修改必须复用同一 WHERE 条件，并用主键排序，避免只凭肉眼查看部分结果。；示例：START TRANSACTION;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "替换删除",
+          "reader_task": "对照各方案后选择适合「替换删除」的路径，并说明边界。",
+          "core_content": "本节直接交付：选择前先回答“是否保留原主键、是否允许删除级联、错误是否必须中止”。如果只是覆盖业务字段，优先保留原行身份；只有明确接受删除后重建，才使用 `REPLACE`；需要跳过可接受脏行时，才考虑 `INSERT IGNORE`，并读取警告。",
+          "carrier": "tabs + table + note info flat",
+          "rationale": "「替换删除」需要先看到选择前先回答“是否保留原主键、是否允许删除级联、错误是否必须中止”。如果只是覆盖业务字段，优先保留原行身份；只有明确接受删除后重建，才使用 ；因此采用tabs + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：选择前先回答“是否保留原主键、是否允许删除级联、错误是否必须中止”。如果只是覆盖业务字段，优先保留原行身份；只有明确接受删除后重建，才使用 `REPLACE`；需要跳过可接受脏行时，才考虑 `INSERT IGNORE`，并读取警告。；表格字段：动作 | 是否保留原主键 | 失败可见性 | 推荐场景；页签：ON DUPLICATE KEY UPDATE、REPLACE、INSERT IGNORE。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "提交边界",
+          "reader_task": "沿图中的关系或时序讲清「提交边界」：MySQL 8.4 的原子 DDL 解决的是 DDL 自身崩溃时的原子性，不代表任意 DDL 都能按普通 DML 语义回滚。迁移脚本应把结构变更、数据变更和回退策略分开验证。",
+          "core_content": "本节直接交付：MySQL 8.4 的原子 DDL 解决的是 DDL 自身崩溃时的原子性，不代表任意 DDL 都能按普通 DML 语义回滚。迁移脚本应把结构变更、数据变更和回退策略分开验证。",
+          "carrier": "timeline + code + note info flat",
+          "rationale": "「提交边界」需要先看到MySQL 8.4 的原子 DDL 解决的是 DDL 自身崩溃时的原子性，不代表任意 DDL 都能按普通 DML 语义回滚。迁移脚本应把结构；因此采用timeline + code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：MySQL 8.4 的原子 DDL 解决的是 DDL 自身崩溃时的原子性，不代表任意 DDL 都能按普通 DML 语义回滚。迁移脚本应把结构变更、数据变更和回退策略分开验证。；示例：-- 结构变更单独执行，并在变更后回读结果；它不属于订单 DML 的回滚边界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：CREATE TEMPORARY TABLE user_imports_raw (；表格字段：题意 | 更新表达式 | 原值 20、输入 5 的结果；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(九)InnoDB与日志": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：一条 UPDATE 从客户端到磁盘并不是“直接写文件”：InnoDB 先在内存页上修改，用 redo 保证崩溃后能重做，用 undo 支持回滚和一致性读，binlog 再把已提交的逻辑变更交给复制和时间点恢复。",
+          "core_content": "开篇直接交付的范围与判断依据：一条 UPDATE 从客户端到磁盘并不是“直接写文件”：InnoDB 先在内存页上修改，用 redo 保证崩溃后能重做，用 undo 支持回滚和一致性读，binlog 再把已提交的逻辑变更交给复制和时间点恢复。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：一条 UPDATE 从客户端到磁盘并不是“直接写文件”：InnoDB 先在内存页上修改，用 redo 保证崩溃后能重做，用 undo 支持回滚和一致性读，binlog 再把已提交的逻辑变更交给复制和时间点恢复。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "写入链路",
+          "reader_task": "沿图中的关系或时序讲清「写入链路」：提交时优先保证日志记录落盘，脏数据页可以稍后由刷脏线程写入表空间；这就是 WAL（Write-Ahead Logging）的核心。redo、undo 和 binlog 的格式、生命周期与用途不同，不能互相替代。",
+          "core_content": "本节直接交付：提交时优先保证日志记录落盘，脏数据页可以稍后由刷脏线程写入表空间；这就是 WAL（Write-Ahead Logging）的核心。redo、undo 和 binlog 的格式、生命周期与用途不同，不能互相替代。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「写入链路」需要先看到提交时优先保证日志记录落盘，脏数据页可以稍后由刷脏线程写入表空间；这就是 WAL（Write-Ahead Logging）的核心。redo、；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：提交时优先保证日志记录落盘，脏数据页可以稍后由刷脏线程写入表空间；这就是 WAL（Write-Ahead Logging）的核心。redo、undo 和 binlog 的格式、生命周期与用途不同，不能互相替代。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "Buffer Pool",
+          "reader_task": "比较表中的维度，说明「Buffer Pool」在什么条件下成立。",
+          "core_content": "本节直接交付：Buffer Pool 缓存表页和索引页，命中时读写避免磁盘 I/O。被修改过但尚未写回的页是脏页；checkpoint 推进表示哪些 redo 之前的脏页已经安全写回，可以回收日志空间。",
+          "carrier": "table + note primary/warning flat",
+          "rationale": "「Buffer Pool」需要先看到Buffer Pool 缓存表页和索引页，命中时读写避免磁盘 I/O。被修改过但尚未写回的页是脏页；checkpoint 推进表示哪些 re；因此采用table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Buffer Pool 缓存表页和索引页，命中时读写避免磁盘 I/O。被修改过但尚未写回的页是脏页；checkpoint 推进表示哪些 redo 之前的脏页已经安全写回，可以回收日志空间。；表格字段：组件 | 主要职责 | 失败/恢复意义。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "三类日志",
+          "reader_task": "复现本节示例并解释「三类日志」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`redo` 关注“这次页修改是否能在崩溃后重做”；`undo` 关注“如何回到旧版本或撤销本次事务”；`binlog` 关注“服务器对外产生了什么逻辑事件”。面试解释时按这三个问题分层，不要说成三个“备份文件”。",
+          "carrier": "code + note info/primary flat",
+          "rationale": "「三类日志」需要先看到`redo` 关注“这次页修改是否能在崩溃后重做”；`undo` 关注“如何回到旧版本或撤销本次事务”；`binlog` 关注“服务器对外产；因此采用code + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`redo` 关注“这次页修改是否能在崩溃后重做”；`undo` 关注“如何回到旧版本或撤销本次事务”；`binlog` 关注“服务器对外产生了什么逻辑事件”。面试解释时按这三个问题分层，不要说成三个“备份文件”。；示例：SHOW VARIABLES LIKE 'innodb%log%';。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "刷脏与恢复",
+          "reader_task": "沿图中的关系或时序讲清「刷脏与恢复」：“提交成功”意味着事务的持久化承诺已满足，不意味着每个脏页都立刻写入最终表空间。验证崩溃恢复要看重启后的数据、事务状态、redo LSN 和 binlog 连续性。",
+          "core_content": "本节直接交付：“提交成功”意味着事务的持久化承诺已满足，不意味着每个脏页都立刻写入最终表空间。验证崩溃恢复要看重启后的数据、事务状态、redo LSN 和 binlog 连续性。",
+          "carrier": "timeline + note success flat",
+          "rationale": "「刷脏与恢复」需要先看到“提交成功”意味着事务的持久化承诺已满足，不意味着每个脏页都立刻写入最终表空间。验证崩溃恢复要看重启后的数据、事务状态、redo LSN 和；因此采用timeline + note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：“提交成功”意味着事务的持久化承诺已满足，不意味着每个脏页都立刻写入最终表空间。验证崩溃恢复要看重启后的数据、事务状态、redo LSN 和 binlog 连续性。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "8.4 运行边界",
+          "reader_task": "用自己的话说明「8.4 运行边界」为何如此，并核对：不要为了“让日志更快”随意关闭 doublewrite、降低持久化策略或删除 binlog。任何持久化配置变化都必须先说明 durability、恢复窗口、复制和备份后果，并保留可回滚的配置版本。",
+          "core_content": "本节直接交付：不要为了“让日志更快”随意关闭 doublewrite、降低持久化策略或删除 binlog。任何持久化配置变化都必须先说明 durability、恢复窗口、复制和备份后果，并保留可回滚的配置版本。",
+          "carrier": "folding + note danger flat",
+          "rationale": "「8.4 运行边界」需要先看到不要为了“让日志更快”随意关闭 doublewrite、降低持久化策略或删除 binlog。任何持久化配置变化都必须先说明 durabili；因此采用folding + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：不要为了“让日志更快”随意关闭 doublewrite、降低持久化策略或删除 binlog。任何持久化配置变化都必须先说明 durability、恢复窗口、复制和备份后果，并保留可回滚的配置版本。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "验证证据",
+          "reader_task": "复现本节示例并解释「验证证据」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：一次可复现的实验至少记录版本、关键持久化变量、事务提交结果、重启前后的行值、binlog 文件/位置或 GTID，以及恢复后的一致性查询。缺少其中任一项，只能说明“读到了当前数据”，不能证明完成了崩溃恢复验证。",
+          "carrier": "code + note success flat",
+          "rationale": "「验证证据」需要先看到一次可复现的实验至少记录版本、关键持久化变量、事务提交结果、重启前后的行值、binlog 文件/位置或 GTID，以及恢复后的一致性查询。缺；因此采用code + note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：一次可复现的实验至少记录版本、关键持久化变量、事务提交结果、重启前后的行值、binlog 文件/位置或 GTID，以及恢复后的一致性查询。缺少其中任一项，只能说明“读到了当前数据”，不能证明完成了崩溃恢复验证。；示例：SELECT NAME, SPACE, SPACE_TYPE, FILE_SIZE, ALLOCATED_SIZE。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：CREATE TABLE recovery_probe (；表格字段：组件 | 主要内容 | 解决的问题；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(二)数据库基础与表设计": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：把业务规则写进表结构，数据才会在程序遗漏校验时仍然保持可信。本篇用一个订单系统贯穿实体、类型、字符集、约束和可验证 DDL。",
+          "core_content": "开篇直接交付的范围与判断依据：把业务规则写进表结构，数据才会在程序遗漏校验时仍然保持可信。本篇用一个订单系统贯穿实体、类型、字符集、约束和可验证 DDL。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：把业务规则写进表结构，数据才会在程序遗漏校验时仍然保持可信。本篇用一个订单系统贯穿实体、类型、字符集、约束和可验证 DDL。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "关系模型",
+          "reader_task": "沿图中的关系或时序讲清「关系模型」：先问“系统里有哪些会独立变化的事实”，再决定表。用户、部门、员工、商品、库存、订单、订单明细、登录事件和导入批次分别有自己的生命周期；订单和商品的多对多关系必须通过明细表拆开。",
+          "core_content": "本节直接交付：先问“系统里有哪些会独立变化的事实”，再决定表。用户、部门、员工、商品、库存、订单、订单明细、登录事件和导入批次分别有自己的生命周期；订单和商品的多对多关系必须通过明细表拆开。",
+          "carrier": "mermaid + table + note info/primary flat",
+          "rationale": "「关系模型」需要先看到先问“系统里有哪些会独立变化的事实”，再决定表。用户、部门、员工、商品、库存、订单、订单明细、登录事件和导入批次分别有自己的生命周期；订单和；因此采用mermaid + table + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先问“系统里有哪些会独立变化的事实”，再决定表。用户、部门、员工、商品、库存、订单、订单明细、登录事件和导入批次分别有自己的生命周期；订单和商品的多对多关系必须通过明细表拆开。；表格字段：业务事实 | 主键 | 关键约束 | 为什么独立成表。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "类型选择",
+          "reader_task": "对照各方案后选择适合「类型选择」的路径，并说明边界。",
+          "core_content": "本节直接交付：类型不是“能存下就行”。要同时考虑精度、范围、排序语义、时区、字符长度和存储成本；默认值也要与业务是否允许“未知”区分开。",
+          "carrier": "tabs + table + note primary/warning flat",
+          "rationale": "「类型选择」需要先看到类型不是“能存下就行”。要同时考虑精度、范围、排序语义、时区、字符长度和存储成本；默认值也要与业务是否允许“未知”区分开。；因此采用tabs + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：类型不是“能存下就行”。要同时考虑精度、范围、排序语义、时区、字符长度和存储成本；默认值也要与业务是否允许“未知”区分开。；表格字段：场景 | 推荐 | 避免 | 验证点；页签：时间。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "字符集",
+          "reader_task": "沿图中的关系或时序讲清「字符集」：字符集决定如何编码，排序规则决定如何比较和排序。数据库默认值只会为新对象提供默认；列级定义、连接协商和已有数据都可能覆盖它，因此排查乱码要同时查看四层。",
+          "core_content": "本节直接交付：字符集决定如何编码，排序规则决定如何比较和排序。数据库默认值只会为新对象提供默认；列级定义、连接协商和已有数据都可能覆盖它，因此排查乱码要同时查看四层。",
+          "carrier": "mermaid + code + note info/warning/danger flat",
+          "rationale": "「字符集」需要先看到字符集决定如何编码，排序规则决定如何比较和排序。数据库默认值只会为新对象提供默认；列级定义、连接协商和已有数据都可能覆盖它，因此排查乱码要同；因此采用mermaid + code + note info/warning/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：字符集决定如何编码，排序规则决定如何比较和排序。数据库默认值只会为新对象提供默认；列级定义、连接协商和已有数据都可能覆盖它，因此排查乱码要同时查看四层。；示例：CREATE DATABASE IF NOT EXISTS shoplab。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "约束建表",
+          "reader_task": "比较表中的维度，说明「约束建表」在什么条件下成立。",
+          "core_content": "本节直接交付：建表顺序遵循“被引用表先于引用表”：先创建用户、部门、商品，再创建库存、订单、事件和导入表。主键保证身份，唯一键防止业务重复，外键保证引用存在，CHECK 保证行内不变量。",
+          "carrier": "folding + code + table + note primary flat",
+          "rationale": "「约束建表」需要先看到建表顺序遵循“被引用表先于引用表”：先创建用户、部门、商品，再创建库存、订单、事件和导入表。主键保证身份，唯一键防止业务重复，外键保证引用存；因此采用folding + code + table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：建表顺序遵循“被引用表先于引用表”：先创建用户、部门、商品，再创建库存、订单、事件和导入表。主键保证身份，唯一键防止业务重复，外键保证引用存在，CHECK 保证行内不变量。；示例：CREATE TABLE users (；表格字段：约束 | 解决的问题 | 失败时通常看到什么。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结构验证",
+          "reader_task": "沿图中的关系或时序讲清「结构验证」：下面的负例应在可丢弃的实验库执行。先准备一条合法父行，再分别验证唯一键、外键和 CHECK；错误码可能随 SQL mode 或客户端显示略有差异，但失败类别和数据不变。",
+          "core_content": "本节直接交付：下面的负例应在可丢弃的实验库执行。先准备一条合法父行，再分别验证唯一键、外键和 CHECK；错误码可能随 SQL mode 或客户端显示略有差异，但失败类别和数据不变。",
+          "carrier": "timeline + code + note warning/success flat",
+          "rationale": "「结构验证」需要先看到下面的负例应在可丢弃的实验库执行。先准备一条合法父行，再分别验证唯一键、外键和 CHECK；错误码可能随 SQL mode 或客户端显示略有；因此采用timeline + code + note warning/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面的负例应在可丢弃的实验库执行。先准备一条合法父行，再分别验证唯一键、外键和 CHECK；错误码可能随 SQL mode 或客户端显示略有差异，但失败类别和数据不变。；示例：SHOW TABLES;。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "边界语法",
+          "reader_task": "比较表中的维度，说明「边界语法」在什么条件下成立。",
+          "core_content": "本节直接交付：GIPK 只是 InnoDB 在缺少显式主键时的实验性兜底，不替代业务主键；默认关闭，且生成的列不可见。用一个临时探针确认服务器行为：",
+          "carrier": "folding + code + table + note info flat",
+          "rationale": "「边界语法」需要先看到GIPK 只是 InnoDB 在缺少显式主键时的实验性兜底，不替代业务主键；默认关闭，且生成的列不可见。用一个临时探针确认服务器行为：；因此采用folding + code + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：GIPK 只是 InnoDB 在缺少显式主键时的实验性兜底，不替代业务主键；默认关闭，且生成的列不可见。用一个临时探针确认服务器行为：；示例：CREATE TEMPORARY TABLE order_totals AS；表格字段：语法 | 用途 | 不能忽略的边界。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：CREATE TABLE users (；表格字段：输入 | 预期证据；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(五)多表查询与子查询": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：多表题先画出“保留谁、匹配谁、没有匹配怎么办”的关系，再选择 JOIN、EXISTS 或集合运算。连接解决行的组合，子查询解决集合或标量的判断，两者不要靠背模板混用。",
+          "core_content": "开篇直接交付的范围与判断依据：多表题先画出“保留谁、匹配谁、没有匹配怎么办”的关系，再选择 JOIN、EXISTS 或集合运算。连接解决行的组合，子查询解决集合或标量的判断，两者不要靠背模板混用。",
+          "carrier": "code + note primary/info/success flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：多表题先画出“保留谁、匹配谁、没有匹配怎么办”的关系，再选择 JOIN、EXISTS 或集合运算。连接解决行的组合，子查询解决集合或标量的判断，两者不要靠背模板混用。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "连接模型",
+          "reader_task": "沿图中的关系或时序讲清「连接模型」：`INNER JOIN` 只保留双方匹配的行；`LEFT JOIN` 保留左表全部行，右表未匹配列为 NULL；`CROSS JOIN` 生成笛卡尔积；自连接把同一表看作两个角色。外连接中，匹配条件和右表过滤通常应写在 `ON`，否则放进 WHERE 可能把 `LEFT JOIN` 变回 `INNER JOIN`；对 INNER JOIN，等价的过滤也…",
+          "core_content": "本节直接交付：`INNER JOIN` 只保留双方匹配的行；`LEFT JOIN` 保留左表全部行，右表未匹配列为 NULL；`CROSS JOIN` 生成笛卡尔积；自连接把同一表看作两个角色。外连接中，匹配条件和右表过滤通常应写在 `ON`，否则放进 WHERE 可能把 `LEFT JOIN` 变回 `INNER JOIN`；对 INNER JOIN，等价的过滤也…",
+          "carrier": "mermaid + table + note info flat",
+          "rationale": "「连接模型」需要先看到`INNER JOIN` 只保留双方匹配的行；`LEFT JOIN` 保留左表全部行，右表未匹配列为 NULL；`CROSS JOIN` 生；因此采用mermaid + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`INNER JOIN` 只保留双方匹配的行；`LEFT JOIN` 保留左表全部行，右表未匹配列为 NULL；`CROSS JOIN` 生成笛卡尔积；自连接把同一表看作两个角色。外连接中，匹配条件和右表过滤通常应写在 `ON`，否则放进 WHERE 可能把 `LEFT JOIN` 变回 `INNER JOIN`；对 INNER JOIN，等价的过滤也…；表格字段：需求 | 首选 | 结果边界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "子查询",
+          "reader_task": "复现本节示例并解释「子查询」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：标量子查询必须最多返回一行；行子查询比较多个列；`IN`/`ANY`/`ALL` 比较集合；相关子查询引用外层行，语义直观但可能反复执行。先确认子查询的基数，再决定运算符。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「子查询」需要先看到标量子查询必须最多返回一行；行子查询比较多个列；`IN`/`ANY`/`ALL` 比较集合；相关子查询引用外层行，语义直观但可能反复执行。先；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：标量子查询必须最多返回一行；行子查询比较多个列；`IN`/`ANY`/`ALL` 比较集合；相关子查询引用外层行，语义直观但可能反复执行。先确认子查询的基数，再决定运算符。；示例：-- 标量：找出高于全体平均薪资的员工。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "存在性",
+          "reader_task": "复现本节示例并解释「存在性」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：“没有订单的用户”是反连接问题。`LEFT JOIN ... IS NULL` 和 `NOT EXISTS` 都能表达它；`NOT EXISTS` 不会因为订单重复而放大用户行，通常更适合作为存在性语义的直接表达。",
+          "carrier": "code + note info/success flat",
+          "rationale": "「存在性」需要先看到“没有订单的用户”是反连接问题。`LEFT JOIN ... IS NULL` 和 `NOT EXISTS` 都能表达它；`NOT EXIS；因此采用code + note info/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：“没有订单的用户”是反连接问题。`LEFT JOIN ... IS NULL` 和 `NOT EXISTS` 都能表达它；`NOT EXISTS` 不会因为订单重复而放大用户行，通常更适合作为存在性语义的直接表达。；示例：SELECT u.id, u.email。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "派生表",
+          "reader_task": "复现本节示例并解释「派生表」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：FROM 子句中的子查询叫派生表，必须有别名；它先形成中间关系，再被外层查询连接或过滤。派生表适合把“先聚合、后连接”的两阶段问题写清楚。",
+          "carrier": "code + note primary/warning/info flat",
+          "rationale": "「派生表」需要先看到FROM 子句中的子查询叫派生表，必须有别名；它先形成中间关系，再被外层查询连接或过滤。派生表适合把“先聚合、后连接”的两阶段问题写清楚。；因此采用code + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：FROM 子句中的子查询叫派生表，必须有别名；它先形成中间关系，再被外层查询连接或过滤。派生表适合把“先聚合、后连接”的两阶段问题写清楚。；示例：SELECT d.department_id, d.id, d.salary。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "失败边界",
+          "reader_task": "复现本节示例并解释「失败边界」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：标量子查询若返回多行会产生错误 1242（Subquery returns more than 1 row）；同表修改与子查询组合还可能触发错误 1093。先让失败可见，再按题意改成 `IN`、聚合、临时表或多表 UPDATE。",
+          "carrier": "code + note warning flat",
+          "rationale": "「失败边界」需要先看到标量子查询若返回多行会产生错误 1242（Subquery returns more than 1 row）；同表修改与子查询组合还可能触发；因此采用code + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：标量子查询若返回多行会产生错误 1242（Subquery returns more than 1 row）；同表修改与子查询组合还可能触发错误 1093。先让失败可见，再按题意改成 `IN`、聚合、临时表或多表 UPDATE。；示例：-- 失败示例：用户 1 有多笔订单，标量子查询返回多行。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "集合运算",
+          "reader_task": "对照各方案后选择适合「集合运算」的路径，并说明边界。",
+          "core_content": "本节直接交付：`UNION` 合并并去重，`UNION ALL` 保留重复；`INTERSECT` 取交集，`EXCEPT` 取差集。两侧 SELECT 的列数和可兼容类型必须一致；排序通常放在整个集合表达式末尾。",
+          "carrier": "tabs + folding + code + table + note info flat",
+          "rationale": "「集合运算」需要先看到`UNION` 合并并去重，`UNION ALL` 保留重复；`INTERSECT` 取交集，`EXCEPT` 取差集。两侧 SELECT ；因此采用tabs + folding + code + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`UNION` 合并并去重，`UNION ALL` 保留重复；`INTERSECT` 取交集，`EXCEPT` 取差集。两侧 SELECT 的列数和可兼容类型必须一致；排序通常放在整个集合表达式末尾。；示例：(；表格字段：运算 | 重复值 | 适合的问题；页签：UNION、INTERSECT。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "关系除法",
+          "reader_task": "复现本节示例并解释「关系除法」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：“购买指定商品全集”要求一个用户对集合中的每个商品都满足条件。最稳妥的写法是双重 `NOT EXISTS`：不存在一个指定商品没有被该用户购买。",
+          "carrier": "code + note primary/info flat",
+          "rationale": "「关系除法」需要先看到“购买指定商品全集”要求一个用户对集合中的每个商品都满足条件。最稳妥的写法是双重 `NOT EXISTS`：不存在一个指定商品没有被该用户购；因此采用code + note primary/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：“购买指定商品全集”要求一个用户对集合中的每个商品都满足条件。最稳妥的写法是双重 `NOT EXISTS`：不存在一个指定商品没有被该用户购买。；示例：SELECT u.id, u.email。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "NULL 边界",
+          "reader_task": "复现本节示例并解释「NULL 边界」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：更稳妥的反连接写法是 `NOT EXISTS`；如果业务确认候选列非 NULL，也可以在子查询中显式 `WHERE user_id IS NOT NULL`。先检查列约束和真实 seed，再选择改写。",
+          "carrier": "folding + code + note warning flat",
+          "rationale": "「NULL 边界」需要先看到更稳妥的反连接写法是 `NOT EXISTS`；如果业务确认候选列非 NULL，也可以在子查询中显式 `WHERE user_id IS N；因此采用folding + code + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：更稳妥的反连接写法是 `NOT EXISTS`；如果业务确认候选列非 NULL，也可以在子查询中显式 `WHERE user_id IS NOT NULL`。先检查列约束和真实 seed，再选择改写。；示例：-- 为了显式观察 NULL，构造一个含 NULL 的候选集合；A02 生产 orders.user_id 本身是 NOT NULL。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：SELECT u.id, u.email；表格字段：`id` | 候选集合含 `NULL` 时的判断；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(八)执行计划与查询优化": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：优化不是把 SQL 改得更复杂，而是用证据减少不必要的行、页和排序。完整闭环是：找到真实慢语句 → 读计划 → 提出一个可解释改动 → 用实际数据复测 → 记录是否值得保留。",
+          "core_content": "开篇直接交付的范围与判断依据：优化不是把 SQL 改得更复杂，而是用证据减少不必要的行、页和排序。完整闭环是：找到真实慢语句 → 读计划 → 提出一个可解释改动 → 用实际数据复测 → 记录是否值得保留。",
+          "carrier": "note primary/info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：优化不是把 SQL 改得更复杂，而是用证据减少不必要的行、页和排序。完整闭环是：找到真实慢语句 → 读计划 → 提出一个可解释改动 → 用实际数据复测 → 记录是否值得保留。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "优化闭环",
+          "reader_task": "沿图中的关系或时序讲清「优化闭环」：先固定参数、数据快照和并发条件，再比较计划。只看一次墙钟时间容易被缓存、锁等待和网络抖动误导；估算 rows 与实际 rows 的偏差，往往比某个 access type 名称更值得追查。",
+          "core_content": "本节直接交付：先固定参数、数据快照和并发条件，再比较计划。只看一次墙钟时间容易被缓存、锁等待和网络抖动误导；估算 rows 与实际 rows 的偏差，往往比某个 access type 名称更值得追查。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「优化闭环」需要先看到先固定参数、数据快照和并发条件，再比较计划。只看一次墙钟时间容易被缓存、锁等待和网络抖动误导；估算 rows 与实际 rows 的偏差，往往；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先固定参数、数据快照和并发条件，再比较计划。只看一次墙钟时间容易被缓存、锁等待和网络抖动误导；估算 rows 与实际 rows 的偏差，往往比某个 access type 名称更值得追查。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "读执行计划",
+          "reader_task": "复现本节示例并解释「读执行计划」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：阅读 EXPLAIN 时按“访问顺序 → 访问方法 → 估算行数 → 过滤比例 → 排序/临时表 → 回表”顺序解释。`type`、`key`、`key_len`、`rows`、`filtered`、`Extra` 只是证据，不是脱离查询的性能等级。",
+          "carrier": "code + note primary/success flat",
+          "rationale": "「读执行计划」需要先看到阅读 EXPLAIN 时按“访问顺序 → 访问方法 → 估算行数 → 过滤比例 → 排序/临时表 → 回表”顺序解释。`type`、`key；因此采用code + note primary/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：阅读 EXPLAIN 时按“访问顺序 → 访问方法 → 估算行数 → 过滤比例 → 排序/临时表 → 回表”顺序解释。`type`、`key`、`key_len`、`rows`、`filtered`、`Extra` 只是证据，不是脱离查询的性能等级。；示例：EXPLAIN。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "可索引改写",
+          "reader_task": "比较表中的维度，说明「可索引改写」在什么条件下成立。",
+          "core_content": "本节直接交付：可索引谓词让列保持“裸露”，把常量移到右侧。时间过滤使用半开区间，字符串前缀可以使用索引，任意函数、隐式转换和前导通配符要先评估替代方案。",
+          "carrier": "code + table + note primary flat",
+          "rationale": "「可索引改写」需要先看到可索引谓词让列保持“裸露”，把常量移到右侧。时间过滤使用半开区间，字符串前缀可以使用索引，任意函数、隐式转换和前导通配符要先评估替代方案。；因此采用code + table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：可索引谓词让列保持“裸露”，把常量移到右侧。时间过滤使用半开区间，字符串前缀可以使用索引，任意函数、隐式转换和前导通配符要先评估替代方案。；示例：-- 优先使用范围条件；表格字段：不利写法 | 可解释改写 | 仍需验证。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "深分页",
+          "reader_task": "复现本节示例并解释「深分页」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`LIMIT 20 OFFSET 100000` 必须先找到并丢弃前 100000 行，数据越大越慢。Keyset Pagination 需要稳定的复合排序键，并把上一页最后一行作为下一页的游标；它不能随机跳到任意页码。",
+          "carrier": "code + note warning/success flat",
+          "rationale": "「深分页」需要先看到`LIMIT 20 OFFSET 100000` 必须先找到并丢弃前 100000 行，数据越大越慢。Keyset Pagination 需；因此采用code + note warning/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`LIMIT 20 OFFSET 100000` 必须先找到并丢弃前 100000 行，数据越大越慢。Keyset Pagination 需要稳定的复合排序键，并把上一页最后一行作为下一页的游标；它不能随机跳到任意页码。；示例：-- 第一页。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "统计与临时表",
+          "reader_task": "复现本节示例并解释「统计与临时表」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：优化器需要基数和分布统计来估算成本。GROUP BY、ORDER BY、窗口和不可合并的派生表可能使用内部临时表；内存不足时会落到磁盘，计划和实际 I/O 都要检查。",
+          "carrier": "folding + code + note info flat",
+          "rationale": "「统计与临时表」需要先看到优化器需要基数和分布统计来估算成本。GROUP BY、ORDER BY、窗口和不可合并的派生表可能使用内部临时表；内存不足时会落到磁盘，计划；因此采用folding + code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：优化器需要基数和分布统计来估算成本。GROUP BY、ORDER BY、窗口和不可合并的派生表可能使用内部临时表；内存不足时会落到磁盘，计划和实际 I/O 都要检查。；示例：ANALYZE TABLE orders, order_items;。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "运行边界",
+          "reader_task": "比较表中的维度，说明「运行边界」在什么条件下成立。",
+          "core_content": "本节直接交付：不要用 `FORCE INDEX`、关闭优化器开关或提高内存配置来掩盖未知的访问模式。任何优化都应保存原 SQL、基线计划、改动、复测数据和回滚动作。",
+          "carrier": "code + table + note danger/info flat",
+          "rationale": "「运行边界」需要先看到不要用 `FORCE INDEX`、关闭优化器开关或提高内存配置来掩盖未知的访问模式。任何优化都应保存原 SQL、基线计划、改动、复测数据和；因此采用code + table + note danger/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：不要用 `FORCE INDEX`、关闭优化器开关或提高内存配置来掩盖未知的访问模式。任何优化都应保存原 SQL、基线计划、改动、复测数据和回滚动作。；示例：-- 成本模型与配置只作为诊断输入，修改前先记录版本、权限和回滚方式。；表格字段：调整 | 可能收益 | 风险。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：SELECT id, ordered_at, total_amount；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(六)CTE与窗口函数": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：GROUP BY 会把一组行压成一行；窗口函数则在不丢失明细的情况下，为每行附加排名、累计值或邻行信息。CTE 负责把复杂查询拆成有名字的关系，二者组合正好覆盖高频 SQL 场景题。",
+          "core_content": "开篇直接交付的范围与判断依据：GROUP BY 会把一组行压成一行；窗口函数则在不丢失明细的情况下，为每行附加排名、累计值或邻行信息。CTE 负责把复杂查询拆成有名字的关系，二者组合正好覆盖高频 SQL 场景题。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：GROUP BY 会把一组行压成一行；窗口函数则在不丢失明细的情况下，为每行附加排名、累计值或邻行信息。CTE 负责把复杂查询拆成有名字的关系，二者组合正好覆盖高频 SQL 场景题。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "窗口模型",
+          "reader_task": "沿图中的关系或时序讲清「窗口模型」：窗口函数的三个问题必须分开回答：按什么分区、在分区内如何排序、当前行能看到哪些帧。没有 ORDER BY 的排名没有稳定意义；没有 tie-breaker 的并列行顺序也不稳定。",
+          "core_content": "本节直接交付：窗口函数的三个问题必须分开回答：按什么分区、在分区内如何排序、当前行能看到哪些帧。没有 ORDER BY 的排名没有稳定意义；没有 tie-breaker 的并列行顺序也不稳定。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「窗口模型」需要先看到窗口函数的三个问题必须分开回答：按什么分区、在分区内如何排序、当前行能看到哪些帧。没有 ORDER BY 的排名没有稳定意义；没有 tie-；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：窗口函数的三个问题必须分开回答：按什么分区、在分区内如何排序、当前行能看到哪些帧。没有 ORDER BY 的排名没有稳定意义；没有 tie-breaker 的并列行顺序也不稳定。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "分组排名",
+          "reader_task": "复现本节示例并解释「分组排名」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`ROW_NUMBER` 为每行分配唯一序号，`RANK` 为并列留下间隔，`DENSE_RANK` 为并列但不留间隔。题目说“每组前 N 名”时，先确认并列是否都要保留。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「分组排名」需要先看到`ROW_NUMBER` 为每行分配唯一序号，`RANK` 为并列留下间隔，`DENSE_RANK` 为并列但不留间隔。题目说“每组前 N ；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`ROW_NUMBER` 为每行分配唯一序号，`RANK` 为并列留下间隔，`DENSE_RANK` 为并列但不留间隔。题目说“每组前 N 名”时，先确认并列是否都要保留。；示例：WITH ranked AS (。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "窗口帧",
+          "reader_task": "比较表中的维度，说明「窗口帧」在什么条件下成立。",
+          "core_content": "本节直接交付：累计结果必须有唯一排序键；这里用 `(ordered_at, id)` 防止同一时间的订单互换。验证时手算前两行和最后一行，确认 frame 没有被误写成整组或默认 peers。",
+          "carrier": "code + table + note success flat",
+          "rationale": "「窗口帧」需要先看到累计结果必须有唯一排序键；这里用 `(ordered_at, id)` 防止同一时间的订单互换。验证时手算前两行和最后一行，确认 frame；因此采用code + table + note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：累计结果必须有唯一排序键；这里用 `(ordered_at, id)` 防止同一时间的订单互换。验证时手算前两行和最后一行，确认 frame 没有被误写成整组或默认 peers。；示例：SELECT；表格字段：写法 | 看到的行 | 适合问题。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "CTE 组合",
+          "reader_task": "复现本节示例并解释「CTE 组合」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：CTE 的价值是给中间关系命名并限制每层职责。非递归 CTE 先完成清洗/聚合，外层再排名；递归 CTE 用 `WITH RECURSIVE` 处理树或日期序列，但必须有终止条件和上限。",
+          "carrier": "folding + code + note primary flat",
+          "rationale": "「CTE 组合」需要先看到CTE 的价值是给中间关系命名并限制每层职责。非递归 CTE 先完成清洗/聚合，外层再排名；递归 CTE 用 `WITH RECURSIVE；因此采用folding + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：CTE 的价值是给中间关系命名并限制每层职责。非递归 CTE 先完成清洗/聚合，外层再排名；递归 CTE 用 `WITH RECURSIVE` 处理树或日期序列，但必须有终止条件和上限。；示例：WITH monthly AS (。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "去重与连续区间",
+          "reader_task": "复现本节示例并解释「去重与连续区间」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：去重题先定义“保留哪一行”。`ROW_NUMBER() OVER (PARTITION BY 业务键 ORDER BY id)` 给出可复现的保留规则，再在外层只保留 `rn = 1`；没有 ORDER BY 的去重是随机的。",
+          "carrier": "code + note info/primary flat",
+          "rationale": "「去重与连续区间」需要先看到去重题先定义“保留哪一行”。`ROW_NUMBER() OVER (PARTITION BY 业务键 ORDER BY id)` 给出可复现；因此采用code + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：去重题先定义“保留哪一行”。`ROW_NUMBER() OVER (PARTITION BY 业务键 ORDER BY id)` 给出可复现的保留规则，再在外层只保留 `rn = 1`；没有 ORDER BY 的去重是随机的。；示例：CREATE TEMPORARY TABLE user_imports_raw (。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "使用边界",
+          "reader_task": "用自己的话说明「使用边界」为何如此，并核对：窗口函数只能出现在 SELECT 列表和 ORDER BY 等允许位置，不能直接用于 WHERE、JOIN 条件或 UPDATE 的目标表达式。先形成结果关系，再在外层过滤或写入；复杂窗口查询要用 EXPLAIN 检查排序和临时表成本。",
+          "core_content": "本节直接交付：窗口函数只能出现在 SELECT 列表和 ORDER BY 等允许位置，不能直接用于 WHERE、JOIN 条件或 UPDATE 的目标表达式。先形成结果关系，再在外层过滤或写入；复杂窗口查询要用 EXPLAIN 检查排序和临时表成本。",
+          "carrier": "note warning flat",
+          "rationale": "「使用边界」需要先看到窗口函数只能出现在 SELECT 列表和 ORDER BY 等允许位置，不能直接用于 WHERE、JOIN 条件或 UPDATE 的目标表达；因此采用note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：窗口函数只能出现在 SELECT 列表和 ORDER BY 等允许位置，不能直接用于 WHERE、JOIN 条件或 UPDATE 的目标表达式。先形成结果关系，再在外层过滤或写入；复杂窗口查询要用 EXPLAIN 检查排序和临时表成本。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：WITH ranked AS (；表格字段：函数 | 并列处理 | 取前两档的结果；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(十)事务与MVCC": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：事务把多条语句变成一个原子业务动作；MVCC 让普通一致性读看到符合快照规则的版本。先划清事务边界，再谈隔离级别，最后用两个会话观察提交、回滚和快照差异。",
+          "core_content": "开篇直接交付的范围与判断依据：事务把多条语句变成一个原子业务动作；MVCC 让普通一致性读看到符合快照规则的版本。先划清事务边界，再谈隔离级别，最后用两个会话观察提交、回滚和快照差异。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：事务把多条语句变成一个原子业务动作；MVCC 让普通一致性读看到符合快照规则的版本。先划清事务边界，再谈隔离级别，最后用两个会话观察提交、回滚和快照差异。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "事务边界",
+          "reader_task": "复现本节示例并解释「事务边界」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：InnoDB 事务至少要回答：何时开始、哪些语句属于同一业务动作、何时提交、失败如何回滚。自动提交开启时，每条 DML 可能就是一个独立事务；显式 `START TRANSACTION` 才能把订单头、明细和库存操作绑在一起。",
+          "carrier": "code + note info/danger flat",
+          "rationale": "「事务边界」需要先看到InnoDB 事务至少要回答：何时开始、哪些语句属于同一业务动作、何时提交、失败如何回滚。自动提交开启时，每条 DML 可能就是一个独立事务；因此采用code + note info/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：InnoDB 事务至少要回答：何时开始、哪些语句属于同一业务动作、何时提交、失败如何回滚。自动提交开启时，每条 DML 可能就是一个独立事务；显式 `START TRANSACTION` 才能把订单头、明细和库存操作绑在一起。；示例：SET autocommit = 0;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "ACID 模型",
+          "reader_task": "比较表中的维度，说明「ACID 模型」在什么条件下成立。",
+          "core_content": "本节直接交付：ACID 不是四个互相独立的开关：约束提供一致性，redo 提供持久化，锁与 MVCC 共同实现隔离，事务边界把它们组合成业务结果。解释面试题时要给出具体语句和可观察证据。",
+          "carrier": "table + note primary flat",
+          "rationale": "「ACID 模型」需要先看到ACID 不是四个互相独立的开关：约束提供一致性，redo 提供持久化，锁与 MVCC 共同实现隔离，事务边界把它们组合成业务结果。解释面试；因此采用table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：ACID 不是四个互相独立的开关：约束提供一致性，redo 提供持久化，锁与 MVCC 共同实现隔离，事务边界把它们组合成业务结果。解释面试题时要给出具体语句和可观察证据。；表格字段：属性 | 在 ShopLab 中的观察。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "MVCC 版本链",
+          "reader_task": "沿图中的关系或时序讲清「MVCC 版本链」：InnoDB 在行记录中维护事务标记和 undo 链。普通一致性读根据 Read View 判断当前版本是否可见，不可见就沿 undo 找到满足快照的旧版本；这不等同于复制整张表。",
+          "core_content": "本节直接交付：InnoDB 在行记录中维护事务标记和 undo 链。普通一致性读根据 Read View 判断当前版本是否可见，不可见就沿 undo 找到满足快照的旧版本；这不等同于复制整张表。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「MVCC 版本链」需要先看到InnoDB 在行记录中维护事务标记和 undo 链。普通一致性读根据 Read View 判断当前版本是否可见，不可见就沿 undo 找到；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：InnoDB 在行记录中维护事务标记和 undo 链。普通一致性读根据 Read View 判断当前版本是否可见，不可见就沿 undo 找到满足快照的旧版本；这不等同于复制整张表。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "隔离级别",
+          "reader_task": "比较表中的维度，说明「隔离级别」在什么条件下成立。",
+          "core_content": "本节直接交付：用两个会话可以把级别差异变成结果：会话 A 在 `REPEATABLE READ` 中先读一行，会话 B 修改并提交后，会话 A 再次普通 SELECT 仍读到同一快照；把 A 改为 `READ COMMITTED`，第二次语句会建立新快照并读到已提交值。两者都不等同于锁定读，`FOR UPDATE` 应单独观察等待和当前版本。",
+          "carrier": "code + table + note info/warning flat",
+          "rationale": "「隔离级别」需要先看到用两个会话可以把级别差异变成结果：会话 A 在 `REPEATABLE READ` 中先读一行，会话 B 修改并提交后，会话 A 再次普通 ；因此采用code + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：用两个会话可以把级别差异变成结果：会话 A 在 `REPEATABLE READ` 中先读一行，会话 B 修改并提交后，会话 A 再次普通 SELECT 仍读到同一快照；把 A 改为 `READ COMMITTED`，第二次语句会建立新快照并读到已提交值。两者都不等同于锁定读，`FOR UPDATE` 应单独观察等待和当前版本。；示例：SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;；表格字段：级别 | 典型现象 | InnoDB 说明。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "保存点回滚",
+          "reader_task": "复现本节示例并解释「保存点回滚」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：Savepoint 允许回滚事务的一段工作而不放弃前面的修改。它适合批量导入中逐批处理，但不能跨事务存在，也不能把已经提交的 DDL 或外部副作用变回来。",
+          "carrier": "code + note primary/danger flat",
+          "rationale": "「保存点回滚」需要先看到Savepoint 允许回滚事务的一段工作而不放弃前面的修改。它适合批量导入中逐批处理，但不能跨事务存在，也不能把已经提交的 DDL 或外部；因此采用code + note primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Savepoint 允许回滚事务的一段工作而不放弃前面的修改。它适合批量导入中逐批处理，但不能跨事务存在，也不能把已经提交的 DDL 或外部副作用变回来。；示例：START TRANSACTION;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "回滚实验",
+          "reader_task": "沿图中的关系或时序讲清「回滚实验」：实验的证据是失败码、回滚后每张表的行数/值，以及同一连接的事务状态。只看到“客户端报错”而没有回读数据，不能证明回滚真的发生。",
+          "core_content": "本节直接交付：实验的证据是失败码、回滚后每张表的行数/值，以及同一连接的事务状态。只看到“客户端报错”而没有回读数据，不能证明回滚真的发生。",
+          "carrier": "timeline + note success flat",
+          "rationale": "「回滚实验」需要先看到实验的证据是失败码、回滚后每张表的行数/值，以及同一连接的事务状态。只看到“客户端报错”而没有回读数据，不能证明回滚真的发生。；因此采用timeline + note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：实验的证据是失败码、回滚后每张表的行数/值，以及同一连接的事务状态。只看到“客户端报错”而没有回读数据，不能证明回滚真的发生。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "XA 边界",
+          "reader_task": "复现本节示例并解释「XA 边界」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：XA 把事务拆成 prepare、commit/rollback 等状态，适合需要两阶段提交的外部资源协调，但会引入悬挂事务、恢复和超时管理。它不是普通单库订单事务的默认升级路径，使用前必须验证驱动、资源管理器和故障恢复流程。 XA START 'shoplab-demo';",
+          "carrier": "folding + code",
+          "rationale": "「XA 边界」需要先看到XA 把事务拆成 prepare、commit/rollback 等状态，适合需要两阶段提交的外部资源协调，但会引入悬挂事务、恢复和超时管理；因此采用folding + code，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：XA 把事务拆成 prepare、commit/rollback 等状态，适合需要两阶段提交的外部资源协调，但会引入悬挂事务、恢复和超时管理。它不是普通单库订单事务的默认升级路径，使用前必须验证驱动、资源管理器和故障恢复流程。 XA START 'shoplab-demo';；示例：XA START 'shoplab-demo';。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：START TRANSACTION;；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(十一)锁与并发控制": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：锁解决的是并发事务之间如何排队，不是“让 SQL 自动正确”。正确的扣库存流程要同时具备事务边界、锁定读、条件校验、短持锁时间和失败重试；本篇把等待和死锁当作可观察结果来处理。",
+          "core_content": "开篇直接交付的范围与判断依据：锁解决的是并发事务之间如何排队，不是“让 SQL 自动正确”。正确的扣库存流程要同时具备事务边界、锁定读、条件校验、短持锁时间和失败重试；本篇把等待和死锁当作可观察结果来处理。",
+          "carrier": "note primary/info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：锁解决的是并发事务之间如何排队，不是“让 SQL 自动正确”。正确的扣库存流程要同时具备事务边界、锁定读、条件校验、短持锁时间和失败重试；本篇把等待和死锁当作可观察结果来处理。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "锁模型",
+          "reader_task": "沿图中的关系或时序讲清「锁模型」：InnoDB 尽量在索引记录上加锁。记录锁保护已存在的索引项，间隙锁保护两个索引项之间的空档，next-key lock 把记录和前面的间隙一起锁住；意图锁让表级与行级锁的兼容关系可判断，MDL 则保护表定义。",
+          "core_content": "本节直接交付：InnoDB 尽量在索引记录上加锁。记录锁保护已存在的索引项，间隙锁保护两个索引项之间的空档，next-key lock 把记录和前面的间隙一起锁住；意图锁让表级与行级锁的兼容关系可判断，MDL 则保护表定义。",
+          "carrier": "mermaid + table + note info flat",
+          "rationale": "「锁模型」需要先看到InnoDB 尽量在索引记录上加锁。记录锁保护已存在的索引项，间隙锁保护两个索引项之间的空档，next-key lock 把记录和前面的间隙；因此采用mermaid + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：InnoDB 尽量在索引记录上加锁。记录锁保护已存在的索引项，间隙锁保护两个索引项之间的空档，next-key lock 把记录和前面的间隙一起锁住；意图锁让表级与行级锁的兼容关系可判断，MDL 则保护表定义。；表格字段：锁 | 保护范围 | 典型触发。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "锁定读",
+          "reader_task": "复现本节示例并解释「锁定读」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：普通 SELECT 是一致性读，通常不阻塞写；`FOR UPDATE` 读取当前版本并申请排他锁，`FOR SHARE` 申请共享锁。锁定读必须在显式事务中，否则语句结束后锁很快释放，无法保护后续业务动作。",
+          "carrier": "code + note primary/success flat",
+          "rationale": "「锁定读」需要先看到普通 SELECT 是一致性读，通常不阻塞写；`FOR UPDATE` 读取当前版本并申请排他锁，`FOR SHARE` 申请共享锁。锁定读；因此采用code + note primary/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：普通 SELECT 是一致性读，通常不阻塞写；`FOR UPDATE` 读取当前版本并申请排他锁，`FOR SHARE` 申请共享锁。锁定读必须在显式事务中，否则语句结束后锁很快释放，无法保护后续业务动作。；示例：START TRANSACTION;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "并发等待",
+          "reader_task": "沿图中的关系或时序讲清「并发等待」：两个会话按相同顺序取得资源，通常只会排队；取得相反顺序则可能形成环路并触发死锁。死锁检测会回滚其中一个事务，应用必须捕获错误、短暂退避并重试整个事务。",
+          "core_content": "本节直接交付：两个会话按相同顺序取得资源，通常只会排队；取得相反顺序则可能形成环路并触发死锁。死锁检测会回滚其中一个事务，应用必须捕获错误、短暂退避并重试整个事务。",
+          "carrier": "timeline + code + note info/danger flat",
+          "rationale": "「并发等待」需要先看到两个会话按相同顺序取得资源，通常只会排队；取得相反顺序则可能形成环路并触发死锁。死锁检测会回滚其中一个事务，应用必须捕获错误、短暂退避并重试；因此采用timeline + code + note info/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：两个会话按相同顺序取得资源，通常只会排队；取得相反顺序则可能形成环路并触发死锁。死锁检测会回滚其中一个事务，应用必须捕获错误、短暂退避并重试整个事务。；示例：-- 会话 A。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "任务领取",
+          "reader_task": "复现本节示例并解释「任务领取」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：队列 worker 可以用 `FOR UPDATE SKIP LOCKED` 跳过已被其他 worker 锁住的任务，避免所有消费者排队；它牺牲了严格顺序，适合可重试、可恢复的任务，不适合要求全局顺序的结算流程。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「任务领取」需要先看到队列 worker 可以用 `FOR UPDATE SKIP LOCKED` 跳过已被其他 worker 锁住的任务，避免所有消费者排队；它；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：队列 worker 可以用 `FOR UPDATE SKIP LOCKED` 跳过已被其他 worker 锁住的任务，避免所有消费者排队；它牺牲了严格顺序，适合可重试、可恢复的任务，不适合要求全局顺序的结算流程。；示例：START TRANSACTION;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "锁诊断",
+          "reader_task": "复现本节示例并解释「锁诊断」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：诊断记录应包含等待者、阻塞者、对象/索引、锁模式、事务开始时间、SQL 和最终处理动作。没有阻塞链，单凭“数据库变慢”不能归因于行锁。",
+          "carrier": "code + note success flat",
+          "rationale": "「锁诊断」需要先看到诊断记录应包含等待者、阻塞者、对象/索引、锁模式、事务开始时间、SQL 和最终处理动作。没有阻塞链，单凭“数据库变慢”不能归因于行锁。；因此采用code + note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：诊断记录应包含等待者、阻塞者、对象/索引、锁模式、事务开始时间、SQL 和最终处理动作。没有阻塞链，单凭“数据库变慢”不能归因于行锁。；示例：SELECT *。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "诊断边界",
+          "reader_task": "用自己的话说明「诊断边界」为何如此，并核对：应用互斥锁、连接池串行化和 InnoDB 行锁不在同一层；内部 mutex、MDL 和存储引擎锁也有不同的观察入口。先确认等待事件归属，再选择 Performance Schema、InnoDB 状态或应用 tracing，不要把所有等待都称为“行锁”。",
+          "core_content": "本节直接交付：应用互斥锁、连接池串行化和 InnoDB 行锁不在同一层；内部 mutex、MDL 和存储引擎锁也有不同的观察入口。先确认等待事件归属，再选择 Performance Schema、InnoDB 状态或应用 tracing，不要把所有等待都称为“行锁”。",
+          "carrier": "folding",
+          "rationale": "「诊断边界」需要先看到应用互斥锁、连接池串行化和 InnoDB 行锁不在同一层；内部 mutex、MDL 和存储引擎锁也有不同的观察入口。先确认等待事件归属，再选；因此采用folding，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：应用互斥锁、连接池串行化和 InnoDB 行锁不在同一层；内部 mutex、MDL 和存储引擎锁也有不同的观察入口。先确认等待事件归属，再选择 Performance Schema、InnoDB 状态或应用 tracing，不要把所有等待都称为“行锁”。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：START TRANSACTION;；表格字段：选择 | worker 行为 | 适用场景；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(十三)备份恢复与复制": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：备份不是“生成一个文件”，而是能在目标时间点恢复到可用状态并证明数据正确。RecoverLab 用基线备份、binlog、恢复环境、复制状态和业务校验串成一条可演练链路。",
+          "core_content": "开篇直接交付的范围与判断依据：备份不是“生成一个文件”，而是能在目标时间点恢复到可用状态并证明数据正确。RecoverLab 用基线备份、binlog、恢复环境、复制状态和业务校验串成一条可演练链路。",
+          "carrier": "note primary/info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：备份不是“生成一个文件”，而是能在目标时间点恢复到可用状态并证明数据正确。RecoverLab 用基线备份、binlog、恢复环境、复制状态和业务校验串成一条可演练链路。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "RecoverLab",
+          "reader_task": "沿图中的关系或时序讲清「RecoverLab」：复制不是备份：误删、错误 UPDATE 和权限误用都可能被复制到副本。备份必须有独立介质、保留策略、加密、恢复账号和定期演练；副本只能降低故障切换时间的一部分。",
+          "core_content": "本节直接交付：复制不是备份：误删、错误 UPDATE 和权限误用都可能被复制到副本。备份必须有独立介质、保留策略、加密、恢复账号和定期演练；副本只能降低故障切换时间的一部分。",
+          "carrier": "mermaid + note danger flat",
+          "rationale": "「RecoverLab」需要先看到复制不是备份：误删、错误 UPDATE 和权限误用都可能被复制到副本。备份必须有独立介质、保留策略、加密、恢复账号和定期演练；副本只能降低故；因此采用mermaid + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：复制不是备份：误删、错误 UPDATE 和权限误用都可能被复制到副本。备份必须有独立介质、保留策略、加密、恢复账号和定期演练；副本只能降低故障切换时间的一部分。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "备份类型",
+          "reader_task": "比较表中的维度，说明「备份类型」在什么条件下成立。",
+          "core_content": "本节直接交付：备份策略由 RPO（最多丢多少数据）和 RTO（多久恢复）反推。只有全量备份没有 binlog 只能恢复到备份时刻；只有副本没有独立基线无法应对逻辑误删。",
+          "carrier": "table + note info flat",
+          "rationale": "「备份类型」需要先看到备份策略由 RPO（最多丢多少数据）和 RTO（多久恢复）反推。只有全量备份没有 binlog 只能恢复到备份时刻；只有副本没有独立基线无法；因此采用table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：备份策略由 RPO（最多丢多少数据）和 RTO（多久恢复）反推。只有全量备份没有 binlog 只能恢复到备份时刻；只有副本没有独立基线无法应对逻辑误删。；表格字段：类型 | 一致性/速度 | 适用。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "逻辑备份",
+          "reader_task": "复现本节示例并解释「逻辑备份」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：InnoDB 逻辑备份通常使用 `--single-transaction` 获得一致性快照，配合 `--source-data=2` 记录开始位置，恢复时才能从基线之后重放 binlog。运行前要确认长事务、非事务表和锁影响。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「逻辑备份」需要先看到InnoDB 逻辑备份通常使用 `--single-transaction` 获得一致性快照，配合 `--source-data=2` 记录；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：InnoDB 逻辑备份通常使用 `--single-transaction` 获得一致性快照，配合 `--source-data=2` 记录开始位置，恢复时才能从基线之后重放 binlog。运行前要确认长事务、非事务表和锁影响。；示例：mysqldump \\。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "时间点恢复",
+          "reader_task": "沿图中的关系或时序讲清「时间点恢复」：PITR 的 stop 时间、时区、起始位点和 GTID 集合必须精确；边界错一秒或错一个事件都可能重复/漏写。恢复前保留原始 binlog，使用只读副本或隔离实例演练，禁止把示例位点直接当成生产位点。",
+          "core_content": "本节直接交付：PITR 的 stop 时间、时区、起始位点和 GTID 集合必须精确；边界错一秒或错一个事件都可能重复/漏写。恢复前保留原始 binlog，使用只读副本或隔离实例演练，禁止把示例位点直接当成生产位点。",
+          "carrier": "timeline + code + note danger flat",
+          "rationale": "「时间点恢复」需要先看到PITR 的 stop 时间、时区、起始位点和 GTID 集合必须精确；边界错一秒或错一个事件都可能重复/漏写。恢复前保留原始 binlog；因此采用timeline + code + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：PITR 的 stop 时间、时区、起始位点和 GTID 集合必须精确；边界错一秒或错一个事件都可能重复/漏写。恢复前保留原始 binlog，使用只读副本或隔离实例演练，禁止把示例位点直接当成生产位点。；示例：# 查看 binlog 事件和时间边界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "异步复制",
+          "reader_task": "比较表中的维度，说明「异步复制」在什么条件下成立。",
+          "core_content": "本节直接交付：异步复制通常由 source 写 binlog，replica 拉取并写 relay log，再由 SQL 线程应用。延迟、网络、过滤规则和错误都会让副本落后；复制状态是恢复证据的一部分，不是“红绿灯”装饰。",
+          "carrier": "code + table + note primary/info/warning flat",
+          "rationale": "「异步复制」需要先看到异步复制通常由 source 写 binlog，replica 拉取并写 relay log，再由 SQL 线程应用。延迟、网络、过滤规则和；因此采用code + table + note primary/info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：异步复制通常由 source 写 binlog，replica 拉取并写 relay log，再由 SQL 线程应用。延迟、网络、过滤规则和错误都会让副本落后；复制状态是恢复证据的一部分，不是“红绿灯”装饰。；示例：-- 仅示意配置，密码使用凭据系统，不写入脚本；表格字段：状态字段 | 解释。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "日志保留",
+          "reader_task": "复现本节示例并解释「日志保留」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`PURGE BINARY LOGS` 和 `RESET BINARY LOGS AND GTIDS` 可能破坏复制/PITR 所需证据。清理前必须确认所有副本已执行、备份已验证、保留期限已满足，并保留审批与恢复记录。",
+          "carrier": "code + note danger flat",
+          "rationale": "「日志保留」需要先看到`PURGE BINARY LOGS` 和 `RESET BINARY LOGS AND GTIDS` 可能破坏复制/PITR 所需证据。清；因此采用code + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`PURGE BINARY LOGS` 和 `RESET BINARY LOGS AND GTIDS` 可能破坏复制/PITR 所需证据。清理前必须确认所有副本已执行、备份已验证、保留期限已满足，并保留审批与恢复记录。；示例：SHOW BINARY LOGS;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "恢复验收",
+          "reader_task": "复现本节示例并解释「恢复验收」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：RecoverLab 的通过标准是：能从一份完整基线恢复、能在指定时间点停止重放、业务关键查询与约束校验通过、恢复耗时和数据丢失量被记录、失败时有明确回退。没有实际恢复演练，备份只能算“已生成”。",
+          "carrier": "code + note success flat",
+          "rationale": "「恢复验收」需要先看到RecoverLab 的通过标准是：能从一份完整基线恢复、能在指定时间点停止重放、业务关键查询与约束校验通过、恢复耗时和数据丢失量被记录、失；因此采用code + note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：RecoverLab 的通过标准是：能从一份完整基线恢复、能在指定时间点停止重放、业务关键查询与约束校验通过、恢复耗时和数据丢失量被记录、失败时有明确回退。没有实际恢复演练，备份只能算“已生成”。；示例：SELECT COUNT(*) AS users FROM users;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：# 1. 生成并校验一致基线；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(十二)安全与权限": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：数据库安全首先是边界设计：谁能从哪里连接、以哪个角色执行什么动作、连接是否加密、异常如何审计。应用账户不应拥有改表结构、授予权限或读取不必要个人数据的能力。",
+          "core_content": "开篇直接交付的范围与判断依据：数据库安全首先是边界设计：谁能从哪里连接、以哪个角色执行什么动作、连接是否加密、异常如何审计。应用账户不应拥有改表结构、授予权限或读取不必要个人数据的能力。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：数据库安全首先是边界设计：谁能从哪里连接、以哪个角色执行什么动作、连接是否加密、异常如何审计。应用账户不应拥有改表结构、授予权限或读取不必要个人数据的能力。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "安全链",
+          "reader_task": "沿图中的关系或时序讲清「安全链」：认证回答“你是谁”，授权回答“你能做什么”，加密回答“传输途中谁能看到”，审计回答“发生了什么”。只给用户 GRANT 而不检查 host、TLS 和日志，不能称为完整安全方案。",
+          "core_content": "本节直接交付：认证回答“你是谁”，授权回答“你能做什么”，加密回答“传输途中谁能看到”，审计回答“发生了什么”。只给用户 GRANT 而不检查 host、TLS 和日志，不能称为完整安全方案。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「安全链」需要先看到认证回答“你是谁”，授权回答“你能做什么”，加密回答“传输途中谁能看到”，审计回答“发生了什么”。只给用户 GRANT 而不检查 host、；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：认证回答“你是谁”，授权回答“你能做什么”，加密回答“传输途中谁能看到”，审计回答“发生了什么”。只给用户 GRANT 而不检查 host、TLS 和日志，不能称为完整安全方案。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "账户与主机",
+          "reader_task": "比较表中的维度，说明「账户与主机」在什么条件下成立。",
+          "core_content": "本节直接交付：MySQL 账户由 `'user'@'host'` 共同标识。`'app'@'localhost'` 与 `'app'@'10.%'` 是两个账户；host 匹配和更具体规则会影响最终使用哪条认证与权限记录。",
+          "carrier": "table + note primary flat",
+          "rationale": "「账户与主机」需要先看到MySQL 账户由 `'user'@'host'` 共同标识。`'app'@'localhost'` 与 `'app'@'10.%'` 是两；因此采用table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：MySQL 账户由 `'user'@'host'` 共同标识。`'app'@'localhost'` 与 `'app'@'10.%'` 是两个账户；host 匹配和更具体规则会影响最终使用哪条认证与权限记录。；表格字段：设计 | 推荐 | 风险。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "角色授权",
+          "reader_task": "复现本节示例并解释「角色授权」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：角色把权限集合与人/服务账户分离。先创建角色，再按对象授予最小权限，最后激活角色并用 `SHOW GRANTS` 回读；不要直接给应用账户 `ALL PRIVILEGES ON *.*`。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「角色授权」需要先看到角色把权限集合与人/服务账户分离。先创建角色，再按对象授予最小权限，最后激活角色并用 `SHOW GRANTS` 回读；不要直接给应用账户 ；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：角色把权限集合与人/服务账户分离。先创建角色，再按对象授予最小权限，最后激活角色并用 `SHOW GRANTS` 回读；不要直接给应用账户 `ALL PRIVILEGES ON *.*`。；示例：CREATE ROLE IF NOT EXISTS 'shoplab_readwrite'@'%';。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "权限边界",
+          "reader_task": "比较表中的维度，说明「权限边界」在什么条件下成立。",
+          "core_content": "本节直接交付：授权变更通常立即影响后续语句；`FLUSH PRIVILEGES` 不是日常 GRANT/REVOKE 的必需步骤。撤销权限前先回读当前 grants，避免把角色继承或默认角色误判成直接授权。",
+          "carrier": "code + table + note info/warning flat",
+          "rationale": "「权限边界」需要先看到授权变更通常立即影响后续语句；`FLUSH PRIVILEGES` 不是日常 GRANT/REVOKE 的必需步骤。撤销权限前先回读当前 g；因此采用code + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：授权变更通常立即影响后续语句；`FLUSH PRIVILEGES` 不是日常 GRANT/REVOKE 的必需步骤。撤销权限前先回读当前 grants，避免把角色继承或默认角色误判成直接授权。；示例：-- 会话级临时激活角色；默认角色决定新连接的初始权限，二者不是一回事。；表格字段：权限层级 | 示例 | 适用。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "预处理语句",
+          "reader_task": "复现本节示例并解释「预处理语句」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：值使用参数绑定，能减少 SQL 注入和类型转换歧义；表名、列名和排序方向不能用值参数替代，必须从白名单映射到固定 SQL 片段。预处理语句还有资源生命周期，执行后要释放。",
+          "carrier": "code + note primary/danger flat",
+          "rationale": "「预处理语句」需要先看到值使用参数绑定，能减少 SQL 注入和类型转换歧义；表名、列名和排序方向不能用值参数替代，必须从白名单映射到固定 SQL 片段。预处理语句还；因此采用code + note primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：值使用参数绑定，能减少 SQL 注入和类型转换歧义；表名、列名和排序方向不能用值参数替代，必须从白名单映射到固定 SQL 片段。预处理语句还有资源生命周期，执行后要释放。；示例：PREPARE find_order FROM。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "连接安全",
+          "reader_task": "复现本节示例并解释「连接安全」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：TLS 保护客户端与服务器之间的传输，账户 host 和防火墙决定谁能到达服务器；两者不能互相替代。对必须加密的账户使用 `REQUIRE SSL` 或更严格的证书要求，并在连接后回读 `@@session.ssl_cipher` 等证据。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「连接安全」需要先看到TLS 保护客户端与服务器之间的传输，账户 host 和防火墙决定谁能到达服务器；两者不能互相替代。对必须加密的账户使用 `REQUIRE ；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：TLS 保护客户端与服务器之间的传输，账户 host 和防火墙决定谁能到达服务器；两者不能互相替代。对必须加密的账户使用 `REQUIRE SSL` 或更严格的证书要求，并在连接后回读 `@@session.ssl_cipher` 等证据。；示例：ALTER USER 'shoplab_app'@'10.20.%' REQUIRE SSL;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "认证迁移",
+          "reader_task": "比较表中的维度，说明「认证迁移」在什么条件下成立。",
+          "core_content": "本节直接交付：MySQL 8.4 的默认认证方向是 `caching_sha2_password`。旧系统中的 `mysql_native_password` 在 8.4 默认禁用，迁移前要盘点客户端驱动、连接池和复制账户，确认兼容后再轮换认证插件；不要在文章中给出真实密码或启用开关作为“一键修复”。",
+          "carrier": "table + note info flat",
+          "rationale": "「认证迁移」需要先看到MySQL 8.4 的默认认证方向是 `caching_sha2_password`。旧系统中的 `mysql_native_passwor；因此采用table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：MySQL 8.4 的默认认证方向是 `caching_sha2_password`。旧系统中的 `mysql_native_password` 在 8.4 默认禁用，迁移前要盘点客户端驱动、连接池和复制账户，确认兼容后再轮换认证插件；不要在文章中给出真实密码或启用开关作为“一键修复”。；表格字段：迁移步骤 | 证据。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "资源与审计",
+          "reader_task": "复现本节示例并解释「资源与审计」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：权限验收至少包括：应用能完成目标读写、不能 DROP/ALTER/GRANT、未授权表查询失败、非 TLS 连接被拒绝、角色撤销后新语句立即失败、锁定账户无法新建连接。用最小权限测试账户完成验证，不要用 root 证明应用可用。",
+          "carrier": "code + note success flat",
+          "rationale": "「资源与审计」需要先看到权限验收至少包括：应用能完成目标读写、不能 DROP/ALTER/GRANT、未授权表查询失败、非 TLS 连接被拒绝、角色撤销后新语句立即；因此采用code + note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：权限验收至少包括：应用能完成目标读写、不能 DROP/ALTER/GRANT、未授权表查询失败、非 TLS 连接被拒绝、角色撤销后新语句立即失败、锁定账户无法新建连接。用最小权限测试账户完成验证，不要用 root 证明应用可用。；示例：ALTER USER 'shoplab_app'@'10.20.%'。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：CREATE ROLE 'shoplab_order_rw';；表格字段：检查 | 预期；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(十五)综合实战": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：综合实战不是再讲一遍 API，而是把“需求 → SQL → 结果 → 证据 → 边界”连续做完。下面的 20 道题共享 ShopLab 数据和固定输出，适合先独立答题，再用闪卡复盘。",
+          "core_content": "开篇直接交付的范围与判断依据：综合实战不是再讲一遍 API，而是把“需求 → SQL → 结果 → 证据 → 边界”连续做完。下面的 20 道题共享 ShopLab 数据和固定输出，适合先独立答题，再用闪卡复盘。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：综合实战不是再讲一遍 API，而是把“需求 → SQL → 结果 → 证据 → 边界”连续做完。下面的 20 道题共享 ShopLab 数据和固定输出，适合先独立答题，再用闪卡复盘。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "实验初始化",
+          "reader_task": "复现本节示例并解释「实验初始化」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：实验使用九张 InnoDB 表、UTC 时间和 `utf8mb4`。结构应包含用户、部门、员工、商品、库存、订单、明细、登录事件和导入批次；每道题都应在隔离库运行，先记录版本和 SQL mode。",
+          "carrier": "code + note info/warning flat",
+          "rationale": "「实验初始化」需要先看到实验使用九张 InnoDB 表、UTC 时间和 `utf8mb4`。结构应包含用户、部门、员工、商品、库存、订单、明细、登录事件和导入批次；；因此采用code + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：实验使用九张 InnoDB 表、UTC 时间和 `utf8mb4`。结构应包含用户、部门、员工、商品、库存、订单、明细、登录事件和导入批次；每道题都应在隔离库运行，先记录版本和 SQL mode。；示例：SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "题目清单",
+          "reader_task": "比较表中的维度，说明「题目清单」在什么条件下成立。",
+          "core_content": "本节直接交付：每题答案都要写输入假设、SQL、预期行/值、边界和验证命令。只贴一条“看起来正确”的 SQL，不说明并列、NULL、空集合、版本或性能，面试中仍是不完整答案。",
+          "carrier": "table + note info flat",
+          "rationale": "「题目清单」需要先看到每题答案都要写输入假设、SQL、预期行/值、边界和验证命令。只贴一条“看起来正确”的 SQL，不说明并列、NULL、空集合、版本或性能，面试；因此采用table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：每题答案都要写输入假设、SQL、预期行/值、边界和验证命令。只贴一条“看起来正确”的 SQL，不说明并列、NULL、空集合、版本或性能，面试中仍是不完整答案。；表格字段：# | 场景 | 你要交付 | 核对重点。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "答题流程",
+          "reader_task": "沿图中的关系或时序讲清「答题流程」：把自然语言中的实体、集合、时间范围、并列规则和失败动作写成明确假设。 先写可读的 CTE/子查询，再按结果确定性补 ORDER BY、DISTINCT 或 tie-breaker。",
+          "core_content": "本节直接交付：把自然语言中的实体、集合、时间范围、并列规则和失败动作写成明确假设。 先写可读的 CTE/子查询，再按结果确定性补 ORDER BY、DISTINCT 或 tie-breaker。",
+          "carrier": "timeline",
+          "rationale": "「答题流程」需要先看到把自然语言中的实体、集合、时间范围、并列规则和失败动作写成明确假设。 先写可读的 CTE/子查询，再按结果确定性补 ORDER BY、DIS；因此采用timeline，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：把自然语言中的实体、集合、时间范围、并列规则和失败动作写成明确假设。 先写可读的 CTE/子查询，再按结果确定性补 ORDER BY、DISTINCT 或 tie-breaker。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "场景闪卡",
+          "reader_task": "比较表中的维度，说明「场景闪卡」在什么条件下成立。",
+          "core_content": "本节直接交付：下面 22 张卡复用前面已经定义的原题，避免复制出多个版本；最后新增一张 cohort 卡。统一卡组 `mysql-8.4-interview`，优先级 1 是高频面试题，2 是需要巩固的中频题。",
+          "carrier": "flashcard + code + table + note primary/success/info flat",
+          "rationale": "「场景闪卡」需要先看到下面 22 张卡复用前面已经定义的原题，避免复制出多个版本；最后新增一张 cohort 卡。统一卡组 `mysql-8.4-intervie；因此采用flashcard + code + table + note primary/success/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面 22 张卡复用前面已经定义的原题，避免复制出多个版本；最后新增一张 cohort 卡。统一卡组 `mysql-8.4-interview`，优先级 1 是高频面试题，2 是需要巩固的中频题。；示例：WITH first_paid AS (；表格字段：阶段 | 规则。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "评分复盘",
+          "reader_task": "比较表中的维度，说明「评分复盘」在什么条件下成立。",
+          "core_content": "本节直接交付：随机抽一道题，用 90 秒说清四件事：输入集合是什么、SQL 为什么这样写、哪个边界会让答案错、怎样用结果或计划验证。若只能背出函数名，回到对应闪卡重新手写。",
+          "carrier": "table",
+          "rationale": "「评分复盘」需要先看到随机抽一道题，用 90 秒说清四件事：输入集合是什么、SQL 为什么这样写、哪个边界会让答案错、怎样用结果或计划验证。若只能背出函数名，回到；因此采用table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：随机抽一道题，用 90 秒说清四件事：输入集合是什么、SQL 为什么这样写、哪个边界会让答案错、怎样用结果或计划验证。若只能背出函数名，回到对应闪卡重新手写。；表格字段：维度 | 通过标准。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(十四)进阶路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：核心课程解决大多数 OLTP 和面试问题；进阶路线解决“系统已经遇到具体约束”之后的专项选择。先描述容量、查询、故障或迁移目标，再选择分支，不把低频功能当作必背清单。",
+          "core_content": "开篇直接交付的范围与判断依据：核心课程解决大多数 OLTP 和面试问题；进阶路线解决“系统已经遇到具体约束”之后的专项选择。先描述容量、查询、故障或迁移目标，再选择分支，不把低频功能当作必背清单。",
+          "carrier": "note primary flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：核心课程解决大多数 OLTP 和面试问题；进阶路线解决“系统已经遇到具体约束”之后的专项选择。先描述容量、查询、故障或迁移目标，再选择分支，不把低频功能当作必背清单。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "分支选择",
+          "reader_task": "沿图中的关系或时序讲清「分支选择」：每个分支都要写进入条件、收益、限制、验证和退出条件。没有真实规模或故障证据时，先做小型隔离实验；不要因为功能存在就把它加入生产架构。",
+          "core_content": "本节直接交付：每个分支都要写进入条件、收益、限制、验证和退出条件。没有真实规模或故障证据时，先做小型隔离实验；不要因为功能存在就把它加入生产架构。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「分支选择」需要先看到每个分支都要写进入条件、收益、限制、验证和退出条件。没有真实规模或故障证据时，先做小型隔离实验；不要因为功能存在就把它加入生产架构。；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：每个分支都要写进入条件、收益、限制、验证和退出条件。没有真实规模或故障证据时，先做小型隔离实验；不要因为功能存在就把它加入生产架构。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "存储对象",
+          "reader_task": "比较表中的维度，说明「存储对象」在什么条件下成立。",
+          "core_content": "本节直接交付：视图有算法、可更新性和 CHECK OPTION 边界；存储程序有参数、SQL 安全上下文和限制；触发器按行执行，批量写入时成本和调试复杂度会放大；事件需要启用调度器并监控失败。所有对象都应纳入迁移脚本、测试和审计。",
+          "carrier": "code + table + note primary/warning flat",
+          "rationale": "「存储对象」需要先看到视图有算法、可更新性和 CHECK OPTION 边界；存储程序有参数、SQL 安全上下文和限制；触发器按行执行，批量写入时成本和调试复杂度；因此采用code + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：视图有算法、可更新性和 CHECK OPTION 边界；存储程序有参数、SQL 安全上下文和限制；触发器按行执行，批量写入时成本和调试复杂度会放大；事件需要启用调度器并监控失败。所有对象都应纳入迁移脚本、测试和审计。；示例：CREATE SQL SECURITY INVOKER VIEW paid_order_summary AS；表格字段：对象 | 解决的问题 | 不适合替代。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "JSON 与搜索",
+          "reader_task": "对照各方案后选择适合「JSON 与搜索」的路径，并说明边界。",
+          "core_content": "本节直接交付：JSON validation 函数能拒绝结构不符合合同的文档，但不能自动替代外键、唯一键和金额约束；全文和空间搜索也有独立的索引、排序和版本配置，不要用普通 B+Tree 的经验直接套用。",
+          "carrier": "tabs + code + note info flat",
+          "rationale": "「JSON 与搜索」需要先看到JSON validation 函数能拒绝结构不符合合同的文档，但不能自动替代外键、唯一键和金额约束；全文和空间搜索也有独立的索引、排序和版；因此采用tabs + code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：JSON validation 函数能拒绝结构不符合合同的文档，但不能自动替代外键、唯一键和金额约束；全文和空间搜索也有独立的索引、排序和版本配置，不要用普通 B+Tree 的经验直接套用。；示例：SELECT id,；页签：JSON。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "分区设计",
+          "reader_task": "复现本节示例并解释「分区设计」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：分区主要解决大表管理和分区裁剪，不是把单个查询自动变快。选择 RANGE、LIST、HASH、KEY 或子分区前先确定分区键、生命周期、唯一键限制、跨分区查询和归档动作。",
+          "carrier": "code + note primary/danger flat",
+          "rationale": "「分区设计」需要先看到分区主要解决大表管理和分区裁剪，不是把单个查询自动变快。选择 RANGE、LIST、HASH、KEY 或子分区前先确定分区键、生命周期、唯一；因此采用code + note primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：分区主要解决大表管理和分区裁剪，不是把单个查询自动变快。选择 RANGE、LIST、HASH、KEY 或子分区前先确定分区键、生命周期、唯一键限制、跨分区查询和归档动作。；示例：CREATE TABLE login_events_archive (。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "监控与引擎",
+          "reader_task": "复现本节示例并解释「监控与引擎」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：Performance Schema 和 sys 的结果是观测窗口内的统计，不是永久历史；重启、清空表或采样设置会改变口径。其他存储引擎有自己的事务、索引和恢复边界，课程核心默认以 InnoDB 为准。",
+          "carrier": "folding + code + note warning flat",
+          "rationale": "「监控与引擎」需要先看到Performance Schema 和 sys 的结果是观测窗口内的统计，不是永久历史；重启、清空表或采样设置会改变口径。其他存储引擎有自；因此采用folding + code + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Performance Schema 和 sys 的结果是观测窗口内的统计，不是永久历史；重启、清空表或采样设置会改变口径。其他存储引擎有自己的事务、索引和恢复边界，课程核心默认以 InnoDB 为准。；示例：SELECT TABLE_SCHEMA, TABLE_NAME, ENGINE, TABLE_ROWS。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "复制专项",
+          "reader_task": "比较表中的维度，说明「复制专项」在什么条件下成立。",
+          "core_content": "本节直接交付：复制专项不会自动提高数据正确性。每个方案都要记录延迟、丢失窗口、冲突、切换时读写入口、回退和运维成本；先把 A13 的基线备份与 PITR 做好，再讨论延迟副本或半同步。",
+          "carrier": "table + note primary flat",
+          "rationale": "「复制专项」需要先看到复制专项不会自动提高数据正确性。每个方案都要记录延迟、丢失窗口、冲突、切换时读写入口、回退和运维成本；先把 A13 的基线备份与 PITR ；因此采用table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：复制专项不会自动提高数据正确性。每个方案都要记录延迟、丢失窗口、冲突、切换时读写入口、回退和运维成本；先把 A13 的基线备份与 PITR 做好，再讨论延迟副本或半同步。；表格字段：专项 | 目标 | 进入条件。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "版本迁移",
+          "reader_task": "沿图中的关系或时序讲清「版本迁移」：不要仅凭“二进制安装成功”宣布升级完成。升级必须有支持路径、预检、可恢复备份、隔离演练、客户端兼容和回退证据；遇到不支持的跨版本路径时先停下，不用强行跳级。",
+          "core_content": "本节直接交付：不要仅凭“二进制安装成功”宣布升级完成。升级必须有支持路径、预检、可恢复备份、隔离演练、客户端兼容和回退证据；遇到不支持的跨版本路径时先停下，不用强行跳级。",
+          "carrier": "timeline + code + table + note danger flat",
+          "rationale": "「版本迁移」需要先看到不要仅凭“二进制安装成功”宣布升级完成。升级必须有支持路径、预检、可恢复备份、隔离演练、客户端兼容和回退证据；遇到不支持的跨版本路径时先停下；因此采用timeline + code + table + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：不要仅凭“二进制安装成功”宣布升级完成。升级必须有支持路径、预检、可恢复备份、隔离演练、客户端兼容和回退证据；遇到不支持的跨版本路径时先停下，不用强行跳级。；示例：# 仅在克隆环境执行预检；实际参数按当前版本文档和工具输出调整。；表格字段：方式 | 优点 | 风险/适用边界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "MySQL(四)查询基础与聚合": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：查询题先确定“输入行如何变成结果集”，再写函数。只要把 NULL、分组、并列和排序边界说清楚，SQL 才不仅能跑，还能解释为什么得到这个结果。",
+          "core_content": "开篇直接交付的范围与判断依据：查询题先确定“输入行如何变成结果集”，再写函数。只要把 NULL、分组、并列和排序边界说清楚，SQL 才不仅能跑，还能解释为什么得到这个结果。",
+          "carrier": "code + note primary/info/success flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：查询题先确定“输入行如何变成结果集”，再写函数。只要把 NULL、分组、并列和排序边界说清楚，SQL 才不仅能跑，还能解释为什么得到这个结果。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "执行顺序",
+          "reader_task": "沿图中的关系或时序讲清「执行顺序」：SQL 的书写顺序不等于逻辑执行顺序。理解逻辑顺序能解释为什么 WHERE 不能直接使用 SELECT 别名，以及为什么组过滤要写 HAVING。",
+          "core_content": "本节直接交付：SQL 的书写顺序不等于逻辑执行顺序。理解逻辑顺序能解释为什么 WHERE 不能直接使用 SELECT 别名，以及为什么组过滤要写 HAVING。",
+          "carrier": "mermaid + note info/primary flat",
+          "rationale": "「执行顺序」需要先看到SQL 的书写顺序不等于逻辑执行顺序。理解逻辑顺序能解释为什么 WHERE 不能直接使用 SELECT 别名，以及为什么组过滤要写 HAVI；因此采用mermaid + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：SQL 的书写顺序不等于逻辑执行顺序。理解逻辑顺序能解释为什么 WHERE 不能直接使用 SELECT 别名，以及为什么组过滤要写 HAVING。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "表达式与 NULL",
+          "reader_task": "比较表中的维度，说明「表达式与 NULL」在什么条件下成立。",
+          "core_content": "本节直接交付：NULL 表示未知或缺失，不等于 0、空字符串或 FALSE。`NULL = NULL` 的结果不是 TRUE；用 `IS NULL`/`IS NOT NULL` 判断，用 `COALESCE` 明确缺失值的展示策略。",
+          "carrier": "code + table + note warning/info flat",
+          "rationale": "「表达式与 NULL」需要先看到NULL 表示未知或缺失，不等于 0、空字符串或 FALSE。`NULL = NULL` 的结果不是 TRUE；用 `IS NULL`/`I；因此采用code + table + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：NULL 表示未知或缺失，不等于 0、空字符串或 FALSE。`NULL = NULL` 的结果不是 TRUE；用 `IS NULL`/`IS NOT NULL` 判断，用 `COALESCE` 明确缺失值的展示策略。；示例：SELECT；表格字段：表达式 | 结果 | 原因。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "函数转换",
+          "reader_task": "对照各方案后选择适合「函数转换」的路径，并说明边界。",
+          "core_content": "本节直接交付：`DATE(ordered_at)` 适合展示，按时间范围过滤时优先写 `ordered_at >= '2026-07-01' AND ordered_at < '2026-08-01'`，避免对列套函数破坏索引使用。 `LOWER`、`TRIM`、`SUBSTRING` 用于清洗和展示；唯一性和搜索语义应由列的字符集、排序规则和索引共同定义。",
+          "carrier": "tabs + table",
+          "rationale": "「函数转换」需要先看到`DATE(ordered_at)` 适合展示，按时间范围过滤时优先写 `ordered_at >= '2026-07-01' AND or；因此采用tabs + table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`DATE(ordered_at)` 适合展示，按时间范围过滤时优先写 `ordered_at >= '2026-07-01' AND ordered_at < '2026-08-01'`，避免对列套函数破坏索引使用。 `LOWER`、`TRIM`、`SUBSTRING` 用于清洗和展示；唯一性和搜索语义应由列的字符集、排序规则和索引共同定义。；表格字段：任务 | 推荐写法 | 常见误区；页签：数值。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "聚合分组",
+          "reader_task": "复现本节示例并解释「聚合分组」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：聚合函数把多行压缩成一个值。`COUNT(*)` 统计行，`COUNT(column)` 不统计该列为 NULL 的行，`COUNT(DISTINCT column)` 统计去重后的非 NULL 值；选择函数时要先说清楚分母。",
+          "carrier": "code + note primary/warning/info flat",
+          "rationale": "「聚合分组」需要先看到聚合函数把多行压缩成一个值。`COUNT(*)` 统计行，`COUNT(column)` 不统计该列为 NULL 的行，`COUNT(DIS；因此采用code + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：聚合函数把多行压缩成一个值。`COUNT(*)` 统计行，`COUNT(column)` 不统计该列为 NULL 的行，`COUNT(DISTINCT column)` 统计去重后的非 NULL 值；选择函数时要先说清楚分母。；示例：SELECT。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "HAVING 条件聚合",
+          "reader_task": "复现本节示例并解释「HAVING 条件聚合」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：WHERE 决定哪些行进入分组，HAVING 决定哪些组留下。条件聚合把多个指标放在同一遍扫描中，用 `SUM(CASE WHEN ... THEN ... ELSE 0 END)` 保留分母和分子。",
+          "carrier": "code + note info/success flat",
+          "rationale": "「HAVING 条件聚合」需要先看到WHERE 决定哪些行进入分组，HAVING 决定哪些组留下。条件聚合把多个指标放在同一遍扫描中，用 `SUM(CASE WHEN ... ；因此采用code + note info/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：WHERE 决定哪些行进入分组，HAVING 决定哪些组留下。条件聚合把多个指标放在同一遍扫描中，用 `SUM(CASE WHEN ... THEN ... ELSE 0 END)` 保留分母和分子。；示例：SELECT。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "排序分页",
+          "reader_task": "比较表中的维度，说明「排序分页」在什么条件下成立。",
+          "core_content": "本节直接交付：结果集没有隐含顺序。面试答案和接口分页都要给出稳定的完整排序键，例如 `ORDER BY ordered_at DESC, id DESC`；只按时间排序遇到同一时间戳时结果可能抖动。",
+          "carrier": "code + table + note primary/warning/info flat",
+          "rationale": "「排序分页」需要先看到结果集没有隐含顺序。面试答案和接口分页都要给出稳定的完整排序键，例如 `ORDER BY ordered_at DESC, id DESC`；因此采用code + table + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：结果集没有隐含顺序。面试答案和接口分页都要给出稳定的完整排序键，例如 `ORDER BY ordered_at DESC, id DESC`；只按时间排序遇到同一时间戳时结果可能抖动。；示例：SELECT id, user_id, total_amount, ordered_at；表格字段：函数族 | 最小例子 | 边界。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：SELECT MAX(salary) AS second_salary；表格字段：month | paid rows | sales；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ]
+    }
   },
   "capability_ledger": {
     "schema_version": "1.0",
     "source_manifest": {
-      "frozen_at": "2026-08-25",
+      "frozen_at": "2026-08-26",
       "subject": "MySQL 8.4 LTS Community Server with InnoDB",
       "old_note_sha256": "3d2854afee666540037b7b207540e8d7b798dcc1c619af3d828a44e634fdcae0",
       "discovery_root": "https://dev.mysql.com/doc/refman/8.4/en/",
@@ -5001,11 +6404,11 @@
         ],
         "refman8.4:foreign-key-optimization": [
           "core",
-          "A03",
-          "写入与约束",
-          "支撑可靠写入、约束失败与 DDL/DML 边界",
+          "A07",
+          "索引结构与设计",
+          "评估表拆分、外键访问路径与 I/O/缓存成本",
           "planned_verified",
-          "statement"
+          "reference"
         ],
         "refman8.4:implicit-commit": [
           "core",
@@ -5024,12 +6427,12 @@
           "statement"
         ],
         "refman8.4:import-table": [
-          "brief",
-          "A03",
-          "写入边界",
-          "识别导入与查询表达式写入边界",
+          "excluded",
+          null,
+          null,
+          "MyISAM 文件级导入路径，不属于本课程 InnoDB Community 主线；使用 LOAD DATA 或备份恢复流程",
           "planned_verified",
-          "statement"
+          "reference"
         ],
         "refman8.4:values": [
           "brief",
@@ -7434,6 +8837,13 @@
             "连续登录"
           ]
         ],
+        "A07": [
+          [
+            "mysql84-07-index-design-p1",
+            1,
+            "联合索引、覆盖索引与 ICP"
+          ]
+        ],
         "A08": [
           [
             "mysql84-08-sargable-rewrite-p1",
@@ -7444,6 +8854,13 @@
             "mysql84-08-keyset-pagination-p1",
             1,
             "Keyset Pagination"
+          ]
+        ],
+        "A09": [
+          [
+            "mysql84-09-redo-undo-binlog-p1",
+            1,
+            "redo、undo 与 binlog"
           ]
         ],
         "A10": [
@@ -7472,6 +8889,13 @@
             "应用角色授权"
           ]
         ],
+        "A13": [
+          [
+            "mysql84-13-backup-vs-replication-p1",
+            1,
+            "备份、复制与 PITR"
+          ]
+        ],
         "A15": [
           [
             "mysql84-15-retention-cohort-p1",
@@ -7497,16 +8921,19 @@
           "mysql84-06-topn-per-group-p1",
           "mysql84-06-running-total-p1",
           "mysql84-06-consecutive-login-p1",
+          "mysql84-07-index-design-p1",
           "mysql84-08-sargable-rewrite-p1",
           "mysql84-08-keyset-pagination-p1",
+          "mysql84-09-redo-undo-binlog-p1",
           "mysql84-10-order-rollback-p1",
           "mysql84-11-stock-for-update-p1",
-          "mysql84-12-app-role-grants-p1"
+          "mysql84-12-app-role-grants-p1",
+          "mysql84-13-backup-vs-replication-p1"
         ],
         "new": [
           "mysql84-15-retention-cohort-p1"
         ],
-        "total": 20,
+        "total": 23,
         "excluded_from_refs": [
           "mysql84-06-deduplicate-row-number-p2",
           "mysql84-11-skip-locked-worker-p2"
@@ -7517,10 +8944,10 @@
       "official_capabilities": 328,
       "ledger_entries": 328,
       "core": 225,
-      "brief": 37,
+      "brief": 36,
       "advanced": 53,
       "migration": 3,
-      "excluded": 10,
+      "excluded": 11,
       "official_only": 0,
       "ledger_only": 0,
       "duplicates": 0,

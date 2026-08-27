@@ -14,7 +14,7 @@ series: Playwright
 series_order: 5
 published: true
 abbrlink: fdf6b990
-date: 2026-08-24 12:08:00
+date: 2026-04-11 00:00:00
 ---
 
 {% course_series %}
@@ -41,7 +41,7 @@ page.get_by_role("button", name="保存").click()
 expect(page.get_by_role("status")).to_have_text("保存成功")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `fill()`、`click()` 等 Locator 操作自带 Actionability 检查。不要在每个动作前机械添加 `wait_for_selector()`。
 {% endnote %}
 
@@ -69,7 +69,7 @@ page.get_by_label("客户名称").fill("Alice")
 page.get_by_label("备注").fill("工作日送达")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `fill()` 只接受 `<input>`、`<textarea>` 或 `[contenteditable]` 等可编辑目标。若误把按钮或普通段落当成输入框，Playwright 会在可操作性检查后报错；不要用 `force=True` 掩盖定位错误。完整验证应同时检查输入值和提交后的页面结果：
 {% endnote %}
 
@@ -125,7 +125,7 @@ assert selected == ["CN"]
 expect(country).to_have_value("CN")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `select_option()` 会等待目标 `<option>` 出现，完成选择后触发 `input` 与 `change` 事件，并返回已选 value 列表。传入不存在的 value 会等待到超时；对自定义下拉框或其他非 `<select>` 元素调用则会报错，此时应改用下方的真实点击路径。
 {% endnote %}
 
@@ -227,7 +227,7 @@ page.get_by_role("row", name="订单 A-100").click(button="right")
 page.get_by_role("link", name="订单详情").click(modifiers=["ControlOrMeta"])
 ```
 
-{% note info flat %}
+{% note primary flat %}
 链接可能打开新标签页，必须在点击前注册页面事件等待，避免漏掉瞬时创建事件。
 {% endnote %}
 
@@ -257,7 +257,7 @@ page.keyboard.press("Escape")
 page.keyboard.press("Shift+Tab")
 ```
 
-{% note info flat %}
+{% note primary flat %}
 全局按键也必须验证结果。例如 Escape 关闭对话层时，先让焦点进入目标区域，再断言对话层消失：
 {% endnote %}
 
@@ -298,13 +298,13 @@ finally:
 page.keyboard.insert_text("中文输入")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `type()` 在这里指仍受支持的 `Keyboard.type()`。`Locator.type()`、`Page.type()` 与 `Frame.type()` 属于旧式元素输入接口，不应因为文档迁移而被无声省略；已有代码应按事件需求迁移：普通输入用 `fill()`，逐键监听用 `press_sequentially()`，单个按键用 `press()`。
 {% endnote %}
 
 ### 鼠标操作
 
-{% note info flat %}
+{% note primary flat %}
 Locator 高层操作优先：
 {% endnote %}
 
@@ -327,7 +327,7 @@ page.mouse.click(box["x"] + 80, box["y"] + 40)
 expect(page.get_by_role("status")).to_have_text("已选择座位 B4")
 ```
 
-{% note info flat %}
+{% note primary flat %}
 滚动优先让目标元素自行进入视口；只有验证滚轮处理器或无限列表时才直接发送滚轮事件：
 {% endnote %}
 
@@ -340,7 +340,7 @@ page.mouse.wheel(0, 600)
 expect(page.get_by_text("第 20 条记录")).to_be_visible()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `mouse.wheel()` 只发送滚轮事件，不等待滚动完成，后面必须接 Web-first 断言。Playwright 1.62 的部分 Locator 动作还支持 `scroll="none"`，可用于验证元素在不自动滚动时是否真的可达；默认仍保持 `scroll="auto"`。
 {% endnote %}
 
@@ -348,13 +348,13 @@ expect(page.get_by_text("第 20 条记录")).to_be_visible()
 坐标会受到缩放、响应式布局和滚动影响。验证画布交互时，应固定 viewport，并断言操作后的业务状态，而不是只证明坐标点击没有报错。
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 `page.mouse.dblclick(x, y)` 用于必须通过坐标触发双击的画布区域；普通 DOM 元素仍优先使用 `locator.dblclick()`。`locator.select_text()` 选择输入框、文本域或可编辑区域的全部文本，适合验证复制和格式工具栏；`locator.blur()` 主动移走焦点，适合产品明确在 `blur` 时校验的表单。二者都应通过选区变化、校验提示等可观察结果验证。
 {% endnote %}
 
 ### 拖拽操作
 
-{% note info flat %}
+{% note primary flat %}
 标准 HTML 拖拽优先使用 `drag_to()`：
 {% endnote %}
 
@@ -407,7 +407,7 @@ page.mouse.move(
 page.mouse.up()
 ```
 
-{% note info flat %}
+{% note primary flat %}
 底层鼠标操作必须固定 viewport、确认元素在视口内，并验证目标区域的最终状态。
 {% endnote %}
 
@@ -446,7 +446,7 @@ def test_mobile_menu(browser: Browser) -> None:
         context.close()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 设置 viewport 只是改变页面尺寸；`has_touch` 与 `is_mobile` 才会进一步影响输入和页面行为。`is_mobile` 不支持 Firefox，因此示例显式限制 Chromium；Firefox 响应式检查只设置 viewport，并继续使用鼠标/键盘路径。更完整的设备模拟应按浏览器能力与测试目标单独配置。
 {% endnote %}
 
@@ -459,7 +459,7 @@ page.touchscreen.tap(120, 240)
 expect(page.get_by_role("status")).to_have_text("已选择地图坐标")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 未启用触控时，`Touchscreen.tap()` 会报错。不要把它和基于元素的 `Locator.tap()` 混为一谈。
 {% endnote %}
 
@@ -502,7 +502,7 @@ page.get_by_label("上传区域").dispatch_event("dragenter")
 
 ### 旧接口迁移
 
-{% note info flat %}
+{% note warning flat %}
 Page 选择器式动作会在每次调用时重新解析字符串选择器，官方已建议迁移到 Locator。除明确标记为 Deprecated 的 `type()` 外，多数属于 Discouraged；两者都不应继续写入新测试：
 {% endnote %}
 
@@ -573,7 +573,7 @@ def test_create_order(page: Page) -> None:
     expect(page.get_by_role("status")).to_have_text("订单创建成功")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 该示例把定位、操作和结果验证分开，失败时可以判断问题位于哪一步。
 {% endnote %}
 
@@ -649,6 +649,15 @@ def test_create_order(page: Page) -> None:
 `fill()` 设置完整值，`press_sequentially()` 逐键触发键盘事件。
 --- explanation
 普通文本输入优先使用 `fill()`；只有搜索建议、输入掩码或逐键事件属于产品合同，才需要逐键输入。
+
+两种输入方式触发的事件不同：
+
+~~~python
+field.fill("hello")                 # 直接把最终值交给控件
+field.press_sequentially("hello")   # 逐键触发键盘事件
+~~~
+
+普通表单只关心最终值时使用 fill；搜索建议、输入掩码或按键监听属于产品合同时，才需要逐键输入。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-drag-choice deck:"Playwright" priority:2 tags:"拖拽,鼠标" answer:A %}
@@ -661,6 +670,14 @@ def test_create_order(page: Page) -> None:
 A
 --- explanation
 高层 `drag_to()` 更接近用户行为并保留 Playwright 的定位与可操作性检查；仅在组件需要特殊指针轨迹时降级到底层鼠标操作。
+
+先使用高层动作表达用户意图：
+
+~~~python
+source.drag_to(target)
+~~~
+
+只有组件依赖特殊轨迹、按压时长或中间事件时，才降到底层 mouse.move、down、up。固定坐标和直接改 DOM 会绕过定位、可操作性和真实交互边界。
 {% endflashcard %}
 
 ## 参考资料

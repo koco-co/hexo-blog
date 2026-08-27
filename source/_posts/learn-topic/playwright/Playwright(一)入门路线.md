@@ -14,7 +14,7 @@ series: Playwright
 series_order: 1
 published: true
 abbrlink: 5ce76fb
-date: 2026-08-24 12:12:00
+date: 2026-04-07 00:00:00
 ---
 
 {% course_series %}
@@ -22,7 +22,7 @@ date: 2026-08-24 12:12:00
 
 
 
-{% note info flat %}
+{% note primary flat %}
 Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自动化测试不仅需要会点击元素，还要理解定位语义、自动等待、浏览器状态边界、pytest 生命周期、网络控制和失败证据。本系列以 Python 同步 API 与 `pytest-playwright` 为主线，从第一个测试逐步走到可维护的跨浏览器测试套件。
 {% endnote %}
 
@@ -45,7 +45,7 @@ Playwright 可以驱动 Chromium、Firefox 和 WebKit。真正稳定的 Web 自�
 
 ## 前置条件
 
-{% note info flat %}
+{% note warning flat %}
 开始课程前需要掌握 Python 的函数、类、上下文管理器、异常和虚拟环境基础。不要求提前了解 pytest Fixture、DOM、ARIA 或浏览器进程模型，这些知识会在对应文章中解释。
 {% endnote %}
 
@@ -58,7 +58,7 @@ Git
 可使用终端的本地开发环境
 ```
 
-{% note info flat %}
+{% note danger flat %}
 课程不依赖真实商城或线上账号。示例使用 `page.set_content()`、环回地址和虚构数据，避免把第三方站点变化、验证码或真实凭据引入学习环境。
 {% endnote %}
 

@@ -13,7 +13,7 @@ series: MySQL
 series_order: 2
 published: true
 abbrlink: 54906a1
-date: 2026-08-25 13:18:42
+date: 2026-03-24 00:00:00
 ---
 
 {% course_series %}
@@ -32,15 +32,18 @@ date: 2026-08-25 13:18:42
 erDiagram
   users ||--o{ orders : places
   users ||--o{ login_events : records
-  users ||--o{ user_imports : imports
   departments ||--o{ employees : contains
-  orders ||--|{ order_items : contains
+  orders ||--o{ order_items : contains
   products ||--o{ order_items : appears_in
-  products ||--|| inventory : has
+  products ||--o| inventory : has
 {% endmermaid %}
 
 {% note primary flat %}
 图中的一条线不是装饰：`order_items` 保存“某订单购买某商品多少件以及成交单价”，`inventory` 保存当前库存状态。把这两类事实塞进 `orders` 会产生重复列、更新异常和无法表达多商品订单的问题。
+{% endnote %}
+
+{% note info flat %}
+这组拆分也对应范式的实用检查：每个字段保持原子值（1NF），明细属性依赖完整复合键而不是其中一部分（2NF），商品、用户等描述只放在自己的实体表中（3NF）。范式减少重复和更新异常，但“订单最终必须有明细”这类跨行规则仍要由事务或业务流程验证。
 {% endnote %}
 
 | 业务事实 | 主键 | 关键约束 | 为什么独立成表 |
@@ -86,7 +89,7 @@ erDiagram
 ## 字符集
 
 {% mermaid %}
-flowchart LR
+flowchart TD
   C[客户端] --> S[连接字符集\ncharacter_set_client/results/connection]
   S --> D[数据库默认值]
   D --> T[表默认值]
@@ -110,10 +113,18 @@ SELECT @@character_set_client,
        @@character_set_results,
        @@character_set_database,
        @@collation_database;
+
+SELECT default_character_set_name, default_collation_name
+FROM information_schema.SCHEMATA
+WHERE schema_name = DATABASE();
 ```
 
+{% note warning flat %}
+不要把“客户端显示正常”当成“库中编码正确”。A02 的 DDL 假设这是按上面命令验证过的全新实验库；如果数据库已经存在，`IF NOT EXISTS` 不会替换它的默认值，应先确认查询结果，再决定是否迁移。转换旧表前还要备份、抽样读取多字节字符，并用 `SHOW CREATE TABLE` 和 `information_schema.COLUMNS` 核对列级字符集。
+{% endnote %}
+
 {% note danger flat %}
-不要把“客户端显示正常”当成“库中编码正确”。在转换旧表前先备份、抽样读取多字节字符，再用 `SHOW CREATE TABLE` 和 `information_schema.COLUMNS` 核对列级字符集；直接 `DROP DATABASE` 会删除其中全部表，权限不会因此自动删除。
+`DROP DATABASE` 会删除其中全部表，权限不会因此自动删除。只在确认库名、备份和当前连接后，对隔离实验库执行。
 {% endnote %}
 
 ## 约束建表
@@ -265,6 +276,34 @@ WHERE table_schema = DATABASE()
 ORDER BY table_name, ordinal_position;
 ```
 
+{% note warning flat %}
+下面的负例应在可丢弃的实验库执行。先准备一条合法父行，再分别验证唯一键、外键和 CHECK；错误码可能随 SQL mode 或客户端显示略有差异，但失败类别和数据不变。
+{% endnote %}
+
+```sql
+INSERT INTO users (id, email, display_name)
+VALUES (1, 'schema@example.com', 'Schema Test');
+INSERT INTO products (id, sku, name, price)
+VALUES (1, 'SCHEMA-1', 'Schema Product', 10.00);
+
+-- 预期 Duplicate entry（唯一键冲突）
+INSERT INTO products (sku, name, price)
+VALUES ('SCHEMA-1', 'Duplicate', 11.00);
+
+-- 预期 Cannot add or update a child row（外键失败）
+INSERT INTO orders (user_id, status, total_amount)
+VALUES (999999, 'pending', 0.00);
+
+-- 预期 Check constraint ... is violated（CHECK 失败）
+INSERT INTO inventory (product_id, quantity)
+VALUES (1, -1);
+
+SELECT constraint_name, table_name, constraint_type
+FROM information_schema.TABLE_CONSTRAINTS
+WHERE constraint_schema = DATABASE()
+ORDER BY table_name, constraint_name;
+```
+
 {% note success flat %}
 验收不是“CREATE TABLE 没报错”，而是结构回读和失败测试都符合设计：九张表存在、所有外键方向正确、金额没有浮点类型、中文列使用 `utf8mb4`，非法父键和负数量会被拒绝。
 {% endnote %}
@@ -300,6 +339,22 @@ SELECT legacy_note FROM user_imports;
 ```
 {% endfolding %}
 
+{% note info flat %}
+GIPK 只是 InnoDB 在缺少显式主键时的实验性兜底，不替代业务主键；默认关闭，且生成的列不可见。用一个临时探针确认服务器行为：
+{% endnote %}
+
+```sql
+SELECT @@session.sql_generate_invisible_primary_key;
+SET SESSION sql_generate_invisible_primary_key = ON;
+
+CREATE TABLE gipk_probe (
+  payload JSON NOT NULL
+) ENGINE = InnoDB;
+
+SHOW CREATE TABLE gipk_probe;
+DROP TABLE gipk_probe;
+```
+
 ## 常见问题
 
 {% flashcard basic id:mysql84-02-order-schema-ddl-p1 deck:"mysql-8.4-interview" priority:1 tags:"DDL,外键,CHECK,ShopLab" %}
@@ -307,12 +362,56 @@ SELECT legacy_note FROM user_imports;
 请为订单系统设计 DDL：订单包含多个商品，库存不能为负，订单状态只能是 pending、paid、cancelled，并且重复 SKU 必须被拒绝。关键表和约束如何写？
 --- answer
 ```sql
-CREATE TABLE products (id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, sku VARCHAR(40) NOT NULL UNIQUE, price DECIMAL(12,2) NOT NULL CHECK (price >= 0));
-CREATE TABLE orders (id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, user_id BIGINT UNSIGNED NOT NULL, status VARCHAR(20) NOT NULL CHECK (status IN ('pending','paid','cancelled')), FOREIGN KEY (user_id) REFERENCES users(id));
-CREATE TABLE order_items (order_id BIGINT UNSIGNED NOT NULL, product_id BIGINT UNSIGNED NOT NULL, quantity INT UNSIGNED NOT NULL CHECK (quantity > 0), unit_price DECIMAL(12,2) NOT NULL, PRIMARY KEY (order_id, product_id), FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id));
+CREATE TABLE users (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  display_name VARCHAR(80) NOT NULL
+) ENGINE = InnoDB;
+CREATE TABLE products (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  sku VARCHAR(40) NOT NULL UNIQUE,
+  price DECIMAL(12,2) NOT NULL CHECK (price >= 0)
+) ENGINE = InnoDB;
+CREATE TABLE inventory (
+  product_id BIGINT UNSIGNED PRIMARY KEY,
+  quantity INT UNSIGNED NOT NULL CHECK (quantity >= 0),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+) ENGINE = InnoDB;
+CREATE TABLE orders (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NOT NULL,
+  status VARCHAR(20) NOT NULL CHECK (status IN ('pending','paid','cancelled')),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE = InnoDB;
+CREATE TABLE order_items (
+  order_id BIGINT UNSIGNED NOT NULL,
+  product_id BIGINT UNSIGNED NOT NULL,
+  quantity INT UNSIGNED NOT NULL CHECK (quantity > 0),
+  unit_price DECIMAL(12,2) NOT NULL,
+  line_total DECIMAL(14,2) AS (quantity * unit_price) STORED,
+  PRIMARY KEY (order_id, product_id),
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+) ENGINE = InnoDB;
 ```
 --- explanation
-先创建 users、products，再创建 inventory、orders 和 order_items。金额用 DECIMAL，明细金额用生成列，外键保证引用存在；测试重复 SKU、负数量和不存在父键，预期分别得到重复键、CHECK 失败和外键失败。不要把商品列重复写进 orders，也不要用应用层校验替代数据库约束。
+建表顺序来自外键依赖：
+
+```text
+users ───────┐
+             ├─ orders ── order_items ── products
+products ────┘          inventory ──────┘
+```
+
+`DECIMAL` 保存金额，生成列避免重复计算，主键和唯一键保证身份，外键保证引用存在；它们解决的是不同问题：
+
+| 输入 | 预期证据 |
+| --- | --- |
+| 重复 `sku` | `UNIQUE` 冲突 |
+| 负库存/金额 | `CHECK` 或类型约束失败 |
+| 不存在的父行 | 外键失败 |
+
+“订单至少有一条明细”跨越订单头和明细表，单靠这组 DDL 不能自动表达，应在同一事务中创建并回读。把商品字段重复写进 `orders` 会破坏规范化，也无法替代数据库约束。
 {% endflashcard %}
 
 ## 参考资料
@@ -323,4 +422,5 @@ CREATE TABLE order_items (order_id BIGINT UNSIGNED NOT NULL, product_id BIGINT U
 {% link MySQL 8.4 Character Sets, https://dev.mysql.com/doc/refman/8.4/en/charset.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Foreign Keys, https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Generated Columns, https://dev.mysql.com/doc/refman/8.4/en/create-table-generated-columns.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Generated Invisible Primary Keys, https://dev.mysql.com/doc/refman/8.4/en/create-table-gipks.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}

@@ -13,13 +13,17 @@ series: MySQL
 series_order: 11
 published: true
 abbrlink: 2d2f0ce4
-date: 2026-08-25 13:18:42
+date: 2026-04-02 00:00:00
 ---
 
 {% course_series %}
 
 {% note primary flat %}
 锁解决的是并发事务之间如何排队，不是“让 SQL 自动正确”。正确的扣库存流程要同时具备事务边界、锁定读、条件校验、短持锁时间和失败重试；本篇把等待和死锁当作可观察结果来处理。
+{% endnote %}
+
+{% note info flat %}
+可复现实验输入：先按 A02 的 ShopLab DDL 建立 `inventory`、`orders`，使用 A15 的固定商品与订单键，或在隔离库准备 `inventory.product_id=101`、`quantity=20` 和若干 pending 订单。并发实验必须由两个真实连接执行，不能用单连接顺序执行来假装产生等待。
 {% endnote %}
 
 ## 锁模型
@@ -121,18 +125,32 @@ InnoDB 发现环路，选择一个事务作为 victim 并返回死锁错误。
 ```sql
 START TRANSACTION;
 
-SELECT id, user_id
+CREATE TEMPORARY TABLE claimed_order_ids (
+  id BIGINT UNSIGNED PRIMARY KEY
+);
+
+-- 先由当前 worker 领取；客户端读取返回的 id 集合。
+SELECT id
 FROM orders
 WHERE status = 'pending'
 ORDER BY id
 LIMIT 10
 FOR UPDATE SKIP LOCKED;
 
-UPDATE orders
-SET status = 'processing'
-WHERE id IN (101, 102, 103);
+-- 再把刚才同一连接返回的 id 绑定写入临时表；101/102 只是示意，实际由返回结果绑定，不能跨连接复用。
+INSERT INTO claimed_order_ids (id) VALUES (101), (102);
+
+UPDATE orders AS o
+JOIN claimed_order_ids AS c ON c.id = o.id
+SET o.status = 'processing';
+
+SELECT o.id, o.status
+FROM orders AS o
+JOIN claimed_order_ids AS c ON c.id = o.id
+ORDER BY o.id;
 
 COMMIT;
+DROP TEMPORARY TABLE claimed_order_ids;
 ```
 
 {% note warning flat %}
@@ -149,6 +167,10 @@ SELECT ENGINE_TRANSACTION_ID, THREAD_ID, trx_started,
        trx_state, trx_query
 FROM information_schema.INNODB_TRX
 ORDER BY trx_started;
+
+SELECT waiting_pid, blocking_pid, waiting_engine_lock_id,
+       blocking_engine_lock_id
+FROM performance_schema.data_lock_waits;
 
 SHOW ENGINE INNODB STATUS;
 ```
@@ -178,7 +200,14 @@ SELECT ROW_COUNT();
 -- 1 后 COMMIT；0 后 ROLLBACK
 ```
 --- explanation
-锁定读让同一商品的决策串行化，条件 UPDATE 防止应用判断与最终写入脱节。事务要短，失败要可重试；如果只先普通 SELECT 再 UPDATE，两个请求可能都读到旧库存。
+两个请求的关键差异在于“读取和扣减是否共享同一个锁定事务”：
+
+```text
+T1: SELECT ... FOR UPDATE → 读到 10 → 扣 2 → COMMIT
+T2: SELECT ... FOR UPDATE → 等 T1 提交 → 读到 8 → 扣 2
+```
+
+条件 `UPDATE ... WHERE quantity >= 2` 是第二道保险，`ROW_COUNT() = 0` 时回滚或重试。若先普通 `SELECT` 再独立 `UPDATE`，两个请求可能都读到 10，最终一起扣减形成超卖；事务应尽量短，死锁或锁等待失败时重试完整事务。
 {% endflashcard %}
 
 {% flashcard basic id:mysql84-11-skip-locked-worker-p2 deck:"mysql-8.4-interview" priority:2 tags:"SKIP LOCKED,队列,并发" %}
@@ -193,7 +222,14 @@ UPDATE orders SET status = 'processing' WHERE id IN (...);
 COMMIT;
 ```
 --- explanation
-该语义适合后台队列而非需要全局顺序的业务。返回的主键必须由当前查询驱动，不能在示例里硬编码；worker 崩溃后的恢复是设计的一部分。
+`SKIP LOCKED` 把“等待”换成“跳过”：
+
+| 选择 | worker 行为 | 适用场景 |
+| --- | --- | --- |
+| 普通 `FOR UPDATE` | 等待已锁行释放 | 需要看到全部候选 |
+| `FOR UPDATE SKIP LOCKED` | 跳过已锁行，立即拿其他行 | 并行后台队列 |
+
+返回的主键必须由当前 `SELECT` 驱动，再更新为 `processing`；不能硬编码一组可能已经被别的 worker 领取的 ID。跳过意味着顺序不再全局严格，worker 崩溃后的超时回收和重试也必须在状态机中定义。
 {% endflashcard %}
 
 ## 参考资料
@@ -202,6 +238,8 @@ COMMIT;
 {% link MySQL 8.4 InnoDB Locking, https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Next-Key Locking, https://dev.mysql.com/doc/refman/8.4/en/innodb-next-key-locking.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Locking Reads, https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 SKIP LOCKED and NOWAIT, https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Deadlocks, https://dev.mysql.com/doc/refman/8.4/en/innodb-deadlocks.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Performance Schema Lock Tables, https://dev.mysql.com/doc/refman/8.4/en/performance-schema-data-locks-table.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Metadata Locking, https://dev.mysql.com/doc/refman/8.4/en/metadata-locking.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}

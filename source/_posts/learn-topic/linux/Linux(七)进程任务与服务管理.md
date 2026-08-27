@@ -235,13 +235,25 @@ fi
 进程证据至少包含 PID、父进程、状态、命令行、动作后的退出状态；服务证据至少包含 unit 名、ActiveState、MainPID 和相邻日志。若 unit 不存在或 systemd 不可用，先记录这个失败边界，不要把它误报为“服务已停止”。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a7-term-kill deck:"Linux" priority:1 tags:"信号,进程" %}
 --- question
 为什么通常先发 SIGTERM，再考虑 SIGKILL？
 --- answer
 SIGTERM 给程序清理资源和保存状态的机会，SIGKILL 无法被捕获或清理。
 --- explanation
-先复核 PID 和命令行，观察 TERM 后的退出与日志；KILL 可能留下锁、半写文件或下游依赖异常。
+信号的顺序决定程序有没有机会收尾：
+
+```bash
+pid=$(pgrep -n -f 'sleep 60')
+ps -o pid,ppid,stat,cmd -p "$pid"
+kill -TERM "$pid"
+sleep 1
+kill -0 "$pid" 2>/dev/null && printf '%s\n' '仍在运行，才评估 SIGKILL'
+```
+
+`SIGTERM` 可以被程序捕获，常用于关闭连接、刷新状态和删除临时文件；`SIGKILL` 由内核直接终止，程序没有清理机会。两者都必须建立在已核对 PID 和命令行之上，否则“强制结束”可能命中同名的另一进程。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a7-systemctl-enable deck:"Linux" priority:1 tags:"systemd,服务" %}
@@ -250,7 +262,16 @@ systemctl start 和 enable 分别改变什么？
 --- answer
 start 改变当前运行状态，enable 建立开机启动关系；enable 不等于立刻启动。
 --- explanation
-用 is-active 和 is-enabled 分别验证，不要只看 systemctl 命令返回码。
+这两个动作作用在不同状态上，可以分别读回：
+
+```bash
+systemctl start demo.service
+systemctl is-active demo.service
+systemctl enable demo.service
+systemctl is-enabled demo.service
+```
+
+`is-active` 说明当前是否有运行中的 unit，`is-enabled` 说明启动关系是否已建立。`enable` 默认只创建启动链接，不会把停止的服务立刻拉起来；如果目标是“现在运行且重启后仍运行”，需要明确执行并验证两次。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a7-jobs-pgrep deck:"Linux" priority:2 tags:"作业控制,查找" %}
@@ -259,7 +280,16 @@ jobs 和 pgrep 的观察对象有什么不同？
 --- answer
 jobs 看当前 Bash 会话的作业，pgrep 查系统进程；后台作业可能脱离当前 Shell。
 --- explanation
-终端断开、nohup 或服务管理器都会改变作业边界，跨会话排查要使用 ps、pgrep/systemctl。
+先看当前会话，再看全系统：
+
+```bash
+sleep 60 &
+jobs -l                 # 当前 Bash 的作业表
+pgrep -af 'sleep 60'    # 系统进程表中的匹配
+ps -o pid,ppid,tty,stat,cmd -p "$(pgrep -n -f 'sleep 60')"
+```
+
+`jobs` 依赖当前 Bash 的 job-control 表，关闭终端或交给 systemd 后就不再是可靠入口；`pgrep`、`ps` 和 `systemctl` 才能跨会话观察。`nohup` 只改变挂断信号和输出处理，并不提供生命周期、重启或日志治理。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a7-schedule deck:"Linux" priority:2 tags:"定时任务,环境" %}
@@ -268,7 +298,14 @@ jobs 看当前 Bash 会话的作业，pgrep 查系统进程；后台作业可能
 --- answer
 定时任务的 PATH、工作目录、Shell 和环境变量不同，还可能没有 TTY。
 --- explanation
-使用绝对路径、显式环境和可记录的日志，先在相同用户和非交互环境复现。
+cron 启动的上下文通常没有交互式 Shell 的环境。可以用接近 cron 的方式做一次对照：
+
+```bash
+env -i HOME="$HOME" PATH=/usr/bin:/bin \
+  sh -c 'printf "cwd=%s PATH=%s tty=%s\\n" "$PWD" "$PATH" "$(tty 2>/dev/null || printf none)"'
+```
+
+脚本应显式设置工作目录、关键环境变量和命令路径，并把标准输出/错误写入可轮转的日志；先以相同用户在非交互环境复现，再把任务交给 cron。能在终端成功只能证明交互上下文成立。
 {% endflashcard %}
 
 ## 参考资料

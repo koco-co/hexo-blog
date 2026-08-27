@@ -12,7 +12,7 @@ series: Python
 series_order: 5
 published: true
 abbrlink: a62147da
-date: 2026-08-25 13:13:45
+date: 2026-05-06 00:00:00
 ---
 
 {% course_series %}
@@ -165,7 +165,17 @@ print([handler() for handler in handlers])
 --- answer
 实参是调用时给出的对象，形参是函数内的名称；`/` 前仅限位置，`*` 后仅限关键字。
 --- explanation
-调用会把实参绑定给形参。位置/关键字限制能让公共接口更稳定，防止调用者依赖未来可能调整的参数名或误把语义参数按位置传入。
+调用先按签名绑定实参，`/` 和 `*` 再限制调用者使用哪种写法：
+
+```python
+def announce(title, /, *labels, urgent=False, **meta):
+    return title, labels, urgent, meta
+
+announce("release", "python", urgent=True)  # 合法
+announce(title="release")                  # TypeError：title 在 / 左侧
+```
+
+位置专用参数适合不希望暴露参数名的低层接口；关键字专用参数能让 `urgent=True` 这类语义更清楚。形参是函数内部的名称，实参是调用表达式提供的对象，两者不要混成同一个概念。
 {% endflashcard %}
 
 {% flashcard basic id:python-function-default-mutable deck:"Python 基础" priority:1 tags:"Python,函数,默认参数,可变性" %}
@@ -174,7 +184,28 @@ print([handler() for handler in handlers])
 --- answer
 默认值在函数定义时只创建一次，多次调用会共享同一个可变对象。
 --- explanation
-将默认值设为 `None`，在函数体中创建新容器。这样每次未传参数的调用都有独立状态，且调用方显式传入容器时仍可选择共享。
+默认表达式在函数定义时求值一次，因此可变对象会成为所有省略该参数的调用共享的状态：
+
+```python
+def bad(label, labels=[]):
+    labels.append(label)
+    return labels
+
+print(bad("a"))  # ['a']
+print(bad("b"))  # ['a', 'b']：同一个默认列表
+```
+
+用 `None` 作为哨兵，把创建动作放进函数体：
+
+```python
+def good(label, labels=None):
+    if labels is None:
+        labels = []
+    labels.append(label)
+    return labels
+```
+
+这样每次省略参数都会得到独立列表；调用方显式传入列表时，仍然可以有意识地共享它。
 {% endflashcard %}
 
 {% flashcard basic id:python-function-legb deck:"Python 基础" priority:1 tags:"Python,LEGB,作用域,闭包" %}
@@ -183,7 +214,21 @@ Python 名称查找的 LEGB 顺序是什么？
 --- answer
 Local、Enclosing、Global、Builtins。
 --- explanation
-内层函数读取外层函数局部名称形成闭包。只有要重新绑定外层局部名称时才用 `nonlocal`；重新绑定模块级名称才用 `global`，两者都应让状态边界更清晰而非更隐蔽。
+LEGB 是一次名称查找的顺序：当前函数的 Local、外层函数的 Enclosing、模块的 Global，最后是 Builtins。读取和重新绑定是两件事：
+
+```python
+count = 10
+
+def make_counter():
+    value = 0
+    def next_value():
+        nonlocal value       # 重新绑定 Enclosing
+        value += 1
+        return value
+    return next_value
+```
+
+闭包读取外层名称不需要声明；只有要重新绑定它才用 `nonlocal`，改模块级名称才用 `global`。如果状态能通过参数和返回值传递，通常比隐藏在全局或闭包里更易测试。
 {% endflashcard %}
 
 {% flashcard basic id:python-function-late-binding deck:"Python 基础" priority:1 tags:"Python,闭包,lambda,循环" %}
@@ -192,7 +237,23 @@ Local、Enclosing、Global、Builtins。
 --- answer
 闭包在调用时查找循环名称，循环结束后它已是最后值；用默认参数或工厂函数绑定当前值。
 --- explanation
-写成 `lambda item=item: item` 会把当前值放入该函数的默认参数。该技巧不是魔法，而是把“稍后查找外层名称”改成“创建函数时保存对象绑定”。
+闭包捕获的是名称，函数真正调用时才通过该名称取值；循环结束后，所有 lambda 看到的自然是最后一次绑定：
+
+```python
+callbacks = []
+for item in range(3):
+    callbacks.append(lambda: item)
+print([callback() for callback in callbacks])  # [2, 2, 2]
+```
+
+默认参数会在函数创建时求值，因此能保存当前对象：
+
+```python
+callbacks = [lambda item=item: item for item in range(3)]
+print([callback() for callback in callbacks])  # [0, 1, 2]
+```
+
+这不是特殊的 lambda 规则，而是把“调用时查找外层名称”改成“创建时完成默认参数绑定”；需要更复杂状态时使用工厂函数会更清楚。
 {% endflashcard %}
 
 ## 参考资料

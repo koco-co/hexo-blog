@@ -13,7 +13,7 @@ series: MySQL
 series_order: 8
 published: true
 abbrlink: 3bb0fc53
-date: 2026-08-25 13:18:42
+date: 2026-03-30 00:00:00
 ---
 
 {% course_series %}
@@ -22,10 +22,14 @@ date: 2026-08-25 13:18:42
 优化不是把 SQL 改得更复杂，而是用证据减少不必要的行、页和排序。完整闭环是：找到真实慢语句 → 读计划 → 提出一个可解释改动 → 用实际数据复测 → 记录是否值得保留。
 {% endnote %}
 
+{% note info flat %}
+可复现实验输入：先按 A02 的 ShopLab DDL 建立 `orders`，使用 A04 的订单 seed，并为 `user_id=7` 准备至少一组 paid/pending、相同 `ordered_at` 的订单。下面的 `rows`、`Extra` 和耗时是需要在你的实例上记录的证据，不把某个 access type 当成固定答案。
+{% endnote %}
+
 ## 优化闭环
 
 {% mermaid %}
-flowchart LR
+flowchart TD
   A[真实慢 SQL] --> B[Performance Schema / sys]
   B --> C[EXPLAIN 估算计划]
   C --> D[改写谓词或索引]
@@ -66,6 +70,13 @@ LIMIT 20;
 {% note success flat %}
 实际计划的验证问题是：是否扫描了预期数量的行？是否发生 filesort 或临时表？实际 loops 和 rows 是否远大于估算？如果估算严重偏差，先 `ANALYZE TABLE` 更新统计信息，再判断索引或改写。
 {% endnote %}
+
+```sql
+-- EXPLAIN EXTENDED 的兼容入口：执行后用 SHOW WARNINGS 查看优化器重写后的查询。
+EXPLAIN EXTENDED
+SELECT id FROM orders WHERE user_id = 7 AND status = 'paid';
+SHOW WARNINGS;
+```
 
 ## 可索引改写
 
@@ -139,6 +150,20 @@ LIMIT 10;
 
 {% folding cyan, Hint 与 optimizer trace %}
 当统计信息、索引和 SQL 结构都合理却仍需验证优化器取舍时，可以在单条查询上使用 optimizer hint，并保留不加 hint 的基线；`USE INDEX`、`FORCE INDEX` 等 index hint 也必须用实测数据说明理由。需要深入解释选择过程时再临时开启 optimizer trace，避免把诊断开关当作长期配置。
+```sql
+SELECT /*+ SET_VAR(max_execution_time=1000) */
+       id, ordered_at
+FROM orders USE INDEX (idx_orders_user_time)
+WHERE user_id = 7 AND status = 'paid'
+ORDER BY ordered_at DESC, id DESC
+LIMIT 20;
+
+-- 仅在隔离会话中临时采集；完成后关闭，避免把诊断开关当成长期配置。
+SET optimizer_trace = 'enabled=on';
+SELECT id FROM orders WHERE user_id = 7 AND status = 'paid';
+SELECT TRACE FROM information_schema.OPTIMIZER_TRACE;
+SET optimizer_trace = 'enabled=off';
+```
 {% endfolding %}
 
 ## 运行边界
@@ -155,6 +180,19 @@ LIMIT 10;
 不要用 `FORCE INDEX`、关闭优化器开关或提高内存配置来掩盖未知的访问模式。任何优化都应保存原 SQL、基线计划、改动、复测数据和回滚动作。
 {% endnote %}
 
+{% note info flat %}
+优化专项还要看数据类型、事务批量、DDL、磁盘 I/O 和配置变量：缩小不必要的类型能减少页和网络成本；批量写入要控制事务大小；在线 DDL 要评估锁与恢复窗口；磁盘延迟和 Buffer Pool 不能靠 SQL 改写替代。每项调整都要有基线和回退。
+{% endnote %}
+
+```sql
+-- 成本模型与配置只作为诊断输入，修改前先记录版本、权限和回滚方式。
+SELECT * FROM mysql.server_cost;
+SELECT * FROM mysql.engine_cost;
+SELECT VARIABLE_NAME, VARIABLE_VALUE
+FROM performance_schema.global_variables
+WHERE VARIABLE_NAME IN ('innodb_buffer_pool_size', 'tmp_table_size', 'max_heap_table_size');
+```
+
 ## 常见问题
 
 {% flashcard basic id:mysql84-08-sargable-rewrite-p1 deck:"mysql-8.4-interview" priority:1 tags:"SARGable,日期范围,索引" %}
@@ -168,7 +206,13 @@ WHERE ordered_at >= '2026-07-01'
   AND ordered_at < '2026-07-02';
 ```
 --- explanation
-对列套 DATE 会让存储引擎难以直接按原列范围定位；半开区间覆盖整天且不依赖月末 23:59:59。若业务时区不是 UTC，先把输入边界转换成存储时区再查询。
+对列调用 `DATE()` 会先计算每一行的表达式，优化器不一定能直接按原列索引定位。半开区间把同一天写成两个边界：
+
+```text
+2026-07-01 00:00:00 <= ordered_at < 2026-07-02 00:00:00
+```
+
+左边包含、右边排除，不依赖“当天最后一秒”的精度。若业务时区不是数据库存储时区，先把输入边界转换后再执行；否则执行计划可能正确，结果仍会错一天。
 {% endflashcard %}
 
 {% flashcard basic id:mysql84-08-keyset-pagination-p1 deck:"mysql-8.4-interview" priority:1 tags:"Keyset Pagination,深分页,稳定排序" %}
@@ -184,7 +228,15 @@ ORDER BY ordered_at DESC, id DESC
 LIMIT 20;
 ```
 --- explanation
-id 是时间相同的 tie-breaker；游标比较方向必须与 DESC 排序一致。Keyset 适合顺序翻页，不支持任意页码跳转，也不能在排序键可 NULL 且未规定 NULL 位置时直接套用。
+Keyset 分页把“上一页最后一行”变成下一页的边界：
+
+```text
+排序：ordered_at DESC, id DESC
+上一页末尾：(2026-07-01 10:00:00, 120)
+下一页条件： (ordered_at, id) < ('2026-07-01 10:00:00', 120)
+```
+
+`id` 是时间相同的 tie-breaker，比较方向必须与排序方向一致，才能避免重复或漏行。它适合连续向后翻页，但不能直接跳到任意页码；排序列可为 `NULL` 时还要先规定 NULL 的位置。
 {% endflashcard %}
 
 ## 参考资料
@@ -193,6 +245,10 @@ id 是时间相同的 tie-breaker；游标比较方向必须与 DESC 排序一�
 {% link MySQL 8.4 Optimization Overview, https://dev.mysql.com/doc/refman/8.4/en/optimize-overview.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 EXPLAIN, https://dev.mysql.com/doc/refman/8.4/en/using-explain.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 EXPLAIN Output, https://dev.mysql.com/doc/refman/8.4/en/explain-output.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Optimizer Hints, https://dev.mysql.com/doc/refman/8.4/en/optimizer-hints.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Index Hints, https://dev.mysql.com/doc/refman/8.4/en/index-hints.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Optimizer Tracing, https://dev.mysql.com/doc/refman/8.4/en/optimizer-tracing.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Internal Temporary Tables, https://dev.mysql.com/doc/refman/8.4/en/internal-temporary-tables.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Optimizer Statistics, https://dev.mysql.com/doc/refman/8.4/en/optimizer-statistics.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Performance Schema Statement Digests, https://dev.mysql.com/doc/refman/8.4/en/performance-schema-query-profiling.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}

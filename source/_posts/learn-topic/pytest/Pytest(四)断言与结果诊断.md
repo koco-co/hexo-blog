@@ -13,7 +13,7 @@ series: Pytest
 series_order: 4
 published: true
 abbrlink: ac715911
-date: 2026-08-26 09:00:00
+date: 2026-04-22 00:00:00
 ---
 
 {% course_series %}
@@ -172,7 +172,17 @@ python -m pytest 'lab/tests/test_discount.py::test_invalid_rate' --pdb
 --- answer
 Pytest 在导入测试模块时重写断言表达式，失败时可以展开比较双方和子表达式。
 --- explanation
-断言仍是 Python 语法，但 Pytest 会保存表达式中的中间值并生成更有用的回溯。通过动态导入的辅助模块需要先调用 `register_assert_rewrite`，否则该模块内的断言可能只显示普通的 `AssertionError`。
+断言仍是 Python 语法，但 Pytest 在导入测试模块时改写表达式，使失败报告能够显示比较双方和子表达式的中间值。例如：
+
+```python
+def test_order():
+    actual = {"total": 80, "status": "paid"}
+    expected = {"total": 100, "status": "paid"}
+    assert actual == expected
+    # 报告会指出 total 的差异，而不是只给出 AssertionError。
+```
+
+通过插件或动态导入加载的辅助模块不会自动参与改写；应在插件入口调用 `register_assert_rewrite("package.helper")`。否则同一条断言可能退化为普通的 `AssertionError`，失去诊断细节。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-raises-match deck:"Pytest" priority:1 tags:"异常" %}
@@ -181,7 +191,18 @@ Pytest 在导入测试模块时重写断言表达式，失败时可以展开比�
 --- answer
 同一异常类型可能对应不同原因，应使用 `match` 或 `check` 验证稳定的消息片段和异常属性。
 --- explanation
-测试应锁定对调用者有意义的错误契约，而不是脆弱的完整日志。`match` 适合稳定文本片段，`check` 适合结构化属性；两者都不能替代对返回值和副作用的检查。
+异常类型只说明“哪一类错误”，不说明错误是否由正确原因触发。应把对调用者有意义的契约写出来：
+
+```python
+with pytest.raises(ValueError, match=r"limit must be positive"):
+    parse_limit("0")
+
+# 在支持 check 的版本中，还能检查结构化属性。
+with pytest.raises(DomainError, check=lambda error: error.code == "LIMIT"):
+    parse_limit("0")
+```
+
+`match` 适合稳定的消息片段；新版本支持的 `check` 更适合检查异常属性。不要断言完整日志，也不要只验证抛错而忘记检查数据库、文件等副作用是否保持不变。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-approx-boundary deck:"Pytest" priority:2 tags:"数值" %}
@@ -190,7 +211,15 @@ Pytest 在导入测试模块时重写断言表达式，失败时可以展开比�
 --- answer
 相对容差按期望值缩放，绝对容差提供接近零时的下限；`nan_ok` 只在 NaN 合法时开启。
 --- explanation
-浮点判断应先定义业务精度，再填写 `rel` 与 `abs`，而不是盲目放大容差。接近零的量可能需要明确的绝对容差；默认拒绝 NaN 可以尽早暴露上游计算异常。
+`approx` 接受误差当量：相对误差按期望值缩放，绝对误差为接近零的结果提供下限。可以用一个小实验看出两者的作用：
+
+```python
+assert 1.000001 == pytest.approx(1.0, rel=1e-5)
+assert 0.0000004 == pytest.approx(0.0, abs=1e-6)
+assert not (float("nan") == pytest.approx(float("nan")))
+```
+
+先把业务精度换成 `rel`/`abs`，再决定是否允许 `nan_ok=True`；放大容差只能让错误消失，不能证明计算正确。接近零的金额、比例或坐标通常要显式给 `abs`。
 {% endflashcard %}
 
 ## 参考资料

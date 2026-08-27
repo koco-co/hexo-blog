@@ -513,30 +513,136 @@
     }
 }
 
-/* ==================== 分页样式优化 ==================== */
+/* ==================== 列表分页：星空玻璃胶囊 ==================== */
 
-#pagination {
-    margin-top: 40px;
-    padding: 20px;
+#archive > #pagination,
+#category > #pagination,
+#tag > #pagination,
+#recent-posts > #pagination {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    margin: 36px auto 8px;
+    padding: 8px;
+    background: color-mix(in srgb, var(--card-bg) 78%, transparent);
+    border: 1px solid color-mix(in srgb, var(--btn-bg) 28%, transparent);
+    border-radius: 18px;
+    box-shadow: var(--card-box-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
-#pagination .page-number,
-#pagination .extend {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.05));
-    border-radius: 8px;
-    transition: all 0.3s ease;
+#archive > #pagination .pagination,
+#category > #pagination .pagination,
+#tag > #pagination .pagination,
+#recent-posts > #pagination .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
 }
 
-#pagination .page-number:hover,
-#pagination .extend:hover {
-    background: var(--btn-bg);
-    color: #fff !important;
-    transform: translateY(-2px);
+#archive > #pagination .pagination > *,
+#category > #pagination .pagination > *,
+#tag > #pagination .pagination > *,
+#recent-posts > #pagination .pagination > * {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5em;
+    height: 2.5em;
+    padding: 0 0.75em;
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--font-color);
+    font-weight: 600;
+    line-height: 1;
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
 
-#pagination .page-number.current {
+#archive > #pagination .pagination > a:hover,
+#category > #pagination .pagination > a:hover,
+#tag > #pagination .pagination > a:hover,
+#recent-posts > #pagination .pagination > a:hover {
+    background: color-mix(in srgb, var(--btn-bg) 16%, transparent);
+    border-color: color-mix(in srgb, var(--btn-bg) 42%, transparent);
+    color: var(--text-highlight-color) !important;
+    transform: translateY(-1px);
+}
+
+#archive > #pagination .pagination > a:focus-visible,
+#category > #pagination .pagination > a:focus-visible,
+#tag > #pagination .pagination > a:focus-visible,
+#recent-posts > #pagination .pagination > a:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--btn-bg) 62%, transparent);
+    outline-offset: 2px;
+}
+
+#archive > #pagination .pagination > .page-number.current,
+#category > #pagination .pagination > .page-number.current,
+#tag > #pagination .pagination > .page-number.current,
+#recent-posts > #pagination .pagination > .page-number.current {
     background: linear-gradient(135deg, var(--btn-bg) 0%, var(--btn-hover-color) 100%);
-    color: #fff !important;
-    border-color: var(--btn-bg);
+    border-color: color-mix(in srgb, var(--btn-bg) 78%, white);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--btn-bg) 28%, transparent);
+    color: var(--btn-color, #fff) !important;
+}
+
+#archive > #pagination .pagination > .space,
+#category > #pagination .pagination > .space,
+#tag > #pagination .pagination > .space,
+#recent-posts > #pagination .pagination > .space {
+    min-width: 1.25em;
+    padding: 0 0.25em;
+    border-color: transparent;
+    color: var(--text-highlight-color);
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    #archive > #pagination,
+    #category > #pagination,
+    #tag > #pagination,
+    #recent-posts > #pagination {
+        max-width: calc(100% - 16px);
+        padding: 6px;
+    }
+
+    #archive > #pagination .pagination,
+    #category > #pagination .pagination,
+    #tag > #pagination .pagination,
+    #recent-posts > #pagination .pagination {
+        gap: 4px;
+    }
+
+    #archive > #pagination .pagination > *,
+    #category > #pagination .pagination > *,
+    #tag > #pagination .pagination > *,
+    #recent-posts > #pagination .pagination > * {
+        min-width: 2.25em;
+        height: 2.25em;
+        padding: 0 0.55em;
+        border-radius: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #archive > #pagination .pagination > *,
+    #category > #pagination .pagination > *,
+    #tag > #pagination .pagination > *,
+    #recent-posts > #pagination .pagination > * {
+        transition: none;
+    }
+
+    #archive > #pagination .pagination > a:hover,
+    #category > #pagination .pagination > a:hover,
+    #tag > #pagination .pagination > a:hover,
+    #recent-posts > #pagination .pagination > a:hover {
+        transform: none;
+    }
 }

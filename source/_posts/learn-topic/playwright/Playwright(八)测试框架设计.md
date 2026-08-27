@@ -15,12 +15,12 @@ series: Playwright
 series_order: 8
 published: true
 abbrlink: c92e7868
-date: 2026-08-24 12:05:00
+date: 2026-04-14 00:00:00
 ---
 
 {% course_series %}
 
-{% note info flat %}
+{% note primary flat %}
 当测试从 5 条增长到 100 条，真正的风险不是代码行数，而是数据、生命周期和职责互相缠绕。本篇用“订单折扣”案例组织参数化、外部数据、fixture 分层和 Page Object。
 {% endnote %}
 
@@ -108,7 +108,7 @@ def test_total(page: Page, level: str, subtotal: int, expected: str) -> None:
 数据量大或由业务人员维护时可以外部化。文章只展示代码块，不向博客仓库增加数据文件。
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 简单、机器生成或只由测试代码维护的数据优先使用 JSON；只有当数据层级较深、需要频繁人工编辑，并且团队愿意承担额外依赖时再选择 YAML。
 {% endnote %}
 
@@ -269,13 +269,13 @@ def order(order_store: OrderStore, order_id: str) -> Iterator[dict]:
 这段内存 store 只用于讲 Fixture 所有权，不依赖 API 造数。即使测试中的断言故意失败，`yield` 之后的删除和 `order_store` 的空状态检查仍会执行。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 fixture 应返回“测试需要的能力”，而不是把所有动作藏起来。创建和清理放 fixture，测试的关键业务动作与断言留在测试函数中。`conftest.py` 分层规则：根目录放全套件基础设施，子目录只放该领域覆盖或 fixture，避免一个千行全局文件。
 {% endnote %}
 
 ## POM 设计
 
-{% note info flat %}
+{% note primary flat %}
 官方 Page Object 的核心是用更高层业务 API 包装 Page 并集中 Locator。它不是“每个页面必须一个类”，更不是断言垃圾桶。
 {% endnote %}
 
@@ -346,7 +346,7 @@ class ShopPage:
         product.get_by_role("button", name="加入购物车").click()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 组合比建立庞大的 `BasePage` 继承树更容易控制职责。组件对象只接收它需要的 Page 或根 Locator，不应知道账号、数据库连接和 CI 配置。
 {% endnote %}
 
@@ -385,7 +385,7 @@ Fixture 负责对象装配，Page Object 负责页面语言，测试仍然负责
 
 ## 设计检查
 
-{% note info flat %}
+{% note warning flat %}
 为“创建订单 → UI 提交 → API 清理”标注：哪些属于参数数据、哪些属于 Fixture、哪些属于 Page Object、哪些必须留在测试断言。若一个动作同时出现在两层，先解释它的唯一所有者。
 {% endnote %}
 
@@ -418,6 +418,17 @@ Page Object 最重要的职责边界是什么？
 封装稳定页面语言，不接管测试数据和全部业务断言。
 --- explanation
 Page Object 集中 Locator 与用户操作；Fixture 管资源，API Client 管服务调用，测试保留关键业务目标和断言，失败报告才容易理解。
+
+让不同层各自保留一种职责：
+
+| 层 | 适合放什么 |
+| --- | --- |
+| Page Object | Locator 和稳定的用户操作 |
+| Fixture | Context、账号、数据和清理 |
+| API Client | 服务端准备、核验和清理 |
+| 测试 | 业务目标与关键断言 |
+
+如果 Page Object 既创建数据又吞掉所有断言，失败报告只会剩下一串低层动作，无法看出业务哪里不成立。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-fixture-scope deck:"Playwright" priority:1 tags:"pytest,Fixture" answer:C %}
@@ -430,6 +441,18 @@ Page Object 集中 Locator 与用户操作；Fixture 管资源，API Client 管�
 C
 --- explanation
 Function 级资源把状态污染限制在单条用例。只有创建成本高且本身可安全共享的只读资源，才考虑更大作用域。
+
+作用域由共享风险决定：
+
+~~~python
+@pytest.fixture
+def order_context(browser):
+    context = browser.new_context()
+    yield context
+    context.close()
+~~~
+
+可变的 Context、Page 和订单数据通常按 function 创建；只有只读、可安全共享且清理边界明确的资源，才考虑更大作用域。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-pytest-markers deck:"Playwright" priority:2 tags:"pytest,标记" answer:B %}
@@ -442,6 +465,16 @@ Function 级资源把状态污染限制在单条用例。只有创建成本高�
 B
 --- explanation
 浏览器不支持属于运行矩阵边界，应使用插件提供的浏览器选择标记；`xfail` 只表示有明确记录的预期缺陷，不能把环境差异伪装成产品失败。
+
+浏览器能力差异应该进入运行矩阵，而不是被异常吞掉：
+
+~~~python
+@pytest.mark.only_browser("chromium")
+def test_feature(page):
+    ...
+~~~
+
+矩阵标记让“未在此浏览器执行”可追踪；xfail 代表有记录的预期缺陷，不能把环境不支持伪装成产品没有问题。
 {% endflashcard %}
 
 ## 参考资料

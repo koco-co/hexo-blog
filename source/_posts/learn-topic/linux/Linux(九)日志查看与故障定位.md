@@ -134,13 +134,25 @@ ls -lt /var/log
 合格的日志报告要说明来源、查询条件、时间格式、权限与保留盲区。它能让接手者重新运行查询并判断你的推断是否成立，而不是只得到一张截断截图。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a9-journal-filter deck:"Linux" priority:1 tags:"journalctl,日志" %}
 --- question
 journalctl 排障时最有价值的三个过滤维度是什么？
 --- answer
 服务 unit、故障时间窗和优先级；必要时再加 boot、内核或输出格式。
 --- explanation
-先缩小数据再解释消息，--unit、--since/--until、--priority 和 --boot 能组成可复现查询。
+日志量越大，先限定范围越重要。一个可复查的查询至少固定 unit、时间窗和优先级：
+
+```bash
+UNIT=ssh.service
+journalctl --unit "$UNIT" \
+  --since '2026-08-26 10:00:00' \
+  --until '2026-08-26 10:10:00' \
+  --priority warning..emerg --no-pager -o short-iso
+```
+
+`--boot` 可再固定启动批次，`-o json` 适合机器采集。把命令和时间窗一起保存，别人才能区分“没有事件”和“过滤条件把事件排除了”。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a9-dmesg-journal deck:"Linux" priority:1 tags:"dmesg,内核" %}
@@ -149,7 +161,14 @@ dmesg 与 journalctl --dmesg 有什么边界？
 --- answer
 dmesg 读取内核环形缓冲区，journalctl --dmesg 查询 journald 收集的内核消息；保留策略和时间范围可能不同。
 --- explanation
-重启、缓冲区覆盖、权限和持久化配置都会造成缺口，不能只依赖一个来源。
+两者的输入来源和保留策略不同：
+
+| 命令 | 主要来源 | 典型缺口 |
+| --- | --- | --- |
+| `dmesg` | 当前内核环形缓冲区 | 重启后丢失、缓冲区覆盖、权限限制 |
+| `journalctl --dmesg` | journald 收集的内核消息 | 未持久化、过滤时间窗、服务未运行 |
+
+排障时先用同一时间窗分别取证，再把时间戳、启动批次和权限写入记录。一个来源为空不等于内核没有发生过事件。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a9-logrotate deck:"Linux" priority:2 tags:"logrotate,保留" %}
@@ -158,7 +177,14 @@ dmesg 读取内核环形缓冲区，journalctl --dmesg 查询 journald 收集的
 --- answer
 -d 只模拟轮转，强制轮转会立即改名、压缩或删除历史文件。
 --- explanation
-先检查配置、权限、磁盘和 postrotate，再安排维护窗口执行真实变更。
+`-d` 是 dry-run，输出计划但不执行改名、压缩或删除：
+
+```bash
+logrotate -d /etc/logrotate.conf
+logrotate -d -f /etc/logrotate.d/my-service
+```
+
+先核对配置匹配的文件、目录权限、磁盘余量和 `postrotate` 脚本；确认维护窗口后才去掉 `-d`。把模拟输出保存下来，可以解释“这次轮转会处理哪些文件”，也能在真实变更前发现路径或权限错误。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a9-coredump deck:"Linux" priority:2 tags:"崩溃,coredump" %}
@@ -167,7 +193,15 @@ coredumpctl list 能否直接证明崩溃原因？
 --- answer
 不能，它只说明系统记录了转储；需要 info、符号和调用栈，并结合服务日志复核。
 --- explanation
-转储含敏感内存，导出与调试必须在授权环境进行。
+`list` 只回答“有没有记录”，还不能回答“为什么崩溃”：
+
+```bash
+coredumpctl list --since '2026-08-26 10:00:00'
+coredumpctl info <PID-or-match>
+coredumpctl debug <PID-or-match>
+```
+
+真正的原因需要调用栈、符号文件和相邻服务日志共同支持；优化构建、剥离符号或缺少权限都可能让栈不完整。转储可能包含口令、请求内容和内存中的用户数据，导出与保留应在获准的隔离环境完成。
 {% endflashcard %}
 
 ## 参考资料

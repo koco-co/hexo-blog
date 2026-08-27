@@ -72,7 +72,867 @@
         "file": "计算机网络(九)综合实战.md",
         "kind": "final"
       }
-    ]
+    ],
+    "article_block_tag_plans": {
+      "计算机网络(一)入门路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：入口篇只负责建立网络学习坐标；协议细节、实验和面试闪卡分别放在对应主题文章。",
+          "core_content": "开篇直接交付的范围与判断依据：入口篇只负责建立网络学习坐标；协议细节、实验和面试闪卡分别放在对应主题文章。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：入口篇只负责建立网络学习坐标；协议细节、实验和面试闪卡分别放在对应主题文章。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "课程目标",
+          "reader_task": "用自己的话说明「课程目标」为何如此，并核对：用分层、寻址、传输和应用语义拆解网络现象。 - 按局域网 → IP → UDP/TCP → HTTP → HTTPS/现代 HTTP → 排障建立可观察的心智模型。",
+          "core_content": "本节直接交付：用分层、寻址、传输和应用语义拆解网络现象。 - 按局域网 → IP → UDP/TCP → HTTP → HTTPS/现代 HTTP → 排障建立可观察的心智模型。",
+          "carrier": "Markdown",
+          "rationale": "「课程目标」需要先看到用分层、寻址、传输和应用语义拆解网络现象。 - 按局域网 → IP → UDP/TCP → HTTP → HTTPS/现代 HTTP → 排；因此采用Markdown，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：用分层、寻址、传输和应用语义拆解网络现象。 - 按局域网 → IP → UDP/TCP → HTTP → HTTPS/现代 HTTP → 排障建立可观察的心智模型。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "用自己的话说明「前置条件」为何如此，并核对：不要求网络工程经验；准备可运行 curl、浏览器开发者工具和一个可抓包的本地环境。课程实验使用环回地址、虚构数据和可丢弃的网络命名空间，不触碰真实凭据或生产流量。",
+          "core_content": "本节直接交付：不要求网络工程经验；准备可运行 curl、浏览器开发者工具和一个可抓包的本地环境。课程实验使用环回地址、虚构数据和可丢弃的网络命名空间，不触碰真实凭据或生产流量。",
+          "carrier": "note danger flat",
+          "rationale": "「前置条件」需要先看到不要求网络工程经验；准备可运行 curl、浏览器开发者工具和一个可抓包的本地环境。课程实验使用环回地址、虚构数据和可丢弃的网络命名空间，不触；因此采用note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：不要求网络工程经验；准备可运行 curl、浏览器开发者工具和一个可抓包的本地环境。课程实验使用环回地址、虚构数据和可丢弃的网络命名空间，不触碰真实凭据或生产流量。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "用自己的话说明「学习路径」为何如此，并核对：主线先理解帧、MAC、ARP 和广播边界，再学习 CIDR、路由和 DNS；接着进入 UDP/TCP 的端点、状态、可靠性和三次握手；最后用 HTTP、TLS、QUIC、浏览器工具和抓包把协议语义落到真实证据。进阶路线与综合实战用于把这些模型组合起来。",
+          "core_content": "本节直接交付：主线先理解帧、MAC、ARP 和广播边界，再学习 CIDR、路由和 DNS；接着进入 UDP/TCP 的端点、状态、可靠性和三次握手；最后用 HTTP、TLS、QUIC、浏览器工具和抓包把协议语义落到真实证据。进阶路线与综合实战用于把这些模型组合起来。",
+          "carrier": "note info flat",
+          "rationale": "「学习路径」需要先看到主线先理解帧、MAC、ARP 和广播边界，再学习 CIDR、路由和 DNS；接着进入 UDP/TCP 的端点、状态、可靠性和三次握手；最后用；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：主线先理解帧、MAC、ARP 和广播边界，再学习 CIDR、路由和 DNS；接着进入 UDP/TCP 的端点、状态、可靠性和三次握手；最后用 HTTP、TLS、QUIC、浏览器工具和抓包把协议语义落到真实证据。进阶路线与综合实战用于把这些模型组合起来。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "沿图中的关系或时序讲清「文章安排」：flowchart LR A[网络分层与局域网] --> B[IP 与网络寻址]",
+          "core_content": "本节直接交付：flowchart LR A[网络分层与局域网] --> B[IP 与网络寻址]",
+          "carrier": "mermaid + table",
+          "rationale": "「文章安排」需要先看到flowchart LR A[网络分层与局域网] --> B[IP 与网络寻址]；因此采用mermaid + table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：flowchart LR A[网络分层与局域网] --> B[IP 与网络寻址]；表格字段：顺序 | 文章 | 学习主题 | 状态。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "用自己的话说明「开始学习」为何如此，并核对：开始学习时，打开“网络分层与局域网”，用一个同网段通信例子观察数据如何经过帧、MAC、交换机和 ARP；后续再把同一条观察链扩展到 IP、TCP、HTTP 和现代 Web。入口文章只提供坐标，不承担协议细节和面试答案。",
+          "core_content": "本节直接交付：开始学习时，打开“网络分层与局域网”，用一个同网段通信例子观察数据如何经过帧、MAC、交换机和 ARP；后续再把同一条观察链扩展到 IP、TCP、HTTP 和现代 Web。入口文章只提供坐标，不承担协议细节和面试答案。",
+          "carrier": "note info flat",
+          "rationale": "「开始学习」需要先看到开始学习时，打开“网络分层与局域网”，用一个同网段通信例子观察数据如何经过帧、MAC、交换机和 ARP；后续再把同一条观察链扩展到 IP、T；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：开始学习时，打开“网络分层与局域网”，用一个同网段通信例子观察数据如何经过帧、MAC、交换机和 ARP；后续再把同一条观察链扩展到 IP、TCP、HTTP 和现代 Web。入口文章只提供坐标，不承担协议细节和面试答案。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(七)抓包与网络排障": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本文把“页面打不开”拆成可验证的证据链：浏览器看到什么，curl 能否复刻，DNS 是否解析，TCP 或 QUIC 是否建立，TLS 是否通过，HTTP 是否返回，以及代理和缓存是否改变了结果。每个结论都标明已经看到的证据和仍未验证的边界。",
+          "core_content": "开篇直接交付的范围与判断依据：本文把“页面打不开”拆成可验证的证据链：浏览器看到什么，curl 能否复刻，DNS 是否解析，TCP 或 QUIC 是否建立，TLS 是否通过，HTTP 是否返回，以及代理和缓存是否改变了结果。每个结论都标明已经看到的证据和仍未验证的边界。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本文把“页面打不开”拆成可验证的证据链：浏览器看到什么，curl 能否复刻，DNS 是否解析，TCP 或 QUIC 是否建立，TLS 是否通过，HTTP 是否返回，以及代理和缓存是否改变了结果。每个结论都标明已经看到的证据和仍未验证的边界。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "证据分层",
+          "reader_task": "沿图中的关系或时序讲清「证据分层」：“页面打不开”不是协议层结论。可以用下面的顺序把它拆开：",
+          "core_content": "本节直接交付：“页面打不开”不是协议层结论。可以用下面的顺序把它拆开：",
+          "carrier": "mermaid + table + note info/primary flat",
+          "rationale": "「证据分层」需要先看到“页面打不开”不是协议层结论。可以用下面的顺序把它拆开：；因此采用mermaid + table + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：“页面打不开”不是协议层结论。可以用下面的顺序把它拆开：；表格字段：工具/位置 | 擅长回答 | 不足。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "DevTools 与 curl",
+          "reader_task": "沿图中的关系或时序讲清「DevTools 与 curl」：Chrome Network 面板的 Timing/Waterfall 可以帮助划分等待：排队、代理、DNS、初始连接、TLS、发送请求、等待响应首字节、内容下载。名称和浏览器版本可能变化，但分析原则稳定：先定位最长阶段，再用 curl、抓包和服务端日志验证。",
+          "core_content": "本节直接交付：Chrome Network 面板的 Timing/Waterfall 可以帮助划分等待：排队、代理、DNS、初始连接、TLS、发送请求、等待响应首字节、内容下载。名称和浏览器版本可能变化，但分析原则稳定：先定位最长阶段，再用 curl、抓包和服务端日志验证。",
+          "carrier": "mermaid + table + note info/danger/warning flat",
+          "rationale": "「DevTools 与 curl」需要先看到Chrome Network 面板的 Timing/Waterfall 可以帮助划分等待：排队、代理、DNS、初始连接、TLS、发送请求、等；因此采用mermaid + table + note info/danger/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Chrome Network 面板的 Timing/Waterfall 可以帮助划分等待：排队、代理、DNS、初始连接、TLS、发送请求、等待响应首字节、内容下载。名称和浏览器版本可能变化，但分析原则稳定：先定位最长阶段，再用 curl、抓包和服务端日志验证。；表格字段：面板区域 | 先看什么 | 常见结论。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "抓包与过滤",
+          "reader_task": "比较表中的维度，说明「抓包与过滤」在什么条件下成立。",
+          "core_content": "本节直接交付：tcpdump 在捕获时用 BPF 过滤器减少写入的包；Wireshark display filter 在已经捕获的数据上筛选和解析。错误地把一种语法放到另一种工具中，会造成“抓不到包”或“过滤器无效”。",
+          "carrier": "table + note info/danger flat",
+          "rationale": "「抓包与过滤」需要先看到tcpdump 在捕获时用 BPF 过滤器减少写入的包；Wireshark display filter 在已经捕获的数据上筛选和解析。错误；因此采用table + note info/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：tcpdump 在捕获时用 BPF 过滤器减少写入的包；Wireshark display filter 在已经捕获的数据上筛选和解析。错误地把一种语法放到另一种工具中，会造成“抓不到包”或“过滤器无效”。；表格字段：目的 | tcpdump 捕获过滤器 | Wireshark 显示过滤器。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "安全场景",
+          "reader_task": "用自己的话说明「安全场景」为何如此，并核对：下面六个场景都是“先预检查、再运行、最后清理”的教学夹具。本文只提供可复现步骤和预期证据，不把它们写成已经在当前机器执行过的输出。",
+          "core_content": "本节直接交付：下面六个场景都是“先预检查、再运行、最后清理”的教学夹具。本文只提供可复现步骤和预期证据，不把它们写成已经在当前机器执行过的输出。",
+          "carrier": "note warning/info/danger flat",
+          "rationale": "「安全场景」需要先看到下面六个场景都是“先预检查、再运行、最后清理”的教学夹具。本文只提供可复现步骤和预期证据，不把它们写成已经在当前机器执行过的输出。；因此采用note warning/info/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面六个场景都是“先预检查、再运行、最后清理”的教学夹具。本文只提供可复现步骤和预期证据，不把它们写成已经在当前机器执行过的输出。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "证据治理",
+          "reader_task": "比较表中的维度，说明「证据治理」在什么条件下成立。",
+          "core_content": "本节直接交付：抓包前： - 只在自己拥有或明确获准的接口、主机和时间窗口内采集；",
+          "carrier": "table",
+          "rationale": "「证据治理」需要先看到抓包前： - 只在自己拥有或明确获准的接口、主机和时间窗口内采集；；因此采用table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：抓包前： - 只在自己拥有或明确获准的接口、主机和时间窗口内采集；；表格字段：现象 | 证据链定位 | 最小下一步。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "排障复习",
+          "reader_task": "比较表中的维度，说明「排障复习」在什么条件下成立。",
+          "core_content": "本节直接交付：先写出“现象 → 证据层 → 下一条验证”的链条，再查看答案。排障卡片的目标不是记住某个错误字符串，而是避免跨层归因。",
+          "carrier": "flashcard + table + note info flat",
+          "rationale": "「排障复习」需要先看到先写出“现象 → 证据层 → 下一条验证”的链条，再查看答案。排障卡片的目标不是记住某个错误字符串，而是避免跨层归因。；因此采用flashcard + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先写出“现象 → 证据层 → 下一条验证”的链条，再查看答案。排障卡片的目标不是记住某个错误字符串，而是避免跨层归因。；表格字段：阶段 | 下一条证据。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：工具 | 过滤发生时机 | 示例；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(三)IP 与网络寻址": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本文围绕“知道目标 IP 之后，下一跳到底是谁”展开：先用 CIDR 判断本地边界，再用最长前缀匹配选择路由，最后把 NAT、IPv6、ICMP、DHCP 和 DNS 放回一条真实访问链路。",
+          "core_content": "开篇直接交付的范围与判断依据：本文围绕“知道目标 IP 之后，下一跳到底是谁”展开：先用 CIDR 判断本地边界，再用最长前缀匹配选择路由，最后把 NAT、IPv6、ICMP、DHCP 和 DNS 放回一条真实访问链路。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本文围绕“知道目标 IP 之后，下一跳到底是谁”展开：先用 CIDR 判断本地边界，再用最长前缀匹配选择路由，最后把 NAT、IPv6、ICMP、DHCP 和 DNS 放回一条真实访问链路。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "地址与前缀",
+          "reader_task": "沿图中的关系或时序讲清「地址与前缀」：IPv4 地址是 32 位数。CIDR 用前缀长度表示有多少位属于网络部分，例如 /24 表示前 24 位属于网络前缀，剩余 8 位用于主机部分。",
+          "core_content": "本节直接交付：IPv4 地址是 32 位数。CIDR 用前缀长度表示有多少位属于网络部分，例如 /24 表示前 24 位属于网络前缀，剩余 8 位用于主机部分。",
+          "carrier": "mermaid + table + note info/warning flat",
+          "rationale": "「地址与前缀」需要先看到IPv4 地址是 32 位数。CIDR 用前缀长度表示有多少位属于网络部分，例如 /24 表示前 24 位属于网络前缀，剩余 8 位用于主机；因此采用mermaid + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：IPv4 地址是 32 位数。CIDR 用前缀长度表示有多少位属于网络部分，例如 /24 表示前 24 位属于网络前缀，剩余 8 位用于主机部分。；表格字段：计算项 | 结果。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "路由、下一跳与 NAT",
+          "reader_task": "沿图中的关系或时序讲清「路由、下一跳与 NAT」：目标 198.51.100.140 同时匹配三条路由，但 /25 最具体，因此选择 192.0.2.3。目标 198.51.100.70 不匹配 /25，但匹配 /24，因此选择 192.0.2.2。",
+          "core_content": "本节直接交付：目标 198.51.100.140 同时匹配三条路由，但 /25 最具体，因此选择 192.0.2.3。目标 198.51.100.70 不匹配 /25，但匹配 /24，因此选择 192.0.2.2。",
+          "carrier": "mermaid + table + note info flat",
+          "rationale": "「路由、下一跳与 NAT」需要先看到目标 198.51.100.140 同时匹配三条路由，但 /25 最具体，因此选择 192.0.2.3。目标 198.51.100.70 不；因此采用mermaid + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：目标 198.51.100.140 同时匹配三条路由，但 /25 最具体，因此选择 192.0.2.3。目标 198.51.100.70 不匹配 /25，但匹配 /24，因此选择 192.0.2.2。；表格字段：路由 | 下一跳 | 前缀长度。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "IPv6",
+          "reader_task": "比较表中的维度，说明「IPv6」在什么条件下成立。",
+          "core_content": "本节直接交付：IPv6 地址为 128 位，通常写成八组十六进制。连续的零可以压缩，但一条地址中只能使用一次双冒号。",
+          "carrier": "table + note info/warning/danger flat",
+          "rationale": "「IPv6」需要先看到IPv6 地址为 128 位，通常写成八组十六进制。连续的零可以压缩，但一条地址中只能使用一次双冒号。；因此采用table + note info/warning/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：IPv6 地址为 128 位，通常写成八组十六进制。连续的零可以压缩，但一条地址中只能使用一次双冒号。；表格字段：类型 | 作用 | 典型观察。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "控制、配置与名称",
+          "reader_task": "沿图中的关系或时序讲清「控制、配置与名称」：ICMP 不只为 ping 服务，还承载不可达、超时和参数问题等控制信息；IPv6 对应 ICMPv6。ping 成功只证明某种 Echo 往返可行，不能证明 TCP 端口、TLS 或 HTTP 服务正常。",
+          "core_content": "本节直接交付：ICMP 不只为 ping 服务，还承载不可达、超时和参数问题等控制信息；IPv6 对应 ICMPv6。ping 成功只证明某种 Echo 往返可行，不能证明 TCP 端口、TLS 或 HTTP 服务正常。",
+          "carrier": "mermaid + table + note warning/info flat",
+          "rationale": "「控制、配置与名称」需要先看到ICMP 不只为 ping 服务，还承载不可达、超时和参数问题等控制信息；IPv6 对应 ICMPv6。ping 成功只证明某种 Echo ；因此采用mermaid + table + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：ICMP 不只为 ping 服务，还承载不可达、超时和参数问题等控制信息；IPv6 对应 ICMPv6。ping 成功只证明某种 Echo 往返可行，不能证明 TCP 端口、TLS 或 HTTP 服务正常。；表格字段：概念 | 所属层次 | 关注点。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "失败边界与验证",
+          "reader_task": "比较表中的维度，说明「失败边界与验证」在什么条件下成立。",
+          "core_content": "本节直接交付：推荐的只读证据顺序：",
+          "carrier": "folding + table + note primary/warning flat",
+          "rationale": "「失败边界与验证」需要先看到推荐的只读证据顺序：；因此采用folding + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：推荐的只读证据顺序：；表格字段：现象 | 先查什么 | 定位维度。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "寻址复习",
+          "reader_task": "比较表中的维度，说明「寻址复习」在什么条件下成立。",
+          "core_content": "本节直接交付：--- question IPv4 前缀长度 /24 表示什么？",
+          "carrier": "flashcard + table",
+          "rationale": "「寻址复习」需要先看到--- question IPv4 前缀长度 /24 表示什么？；因此采用flashcard + table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：--- question IPv4 前缀长度 /24 表示什么？；表格字段：检查 | 需要回答的问题。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：内部端点 | 外部端点 | 返回包如何定位；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(九)综合实战": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本文把整门课程收束成可复用的面试和排障工作流：先画完整访问链路，再根据现象选择证据，最后说明结论的适用范围。传统链路是 DNS → TCP → TLS → HTTP，现代链路是 DNS → QUIC（集成 TLS 1.3）→ HTTP/3。",
+          "core_content": "开篇直接交付的范围与判断依据：本文把整门课程收束成可复用的面试和排障工作流：先画完整访问链路，再根据现象选择证据，最后说明结论的适用范围。传统链路是 DNS → TCP → TLS → HTTP，现代链路是 DNS → QUIC（集成 TLS 1.3）→ HTTP/3。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本文把整门课程收束成可复用的面试和排障工作流：先画完整访问链路，再根据现象选择证据，最后说明结论的适用范围。传统链路是 DNS → TCP → TLS → HTTP，现代链路是 DNS → QUIC（集成 TLS 1.3）→ HTTP/3。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "综合题方法",
+          "reader_task": "沿图中的关系或时序讲清「综合题方法」：DSCP/QoS、组播、动态路由、WebDAV 和状态注册表都可能出现在真实系统中，但它们不应被用来替代主线证据。先回答“当前请求是否有地址、连接、加密和 HTTP 响应”，再决定是否进入扩展协议。",
+          "core_content": "本节直接交付：DSCP/QoS、组播、动态路由、WebDAV 和状态注册表都可能出现在真实系统中，但它们不应被用来替代主线证据。先回答“当前请求是否有地址、连接、加密和 HTTP 响应”，再决定是否进入扩展协议。",
+          "carrier": "mermaid + note warning flat",
+          "rationale": "「综合题方法」需要先看到DSCP/QoS、组播、动态路由、WebDAV 和状态注册表都可能出现在真实系统中，但它们不应被用来替代主线证据。先回答“当前请求是否有地址；因此采用mermaid + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：DSCP/QoS、组播、动态路由、WebDAV 和状态注册表都可能出现在真实系统中，但它们不应被用来替代主线证据。先回答“当前请求是否有地址、连接、加密和 HTTP 响应”，再决定是否进入扩展协议。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "经典请求链路",
+          "reader_task": "沿图中的关系或时序讲清「经典请求链路」：复现时先使用公共示例或本地固定夹具，记录命令版本、目标、时间和脱敏后的输出：",
+          "core_content": "本节直接交付：复现时先使用公共示例或本地固定夹具，记录命令版本、目标、时间和脱敏后的输出：",
+          "carrier": "mermaid + table + note info/danger flat",
+          "rationale": "「经典请求链路」需要先看到复现时先使用公共示例或本地固定夹具，记录命令版本、目标、时间和脱敏后的输出：；因此采用mermaid + table + note info/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：复现时先使用公共示例或本地固定夹具，记录命令版本、目标、时间和脱敏后的输出：；表格字段：阶段 | 客户端证据 | 服务端/抓包证据 | 失败时不要越界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "现代请求链路",
+          "reader_task": "沿图中的关系或时序讲清「现代请求链路」：`curl --http3` 只有在本机 curl 编译支持 HTTP/3 且目标服务提供时才有意义；浏览器的协议选择还受到 Alt-Svc、缓存、代理、UDP 可达性和回退状态影响。看到最终请求使用 h2，不能证明服务端没有 h3；看到 UDP 包，也不能证明 HTTP/3 已经完成。",
+          "core_content": "本节直接交付：`curl --http3` 只有在本机 curl 编译支持 HTTP/3 且目标服务提供时才有意义；浏览器的协议选择还受到 Alt-Svc、缓存、代理、UDP 可达性和回退状态影响。看到最终请求使用 h2，不能证明服务端没有 h3；看到 UDP 包，也不能证明 HTTP/3 已经完成。",
+          "carrier": "mermaid + table + note info flat",
+          "rationale": "「现代请求链路」需要先看到`curl --http3` 只有在本机 curl 编译支持 HTTP/3 且目标服务提供时才有意义；浏览器的协议选择还受到 Alt-Svc；因此采用mermaid + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`curl --http3` 只有在本机 curl 编译支持 HTTP/3 且目标服务提供时才有意义；浏览器的协议选择还受到 Alt-Svc、缓存、代理、UDP 可达性和回退状态影响。看到最终请求使用 h2，不能证明服务端没有 h3；看到 UDP 包，也不能证明 HTTP/3 已经完成。；表格字段：观察项 | 经典链路 | 现代链路。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "失败场景",
+          "reader_task": "沿图中的关系或时序讲清「失败场景」：回答失败题时，要先说“我目前已验证到哪一层”，再说“下一层还没有证据”。这是比“应该是防火墙”“重启服务就好”更可靠的面试和生产沟通方式。",
+          "core_content": "本节直接交付：回答失败题时，要先说“我目前已验证到哪一层”，再说“下一层还没有证据”。这是比“应该是防火墙”“重启服务就好”更可靠的面试和生产沟通方式。",
+          "carrier": "mermaid + table + note danger flat",
+          "rationale": "「失败场景」需要先看到回答失败题时，要先说“我目前已验证到哪一层”，再说“下一层还没有证据”。这是比“应该是防火墙”“重启服务就好”更可靠的面试和生产沟通方式。；因此采用mermaid + table + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：回答失败题时，要先说“我目前已验证到哪一层”，再说“下一层还没有证据”。这是比“应该是防火墙”“重启服务就好”更可靠的面试和生产沟通方式。；表格字段：夹具 | 预期停在哪一层 | 面试式结论。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "进阶边界",
+          "reader_task": "用自己的话说明「进阶边界」为何如此，并核对：DSCP/QoS、组播、动态路由、WebDAV 和状态注册表的概念、用途与进入条件统一放在“进阶路线”。综合实战只保留“是否需要进入扩展协议”的判断，不在这里重新解释这些机制。",
+          "core_content": "本节直接交付：DSCP/QoS、组播、动态路由、WebDAV 和状态注册表的概念、用途与进入条件统一放在“进阶路线”。综合实战只保留“是否需要进入扩展协议”的判断，不在这里重新解释这些机制。",
+          "carrier": "note info flat",
+          "rationale": "「进阶边界」需要先看到DSCP/QoS、组播、动态路由、WebDAV 和状态注册表的概念、用途与进入条件统一放在“进阶路线”。综合实战只保留“是否需要进入扩展协议；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：DSCP/QoS、组播、动态路由、WebDAV 和状态注册表的概念、用途与进入条件统一放在“进阶路线”。综合实战只保留“是否需要进入扩展协议”的判断，不在这里重新解释这些机制。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "复盘与迁移",
+          "reader_task": "比较表中的维度，说明「复盘与迁移」在什么条件下成立。",
+          "core_content": "本节直接交付：综合实战不复制基础卡片，而是把关键链路挂回已有卡片：",
+          "carrier": "flashcard + table + note primary/info flat",
+          "rationale": "「复盘与迁移」需要先看到综合实战不复制基础卡片，而是把关键链路挂回已有卡片：；因此采用flashcard + table + note primary/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：综合实战不复制基础卡片，而是把关键链路挂回已有卡片：；表格字段：旧式绝对化表述 | 迁移后的回答。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：组件 | 可能参与的动作；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(二)网络分层与局域网": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本文从一次同网段通信开始，解释应用数据如何经过协议栈、以太网和交换机交给正确的网卡。重点放在四个边界：封装与解封装、IP 与 MAC、FDB 与 ARP、广播域与三层转发。",
+          "core_content": "开篇直接交付的范围与判断依据：本文从一次同网段通信开始，解释应用数据如何经过协议栈、以太网和交换机交给正确的网卡。重点放在四个边界：封装与解封装、IP 与 MAC、FDB 与 ARP、广播域与三层转发。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本文从一次同网段通信开始，解释应用数据如何经过协议栈、以太网和交换机交给正确的网卡。重点放在四个边界：封装与解封装、IP 与 MAC、FDB 与 ARP、广播域与三层转发。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "从一次局域网通信开始",
+          "reader_task": "比较表中的维度，说明「从一次局域网通信开始」在什么条件下成立。",
+          "core_content": "本节直接交付：A 执行 ping 或访问 B 的服务时，应用最先知道的是“我要访问 192.168.10.20”。但网卡发送以太网帧时，需要一个目的 MAC。这里出现了两个不同的问题：",
+          "carrier": "table + note info/primary flat",
+          "rationale": "「从一次局域网通信开始」需要先看到A 执行 ping 或访问 B 的服务时，应用最先知道的是“我要访问 192.168.10.20”。但网卡发送以太网帧时，需要一个目的 MA；因此采用table + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：A 执行 ping 或访问 B 的服务时，应用最先知道的是“我要访问 192.168.10.20”。但网卡发送以太网帧时，需要一个目的 MAC。这里出现了两个不同的问题：；表格字段：项目 | 主机 A。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "分层与封装",
+          "reader_task": "沿图中的关系或时序讲清「分层与封装」：下图使用从上到下的方向，是因为层级和封装节点较多；移动端不需要横向压缩文字。",
+          "core_content": "本节直接交付：下图使用从上到下的方向，是因为层级和封装节点较多；移动端不需要横向压缩文字。",
+          "carrier": "mermaid + table + note info/warning flat",
+          "rationale": "「分层与封装」需要先看到下图使用从上到下的方向，是因为层级和封装节点较多；移动端不需要横向压缩文字。；因此采用mermaid + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下图使用从上到下的方向，是因为层级和封装节点较多；移动端不需要横向压缩文字。；表格字段：层次 | 数据单元 | 典型字段 | 这一层回答的问题。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "以太网帧与 MAC",
+          "reader_task": "比较表中的维度，说明「以太网帧与 MAC」在什么条件下成立。",
+          "core_content": "本节直接交付：MAC 地址通常写成 6 个十六进制字节。目的地址全为 1，即 FF:FF:FF:FF:FF:FF，表示链路广播。广播不是“发给所有互联网主机”，而是在当前广播域内扩散；交换机也不会把二层广播自动路由到另一个三层接口。",
+          "carrier": "table + note info flat",
+          "rationale": "「以太网帧与 MAC」需要先看到MAC 地址通常写成 6 个十六进制字节。目的地址全为 1，即 FF:FF:FF:FF:FF:FF，表示链路广播。广播不是“发给所有互联网主；因此采用table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：MAC 地址通常写成 6 个十六进制字节。目的地址全为 1，即 FF:FF:FF:FF:FF:FF，表示链路广播。广播不是“发给所有互联网主机”，而是在当前广播域内扩散；交换机也不会把二层广播自动路由到另一个三层接口。；表格字段：字段 | 作用 | 面试时的边界。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "交换机转发",
+          "reader_task": "沿图中的关系或时序讲清「交换机转发」：FDB 是动态状态，不是永久事实。主机换端口、链路发生故障、设备重启或条目老化后，第一次通信可能经历未知单播泛洪；这并不自动表示交换机坏了。",
+          "core_content": "本节直接交付：FDB 是动态状态，不是永久事实。主机换端口、链路发生故障、设备重启或条目老化后，第一次通信可能经历未知单播泛洪；这并不自动表示交换机坏了。",
+          "carrier": "mermaid + table + note warning/info flat",
+          "rationale": "「交换机转发」需要先看到FDB 是动态状态，不是永久事实。主机换端口、链路发生故障、设备重启或条目老化后，第一次通信可能经历未知单播泛洪；这并不自动表示交换机坏了。；因此采用mermaid + table + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：FDB 是动态状态，不是永久事实。主机换端口、链路发生故障、设备重启或条目老化后，第一次通信可能经历未知单播泛洪；这并不自动表示交换机坏了。；表格字段：事件 | FDB 动作 | 后续决策。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "ARP 与 IPv6 邻居发现",
+          "reader_task": "沿图中的关系或时序讲清「ARP 与 IPv6 邻居发现」：当 A 不知道 B 的 MAC 时，A 会发送 ARP 请求。请求的以太网目的 MAC 是广播地址，ARP payload 中会写出“谁拥有 192.168.10.20，请告诉 192.168.10.10”。",
+          "core_content": "本节直接交付：当 A 不知道 B 的 MAC 时，A 会发送 ARP 请求。请求的以太网目的 MAC 是广播地址，ARP payload 中会写出“谁拥有 192.168.10.20，请告诉 192.168.10.10”。",
+          "carrier": "mermaid + table + note info/warning flat",
+          "rationale": "「ARP 与 IPv6 邻居发现」需要先看到当 A 不知道 B 的 MAC 时，A 会发送 ARP 请求。请求的以太网目的 MAC 是广播地址，ARP payload 中会写出“谁拥有；因此采用mermaid + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：当 A 不知道 B 的 MAC 时，A 会发送 ARP 请求。请求的以太网目的 MAC 是广播地址，ARP payload 中会写出“谁拥有 192.168.10.20，请告诉 192.168.10.10”。；表格字段：证据 | 观察点。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "失败边界与验证",
+          "reader_task": "比较表中的维度，说明「失败边界与验证」在什么条件下成立。",
+          "core_content": "本节直接交付：安全验证时，优先只读命令：",
+          "carrier": "folding + table + note primary/warning flat",
+          "rationale": "「失败边界与验证」需要先看到安全验证时，优先只读命令：；因此采用folding + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：安全验证时，优先只读命令：；表格字段：现象 | 优先检查 | 不要直接下的结论。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "分层复习",
+          "reader_task": "比较表中的维度，说明「分层复习」在什么条件下成立。",
+          "core_content": "本节直接交付：--- question 学习网络分层时，为什么要同时看寻址、可达性和应用语义三条轴？",
+          "carrier": "flashcard + table",
+          "rationale": "「分层复习」需要先看到--- question 学习网络分层时，为什么要同时看寻址、可达性和应用语义三条轴？；因此采用flashcard + table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：--- question 学习网络分层时，为什么要同时看寻址、可达性和应用语义三条轴？；表格字段：先确认 | 再确认 | 不要直接推出。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "局域网复习",
+          "reader_task": "比较表中的维度，说明「局域网复习」在什么条件下成立。",
+          "core_content": "本节直接交付：--- question 一次同网段通信中，IP 地址和 MAC 地址分别解决什么问题？",
+          "carrier": "flashcard + table",
+          "rationale": "「局域网复习」需要先看到--- question 一次同网段通信中，IP 地址和 MAC 地址分别解决什么问题？；因此采用flashcard + table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：--- question 一次同网段通信中，IP 地址和 MAC 地址分别解决什么问题？；表格字段：字段 | 解决的问题 | 是否每跳变化。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：输入 | 交换机动作 | 观察结果；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(五)HTTP 协议": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本文把“打开一个网址”拆成可逐字段阅读的 HTTP 模型：请求针对什么资源、携带什么表示、使用什么方法；响应如何用状态码、字段和内容表达结果；缓存、Cookie、CORS、认证、代理和网关又在哪一层改变观察到的行为。",
+          "core_content": "开篇直接交付的范围与判断依据：本文把“打开一个网址”拆成可逐字段阅读的 HTTP 模型：请求针对什么资源、携带什么表示、使用什么方法；响应如何用状态码、字段和内容表达结果；缓存、Cookie、CORS、认证、代理和网关又在哪一层改变观察到的行为。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本文把“打开一个网址”拆成可逐字段阅读的 HTTP 模型：请求针对什么资源、携带什么表示、使用什么方法；响应如何用状态码、字段和内容表达结果；缓存、Cookie、CORS、认证、代理和网关又在哪一层改变观察到的行为。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "HTTP 消息",
+          "reader_task": "沿图中的关系或时序讲清「HTTP 消息」：现代 HTTP 语义中，资源是被请求的目标概念，表示是资源在某个时刻以某种媒体类型呈现的数据，消息是传输这些语义的协议载体。一个 URL 指向的资源可以产生 JSON、HTML 或图片等不同表示；请求和响应则是承载元数据与内容的消息。",
+          "core_content": "本节直接交付：现代 HTTP 语义中，资源是被请求的目标概念，表示是资源在某个时刻以某种媒体类型呈现的数据，消息是传输这些语义的协议载体。一个 URL 指向的资源可以产生 JSON、HTML 或图片等不同表示；请求和响应则是承载元数据与内容的消息。",
+          "carrier": "mermaid + table + note info/primary/warning/danger flat",
+          "rationale": "「HTTP 消息」需要先看到现代 HTTP 语义中，资源是被请求的目标概念，表示是资源在某个时刻以某种媒体类型呈现的数据，消息是传输这些语义的协议载体。一个 URL 指；因此采用mermaid + table + note info/primary/warning/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：现代 HTTP 语义中，资源是被请求的目标概念，表示是资源在某个时刻以某种媒体类型呈现的数据，消息是传输这些语义的协议载体。一个 URL 指向的资源可以产生 JSON、HTML 或图片等不同表示；请求和响应则是承载元数据与内容的消息。；表格字段：输入 | 响应 | 解释。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "消息语义",
+          "reader_task": "沿图中的关系或时序讲清「消息语义」：方法选择要通过实际目标状态验证，而不是只看请求体：",
+          "core_content": "本节直接交付：方法选择要通过实际目标状态验证，而不是只看请求体：",
+          "carrier": "mermaid + table + note info/warning flat",
+          "rationale": "「消息语义」需要先看到方法选择要通过实际目标状态验证，而不是只看请求体：；因此采用mermaid + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：方法选择要通过实际目标状态验证，而不是只看请求体：；表格字段：方法 | 典型语义 | 安全 | 幂等 | 常见边界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "缓存与 Cookie",
+          "reader_task": "沿图中的关系或时序讲清「缓存与 Cookie」：缓存不是“浏览器看到相同 URL 就永远不发请求”。缓存是否可用要综合请求方法、响应状态、 freshness、Cache-Control、Vary、验证器、共享缓存边界和用户上下文。",
+          "core_content": "本节直接交付：缓存不是“浏览器看到相同 URL 就永远不发请求”。缓存是否可用要综合请求方法、响应状态、 freshness、Cache-Control、Vary、验证器、共享缓存边界和用户上下文。",
+          "carrier": "mermaid + table + note info/primary/danger flat",
+          "rationale": "「缓存与 Cookie」需要先看到缓存不是“浏览器看到相同 URL 就永远不发请求”。缓存是否可用要综合请求方法、响应状态、 freshness、Cache-Control、；因此采用mermaid + table + note info/primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：缓存不是“浏览器看到相同 URL 就永远不发请求”。缓存是否可用要综合请求方法、响应状态、 freshness、Cache-Control、Vary、验证器、共享缓存边界和用户上下文。；表格字段：指令 | 典型含义 | 关键边界。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "Fetch 与 CORS",
+          "reader_task": "沿图中的关系或时序讲清「Fetch 与 CORS」：源通常由 scheme、host、port 组成。只要三者之一不同，浏览器就会把请求视为跨源；跨源不代表网络层不能连通，而是浏览器脚本对响应读取和请求发送受到同源策略约束。",
+          "core_content": "本节直接交付：源通常由 scheme、host、port 组成。只要三者之一不同，浏览器就会把请求视为跨源；跨源不代表网络层不能连通，而是浏览器脚本对响应读取和请求发送受到同源策略约束。",
+          "carrier": "mermaid + table + note info/primary flat",
+          "rationale": "「Fetch 与 CORS」需要先看到源通常由 scheme、host、port 组成。只要三者之一不同，浏览器就会把请求视为跨源；跨源不代表网络层不能连通，而是浏览器脚本对响应；因此采用mermaid + table + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：源通常由 scheme、host、port 组成。只要三者之一不同，浏览器就会把请求视为跨源；跨源不代表网络层不能连通，而是浏览器脚本对响应读取和请求发送受到同源策略约束。；表格字段：浏览器面板现象 | 可能根因 | 验证方法。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "中间层",
+          "reader_task": "沿图中的关系或时序讲清「中间层」：Authorization 字段承载认证方案和凭据，例如 Bearer token。它解决“请求者如何证明身份/持有凭据”的一部分问题，不自动解决权限、会话撤销、Token 泄露、缓存隔离或传输加密。生产排查中不要把真实 Authorization 值写入文章、截图、HAR 或公共 issue。",
+          "core_content": "本节直接交付：Authorization 字段承载认证方案和凭据，例如 Bearer token。它解决“请求者如何证明身份/持有凭据”的一部分问题，不自动解决权限、会话撤销、Token 泄露、缓存隔离或传输加密。生产排查中不要把真实 Authorization 值写入文章、截图、HAR 或公共 issue。",
+          "carrier": "mermaid + table + note danger/info/primary flat",
+          "rationale": "「中间层」需要先看到Authorization 字段承载认证方案和凭据，例如 Bearer token。它解决“请求者如何证明身份/持有凭据”的一部分问题，不自；因此采用mermaid + table + note danger/info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Authorization 字段承载认证方案和凭据，例如 Bearer token。它解决“请求者如何证明身份/持有凭据”的一部分问题，不自动解决权限、会话撤销、Token 泄露、缓存隔离或传输加密。生产排查中不要把真实 Authorization 值写入文章、截图、HAR 或公共 issue。；表格字段：路径 | 脱敏输入 | 关键输出/验证。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "请求证据",
+          "reader_task": "沿图中的关系或时序讲清「请求证据」：下面命令针对公共示例站点，仅产生读取请求。实际复现私有接口时，先脱敏并确认授权；不要把真实 Cookie、Authorization 或内部 Host 放进共享日志。",
+          "core_content": "本节直接交付：下面命令针对公共示例站点，仅产生读取请求。实际复现私有接口时，先脱敏并确认授权；不要把真实 Cookie、Authorization 或内部 Host 放进共享日志。",
+          "carrier": "mermaid + table + note warning/success/info flat",
+          "rationale": "「请求证据」需要先看到下面命令针对公共示例站点，仅产生读取请求。实际复现私有接口时，先脱敏并确认授权；不要把真实 Cookie、Authorization 或内部；因此采用mermaid + table + note warning/success/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面命令针对公共示例站点，仅产生读取请求。实际复现私有接口时，先脱敏并确认授权；不要把真实 Cookie、Authorization 或内部 Host 放进共享日志。；表格字段：旧笔记常见词 | 当前回答优先使用 | 迁移动作。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "HTTP 语义复习",
+          "reader_task": "比较表中的维度，说明「HTTP 语义复习」在什么条件下成立。",
+          "core_content": "本节直接交付：先遮住答案，尝试从资源 → 消息 → 字段 → 浏览器边界复述；详细解析用于检查是否把 HTTP 语义、浏览器策略和网络连通性混在了一起。",
+          "carrier": "flashcard + table + note info flat",
+          "rationale": "「HTTP 语义复习」需要先看到先遮住答案，尝试从资源 → 消息 → 字段 → 浏览器边界复述；详细解析用于检查是否把 HTTP 语义、浏览器策略和网络连通性混在了一起。；因此采用flashcard + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先遮住答案，尝试从资源 → 消息 → 字段 → 浏览器边界复述；详细解析用于检查是否把 HTTP 语义、浏览器策略和网络连通性混在了一起。；表格字段：维度 | 问的是什么 | 例子。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：维度 | 示例；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(八)进阶路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：主线已经建立 HTTP、TCP、TLS、IP 和排障模型；本文把 WebSocket、DoH/DoT、IPsec、VXLAN 以及网络治理和 HTTP 扩展放回各自的层次，解释它们解决什么问题、引入什么边界，以及何时值得继续深入。",
+          "core_content": "开篇直接交付的范围与判断依据：主线已经建立 HTTP、TCP、TLS、IP 和排障模型；本文把 WebSocket、DoH/DoT、IPsec、VXLAN 以及网络治理和 HTTP 扩展放回各自的层次，解释它们解决什么问题、引入什么边界，以及何时值得继续深入。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：主线已经建立 HTTP、TCP、TLS、IP 和排障模型；本文把 WebSocket、DoH/DoT、IPsec、VXLAN 以及网络治理和 HTTP 扩展放回各自的层次，解释它们解决什么问题、引入什么边界，以及何时值得继续深入。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "扩展协议地图",
+          "reader_task": "沿图中的关系或时序讲清「扩展协议地图」：flowchart TD MAIN[主线：DNS/IP/TCP/TLS/HTTP/排障]",
+          "core_content": "本节直接交付：flowchart TD MAIN[主线：DNS/IP/TCP/TLS/HTTP/排障]",
+          "carrier": "mermaid + table",
+          "rationale": "「扩展协议地图」需要先看到flowchart TD MAIN[主线：DNS/IP/TCP/TLS/HTTP/排障]；因此采用mermaid + table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：flowchart TD MAIN[主线：DNS/IP/TCP/TLS/HTTP/排障]；表格字段：主题 | 它扩展的对象 | 先学什么 | 不要把它误认为。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "应用协议",
+          "reader_task": "沿图中的关系或时序讲清「应用协议」：WebSocket 通常从 HTTP/1.1 Upgrade 请求开始，服务端返回 101 Switching Protocols 后，双方不再把后续字节当作普通 HTTP 请求/响应，而是进入 WebSocket 帧语义。它仍然依赖底层 TCP（或安全的 wss 连接依赖 TLS），但应用层消息边界由 WebSocket 帧定义。",
+          "core_content": "本节直接交付：WebSocket 通常从 HTTP/1.1 Upgrade 请求开始，服务端返回 101 Switching Protocols 后，双方不再把后续字节当作普通 HTTP 请求/响应，而是进入 WebSocket 帧语义。它仍然依赖底层 TCP（或安全的 wss 连接依赖 TLS），但应用层消息边界由 WebSocket 帧定义。",
+          "carrier": "mermaid + table + note info/warning/primary flat",
+          "rationale": "「应用协议」需要先看到WebSocket 通常从 HTTP/1.1 Upgrade 请求开始，服务端返回 101 Switching Protocols 后，双方；因此采用mermaid + table + note info/warning/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：WebSocket 通常从 HTTP/1.1 Upgrade 请求开始，服务端返回 101 Switching Protocols 后，双方不再把后续字节当作普通 HTTP 请求/响应，而是进入 WebSocket 帧语义。它仍然依赖底层 TCP（或安全的 wss 连接依赖 TLS），但应用层消息边界由 WebSocket 帧定义。；表格字段：维度 | DoH | DoT。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "网络安全与覆盖",
+          "reader_task": "沿图中的关系或时序讲清「网络安全与覆盖」：IPsec 在 IP 层提供安全架构，核心是按策略决定哪些流量需要保护，并通过安全关联和密钥管理确定如何认证/加密。ESP 可以提供机密性、完整性和认证等能力；AH 关注认证/完整性但在 NAT 等环境中有现实边界。传输模式通常保护 IP 载荷，隧道模式把整个原始 IP 包封装进新的 IP 包。",
+          "core_content": "本节直接交付：IPsec 在 IP 层提供安全架构，核心是按策略决定哪些流量需要保护，并通过安全关联和密钥管理确定如何认证/加密。ESP 可以提供机密性、完整性和认证等能力；AH 关注认证/完整性但在 NAT 等环境中有现实边界。传输模式通常保护 IP 载荷，隧道模式把整个原始 IP 包封装进新的 IP 包。",
+          "carrier": "mermaid + note primary/warning/info flat",
+          "rationale": "「网络安全与覆盖」需要先看到IPsec 在 IP 层提供安全架构，核心是按策略决定哪些流量需要保护，并通过安全关联和密钥管理确定如何认证/加密。ESP 可以提供机密性、；因此采用mermaid + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：IPsec 在 IP 层提供安全架构，核心是按策略决定哪些流量需要保护，并通过安全关联和密钥管理确定如何认证/加密。ESP 可以提供机密性、完整性和认证等能力；AH 关注认证/完整性但在 NAT 等环境中有现实边界。传输模式通常保护 IP 载荷，隧道模式把整个原始 IP 包封装进新的 IP 包。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "网络治理与协议扩展",
+          "reader_task": "用自己的话说明「网络治理与协议扩展」为何如此，并核对：DSCP 位于 IP 服务质量字段，表达流量分类或转发处理意图；它不是带宽保证，也不是加密认证。标记是否被保留、队列是否按标记配置、运营商是否重写，都要在具体路径上验证。抓包中看见 DSCP 值，只能证明包带了标记，不能证明获得了某种时延或带宽。",
+          "core_content": "本节直接交付：DSCP 位于 IP 服务质量字段，表达流量分类或转发处理意图；它不是带宽保证，也不是加密认证。标记是否被保留、队列是否按标记配置、运营商是否重写，都要在具体路径上验证。抓包中看见 DSCP 值，只能证明包带了标记，不能证明获得了某种时延或带宽。",
+          "carrier": "note info/warning/primary flat",
+          "rationale": "「网络治理与协议扩展」需要先看到DSCP 位于 IP 服务质量字段，表达流量分类或转发处理意图；它不是带宽保证，也不是加密认证。标记是否被保留、队列是否按标记配置、运营商是；因此采用note info/warning/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：DSCP 位于 IP 服务质量字段，表达流量分类或转发处理意图；它不是带宽保证，也不是加密认证。标记是否被保留、队列是否按标记配置、运营商是否重写，都要在具体路径上验证。抓包中看见 DSCP 值，只能证明包带了标记，不能证明获得了某种时延或带宽。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "选择进阶主题",
+          "reader_task": "比较表中的维度，说明「选择进阶主题」在什么条件下成立。",
+          "core_content": "本节直接交付：下面的卡片用于回忆方法、Cookie、QUIC、证书和排障边界，再把这些概念用于进阶主题：",
+          "carrier": "flashcard + table + note info/primary flat",
+          "rationale": "「选择进阶主题」需要先看到下面的卡片用于回忆方法、Cookie、QUIC、证书和排障边界，再把这些概念用于进阶主题：；因此采用flashcard + table + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面的卡片用于回忆方法、Cookie、QUIC、证书和排障边界，再把这些概念用于进阶主题：；表格字段：如果你正在解决 | 先回到 | 只有出现这些证据时再进入进阶。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：阶段 | 看到什么 | 语义；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(六)HTTPS 与现代 HTTP": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本文沿着协议依赖回答一个问题：HTTP/1.1、HTTP/2、TLS 1.3、QUIC 和 HTTP/3 分别改变了哪一层？证书链、主机名、SNI、ALPN 又如何决定“安全连接”和“应用协议”是否真的匹配？",
+          "core_content": "开篇直接交付的范围与判断依据：本文沿着协议依赖回答一个问题：HTTP/1.1、HTTP/2、TLS 1.3、QUIC 和 HTTP/3 分别改变了哪一层？证书链、主机名、SNI、ALPN 又如何决定“安全连接”和“应用协议”是否真的匹配？",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本文沿着协议依赖回答一个问题：HTTP/1.1、HTTP/2、TLS 1.3、QUIC 和 HTTP/3 分别改变了哪一层？证书链、主机名、SNI、ALPN 又如何决定“安全连接”和“应用协议”是否真的匹配？。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "HTTP/1.1",
+          "reader_task": "沿图中的关系或时序讲清「HTTP/1.1」：HTTP 方法、状态码、字段和内容属于语义层；HTTP/1.1 规定的是一种文本起始行/字段和消息分帧方式，它不是 HTTP 语义本身，也不是 TLS。这个拆分能解释为什么同一个 GET 语义可以映射到 HTTP/1.1 的文本消息、HTTP/2 的二进制帧或 HTTP/3 的 QUIC 流。",
+          "core_content": "本节直接交付：HTTP 方法、状态码、字段和内容属于语义层；HTTP/1.1 规定的是一种文本起始行/字段和消息分帧方式，它不是 HTTP 语义本身，也不是 TLS。这个拆分能解释为什么同一个 GET 语义可以映射到 HTTP/1.1 的文本消息、HTTP/2 的二进制帧或 HTTP/3 的 QUIC 流。",
+          "carrier": "mermaid + table + note info/primary flat",
+          "rationale": "「HTTP/1.1」需要先看到HTTP 方法、状态码、字段和内容属于语义层；HTTP/1.1 规定的是一种文本起始行/字段和消息分帧方式，它不是 HTTP 语义本身，也不；因此采用mermaid + table + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：HTTP 方法、状态码、字段和内容属于语义层；HTTP/1.1 规定的是一种文本起始行/字段和消息分帧方式，它不是 HTTP 语义本身，也不是 TLS。这个拆分能解释为什么同一个 GET 语义可以映射到 HTTP/1.1 的文本消息、HTTP/2 的二进制帧或 HTTP/3 的 QUIC 流。；表格字段：观察对象 | HTTP/1.1 | HTTP/2/3 的变化。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "HTTP/2",
+          "reader_task": "沿图中的关系或时序讲清「HTTP/2」：HTTP/2 的多路复用允许不同 stream 的帧交错发送，避免 HTTP/1.1 管线化中一个响应阻塞后续响应的应用层队头阻塞。它并没有消除 TCP 层的队头阻塞：如果一段 TCP 字节丢失，后续字节仍要等待 TCP 按序交付。",
+          "core_content": "本节直接交付：HTTP/2 的多路复用允许不同 stream 的帧交错发送，避免 HTTP/1.1 管线化中一个响应阻塞后续响应的应用层队头阻塞。它并没有消除 TCP 层的队头阻塞：如果一段 TCP 字节丢失，后续字节仍要等待 TCP 按序交付。",
+          "carrier": "mermaid + table + note info/primary flat",
+          "rationale": "「HTTP/2」需要先看到HTTP/2 的多路复用允许不同 stream 的帧交错发送，避免 HTTP/1.1 管线化中一个响应阻塞后续响应的应用层队头阻塞。它并没有；因此采用mermaid + table + note info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：HTTP/2 的多路复用允许不同 stream 的帧交错发送，避免 HTTP/1.1 管线化中一个响应阻塞后续响应的应用层队头阻塞。它并没有消除 TCP 层的队头阻塞：如果一段 TCP 字节丢失，后续字节仍要等待 TCP 按序交付。；表格字段：层次 | 含义 | 例子。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "TLS 1.3 握手",
+          "reader_task": "沿图中的关系或时序讲清「TLS 1.3 握手」：TLS 主要提供机密性、完整性和端点认证所需的协议机制；证书和主机名校验让客户端判断“连接的对端是否是目标服务”。TLS 不负责 HTTP 方法语义、业务授权或应用数据格式，HTTPS 是把 HTTP 语义放进 TLS 保护的连接中。",
+          "core_content": "本节直接交付：TLS 主要提供机密性、完整性和端点认证所需的协议机制；证书和主机名校验让客户端判断“连接的对端是否是目标服务”。TLS 不负责 HTTP 方法语义、业务授权或应用数据格式，HTTPS 是把 HTTP 语义放进 TLS 保护的连接中。",
+          "carrier": "mermaid + note info/danger/warning flat",
+          "rationale": "「TLS 1.3 握手」需要先看到TLS 主要提供机密性、完整性和端点认证所需的协议机制；证书和主机名校验让客户端判断“连接的对端是否是目标服务”。TLS 不负责 HTTP ；因此采用mermaid + note info/danger/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：TLS 主要提供机密性、完整性和端点认证所需的协议机制；证书和主机名校验让客户端判断“连接的对端是否是目标服务”。TLS 不负责 HTTP 方法语义、业务授权或应用数据格式，HTTPS 是把 HTTP 语义放进 TLS 保护的连接中。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "QUIC",
+          "reader_task": "沿图中的关系或时序讲清「QUIC」：QUIC 使用 UDP 作为封装入口，但在其内部提供连接 ID、加密包、丢包检测、确认、拥塞控制和多个独立流。它不把 UDP 的“无连接数据报语义”原封不动交给 HTTP/3，而是构造出新的加密传输抽象。",
+          "core_content": "本节直接交付：QUIC 使用 UDP 作为封装入口，但在其内部提供连接 ID、加密包、丢包检测、确认、拥塞控制和多个独立流。它不把 UDP 的“无连接数据报语义”原封不动交给 HTTP/3，而是构造出新的加密传输抽象。",
+          "carrier": "mermaid + table + note warning/info flat",
+          "rationale": "「QUIC」需要先看到QUIC 使用 UDP 作为封装入口，但在其内部提供连接 ID、加密包、丢包检测、确认、拥塞控制和多个独立流。它不把 UDP 的“无连接数据；因此采用mermaid + table + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：QUIC 使用 UDP 作为封装入口，但在其内部提供连接 ID、加密包、丢包检测、确认、拥塞控制和多个独立流。它不把 UDP 的“无连接数据报语义”原封不动交给 HTTP/3，而是构造出新的加密传输抽象。；表格字段：维度 | TCP + HTTP/2 | QUIC + HTTP/3。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "HTTP/3",
+          "reader_task": "沿图中的关系或时序讲清「HTTP/3」：HTTP/3 把 HTTP 语义映射到 QUIC stream 和 frame。为了在独立 stream 上压缩字段，HTTP/3 使用 QPACK；它吸收 HPACK 的压缩目标，但调整了动态表引用和阻塞风险，以适配 QUIC 的并发模型。",
+          "core_content": "本节直接交付：HTTP/3 把 HTTP 语义映射到 QUIC stream 和 frame。为了在独立 stream 上压缩字段，HTTP/3 使用 QPACK；它吸收 HPACK 的压缩目标，但调整了动态表引用和阻塞风险，以适配 QUIC 的并发模型。",
+          "carrier": "mermaid + table + note info/primary/warning flat",
+          "rationale": "「HTTP/3」需要先看到HTTP/3 把 HTTP 语义映射到 QUIC stream 和 frame。为了在独立 stream 上压缩字段，HTTP/3 使用 Q；因此采用mermaid + table + note info/primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：HTTP/3 把 HTTP 语义映射到 QUIC stream 和 frame。为了在独立 stream 上压缩字段，HTTP/3 使用 QPACK；它吸收 HPACK 的压缩目标，但调整了动态表引用和阻塞风险，以适配 QUIC 的并发模型。；表格字段：HTTP/3 对象 | 作用。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "证书校验",
+          "reader_task": "沿图中的关系或时序讲清「证书校验」：主机名匹配通常看 Subject Alternative Name，而不是只看 Common Name；证书链要能连接到客户端信任库中的信任锚；有效期、签名算法、用途和客户端策略也会影响结果。使用 curl 的 -k 或浏览器点击继续属于明确降低校验的例外，不应写成生产修复。",
+          "core_content": "本节直接交付：主机名匹配通常看 Subject Alternative Name，而不是只看 Common Name；证书链要能连接到客户端信任库中的信任锚；有效期、签名算法、用途和客户端策略也会影响结果。使用 curl 的 -k 或浏览器点击继续属于明确降低校验的例外，不应写成生产修复。",
+          "carrier": "mermaid + table + note warning/info flat",
+          "rationale": "「证书校验」需要先看到主机名匹配通常看 Subject Alternative Name，而不是只看 Common Name；证书链要能连接到客户端信任库中的信任；因此采用mermaid + table + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：主机名匹配通常看 Subject Alternative Name，而不是只看 Common Name；证书链要能连接到客户端信任库中的信任锚；有效期、签名算法、用途和客户端策略也会影响结果。使用 curl 的 -k 或浏览器点击继续属于明确降低校验的例外，不应写成生产修复。；表格字段：机制 | 解决的问题 | 失败表现。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "HTTPS 边界",
+          "reader_task": "比较表中的维度，说明「HTTPS 边界」在什么条件下成立。",
+          "core_content": "本节直接交付：因此“HTTPS 等于端到端加密”也要加范围：如果 TLS 在反向代理处终止，代理到上游是否继续使用 TLS 是另一个链路问题；HTTPS 保护传输中的内容，但不会替应用防止日志泄露、服务端越权或客户端恶意脚本。",
+          "carrier": "folding + table + note danger/info/warning flat",
+          "rationale": "「HTTPS 边界」需要先看到因此“HTTPS 等于端到端加密”也要加范围：如果 TLS 在反向代理处终止，代理到上游是否继续使用 TLS 是另一个链路问题；HTTPS ；因此采用folding + table + note danger/info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：因此“HTTPS 等于端到端加密”也要加范围：如果 TLS 在反向代理处终止，代理到上游是否继续使用 TLS 是另一个链路问题；HTTPS 保护传输中的内容，但不会替应用防止日志泄露、服务端越权或客户端恶意脚本。；表格字段：问题 | 主要负责层。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "现代协议复习",
+          "reader_task": "比较表中的维度，说明「现代协议复习」在什么条件下成立。",
+          "core_content": "本节直接交付：先按“语义 → 线格式 → 传输 → TLS → 证书/协议协商”的顺序重画演进图，再查看答案。",
+          "carrier": "flashcard + table + note info flat",
+          "rationale": "「现代协议复习」需要先看到先按“语义 → 线格式 → 传输 → TLS → 证书/协议协商”的顺序重画演进图，再查看答案。；因此采用flashcard + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先按“语义 → 线格式 → 传输 → TLS → 证书/协议协商”的顺序重画演进图，再查看答案。；表格字段：边界依据 | 适用线索 | 风险。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：层 | 负责什么；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "计算机网络(四)UDP 与 TCP": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本文从传输层端点开始，比较 UDP 的数据报语义和 TCP 的可靠字节流；随后用序列号、确认号、状态和计时器解释三次握手、重传、拥塞控制、关闭与 TIME-WAIT。每个结论都回到抓包字段和系统状态。",
+          "core_content": "开篇直接交付的范围与判断依据：本文从传输层端点开始，比较 UDP 的数据报语义和 TCP 的可靠字节流；随后用序列号、确认号、状态和计时器解释三次握手、重传、拥塞控制、关闭与 TIME-WAIT。每个结论都回到抓包字段和系统状态。",
+          "carrier": "note warning flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本文从传输层端点开始，比较 UDP 的数据报语义和 TCP 的可靠字节流；随后用序列号、确认号、状态和计时器解释三次握手、重传、拥塞控制、关闭与 TIME-WAIT。每个结论都回到抓包字段和系统状态。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "UDP 与 TCP",
+          "reader_task": "沿图中的关系或时序讲清「UDP 与 TCP」：IP 负责把数据报送到主机，传输层还要把数据交给哪个进程。一个传输端点至少由 IP 地址和端口组成；一条 TCP 连接通常由客户端 IP、客户端端口、服务端 IP、服务端端口共同标识。端口号是传输层多路复用的入口，不是“某台机器的应用编号”这种永久绑定关系。",
+          "core_content": "本节直接交付：IP 负责把数据报送到主机，传输层还要把数据交给哪个进程。一个传输端点至少由 IP 地址和端口组成；一条 TCP 连接通常由客户端 IP、客户端端口、服务端 IP、服务端端口共同标识。端口号是传输层多路复用的入口，不是“某台机器的应用编号”这种永久绑定关系。",
+          "carrier": "mermaid + table + note info/warning flat",
+          "rationale": "「UDP 与 TCP」需要先看到IP 负责把数据报送到主机，传输层还要把数据交给哪个进程。一个传输端点至少由 IP 地址和端口组成；一条 TCP 连接通常由客户端 IP、客；因此采用mermaid + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：IP 负责把数据报送到主机，传输层还要把数据交给哪个进程。一个传输端点至少由 IP 地址和端口组成；一条 TCP 连接通常由客户端 IP、客户端端口、服务端 IP、服务端端口共同标识。端口号是传输层多路复用的入口，不是“某台机器的应用编号”这种永久绑定关系。；表格字段：观察对象 | UDP | TCP。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "连接模型",
+          "reader_task": "沿图中的关系或时序讲清「连接模型」：假设客户端的初始序列号 ISN 是 1000，服务端的 ISN 是 5000。SYN 本身不携带应用数据，但在序列空间中占用一个位置，因此三次握手可以写成：",
+          "core_content": "本节直接交付：假设客户端的初始序列号 ISN 是 1000，服务端的 ISN 是 5000。SYN 本身不携带应用数据，但在序列空间中占用一个位置，因此三次握手可以写成：",
+          "carrier": "mermaid + table + note info/warning flat",
+          "rationale": "「连接模型」需要先看到假设客户端的初始序列号 ISN 是 1000，服务端的 ISN 是 5000。SYN 本身不携带应用数据，但在序列空间中占用一个位置，因此三；因此采用mermaid + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：假设客户端的初始序列号 ISN 是 1000，服务端的 ISN 是 5000。SYN 本身不携带应用数据，但在序列空间中占用一个位置，因此三次握手可以写成：；表格字段：现象 | 更可能的控制量 | 先看什么。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "三次握手",
+          "reader_task": "比较表中的维度，说明「三次握手」在什么条件下成立。",
+          "core_content": "本节直接交付：三次握手不是为了“礼貌地说三次你好”，而是让双方完成两个方向的初始序列号确认，并让服务端知道客户端能收到它的回复。两次只能让一方确认自己的请求到达并看到对方的 ISN，不能完整确认双向可达和双方的序列空间。",
+          "carrier": "table + note info/warning flat",
+          "rationale": "「三次握手」需要先看到三次握手不是为了“礼貌地说三次你好”，而是让双方完成两个方向的初始序列号确认，并让服务端知道客户端能收到它的回复。两次只能让一方确认自己的请；因此采用table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：三次握手不是为了“礼貌地说三次你好”，而是让双方完成两个方向的初始序列号确认，并让服务端知道客户端能收到它的回复。两次只能让一方确认自己的请求到达并看到对方的 ISN，不能完整确认双向可达和双方的序列空间。；表格字段：次序 | 方向 | 关键字段 | 状态变化 | 证明了什么。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "发送控制",
+          "reader_task": "沿图中的关系或时序讲清「发送控制」：TCP 用重传计时器处理“确认没有按预期回来”。RTO 不是固定的“三秒”，实现会根据平滑 RTT、RTT 波动和退避规则计算，并在重传时谨慎扩大等待时间。一次超时可以触发重传，但不等于整条连接一定断开。",
+          "core_content": "本节直接交付：TCP 用重传计时器处理“确认没有按预期回来”。RTO 不是固定的“三秒”，实现会根据平滑 RTT、RTT 波动和退避规则计算，并在重传时谨慎扩大等待时间。一次超时可以触发重传，但不等于整条连接一定断开。",
+          "carrier": "mermaid + table + note warning/info flat",
+          "rationale": "「发送控制」需要先看到TCP 用重传计时器处理“确认没有按预期回来”。RTO 不是固定的“三秒”，实现会根据平滑 RTT、RTT 波动和退避规则计算，并在重传时谨；因此采用mermaid + table + note warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：TCP 用重传计时器处理“确认没有按预期回来”。RTO 不是固定的“三秒”，实现会根据平滑 RTT、RTT 波动和退避规则计算，并在重传时谨慎扩大等待时间。一次超时可以触发重传，但不等于整条连接一定断开。；表格字段：概念 | 所在边界 | 典型问题。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "连接关闭",
+          "reader_task": "沿图中的关系或时序讲清「连接关闭」：TCP 的每个方向可以独立结束。主动关闭的一方发送 FIN，表示“我不会再发送字节”，但仍可能继续接收对方数据；对端先 ACK，再在应用完成后发送自己的 FIN。常见的四段只是其中一种时序，ACK 可能和数据或 FIN 合并，双方也可能同时关闭。",
+          "core_content": "本节直接交付：TCP 的每个方向可以独立结束。主动关闭的一方发送 FIN，表示“我不会再发送字节”，但仍可能继续接收对方数据；对端先 ACK，再在应用完成后发送自己的 FIN。常见的四段只是其中一种时序，ACK 可能和数据或 FIN 合并，双方也可能同时关闭。",
+          "carrier": "mermaid + table + note info/warning flat",
+          "rationale": "「连接关闭」需要先看到TCP 的每个方向可以独立结束。主动关闭的一方发送 FIN，表示“我不会再发送字节”，但仍可能继续接收对方数据；对端先 ACK，再在应用完成；因此采用mermaid + table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：TCP 的每个方向可以独立结束。主动关闭的一方发送 FIN，表示“我不会再发送字节”，但仍可能继续接收对方数据；对端先 ACK，再在应用完成后发送自己的 FIN。常见的四段只是其中一种时序，ACK 可能和数据或 FIN 合并，双方也可能同时关闭。；表格字段：信号 | 含义 | 对未发送/未消费数据的影响。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "证据化回答",
+          "reader_task": "比较表中的维度，说明「证据化回答」在什么条件下成立。",
+          "core_content": "本节直接交付：下面命令只读取本机网络状态或连接公共示例站点，不写入系统配置。实际运行前检查目标主机、接口和隐私边界；不要把真实令牌、Cookie 或内网地址上传到公共抓包分享服务。",
+          "carrier": "folding + table + note danger/info/warning flat",
+          "rationale": "「证据化回答」需要先看到下面命令只读取本机网络状态或连接公共示例站点，不写入系统配置。实际运行前检查目标主机、接口和隐私边界；不要把真实令牌、Cookie 或内网地；因此采用folding + table + note danger/info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面命令只读取本机网络状态或连接公共示例站点，不写入系统配置。实际运行前检查目标主机、接口和隐私边界；不要把真实令牌、Cookie 或内网地址上传到公共抓包分享服务。；表格字段：现象 | 首要假设 | 最小验证。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "传输层复习",
+          "reader_task": "比较表中的维度，说明「传输层复习」在什么条件下成立。",
+          "core_content": "本节直接交付：下面的卡片覆盖握手、关闭、RTO、窗口和选型；先遮住答案，用“字段 → 状态 → 机制 → 边界”四步回答，再用详细解析复盘。",
+          "carrier": "flashcard + table + note info flat",
+          "rationale": "「传输层复习」需要先看到下面的卡片覆盖握手、关闭、RTO、窗口和选型；先遮住答案，用“字段 → 状态 → 机制 → 边界”四步回答，再用详细解析复盘。；因此采用flashcard + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面的卡片覆盖握手、关闭、RTO、窗口和选型；先遮住答案，用“字段 → 状态 → 机制 → 边界”四步回答，再用详细解析复盘。；表格字段：能力 | UDP | TCP。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；表格字段：报文 | 关键确认 | 典型状态；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ]
+    }
   },
   "capability_ledger": {
     "schema_version": 2,

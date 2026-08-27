@@ -57,7 +57,7 @@ const REFERENCE_OFFICIAL_CDN_ALIASES = [
 ]
 const LEARN_TOPIC_NAVIGATION_CARD_PATTERN = /从哪一篇|从第[一二三四五六七八九十]+篇|课程.{0,12}(?:开始|顺序)|(?:是否|会不会).{0,8}阻塞.{0,8}(?:实战|主线|路线)|如何使用(?:这套)?课程|哪一篇.{0,8}(?:开始|选学)/
 const LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_PATTERNS = [
-  /(?<![A-Za-z0-9/:])\/(?:Users|home|Volumes|private|tmp|var|etc|usr|opt|Library|System|Applications|bin|sbin|dev|proc|sys|mnt|root|run|srv)(?:\/[^\s`"'<>),;|]+)*/gi,
+  /(?<![A-Za-z0-9/:<])\/(?:Users|home|Volumes|private|tmp|var|etc|usr|opt|Library|System|Applications|bin|sbin|dev|proc|sys|mnt|root|run|srv)(?:\/[^\s`"'<>),;|]+)*/gi,
   /file:\/\/\/[^\s`"'<>),;|]+/gi,
   /(?<![A-Za-z0-9])[A-Za-z]:[\/\\][^\s`"'<>),;|]+/g,
   /(?<![A-Za-z0-9])\\\\[^\s`"'<>),;|]+/g,

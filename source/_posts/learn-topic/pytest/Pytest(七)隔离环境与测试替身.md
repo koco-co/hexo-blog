@@ -11,12 +11,10 @@ description: 能在正确绑定点替换协作者，隔离环境与文件副作�
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 7
-published: false
+published: true
 abbrlink: 1d2bf183
-date: 2026-08-26 09:00:00
+date: 2026-04-25 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -172,7 +170,17 @@ Mock 为什么要 patch 使用处而不是定义处？
 --- answer
 因为代码运行时按当前模块的名称绑定查找对象，应 patch 被测模块实际读取的名字。
 --- explanation
-from client import send 会在导入时把 send 绑定到 service.send；import client 后调用 client.send 才会通过 client 模块查找。先查看被测代码的导入形式，再选择 patch.object 的目标。
+`patch` 要替换的是“被测代码查找的名字”，不是名字最初定义的模块。假设代码这样导入：
+
+```python
+# service.py
+from client import send
+
+def notify(message):
+    return send(message)
+```
+
+此时调用链读取的是 `service.send`，所以应 patch `service.send`；若代码写成 `import client` 后调用 `client.send()`，目标才是 `client.send`。先看导入语句和运行时查找点，再决定 `patch()` 或 `patch.object()` 的目标。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-monkeypatch-vs-mock deck:"Pytest" priority:1 tags:"替身选择" %}
@@ -181,7 +189,24 @@ monkeypatch 与 mock 应如何选择？
 --- answer
 monkeypatch 适合可逆地修改环境、属性和字典；mock 适合记录调用并验证交互协议。
 --- explanation
-两者都能替换对象，但证据不同。若只需要让配置、时间或路径变得可控，优先 monkeypatch；若调用次数、参数或顺序本身是契约，使用 Mock，并保留真实结果验证。
+选择取决于你需要留下哪一种证据：`monkeypatch` 让环境在测试期间可控并在结束时恢复，`Mock` 额外记录调用交互。
+
+```python
+from unittest.mock import patch
+
+
+def test_env(monkeypatch):
+    monkeypatch.setenv("REGION", "test")
+    assert read_region() == "test"  # 验证结果
+
+
+def test_notifier():
+    with patch("service.send", return_value=True) as send:
+        assert notify("paid") is True
+        send.assert_called_once_with("paid")  # 验证交互契约
+```
+
+只需要控制配置、时间或路径时用 monkeypatch；调用次数、参数或顺序就是接口协议时用 Mock。即使用 Mock 验证交互，也应保留一个公开结果断言，避免测试只证明“替身被调用”。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-tmp-path deck:"Pytest" priority:2 tags:"临时资源" %}
@@ -190,7 +215,23 @@ tmp_path 与 tmp_path_factory 的生命周期有何不同？
 --- answer
 tmp_path 通常按 function 提供独立目录；tmp_path_factory 可在更长作用域创建共享目录。
 --- explanation
-function 目录适合每个测试的读写文件，失败后也能由 Pytest 记录位置。工厂适合昂贵的只读缓存，但共享目录必须显式命名、避免并行写冲突，并把清理责任放在更长作用域的 Fixture 中。
+`tmp_path` 是测试函数级的路径 Fixture，每个测试拿到独立目录；`tmp_path_factory` 是创建这些目录的工厂，可以在更长作用域提前生成共享的只读数据。
+
+```python
+@pytest.fixture(scope="session")
+def sample_file(tmp_path_factory):
+    root = tmp_path_factory.mktemp("fixtures")
+    path = root / "input.json"
+    path.write_text("{}", encoding="utf-8")
+    return path
+
+
+def test_parse(tmp_path):
+    output = tmp_path / "result.json"  # 本测试独有
+    ...
+```
+
+共享缓存必须只读或由明确的锁、命名和清理策略保护；并行测试若写入同一工厂目录，就会把生命周期问题变成数据竞争。
 {% endflashcard %}
 
 ## 参考资料

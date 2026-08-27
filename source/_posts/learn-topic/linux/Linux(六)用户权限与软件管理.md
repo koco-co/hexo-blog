@@ -204,18 +204,31 @@ dpkg -S "$(command -v "$INSTALLED_PACKAGE")"
 
 ### 发行版边界
 
-| 目标 | Debian/Ubuntu | RHEL 系 |
-| --- | --- | --- |
-| 解析仓库依赖 | apt、apt-get | dnf |
-| 查询已安装包与文件 | dpkg -s、dpkg -S | rpm -q、rpm -ql |
-| 判断时机 | 先看候选与模拟计划 | 先看仓库、模块流和事务历史 |
+APT 与 DNF 是真正平行的包管理入口，先根据目标发行版选择一页，不要把命令和包名跨页拼接：
 
-~~~bash
+{% tabs 包管理器, 1 %}
+<!-- tab Debian / Ubuntu@fab fa-ubuntu -->
+```bash
+PACKAGE=bash
+apt-cache policy "$PACKAGE"
+apt-get --simulate install "$PACKAGE"
+dpkg -s "$PACKAGE"
+dpkg -S "$(command -v "$PACKAGE")"
+```
+<!-- endtab -->
+<!-- tab RHEL 系@fab fa-redhat -->
+```bash
 PACKAGE=bash
 dnf --assumeno install "$PACKAGE"
 rpm -q "$PACKAGE"
 rpm -ql "$PACKAGE"
-~~~
+```
+<!-- endtab -->
+{% endtabs %}
+
+{% note info flat %}
+Debian/Ubuntu 用 `apt`/`apt-get` 解析仓库、用 `dpkg` 读取本机包数据库；RHEL 系用 `dnf` 求解事务、用 `rpm` 查询本地元数据。两组命令的候选版本、文件路径和服务名称都可能不同，迁移时先确认发行版再复核结果。
+{% endnote %}
 
 {% note info flat %}
 dnf 负责仓库与依赖求解，rpm 负责本地包元数据与文件查询；它们不能与 APT 的包名、服务名或配置路径机械互换。旧笔记中的 yum 入口在 RHEL 系应迁移为 dnf；--assumeno 只预演，不写入事务。APT 第三方源则应迁移离开全局信任的 apt-key，改用仓库行中的 signed-by keyring。
@@ -268,13 +281,24 @@ fi
 权限验证要能回答“谁在访问、父目录能否搜索、文件模式与归属是什么”；软件验证要能回答“候选来自哪里、计划会改变什么、已安装数据库是否有记录”。LAB 不会被自动删除，检查完再按你的环境安全清理。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a6-id-getent deck:"Linux" priority:1 tags:"身份,NSS" %}
 --- question
 id、groups 和 getent 分别回答什么问题？
 --- answer
 id 看有效 UID/GID 与附加组，groups 快速列组，getent 通过 NSS 查询账户或组数据库。
 --- explanation
-目录服务环境中不能只读 /etc/passwd；权限判断还要结合父目录和服务上下文。
+这三个命令查询的层次不同：
+
+```bash
+id alice
+groups alice
+getent passwd alice
+getent group engineers
+```
+
+`id` 展示有效 UID/GID 和附加组，`groups` 是快速摘要，`getent` 通过 NSS 读取本地文件、LDAP 或其他配置的账户源。目录服务环境中 `/etc/passwd` 可能只有本地用户；最终权限还要结合父目录的搜索位、服务进程的身份和 ACL。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a6-chmod-umask deck:"Linux" priority:1 tags:"权限,模式位" %}
@@ -283,7 +307,17 @@ chmod 和 umask 的作用有什么不同？
 --- answer
 chmod 修改已有对象模式；umask 参与新建对象的默认权限计算。
 --- explanation
-目录需要搜索权限；不要用 777 代替所有权、组和父目录检查。
+新建对象的默认模式不是简单的“固定值”：
+
+```bash
+umask 027
+touch report.txt
+mkdir report.d
+stat -c '%A %n' report.txt report.d
+chmod u+rw,go-rwx report.txt
+```
+
+`umask` 只参与创建时的权限计算，`chmod` 修改已经存在的对象；目录的 `x` 是“能否穿过目录”，不是“能否执行目录”。遇到 Permission denied，依次检查所有者/组、每一级父目录、ACL、挂载选项和服务身份，不要直接把权限放宽到 `777`。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a6-apt-dpkg deck:"Linux" priority:1 tags:"APT,dpkg" %}
@@ -292,7 +326,16 @@ apt-cache、apt-get --simulate 和 dpkg 分别提供什么证据？
 --- answer
 apt-cache 看索引和候选版本，apt-get --simulate 预演依赖变化，dpkg 查询已安装包和文件归属。
 --- explanation
-模拟计划通过后才考虑安装；安装成功也不代表服务已启动，运行状态要另外验证。
+三种证据分别回答“仓库知道什么、如果安装会发生什么、当前本机装了什么”：
+
+```bash
+apt-cache policy bash
+apt-get --simulate install bash
+dpkg -s bash
+dpkg -L bash | head
+```
+
+只有模拟计划和来源符合预期时才进入真实安装；`dpkg -s` 也不能证明服务已启动，运行状态应再用 `systemctl is-active` 或实际健康检查验证。RHEL 系则用 `dnf --assumeno` 预演、`rpm -q` 查询，不要把两套包数据库的输出混为一谈。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a6-sudo-su deck:"Linux" priority:2 tags:"sudo,su" %}
@@ -301,7 +344,15 @@ sudo 与 su - 的主要边界是什么？
 --- answer
 sudo 通常授权执行特定命令；su - 切换到另一个用户的登录环境，影响的会话上下文更大。
 --- explanation
-先用 sudo -l 看策略；临时管理员操作也需要目标、影响范围和回滚证据。
+`sudo` 和 `su -` 的差异可以从执行上下文看出来：
+
+```bash
+sudo -l                 # 当前用户被允许执行什么
+sudo systemctl status ssh.service
+su - alice               # 切换为 alice 的登录环境（会改变 HOME、Shell 等）
+```
+
+`sudo` 通常把一次命令限制在策略允许的范围内，`su -` 会创建另一个用户的完整登录会话，影响范围更大。两者都不替代授权记录；涉及生产变更时还要保存目标、批准、复测和回滚证据。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a6-account-group-actions deck:"Linux" priority:2 tags:"账户,用户组" %}
@@ -310,7 +361,15 @@ sudo 通常授权执行特定命令；su - 切换到另一个用户的登录环�
 --- answer
 用户用 useradd、usermod、userdel；组用 groupadd、groupmod、groupdel。
 --- explanation
-这些都会改变账户数据库。执行前核对 home、成员、登录 Shell、文件归属、运行进程和回收计划；不能用创建账户的命令替代修改或删除。
+账户生命周期要把命令和后果对应起来：
+
+| 对象 | 创建 | 修改 | 删除前需确认 |
+| --- | --- | --- | --- |
+| 用户 | `useradd` | `usermod` | HOME、文件归属、运行进程 |
+| 组 | `groupadd` | `groupmod` | 成员、ACL、服务配置 |
+| 用户/组关系 | `usermod -aG` | `gpasswd` | 新会话是否重新加载组 |
+
+例如 `usermod -G` 会覆盖附加组列表，漏掉 `-a` 可能让用户突然失去访问权。删除前先用 `id`、`find`、进程清单和备份确认影响，不能用“重新创建同名账户”假装完成回收。
 {% endflashcard %}
 
 ## 参考资料

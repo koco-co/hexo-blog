@@ -14,7 +14,7 @@ series: Playwright
 series_order: 6
 published: true
 abbrlink: 8df5b6f3
-date: 2026-08-24 12:07:00
+date: 2026-04-12 00:00:00
 ---
 
 {% course_series %}
@@ -25,7 +25,7 @@ date: 2026-08-24 12:07:00
 
 ## 事件顺序
 
-{% note info flat %}
+{% note primary flat %}
 新页面、下载和文件选择器都是瞬时事件。等待必须在触发动作之前建立：
 {% endnote %}
 
@@ -50,7 +50,7 @@ sequenceDiagram
     Test->>Test: 在新边界中断言结果
 {% endmermaid %}
 
-{% note info flat %}
+{% note warning flat %}
 先点击再调用 `expect_*`，快速事件可能已经结束，测试只能等到超时。
 {% endnote %}
 
@@ -186,7 +186,7 @@ iframe 有独立文档上下文。定位范围和语义组合应保持在 `Frame
 如果 iframe 被替换、重载或移除，缓存的 Frame 可能变成分离对象；`is_detached()` 只用于诊断，稳定交互应重新取得范围。跨域 iframe 仍受页面自身 CSP、授权和第三方安全流程约束。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 已拿到当前 Frame 对象时，可以读取其范围内的元数据或语义状态；不要把它当成长期缓存的 DOM 容器。
 {% endnote %}
 
@@ -195,13 +195,13 @@ main_frame = page.main_frame
 expect(main_frame.get_by_role("heading", name="结算")).to_be_visible()
 ```
 
-{% note info flat %}
+{% note primary flat %}
 跨导航或动态 iframe 优先重新取得 `page.frame_locator()` 或 `locator.content_frame`，让 Playwright 在动作时重新确认目标。
 {% endnote %}
 
 ### Frame 对象
 
-{% note info flat %}
+{% note primary flat %}
 `Frame` 是已经解析出的文档对象，适合在需要读取当前 frame 元数据或调试生命周期时使用；常规交互仍优先从 `FrameLocator` 开始。下面的例子让同一个 `Frame` 对象覆盖核心语义入口：
 {% endnote %}
 
@@ -269,7 +269,7 @@ expect(submit).to_be_enabled()
 | `Frame.drag_and_drop()` | `frame.locator(source).drag_to(frame.locator(target))` | 把拖拽的两个业务目标都表达为 Locator |
 | `Frame.eval_on_selector()` / `eval_on_selector_all()` | `frame.locator(selector).evaluate()` / `evaluate_all()` | 仅做没有对应 Playwright API 的只读诊断，不用脚本绕过交互检查 |
 
-{% note info flat %}
+{% note warning flat %}
 普通的 selector/action 迁移也要逐项落实，不能只把它们留在索引中：
 {% endnote %}
 
@@ -279,7 +279,7 @@ expect(submit).to_be_enabled()
 | 读取 | `get_attribute()`、`inner_html()`、`inner_text()`、`input_value()`、`text_content()` | `frame.locator(selector).get_attribute()`、`.inner_html()`、`.inner_text()`、`.input_value()`、`.text_content()`；展示文本和输入值优先使用 `expect(locator).to_have_text()` / `to_have_value()` |
 | 状态 | `is_checked()`、`is_disabled()`、`is_editable()`、`is_enabled()`、`is_hidden()`、`is_visible()` | `frame.locator(selector).is_checked()`、`.is_disabled()`、`.is_editable()`、`.is_enabled()`、`.is_hidden()`、`.is_visible()`；需要稳定等待时改用对应 Web-first 断言 |
 
-{% note info flat %}
+{% note warning flat %}
 旧接口的 `selector`、`strict`、`timeout`、动作参数和 `no_wait_after` 等完整签名仍保留在 API 索引中，便于维护历史套件；新代码不应为了绕过严格模式或 Actionability 把 selector API 重新引入。
 {% endnote %}
 
@@ -313,7 +313,7 @@ assert chooser.element is not None
 chooser.set_files("tests/fixtures/orders.csv")
 ```
 
-{% note info flat %}
+{% note primary flat %}
 `FileChooser.page` 用于确认事件属于哪个 Page，`is_multiple()` 用于决定测试数据是单文件还是文件列表；`is_multiple()` 为真时传入文件列表。`element` 只在需要兼容底层 DOM 句柄时读取。路径相对于当前工作目录或测试 Fixture 约定的根目录解析，普通上传仍应优先直接对 Locator 调用 `set_input_files()`。
 {% endnote %}
 
@@ -353,7 +353,7 @@ Context 关闭后临时下载文件会被清理。保存前检查文件名，避
 
 #### 下载边界
 
-{% note info flat %}
+{% note warning flat %}
 完成下载后，`suggested_filename`、`url`、`page` 和 `path()` 用于结果核对；`failure()` 返回下载失败原因或 `None`。`save_as()` 把临时文件复制到受控产物目录，`cancel()` 适用于业务明确取消下载的场景，`delete()` 适用于不再需要保留临时文件的清理流程：
 {% endnote %}
 
@@ -415,25 +415,25 @@ page.get_by_role("gridcell", name="30").click()
 
 #### Frame 生命周期
 
-{% note info flat %}
+{% note warning flat %}
 当问题涉及文档树而不是某个控件时，使用 `parent_frame`、`child_frames`、`frame_element`、`name`、`page`、`url` 和 `is_detached` 观察关系与生命周期。`content()`、`title()`、`set_content()` 用于受控页面的内容读取或构造，`wait_for_load_state()`、`wait_for_url()`、`wait_for_function()` 用于明确的加载条件；不要用它们替代组件级断言。`add_script_tag()`、`add_style_tag()`、`evaluate()` 和 `evaluate_handle()` 只在调试、注入测试桩或缺少等价 Playwright API 时使用，并记录脚本的副作用。
 {% endnote %}
 
 #### Dialog/Download
 
-{% note info flat %}
+{% note warning flat %}
 `Dialog.default_value` 只对 prompt 的默认文本有意义，`Dialog.page` 用于回溯所属 Page；`Download.cancel()`、`delete()` 和 `failure()` 属于取消、清理和错误诊断。它们必须放在已建立 `expect_*` 事件范围之后，不能代替前文的最终业务断言。
 {% endnote %}
 
 #### Page 与 Locator
 
-{% note info flat %}
+{% note primary flat %}
 `Page.frames`、`main_frame` 和 `opener` 用于枚举文档、确认打开者或排查 Page 生命周期；普通 iframe 交互优先 `frame_locator()`，新标签页优先 `expect_popup()` / `context.expect_page()`。`Locator.content_frame` 用于从一个已定位的 iframe 取得当前 Frame，`Locator.screenshot()` 用于组件级取证或视觉专项；稳定基线和差异阈值应纳入视觉回归流程。
 {% endnote %}
 
 #### 参数进入条件
 
-{% note info flat %}
+{% note warning flat %}
 Frame 的导航参数围绕 `url`、`wait_until`、`timeout`、`referer`；脚本注入参数围绕 `content`、`path`、`type`、`url`；条件等待参数围绕 `expression`、`arg`、`polling`、`timeout`。Dialog、Download、FileChooser 和 Page 事件参数分别表达输入文本、目标路径、文件数据、谓词与超时。它们按对象和父方法分组列出，读者应先确定生命周期边界，再选择参数，不要把进阶参数当成核心 API 清单逐个背诵。
 {% endnote %}
 
@@ -524,6 +524,16 @@ Frame 的导航参数围绕 `url`、`wait_until`、`timeout`、`referer`；脚�
 它们是可能瞬间结束的浏览器事件。
 --- explanation
 先触发再监听可能错过事件；`with page.expect_*()` 把监听与触发动作组织成明确的因果范围，并返回对应对象。
+
+监听器必须先建立，再触发会产生事件的动作：
+
+~~~python
+with page.expect_download() as info:
+    page.get_by_role("button", name="导出").click()
+download = info.value
+~~~
+
+with 把“等待哪个事件”和“哪一个动作触发它”绑定在同一范围内；先 click 再等待时，瞬时完成的 popup、下载或 file chooser 可能已经错过。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-iframe-scope deck:"Playwright" priority:2 tags:"iframe,FrameLocator" answer:B %}
@@ -536,6 +546,15 @@ Frame 的导航参数围绕 `url`、`wait_until`、`timeout`、`referer`；脚�
 B
 --- explanation
 iframe 是独立文档。FrameLocator 明确切换搜索范围，并保留 Locator 的重新查询和自动等待能力。
+
+iframe 内部是独立文档，定位范围也要显式切换：
+
+~~~python
+payment = page.frame_locator("iframe[title='支付']")
+payment.get_by_role("button", name="确认").click()
+~~~
+
+FrameLocator 保留 Locator 的重新查询和等待能力；全页面文本定位可能找不到元素，固定坐标则无法表达真正的文档边界。
 {% endflashcard %}
 
 {% flashcard basic id:playwright-download-lifecycle deck:"Playwright" priority:2 tags:"下载,生命周期" %}
@@ -545,6 +564,18 @@ iframe 是独立文档。FrameLocator 明确切换搜索范围，并保留 Locat
 先判断 `failure()`，再按运行环境选择 `path()` 或 `save_as()`，并在 Context 关闭前完成读取或保存。
 --- explanation
 下载事件只证明对象已产生；临时路径受生命周期和远程连接影响，保存到受控目录比长期依赖临时路径更稳定。
+
+下载对象产生后仍有三个检查点：
+
+~~~python
+with page.expect_download() as info:
+    page.get_by_role("button", name="导出").click()
+download = info.value
+assert download.failure() is None
+download.save_as(output_path)
+~~~
+
+事件只说明下载对象出现；failure 判断传输结果，save_as 把文件放入受控目录，并且要在 Context 关闭前完成保存。
 {% endflashcard %}
 
 ## 参考资料

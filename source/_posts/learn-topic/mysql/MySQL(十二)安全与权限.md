@@ -13,7 +13,7 @@ series: MySQL
 series_order: 12
 published: true
 abbrlink: aa88466a
-date: 2026-08-25 13:18:42
+date: 2026-04-03 00:00:00
 ---
 
 {% course_series %}
@@ -25,7 +25,7 @@ date: 2026-08-25 13:18:42
 ## 安全链
 
 {% mermaid %}
-flowchart LR
+flowchart TD
   N[账户名 + Host] --> A[认证插件]
   A --> T[TLS / 连接准入]
   T --> R[激活角色]
@@ -94,6 +94,34 @@ SHOW GRANTS FOR 'shoplab_app'@'10.20.%';
 授权变更通常立即影响后续语句；`FLUSH PRIVILEGES` 不是日常 GRANT/REVOKE 的必需步骤。撤销权限前先回读当前 grants，避免把角色继承或默认角色误判成直接授权。
 {% endnote %}
 
+```sql
+-- 会话级临时激活角色；默认角色决定新连接的初始权限，二者不是一回事。
+SET ROLE 'shoplab_readwrite'@'%';
+SELECT CURRENT_ROLE();
+
+-- 回收与生命周期管理：先确认依赖，再执行并回读。
+REVOKE UPDATE ON shoplab.inventory FROM 'shoplab_readwrite'@'%';
+ALTER USER 'shoplab_app'@'10.20.%' ACCOUNT LOCK;
+ALTER USER 'shoplab_app'@'10.20.%' ACCOUNT UNLOCK;
+
+-- 回收入口时才执行；先确认连接池、默认角色和回退账户均已切换。
+-- DROP USER 'shoplab_app'@'10.20.%';
+-- DROP ROLE 'shoplab_readwrite'@'%';
+```
+
+{% note warning flat %}
+部分撤销用于“全局授予但排除某个库”的特殊场景，需要先确认 `@@global.partial_revokes` 和治理流程；普通应用账户更适合直接授予目标库/表权限。账户活动审计可从 Performance Schema、连接日志和权限变更记录拼出证据，不能把普通 `SHOW GRANTS` 当成完整审计系统。
+{% endnote %}
+
+```sql
+SELECT @@global.partial_revokes;
+SELECT EVENT_NAME, COUNT_STAR, SUM_TIMER_WAIT
+FROM performance_schema.events_statements_summary_global_by_event_name
+WHERE EVENT_NAME LIKE 'statement/sql/%'
+ORDER BY SUM_TIMER_WAIT DESC
+LIMIT 20;
+```
+
 ## 预处理语句
 
 {% note primary flat %}
@@ -128,7 +156,7 @@ ALTER USER 'shoplab_app'@'10.20.%' REQUIRE SSL;
 
 SELECT USER(), CURRENT_USER(),
        @@session.ssl_cipher,
-       @@session.require_secure_transport;
+       @@global.require_secure_transport;
 ```
 
 {% note warning flat %}
@@ -163,7 +191,7 @@ WHERE user IN ('shoplab_app');
 ```
 
 {% note success flat %}
-权限验收至少包括：应用能完成目标读写、不能 DROP/ALTER/GRANT、未授权表查询失败、非 TLS 连接被拒绝、角色撤销后新语句立即失败。用最小权限测试账户完成验证，不要用 root 证明应用可用。
+权限验收至少包括：应用能完成目标读写、不能 DROP/ALTER/GRANT、未授权表查询失败、非 TLS 连接被拒绝、角色撤销后新语句立即失败、锁定账户无法新建连接。用最小权限测试账户完成验证，不要用 root 证明应用可用。
 {% endnote %}
 
 ## 常见问题
@@ -188,7 +216,16 @@ SET DEFAULT ROLE 'shoplab_order_rw' TO 'shoplab_app'@'10.20.%';
 SHOW GRANTS FOR 'shoplab_app'@'10.20.%';
 ```
 --- explanation
-不要授予全局 ALL、DROP、ALTER 或 GRANT OPTION。账户使用 `'user'@'host'` 精确限制来源，密码用安全管理器生成/轮换，若要求加密再加 REQUIRE SSL；权限测试要证明目标表可用、其他表和管理语句不可用。若部署工具不接受 `RANDOM PASSWORD` 的回显流程，应改为外部生成的强密码并安全注入，而不是把密码写进仓库。
+这组授权要同时验证“能做什么”和“不能做什么”：
+
+| 检查 | 预期 |
+| --- | --- |
+| `SELECT/INSERT/UPDATE` 目标三张表 | 成功 |
+| 读取其他业务表 | 拒绝 |
+| `DROP`、`ALTER`、`GRANT OPTION` | 不存在 |
+| 非 TLS 或未匹配 host 的连接 | 拒绝 |
+
+`'user'@'host'` 是授权身份的一部分，`%` 过宽会让来源边界无法审计。`RANDOM PASSWORD` 的回显必须交给安全凭据系统，部署工具若不支持该流程，就在安全通道外部生成并注入，绝不能把密码或日志回显写入仓库。
 {% endflashcard %}
 
 ## 参考资料
@@ -198,6 +235,9 @@ SHOW GRANTS FOR 'shoplab_app'@'10.20.%';
 {% link MySQL 8.4 Access Control, https://dev.mysql.com/doc/refman/8.4/en/access-control.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Roles, https://dev.mysql.com/doc/refman/8.4/en/roles.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 GRANT, https://dev.mysql.com/doc/refman/8.4/en/grant.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Partial Revokes, https://dev.mysql.com/doc/refman/8.4/en/partial-revokes.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Account Management, https://dev.mysql.com/doc/refman/8.4/en/account-management-statements.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Encrypted Connections, https://dev.mysql.com/doc/refman/8.4/en/encrypted-connections.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Pluggable Authentication, https://dev.mysql.com/doc/refman/8.4/en/pluggable-authentication.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Prepared Statements, https://dev.mysql.com/doc/refman/8.4/en/sql-prepared-statements.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}

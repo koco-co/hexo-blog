@@ -161,13 +161,23 @@ man "$TOOL"
 开始进阶实验前，先把 TOOL 改成你要研究的一个已知入口，并补齐五项证据：官方手册、隔离环境、变更前快照、失败回滚和同条件复测。若工具不存在、文档与发行版不匹配，或无法说明恢复步骤，就不要进入执行阶段。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a12-advanced-gate deck:"Linux" priority:1 tags:"进阶,安全边界" %}
 --- question
 什么条件下才适合执行 Linux 进阶命令？
 --- answer
 有明确问题、官方手册、隔离环境、变更前快照、回滚方案和复测证据。
 --- explanation
-需要物理设备、内核权限、真实凭据或停机窗口的条目不能用普通练习机直接尝试。
+执行前把入口、对象和恢复路径写成一张检查表：
+
+```text
+问题已收敛 -> 官方手册已读 -> 隔离对象已准备
+          -> 变更前快照已保存 -> 回滚命令已演练
+          -> 成功证据与停止条件已定义
+```
+
+缺任何一项都只做只读观察。需要真实块设备、内核权限、凭据或停机窗口的能力，不能因为命令在练习机上存在就直接执行。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a12-posix-bash deck:"Linux" priority:2 tags:"POSIX,Bash" %}
@@ -176,7 +186,13 @@ Bash POSIX mode 的价值是什么？
 --- answer
 它帮助识别 Bash 扩展与 POSIX 语义的边界，便于写可移植脚本。
 --- explanation
-开启模式不会让所有脚本自动可移植，仍需删掉数组、进程替换等扩展并在目标 Shell 实测。
+POSIX mode 更像一面“边界探针”，不会替脚本翻译成 POSIX：
+
+```bash
+bash --posix -c 'printf "%s\n" "$-"; command -v printf'
+```
+
+数组、进程替换、`[[ ... ]]` 等 Bash 扩展仍需要主动移除或替换；同一段代码要在目标 `sh`、locale 和工具版本上实测。开启模式后能暴露部分差异，但通过一次启动检查不等于跨发行版可移植。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a12-storage-danger deck:"Linux" priority:1 tags:"存储,风险" %}
@@ -185,7 +201,15 @@ Bash POSIX mode 的价值是什么？
 --- answer
 它们可能重写文件系统元数据或改变设备状态，错误目标会造成不可逆数据损失。
 --- explanation
-先用 loopback 镜像、快照和恢复介质演练，任何设备路径都要人工复核。
+这些命令直接作用于文件系统元数据或设备状态：
+
+| 命令 | 可能改变什么 | 可接受的练习对象 |
+| --- | --- | --- |
+| `mkfs` | 重建文件系统元数据 | 新建的 loopback 镜像 |
+| `wipefs` | 清除签名 | 可丢弃的实验镜像 |
+| `fsck` | 修复文件系统结构 | 卸载后的测试副本 |
+
+先创建镜像、保存快照、验证恢复介质，再在隔离对象上演练；设备路径必须人工二次确认。生产盘上的一次误选可能让备份也来不及使用。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a12-route-choice deck:"Linux" priority:2 tags:"进阶路线,选择" %}
@@ -194,7 +218,15 @@ Bash POSIX mode 的价值是什么？
 --- answer
 先固定解释器、输入和最小复现，再判断是 POSIX/Bash、locale、包提供者还是交互环境差异。
 --- explanation
-兼容模式和替代命令只能帮助定位边界，不能替代目标环境的测试与回滚。
+先把差异收敛成可复现样例：
+
+```bash
+printf 'shell=%s flags=%s locale=%s\n' "$0" "$-" "${LC_ALL-<unset>}"
+command -v bash sh awk
+printf '%s\n' 'one two' | awk '{ print NF }'
+```
+
+然后逐项判断是解释器扩展、locale、工具提供者还是交互上下文。兼容模式只能帮助定位，不能替代目标环境的测试；生产脚本要在变更前保留旧版本、输入样本和回滚步骤。
 {% endflashcard %}
 
 ## 参考资料

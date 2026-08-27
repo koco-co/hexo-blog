@@ -11,14 +11,10 @@ description: 能把测试结果、覆盖率和诊断附件组织成可追溯且�
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 11
-published: false
+published: true
 abbrlink: 51d93cec
-date: 2026-08-26 09:00:00
+date: 2026-04-29 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -163,7 +159,18 @@ def attach_safe_summary(order_id: str, status: str) -> None:
 --- answer
 覆盖率只说明代码路径被执行，不说明断言是否有效、输入是否代表真实边界或结果是否正确。
 --- explanation
-高语句覆盖率可能来自没有断言的测试，分支覆盖率也不能证明外部协议和数据质量。把覆盖率当缺口导航和风险门禁之一，再结合失败证据、集成测试和业务验收。
+覆盖率记录的是执行路径，不是断言质量。下面两条测试都可能增加语句覆盖率，但第一条没有证明结果：
+
+```python
+def test_runs():
+    calculate_discount(100)  # 执行了代码，却没有观察结果
+
+
+def test_boundary():
+    assert calculate_discount(100) == 90  # 才形成行为证据
+```
+
+分支覆盖率也不能证明外部协议、数据质量或错误消息符合业务契约。应把覆盖率当作查找未触达路径的导航，再和边界断言、集成测试、失败回溯及业务验收一起判断质量。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-junit-vs-allure deck:"Pytest" priority:2 tags:"报告格式" %}
@@ -172,7 +179,14 @@ JUnit XML 与 Allure 分别服务什么消费者？
 --- answer
 JUnit XML 是 CI 读取的机器结果交换格式；Allure 是面向人工诊断的步骤、标签和附件报告。
 --- explanation
-JUnit 追求稳定字段和快速解析，Allure 允许更丰富的视觉和附件。两者都不负责自动脱敏，项目应分别验证文件完整性、访问权限和保留策略。
+两者的消费路径不同，产物也不应互相替代：
+
+| 产物 | 主要消费者 | 关注点 |
+| --- | --- | --- |
+| JUnit XML | CI、测试平台 | 稳定字段、状态、耗时、退出结果 |
+| Allure 结果 | 开发者和诊断者 | 步骤、标签、附件、可视化关联 |
+
+JUnit 的机器可读不代表安全，Allure 的漂亮页面也不代表完整。上传前仍要检查 XML、结果目录、附件权限和保留策略，并为两种产物分别保留失败时的文字兜底。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-allure-hidden-secret deck:"Pytest" priority:1 tags:"报告安全" %}
@@ -181,13 +195,23 @@ Allure 的 HIDDEN/MASKED 参数为什么仍可能泄密？
 --- answer
 它们可能只改变页面展示，原始值仍保存在结果文件、附件或日志中。
 --- explanation
-先在采集点脱敏，再决定是否加入标签或附件；上传前检查 JUnit、Allure、日志和覆盖率产物。展示层的隐藏不是加密，也不能替代撤销泄露凭据和限制访问权限。
+展示层的隐藏不等于删除原始数据。敏感值可能同时出现在参数、步骤上下文、附件、JUnit 属性和终端日志中，因此脱敏应发生在采集点：
+
+```python
+def safe_headers(headers: dict[str, str]) -> dict[str, str]:
+    return {
+        key: ("***" if key.lower() in {"authorization", "cookie"} else value)
+        for key, value in headers.items()
+    }
+```
+
+上传前搜索所有报告目录和日志，确认没有原始令牌、完整请求体或个人数据；`HIDDEN`/`MASKED` 只能改变展示，不能替代撤销已泄露凭据和收紧访问权限。
 {% endflashcard %}
 
 ## 参考资料
 
 {% linkgroup %}
 {% link JUnit XML, https://docs.pytest.org/en/stable/how-to/usage.html#creating-junitxml-format-files, https://docs.pytest.org/en/stable/_static/favicon.png %}
-{% link pytest-cov, https://pytest-cov.readthedocs.io/en/latest/, https://pytest-cov.readthedocs.io/en/latest/_static/favicon.png %}
-{% link Allure pytest, https://allurereport.org/docs/pytest/, https://allurereport.org/docs/favicon.svg %}
+{% link pytest-cov, https://pytest-cov.readthedocs.io/en/latest/, https://pytest-cov.readthedocs.io/favicon.ico %}
+{% link Allure pytest, https://allurereport.org/docs/pytest/, https://allurereport.org/favicon.ico %}
 {% endlinkgroup %}

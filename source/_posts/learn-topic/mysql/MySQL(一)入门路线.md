@@ -13,7 +13,7 @@ series: MySQL
 series_order: 1
 published: true
 abbrlink: 2ec898f2
-date: 2026-08-25 13:18:42
+date: 2026-03-23 00:00:00
 ---
 
 {% course_series %}

@@ -11,12 +11,10 @@ description: 能用依赖图、作用域、可见性和清理顺序设计可靠�
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 5
-published: false
+published: true
 abbrlink: 97e28b51
-date: 2026-08-26 09:00:00
+date: 2026-04-23 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -210,7 +208,14 @@ Fixture 的 scope 与可见性为什么不是一回事？
 --- answer
 scope 决定实例缓存多久，可见性决定测试从哪些目录或插件边界能找到它。
 --- explanation
-一个 function Fixture 可以在根 `conftest.py` 对整个套件可见，一个 session Fixture 也可能只定义在子目录。排查时分别检查作用域声明和定义位置，不要因为“它只建一次”就假设所有测试都能使用。
+`scope` 回答“同一作用域内缓存多久”，查找规则回答“测试从哪里能看到它”。例如：
+
+| 定义位置 | `scope="function"` | 可见范围 |
+| --- | --- | --- |
+| 根 `conftest.py` | 每个测试一份 | 所有下游测试目录 |
+| `tests/api/conftest.py` | 每个测试一份 | `tests/api` 及其子目录 |
+
+因此，一个 session Fixture 也可能只对 `tests/api` 可见；一个 function Fixture 也可能被全套件使用。排查时分别检查声明的作用域和文件所在目录，不要把“只创建一次”误当成“所有地方都能引用”。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-fixture-teardown-order deck:"Pytest" priority:1 tags:"资源清理" %}
@@ -219,7 +224,23 @@ Fixture 的清理顺序如何确定？
 --- answer
 按依赖建立顺序的逆序清理；已经建立的每个资源都应在测试失败时执行自己的清理。
 --- explanation
-如果 `order` 依赖 `repository`，先建立 `repository` 再建立 `order`，清理时先释放 `order` 再释放 `repository`。使用 `yield` 或 `addfinalizer` 时都要考虑部分建立和 teardown 异常。
+清理顺序是依赖建立顺序的逆序：`order -> repository -> tmp_path`。把资源写成显式依赖，Pytest 才知道在部分失败时应该清理什么：
+
+```python
+@pytest.fixture
+def repository(tmp_path):
+    db = tmp_path / "orders.db"
+    db.touch()
+    yield db
+    db.unlink(missing_ok=True)  # repository 自己负责释放
+
+
+@pytest.fixture
+def order(repository):
+    yield repository / "order-1"
+```
+
+如果 `order` 建立失败，已完成的 `repository` 仍会执行自己的 teardown；`yield` 之后的清理代码和 `addfinalizer` 都必须考虑“资源只建立了一半”以及清理自身抛错的情况。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-scope-mismatch deck:"Pytest" priority:1 tags:"作用域" %}
@@ -228,7 +249,20 @@ ScopeMismatch 为什么发生，应该从哪里修？
 --- answer
 长作用域 Fixture 依赖短作用域 Fixture 时发生；应重新划分资源边界，而不是强行捕获异常。
 --- explanation
-session 资源不能安全依赖 function 资源，因为后者每个测试都会变化。将不可变配置提升到长作用域，或把外层 Fixture 改短；若资源必须按测试隔离，就让依赖链保持 function 级别。
+作用域必须沿依赖链保持兼容：长生命周期的对象不能依赖更短生命周期的对象，否则它会在后续测试中持有已经失效的依赖。
+
+```python
+@pytest.fixture(scope="session")
+def app_config():
+    return load_config()
+
+
+@pytest.fixture(scope="function")
+def user(app_config):
+    return create_user(app_config)
+```
+
+如果把 `user` 反过来注入 session Fixture，就会触发 `ScopeMismatch`。修复方式不是捕获异常，而是提升真正不可变的配置、缩短外层 Fixture，或让整条需要隔离的链保持 function 作用域。
 {% endflashcard %}
 
 ## 参考资料

@@ -262,13 +262,24 @@ diff -u text-lab/expected-5xx.txt text-lab/actual-5xx.txt
 `wc -l` 计数的是换行符，不是抽象的“记录数”。夹具中的 `access.log` 最后一行必须以换行结束，所以结果为 4；若复制的真实片段最后一条记录没有换行，`wc -l` 可能少 1，应同时检查文件尾部后再解释样本规模。合格的文本结论还应能回答输入范围、匹配规则、字段定义、排序或关联前提、结果数量和原文行号。最后用同一输入的另一种观察方式回查：例如用 grep 的行号回到原文、用 wc 核对样本规模、用 diff 对比预期结果。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a4-grep-selection deck:"Linux" priority:1 tags:"grep,正则" %}
 --- question
 grep、grep -E 和 grep -F 如何选择？
 --- answer
 grep 处理基本正则，grep -E 处理扩展正则，grep -F 按固定字符串匹配。
 --- explanation
-旧的 egrep/fgrep 迁移为 grep -E/-F；模式来自用户输入时优先固定字符串，减少正则注入和转义错误。
+三种模式的边界可以直接对照：
+
+```bash
+printf '%s\n' 'a.b' 'axb' > sample.txt
+grep 'a.b' sample.txt       # 基本正则，点号匹配任意字符
+grep -E 'a\.b' sample.txt   # 扩展正则，仍需转义字面点号
+grep -F 'a.b' sample.txt    # 固定字符串，只匹配字面 a.b
+```
+
+旧入口 `egrep`/`fgrep` 迁移为 `grep -E`/`grep -F`。模式来自用户输入时优先 `-F`，除非业务明确需要正则；这样既少一层转义，也降低把输入当成表达式的风险。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a4-awk-cut deck:"Linux" priority:1 tags:"awk,cut,字段" %}
@@ -277,7 +288,14 @@ grep 处理基本正则，grep -E 处理扩展正则，grep -F 按固定字符�
 --- answer
 固定分隔符和列号用 cut；需要条件、计算、数组或格式化用 awk。
 --- explanation
-先定义字段边界；空格折叠、引号和缺失字段会改变列号，不能只凭肉眼猜格式。
+先把输入格式写出来，再选择工具：
+
+```bash
+cut -d, -f2 data.csv
+awk -F, '$3 >= 80 { total += $3 } END { print total }' data.csv
+```
+
+`cut` 只适合稳定分隔符和固定列号；`awk` 能按条件、计算、数组和格式化处理。空格折叠、引号中的逗号、缺失字段或转义换行都会改变列边界，CSV 复杂到这些情况时应使用真正的 CSV 解析器，不能只把分隔符换成逗号。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a4-sort-uniq deck:"Linux" priority:1 tags:"排序,聚合" %}
@@ -286,7 +304,14 @@ grep 处理基本正则，grep -E 处理扩展正则，grep -F 按固定字符�
 --- answer
 uniq 只合并相邻重复行，sort 才能把相同键放在一起。
 --- explanation
-若数据已经按键分组可以省略排序，但必须把这个前提写入脚本或报告，否则计数会漏项。
+`uniq` 只比较相邻行：
+
+```bash
+printf '%s\n' api db api api | uniq -c
+printf '%s\n' api db api api | sort | uniq -c
+```
+
+第一条会把不相邻的 `api` 分成两组，第二条先排序后才得到完整计数。只有输入协议明确保证已经按同一键分组时才可省略 `sort`，并把这个前提写进脚本或报告，否则“结果看起来合理”也可能漏项。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a4-text-evidence deck:"Linux" priority:2 tags:"日志,证据" %}
@@ -295,7 +320,15 @@ uniq 只合并相邻重复行，sort 才能把相同键放在一起。
 --- answer
 记录输入范围、命令、字段定义、匹配规则、结果数量和原文行号，并用第二种方法回查。
 --- explanation
-只给最终数字无法发现路径错误、编码问题或正则误匹配；grep 行号、wc 计数和 diff 对比能固定证据。
+把结果变成别人能重跑的证据：
+
+```bash
+grep -nF 'ERROR' "$INPUT" | tee matches.txt
+wc -l < matches.txt
+cut -d: -f1 matches.txt | sort -n | diff -u - <(awk -F: '{print $1}' matches.txt)
+```
+
+记录输入范围、命令、字段定义、匹配规则、结果数量和原文行号；再用第二种方法抽查。只给“共 42 条”无法发现路径指错、编码不一致或正则误匹配，行号与固定输入才让结论可复核。
 {% endflashcard %}
 
 ## 参考资料

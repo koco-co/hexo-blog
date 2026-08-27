@@ -12,7 +12,7 @@ series: Python
 series_order: 7
 published: true
 abbrlink: 1aeb52d0
-date: 2026-08-25 13:13:45
+date: 2026-05-08 00:00:00
 ---
 
 {% course_series %}
@@ -195,7 +195,26 @@ print(Note.__new__(Note) is not None)  # __new__ 负责创建实例
 --- answer
 依赖实例状态用实例方法，依赖类状态或备用构造器用类方法，无自动对象参数的相关工具函数用静态方法。
 --- explanation
-实例方法通过绑定得到 `self`，类方法通过绑定得到 `cls`，静态方法不自动接收对象。不要仅为“看起来面向对象”把普通函数硬塞进静态方法。
+三种方法的差别在于调用时自动绑定的对象：
+
+```python
+class User:
+    def __init__(self, name):
+        self.name = name
+
+    def display(self):              # self：实例状态
+        return self.name
+
+    @classmethod
+    def anonymous(cls):             # cls：类状态/备用构造
+        return cls("anonymous")
+
+    @staticmethod
+    def valid_name(name):           # 无需 self/cls 的相关逻辑
+        return bool(name.strip())
+```
+
+需要实例数据时选实例方法，需要类对象或备用构造器时选类方法；既不依赖实例也不依赖类的函数才适合静态方法。普通工具函数放在模块层通常更直接。
 {% endflashcard %}
 
 {% flashcard basic id:python-oop-mro-super deck:"Python 基础" priority:1 tags:"Python,MRO,super,继承" %}
@@ -204,7 +223,25 @@ print(Note.__new__(Note) is not None)  # __new__ 负责创建实例
 --- answer
 它按照当前类的 MRO 找到下一个协作实现，而不是简单调用某个固定父类。
 --- explanation
-每个协作方法都用 `super()`，才能让同一条 MRO 上的所有实现各执行一次。直接调用 `Parent.method(self)` 可能绕过其他 mixin，造成初始化或行为遗漏。
+`super()` 表示“当前类之后的下一个 MRO 节点”，不是固定的父类名称。多重继承的协作方法应共同调用它：
+
+```python
+class Logged:
+    def save(self):
+        print("log")
+        super().save()
+
+class Stored:
+    def save(self):
+        print("store")
+
+class Order(Logged, Stored):
+    pass
+
+Order().save()  # log，然后 store
+```
+
+若写成 `Stored.save(self)`，就绕过了当前 MRO 里可能出现的其他 mixin。使用 `super()` 的前提是各实现遵守同一协作协议，否则应改用组合或显式编排。
 {% endflashcard %}
 
 {% flashcard basic id:python-oop-name-mangling deck:"Python 基础" priority:2 tags:"Python,名称改写,封装" %}
@@ -213,7 +250,18 @@ print(Note.__new__(Note) is not None)  # __new__ 负责创建实例
 --- answer
 不是；它会被改写为带类名的属性，主要避免子类意外重名。
 --- explanation
-名称改写不提供安全边界，仍可通过改写后的名称访问。单下划线是内部约定，真正的安全要靠权限、校验和外部接口限制。
+双下划线触发的是编译期名称改写，不是访问控制：
+
+```python
+class Account:
+    def __init__(self):
+        self.__token = "value"
+
+account = Account()
+print(account._Account__token)  # 仍然可以访问
+```
+
+改写成 `_Account__token` 主要避免子类意外使用同名属性。单下划线是“内部 API”约定；真正的安全边界要靠权限、校验和不把秘密暴露到对象接口中。
 {% endflashcard %}
 
 {% flashcard basic id:python-oop-new-init deck:"Python 基础" priority:2 tags:"Python,__new__,__init__,对象生命周期" %}
@@ -222,7 +270,19 @@ print(Note.__new__(Note) is not None)  # __new__ 负责创建实例
 --- answer
 `__new__` 创建并返回实例，`__init__` 对已经创建的实例初始化状态。
 --- explanation
-普通类通常只实现 `__init__`。处理不可变类型子类、控制实例创建或元编程时才需要理解 `__new__`；`__init__` 不应返回非 None 值。
+实例创建和初始化是两个阶段：
+
+```python
+class User:
+    def __new__(cls, name):
+        instance = super().__new__(cls)  # 创建实例
+        return instance
+
+    def __init__(self, name):
+        self.name = name                 # 初始化已创建实例
+```
+
+普通可变类只需实现 `__init__`。继承不可变类型、控制实例缓存或做元编程时才考虑 `__new__`；它必须返回实例（或子类实例），而 `__init__` 只负责初始化并且必须返回 `None`。
 {% endflashcard %}
 
 ## 参考资料

@@ -11,12 +11,10 @@ description: 能使用公开插件入口、Hook 顺序和报告协议扩展 Pyte
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 9
-published: false
+published: true
 abbrlink: c50d5948
-date: 2026-08-26 09:00:00
+date: 2026-04-27 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -99,8 +97,7 @@ import pytest
 
 @pytest.hookimpl(wrapper=True)
 def pytest_pyfunc_call(pyfuncitem):
-    outcome = yield
-    result = outcome.get_result()
+    result = yield
     if result is not None:
         return result
 
@@ -162,7 +159,7 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
     if report.when == "call" and report.failed:
-        item.user_properties.append(("failure_kind", "call"))
+        report.user_properties.append(("failure_kind", "call"))
 ```
 
 {% note info flat %}
@@ -191,7 +188,21 @@ Fixture 与 Hook 分别适合扩展什么？
 --- answer
 Fixture 为测试函数提供依赖资源，Hook 扩展运行器的启动、收集、执行或报告阶段。
 --- explanation
-需要让测试拿到客户端、目录或数据时用 Fixture；需要注册选项、调整 items、观察报告或写摘要时用 Hook。两者都应保持公开边界，不能用 Hook 隐式替代测试参数。
+Fixture 参与的是测试函数的依赖图，Hook 参与的是运行器生命周期。可以把同一个需求拆成两条证据：
+
+```python
+@pytest.fixture
+def client():
+    return FakeClient()
+
+
+def pytest_collection_modifyitems(items):
+    # 这里处理收集到的节点，而不是创建测试依赖。
+    for item in items:
+        ...
+```
+
+测试需要客户端、目录或数据时用 Fixture；需要注册选项、调整 items、观察报告或写摘要时用 Hook。不要在 Hook 中隐式创建测试参数，否则测试的输入来源会从签名中消失。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-hook-wrapper deck:"Pytest" priority:1 tags:"Hook 顺序" %}
@@ -200,7 +211,17 @@ Hook wrapper 的 yield 前后分别发生什么？
 --- answer
 yield 前进入被包装调用，yield 后读取结果或异常并决定继续传播；wrapper 不应吞掉失败。
 --- explanation
-wrapper 像一层 around advice，但实际结果由 Hook 规范的 outcome 决定。先让内部实现完成，再用 outcome.get_result() 读取结果；除非规范明确允许，否则不要返回新对象或修改退出状态。
+wrapper 的 `yield` 是阶段边界：进入 `yield` 前可以设置上下文，恢复后可以读取内部 Hook 的结果。当前 Pytest/pluggy 的新式 `wrapper=True` 直接得到结果；旧式 `hookwrapper=True` 才会得到 `outcome` 对象。
+
+```python
+@pytest.hookimpl(wrapper=True)
+def pytest_pyfunc_call(pyfuncitem):
+    result = yield
+    # 只观察或包装结果；异常会自然向上抛出。
+    return result
+```
+
+如果使用旧式 `hookwrapper=True`，才写 `outcome = yield` 后调用 `outcome.get_result()`。无论哪种形式，都不要吞掉异常、伪造成功或返回不符合 Hook 签名的对象。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-plugin-discovery deck:"Pytest" priority:2 tags:"插件发现" %}
@@ -209,7 +230,16 @@ Pytest 从哪些入口发现并加载插件？
 --- answer
 内置插件、-p、pytest11 entry point、PYTEST_PLUGINS 和 conftest.py 都可能参与，具体顺序用 --trace-config 核对。
 --- explanation
-项目本地 conftest 适合局部扩展，需跨项目复用时打包为插件并声明 entry point。禁用自动加载时，环境变量和隐式插件入口会变化，必须把实际加载列表作为诊断证据。
+插件入口决定了扩展的生命周期和复用范围：
+
+| 入口 | 适用范围 | 诊断证据 |
+| --- | --- | --- |
+| `conftest.py` | 当前项目或子目录 | `--trace-config` |
+| `-p name` | 本次命令显式加载 | 命令行与加载日志 |
+| `pytest11` entry point | 安装后跨项目复用 | 分发包元数据 |
+| `PYTEST_PLUGINS` | 进程环境临时扩展 | 环境变量与加载日志 |
+
+禁用自动加载时，entry point 和环境插件可能不再出现；因此要把 `--trace-config` 的实际加载列表作为诊断证据，而不是只检查插件源码存在。
 {% endflashcard %}
 
 ## 参考资料

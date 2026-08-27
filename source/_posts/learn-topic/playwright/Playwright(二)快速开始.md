@@ -14,7 +14,7 @@ series: Playwright
 series_order: 2
 published: true
 abbrlink: da4e7889
-date: 2026-08-24 12:11:00
+date: 2026-04-08 00:00:00
 ---
 
 {% course_series %}
@@ -25,7 +25,7 @@ date: 2026-08-24 12:11:00
 
 ## 环境准备
 
-{% note info flat %}
+{% note primary flat %}
 两种环境都必须准备 Python 包和匹配的浏览器二进制；Debian/Ubuntu CI 还要同步安装系统依赖。选择标准和成功证据相同：命令使用同一个虚拟环境，并能启动 Chromium。
 {% endnote %}
 
@@ -76,9 +76,7 @@ Trace、截图和录像可能包含页面文本、Cookie 或 Token，只在受�
 
 ## 首个测试
 
-{% note info flat %}
 新建 `tests/test_home.py`，代码如下：
-{% endnote %}
 
 ```python
 from playwright.sync_api import Page, expect
@@ -98,9 +96,7 @@ def test_home_title(page: Page) -> None:
     )
 ```
 
-{% note info flat %}
 运行测试：
-{% endnote %}
 
 ```bash
 uv run pytest -q
@@ -110,7 +106,7 @@ uv run pytest -q
 成功证据应看到 `1 passed`。如果失败，先确认浏览器二进制与执行命令来自同一个虚拟环境，再根据失败定位和断言信息排查，不要直接增加等待时间。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 `page` 不是自己创建的普通变量，而是 `pytest-playwright` 提供的 Function 级 Fixture。插件在用例开始前创建 Page，在用例结束后回收相关资源。`expect()` 是 Playwright 的 Web-first 断言，会在超时范围内重复查询页面状态。
 {% endnote %}
 
@@ -128,7 +124,7 @@ uv run pytest --headed --browser chromium -q
 
 ## 对象模型
 
-{% note info flat %}
+{% note primary flat %}
 Playwright 的核心对象具有明确所有权：
 {% endnote %}
 
@@ -175,7 +171,7 @@ Locator 不是创建时就冻结的 DOM 元素。执行点击或断言时，它�
 命令行选项只会自动应用到插件默认的 `browser`、`context` 和 `page` Fixture；如果用 `browser.new_context()` 等 API 自己创建对象，就要显式传入需要的参数。
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 本篇先建立核心 Fixture 的所有权；额外 Context、启动参数和诊断产物应在确定生命周期后再配置，避免把底层选项混入第一个测试。
 {% endnote %}
 
@@ -202,7 +198,7 @@ def test_fixture_identity(page: Page, browser: Browser, browser_name: str) -> No
 两套 API 的对象和能力基本一致，差别在调用方式和运行环境。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 选择时先看调用环境：
 
 - 常规 pytest UI 套件优先同步 API，代码更直接，生态配置也更简单；
@@ -289,11 +285,11 @@ async def test_async_home(page: Page) -> None:
     await expect(page.get_by_role("heading", name="ShopLab")).to_be_visible()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 具体标记和事件循环配置应以当前插件文档为准。不要在主线环境同时保留 `pytest-playwright` 与 `pytest-playwright-asyncio`；对于本系列主线，继续使用同步 Fixture，避免同时学习两套测试运行模型。
 {% endnote %}
 
-{% note info flat %}
+{% note danger flat %}
 两套 API 的公开对象与成员是镜像关系，但“异步方法一律 `await`”是错误规则。异步绑定需要区分四类返回模型：
 {% endnote %}
 
@@ -353,7 +349,7 @@ async def inspect_page(url: str) -> None:
             await browser.close()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `finally` 保证成功、超时和取消都走同一条资源释放路径。并发任务还应由创建它们的上层 TaskGroup 或调用方统一等待和取消，避免遗留后台浏览器任务。
 {% endnote %}
 
@@ -415,7 +411,7 @@ Trace、视频和截图等诊断产物应按失败保留策略配置，并保存
 
 ### 故障处理
 
-{% note info flat %}
+{% note warning flat %}
 安装后启动失败时，按层次排查：
 {% endnote %}
 
@@ -425,7 +421,7 @@ Trace、视频和截图等诊断产物应按失败保留策略配置，并保存
 4. 确认执行命令使用同一个虚拟环境；
 5. 再检查代理、磁盘空间和浏览器下载缓存。
 
-{% note info flat %}
+{% note warning flat %}
 版本升级后 Python 包与浏览器二进制可能不匹配，应重新执行安装命令。不要通过硬编码内部缓存路径修补问题。
 {% endnote %}
 
@@ -443,7 +439,7 @@ Trace、视频和截图等诊断产物应按失败保留策略配置，并保存
 
 ## 接口边界
 
-{% note info flat %}
+{% note warning flat %}
 `playwright.chromium`、`firefox`、`webkit` 分别返回三个 BrowserType；`BrowserType.name` 可读取引擎名，`executable_path` 可用于诊断 Playwright 管理的浏览器路径。`connect()` 连接由 Node.js `BrowserType.launchServer` 创建的 Playwright BrowserServer；Python 端只使用 WebSocket endpoint，连接端与服务端的 Playwright 主、次版本必须匹配。普通本地测试仍优先 `launch()`，不要把 `connect()` 与仅支持 Chromium 的 CDP 连接混用。
 {% endnote %}
 
@@ -463,7 +459,7 @@ Page 的常用基础成员按任务分组：
 `goto()` 的 `wait_until` 决定导航完成信号，常规页面保持默认 `load` 或依赖后续 Web-first 断言；`domcontentloaded` 只等待 DOM 解析，`commit` 只确认收到响应，`networkidle` 不应作为通用测试就绪条件。`timeout` 只覆盖这次导航；确有协议合同时可传 `referer`，并且该显式值优先于 `page.set_extra_http_headers()` 中的 Referer。DNS、TLS、连接失败或超时会抛错；HTTP 404/500 通常仍返回 Response，因此还要检查状态或用户可见错误页。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 `launch()` 的常见参数也应按目的使用：`headless` 控制有无窗口，`channel` 选择 Chrome/Edge 等渠道，`slow_mo` 只用于观察动作；`proxy` 配置代理，`downloads_path` 与 `traces_dir` 指定产物目录，`args` 直接传浏览器参数，兼容风险最高。诊断参数不应永久写入共享 Fixture。
 {% endnote %}
 
@@ -485,7 +481,7 @@ API 索引中的 Page 进阶成员只在需要对应任务时进入：
 
 ### 旧接口迁移
 
-{% note info flat %}
+{% note primary flat %}
 Page 中直接接收 selector 的查询和状态接口已不适合作为新测试主线。它们按同一规则迁移到 Locator，异步 API 使用相同替代项，仅在真正执行浏览器 I/O 时增加 `await`：
 {% endnote %}
 
@@ -497,7 +493,7 @@ Page 中直接接收 selector 的查询和状态接口已不适合作为新测�
 | `drag_and_drop(source, target)` | `source_locator.drag_to(target_locator)` |
 | `expect_navigation()` | 明确 URL 时用 `wait_for_url()`；下载、弹窗、请求等使用对应 `expect_*` |
 
-{% note info flat %}
+{% note warning flat %}
 `wait_for_timeout()` 只适合人工调试，正式测试应等待 Locator、URL、请求或业务状态。`Browser.new_page()` 会隐式创建 Context，无法清楚表达资源所有权；新代码使用 `browser.new_context()` → `context.new_page()`。Chromium 的低层 `Browser.start_tracing()` / `stop_tracing()` 不等于 Playwright Trace Viewer 产物，常规诊断使用 `context.tracing`；诊断产物的保留与查看应在交付流程中统一管理。
 {% endnote %}
 
@@ -612,6 +608,16 @@ Page 中直接接收 selector 的查询和状态接口已不适合作为新测�
 前者安装 Python 包，后者下载匹配的浏览器二进制。
 --- explanation
 Playwright 客户端、浏览器二进制和 Linux 系统依赖是三层资源。只完成其中一层，测试仍可能在启动浏览器时失败。
+
+安装失败时先按资源层定位，而不是反复重装同一个包：
+
+| 层 | 提供什么 | 典型验证 |
+| --- | --- | --- |
+| Python 包 | pytest 插件与 Python API | uv run python -c "import playwright" |
+| 浏览器二进制 | Chromium/Firefox/WebKit 可执行文件 | playwright install 后启动 |
+| 系统依赖 | Linux 图形、字体和运行库 | 镜像或 install-deps 检查 |
+
+三层中任何一层缺失，错误都会在启动阶段出现；包版本正确并不能证明浏览器和系统依赖已经就绪。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-sync-async-choice deck:"Playwright" priority:2 tags:"同步API,异步API" answer:A %}
@@ -624,6 +630,16 @@ Playwright 客户端、浏览器二进制和 Linux 系统依赖是三层资源�
 A
 --- explanation
 同步 API 更直接；并行扩展通常由 pytest-xdist 和 CI 矩阵承担。只有既有异步上下文或明确并发需求时才选择异步 API。
+
+选择 API 时先看运行时边界：
+
+| 场景 | 选择 | 原因 |
+| --- | --- | --- |
+| 普通同步 pytest 测试 | sync API | 调用链直接，Fixture 更简单 |
+| 已有 asyncio 服务或异步 Fixture | async API | 不需要在测试中阻塞事件循环 |
+| 只是测试数量变多 | 不自动改 async | 并行通常由 worker 或 CI 矩阵承担 |
+
+同步与异步是调用模型的选择，不是“测试多就必须异步”的性能开关。
 {% endflashcard %}
 
 ## 参考资料

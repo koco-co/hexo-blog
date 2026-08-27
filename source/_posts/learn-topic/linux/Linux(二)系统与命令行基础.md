@@ -401,7 +401,16 @@ Linux 内核、发行版、终端和 Shell 分别是什么？
 --- answer
 内核管理硬件与资源；发行版组合内核和用户空间；终端负责字符输入输出；Shell 解释并执行命令。
 --- explanation
-区分这四层，才能知道 uname、/etc/os-release、SHELL 和 type 各自验证什么。
+可以把一次环境识别拆成四个观测点：
+
+| 观测点 | 命令 | 看到的对象 |
+| --- | --- | --- |
+| 内核 | `uname -srm` | 正在运行的内核与架构 |
+| 发行版 | `cat /etc/os-release` | 用户空间发行版标识 |
+| Shell | `printf '%s\n' "$0"` | 当前解释器入口 |
+| 命令解析 | `type -a ls` | 别名、内建或外部文件 |
+
+这四个结果可能来自不同层，不能用一个版本号代替整台机器的结论。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a2-type-which deck:"Linux" priority:1 tags:"命令解析,排障" %}
@@ -410,7 +419,16 @@ Linux 内核、发行版、终端和 Shell 分别是什么？
 --- answer
 type -a 能识别别名、函数、内建和多个外部路径；which 通常只查 PATH 中的外部文件。
 --- explanation
-同名函数、别名或内建会让“实际执行对象”与 PATH 文件不同，脚本判断应使用 POSIX 的 command -v。
+例如，别名会在 PATH 搜索之前生效：
+
+```bash
+alias ll='ls -lh'
+type -a ll       # 先看到 alias
+type -a ls       # 可能同时看到 builtin 和外部路径
+command -v ls    # 脚本中只需要“能否调用”时使用
+```
+
+因此 `which` 找不到的并不一定是“不能执行”，它可能是 Shell 内建或函数；脚本判断仍应使用 POSIX 的 `command -v`，交互排障则用 `type -a` 看完整解析链。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a2-path-hash deck:"Linux" priority:1 tags:"PATH,缓存" %}
@@ -419,7 +437,17 @@ type -a 能识别别名、函数、内建和多个外部路径；which 通常只
 --- answer
 检查 type -a name 和 PATH，再运行 hash -r 清除 Bash 的外部命令缓存。
 --- explanation
-PATH 决定搜索顺序，hash 可能保存旧路径；清缓存不能替代权限、文件存在性和实现版本检查。
+Shell 会把已经找到的外部命令路径暂存在 hash 表中。可以用最小实验确认顺序：
+
+```bash
+type -a python
+printf 'PATH=%s\n' "$PATH"
+hash -t python 2>/dev/null || true
+hash -r
+type -a python
+```
+
+`hash -r` 只清掉缓存，不会修复权限、缺失文件或错误的 `PATH` 顺序；清缓存后仍要检查最终路径和 `--version`。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a2-help-layer deck:"Linux" priority:2 tags:"帮助系统,man" %}
@@ -428,7 +456,15 @@ Shell 内建、外部命令和 GNU 信息文档分别先用什么帮助入口？
 --- answer
 内建用 help，外部命令用 man，GNU 复杂组件可补充 info；一句摘要用 whatis。
 --- explanation
-先用 type 判断对象类型，再选择帮助层级，避免对 cd 这类内建命令误查外部手册。
+先判断命令的提供者，再进入对应文档层级：
+
+| `type` 结果 | 首选入口 | 例子 |
+| --- | --- | --- |
+| `shell builtin` | `help` | `help cd` |
+| 外部可执行文件 | `man` 或 `--help` | `man 1 ls` |
+| GNU 复杂组件 | `info` | `info coreutils 'ls invocation'` |
+
+这样不会把 `cd` 当成需要在 PATH 中寻找的外部程序；`whatis` 只有在手册索引完整时才会给出摘要，空结果不是命令不存在的证明。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a2-pwd-realpath deck:"Linux" priority:2 tags:"路径,符号链接" %}
@@ -437,7 +473,16 @@ pwd、readlink -f 和 realpath 的关注点有什么不同？
 --- answer
 pwd 看当前工作目录；readlink -f 和 realpath 解析路径中的符号链接并给出物理落点。
 --- explanation
-用户输入路径可能需要保留逻辑形式，排障或挂载判断才需要解析真实路径；不要无条件替换路径。
+三者回答的问题不同：
+
+```bash
+pwd                 # 当前 Shell 的工作目录
+printf '%s\n' "$PWD"  # 保留 Shell 记录的逻辑路径
+readlink -f ./link  # 解析符号链接后的物理落点
+realpath ./link     # 同样用于得到规范化路径
+```
+
+如果用户要求记录“从哪个链接进入”，保留逻辑路径；只有判断挂载点、比较 inode 或定位真实文件时才解析。无条件规范化会丢掉这个上下文。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a2-env-printenv deck:"Linux" priority:2 tags:"环境变量,Shell" %}
@@ -446,7 +491,15 @@ env 与 printenv PATH 的使用场景如何区分？
 --- answer
 env 默认列出环境变量；printenv PATH 只读取一个变量，更适合脚本和证据记录。
 --- explanation
-Shell 局部变量未必继承给子进程，完整环境输出也可能包含敏感信息，报告时应最小化采集。
+`printenv` 只能看到导出的环境变量，而当前 Shell 的普通变量不会自动进入子进程：
+
+```bash
+local_only=value
+export inherited=value
+sh -c 'printf "local=%s inherited=%s\\n" "${local_only-<unset>}" "$inherited"'
+```
+
+输出中 `local` 通常为空而 `inherited` 有值。`env` 适合一次观察整个继承环境，`printenv PATH` 适合脚本记录单个键；排障报告不要把完整环境原样上传，以免带出令牌或内部地址。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a2-wsl-container deck:"Linux" priority:2 tags:"WSL2,容器,虚拟机" %}
@@ -455,7 +508,16 @@ Shell 局部变量未必继承给子进程，完整环境输出也可能包含�
 --- answer
 uname 描述当前运行的内核，/etc/os-release 描述用户空间发行版；虚拟化或容器可以把二者拆在不同边界。
 --- explanation
-环境清单必须分别记录内核、发行版和命令提供者，不能把一个版本号当作整机结论。
+容器通常共享宿主机内核，却携带自己的用户空间文件；WSL2 还会把 Linux 用户空间放在虚拟化内核之上。可以把证据分开记录：
+
+```bash
+uname -r                  # 内核边界
+cat /etc/os-release       # 发行版边界
+type -a ls                # 命令提供者
+command -v systemd || true  # 当前环境是否提供该入口
+```
+
+若三组结果不属于同一个版本族，不应写成“机器版本为某某”；应说明是“某发行版用户空间运行在某内核上”，并继续检查容器、WSL 或虚拟机边界。
 {% endflashcard %}
 
 ## 参考资料

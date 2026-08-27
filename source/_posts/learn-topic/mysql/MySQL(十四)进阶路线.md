@@ -13,7 +13,7 @@ series: MySQL
 series_order: 14
 published: true
 abbrlink: 5ad9ac4a
-date: 2026-08-25 13:18:42
+date: 2026-04-05 00:00:00
 ---
 
 {% course_series %}
@@ -56,11 +56,18 @@ CREATE SQL SECURITY INVOKER VIEW paid_order_summary AS
 SELECT user_id, COUNT(*) AS order_count, SUM(total_amount) AS sales
 FROM orders
 WHERE status = 'paid'
-GROUP BY user_id
+GROUP BY user_id;
+
+-- CHECK OPTION 只能放在可更新视图上；聚合汇总视图不满足该条件。
+CREATE SQL SECURITY INVOKER VIEW pending_orders AS
+SELECT id, user_id, status, total_amount
+FROM orders
+WHERE status = 'pending'
 WITH CASCADED CHECK OPTION;
 
 SHOW CREATE VIEW paid_order_summary;
-SHOW CREATE PROCEDURE some_procedure;
+SHOW CREATE VIEW pending_orders;
+SHOW PROCEDURE STATUS WHERE Db = 'shoplab';
 SHOW TRIGGERS FROM shoplab;
 SHOW EVENTS FROM shoplab;
 ```
@@ -95,6 +102,9 @@ JSON_TABLE(
   p.attributes,
   '$' COLUMNS (color VARCHAR(32) PATH '$.color')
 ) AS jt;
+
+SELECT id, JSON_VALID(attributes) AS is_valid_json
+FROM products;
 ```
 
 {% note info flat %}
@@ -115,6 +125,7 @@ CREATE TABLE login_events_archive (
   success BOOLEAN NOT NULL,
   PRIMARY KEY (id, logged_at)
 )
+ENGINE = InnoDB
 PARTITION BY RANGE COLUMNS (logged_at) (
   PARTITION p2026q1 VALUES LESS THAN ('2026-04-01'),
   PARTITION p2026q2 VALUES LESS THAN ('2026-07-01'),
@@ -197,11 +208,16 @@ Performance Schema 和 sys 的结果是观测窗口内的统计，不是永久�
 | 原地升级 | 停机窗口短、保留数据目录 | 版本路径、插件和回退要求严格 |
 | dump/load | 版本边界清晰、可重建结构 | 大库慢，字符集/对象/权限需核对 |
 | 复制迁移 | 可灰度、切换窗口小 | 拓扑、GTID、日志格式和延迟复杂 |
-| 公式安装 | 只更新软件包 | 不等于数据升级或兼容性验证 |
+| 包管理安装 | 只更新软件包 | 不等于数据升级或兼容性验证 |
 
 {% note danger flat %}
 不要仅凭“二进制安装成功”宣布升级完成。升级必须有支持路径、预检、可恢复备份、隔离演练、客户端兼容和回退证据；遇到不支持的跨版本路径时先停下，不用强行跳级。
 {% endnote %}
+
+```bash
+# 仅在克隆环境执行预检；实际参数按当前版本文档和工具输出调整。
+mysqlcheck --all-databases --check-upgrade --user=upgrade_check
+```
 
 {% hideToggle 进阶路线自测, cyan, white %}
 一个大表按月查询很慢，应该先选分区还是索引？先查看查询谓词、数据生命周期、分区裁剪和执行计划；如果只是缺索引或统计信息，分区会增加复杂度而不解决根因。只有归档、管理窗口和分区键合同明确时才进入分区专项。
@@ -211,7 +227,11 @@ Performance Schema 和 sys 的结果是观测窗口内的统计，不是永久�
 
 {% linkgroup %}
 {% link MySQL 8.4 Stored Objects, https://dev.mysql.com/doc/refman/8.4/en/stored-objects.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Views, https://dev.mysql.com/doc/refman/8.4/en/views.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 JSON Functions, https://dev.mysql.com/doc/refman/8.4/en/json-functions.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 JSON Table Functions, https://dev.mysql.com/doc/refman/8.4/en/json-table-functions.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Full-Text Search, https://dev.mysql.com/doc/refman/8.4/en/fulltext-search.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Spatial Analysis Functions, https://dev.mysql.com/doc/refman/8.4/en/spatial-analysis-functions.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Partitioning, https://dev.mysql.com/doc/refman/8.4/en/partitioning.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Performance Schema, https://dev.mysql.com/doc/refman/8.4/en/performance-schema.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Replication Upgrade, https://dev.mysql.com/doc/refman/8.4/en/replication-upgrade.html, https://www.mysql.com/favicon.ico %}

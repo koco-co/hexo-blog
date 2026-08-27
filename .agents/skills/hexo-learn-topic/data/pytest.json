@@ -3858,7 +3858,16 @@
     },
     "article_block_tag_plans": {
       "Pytest(一)入门路线": {
-        "openingPlan": null,
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "先判断 Pytest 课程的范围、依赖链和毕业能力，再选择合适的主题文章开始实验",
+          "content": "本课程从 Fixture、参数化和 Mock 走到执行生命周期、资源隔离、并行稳定性与报告证据；每篇文章对应一个可验证的测试工程能力",
+          "carrier": "note info flat",
+          "reason": "入口说明需要直接呈现学习边界，不把课程定位藏在交互组件里",
+          "visible": "课程主线、文章职责和开始条件",
+          "fallback": "样式失效时开篇说明仍是普通文本",
+          "status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样"
+        },
         "sections": [
           {
             "section": "课程目标",

@@ -11,12 +11,10 @@ description: 能选择 xdist 调度策略，隔离多进程资源并诊断 flaky
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 10
-published: false
+published: true
 abbrlink: 5497f9c8
-date: 2026-08-26 09:00:00
+date: 2026-04-28 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -161,7 +159,16 @@ python -m pytest tests/integration -n 2 --reruns 2 --reruns-delay 1
 --- answer
 session 作用域只覆盖一个 worker 进程；多个 worker 各自建立自己的 session 实例。
 --- explanation
-controller 不共享 Python 对象。需要全局只执行一次的资源必须放到外部可协调系统，或在 Fixture 中使用锁和可验证的幂等初始化；普通测试资源应接受每个 worker 一份。
+`session` 的缓存边界是一个 worker 进程，而不是整个 xdist 运行。四个 worker 会得到四个彼此独立的 Python 解释器，也就有四份 session Fixture：
+
+```python
+@pytest.fixture(scope="session")
+def worker_cache(tmp_path_factory, worker_id):
+    path = tmp_path_factory.mktemp(f"cache-{worker_id}")
+    return path
+```
+
+如果资源必须全局只初始化一次，就需要外部可协调系统或带锁、幂等和结果校验的初始化协议。普通测试数据应接受“每个 worker 一份”，不要尝试跨进程共享 Python 对象。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-xdist-dist-modes deck:"Pytest" priority:2 tags:"调度" %}
@@ -170,7 +177,16 @@ xdist 的调度模式按什么粒度分组？
 --- answer
 load 按节点均衡，loadscope/loadfile 按类模块或文件聚合，loadgroup 按显式组标记，worksteal 在 worker 空闲时动态窃取。
 --- explanation
-先按共享资源边界选择分组，再用耗时分布判断是否值得牺牲均衡。调度不会自动解决固定文件、端口或数据库键的冲突，资源命名仍由测试设计负责。
+调度器只决定节点怎样分发，不会替测试设计资源隔离：
+
+| 模式 | 聚合粒度 | 适合场景 |
+| --- | --- | --- |
+| `load` | 单个 Node | 任务差异大，优先均衡 |
+| `loadscope` / `loadfile` | 类、模块或文件 | 同一资源不能跨 worker |
+| `loadgroup` | 显式组 | 自定义共享边界 |
+| `worksteal` | 空闲 worker 动态取任务 | 长短任务混合 |
+
+先按固定文件、端口或数据库键的共享边界选模式，再观察耗时分布；模式改变不了资源命名，也不能自动消除并发冲突。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-flaky-rerun deck:"Pytest" priority:1 tags:"稳定性" %}
@@ -179,13 +195,20 @@ load 按节点均衡，loadscope/loadfile 按类模块或文件聚合，loadgrou
 --- answer
 重跑只改变尝试次数，可能掩盖竞态、资源污染或错误断言；必须保存首次失败证据并重复测量根因。
 --- explanation
-稳定性判断需要固定输入、记录 worker/seed/环境、观察串行与并行差异，并让最终退出码反映真实失败。有限 rerun 只适合有明确边界的瞬时抖动，不能作为质量门禁替代品。
+一次 rerun 只回答“第二次是否碰巧成功”，不回答“第一次为什么失败”。稳定性实验至少保留输入、worker、seed、解释器版本和首次回溯，并比较串行与并行：
+
+```bash
+python -m pytest -q --count=20 tests/test_order.py
+python -m pytest -n 2 -q --count=20 tests/test_order.py
+```
+
+有限 rerun 只适合边界明确的瞬时网络抖动；它不能替代锁、幂等清理、固定时间和可重复输入，也不能让最终退出码掩盖首次失败。
 {% endflashcard %}
 
 ## 参考资料
 
 {% linkgroup %}
-{% link xdist documentation, https://pytest-xdist.readthedocs.io/en/stable/, https://pytest-xdist.readthedocs.io/en/stable/_static/favicon.png %}
-{% link xdist how-to, https://pytest-xdist.readthedocs.io/en/stable/how-to.html, https://pytest-xdist.readthedocs.io/en/stable/_static/favicon.png %}
+{% link xdist documentation, https://pytest-xdist.readthedocs.io/en/stable/, https://pytest-xdist.readthedocs.io/favicon.ico %}
+{% link xdist how-to, https://pytest-xdist.readthedocs.io/en/stable/how-to.html, https://pytest-xdist.readthedocs.io/favicon.ico %}
 {% link flaky tests, https://docs.pytest.org/en/stable/explanation/flaky.html, https://docs.pytest.org/en/stable/_static/favicon.png %}
 {% endlinkgroup %}

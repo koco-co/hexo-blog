@@ -14,7 +14,7 @@ series: "计算机网络"
 series_order: 6
 published: true
 abbrlink: 36cb963b
-date: 2026-08-25 07:00:00
+date: 2026-03-06 00:00:00
 ---
 
 {% course_series %}
@@ -128,7 +128,7 @@ TLS 主要提供机密性、完整性和端点认证所需的协议机制；证�
 
 ### TLS 1.3 的握手主线
 
-{% note info flat %}
+{% note danger flat %}
 TLS 1.3 使用现代密码套件和临时密钥交换，目标是在减少往返的同时，在握手完成后保护应用数据。用抽象时序表示：
 {% endnote %}
 
@@ -144,7 +144,7 @@ sequenceDiagram
   S-->>C: 加密的应用数据
 {% endmermaid %}
 
-{% note info flat %}
+{% note warning flat %}
 实际握手可能因为重试、会话恢复、客户端认证或 HelloRetryRequest 出现变体。0-RTT 可以减少恢复连接的等待，但早期数据可能被重放，服务端不能把它当成天然安全的非幂等请求通道。
 {% endnote %}
 
@@ -162,7 +162,7 @@ TLS 1.2 的历史静态 RSA premaster 例子可以用来理解“协商共享秘
 
 ### QUIC 的传输能力
 
-{% note info flat %}
+{% note warning flat %}
 QUIC 使用 UDP 作为封装入口，但在其内部提供连接 ID、加密包、丢包检测、确认、拥塞控制和多个独立流。它不把 UDP 的“无连接数据报语义”原封不动交给 HTTP/3，而是构造出新的加密传输抽象。
 {% endnote %}
 
@@ -186,7 +186,7 @@ flowchart TD
 | 加密关系 | TLS 通常在 TCP 之上，HTTP/2 在 TLS 之上 | QUIC 集成 TLS 1.3 握手和密钥保护，HTTP/3 运行于 QUIC |
 | 连接迁移 | 主要依赖新连接或上层机制 | Connection ID 支持更灵活的路径变化，具体仍受实现/策略限制 |
 
-{% note info flat %}
+{% note warning flat %}
 “QUIC 没有连接”与“HTTP/3 就一定更快”都是错误的绝对化表述。QUIC 有自己的连接状态、拥塞和可靠流；实际性能还受 RTT、丢包、服务器、浏览器策略和路径是否允许 UDP 影响。
 {% endnote %}
 
@@ -215,7 +215,7 @@ sequenceDiagram
 | 0-RTT | 会话恢复时的早期应用数据 | 可能重放，不能默认承载非幂等操作 |
 | 1-RTT | 正常应用数据和 HTTP/3 stream | `STREAM`、`ACK`、丢包恢复与拥塞控制 |
 
-{% note info flat %}
+{% note warning flat %}
 因此，排查 QUIC 时应分别问三个问题：TLS 握手是否完成、QUIC 是否能够保护并恢复数据包、HTTP/3 stream 是否成功交换。看到 UDP 包存在，不能直接证明 TLS 或 HTTP/3 已经成功。
 {% endnote %}
 
@@ -234,7 +234,7 @@ HTTP/3 把 HTTP 语义映射到 QUIC stream 和 frame。为了在独立 stream �
 | QPACK encoder/decoder stream | 同步动态表指令 |
 | HEADERS/DATA | 传递 HTTP 字段和内容 |
 
-{% note info flat %}
+{% note primary flat %}
 QPACK 仍然是压缩，不是加密；真正的机密性和完整性来自 QUIC 使用的 TLS 1.3 密钥保护。动态表大小、引用阻塞和头部上限都可能影响延迟或资源使用。
 {% endnote %}
 
@@ -265,7 +265,7 @@ flowchart TD
   H2OK -- 否 --> H1USE[回退到 HTTP/1.1 或报告失败]
 {% endmermaid %}
 
-{% note info flat %}
+{% note warning flat %}
 这张图表达的是“当前路径的决策”，不是服务器能力的永久结论。企业代理、UDP 防火墙、证书/SAN、ALPN 不匹配或超时都可能让同一站点在不同网络上得到不同的最终协议。
 {% endnote %}
 
@@ -302,7 +302,7 @@ SNI 在 TLS ClientHello 中提示客户端希望访问的主机名，让一个 I
 | SNI | 服务端选择哪个虚拟主机证书/配置 | 返回默认站点证书或错误站点 |
 | ALPN | 双方选择 HTTP/1.1、h2 等应用协议 | 协议回退、握手后协议不匹配 |
 
-{% note info flat %}
+{% note warning flat %}
 SNI 与主机名校验相关但不是一回事：客户端发送了 SNI，不等于客户端已经信任服务端；服务端选了正确证书，也不等于 ALPN 一定协商出 HTTP/2。
 {% endnote %}
 
@@ -321,7 +321,7 @@ HTTPS 可以概括为 HTTP 语义在 TLS 保护下传输，但以下问题属于
 | 用户是否有业务权限 | 应用认证与授权 |
 | CDN/负载均衡在哪里解密 | 部署拓扑和运维策略 |
 
-{% note info flat %}
+{% note danger flat %}
 因此“HTTPS 等于端到端加密”也要加范围：如果 TLS 在反向代理处终止，代理到上游是否继续使用 TLS 是另一个链路问题；HTTPS 保护传输中的内容，但不会替应用防止日志泄露、服务端越权或客户端恶意脚本。
 {% endnote %}
 
@@ -355,7 +355,7 @@ HTTPS 可以概括为 HTTP 语义在 TLS 保护下传输，但以下问题属于
 | HTTPS 边界 | 在本地代理夹具启动后，执行 `curl --cacert "$PROXY_DIR/cert.pem" -sS -D - https://localhost:18445/fixed-502`，再对照 `curl -sS -D - http://127.0.0.1:18082/fixed-502` 和 `proxy.log` | 第一条是 TLS 客户端→代理→明文上游的同一链路，`X-Proxy-Leg`、502 和两端日志明确终止点与上游协议 | 代理夹具清理后变量和端口失效；若没有代理日志，不能把两个独立请求冒充同一代理链路，也不能把客户端安全推论为上游安全 |
 | 演进面试图 | 对同一授权目标 `https://cloudflare-quic.com/` 分别运行 `curl --http1.1 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`、`curl --http2 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`、`curl --http3 -v https://cloudflare-quic.com/ -o "$DISCARD_FILE"`，再将 ALPN、Alt-Svc、UDP 和最终 Protocol 列填入回退图 | 得到“语义→线格式→传输→TLS/证书→ALPN→最终 HTTP 版本”的矩阵 | 只看锁图标或最终状态码无法回答协议演进、失败层和回退原因；每个版本都要标记未支持/未验证边界 |
 
-{% note info flat %}
+{% note warning flat %}
 验证报告至少保留：输入命令、目标与时间、关键输出、抓包/日志过滤器、未验证项和清理动作。正式环境中的授权、隐私和密钥材料优先级高于“拿到更完整的协议截图”。
 {% endnote %}
 
@@ -380,7 +380,7 @@ curl -sS -v --http2 https://example.com/ -o "$DISCARD_FILE"
 curl -sS -v --http3 https://example.com/ -o "$DISCARD_FILE"
 ~~~
 
-{% note info flat %}
+{% note warning flat %}
 观察顺序是：TCP 或 UDP/QUIC 入口 → TLS 版本与证书 → ALPN → HTTP 版本 → 状态码和内容。不要只凭地址栏的锁图标判断协议版本，也不要用 curl 的一次失败推断整个网络不支持 HTTP/3。
 {% endnote %}
 
@@ -408,6 +408,16 @@ HTTP/1.1 持久连接为什么要求严格理解消息分帧？
 一条 TCP 连接承载多个请求/响应，双方必须准确知道每条消息的内容边界；常见依据是状态语义、Content-Length、chunked 或连接关闭。
 --- explanation
 长度字段冲突或代理解析不一致可能导致等待、响应拼接或请求走私。持久连接解决复用，不自动解决边界。
+
+持久连接的关键是能确定每条消息在哪里结束：
+
+| 边界依据 | 适用线索 | 风险 |
+| --- | --- | --- |
+| Content-Length | 已知长度的消息 | 长度冲突 |
+| chunked | 分块传输 | 代理解析不一致 |
+| 连接关闭 | 响应结束 | 无法继续复用 |
+
+连接复用只解决“重复建连接”的成本，不会替应用协议修复模糊边界。
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-002 deck:"计算机网络" priority:1 tags:"HTTP/2,多路复用" %}
@@ -417,6 +427,17 @@ HTTP/2 的 message、stream、frame、connection 如何分层？
 message 是 HTTP 请求/响应语义，stream 是一次逻辑交换，frame 是在线路上传输的单位，connection 承载多个 stream。
 --- explanation
 HTTP/2 让不同 stream 的帧交错，缓解应用层队头阻塞；但底层 TCP 丢包仍可能阻塞按序字节交付。
+
+HTTP/2 的层级可以画成：
+
+~~~text
+一个 connection
+  ├─ stream 1：一个逻辑请求/响应
+  │    └─ 多个 frame
+  └─ stream 2：另一个逻辑请求/响应
+~~~
+
+帧可以交错，但它们仍共享底层 TCP 的按序字节流；因此应用层队头阻塞减轻了，传输层丢包影响没有消失。
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-003 deck:"计算机网络" priority:1 tags:"HPACK,HTTP/2,流控" %}
@@ -426,6 +447,14 @@ HPACK 和 HTTP/2 流控分别解决什么问题？
 HPACK 压缩重复字段，连接/stream 流控限制接收方愿意接收的字节量；二者都不是 TCP 接收窗口，也不是加密。
 --- explanation
 动态表和 WINDOW_UPDATE 都属于 HTTP/2 连接状态。排障时要区分字段解码、HTTP/2 窗口耗尽、TCP rwnd 和应用读取速度。
+
+先区分“节省字段字节”和“限制发送量”：
+
+| 机制 | 管理的状态 | 解决的问题 |
+| --- | --- | --- |
+| HPACK | 静态/动态表 | 重复字段压缩 |
+| WINDOW_UPDATE | stream/connection 窗口 | 接收方可接收的字节量 |
+| TCP rwnd | TCP 接收窗口 | 传输层缓存压力 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-004 deck:"计算机网络" priority:1 tags:"TLS 1.3,握手" %}
@@ -435,6 +464,15 @@ TLS 1.3 握手要完成哪些核心目标？
 协商密码与密钥交换参数，建立受保护的握手和应用流量密钥，并通过证书/签名让客户端验证服务端身份。
 --- explanation
 TLS 负责加密传输和端点认证机制，不负责 HTTP 方法或业务授权。0-RTT 虽减少等待，但早期数据要考虑重放。
+
+一次 HTTPS 协商要把身份、协议和密钥分开核对：
+
+| 观察项 | 主要回答 | 不是它负责的 |
+| --- | --- | --- |
+| 证书链/SAN | 服务端身份是否可信且匹配 | 业务授权 |
+| SNI | 服务端选择哪个虚拟主机 | 信任本身 |
+| ALPN | 选 h2、h3 等应用协议 | 证书匹配 |
+| TLS 密钥 | 传输机密性和完整性 | HTTP 方法语义 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-005 deck:"计算机网络" priority:1 tags:"QUIC,UDP,TLS 1.3" %}
@@ -444,6 +482,15 @@ QUIC 为什么不能简单理解为“没有连接的 UDP”？
 QUIC 在 UDP 上实现了连接 ID、确认、丢包恢复、拥塞控制、独立流和加密，并集成 TLS 1.3 握手。
 --- explanation
 UDP 只是 QUIC 的数据报封装入口。HTTP/3 依赖 QUIC 的传输能力，因此“使用 UDP”不等于没有可靠性或安全状态。
+
+一次 HTTPS 协商要把身份、协议和密钥分开核对：
+
+| 观察项 | 主要回答 | 不是它负责的 |
+| --- | --- | --- |
+| 证书链/SAN | 服务端身份是否可信且匹配 | 业务授权 |
+| SNI | 服务端选择哪个虚拟主机 | 信任本身 |
+| ALPN | 选 h2、h3 等应用协议 | 证书匹配 |
+| TLS 密钥 | 传输机密性和完整性 | HTTP 方法语义 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-006 deck:"计算机网络" priority:1 tags:"HTTP/3,QPACK" %}
@@ -453,6 +500,17 @@ HTTP/3 和 QPACK 的关系是什么？
 HTTP/3 把 HTTP 语义映射到 QUIC stream/frame，QPACK 用于压缩 HTTP 字段，适配 QUIC 的并发流模型。
 --- explanation
 QPACK 是压缩，不是加密；机密性和完整性来自 QUIC 的 TLS 1.3 密钥保护。动态表和引用阻塞仍可能影响延迟。
+
+把现代协议的职责拆开：
+
+| 层 | 负责什么 |
+| --- | --- |
+| UDP | 提供可控的数据报封装入口 |
+| QUIC | 连接 ID、确认、丢包恢复、拥塞控制、独立流和 TLS |
+| HTTP/3 | 把 HTTP 语义映射到 QUIC |
+| QPACK | 压缩 HTTP 字段 |
+
+所以“使用 UDP”不能推出“没有连接、可靠性或加密”。
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-007 deck:"计算机网络" priority:1 tags:"证书,SNI,ALPN" %}
@@ -462,6 +520,15 @@ QPACK 是压缩，不是加密；机密性和完整性来自 QUIC 的 TLS 1.3 �
 证书链验证信任路径，主机名校验证书是否属于目标，SNI 帮服务端选择虚拟主机，ALPN 协商应用协议版本/协议。
 --- explanation
 SNI 不等于信任，ALPN 不等于证书匹配；SAN、有效期、用途和客户端信任库仍需单独验证。
+
+一次 HTTPS 协商要把身份、协议和密钥分开核对：
+
+| 观察项 | 主要回答 | 不是它负责的 |
+| --- | --- | --- |
+| 证书链/SAN | 服务端身份是否可信且匹配 | 业务授权 |
+| SNI | 服务端选择哪个虚拟主机 | 信任本身 |
+| ALPN | 选 h2、h3 等应用协议 | 证书匹配 |
+| TLS 密钥 | 传输机密性和完整性 | HTTP 方法语义 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-008 deck:"计算机网络" priority:1 tags:"HTTPS,边界,回退" %}
@@ -471,6 +538,17 @@ SNI 不等于信任，ALPN 不等于证书匹配；SAN、有效期、用途和�
 HTTPS 是 HTTP over TLS，HTTP/3 是 HTTP 语义 over QUIC，TLS 可能在反向代理终止；协议能力、传输版本和部署拓扑是不同维度。
 --- explanation
 HTTP/3 可以回退到 HTTP/2，HTTPS 不自动提供业务授权，也不保证所有链路节点都不解密。回答应说明具体链路和终止点。
+
+把现代协议的职责拆开：
+
+| 层 | 负责什么 |
+| --- | --- |
+| UDP | 提供可控的数据报封装入口 |
+| QUIC | 连接 ID、确认、丢包恢复、拥塞控制、独立流和 TLS |
+| HTTP/3 | 把 HTTP 语义映射到 QUIC |
+| QPACK | 压缩 HTTP 字段 |
+
+所以“使用 UDP”不能推出“没有连接、可靠性或加密”。
 {% endflashcard %}
 
 ## 常见问题
@@ -485,6 +563,17 @@ HTTP/2 是否完全消除了队头阻塞？
 没有。HTTP/2 的多个 stream 共享 TCP 连接，缓解了 HTTP 层一个响应阻塞其他响应的问题，但 TCP 丢包仍会影响连接上的后续字节。
 --- explanation
 QUIC 的独立 stream 改善了传输层并发边界，但不等于所有队列和应用处理延迟都消失。
+
+把现代协议的职责拆开：
+
+| 层 | 负责什么 |
+| --- | --- |
+| UDP | 提供可控的数据报封装入口 |
+| QUIC | 连接 ID、确认、丢包恢复、拥塞控制、独立流和 TLS |
+| HTTP/3 | 把 HTTP 语义映射到 QUIC |
+| QPACK | 压缩 HTTP 字段 |
+
+所以“使用 UDP”不能推出“没有连接、可靠性或加密”。
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-FAQ-002 deck:"计算机网络" priority:1 tags:"HTTP/3,QUIC,UDP" %}
@@ -494,6 +583,17 @@ HTTP/3 为什么使用 UDP？
 QUIC 需要构造多流、连接迁移和加密传输语义，使用 UDP 作为用户态可控的封装入口；这不是放弃可靠性。
 --- explanation
 QUIC 在 UDP 之上提供可靠流、拥塞控制和 TLS 保护，把传输边界从 TCP 连接模型迁移出来。
+
+把现代协议的职责拆开：
+
+| 层 | 负责什么 |
+| --- | --- |
+| UDP | 提供可控的数据报封装入口 |
+| QUIC | 连接 ID、确认、丢包恢复、拥塞控制、独立流和 TLS |
+| HTTP/3 | 把 HTTP 语义映射到 QUIC |
+| QPACK | 压缩 HTTP 字段 |
+
+所以“使用 UDP”不能推出“没有连接、可靠性或加密”。
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-FAQ-003 deck:"计算机网络" priority:1 tags:"SNI,证书,HTTPS" %}
@@ -503,6 +603,15 @@ QUIC 在 UDP 之上提供可靠流、拥塞控制和 TLS 保护，把传输边�
 不一定。SNI 只提示服务端选择哪个虚拟主机，客户端仍需验证证书链、SAN 主机名、有效期、用途和本地策略。
 --- explanation
 SNI 正确但证书链不可信或主机名不匹配时，连接仍应失败。
+
+一次 HTTPS 协商要把身份、协议和密钥分开核对：
+
+| 观察项 | 主要回答 | 不是它负责的 |
+| --- | --- | --- |
+| 证书链/SAN | 服务端身份是否可信且匹配 | 业务授权 |
+| SNI | 服务端选择哪个虚拟主机 | 信任本身 |
+| ALPN | 选 h2、h3 等应用协议 | 证书匹配 |
+| TLS 密钥 | 传输机密性和完整性 | HTTP 方法语义 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-FAQ-004 deck:"计算机网络" priority:2 tags:"HTTP/2,HTTP/3,ALPN" %}
@@ -512,6 +621,15 @@ SNI 正确但证书链不可信或主机名不匹配时，连接仍应失败。
 客户端能力、Alt-Svc、UDP 可达性、代理/防火墙、QUIC 握手和服务器负载都会影响协议选择。
 --- explanation
 应记录当前网络的 ALPN、QUIC 错误和回退原因，不能只看站点是否“支持”某协议。
+
+一次 HTTPS 协商要把身份、协议和密钥分开核对：
+
+| 观察项 | 主要回答 | 不是它负责的 |
+| --- | --- | --- |
+| 证书链/SAN | 服务端身份是否可信且匹配 | 业务授权 |
+| SNI | 服务端选择哪个虚拟主机 | 信任本身 |
+| ALPN | 选 h2、h3 等应用协议 | 证书匹配 |
+| TLS 密钥 | 传输机密性和完整性 | HTTP 方法语义 |
 {% endflashcard %}
 
 {% flashcard basic id:CN-MOD-FAQ-005 deck:"计算机网络" priority:1 tags:"HTTPS,证书,安全" %}
@@ -521,6 +639,15 @@ SNI 正确但证书链不可信或主机名不匹配时，连接仍应失败。
 不是。`-k` 关闭客户端证书校验，只适合明确隔离的临时测试。
 --- explanation
 生产修复应检查证书链、SAN、信任库、SNI/虚拟主机和系统时间，而不是绕过校验。
+
+一次 HTTPS 协商要把身份、协议和密钥分开核对：
+
+| 观察项 | 主要回答 | 不是它负责的 |
+| --- | --- | --- |
+| 证书链/SAN | 服务端身份是否可信且匹配 | 业务授权 |
+| SNI | 服务端选择哪个虚拟主机 | 信任本身 |
+| ALPN | 选 h2、h3 等应用协议 | 证书匹配 |
+| TLS 密钥 | 传输机密性和完整性 | HTTP 方法语义 |
 {% endflashcard %}
 
 ## 参考资料

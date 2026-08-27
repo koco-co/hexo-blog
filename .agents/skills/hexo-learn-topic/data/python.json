@@ -93,6 +93,1213 @@
       }
     ],
     "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "article_block_tag_plans": {
+      "Python(一)入门路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "core_content": "开篇直接交付的范围与判断依据：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "课程目标",
+          "reader_task": "用自己的话说明「课程目标」为何如此，并核对：从零建立 Python 的运行、对象、语法和标准库心智模型。 - 能解释名称绑定、可变性、迭代、MRO、异常链、GC、GIL 等常见面试追问。",
+          "core_content": "本节直接交付：从零建立 Python 的运行、对象、语法和标准库心智模型。 - 能解释名称绑定、可变性、迭代、MRO、异常链、GC、GIL 等常见面试追问。",
+          "carrier": "Markdown",
+          "rationale": "「课程目标」需要先看到从零建立 Python 的运行、对象、语法和标准库心智模型。 - 能解释名称绑定、可变性、迭代、MRO、异常链、GC、GIL 等常见面试追问；因此采用Markdown，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：从零建立 Python 的运行、对象、语法和标准库心智模型。 - 能解释名称绑定、可变性、迭代、MRO、异常链、GC、GIL 等常见面试追问。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "用自己的话说明「前置条件」为何如此，并核对：不要求已有 Python 项目经验。 - 需要能够使用终端、编辑文本文件并运行简单命令；相关操作会在课程中补齐。",
+          "core_content": "本节直接交付：不要求已有 Python 项目经验。 - 需要能够使用终端、编辑文本文件并运行简单命令；相关操作会在课程中补齐。",
+          "carrier": "Markdown",
+          "rationale": "「前置条件」需要先看到不要求已有 Python 项目经验。 - 需要能够使用终端、编辑文本文件并运行简单命令；相关操作会在课程中补齐。；因此采用Markdown，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：不要求已有 Python 项目经验。 - 需要能够使用终端、编辑文本文件并运行简单命令；相关操作会在课程中补齐。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "沿图中的关系或时序讲清「学习路径」：flowchart TD A[运行环境与代码组织] --> B[对象、变量与运算]",
+          "core_content": "本节直接交付：flowchart TD A[运行环境与代码组织] --> B[对象、变量与运算]",
+          "carrier": "mermaid",
+          "rationale": "「学习路径」需要先看到flowchart TD A[运行环境与代码组织] --> B[对象、变量与运算]；因此采用mermaid，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：flowchart TD A[运行环境与代码组织] --> B[对象、变量与运算]。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "比较表中的维度，说明「文章安排」在什么条件下成立。",
+          "core_content": "本节直接交付：| 顺序 | 文章 | 解决的问题 | 前置 | 状态 |",
+          "carrier": "table",
+          "rationale": "「文章安排」需要先看到| 顺序 | 文章 | 解决的问题 | 前置 | 状态 |；因此采用table，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：| 顺序 | 文章 | 解决的问题 | 前置 | 状态 |；表格字段：顺序 | 文章 | 解决的问题 | 前置 | 状态。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "用自己的话说明「开始学习」为何如此，并核对：1. 按主线顺序阅读，每篇先建立机制，再运行完整实验。 2. 遇到版本差异时，以文中的 3.13/3.14 分支为准，不把 CPython 行为当成所有实现的保证。",
+          "core_content": "本节直接交付：1. 按主线顺序阅读，每篇先建立机制，再运行完整实验。 2. 遇到版本差异时，以文中的 3.13/3.14 分支为准，不把 CPython 行为当成所有实现的保证。",
+          "carrier": "Markdown",
+          "rationale": "「开始学习」需要先看到1. 按主线顺序阅读，每篇先建立机制，再运行完整实验。 2. 遇到版本差异时，以文中的 3.13/3.14 分支为准，不把 CPython ；因此采用Markdown，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：1. 按主线顺序阅读，每篇先建立机制，再运行完整实验。 2. 遇到版本差异时，以文中的 3.13/3.14 分支为准，不把 CPython 行为当成所有实现的保证。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(七)面向对象与数据模型": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：Python 的面向对象不以“把所有代码塞进类”为目标，而是把数据、行为和不变量放在同一个清晰边界中。理解属性查找和绑定比背继承语法更重要，因为 `obj.method()`、`super()`、`property` 和特殊方法都从这里出发。",
+          "core_content": "开篇直接交付的范围与判断依据：Python 的面向对象不以“把所有代码塞进类”为目标，而是把数据、行为和不变量放在同一个清晰边界中。理解属性查找和绑定比背继承语法更重要，因为 `obj.method()`、`super()`、`property` 和特殊方法都从这里出发。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：Python 的面向对象不以“把所有代码塞进类”为目标，而是把数据、行为和不变量放在同一个清晰边界中。理解属性查找和绑定比背继承语法更重要，因为 `obj.method()`、`super()`、`property` 和特殊方法都从这里出发。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "类与实例",
+          "reader_task": "比较表中的维度，说明「类与实例」在什么条件下成立。",
+          "core_content": "本节直接交付：类对象创建实例；实例通常保存自己的状态，类属性由实例共享。访问 `obj.name` 时，Python 按属性查找规则在实例、类及其基类中寻找；方法在通过实例访问时会把实例自动绑定为第一个参数。",
+          "carrier": "code + table + note primary/warning flat",
+          "rationale": "「类与实例」需要先看到类对象创建实例；实例通常保存自己的状态，类属性由实例共享。访问 `obj.name` 时，Python 按属性查找规则在实例、类及其基类中寻；因此采用code + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：类对象创建实例；实例通常保存自己的状态，类属性由实例共享。访问 `obj.name` 时，Python 按属性查找规则在实例、类及其基类中寻找；方法在通过实例访问时会把实例自动绑定为第一个参数。；示例：class Ticket:；表格字段：访问方式 | 隐含绑定 | 常见用途。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "属性协议",
+          "reader_task": "复现本节示例并解释「属性协议」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`property` 把属性访问变成受控接口，让调用者写 `ticket.status`，实现仍可验证、计算或迁移存储。它适合稳定的领域属性；不要把所有零散逻辑伪装成属性，成本高或有副作用的操作应保持为方法。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「属性协议」需要先看到`property` 把属性访问变成受控接口，让调用者写 `ticket.status`，实现仍可验证、计算或迁移存储。它适合稳定的领域属性；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`property` 把属性访问变成受控接口，让调用者写 `ticket.status`，实现仍可验证、计算或迁移存储。它适合稳定的领域属性；不要把所有零散逻辑伪装成属性，成本高或有副作用的操作应保持为方法。；示例：class Progress:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "继承与 MRO",
+          "reader_task": "复现本节示例并解释「继承与 MRO」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：继承表达“是一种”的稳定关系，组合表达“拥有/使用”的协作关系。多重继承时，方法解析顺序（MRO）决定属性从哪里取；协作式 `super()` 遵守该顺序，而不是简单地“调用父类”。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「继承与 MRO」需要先看到继承表达“是一种”的稳定关系，组合表达“拥有/使用”的协作关系。多重继承时，方法解析顺序（MRO）决定属性从哪里取；协作式 `super()；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：继承表达“是一种”的稳定关系，组合表达“拥有/使用”的协作关系。多重继承时，方法解析顺序（MRO）决定属性从哪里取；协作式 `super()` 遵守该顺序，而不是简单地“调用父类”。；示例：class Base:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "数据类与抽象",
+          "reader_task": "复现本节示例并解释「数据类与抽象」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`@dataclass` 适合主要承载数据的类，能生成初始化、表示和相等性等样板代码；字段默认可变值仍应使用 `default_factory`。抽象基类（ABC）表达必须实现的能力，适合需要多个可替换实现的边界，不是每个类都必须继承的框架。",
+          "carrier": "folding + code + note primary flat",
+          "rationale": "「数据类与抽象」需要先看到`@dataclass` 适合主要承载数据的类，能生成初始化、表示和相等性等样板代码；字段默认可变值仍应使用 `default_factor；因此采用folding + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`@dataclass` 适合主要承载数据的类，能生成初始化、表示和相等性等样板代码；字段默认可变值仍应使用 `default_factory`。抽象基类（ABC）表达必须实现的能力，适合需要多个可替换实现的边界，不是每个类都必须继承的框架。；示例：from dataclasses import dataclass, field。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "数据模型",
+          "reader_task": "复现本节示例并解释「数据模型」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：对象模型把语法映射为协议：`len(obj)` 会查找 `__len__`，`for` 会使用迭代协议，运算符可能调用相应特殊方法。先选择清晰的数据结构，再实现少量真实需要的协议，胜过从头模拟内置类型。",
+          "carrier": "code + note primary flat",
+          "rationale": "「数据模型」需要先看到对象模型把语法映射为协议：`len(obj)` 会查找 `__len__`，`for` 会使用迭代协议，运算符可能调用相应特殊方法。先选择清；因此采用code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：对象模型把语法映射为协议：`len(obj)` 会查找 `__len__`，`for` 会使用迭代协议，运算符可能调用相应特殊方法。先选择清晰的数据结构，再实现少量真实需要的协议，胜过从头模拟内置类型。；示例：from dataclasses import dataclass。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "模型实验",
+          "reader_task": "复现本节示例并解释「模型实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：运行前先预测：`make()` 是否得到两个独立的标签列表？`__init__` 是否创建对象？属性 `title` 是实例还是类属性？每个答案都应能从初始化、字段工厂或查找规则得到。",
+          "carrier": "code + note info flat",
+          "rationale": "「模型实验」需要先看到运行前先预测：`make()` 是否得到两个独立的标签列表？`__init__` 是否创建对象？属性 `title` 是实例还是类属性？每个；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：运行前先预测：`make()` 是否得到两个独立的标签列表？`__init__` 是否创建对象？属性 `title` 是实例还是类属性？每个答案都应能从初始化、字段工厂或查找规则得到。；示例：from dataclasses import dataclass, field。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇后，应能按“实例 → 类 → 基类 MRO”的路径解释属性，而不是把实例方法、类方法和静态方法当成三套互不相关的语法。设计类时优先维护不变量和可替换边界，再考虑继承层次。",
+          "core_content": "本节直接交付：完成本篇后，应能按“实例 → 类 → 基类 MRO”的路径解释属性，而不是把实例方法、类方法和静态方法当成三套互不相关的语法。设计类时优先维护不变量和可替换边界，再考虑继承层次。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇后，应能按“实例 → 类 → 基类 MRO”的路径解释属性，而不是把实例方法、类方法和静态方法当成三套互不相关的语法。设计类时优先维；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇后，应能按“实例 → 类 → 基类 MRO”的路径解释属性，而不是把实例方法、类方法和静态方法当成三套互不相关的语法。设计类时优先维护不变量和可替换边界，再考虑继承层次。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：class User:；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(三)对象、变量与运算": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：Python 变量不是装值的盒子，而是把<strong>名称</strong>绑定到<strong>对象</strong>。一旦先用这句话解释程序，再讨论赋值、参数、可变性和 `is`，多数“Python 到底按值还是按引用传递”的争论都会消失。",
+          "core_content": "开篇直接交付的范围与判断依据：Python 变量不是装值的盒子，而是把<strong>名称</strong>绑定到<strong>对象</strong>。一旦先用这句话解释程序，再讨论赋值、参数、可变性和 `is`，多数“Python 到底按值还是按引用传递”的争论都会消失。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：Python 变量不是装值的盒子，而是把<strong>名称</strong>绑定到<strong>对象</strong>。一旦先用这句话解释程序，再讨论赋值、参数、可变性和 `is`，多数“Python 到底按值还是按引用传递”的争论都会消失。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "名称与对象",
+          "reader_task": "比较表中的维度，说明「名称与对象」在什么条件下成立。",
+          "core_content": "本节直接交付：对象有类型、值与身份；赋值语句只会让左侧名称指向右侧对象。`del name` 解除名称绑定，不等于立刻销毁对象；对象是否能回收取决于是否还存在可达引用。",
+          "carrier": "folding + code + table + note primary/warning flat",
+          "rationale": "「名称与对象」需要先看到对象有类型、值与身份；赋值语句只会让左侧名称指向右侧对象。`del name` 解除名称绑定，不等于立刻销毁对象；对象是否能回收取决于是否还；因此采用folding + code + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：对象有类型、值与身份；赋值语句只会让左侧名称指向右侧对象。`del name` 解除名称绑定，不等于立刻销毁对象；对象是否能回收取决于是否还存在可达引用。；示例：score = 42；表格字段：写法 | 发生的事 | 用来回答的问题。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "身份与相等",
+          "reader_task": "比较表中的维度，说明「身份与相等」在什么条件下成立。",
+          "core_content": "本节直接交付：`==` 比较值是否相等，可能调用类型实现的比较协议；`is` 比较是否为同一个对象。业务值比较几乎总用 `==`，身份比较主要用于单例哨兵，最常见的是 `value is None`。",
+          "carrier": "code + table + note primary/warning flat",
+          "rationale": "「身份与相等」需要先看到`==` 比较值是否相等，可能调用类型实现的比较协议；`is` 比较是否为同一个对象。业务值比较几乎总用 `==`，身份比较主要用于单例哨兵；因此采用code + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`==` 比较值是否相等，可能调用类型实现的比较协议；`is` 比较是否为同一个对象。业务值比较几乎总用 `==`，身份比较主要用于单例哨兵，最常见的是 `value is None`。；示例：first = [1, 2]；表格字段：比较 | 适用对象 | 可靠结论。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "可变性",
+          "reader_task": "复现本节示例并解释「可变性」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：可变对象能在原地改变，例如列表、字典、集合和 `bytearray`；不可变对象如 `int`、`str`、`tuple` 不能原地改值。可变性不是“名称能不能重新赋值”，而是对象本身能不能被原地修改。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「可变性」需要先看到可变对象能在原地改变，例如列表、字典、集合和 `bytearray`；不可变对象如 `int`、`str`、`tuple` 不能原地改值。可；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：可变对象能在原地改变，例如列表、字典、集合和 `bytearray`；不可变对象如 `int`、`str`、`tuple` 不能原地改值。可变性不是“名称能不能重新赋值”，而是对象本身能不能被原地修改。；示例：numbers = [1, 2]。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "数字与运算",
+          "reader_task": "比较表中的维度，说明「数字与运算」在什么条件下成立。",
+          "core_content": "本节直接交付：整数精确且精度不限；二进制浮点数适合科学计算和近似值，不适合精确十进制金额。金额、税率等需要十进制规则时从字符串构造 `Decimal`，而不是从已近似的 `float` 构造。",
+          "carrier": "code + table + note primary/success flat",
+          "rationale": "「数字与运算」需要先看到整数精确且精度不限；二进制浮点数适合科学计算和近似值，不适合精确十进制金额。金额、税率等需要十进制规则时从字符串构造 `Decimal`，而；因此采用code + table + note primary/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：整数精确且精度不限；二进制浮点数适合科学计算和近似值，不适合精确十进制金额。金额、税率等需要十进制规则时从字符串构造 `Decimal`，而不是从已近似的 `float` 构造。；示例：from decimal import Decimal；表格字段：主题 | 关键规则 | 常见误解。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "字符串与字节",
+          "reader_task": "对照各方案后选择适合「字符串与字节」的路径，并说明边界。",
+          "core_content": "本节直接交付：`str` 表示 Unicode 文本，`bytes` 表示原始字节序列。边界只有两次：读入字节时用 `decode(encoding)` 变为文本，写出文本时用 `encode(encoding)` 变为字节；不要在业务层把两者混为一谈。",
+          "carrier": "tabs + code + table + note primary/warning/info flat",
+          "rationale": "「字符串与字节」需要先看到`str` 表示 Unicode 文本，`bytes` 表示原始字节序列。边界只有两次：读入字节时用 `decode(encoding)` ；因此采用tabs + code + table + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`str` 表示 Unicode 文本，`bytes` 表示原始字节序列。边界只有两次：读入字节时用 `decode(encoding)` 变为文本，写出文本时用 `encode(encoding)` 变为字节；不要在业务层把两者混为一谈。；示例：text = \"你好, Python\"；表格字段：任务 | 常用方法 | 边界；页签：Unicode 与归一化、格式化与版本边界。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "对象实验",
+          "reader_task": "复现本节示例并解释「对象实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：运行这个实验前先预测五行输出：哪些名称共享列表、哪些比较值、哪些比较身份，以及为什么浮点式没有精确相等。预测和实际不一致时，逐行标出“重新绑定”或“原地修改”。",
+          "carrier": "code + note info flat",
+          "rationale": "「对象实验」需要先看到运行这个实验前先预测五行输出：哪些名称共享列表、哪些比较值、哪些比较身份，以及为什么浮点式没有精确相等。预测和实际不一致时，逐行标出“重新绑；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：运行这个实验前先预测五行输出：哪些名称共享列表、哪些比较值、哪些比较身份，以及为什么浮点式没有精确相等。预测和实际不一致时，逐行标出“重新绑定”或“原地修改”。；示例：from decimal import Decimal。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇后，应该能够以对象模型解释输出，而不是记忆零散结论。遇到共享状态时，先检查对象身份、可变性与是否发生了重新绑定，再决定是否需要复制。",
+          "core_content": "本节直接交付：完成本篇后，应该能够以对象模型解释输出，而不是记忆零散结论。遇到共享状态时，先检查对象身份、可变性与是否发生了重新绑定，再决定是否需要复制。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇后，应该能够以对象模型解释输出，而不是记忆零散结论。遇到共享状态时，先检查对象身份、可变性与是否发生了重新绑定，再决定是否需要复制。；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇后，应该能够以对象模型解释输出，而不是记忆零散结论。遇到共享状态时，先检查对象身份、可变性与是否发生了重新绑定，再决定是否需要复制。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：left = [1, 2]；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(九)类型与质量保障": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：质量不是某一个工具的输出，而是一条反馈环：类型约束让接口更清楚，测试证明行为，日志解释线上状态，测量验证性能假设。它们互相补位，任何一个都不能替代另一个。",
+          "core_content": "开篇直接交付的范围与判断依据：质量不是某一个工具的输出，而是一条反馈环：类型约束让接口更清楚，测试证明行为，日志解释线上状态，测量验证性能假设。它们互相补位，任何一个都不能替代另一个。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：质量不是某一个工具的输出，而是一条反馈环：类型约束让接口更清楚，测试证明行为，日志解释线上状态，测量验证性能假设。它们互相补位，任何一个都不能替代另一个。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "类型标注",
+          "reader_task": "复现本节示例并解释「类型标注」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：类型标注表达接口意图并供静态检查器、IDE、文档和框架使用。常用的 `list[str]`、`dict[str, int]`、`T | None`、`Callable`、`Protocol` 可以描述容器、可选值、回调和结构化能力；它们不会自动把运行时对象变成对应类型。",
+          "carrier": "folding + code + note primary/warning flat",
+          "rationale": "「类型标注」需要先看到类型标注表达接口意图并供静态检查器、IDE、文档和框架使用。常用的 `list[str]`、`dict[str, int]`、`T | No；因此采用folding + code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：类型标注表达接口意图并供静态检查器、IDE、文档和框架使用。常用的 `list[str]`、`dict[str, int]`、`T | None`、`Callable`、`Protocol` 可以描述容器、可选值、回调和结构化能力；它们不会自动把运行时对象变成对应类型。；示例：from collections.abc import Iterable。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "运行时边界",
+          "reader_task": "复现本节示例并解释「运行时边界」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：运行时验证放在不可信数据进入系统的位置：命令行、HTTP 请求、文件、环境变量和消息队列。边界内可以使用更精确的类型和不变量；边界外要把错误转为可诊断的结果，而不是让任何类型错误在深层随机爆炸。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「运行时边界」需要先看到运行时验证放在不可信数据进入系统的位置：命令行、HTTP 请求、文件、环境变量和消息队列。边界内可以使用更精确的类型和不变量；边界外要把错误；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：运行时验证放在不可信数据进入系统的位置：命令行、HTTP 请求、文件、环境变量和消息队列。边界内可以使用更精确的类型和不变量；边界外要把错误转为可诊断的结果，而不是让任何类型错误在深层随机爆炸。；示例：def parse_limit(raw: str) -> int:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "测试设计",
+          "reader_task": "比较表中的维度，说明「测试设计」在什么条件下成立。",
+          "core_content": "本节直接交付：单元测试应验证可观察行为和边界：正常值、空值、错误输入、排序/去重规则与外部依赖失败。测试彼此独立，不能依赖执行顺序、全局缓存、真实当前时间或本机网络；需要外部协作时用可控替身。",
+          "carrier": "code + table + note primary flat",
+          "rationale": "「测试设计」需要先看到单元测试应验证可观察行为和边界：正常值、空值、错误输入、排序/去重规则与外部依赖失败。测试彼此独立，不能依赖执行顺序、全局缓存、真实当前时间；因此采用code + table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：单元测试应验证可观察行为和边界：正常值、空值、错误输入、排序/去重规则与外部依赖失败。测试彼此独立，不能依赖执行顺序、全局缓存、真实当前时间或本机网络；需要外部协作时用可控替身。；示例：import unittest；表格字段：测试层次 | 主要问题 | 反馈特点。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "调试与日志",
+          "reader_task": "复现本节示例并解释「调试与日志」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：调试从最小可复现开始：固定输入、保留异常栈、检查实际解释器与配置，再缩小变量。日志记录事件和上下文，不记录秘密；用日志级别表达用途，避免用 `print` 代替长期可搜索的运行证据。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「调试与日志」需要先看到调试从最小可复现开始：固定输入、保留异常栈、检查实际解释器与配置，再缩小变量。日志记录事件和上下文，不记录秘密；用日志级别表达用途，避免用 ；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：调试从最小可复现开始：固定输入、保留异常栈、检查实际解释器与配置，再缩小变量。日志记录事件和上下文，不记录秘密；用日志级别表达用途，避免用 `print` 代替长期可搜索的运行证据。；示例：import logging。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "性能测量",
+          "reader_task": "复现本节示例并解释「性能测量」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：先测量，再优化。`timeit` 适合小段 CPU 操作的重复测量，`cProfile` 适合定位累计耗时；性能结果依赖机器、输入规模、Python 实现和版本，所以报告比较时必须说明场景和数据。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「性能测量」需要先看到先测量，再优化。`timeit` 适合小段 CPU 操作的重复测量，`cProfile` 适合定位累计耗时；性能结果依赖机器、输入规模、Py；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先测量，再优化。`timeit` 适合小段 CPU 操作的重复测量，`cProfile` 适合定位累计耗时；性能结果依赖机器、输入规模、Python 实现和版本，所以报告比较时必须说明场景和数据。；示例：import timeit。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "质量实验",
+          "reader_task": "复现本节示例并解释「质量实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：为 `parse_limit()` 写三个测试：合法值、非数字、越界值。再故意把上界判断删掉，确认测试确实失败；这证明测试能发现回归，而不只是“绿灯存在”。",
+          "carrier": "code + note info flat",
+          "rationale": "「质量实验」需要先看到为 `parse_limit()` 写三个测试：合法值、非数字、越界值。再故意把上界判断删掉，确认测试确实失败；这证明测试能发现回归，而不只；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：为 `parse_limit()` 写三个测试：合法值、非数字、越界值。再故意把上界判断删掉，确认测试确实失败；这证明测试能发现回归，而不只是“绿灯存在”。；示例：def parse_limit(raw: str) -> int:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇后，应能说清“静态检查发现什么、运行时验证负责什么、测试证明什么、日志补充什么”，并针对一次性能声称给出测量方法和输入范围。质量工具的价值在于缩短定位时间，而不是制造更多仪表盘。",
+          "core_content": "本节直接交付：完成本篇后，应能说清“静态检查发现什么、运行时验证负责什么、测试证明什么、日志补充什么”，并针对一次性能声称给出测量方法和输入范围。质量工具的价值在于缩短定位时间，而不是制造更多仪表盘。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇后，应能说清“静态检查发现什么、运行时验证负责什么、测试证明什么、日志补充什么”，并针对一次性能声称给出测量方法和输入范围。质量工具；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇后，应能说清“静态检查发现什么、运行时验证负责什么、测试证明什么、日志补充什么”，并针对一次性能声称给出测量方法和输入范围。质量工具的价值在于缩短定位时间，而不是制造更多仪表盘。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：def total(values: list[int]) -> int:；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(二)运行环境与代码组织": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：把“代码能运行”拆成三个可验证的问题：哪一个解释器执行它、依赖装在哪里、导入时究竟找到了哪个模块。把这三件事分开，绝大多数“我明明装过包”的问题都会有明确证据。",
+          "core_content": "开篇直接交付的范围与判断依据：把“代码能运行”拆成三个可验证的问题：哪一个解释器执行它、依赖装在哪里、导入时究竟找到了哪个模块。把这三件事分开，绝大多数“我明明装过包”的问题都会有明确证据。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：把“代码能运行”拆成三个可验证的问题：哪一个解释器执行它、依赖装在哪里、导入时究竟找到了哪个模块。把这三件事分开，绝大多数“我明明装过包”的问题都会有明确证据。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "解释器入口",
+          "reader_task": "沿图中的关系或时序讲清「解释器入口」：`python file.py`、`python -m package` 与交互式输入使用同一个解释器，却会建立不同的 `__main__` 环境。可复用程序通常把入口放在模块中，再用 `-m` 运行；这样包内相对导入和命令行帮助都有稳定语义。",
+          "core_content": "本节直接交付：`python file.py`、`python -m package` 与交互式输入使用同一个解释器，却会建立不同的 `__main__` 环境。可复用程序通常把入口放在模块中，再用 `-m` 运行；这样包内相对导入和命令行帮助都有稳定语义。",
+          "carrier": "mermaid + code + note primary/success/warning flat",
+          "rationale": "「解释器入口」需要先看到`python file.py`、`python -m package` 与交互式输入使用同一个解释器，却会建立不同的 `__main__`；因此采用mermaid + code + note primary/success/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`python file.py`、`python -m package` 与交互式输入使用同一个解释器，却会建立不同的 `__main__` 环境。可复用程序通常把入口放在模块中，再用 `-m` 运行；这样包内相对导入和命令行帮助都有稳定语义。；示例：import platform。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "环境隔离",
+          "reader_task": "对照各方案后选择适合「环境隔离」的路径，并说明边界。",
+          "core_content": "本节直接交付：虚拟环境把项目依赖与系统解释器的 site-packages 分开。激活脚本只是在当前 shell 中调整命令搜索路径；真正决定安装位置的是运行 `python -m pip` 时前面的 `python`。",
+          "carrier": "tabs + code + note primary/info/warning flat",
+          "rationale": "「环境隔离」需要先看到虚拟环境把项目依赖与系统解释器的 site-packages 分开。激活脚本只是在当前 shell 中调整命令搜索路径；真正决定安装位置的是；因此采用tabs + code + note primary/info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：虚拟环境把项目依赖与系统解释器的 site-packages 分开。激活脚本只是在当前 shell 中调整命令搜索路径；真正决定安装位置的是运行 `python -m pip` 时前面的 `python`。；示例：python3 -m venv .venv；页签：macOS 与 Linux、Windows PowerShell。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "模块与包",
+          "reader_task": "比较表中的维度，说明「模块与包」在什么条件下成立。",
+          "core_content": "本节直接交付：模块是一个被导入的 Python 文件；包是可提供子模块的导入命名空间。常规包通常含有 `__init__.py`，命名空间包可以没有它；新手项目优先使用常规包，因为边界更容易观察和测试。",
+          "carrier": "code + table + note primary/info flat",
+          "rationale": "「模块与包」需要先看到模块是一个被导入的 Python 文件；包是可提供子模块的导入命名空间。常规包通常含有 `__init__.py`，命名空间包可以没有它；新；因此采用code + table + note primary/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：模块是一个被导入的 Python 文件；包是可提供子模块的导入命名空间。常规包通常含有 `__init__.py`，命名空间包可以没有它；新手项目优先使用常规包，因为边界更容易观察和测试。；示例：interview-lab/；表格字段：选择 | 适合场景 | 关键边界。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "导入机制",
+          "reader_task": "沿图中的关系或时序讲清「导入机制」：一次普通导入可概括为：先查 `sys.modules` 缓存；未命中才按导入系统寻找 spec、创建模块对象、把对象提前放入缓存、执行模块代码。提前缓存能处理互相引用的模块对象，却不能让“还没定义完的名字”凭空可用。",
+          "core_content": "本节直接交付：一次普通导入可概括为：先查 `sys.modules` 缓存；未命中才按导入系统寻找 spec、创建模块对象、把对象提前放入缓存、执行模块代码。提前缓存能处理互相引用的模块对象，却不能让“还没定义完的名字”凭空可用。",
+          "carrier": "mermaid + code + note primary/warning/success flat",
+          "rationale": "「导入机制」需要先看到一次普通导入可概括为：先查 `sys.modules` 缓存；未命中才按导入系统寻找 spec、创建模块对象、把对象提前放入缓存、执行模块代；因此采用mermaid + code + note primary/warning/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：一次普通导入可概括为：先查 `sys.modules` 缓存；未命中才按导入系统寻找 spec、创建模块对象、把对象提前放入缓存、执行模块代码。提前缓存能处理互相引用的模块对象，却不能让“还没定义完的名字”凭空可用。；示例：# bad_a.py。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "组织实验",
+          "reader_task": "复现本节示例并解释「组织实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：下面的最小包同时验证模块入口、显式依赖与可测试函数。请在新目录中创建它；不要把示例文件加入博客仓库。",
+          "carrier": "code + note info/success flat",
+          "rationale": "「组织实验」需要先看到下面的最小包同时验证模块入口、显式依赖与可测试函数。请在新目录中创建它；不要把示例文件加入博客仓库。；因此采用code + note info/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面的最小包同时验证模块入口、显式依赖与可测试函数。请在新目录中创建它；不要把示例文件加入博客仓库。；示例：# src/interview_lab/calculator.py。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：验证的重点不是看到一次成功，而是能解释成功来自哪个解释器和哪个模块路径。以下检查同时覆盖入口、隔离与导入缓存。",
+          "core_content": "本节直接交付：验证的重点不是看到一次成功，而是能解释成功来自哪个解释器和哪个模块路径。以下检查同时覆盖入口、隔离与导入缓存。",
+          "carrier": "note primary/warning flat",
+          "rationale": "「结果验证」需要先看到验证的重点不是看到一次成功，而是能解释成功来自哪个解释器和哪个模块路径。以下检查同时覆盖入口、隔离与导入缓存。；因此采用note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：验证的重点不是看到一次成功，而是能解释成功来自哪个解释器和哪个模块路径。以下检查同时覆盖入口、隔离与导入缓存。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：import platform；表格字段：步骤 | 作用；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(五)流程控制与函数": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：控制流负责选择和重复，函数负责给一段行为命名并约束输入输出。把判断、遍历和副作用拆开，代码才容易测试；把参数、作用域和返回值说清，面试题也会从背语法变成解释行为。",
+          "core_content": "开篇直接交付的范围与判断依据：控制流负责选择和重复，函数负责给一段行为命名并约束输入输出。把判断、遍历和副作用拆开，代码才容易测试；把参数、作用域和返回值说清，面试题也会从背语法变成解释行为。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：控制流负责选择和重复，函数负责给一段行为命名并约束输入输出。把判断、遍历和副作用拆开，代码才容易测试；把参数、作用域和返回值说清，面试题也会从背语法变成解释行为。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "条件与循环",
+          "reader_task": "比较表中的维度，说明「条件与循环」在什么条件下成立。",
+          "core_content": "本节直接交付：`if` 依据真值测试分支；空容器、零、`None` 和 `False` 为假，其余对象默认为真但可以自定义。`for` 从可迭代对象依次取值，`while` 适合以状态条件终止；二者都可配合 `break`、`continue` 与 `else`。",
+          "carrier": "code + table + note primary/warning flat",
+          "rationale": "「条件与循环」需要先看到`if` 依据真值测试分支；空容器、零、`None` 和 `False` 为假，其余对象默认为真但可以自定义。`for` 从可迭代对象依次取；因此采用code + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`if` 依据真值测试分支；空容器、零、`None` 和 `False` 为假，其余对象默认为真但可以自定义。`for` 从可迭代对象依次取值，`while` 适合以状态条件终止；二者都可配合 `break`、`continue` 与 `else`。；示例：for candidate in [\"\", \"draft\", \"publish\"]:；表格字段：目标 | 首选写法 | 说明。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "函数与参数",
+          "reader_task": "复现本节示例并解释「函数与参数」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：函数定义创建函数对象；调用时，实参按规则绑定到形参。位置参数在前，关键字参数按名绑定；`/` 左侧仅限位置，`*` 右侧仅限关键字，`*args` 收集额外位置参数，`**kwargs` 收集额外关键字参数。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「函数与参数」需要先看到函数定义创建函数对象；调用时，实参按规则绑定到形参。位置参数在前，关键字参数按名绑定；`/` 左侧仅限位置，`*` 右侧仅限关键字，`*ar；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：函数定义创建函数对象；调用时，实参按规则绑定到形参。位置参数在前，关键字参数按名绑定；`/` 左侧仅限位置，`*` 右侧仅限关键字，`*args` 收集额外位置参数，`**kwargs` 收集额外关键字参数。；示例：def announce(title: str, /, *labels: str, urgent: bool = False, **meta: str) -> str:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "作用域与闭包",
+          "reader_task": "复现本节示例并解释「作用域与闭包」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：名称解析遵循 LEGB：Local、Enclosing、Global、Builtins。读取外层名称可以直接发生；要在内层函数重新绑定外层局部名称需 `nonlocal`，重新绑定模块级名称需 `global`。两者都应少用，优先返回新值或封装状态。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「作用域与闭包」需要先看到名称解析遵循 LEGB：Local、Enclosing、Global、Builtins。读取外层名称可以直接发生；要在内层函数重新绑定外层局；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：名称解析遵循 LEGB：Local、Enclosing、Global、Builtins。读取外层名称可以直接发生；要在内层函数重新绑定外层局部名称需 `nonlocal`，重新绑定模块级名称需 `global`。两者都应少用，优先返回新值或封装状态。；示例：def make_counter(start: int = 0):。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "高阶函数",
+          "reader_task": "复现本节示例并解释「高阶函数」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：函数是对象：能赋值、传参、返回，也能拥有属性。`map`、`filter`、`sorted(key=...)` 和回调都在使用这一点；若匿名函数变长或需要测试，给它起一个正常函数名通常更清楚。",
+          "carrier": "folding + code + note primary flat",
+          "rationale": "「高阶函数」需要先看到函数是对象：能赋值、传参、返回，也能拥有属性。`map`、`filter`、`sorted(key=...)` 和回调都在使用这一点；若匿名；因此采用folding + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：函数是对象：能赋值、传参、返回，也能拥有属性。`map`、`filter`、`sorted(key=...)` 和回调都在使用这一点；若匿名函数变长或需要测试，给它起一个正常函数名通常更清楚。；示例：def normalize(title: str) -> str:。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "函数实验",
+          "reader_task": "复现本节示例并解释「函数实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：运行前预测：两次 `add_label()` 是否共享列表？三个回调会返回哪些数？若答案不对，分别定位默认值的求值时间和闭包的名称查找时间。",
+          "carrier": "code + note info flat",
+          "rationale": "「函数实验」需要先看到运行前预测：两次 `add_label()` 是否共享列表？三个回调会返回哪些数？若答案不对，分别定位默认值的求值时间和闭包的名称查找时间。；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：运行前预测：两次 `add_label()` 是否共享列表？三个回调会返回哪些数？若答案不对，分别定位默认值的求值时间和闭包的名称查找时间。；示例：def add_label(label: str, labels: list[str] | None = None) -> list[str]:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇后，应能从签名读出调用约束，从输出读出名称解析顺序，并能用最小函数隔离副作用。任何需要共享或修改状态的设计，都应明确它属于对象、闭包还是模块，而不是偶然泄漏出来的变量。",
+          "core_content": "本节直接交付：完成本篇后，应能从签名读出调用约束，从输出读出名称解析顺序，并能用最小函数隔离副作用。任何需要共享或修改状态的设计，都应明确它属于对象、闭包还是模块，而不是偶然泄漏出来的变量。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇后，应能从签名读出调用约束，从输出读出名称解析顺序，并能用最小函数隔离副作用。任何需要共享或修改状态的设计，都应明确它属于对象、闭包；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇后，应能从签名读出调用约束，从输出读出名称解析顺序，并能用最小函数隔离副作用。任何需要共享或修改状态的设计，都应明确它属于对象、闭包还是模块，而不是偶然泄漏出来的变量。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：def announce(title, /, *labels, urgent=False, **meta):；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(八)异常、上下文与文件": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：可靠程序不会假装失败不存在：它区分可恢复的输入错误、不可恢复的基础设施错误和应立即传播的中断，并在所有路径上关闭文件、锁和连接。异常和上下文管理不是补丁语法，而是资源所有权的接口。",
+          "core_content": "开篇直接交付的范围与判断依据：可靠程序不会假装失败不存在：它区分可恢复的输入错误、不可恢复的基础设施错误和应立即传播的中断，并在所有路径上关闭文件、锁和连接。异常和上下文管理不是补丁语法，而是资源所有权的接口。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：可靠程序不会假装失败不存在：它区分可恢复的输入错误、不可恢复的基础设施错误和应立即传播的中断，并在所有路径上关闭文件、锁和连接。异常和上下文管理不是补丁语法，而是资源所有权的接口。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "错误与异常",
+          "reader_task": "比较表中的维度，说明「错误与异常」在什么条件下成立。",
+          "core_content": "本节直接交付：异常对象携带类型、消息和调用栈。`Exception` 是大多数应用错误的基类；`BaseException` 还包括 `KeyboardInterrupt`、`SystemExit` 等控制流信号，业务代码通常不应吞掉它们。优先捕获能真正处理的最具体异常。",
+          "carrier": "table + note primary/warning flat",
+          "rationale": "「错误与异常」需要先看到异常对象携带类型、消息和调用栈。`Exception` 是大多数应用错误的基类；`BaseException` 还包括 `KeyboardI；因此采用table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：异常对象携带类型、消息和调用栈。`Exception` 是大多数应用错误的基类；`BaseException` 还包括 `KeyboardInterrupt`、`SystemExit` 等控制流信号，业务代码通常不应吞掉它们。优先捕获能真正处理的最具体异常。；表格字段：情况 | 典型异常 | 合理动作。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "异常控制",
+          "reader_task": "复现本节示例并解释「异常控制」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`try` 放置可能失败的最小代码块；`except` 处理预期异常；`else` 只在没有异常时执行；`finally` 无论成功、失败或提前返回都会执行，适合最后的清理。不要把成功路径塞进 `try`，否则会错误地把自己的 bug 当作输入错误处理。",
+          "carrier": "code + note primary flat",
+          "rationale": "「异常控制」需要先看到`try` 放置可能失败的最小代码块；`except` 处理预期异常；`else` 只在没有异常时执行；`finally` 无论成功、失败或；因此采用code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`try` 放置可能失败的最小代码块；`except` 处理预期异常；`else` 只在没有异常时执行；`finally` 无论成功、失败或提前返回都会执行，适合最后的清理。不要把成功路径塞进 `try`，否则会错误地把自己的 bug 当作输入错误处理。；示例：def parse_port(raw: str) -> int:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "上下文管理",
+          "reader_task": "复现本节示例并解释「上下文管理」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：`with resource as value:` 进入时调用上下文管理器的进入协议，离开时无论是否异常都调用退出协议。它是确定性释放资源的默认方式；文件、锁、事务、临时目录和计时器都可以遵守这个结构。",
+          "carrier": "code + note primary/warning/info flat",
+          "rationale": "「上下文管理」需要先看到`with resource as value:` 进入时调用上下文管理器的进入协议，离开时无论是否异常都调用退出协议。它是确定性释放资源的；因此采用code + note primary/warning/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`with resource as value:` 进入时调用上下文管理器的进入协议，离开时无论是否异常都调用退出协议。它是确定性释放资源的默认方式；文件、锁、事务、临时目录和计时器都可以遵守这个结构。；示例：from contextlib import contextmanager。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "文件与路径",
+          "reader_task": "对照各方案后选择适合「文件与路径」的路径，并说明边界。",
+          "core_content": "本节直接交付：用 `pathlib.Path` 表达路径，用 `with path.open(...)` 读写文件。文本模式必须明确编码；二进制模式读写 `bytes`。路径拼接用 `/` 运算符或 `joinpath()`，不要手工拼接 Windows 或 POSIX 分隔符。",
+          "carrier": "tabs + code + note primary flat",
+          "rationale": "「文件与路径」需要先看到用 `pathlib.Path` 表达路径，用 `with path.open(...)` 读写文件。文本模式必须明确编码；二进制模式读写 ；因此采用tabs + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：用 `pathlib.Path` 表达路径，用 `with path.open(...)` 读写文件。文本模式必须明确编码；二进制模式读写 `bytes`。路径拼接用 `/` 运算符或 `joinpath()`，不要手工拼接 Windows 或 POSIX 分隔符。；示例：from pathlib import Path；页签：文本与编码、临时资源。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "正则表达式",
+          "reader_task": "复现本节示例并解释「正则表达式」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：正则适合结构化的局部文本规则，不适合替代完整语法解析。使用原始字符串书写模式；`fullmatch` 验证整个输入，`search` 寻找任意位置，`finditer` 按需遍历匹配。模式重复使用时编译一次以表达意图。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「正则表达式」需要先看到正则适合结构化的局部文本规则，不适合替代完整语法解析。使用原始字符串书写模式；`fullmatch` 验证整个输入，`search` 寻找任；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：正则适合结构化的局部文本规则，不适合替代完整语法解析。使用原始字符串书写模式；`fullmatch` 验证整个输入，`search` 寻找任意位置，`finditer` 按需遍历匹配。模式重复使用时编译一次以表达意图。；示例：import re。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "资源实验",
+          "reader_task": "复现本节示例并解释「资源实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：该实验模拟读配置、转换异常和写临时报告。先故意把端口改为非数字，确认能同时看到领域错误及其原因；再检查临时目录退出后是否已清理。",
+          "carrier": "code + note info flat",
+          "rationale": "「资源实验」需要先看到该实验模拟读配置、转换异常和写临时报告。先故意把端口改为非数字，确认能同时看到领域错误及其原因；再检查临时目录退出后是否已清理。；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：该实验模拟读配置、转换异常和写临时报告。先故意把端口改为非数字，确认能同时看到领域错误及其原因；再检查临时目录退出后是否已清理。；示例：from pathlib import Path。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇后，应能根据谁拥有资源决定 `with` 的位置，根据谁能恢复决定捕获位置，并让错误链和日志保留足够上下文。异常处理的成功标准不是“不报错”，而是失败可诊断、资源不泄漏、状态不被伪造。",
+          "core_content": "本节直接交付：完成本篇后，应能根据谁拥有资源决定 `with` 的位置，根据谁能恢复决定捕获位置，并让错误链和日志保留足够上下文。异常处理的成功标准不是“不报错”，而是失败可诊断、资源不泄漏、状态不被伪造。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇后，应能根据谁拥有资源决定 `with` 的位置，根据谁能恢复决定捕获位置，并让错误链和日志保留足够上下文。异常处理的成功标准不是“；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇后，应能根据谁拥有资源决定 `with` 的位置，根据谁能恢复决定捕获位置，并让错误链和日志保留足够上下文。异常处理的成功标准不是“不报错”，而是失败可诊断、资源不泄漏、状态不被伪造。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：try:；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(六)迭代器、生成器与装饰器": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：迭代把“如何产生下一个值”与“如何消费值”分开。生成器把这种协议写得很短，装饰器把函数包装成可复用能力。二者的共同风险是惰性：代码不一定在定义时执行，而可能在消费或调用时才发生。",
+          "core_content": "开篇直接交付的范围与判断依据：迭代把“如何产生下一个值”与“如何消费值”分开。生成器把这种协议写得很短，装饰器把函数包装成可复用能力。二者的共同风险是惰性：代码不一定在定义时执行，而可能在消费或调用时才发生。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：迭代把“如何产生下一个值”与“如何消费值”分开。生成器把这种协议写得很短，装饰器把函数包装成可复用能力。二者的共同风险是惰性：代码不一定在定义时执行，而可能在消费或调用时才发生。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "迭代协议",
+          "reader_task": "比较表中的维度，说明「迭代协议」在什么条件下成立。",
+          "core_content": "本节直接交付：可迭代对象能交给 `iter()` 取得迭代器；迭代器能交给 `next()` 逐个产生值，耗尽时抛 `StopIteration`。列表是可重复迭代的可迭代对象；同一个列表迭代器被耗尽后不能自动回到开头。",
+          "carrier": "code + table + note primary/warning flat",
+          "rationale": "「迭代协议」需要先看到可迭代对象能交给 `iter()` 取得迭代器；迭代器能交给 `next()` 逐个产生值，耗尽时抛 `StopIteration`。列表是；因此采用code + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：可迭代对象能交给 `iter()` 取得迭代器；迭代器能交给 `next()` 逐个产生值，耗尽时抛 `StopIteration`。列表是可重复迭代的可迭代对象；同一个列表迭代器被耗尽后不能自动回到开头。；示例：items = [\"draft\", \"review\"]；表格字段：工具 | 作用 | 惰性边界。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "生成器",
+          "reader_task": "对照各方案后选择适合「生成器」的路径，并说明边界。",
+          "core_content": "本节直接交付：含 `yield` 的函数在调用时返回生成器对象，真正执行在每次 `next()` 或循环消费时推进。`yield` 暂停并产出值；函数 `return value` 会结束生成器，`value` 可作为 `StopIteration.value` 被手动驱动者接收，但普通 `for` 不会显示它。",
+          "carrier": "tabs + code + note primary/warning flat",
+          "rationale": "「生成器」需要先看到含 `yield` 的函数在调用时返回生成器对象，真正执行在每次 `next()` 或循环消费时推进。`yield` 暂停并产出值；函数 `；因此采用tabs + code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：含 `yield` 的函数在调用时返回生成器对象，真正执行在每次 `next()` 或循环消费时推进。`yield` 暂停并产出值；函数 `return value` 会结束生成器，`value` 可作为 `StopIteration.value` 被手动驱动者接收，但普通 `for` 不会显示它。；示例：def chunks(text: str, size: int):；页签：委托、清理。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "惰性管道",
+          "reader_task": "复现本节示例并解释「惰性管道」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：生成器表达式、`map`、`filter` 和 `itertools` 可以组成按需处理管道。它们适合大输入和早停，但一次调试时把它们打印成列表，可能会消耗数据；日志和测试应明确是观察、复制还是消费。",
+          "carrier": "folding + code + note primary flat",
+          "rationale": "「惰性管道」需要先看到生成器表达式、`map`、`filter` 和 `itertools` 可以组成按需处理管道。它们适合大输入和早停，但一次调试时把它们打印成；因此采用folding + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：生成器表达式、`map`、`filter` 和 `itertools` 可以组成按需处理管道。它们适合大输入和早停，但一次调试时把它们打印成列表，可能会消耗数据；日志和测试应明确是观察、复制还是消费。；示例：def parse(lines):。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "装饰器",
+          "reader_task": "复现本节示例并解释「装饰器」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：装饰器接收可调用对象并返回可调用对象。`@decorator` 是定义后立即执行的语法糖；包装器在被调用时执行。用 `functools.wraps` 保留原函数的名称、文档和可检查签名信息。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「装饰器」需要先看到装饰器接收可调用对象并返回可调用对象。`@decorator` 是定义后立即执行的语法糖；包装器在被调用时执行。用 `functools.w；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：装饰器接收可调用对象并返回可调用对象。`@decorator` 是定义后立即执行的语法糖；包装器在被调用时执行。用 `functools.wraps` 保留原函数的名称、文档和可检查签名信息。；示例：from functools import wraps。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "流式实验",
+          "reader_task": "复现本节示例并解释「流式实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：这个小管道先清洗输入，再在消费第一个匹配项时停止。运行前预测 `parse` 会处理多少原始行；这比背“生成器省内存”更能验证惰性。",
+          "carrier": "code + note info flat",
+          "rationale": "「流式实验」需要先看到这个小管道先清洗输入，再在消费第一个匹配项时停止。运行前预测 `parse` 会处理多少原始行；这比背“生成器省内存”更能验证惰性。；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：这个小管道先清洗输入，再在消费第一个匹配项时停止。运行前预测 `parse` 会处理多少原始行；这比背“生成器省内存”更能验证惰性。；示例：def parse(lines):。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇后，应能说明数据何时被消费、迭代器是否还能再用、异常何时出现，以及装饰后的函数是否仍保持原接口信息。对流式系统而言，这些问题比“是否写了 yield”更重要。",
+          "core_content": "本节直接交付：完成本篇后，应能说明数据何时被消费、迭代器是否还能再用、异常何时出现，以及装饰后的函数是否仍保持原接口信息。对流式系统而言，这些问题比“是否写了 yield”更重要。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇后，应能说明数据何时被消费、迭代器是否还能再用、异常何时出现，以及装饰后的函数是否仍保持原接口信息。对流式系统而言，这些问题比“是否；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇后，应能说明数据何时被消费、迭代器是否还能再用、异常何时出现，以及装饰后的函数是否仍保持原接口信息。对流式系统而言，这些问题比“是否写了 yield”更重要。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：items = [\"a\", \"b\"]；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(十)内存、并发与性能": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：并发题最容易把四件事混在一起：对象何时可回收、代码能否交错、CPU 能否真正并行、程序的瓶颈在哪里。先分清语言保证与 CPython 当前实现，再选线程、进程或 asyncio，答案才有边界。",
+          "core_content": "开篇直接交付的范围与判断依据：并发题最容易把四件事混在一起：对象何时可回收、代码能否交错、CPU 能否真正并行、程序的瓶颈在哪里。先分清语言保证与 CPython 当前实现，再选线程、进程或 asyncio，答案才有边界。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：并发题最容易把四件事混在一起：对象何时可回收、代码能否交错、CPU 能否真正并行、程序的瓶颈在哪里。先分清语言保证与 CPython 当前实现，再选线程、进程或 asyncio，答案才有边界。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "对象生命周期",
+          "reader_task": "比较表中的维度，说明「对象生命周期」在什么条件下成立。",
+          "core_content": "本节直接交付：Python 语言保证对象在不再可达时可被回收，但不保证具体时机。CPython 通常以引用计数为主，并用循环垃圾回收器处理引用环；这是 CPython 实现细节，不应当作所有 Python 实现的语义承诺。",
+          "carrier": "code + table + note primary/warning flat",
+          "rationale": "「对象生命周期」需要先看到Python 语言保证对象在不再可达时可被回收，但不保证具体时机。CPython 通常以引用计数为主，并用循环垃圾回收器处理引用环；这是 C；因此采用code + table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Python 语言保证对象在不再可达时可被回收，但不保证具体时机。CPython 通常以引用计数为主，并用循环垃圾回收器处理引用环；这是 CPython 实现细节，不应当作所有 Python 实现的语义承诺。；示例：import gc；表格字段：工具 | 适用问题 | 不承担的职责。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "并发与并行",
+          "reader_task": "比较表中的维度，说明「并发与并行」在什么条件下成立。",
+          "core_content": "本节直接交付：并发表示多项工作在时间上交错推进；并行表示多个 CPU 核心同时执行。线程常用于等待 I/O，进程可利用多核执行 CPU 密集任务，`asyncio` 在一个线程内协作式调度大量等待型任务。选择依据是工作负载和边界，不是语法偏好。",
+          "carrier": "table + note primary flat",
+          "rationale": "「并发与并行」需要先看到并发表示多项工作在时间上交错推进；并行表示多个 CPU 核心同时执行。线程常用于等待 I/O，进程可利用多核执行 CPU 密集任务，`asy；因此采用table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：并发表示多项工作在时间上交错推进；并行表示多个 CPU 核心同时执行。线程常用于等待 I/O，进程可利用多核执行 CPU 密集任务，`asyncio` 在一个线程内协作式调度大量等待型任务。选择依据是工作负载和边界，不是语法偏好。；表格字段：工作负载 | 常见选择 | 主要代价。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "GIL 边界",
+          "reader_task": "用自己的话说明「GIL 边界」为何如此，并核对：在传统 CPython 构建中，全局解释器锁（GIL）限制同一解释器内多个线程同时执行 Python 字节码；它不阻止 I/O 等待期间切换，也不阻止多个进程并行。其他实现以及 CPython 的可选 free-threaded 构建可能不同，所以讨论 GIL 时必须说明实现和构建。",
+          "core_content": "本节直接交付：在传统 CPython 构建中，全局解释器锁（GIL）限制同一解释器内多个线程同时执行 Python 字节码；它不阻止 I/O 等待期间切换，也不阻止多个进程并行。其他实现以及 CPython 的可选 free-threaded 构建可能不同，所以讨论 GIL 时必须说明实现和构建。",
+          "carrier": "note primary/warning flat",
+          "rationale": "「GIL 边界」需要先看到在传统 CPython 构建中，全局解释器锁（GIL）限制同一解释器内多个线程同时执行 Python 字节码；它不阻止 I/O 等待期间切换；因此采用note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：在传统 CPython 构建中，全局解释器锁（GIL）限制同一解释器内多个线程同时执行 Python 字节码；它不阻止 I/O 等待期间切换，也不阻止多个进程并行。其他实现以及 CPython 的可选 free-threaded 构建可能不同，所以讨论 GIL 时必须说明实现和构建。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "执行模型",
+          "reader_task": "复现本节示例并解释「执行模型」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：线程共享进程内对象，进程默认隔离内存，协程共享线程并只在 `await` 等协作点让出执行权。三者都可能有共享资源：线程需要锁或队列，进程需要消息和序列化协议，协程需要避免跨 await 的不一致状态。",
+          "carrier": "folding + code + note primary flat",
+          "rationale": "「执行模型」需要先看到线程共享进程内对象，进程默认隔离内存，协程共享线程并只在 `await` 等协作点让出执行权。三者都可能有共享资源：线程需要锁或队列，进程需；因此采用folding + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：线程共享进程内对象，进程默认隔离内存，协程共享线程并只在 `await` 等协作点让出执行权。三者都可能有共享资源：线程需要锁或队列，进程需要消息和序列化协议，协程需要避免跨 await 的不一致状态。；示例：import asyncio。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "共享状态",
+          "reader_task": "复现本节示例并解释「共享状态」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：竞态发生在结果依赖交错顺序、而程序未建立同步关系时。一次 `counter += 1` 不是应用层的事务；即使某次运行看似正确，也不能说明没有竞态。优先传递不可变消息、使用队列，或把临界区缩到最小。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「共享状态」需要先看到竞态发生在结果依赖交错顺序、而程序未建立同步关系时。一次 `counter += 1` 不是应用层的事务；即使某次运行看似正确，也不能说明没；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：竞态发生在结果依赖交错顺序、而程序未建立同步关系时。一次 `counter += 1` 不是应用层的事务；即使某次运行看似正确，也不能说明没有竞态。优先传递不可变消息、使用队列，或把临界区缩到最小。；示例：from threading import Lock。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "性能选择",
+          "reader_task": "复现本节示例并解释「性能选择」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：性能优化先识别输入规模和瓶颈，再选择算法、数据结构、批处理或并发模型。缓存必须有失效策略和容量边界；并发必须抵消调度与同步成本。Python 代码的可读性是长期性能的一部分，因为它决定调优是否能被验证。",
+          "carrier": "code + note primary flat",
+          "rationale": "「性能选择」需要先看到性能优化先识别输入规模和瓶颈，再选择算法、数据结构、批处理或并发模型。缓存必须有失效策略和容量边界；并发必须抵消调度与同步成本。Python；因此采用code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：性能优化先识别输入规模和瓶颈，再选择算法、数据结构、批处理或并发模型。缓存必须有失效策略和容量边界；并发必须抵消调度与同步成本。Python 代码的可读性是长期性能的一部分，因为它决定调优是否能被验证。；示例：import timeit。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "并发实验",
+          "reader_task": "复现本节示例并解释「并发实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：这个例子不试图测出“线程一定更快”，而是验证锁保护了共享计数器。可将锁暂时去掉、多次运行，观察结果是否仍能可靠；测试偶然通过不构成正确性证据。",
+          "carrier": "code + note info flat",
+          "rationale": "「并发实验」需要先看到这个例子不试图测出“线程一定更快”，而是验证锁保护了共享计数器。可将锁暂时去掉、多次运行，观察结果是否仍能可靠；测试偶然通过不构成正确性证据；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：这个例子不试图测出“线程一定更快”，而是验证锁保护了共享计数器。可将锁暂时去掉、多次运行，观察结果是否仍能可靠；测试偶然通过不构成正确性证据。；示例：from concurrent.futures import ThreadPoolExecutor。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：完成本篇后，应能用“工作负载、共享模型、取消方式、测量证据”解释并发选型，而不是只背 GIL。任何性能建议都要标注 CPython/版本、输入规模和 I/O 环境，避免把一次机器上的偶然结果推广为语言规则。",
+          "core_content": "本节直接交付：完成本篇后，应能用“工作负载、共享模型、取消方式、测量证据”解释并发选型，而不是只背 GIL。任何性能建议都要标注 CPython/版本、输入规模和 I/O 环境，避免把一次机器上的偶然结果推广为语言规则。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到完成本篇后，应能用“工作负载、共享模型、取消方式、测量证据”解释并发选型，而不是只背 GIL。任何性能建议都要标注 CPython/版本、输；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：完成本篇后，应能用“工作负载、共享模型、取消方式、测量证据”解释并发选型，而不是只背 GIL。任何性能建议都要标注 CPython/版本、输入规模和 I/O 环境，避免把一次机器上的偶然结果推广为语言规则。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：import gc；表格字段：场景 | GIL 下的常见选择 | 原因；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(十一)进阶路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：这是一张按问题进入的进阶地图，不是一份必须背完的 API 清单。只有当默认数据模型、导入机制或打包工作流无法表达真实需求时，才进入对应分支；每个分支都先给出替代方案和风险。",
+          "core_content": "开篇直接交付的范围与判断依据：这是一张按问题进入的进阶地图，不是一份必须背完的 API 清单。只有当默认数据模型、导入机制或打包工作流无法表达真实需求时，才进入对应分支；每个分支都先给出替代方案和风险。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：这是一张按问题进入的进阶地图，不是一份必须背完的 API 清单。只有当默认数据模型、导入机制或打包工作流无法表达真实需求时，才进入对应分支；每个分支都先给出替代方案和风险。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "进入条件",
+          "reader_task": "沿图中的关系或时序讲清「进入条件」：需要自定义属性访问、框架级类创建、二进制缓冲、动态导入、多解释器隔离或发布可安装包时，才使用本篇。普通业务模型优先数据类、组合、明确函数和标准导入；“高级”不等于更好的默认设计。",
+          "core_content": "本节直接交付：需要自定义属性访问、框架级类创建、二进制缓冲、动态导入、多解释器隔离或发布可安装包时，才使用本篇。普通业务模型优先数据类、组合、明确函数和标准导入；“高级”不等于更好的默认设计。",
+          "carrier": "mermaid + note primary flat",
+          "rationale": "「进入条件」需要先看到需要自定义属性访问、框架级类创建、二进制缓冲、动态导入、多解释器隔离或发布可安装包时，才使用本篇。普通业务模型优先数据类、组合、明确函数和标；因此采用mermaid + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：需要自定义属性访问、框架级类创建、二进制缓冲、动态导入、多解释器隔离或发布可安装包时，才使用本篇。普通业务模型优先数据类、组合、明确函数和标准导入；“高级”不等于更好的默认设计。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "属性协议",
+          "reader_task": "复现本节示例并解释「属性协议」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：描述符是定义 `__get__`、`__set__` 或 `__delete__` 的类属性对象；`property`、普通函数绑定方法和许多 ORM 字段都建立在它上面。数据描述符（带 `__set__` 或 `__delete__`）通常优先于实例字典，非数据描述符则可被实例属性遮蔽。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「属性协议」需要先看到描述符是定义 `__get__`、`__set__` 或 `__delete__` 的类属性对象；`property`、普通函数绑定方法和许；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：描述符是定义 `__get__`、`__set__` 或 `__delete__` 的类属性对象；`property`、普通函数绑定方法和许多 ORM 字段都建立在它上面。数据描述符（带 `__set__` 或 `__delete__`）通常优先于实例字典，非数据描述符则可被实例属性遮蔽。；示例：class Positive:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "类创建",
+          "reader_task": "复现本节示例并解释「类创建」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：类语句会准备命名空间、执行类体，再由元类创建类对象。多数扩展只需 `__init_subclass__`、类装饰器或协议注册；元类适合必须控制“类本身如何创建”的框架，例如验证声明式字段或生成方法。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「类创建」需要先看到类语句会准备命名空间、执行类体，再由元类创建类对象。多数扩展只需 `__init_subclass__`、类装饰器或协议注册；元类适合必须控；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：类语句会准备命名空间、执行类体，再由元类创建类对象。多数扩展只需 `__init_subclass__`、类装饰器或协议注册；元类适合必须控制“类本身如何创建”的框架，例如验证声明式字段或生成方法。；示例：class Plugin:。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "执行内部",
+          "reader_task": "复现本节示例并解释「执行内部」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：源代码会被编译为代码对象并由解释器执行；`dis` 可用于理解字节码，`compile()` 可生成代码对象。`eval()` 和 `exec()` 处理的是代码执行，不是安全的配置解析器；不可信输入必须使用 JSON、TOML、受限 DSL 或专用解析器。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「执行内部」需要先看到源代码会被编译为代码对象并由解释器执行；`dis` 可用于理解字节码，`compile()` 可生成代码对象。`eval()` 和 `exe；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：源代码会被编译为代码对象并由解释器执行；`dis` 可用于理解字节码，`compile()` 可生成代码对象。`eval()` 和 `exec()` 处理的是代码执行，不是安全的配置解析器；不可信输入必须使用 JSON、TOML、受限 DSL 或专用解析器。；示例：import dis。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "导入扩展",
+          "reader_task": "对照各方案后选择适合「导入扩展」的路径，并说明边界。",
+          "core_content": "本节直接交付：`importlib` 提供导入系统的程序化入口，适合插件发现、资源读取或显式加载；仍需尊重 `ModuleSpec`、`sys.modules` 缓存和模块初始化顺序。`reload()` 重新执行模块代码，却不会自动刷新其他模块保存的旧引用。",
+          "carrier": "tabs + code + note primary flat",
+          "rationale": "「导入扩展」需要先看到`importlib` 提供导入系统的程序化入口，适合插件发现、资源读取或显式加载；仍需尊重 `ModuleSpec`、`sys.modul；因此采用tabs + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`importlib` 提供导入系统的程序化入口，适合插件发现、资源读取或显式加载；仍需尊重 `ModuleSpec`、`sys.modules` 缓存和模块初始化顺序。`reload()` 重新执行模块代码，却不会自动刷新其他模块保存的旧引用。；示例：from importlib import import_module；页签：多解释器、进程隔离。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "多解释器",
+          "reader_task": "用自己的话说明「多解释器」为何如此，并核对：多解释器提供比线程更强的运行时状态隔离、比进程更轻的某些部署选择，但不是共享内存并发的快捷方式。选择它前先验证目标 Python 版本、第三方扩展兼容性、数据传输方式和故障隔离要求；可移植性通常比新机制更重要。",
+          "core_content": "本节直接交付：多解释器提供比线程更强的运行时状态隔离、比进程更轻的某些部署选择，但不是共享内存并发的快捷方式。选择它前先验证目标 Python 版本、第三方扩展兼容性、数据传输方式和故障隔离要求；可移植性通常比新机制更重要。",
+          "carrier": "note primary flat",
+          "rationale": "「多解释器」需要先看到多解释器提供比线程更强的运行时状态隔离、比进程更轻的某些部署选择，但不是共享内存并发的快捷方式。选择它前先验证目标 Python 版本、第三；因此采用note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：多解释器提供比线程更强的运行时状态隔离、比进程更轻的某些部署选择，但不是共享内存并发的快捷方式。选择它前先验证目标 Python 版本、第三方扩展兼容性、数据传输方式和故障隔离要求；可移植性通常比新机制更重要。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "打包分发",
+          "reader_task": "复现本节示例并解释「打包分发」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：可导入包、构建产物和发行包名是三个不同概念。`pyproject.toml` 声明构建后端、项目元数据和依赖；构建生成 wheel 或 source distribution，安装后由解释器在环境中发现导入包。发布前在干净虚拟环境安装产物并运行最小导入测试。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「打包分发」需要先看到可导入包、构建产物和发行包名是三个不同概念。`pyproject.toml` 声明构建后端、项目元数据和依赖；构建生成 wheel 或 so；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：可导入包、构建产物和发行包名是三个不同概念。`pyproject.toml` 声明构建后端、项目元数据和依赖；构建生成 wheel 或 source distribution，安装后由解释器在环境中发现导入包。发布前在干净虚拟环境安装产物并运行最小导入测试。；示例：[build-system]。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "旧接口迁移",
+          "reader_task": "比较表中的维度，说明「旧接口迁移」在什么条件下成立。",
+          "core_content": "本节直接交付：从 Python 3.13 迁移到 3.14，先阅读对应版本的 What’s New，再用测试、静态检查、依赖锁定和目标平台矩阵验证。注解求值、模板字符串、自由线程构建、标准库弃用与 C 扩展兼容性都应按实际使用范围评估，不能用“本地能启动”代替迁移证据；遗留 CLI 若仍使用 `optparse`，应先保留既有参数语义和错误码，再逐步迁到 `argp…",
+          "carrier": "table + note primary flat",
+          "rationale": "「旧接口迁移」需要先看到从 Python 3.13 迁移到 3.14，先阅读对应版本的 What’s New，再用测试、静态检查、依赖锁定和目标平台矩阵验证。注解求；因此采用table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：从 Python 3.13 迁移到 3.14，先阅读对应版本的 What’s New，再用测试、静态检查、依赖锁定和目标平台矩阵验证。注解求值、模板字符串、自由线程构建、标准库弃用与 C 扩展兼容性都应按实际使用范围评估，不能用“本地能启动”代替迁移证据；遗留 CLI 若仍使用 `optparse`，应先保留既有参数语义和错误码，再逐步迁到 `argp…；表格字段：变更类型 | 检查动作 | 通过标准。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "标准库地图",
+          "reader_task": "比较表中的维度，说明「标准库地图」在什么条件下成立。",
+          "core_content": "本节直接交付：下面按任务归类低频模块，目的是让检索起点清楚，而不是在一个页面复制文档。需要具体参数、平台差异或安全边界时，直接回到官方文档和小型实验。",
+          "carrier": "folding + table + note primary/info flat",
+          "rationale": "「标准库地图」需要先看到下面按任务归类低频模块，目的是让检索起点清楚，而不是在一个页面复制文档。需要具体参数、平台差异或安全边界时，直接回到官方文档和小型实验。；因此采用folding + table + note primary/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面按任务归类低频模块，目的是让检索起点清楚，而不是在一个页面复制文档。需要具体参数、平台差异或安全边界时，直接回到官方文档和小型实验。；表格字段：任务 | 起点 | 先问的问题。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：class User:；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(十二)项目实战": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：项目的目标不是写一个“大而全”的脚本，而是完成一条可验证的交付链：可安装的包、明确的输入格式、可恢复的错误、可测试的核心逻辑，以及对性能和并发是否必要的证据。",
+          "core_content": "开篇直接交付的范围与判断依据：项目的目标不是写一个“大而全”的脚本，而是完成一条可验证的交付链：可安装的包、明确的输入格式、可恢复的错误、可测试的核心逻辑，以及对性能和并发是否必要的证据。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：项目的目标不是写一个“大而全”的脚本，而是完成一条可验证的交付链：可安装的包、明确的输入格式、可恢复的错误、可测试的核心逻辑，以及对性能和并发是否必要的证据。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "项目目标",
+          "reader_task": "比较表中的维度，说明「项目目标」在什么条件下成立。",
+          "core_content": "本节直接交付：实现 `logscan`：读取 UTF-8 文本日志，解析 `LEVEL message` 行，输出各级别计数和匹配关键字的条目数。项目只处理定义明确的文本格式；损坏行要报告行号，不把猜测的解析结果写进统计。",
+          "carrier": "table + note primary flat",
+          "rationale": "「项目目标」需要先看到实现 `logscan`：读取 UTF-8 文本日志，解析 `LEVEL message` 行，输出各级别计数和匹配关键字的条目数。项目只处；因此采用table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：实现 `logscan`：读取 UTF-8 文本日志，解析 `LEVEL message` 行，输出各级别计数和匹配关键字的条目数。项目只处理定义明确的文本格式；损坏行要报告行号，不把猜测的解析结果写进统计。；表格字段：输入 | 规则 | 输出。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "目录结构",
+          "reader_task": "复现本节示例并解释「目录结构」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：把可导入代码放入 `src/`，入口、解析、汇总和测试分开。这样命令行只是薄壳，核心函数可以不启动进程就被测试；虚拟环境和安装流程也能暴露导入路径错误。",
+          "carrier": "code + note primary flat",
+          "rationale": "「目录结构」需要先看到把可导入代码放入 `src/`，入口、解析、汇总和测试分开。这样命令行只是薄壳，核心函数可以不启动进程就被测试；虚拟环境和安装流程也能暴露导；因此采用code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：把可导入代码放入 `src/`，入口、解析、汇总和测试分开。这样命令行只是薄壳，核心函数可以不启动进程就被测试；虚拟环境和安装流程也能暴露导入路径错误。；示例：logscan/。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "解析管道",
+          "reader_task": "复现本节示例并解释「解析管道」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：解析函数接受文本行并返回一个不可变事件；读取器只负责逐行和编码，汇总器只负责计数。职责分开后，格式错误可以被定位，统计函数也可直接用内存中的事件测试。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「解析管道」需要先看到解析函数接受文本行并返回一个不可变事件；读取器只负责逐行和编码，汇总器只负责计数。职责分开后，格式错误可以被定位，统计函数也可直接用内存中的；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：解析函数接受文本行并返回一个不可变事件；读取器只负责逐行和编码，汇总器只负责计数。职责分开后，格式错误可以被定位，统计函数也可直接用内存中的事件测试。；示例：# src/logscan/parser.py。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "资源与错误",
+          "reader_task": "复现本节示例并解释「资源与错误」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：文件读取用 `Path`、明确编码和 `with`。最靠近文件的层保留 `OSError` 原因，命令行边界再把它转换为可读的失败信息和非零退出码；不要在底层 `print` 后继续返回伪成功统计。",
+          "carrier": "folding + code + note primary flat",
+          "rationale": "「资源与错误」需要先看到文件读取用 `Path`、明确编码和 `with`。最靠近文件的层保留 `OSError` 原因，命令行边界再把它转换为可读的失败信息和非零；因此采用folding + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：文件读取用 `Path`、明确编码和 `with`。最靠近文件的层保留 `OSError` 原因，命令行边界再把它转换为可读的失败信息和非零退出码；不要在底层 `print` 后继续返回伪成功统计。；示例：# src/logscan/service.py。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "类型与测试",
+          "reader_task": "复现本节示例并解释「类型与测试」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：类型注解记录 `Event`、路径和聚合器的接口；测试验证输入输出。测试在临时目录创建文件，避免依赖开发机的真实日志或当前工作目录；每个失败用例都应检查异常类型和可诊断消息。",
+          "carrier": "code + note primary flat",
+          "rationale": "「类型与测试」需要先看到类型注解记录 `Event`、路径和聚合器的接口；测试验证输入输出。测试在临时目录创建文件，避免依赖开发机的真实日志或当前工作目录；每个失败；因此采用code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：类型注解记录 `Event`、路径和聚合器的接口；测试验证输入输出。测试在临时目录创建文件，避免依赖开发机的真实日志或当前工作目录；每个失败用例都应检查异常类型和可诊断消息。；示例：# tests/test_service.py。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "命令行入口",
+          "reader_task": "复现本节示例并解释「命令行入口」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：入口层只负责参数、返回码和呈现。核心函数不读 `sys.argv`、不直接退出，因此可以在测试、批任务或其他程序中复用；`argparse` 为缺少参数和 `--help` 提供标准行为。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「命令行入口」需要先看到入口层只负责参数、返回码和呈现。核心函数不读 `sys.argv`、不直接退出，因此可以在测试、批任务或其他程序中复用；`argparse`；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：入口层只负责参数、返回码和呈现。核心函数不读 `sys.argv`、不直接退出，因此可以在测试、批任务或其他程序中复用；`argparse` 为缺少参数和 `--help` 提供标准行为。；示例：# src/logscan/__main__.py。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "并发与测量",
+          "reader_task": "复现本节示例并解释「并发与测量」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：单个本地文本文件通常不需要并发。只有需要扫描大量相互独立的文件，且测量显示读取或解析是瓶颈时，才将“每个文件的独立统计”提交给线程池或进程池；聚合时仍让单一所有者合并 Counter，避免共享可变状态。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「并发与测量」需要先看到单个本地文本文件通常不需要并发。只有需要扫描大量相互独立的文件，且测量显示读取或解析是瓶颈时，才将“每个文件的独立统计”提交给线程池或进程池；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：单个本地文本文件通常不需要并发。只有需要扫描大量相互独立的文件，且测量显示读取或解析是瓶颈时，才将“每个文件的独立统计”提交给线程池或进程池；聚合时仍让单一所有者合并 Counter，避免共享可变状态。；示例：import timeit。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "复盘清单",
+          "reader_task": "用自己的话说明「复盘清单」为何如此，并核对：提交前逐项检查：包能否在干净虚拟环境安装、入口能否显示帮助、正常/错误日志能否得到预期结果、测试是否隔离、错误是否保留原因、性能结论是否有测量。缺少任何一项时，先补证据，不把“本地跑过一次”当成交付。",
+          "core_content": "本节直接交付：提交前逐项检查：包能否在干净虚拟环境安装、入口能否显示帮助、正常/错误日志能否得到预期结果、测试是否隔离、错误是否保留原因、性能结论是否有测量。缺少任何一项时，先补证据，不把“本地跑过一次”当成交付。",
+          "carrier": "note success flat",
+          "rationale": "「复盘清单」需要先看到提交前逐项检查：包能否在干净虚拟环境安装、入口能否显示帮助、正常/错误日志能否得到预期结果、测试是否隔离、错误是否保留原因、性能结论是否有测；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：提交前逐项检查：包能否在干净虚拟环境安装、入口能否显示帮助、正常/错误日志能否得到预期结果、测试是否隔离、错误是否保留原因、性能结论是否有测量。缺少任何一项时，先补证据，不把“本地跑过一次”当成交付。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Python(四)内置类型与容器": [
+        {
+          "block": "开篇定位",
+          "reader_task": "先明确本文要解决的问题：容器选择先问数据关系，不先背方法：要保序的重复项、固定位置、按键查值、去重成员，分别对应不同结构。对象身份与可变性决定了容器能否安全共享、作为键，或需要复制。",
+          "core_content": "开篇直接交付的范围与判断依据：容器选择先问数据关系，不先背方法：要保序的重复项、固定位置、按键查值、去重成员，分别对应不同结构。对象身份与可变性决定了容器能否安全共享、作为键，或需要复制。",
+          "carrier": "note info flat",
+          "rationale": "开篇需要让读者先知道本文边界与验收标准；主线承载与本节实际证据并列，避免把组件当连续正文容器。",
+          "directly_visible": "范围说明：容器选择先问数据关系，不先背方法：要保序的重复项、固定位置、按键查值、去重成员，分别对应不同结构。对象身份与可变性决定了容器能否安全共享、作为键，或需要复制。",
+          "degradation": "样式失效时，开篇范围和后续正文仍按原顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "容器选择",
+          "reader_task": "比较表中的维度，说明「容器选择」在什么条件下成立。",
+          "core_content": "本节直接交付：`list` 是可变有序序列，`tuple` 是不可变有序序列，`dict` 按键映射值，`set` 保存不重复的可哈希元素。Python 3.7 起语言保证普通 `dict` 保持插入顺序，但它不是按键排序的结构。",
+          "carrier": "folding + table + note primary flat",
+          "rationale": "「容器选择」需要先看到`list` 是可变有序序列，`tuple` 是不可变有序序列，`dict` 按键映射值，`set` 保存不重复的可哈希元素。Python ；因此采用folding + table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`list` 是可变有序序列，`tuple` 是不可变有序序列，`dict` 按键映射值，`set` 保存不重复的可哈希元素。Python 3.7 起语言保证普通 `dict` 保持插入顺序，但它不是按键排序的结构。；表格字段：需求 | 首选 | 理由 | 不要误用。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "序列操作",
+          "reader_task": "复现本节示例并解释「序列操作」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：序列支持索引、切片和解包。切片 `items[start:stop:step]` 的右边界不包含在结果中；它通常返回同类型的新浅副本。解包把位置关系写在代码中，长度不匹配会立即报错，星号目标可接住中间部分。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「序列操作」需要先看到序列支持索引、切片和解包。切片 `items[start:stop:step]` 的右边界不包含在结果中；它通常返回同类型的新浅副本。解包把；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：序列支持索引、切片和解包。切片 `items[start:stop:step]` 的右边界不包含在结果中；它通常返回同类型的新浅副本。解包把位置关系写在代码中，长度不匹配会立即报错，星号目标可接住中间部分。；示例：records = [\"draft\", \"review\", \"publish\"]。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "映射与集合",
+          "reader_task": "对照各方案后选择适合「映射与集合」的路径，并说明边界。",
+          "core_content": "本节直接交付：字典读取未知键时，`mapping[key]` 会抛 `KeyError`，`mapping.get(key, default)` 提供默认值。遍历时默认得到键；需要键值对用 `items()`。集合成员测试与集合运算表达的是关系，不负责保留原有顺序。",
+          "carrier": "tabs + code + note primary flat",
+          "rationale": "「映射与集合」需要先看到字典读取未知键时，`mapping[key]` 会抛 `KeyError`，`mapping.get(key, default)` 提供默认；因此采用tabs + code + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：字典读取未知键时，`mapping[key]` 会抛 `KeyError`，`mapping.get(key, default)` 提供默认值。遍历时默认得到键；需要键值对用 `items()`。集合成员测试与集合运算表达的是关系，不负责保留原有顺序。；示例：scores = {\"Ada\": 95, \"Lin\": 88}；页签：合并映射、安全地累积。",
+          "degradation": "页签失效时各方案标题与完整代码仍按顺序可读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "复制与共享",
+          "reader_task": "复现本节示例并解释「复制与共享」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：浅拷贝只复制最外层容器，内部对象仍被共享；深拷贝递归复制可复制的内容。它不是默认动作：先判断是否真的要独立所有权，还是应把可变状态封装在一个明确的边界内。",
+          "carrier": "code + note primary/warning flat",
+          "rationale": "「复制与共享」需要先看到浅拷贝只复制最外层容器，内部对象仍被共享；深拷贝递归复制可复制的内容。它不是默认动作：先判断是否真的要独立所有权，还是应把可变状态封装在一个；因此采用code + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：浅拷贝只复制最外层容器，内部对象仍被共享；深拷贝递归复制可复制的内容。它不是默认动作：先判断是否真的要独立所有权，还是应把可变状态封装在一个明确的边界内。；示例：import copy。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "排序与查找",
+          "reader_task": "比较表中的维度，说明「排序与查找」在什么条件下成立。",
+          "core_content": "本节直接交付：`sorted(iterable)` 返回新列表；`list.sort()` 原地排序并返回 `None`。两者都稳定，`key` 应返回比较键而不是手写复杂比较器。若数据本来有序，使用 `bisect` 定位插入点；不要把线性列表查找误当作字典索引。",
+          "carrier": "code + table + note primary flat",
+          "rationale": "「排序与查找」需要先看到`sorted(iterable)` 返回新列表；`list.sort()` 原地排序并返回 `None`。两者都稳定，`key` 应返回比；因此采用code + table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`sorted(iterable)` 返回新列表；`list.sort()` 原地排序并返回 `None`。两者都稳定，`key` 应返回比较键而不是手写复杂比较器。若数据本来有序，使用 `bisect` 定位插入点；不要把线性列表查找误当作字典索引。；示例：tasks = [；表格字段：操作 | 复杂度直觉 | 选择建议。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "容器实验",
+          "reader_task": "复现本节示例并解释「容器实验」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：这个例子同时验证键的哈希性、浅拷贝的共享和稳定排序。先预测三处输出，再运行；若预测失败，回到“最外层容器是否新建、内层对象是否仍相同”这个问题。",
+          "carrier": "code + note info flat",
+          "rationale": "「容器实验」需要先看到这个例子同时验证键的哈希性、浅拷贝的共享和稳定排序。先预测三处输出，再运行；若预测失败，回到“最外层容器是否新建、内层对象是否仍相同”这个问；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：这个例子同时验证键的哈希性、浅拷贝的共享和稳定排序。先预测三处输出，再运行；若预测失败，回到“最外层容器是否新建、内层对象是否仍相同”这个问题。；示例：import copy。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：容器题的高质量答案不只报出类型名，还会说明顺序、可变性、键/元素限制、复制层次与预期复杂度。这样才可以从“会用 API”走到“能解释选型”。",
+          "core_content": "本节直接交付：容器题的高质量答案不只报出类型名，还会说明顺序、可变性、键/元素限制、复制层次与预期复杂度。这样才可以从“会用 API”走到“能解释选型”。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到容器题的高质量答案不只报出类型名，还会说明顺序、可变性、键/元素限制、复制层次与预期复杂度。这样才可以从“会用 API”走到“能解释选型”。；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：容器题的高质量答案不只报出类型名，还会说明顺序、可变性、键/元素限制、复制层次与预期复杂度。这样才可以从“会用 API”走到“能解释选型”。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；示例：items = [\"draft\"]；题面、答案、解析和优先级。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；资料标题与 HTTP(S) 目标地址。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ]
+    },
     "article_load_plan": {
       "schema_version": 1,
       "rule_order": "first_match_wins; rules only refine entries already assigned to the named article and never change its disposition or mainArticle",

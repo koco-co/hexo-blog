@@ -297,13 +297,23 @@ fi
 test -s 判断文件是否非空，test "$a" = "$b" 判断字符串是否相等；真返回 0、假返回非 0。预期可见 test-assertions=pass、pipeline-status=1 与 xargs-check=pass。实验不会自动删除 LAB，检查完再按你的环境安全清理。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a5-quote deck:"Linux" priority:1 tags:"Shell,引号" %}
 --- question
 为什么 Shell 变量通常要放在双引号中？
 --- answer
 双引号保留变量展开后的整体参数边界，避免空格触发字段分割和路径名展开。
 --- explanation
-只有明确需要把一个值拆成多个参数时才省略引号；不要把用户输入直接拼入 eval 或 sh -c。
+未引用变量时，Shell 会继续做字段分割和 pathname expansion：
+
+```bash
+name='two words'
+printf '<%s>\n' $name    # 两个参数：<two>、<words>
+printf '<%s>\n' "$name"  # 一个参数：<two words>
+```
+
+省略引号只能在“确实要把一个值拆成多个参数”的位置出现，并且要先定义分隔协议。对用户输入使用数组或 `--` 传参，不要用 `eval`、`sh -c` 拼接未经处理的字符串。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a5-escape deck:"Linux" priority:2 tags:"Shell,转义" %}
@@ -312,7 +322,15 @@ test -s 判断文件是否非空，test "$a" = "$b" 判断字符串是否相等�
 --- answer
 未引用的反斜杠可保留空格等特殊字符；双引号内只会转义有限字符，普通空格前的反斜杠会保留。
 --- explanation
-反斜杠不是通用替代引号。要保留整个变量值，通常仍应使用双引号。
+反斜杠的作用依赖它所在的词法上下文：
+
+```bash
+printf '<%s>\n' one\ two       # 未引用：反斜杠保留空格
+printf '<%s>\n' "one\ two"     # 双引号：反斜杠仍是普通字符
+printf '<%s>\n' "one\"two"     # 双引号内只转义有限字符
+```
+
+它不是“把任意字符串安全包起来”的通用语法。变量值要保持整体边界时仍用双引号；需要传递字面反斜杠时，要同时考虑 ANSI-C 引号、单引号和目标命令本身的转义规则。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a5-pipefail deck:"Linux" priority:1 tags:"管道,退出状态" %}
@@ -321,7 +339,19 @@ pipefail 解决了什么问题？
 --- answer
 它让管道中任意命令失败都能反映到整体状态，而不是只看最后一个命令。
 --- explanation
-启用后仍要区分正常的无匹配、超时和真正失败；组合命令需要为预期状态设计分支。
+默认情况下，管道的状态只取最后一条命令：
+
+```bash
+set +o pipefail
+false | printf 'last command ran\n'
+printf 'status=%s\n' "$?"  # 通常为 0
+
+set -o pipefail
+false | printf 'last command ran\n'
+printf 'status=%s\n' "$?"  # 反映 false 的失败
+```
+
+`pipefail` 让失败更容易被发现，但不会替你判断“无匹配”是否是正常结果、超时是否可重试。脚本仍要围绕预期状态写 `if`/`case` 分支，而不是把所有非零值都当作同一种故障。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a5-redirection-order deck:"Linux" priority:1 tags:"重定向,标准流" %}
@@ -330,7 +360,14 @@ pipefail 解决了什么问题？
 --- answer
 重定向按从左到右执行；前者让错误流先指向旧的标准输出，后者让错误流跟随新文件。
 --- explanation
-先把标准输出指向文件再复制给标准错误，才会让两者进入同一目标。
+重定向是按从左到右执行的文件描述符操作：
+
+```bash
+command 2>&1 >out.log   # 先让 stderr 跟随旧 stdout，再把 stdout 改到文件
+command >out.log 2>&1   # 先改 stdout，再让 stderr 复制到同一文件
+```
+
+第一种写法的错误仍可能出现在终端，第二种才会把两个流都写进 `out.log`。把重定向当作“当前 fd 指向谁”的状态变化，就不会把两种写法当成纯文本顺序。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a5-scope deck:"Linux" priority:2 tags:"Shell,作用域" %}
@@ -339,7 +376,19 @@ pipefail 解决了什么问题？
 --- answer
 花括号在当前 Shell 执行，变量修改会保留；圆括号在子 Shell 执行，修改不会回到父 Shell。
 --- explanation
-这也是命令列表出现“变量看似赋值了但后面读不到”的常见原因。
+两种分组的执行环境不同：
+
+```bash
+value=parent
+{ value=brace; }
+printf 'brace=%s\n' "$value"    # brace
+
+value=parent
+( value=subshell )
+printf 'subshell=%s\n' "$value" # parent
+```
+
+花括号只组织命令，仍在当前 Shell 中执行；圆括号启动子 Shell，修改、目录切换和未导出的变量都不会回到父 Shell。把变量赋值放进管道或命令替换时，也要检查是否意外进入了子 Shell。
 {% endflashcard %}
 
 ## 参考资料

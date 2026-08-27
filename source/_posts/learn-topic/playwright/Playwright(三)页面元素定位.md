@@ -14,12 +14,12 @@ series: Playwright
 series_order: 3
 published: true
 abbrlink: d5972197
-date: 2026-08-24 12:10:00
+date: 2026-04-09 00:00:00
 ---
 
 {% course_series %}
 
-{% note info flat %}
+{% note primary flat %}
 定位规则决定测试如何理解页面。稳定的 Locator 应表达“用户正在操作哪个控件”，而不是“元素当前位于第几个 div”。主线从定位优先级进入重复元素、特殊文档与动态页面，断言只用于验证定位结果。
 {% endnote %}
 
@@ -60,7 +60,7 @@ Locator 可以从 `Page`、`FrameLocator` 或另一个 Locator 开始，并继�
 
 ### 定位优先级
 
-{% note info flat %}
+{% note primary flat %}
 推荐从用户语义到实现细节依次选择：
 {% endnote %}
 
@@ -74,9 +74,7 @@ Locator 可以从 `Page`、`FrameLocator` 或另一个 Locator 开始，并继�
 | 6 | `get_by_test_id()` | 无稳定用户语义但有测试契约 |
 | 7 | CSS 或 XPath | 只能依赖 DOM 结构的特殊情况 |
 
-{% note info flat %}
 示例页面：
-{% endnote %}
 
 ```html
 <main>
@@ -88,9 +86,7 @@ Locator 可以从 `Page`、`FrameLocator` 或另一个 Locator 开始，并继�
 </main>
 ```
 
-{% note info flat %}
 对应定位：
-{% endnote %}
 
 ```python
 heading = page.get_by_role("heading", name="创建订单")
@@ -116,7 +112,7 @@ page.get_by_role("checkbox", name="接受协议")
 page.get_by_role("row", name="订单 A-100 已支付")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 HTML 原生元素通常自带正确角色。优先修复产品语义，而不是在测试中绕过错误标记：
 {% endnote %}
 
@@ -147,7 +143,7 @@ import re
 page.get_by_text(re.compile(r"订单号：A-\d+"))
 ```
 
-{% note info flat %}
+{% note primary flat %}
 按钮同时包含文本时，优先 `get_by_role("button", name="提交")`，因为测试明确表达了“点击按钮”，而不仅是寻找一段文字。
 {% endnote %}
 
@@ -231,7 +227,7 @@ available = page.get_by_role("listitem").filter(
 confirm = page.get_by_role("button").and_(page.get_by_title("确认订单"))
 ```
 
-{% note info flat %}
+{% note primary flat %}
 需要接受多个替代状态时可以使用 `or_()`，但必须考虑两者同时出现导致严格模式错误：
 {% endnote %}
 
@@ -330,7 +326,7 @@ XPath 同样能定位元素，但容易与页面内部结构耦合。使用前�
 
 ### 嵌套文档
 
-{% note info flat %}
+{% note primary flat %}
 普通 iframe 交互优先从 `FrameLocator` 开始定位：
 {% endnote %}
 
@@ -389,13 +385,13 @@ for index in range(items.count()):
     print(items.nth(index).inner_text())
 ```
 
-{% note info flat %}
+{% note primary flat %}
 只有 `element_handle(timeout=...)` 接受 `timeout`，`element_handles()` 不接受该参数；它们的等待只发生在句柄解析阶段。迁移后由 Locator 操作或 Web-first 断言负责等待。异步版本分别写成 `await locator.element_handle()`、`await locator.element_handles()`，但推荐的替代代码仍是 `await locator.click()`、`await expect(items).to_have_count(3)`。
 {% endnote %}
 
 ### 自定义选择器
 
-{% note info flat %}
+{% note primary flat %}
 自定义选择器只在项目确实需要跨组件复用选择算法时注册，并明确注册时机、脚本位置和安全边界。选择器名称只能使用字母、数字和下划线；引擎至少实现 `query` 与 `queryAll`，并且必须在创建 Page 前注册：
 {% endnote %}
 
@@ -441,7 +437,7 @@ orders = page.get_by_role("row").filter(has_not=page.get_by_role("columnheader")
 
 ### 定位检查
 
-{% note info flat %}
+{% note primary flat %}
 Codegen 可以帮助观察推荐 Locator：
 {% endnote %}
 
@@ -540,6 +536,15 @@ pay = order.get_by_role("button", name="支付")
 它按用户可感知的角色和名称定位元素。
 --- explanation
 角色定位更接近真实交互合同，能降低 DOM 重构带来的影响，也能暴露缺少名称或错误角色等语义问题。
+
+把“语义定位”落到一个可维护的例子：
+
+~~~python
+save = page.get_by_role("button", name="保存")
+save.click()  # 名称来自可访问语义，不依赖 CSS class
+~~~
+
+如果按钮改了样式类，定位意图仍然成立；如果按钮失去可访问名称，测试失败反而暴露了用户实际也可能遇到的语义问题。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-locator-strict deck:"Playwright" priority:1 tags:"Locator,严格模式" answer:C %}
@@ -552,6 +557,15 @@ pay = order.get_by_role("button", name="支付")
 C
 --- explanation
 先按业务身份缩小容器，再定位操作目标，可以消除歧义并保留测试意图。
+
+先定位业务容器，再在容器内定位动作：
+
+~~~python
+row = page.get_by_role("row", name="订单 A-1001")
+row.get_by_role("button", name="删除").click()
+~~~
+
+这样严格模式要求的唯一匹配是业务上的唯一订单，而不是页面上第一个删除按钮。first 或长 CSS 链虽然可能让测试变绿，却会掩盖错误行被操作的风险。
 {% endflashcard %}
 
 ## 参考资料

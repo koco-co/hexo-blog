@@ -14,12 +14,12 @@ series: Playwright
 series_order: 12
 published: true
 abbrlink: 8141684d
-date: 2026-08-24 12:01:00
+date: 2026-04-18 00:00:00
 ---
 
 {% course_series %}
 
-{% note info flat %}
+{% note warning flat %}
 项目实战不是再学一个新 API，而是把课程主线能力组合成一套可重复、可诊断、可安全交付的测试套件。项目载体叫 **ShopLab**：买家把商品加入购物车并提交订单，管理员在独立会话中处理订单，测试通过 API 造数、核验和清理。
 {% endnote %}
 
@@ -73,7 +73,7 @@ DELETE /api/test/orders/{id} 测试专用：清理订单
 DELETE /api/test/products/{id} 测试专用：清理商品
 ```
 
-{% note info flat %}
+{% note danger flat %}
 这不是另一套 ShopLab：服务实现以本文约定的 `shoplab_server.py` 为唯一实现；API 练习只增加调用和 HAR 练习。固定协议还包括：测试 API 使用 `X-Test-Token: local-test-only`；session 创建响应含 `id` 与可直接传给 `new_context(storage_state=...)` 的 `storage_state`；浏览器 Cookie 名为 `session`；`/shop` 用有 accessible name 的 article 展示商品；`/checkout` 暴露“订单摘要”region，提交成功的 status 同时显示订单号与 `submitted`，并含 `data-order-id`；`/admin/orders` 用 row 展示订单号、状态和“标记为已处理”按钮。
 {% endnote %}
 
@@ -95,7 +95,7 @@ DELETE /api/test/products/{id} 测试专用：清理商品
 | CI 矩阵 | 指定提交在指定 runner 和浏览器通过 | 未执行的线上路径通过 |
 | 线上监控/验证 | 线上当时的被测信号 | 所有用户永不失败 |
 
-{% note info flat %}
+{% note primary flat %}
 未执行、证据丢失或环境不同的层级必须标记 `NOT VERIFIED`。Trace、截图和录像是诊断材料，只有和业务断言组合后才构成测试证据。
 {% endnote %}
 
@@ -120,11 +120,11 @@ shoplab-e2e/
 └── .github/workflows/e2e.yml
 ```
 
-{% note info flat %}
+{% note primary flat %}
 `shoplab_server.py` 必须逐字复制本文约定的完整同名代码块；本文不再复制第二份实现，以免两份“真相”漂移。上面的树只是读者练习项目的逻辑结构，所有示例在博客仓库中仍只存在于 Markdown 代码块。
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 依赖保持最小，先锁定课程示例真正使用的运行时与测试依赖：
 {% endnote %}
 
@@ -151,7 +151,7 @@ dev = [
 
 ### Fixture 设计
 
-{% note info flat %}
+{% note warning flat %}
 测试需要三个所有权边界：每条用例独立的 BrowserContext、每个 worker 独立的 namespace、由创建者负责清理的服务端数据。
 {% endnote %}
 
@@ -205,7 +205,7 @@ def product(api: APIRequestContext, namespace: str) -> Iterator[dict]:
     assert cleanup.ok, cleanup.text()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 这里用整数分表示金额，避免浮点误差。清理断言也不能静默忽略，否则下一次运行会继承污染数据。
 {% endnote %}
 
@@ -380,7 +380,7 @@ class AdminOrdersPage:
 
 ## 业务链路
 
-{% note info flat %}
+{% note warning flat %}
 happy path 先只做一件事：创建商品，买家通过 UI 下单，管理员通过 UI 处理，API 核验最终状态，fixture 最后清理。
 {% endnote %}
 
@@ -449,7 +449,7 @@ def test_buyer_and_admin_complete_order(
 
 ### 认证失败
 
-{% note info flat %}
+{% note warning flat %}
 正常路径通过后，才有资格设计可诊断失败。`expired_admin_session` 由受控测试 API 明确创建过期会话，不靠猜测 Cookie 值：
 {% endnote %}
 
@@ -477,13 +477,13 @@ def test_expired_admin_state_redirects_to_login(
         context.close()
 ```
 
-{% note info flat %}
+{% note warning flat %}
 这条用例验证的是系统如何处理过期状态，而不是尝试自动化真实 OAuth 或 2FA。后者通常应由身份提供商测试环境、API 会话或少量专门端到端用例覆盖。
 {% endnote %}
 
 ### 网络失败
 
-{% note info flat %}
+{% note primary flat %}
 推荐内容不是商品主流程的核心依赖。通过 route 返回 503，可以验证页面显式降级且加入购物车仍可用：
 {% endnote %}
 
@@ -534,7 +534,7 @@ uv run pytest \
   -vv
 ```
 
-{% note info flat %}
+{% note warning flat %}
 对过期认证失败，诊断顺序是：
 {% endnote %}
 
@@ -550,11 +550,11 @@ sequenceDiagram
   Note over T,P: Trace 同时查看 action、DOM snapshot、network、console
 {% endmermaid %}
 
-{% note info flat %}
+{% note warning flat %}
 先看失败 action 的前后 DOM snapshot，再核对 URL 和网络状态，最后查看控制台。不要只盯最终截图，因为截图看不到之前发生的重定向和响应。
 {% endnote %}
 
-{% note info flat %}
+{% note danger flat %}
 Trace 可能包含订单内容和会话信息。课程要求只用虚构数据，失败产物采用 allowlist、最小权限和短保留期，禁止上传 `storage_state`、HAR 和真实凭据。
 {% endnote %}
 
@@ -571,7 +571,7 @@ uv run pytest tests \
   --junitxml test-results/junit-chromium.xml
 ```
 
-{% note info flat %}
+{% note primary flat %}
 CI 中分别替换为 `firefox` 和 `webkit`。报告至少要记录提交、浏览器、worker 数、受测环境、pytest 结果和失败产物位置。一次偶然通过不代表没有 flaky；可以对关键路径安排有限的重复运行来测量稳定性，但不能用无限重试掩盖失败。
 {% endnote %}
 
@@ -645,6 +645,14 @@ CI 中分别替换为 `firefox` 和 `webkit`。报告至少要记录提交、浏
 不能，只能证明指定提交在指定测试环境和浏览器矩阵中通过。
 --- explanation
 本地、CI、测试环境和线上是不同证据层。未执行的线上路径必须保持 NOT VERIFIED，不能由 CI 结果推导。
+
+把测试结果按证据层分开，避免把局部绿色扩大成线上保证：
+
+| 层级 | 能证明 | 不能证明 |
+| --- | --- | --- |
+| 本地 E2E | 当前环境的用户旅程 | 线上依赖正常 |
+| CI 矩阵 | 指定提交和浏览器组合通过 | 未执行的线上路径 |
+| 线上验证 | 当时的线上信号 | 所有用户永不失败 |
 {% endflashcard %}
 
 {% flashcard_ref id="playwright-context-isolation" %}

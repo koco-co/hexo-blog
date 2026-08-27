@@ -12,7 +12,7 @@ series: Python
 series_order: 11
 published: true
 abbrlink: a99f76bc
-date: 2026-08-25 13:13:45
+date: 2026-05-12 00:00:00
 ---
 
 {% course_series %}
@@ -220,7 +220,25 @@ requires-python = ">=3.13"
 --- answer
 描述符是定义 `__get__`、`__set__` 或 `__delete__` 的对象；property 是建立在描述符协议上的常见封装。
 --- explanation
-描述符让类属性控制实例属性访问，适合复用验证、延迟计算或框架字段。普通业务代码先使用 property；只有同类访问规则需跨多个字段或类复用时再自定义描述符。
+描述符把属性读写变成可复用协议：当类属性实现 `__get__`、`__set__` 或 `__delete__` 时，实例访问会交给它处理。`property` 是最常见的封装：
+
+```python
+class User:
+    def __init__(self, age):
+        self._age = age
+
+    @property
+    def age(self):
+        return self._age
+
+    @age.setter
+    def age(self, value):
+        if value < 0:
+            raise ValueError("age must be non-negative")
+        self._age = value
+```
+
+普通业务代码优先使用 `property`；只有多类、多字段需要同一访问规则时才自定义描述符。它控制的是属性协议，不是安全隔离，仍需在公开入口做权限和数据校验。
 {% endflashcard %}
 
 {% flashcard basic id:python-advanced-metaclass deck:"Python 基础" priority:3 tags:"Python,metaclass,__init_subclass__,类创建" %}
@@ -229,7 +247,18 @@ requires-python = ">=3.13"
 --- answer
 只有必须控制类对象创建时用元类；子类注册或轻量验证通常用 `__init_subclass__` 更简单。
 --- explanation
-元类影响整个继承体系的创建逻辑，调试与组合成本高。先尝试类装饰器、工厂、协议或 init_subclass；这些无法表达框架级类创建规则时，才选择 type 子类。
+`__init_subclass__` 在子类定义完成后接收子类对象，适合注册和轻量约束；元类则能介入整个类对象的创建过程：
+
+```python
+class Registry:
+    names = []
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        Registry.names.append(cls.__name__)
+```
+
+如果只需登记子类、检查配置或加一个方法，优先类装饰器、工厂或 `__init_subclass__`。元类会影响整个继承体系，并带来组合和调试成本；只有必须控制类创建规则时才引入它。
 {% endflashcard %}
 
 {% flashcard basic id:python-advanced-slots deck:"Python 基础" priority:3 tags:"Python,__slots__,内存,对象模型" %}
@@ -238,7 +267,20 @@ requires-python = ">=3.13"
 --- answer
 它可限制实例属性并可能降低大量实例的内存开销，但会影响动态属性、继承、弱引用和工具兼容性。
 --- explanation
-slots 是已测量内存热点的优化，不是默认风格。使用前后都应测试序列化、继承、弱引用和调试工具；数据类也支持 slots 参数，但同样需要评估边界。
+`__slots__` 用固定描述符代替默认实例字典，可能减少大量同构实例的内存开销，但也缩小了对象的动态能力：
+
+```python
+class Point:
+    __slots__ = ("x", "y")
+
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+point = Point(1, 2)
+point.z = 3  # AttributeError：没有动态属性槽
+```
+
+使用前后应测量真实内存，并测试序列化、继承、弱引用和调试工具的兼容性。它不是默认风格；数据类的 `slots=True` 也要接受相同边界。
 {% endflashcard %}
 
 ## 参考资料

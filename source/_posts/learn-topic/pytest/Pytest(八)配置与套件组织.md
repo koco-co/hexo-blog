@@ -11,12 +11,10 @@ description: 能建立可预测的配置解析、导入路径和 conftest 可见
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 8
-published: false
+published: true
 abbrlink: 26397f68
-date: 2026-08-26 09:00:00
+date: 2026-04-26 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -35,7 +33,7 @@ date: 2026-08-26 09:00:00
 ```toml
 [pytest]
 testpaths = ["tests"]
-addopts = "-ra"
+addopts = ["-ra"]
 strict_markers = true
 ```
 适合把 Pytest 配置单独放在项目根，减少与构建工具的耦合。
@@ -106,15 +104,15 @@ python -m pytest --rootdir=.
 ```toml
 [pytest]
 strict_markers = true
-markers =
-    smoke: critical checks
-    integration: uses real adapters
-required_plugins =
-    pytest-cov
+markers = [
+    "smoke: critical checks",
+    "integration: uses real adapters",
+]
+required_plugins = ["pytest-cov"]
 ```
 
 {% note info flat %}
-运行 pytest --markers 检查标记注册，运行 pytest --trace-config 检查插件是否被加载。必需插件缺失应在启动阶段失败，而不是到报告阶段才发现覆盖率命令没有生效。
+这是 pytest.toml 的原生 TOML 写法；若项目仍使用旧版本 Pytest，应改用 pyproject.toml 的 `[tool.pytest.ini_options]` 或 pytest.ini。运行 pytest --markers 检查标记注册，运行 pytest --trace-config 检查插件是否被加载。必需插件缺失应在启动阶段失败，而不是到报告阶段才发现覆盖率命令没有生效。
 {% endnote %}
 
 ## conftest 边界
@@ -185,7 +183,14 @@ rootdir 会自动修改 sys.path 吗？
 --- answer
 不会；rootdir 主要确定项目边界、配置、缓存和 Node ID，导入路径由布局、安装状态和导入模式决定。
 --- explanation
-src 布局应通过安装或明确的导入模式让业务包可见。不要因为 rootdir 输出正确就假设 import 一定正确，使用 collect-only、trace-config 和真实 CI 安装步骤分别验证。
+`rootdir` 是 Pytest 的项目边界，不是 Python 的导入路径开关。它影响配置文件、`.pytest_cache` 和 Node ID 的相对起点；`sys.path` 仍由启动方式、安装状态和导入模式决定。
+
+```bash
+python -m pytest --trace-config --collect-only -q
+python -c 'import app; print(app.__file__)'
+```
+
+采用 `src/` 布局时，应在当前环境安装项目（例如 editable install）或明确配置导入模式，再分别验证收集和实际 import。看到正确的 `rootdir` 不能推出业务包一定可导入。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-conftest-visibility deck:"Pytest" priority:1 tags:"Fixture 可见性" %}
@@ -194,7 +199,15 @@ conftest.py 的 Fixture 为什么在某些目录不可见？
 --- answer
 Fixture 按测试目录向上查找，子目录可以覆盖父级；兄弟目录的 conftest 不会互相可见。
 --- explanation
-把共同 Fixture 放到共同祖先的 conftest 或显式插件，把纯工具函数放到普通模块。不要直接 import conftest.py，避免重复加载和绕过 Pytest 的插件边界。
+Pytest 从测试所在目录向上寻找 `conftest.py`，不会横向搜索兄弟目录。目录关系可以这样判断：
+
+```text
+tests/conftest.py              ← tests/api/test_user.py 可见
+tests/api/conftest.py          ← tests/api 及子目录可见
+tests/web/conftest.py          ← tests/api 不可见
+```
+
+把共同 Fixture 放在共同祖先或显式插件里；纯工具函数放到普通模块并正常导入。不要直接 `import conftest`，那会绕开 Pytest 的可见性和插件注册边界。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-config-precedence deck:"Pytest" priority:2 tags:"配置解析" %}
@@ -203,7 +216,14 @@ Fixture 按测试目录向上查找，子目录可以覆盖父级；兄弟目录
 --- answer
 Pytest 按发现规则选择首个匹配配置，命令行 -c 可显式指定；不是把所有文件按键合并。
 --- explanation
-先核对 invocation dir、rootdir 和 inipath，再检查最终命令行覆盖。项目应保留一个权威入口，CI 通过显式 -c 或固定调用目录避免本地与流水线选择不同文件。
+配置文件不是按键逐个合并的清单；Pytest 按发现规则选择一个入口，`-c` 可以显式指定入口，命令行再覆盖配置项。排查时先把选择结果打印出来：
+
+```bash
+python -m pytest --trace-config --collect-only -q
+python -m pytest -c config/pytest-ci.ini -q
+```
+
+重点核对 invocation directory、`rootdir`、`inipath` 和最终命令行。项目保留一个权威配置，CI 固定工作目录或显式使用 `-c`，才能避免“本地用了 pyproject、流水线用了 pytest.ini”的漂移。
 {% endflashcard %}
 
 ## 参考资料

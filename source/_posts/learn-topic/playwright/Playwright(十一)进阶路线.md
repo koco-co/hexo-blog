@@ -15,7 +15,7 @@ series: Playwright
 series_order: 11
 published: true
 abbrlink: 4504d456
-date: 2026-08-24 12:02:00
+date: 2026-04-17 00:00:00
 ---
 
 {% course_series %}
@@ -45,11 +45,11 @@ page.set_content("""
 page.get_by_role("button", name="加入购物车").click()
 ```
 
-{% note info flat %}
+{% note danger flat %}
 XPath 不会穿透 Shadow DOM。Closed Shadow Root 也不能被普通 Locator 访问，这是组件实现刻意设置的边界。遇到 closed shadow 时优先验证组件提供的公开用户行为，或与开发团队建立测试接口，不要通过注入脚本强行打开生产组件内部。
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 Canvas 没有可定位的子 DOM。测试应优先验证画布旁的可访问替代、业务状态或后端结果；只有交互本身依赖坐标时，才固定 viewport 后使用 `page.mouse`。
 {% endnote %}
 
@@ -75,7 +75,7 @@ Canvas 没有可定位的子 DOM。测试应优先验证画布旁的可访问替
 | `ElementHandle.owner_frame()` | 没有等价的 Locator 入口；保留句柄时读取其所属父 Frame，常规交互改用已知 `Frame` 或 `frame_locator()` | `owner_frame()` 是“元素属于哪个父 Frame”，不是进入 iframe；不要把它与 `content_frame()` 混为一谈 |
 | `ElementHandle.as_element()`、`ElementHandle.dispose()` | 无直接 Locator 替代；删除长期句柄，或仅在 JSHandle/底层诊断链中保留 | `as_element()`/`dispose()` 管理句柄生命周期，不提供 Web-first 等价物；不能伪造成普通元素操作 |
 
-{% note info flat %}
+{% note primary flat %}
 同步与异步迁移方向相同；异步版本只在真正执行 I/O 的调用处加 `await`。`Browser.start_tracing()` / `stop_tracing()` 是旧的 Chromium 级入口，新的跨浏览器取证应使用 `context.tracing.start()`、`start_chunk()` 与 `stop()`，并由统一的 Trace Viewer 流程查看。
 {% endnote %}
 
@@ -118,13 +118,13 @@ def test_session_timeout(page: Page) -> None:
 `run_for()` 会执行时间段内的计时回调；`fast_forward()` 更接近设备休眠后恢复，只让到期计时器立即触发。Clock 影响整个 BrowserContext 中的 Page 和 iframe，多个时间场景应使用独立 Context。
 {% endnote %}
 
-{% note info flat %}
+{% note danger flat %}
 只需要固定 `Date.now()` 时优先 `set_fixed_time()`；需要推进 timer 时再 `install()`。修改系统时间不能替代服务端时间、数据库 TTL 或第三方 Token 过期验证。
 {% endnote %}
 
 ## 协议扩展
 
-{% note info flat %}
+{% note warning flat %}
 GraphQL 通常共享一个 URL，不能只按路径区分接口。路由处理器需要读取 `operationName`：
 {% endnote %}
 
@@ -161,7 +161,7 @@ def test_graphql_recommendations(page: Page) -> None:
     expect(page.get_by_role("list", name="推荐商品")).to_contain_text("机械键盘")
 ```
 
-{% note info flat %}
+{% note danger flat %}
 GraphQL 响应即使 HTTP 状态是 200，也可能包含顶层 `errors`。协议测试要同时检查 HTTP 状态、`data`、`errors` 和页面降级结果。生产系统如果使用持久化查询，测试还需要根据 hash 或变量建立稳定匹配规则。
 {% endnote %}
 
@@ -193,7 +193,7 @@ def observe_socket(page) -> list[tuple[str, str | bytes]]:
 需要完全模拟服务端时，在导航前注册 `route_web_socket()`：
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 下面同样是接入骨架：受测页面必须实际创建匹配 URL 的 WebSocket，并将状态渲染到 `role="status"`，示例才会形成完整测试。
 {% endnote %}
 
@@ -281,7 +281,7 @@ Step 不应自行启动浏览器，也不要隐藏复杂通用流程。Gherkin �
 
 ## 质量边界
 
-{% note info flat %}
+{% note warning flat %}
 以下能力已经列入本文 API 索引，但只有在明确的工程入口出现时才进入。先判断进入条件，再决定是否引入额外依赖、浏览器限制或更低层的对象：
 {% endnote %}
 
@@ -305,7 +305,7 @@ Step 不应自行启动浏览器，也不要隐藏复杂通用流程。Gherkin �
 功能断言回答“订单金额算对了吗”，却不一定能发现按钮失去可访问名称、焦点顺序混乱或组件在某个平台错位。下面围绕 `CheckoutSummary` 组件建立专项质量门。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 工具多不等于结论清楚。先为每个信号定义是否必需，以及四种状态的含义：
 {% endnote %}
 
@@ -316,7 +316,7 @@ Step 不应自行启动浏览器，也不要隐藏复杂通用流程。Gherkin �
 | `SKIPPED` | 本应执行，却因环境或流程跳过 | 阻断 |
 | `NOT_APPLICABLE` | 经风险评估后明确不适用 | 不阻断 |
 
-{% note info flat %}
+{% note warning flat %}
 统一规则可以保持得很简单：任一 required 信号不是 `PASS` 或 `NOT_APPLICABLE`，本次质量门就失败。optional 信号失败要记录和评估，但不自动冒充硬门槛。
 {% endnote %}
 
@@ -345,7 +345,7 @@ def gate_passed(signals: list[Signal]) -> bool:
     return all(not signal.required or signal.status in acceptable for signal in signals)
 ```
 
-{% note info flat %}
+{% note primary flat %}
 这里最重要的不是数据类，而是语义：`SKIPPED` 不是绿色，`NOT_APPLICABLE` 也不能用来掩盖“没来得及测”。
 {% endnote %}
 
@@ -427,7 +427,7 @@ def test_checkout_has_no_axe_violations(page: Page) -> None:
     assert results.violations_count == 0, results.response.get("violations", [])
 ```
 
-{% note info flat %}
+{% note warning flat %}
 axe 能发现许多可机器判断的问题，例如缺失名称、部分 ARIA 误用和可计算的对比度违规。但“零违规”不等于满足全部 WCAG，也不等于真实用户能顺利完成任务。动态状态、复杂读屏体验、语言是否清楚以及键盘流程是否合理，仍需要人工评估。
 {% endnote %}
 
@@ -474,7 +474,7 @@ Playwright Test 的 Node.js 版本提供 `toHaveScreenshot()`，但 Playwright P
 uv add --dev pillow==12.3.0
 ```
 
-{% note info flat %}
+{% note warning flat %}
 下面的 helper 比较相同尺寸的 RGB 图像，在失败时报告归一化绝对像素差异并保存 diff。它是教学用最小实现，不替代成熟视觉平台的审批和报表能力。
 {% endnote %}
 
@@ -580,7 +580,7 @@ cp test-results/linux/chromium/checkout-current.png \
 uv run pytest tests/test_checkout_visual.py -q
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `FileNotFoundError` 表示尚未建立基线，而不是产品缺陷。基线文件必须经审查后进入版本控制；测试失败时禁止自动更新。
 {% endnote %}
 
@@ -657,7 +657,7 @@ signals = [
 assert gate_passed(signals)
 ```
 
-{% note info flat %}
+{% note primary flat %}
 optional 视觉检查被跳过不会自动阻断，但必须如实记录。若项目把视觉回归定义为 required，同样的 `SKIPPED` 就会失败。
 {% endnote %}
 
@@ -767,6 +767,17 @@ optional 视觉检查被跳过不会自动阻断，但必须如实记录。若�
 需求变化已批准，并人工审查 current、diff 和对应平台后。
 --- explanation
 基线更新是评审动作，不是失败后的自动修复。业务断言、ARIA 合同和受支持平台都必须继续满足要求。
+
+更新基线前要把“变化”与“回归”分开：
+
+| 证据 | 用来判断 |
+| --- | --- |
+| current | 当前实现实际画面 |
+| diff | 哪些像素发生变化 |
+| 需求/评审记录 | 变化是否被批准 |
+| 平台矩阵 | 变化是否只在某浏览器出现 |
+
+失败后自动覆盖基线会删除回归证据；基线更新必须经过人工审查并保留原因。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-advanced-quality-gate deck:"Playwright" priority:3 tags:"无障碍,质量门" answer:C %}
@@ -779,6 +790,16 @@ required 的键盘检查被跳过、optional 的视觉检查失败时，质量�
 C
 --- explanation
 SKIPPED 不能冒充绿色；optional 失败也应记录和评估，但阻断原因首先来自 required 键盘检查未完成。
+
+质量门应把状态当作不同信号：
+
+| 状态 | required 检查 | optional 检查 |
+| --- | --- | --- |
+| PASS | 可继续 | 可继续 |
+| NOT_APPLICABLE | 有明确依据时可继续 | 可记录 |
+| SKIPPED/FAILED | 阻断 | 记录并评估 |
+
+optional 不是“可以不管”，required 也不能用 SKIPPED 冒充通过；门禁先按信号状态判定，再讨论失败原因。
 {% endflashcard %}
 
 {% flashcard basic id:playwright-websocket-route deck:"Playwright" priority:3 tags:"WebSocket,网络Mock" %}
@@ -788,6 +809,15 @@ SKIPPED 不能冒充绿色；optional 失败也应记录和评估，但阻断原
 测试完全模拟该 WebSocket，不连接真实服务器。
 --- explanation
 处理器像服务端一样接收并发送帧；需要代理真实连接时再调用 `connect_to_server()`，并明确哪些消息继续转发。
+
+路由处理器有两种拓扑：
+
+~~~text
+完全 Mock：客户端 ↔ 测试处理器
+代理真实连接：客户端 ↔ 测试处理器 ↔ 真实服务器
+~~~
+
+不调用 connect_to_server 时，测试处理器就是完整的 WebSocket 对端；调用后才会转发真实连接，必须继续明确哪些消息被修改。
 {% endflashcard %}
 
 ## 参考资料

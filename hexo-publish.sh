@@ -4,7 +4,6 @@ set -u
 set -o pipefail
 
 readonly DEFAULT_PORT=4000
-readonly FIRST_FALLBACK_PORT=4001
 SELECTED_MODE=''
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -49,25 +48,34 @@ port_in_use() {
   [ -n "$(listener_pids "$1")" ]
 }
 
-is_hexo_process() {
-  local pid="$1"
-  local command_line
-
-  command_line="$(ps -p "$pid" -o command= 2>/dev/null || true)"
-  [[ "$command_line" =~ (^|[[:space:]/])hexo([[:space:]/]|$) ]]
-}
-
-stop_hexo_on_default_port() {
+stop_processes_on_default_port() {
   local pids="$1"
   local pid
 
-  printf '! 检测到端口 %s 正由 Hexo 服务占用\n' "$DEFAULT_PORT"
-  printf '→ 正在停止旧 Hexo 服务\n'
+  printf '! 检测到端口 %s 被占用\n' "$DEFAULT_PORT"
+  printf '→ 正在终止占用端口 %s 的进程\n' "$DEFAULT_PORT"
 
   while IFS= read -r pid; do
     [ -n "$pid" ] || continue
     if ! kill "$pid" 2>/dev/null; then
-      fail "停止旧 Hexo 服务"
+      fail "终止端口 $DEFAULT_PORT 的占用进程"
+    fi
+  done <<< "$pids"
+
+  for _ in {1..50}; do
+    if ! port_in_use "$DEFAULT_PORT"; then
+      printf '✓ 端口 %s 已释放\n' "$DEFAULT_PORT"
+      return 0
+    fi
+    sleep 0.1
+  done
+
+  pids="$(listener_pids "$DEFAULT_PORT")"
+  printf '! 端口 %s 未释放，正在强制终止剩余进程\n' "$DEFAULT_PORT" >&2
+  while IFS= read -r pid; do
+    [ -n "$pid" ] || continue
+    if ! kill -KILL "$pid" 2>/dev/null; then
+      fail "强制终止端口 $DEFAULT_PORT 的占用进程"
     fi
   done <<< "$pids"
 
@@ -82,51 +90,17 @@ stop_hexo_on_default_port() {
   fail "端口 $DEFAULT_PORT 未能释放"
 }
 
-find_available_port() {
-  local port="$FIRST_FALLBACK_PORT"
-
-  while [ "$port" -le 65535 ]; do
-    if ! port_in_use "$port"; then
-      printf '%s\n' "$port"
-      return 0
-    fi
-    port=$((port + 1))
-  done
-
-  return 1
-}
-
 resolve_local_port() {
   local pids
-  local pid
-  local all_hexo=1
-  local fallback_port
 
   pids="$(listener_pids "$DEFAULT_PORT")"
   if [ -z "$pids" ]; then
     printf '✓ 端口 %s 可用\n' "$DEFAULT_PORT" >&2
-    printf '%s\n' "$DEFAULT_PORT"
-    return 0
+  else
+    stop_processes_on_default_port "$pids" >&2
   fi
 
-  while IFS= read -r pid; do
-    [ -n "$pid" ] || continue
-    if ! is_hexo_process "$pid"; then
-      all_hexo=0
-      break
-    fi
-  done <<< "$pids"
-
-  if [ "$all_hexo" -eq 1 ]; then
-    stop_hexo_on_default_port "$pids" >&2
-    printf '%s\n' "$DEFAULT_PORT"
-    return 0
-  fi
-
-  printf '! 端口 %s 已被其他程序占用，不会终止该进程\n' "$DEFAULT_PORT" >&2
-  fallback_port="$(find_available_port)" || fail "没有可用的本地端口"
-  printf '✓ 自动选择可用端口 %s\n' "$fallback_port" >&2
-  printf '%s\n' "$fallback_port"
+  printf '%s\n' "$DEFAULT_PORT"
 }
 
 select_mode() {
@@ -160,7 +134,6 @@ publish_local() {
   local status
 
   require_command lsof
-  require_command ps
 
   printf '\n[本地发布]\n\n'
   port="$(resolve_local_port)"

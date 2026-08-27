@@ -12,7 +12,7 @@ series: Python
 series_order: 8
 published: true
 abbrlink: c31bf4bb
-date: 2026-08-25 13:13:45
+date: 2026-05-09 00:00:00
 ---
 
 {% course_series %}
@@ -229,7 +229,20 @@ with TemporaryDirectory() as directory:
 --- answer
 try 放可能失败的最小代码，except 处理预期错误，else 在无异常时运行，finally 总会运行以完成清理。
 --- explanation
-把成功路径放进 else 能避免误捕自己后续代码的异常。finally 不应随意 return 或抛新错误遮盖原异常；资源清理通常优先改用 with。
+四个子句分别承担不同边界：`try` 只包住可能失败的最小操作，`except` 转换已知错误，`else` 放成功后的逻辑，`finally` 负责无论成败都要做的清理。
+
+```python
+try:
+    value = parse(raw)
+except ValueError as error:
+    record_invalid(raw, error)
+else:
+    save(value)       # 这里的异常不会被上面的 except 误捕
+finally:
+    release_buffer()  # 成功、失败、return 都会执行
+```
+
+把成功路径放进 `else` 能避免把 `save()` 自己的异常误判为输入解析失败。`finally` 不应随意 `return` 或抛出新错误遮盖原异常；文件、锁和事务通常优先交给 `with` 管理。
 {% endflashcard %}
 
 {% flashcard basic id:python-error-chain deck:"Python 基础" priority:2 tags:"Python,异常链,raise from" %}
@@ -238,7 +251,16 @@ try 放可能失败的最小代码，except 处理预期错误，else 在无异�
 --- answer
 它保留底层异常作为原因，同时向调用方提供更贴近领域的异常类型和消息。
 --- explanation
-异常链能让日志同时展示“配置无效”和原始 `ValueError`。只有底层细节不应暴露或无关时才用 `from None` 抑制上下文。
+`raise ... from ...` 同时保留底层原因和面向调用者的领域异常：
+
+```python
+try:
+    port = int(raw_port)
+except ValueError as error:
+    raise ConfigError("port 必须是整数") from error
+```
+
+日志会显示 `ConfigError` 的业务语义，也能沿异常链追到原始 `ValueError`。只有底层细节无关或不应公开时才使用 `from None`；不要为了“看起来简洁”丢掉排障所需的 cause。
 {% endflashcard %}
 
 {% flashcard basic id:python-error-context deck:"Python 基础" priority:1 tags:"Python,with,上下文管理,资源" %}
@@ -247,7 +269,17 @@ try 放可能失败的最小代码，except 处理预期错误，else 在无异�
 --- answer
 它保证进入后的退出清理在成功、异常和提前返回时都执行。
 --- explanation
-文件、锁、事务和临时目录都应由明确的所有者使用上下文管理。退出方法只有完整处理异常时才应抑制它，否则应让异常继续传播以保持失败可见。
+`with` 把资源所有权绑定到一个可观察的代码块，离开代码块时调用退出协议：
+
+```python
+from pathlib import Path
+
+with Path("input.txt").open(encoding="utf-8") as file:
+    content = file.read()
+# 离开 with 后文件已关闭，即使 read 或后续处理抛错也会执行清理。
+```
+
+文件、锁、事务和临时目录都应由明确的所有者管理。上下文管理器只有在确实处理了异常时才应抑制它；否则应让异常继续传播，避免调用者误以为资源操作成功。
 {% endflashcard %}
 
 {% flashcard basic id:python-error-text-binary deck:"Python 基础" priority:2 tags:"Python,文件,编码,bytes,str" %}
@@ -256,7 +288,19 @@ try 放可能失败的最小代码，except 处理预期错误，else 在无异�
 --- answer
 文本使用 `str` 和明确编码，二进制使用 `bytes`；读取时 decode，写出时 encode。
 --- explanation
-用 `Path` 构建跨平台路径，并用 with 关闭文件。遇到解码错误应先确认真实编码和数据来源，不要默认丢弃或替换数据。
+文本接口读写 `str`，二进制接口读写 `bytes`，编码转换必须发生在边界处：
+
+```python
+from pathlib import Path
+
+path = Path("message.txt")
+path.write_text("你好\n", encoding="utf-8")
+text = path.read_text(encoding="utf-8")
+raw = path.read_bytes()
+print(text, raw)  # str 与 bytes 是两种不同对象
+```
+
+`Path` 负责路径组合，`with` 或 `Path` 方法负责关闭文件；遇到 `UnicodeDecodeError` 时先核对真实编码和数据来源，不要默认用 replacement 丢失原始信息。
 {% endflashcard %}
 
 ## 参考资料

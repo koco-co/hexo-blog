@@ -12,7 +12,7 @@ series: Python
 series_order: 12
 published: true
 abbrlink: c55cda53
-date: 2026-08-25 13:13:45
+date: 2026-05-13 00:00:00
 ---
 
 {% course_series %}

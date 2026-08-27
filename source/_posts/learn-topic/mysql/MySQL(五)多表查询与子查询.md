@@ -13,13 +13,38 @@ series: MySQL
 series_order: 5
 published: true
 abbrlink: 55ce38b
-date: 2026-08-25 13:18:42
+date: 2026-03-27 00:00:00
 ---
 
 {% course_series %}
 
 {% note primary flat %}
 多表题先画出“保留谁、匹配谁、没有匹配怎么办”的关系，再选择 JOIN、EXISTS 或集合运算。连接解决行的组合，子查询解决集合或标量的判断，两者不要靠背模板混用。
+{% endnote %}
+
+{% note info flat %}
+可复现实验输入：先执行 A02 的 ShopLab DDL，再使用 A04 的 employees、orders seed，并补充 products `101/102/103`、order_items 和 login_events。本文统一使用 `employees.id`、`users.id`、`orders.user_id`；固定检查点是用户 3 无订单、用户 1 已购买 101/102/103、用户 2 只购买 101，且 `user_imports.email` 可以包含 NULL 来演示三值逻辑。
+{% endnote %}
+
+```sql
+-- 在空实验库中补充多表题的最小数据；orders/user_imports 表结构来自 A02。
+INSERT INTO products (id, sku, name, price) VALUES
+  (101, 'P-101', 'Keyboard', 100.00),
+  (102, 'P-102', 'Mouse', 50.00),
+  (103, 'P-103', 'Cable', 20.00);
+INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES
+  (101, 101, 1, 100.00), (101, 102, 1, 50.00), (101, 103, 1, 20.00),
+  (102, 101, 1, 100.00);
+INSERT INTO login_events (user_id, logged_at, success) VALUES
+  (2, '2026-07-01 09:00:00', 1);
+INSERT INTO users (id, email, display_name) VALUES
+  (3, 'curie@example.com', 'Curie');
+INSERT INTO user_imports (source_name, external_id, email, raw_payload) VALUES
+  ('legacy', 'null-email-1', NULL, JSON_OBJECT('source', 'legacy'));
+```
+
+{% note success flat %}
+在这组补充数据上，`NOT EXISTS` 返回用户 3；分组最高薪使用 `employees.id` 作为稳定键；关系除法返回用户 1。若你的 A04 seed 使用了不同主键，只需保持这些关系和预期集合，不要改变查询语义。
 {% endnote %}
 
 ## 连接模型
@@ -34,7 +59,7 @@ flowchart TD
 {% endmermaid %}
 
 {% note info flat %}
-`INNER JOIN` 只保留双方匹配的行；`LEFT JOIN` 保留左表全部行，右表未匹配列为 NULL；`CROSS JOIN` 生成笛卡尔积；自连接把同一表看作两个角色。连接条件必须写在 ON，右表过滤条件若放进 WHERE 可能把 LEFT JOIN 变回 INNER JOIN。
+`INNER JOIN` 只保留双方匹配的行；`LEFT JOIN` 保留左表全部行，右表未匹配列为 NULL；`CROSS JOIN` 生成笛卡尔积；自连接把同一表看作两个角色。外连接中，匹配条件和右表过滤通常应写在 `ON`，否则放进 WHERE 可能把 `LEFT JOIN` 变回 `INNER JOIN`；对 INNER JOIN，等价的过滤也可以写在 WHERE。
 {% endnote %}
 
 | 需求 | 首选 | 结果边界 |
@@ -57,7 +82,18 @@ FROM employees
 WHERE salary > (SELECT AVG(salary) FROM employees)
 ORDER BY salary DESC, id;
 
--- ANY / ALL：和同部门员工比较
+-- ANY：找出薪资高于同部门至少一位同事的员工
+SELECT e.id, e.name, e.salary
+FROM employees AS e
+WHERE e.salary > ANY (
+  SELECT peer.salary
+  FROM employees AS peer
+  WHERE peer.department_id = e.department_id
+    AND peer.id <> e.id
+)
+ORDER BY e.department_id, e.salary, e.id;
+
+-- ALL：找出同部门没有更高薪资的员工；没有同部门同事时 ALL 空集为 TRUE
 SELECT e.id, e.name, e.salary
 FROM employees AS e
 WHERE e.salary >= ALL (
@@ -109,7 +145,7 @@ FROM 子句中的子查询叫派生表，必须有别名；它先形成中间关
 {% endnote %}
 
 ```sql
-SELECT d.department_id, d.employee_id, d.salary
+  SELECT d.department_id, d.id, d.salary
 FROM (
   SELECT department_id, MAX(salary) AS salary
   FROM employees
@@ -118,18 +154,87 @@ FROM (
 JOIN employees AS d
   ON d.department_id = top_salary.department_id
  AND d.salary = top_salary.salary
-ORDER BY d.department_id, d.employee_id;
+ORDER BY d.department_id, d.id;
 ```
 
 {% note warning flat %}
-上面的写法保留并列最高薪员工。如果题目要求每组只留一人，必须额外定义 tie-breaker（例如最小 employee_id），否则“最高”与“唯一一行”不是同一件事。
+上面的写法保留并列最高薪员工。如果题目要求每组只留一人，必须额外定义 tie-breaker（例如最小 `employees.id`），否则“最高”与“唯一一行”不是同一件事。
 {% endnote %}
+
+```sql
+-- LATERAL 允许派生表引用 FROM 中它左侧的当前用户；每个用户最多取一笔最近订单。
+SELECT u.id, latest.order_id, latest.ordered_at
+FROM users AS u
+LEFT JOIN LATERAL (
+  SELECT o.id AS order_id, o.ordered_at
+  FROM orders AS o
+  WHERE o.user_id = u.id
+  ORDER BY o.ordered_at DESC, o.id DESC
+  LIMIT 1
+) AS latest ON TRUE
+ORDER BY u.id;
+```
+
+{% note info flat %}
+`LATERAL` 解决的是“派生表需要看到左侧行”的作用域问题；普通派生表不能直接引用外层 `u`。如果只是先聚合再回连，普通派生表就足够，不要为了新语法增加复杂度。
+{% endnote %}
+
+## 失败边界
+
+{% note warning flat %}
+标量子查询若返回多行会产生错误 1242（Subquery returns more than 1 row）；同表修改与子查询组合还可能触发错误 1093。先让失败可见，再按题意改成 `IN`、聚合、临时表或多表 UPDATE。
+{% endnote %}
+
+```sql
+-- 失败示例：用户 1 有多笔订单，标量子查询返回多行。
+SELECT id, total_amount
+FROM orders
+WHERE total_amount = (
+  SELECT total_amount FROM orders WHERE user_id = 1
+);
+
+-- 修复为集合语义：
+SELECT id, total_amount
+FROM orders
+WHERE total_amount IN (
+  SELECT total_amount FROM orders WHERE user_id = 1
+);
+
+-- 同表修改的安全边界：先把目标 id 固定到临时表，再修改原表。
+-- 直接 UPDATE ... WHERE id IN (SELECT id FROM employees ...) 可能触发错误 1093；
+-- 先物化目标集合可以把读取与修改边界分开。
+CREATE TEMPORARY TABLE employee_raise_ids AS
+SELECT id FROM employees WHERE salary < 10000;
+UPDATE employees AS e
+JOIN employee_raise_ids AS r ON r.id = e.id
+SET e.salary = e.salary * 1.10;
+DROP TEMPORARY TABLE employee_raise_ids;
+```
 
 ## 集合运算
 
 {% note info flat %}
 `UNION` 合并并去重，`UNION ALL` 保留重复；`INTERSECT` 取交集，`EXCEPT` 取差集。两侧 SELECT 的列数和可兼容类型必须一致；排序通常放在整个集合表达式末尾。
 {% endnote %}
+
+{% tabs 集合语义, 1 %}
+<!-- tab UNION@fa-solid fa-object-group -->
+合并两个结果集并去重；若重复也有业务意义，使用 `UNION ALL`。
+<!-- endtab -->
+<!-- tab INTERSECT@fa-solid fa-arrows-left-right -->
+只保留同时出现在两侧的行；两侧列数和类型要可兼容。
+<!-- endtab -->
+<!-- tab EXCEPT@fa-solid fa-minus -->
+保留左侧有、右侧没有的行；注意 NULL 和重复值的集合语义。
+<!-- endtab -->
+{% endtabs %}
+
+| 运算 | 重复值 | 适合的问题 |
+| --- | --- | --- |
+| `UNION` | 去重 | 合并多个来源的用户集合 |
+| `UNION ALL` | 保留 | 合并日志并保留次数 |
+| `INTERSECT` | 集合交集 | 同时满足两组条件 |
+| `EXCEPT` | 左减右 | 找出未出现在另一集合的对象 |
 
 ```sql
 (
@@ -185,18 +290,38 @@ ORDER BY u.id;
 
 ## NULL 边界
 
-{% note danger flat %}
-`NOT IN (subquery)` 只要子查询结果含 NULL，就可能让所有比较结果变成 UNKNOWN，最终返回空集。用 `NOT EXISTS` 表达反连接，或在子查询中明确排除 NULL，并把这个边界写进答案。
+{% folding yellow, NOT IN 与 NULL %}
+当外层值与子查询中的某个 NULL 候选进行比较，`NOT IN` 的结果可能是 UNKNOWN；WHERE 只保留 TRUE，于是原本没有匹配的用户也可能被过滤掉。若候选集中存在一个明确匹配值，结果仍会是 FALSE，不应把所有情况都概括成“必然空集”。
+{% endfolding %}
+
+{% note warning flat %}
+更稳妥的反连接写法是 `NOT EXISTS`；如果业务确认候选列非 NULL，也可以在子查询中显式 `WHERE user_id IS NOT NULL`。先检查列约束和真实 seed，再选择改写。
 {% endnote %}
 
 ```sql
+-- 为了显式观察 NULL，构造一个含 NULL 的候选集合；A02 生产 orders.user_id 本身是 NOT NULL。
+SELECT u.id
+FROM users AS u
+WHERE u.id NOT IN (
+  SELECT c.user_id
+  FROM (
+    SELECT user_id FROM orders
+    UNION ALL
+    SELECT NULL AS user_id
+  ) AS c
+);
+
 -- 安全的反连接
 SELECT u.id
 FROM users AS u
 WHERE NOT EXISTS (
   SELECT 1
-  FROM user_imports AS i
-  WHERE i.email = u.email
+  FROM (
+    SELECT user_id FROM orders
+    UNION ALL
+    SELECT NULL AS user_id
+  ) AS c
+  WHERE c.user_id = u.id
 );
 ```
 
@@ -213,7 +338,16 @@ WHERE NOT EXISTS (SELECT 1 FROM orders AS o WHERE o.user_id = u.id)
 ORDER BY u.id;
 ```
 --- explanation
-EXISTS 只回答是否存在，不会因为一个用户有多笔订单而产生重复；LEFT JOIN 方案要把右表条件放在 ON 中，且不能使用 `COUNT(*)` 判断无订单。
+`NOT EXISTS` 对每个用户做一个布尔判断：找到一条订单就排除，找不到才保留。它不会把订单行拼到结果中，因此用户有多笔订单也只返回一次。
+
+```text
+users
+  ├─ user 1 → 找到订单 → false
+  ├─ user 2 → 找到订单 → false
+  └─ user 3 → 没有订单 → true
+```
+
+`LEFT JOIN` 也能实现，但订单条件必须放在 `ON`，并用 `o.id IS NULL` 判断右侧没有匹配；把条件放进 `WHERE` 会把外连接意外变成内连接。
 {% endflashcard %}
 
 {% flashcard basic id:mysql84-05-groupwise-max-p1 deck:"mysql-8.4-interview" priority:1 tags:"分组最大值,并列,JOIN" %}
@@ -228,7 +362,17 @@ JOIN (SELECT department_id, MAX(salary) AS salary FROM employees GROUP BY depart
 ORDER BY e.department_id, e.id;
 ```
 --- explanation
-派生表提供每组最高薪，回连能恢复员工明细。若题目要求每组一人，必须给出确定的 tie-breaker 并用窗口函数或额外排序实现。
+派生表先把每个部门压缩成 `(department_id, max_salary)`，再回连员工表恢复姓名和主键：
+
+```text
+employees ── GROUP BY department_id, MAX(salary)
+                    ↓
+              最高薪派生表
+                    ↓ JOIN department_id + salary
+              恢复所有并列员工
+```
+
+因此 Engineering 的并列最高薪会返回两行。若题意是“每组只留一人”，必须再声明 tie-breaker（例如最小 `id`），并用 `ROW_NUMBER()` 或排序后截取；不能悄悄丢掉并列者。
 {% endflashcard %}
 
 {% flashcard basic id:mysql84-05-relational-division-p1 deck:"mysql-8.4-interview" priority:1 tags:"关系除法,NOT EXISTS,全集" %}
@@ -249,7 +393,16 @@ WHERE NOT EXISTS (
 ORDER BY u.id;
 ```
 --- explanation
-必须去重商品，重复购买不能把一个商品算多次；要明确订单状态和需求集合为空时的业务语义。双重否定直接表达“对全集的每个元素都满足”。
+双重 `NOT EXISTS` 对应“没有一个必需商品缺失”：
+
+```text
+required 商品集合
+  └─ 对每个商品检查 paid 订单中是否存在
+       ├─ 缺失任意一个 → 排除用户
+       └─ 全部存在 → 保留用户
+```
+
+先对需求集合去重，重复购买不能把同一商品算两次；再固定 `o.status = 'paid'`，否则待支付订单也会满足条件。需求集合为空时是“所有用户都满足”还是“返回空集”，需要由业务先定义，SQL 不能替你猜。
 {% endflashcard %}
 
 {% flashcard basic id:mysql84-05-not-in-null-p1 deck:"mysql-8.4-interview" priority:1 tags:"NOT IN,NULL,三值逻辑" %}
@@ -263,7 +416,14 @@ WHERE NOT EXISTS (SELECT 1 FROM orders AS o WHERE o.user_id = u.id)
 ORDER BY u.id;
 ```
 --- explanation
-这是三值逻辑而不是索引问题。回答时说明 NULL 的来源、是否允许 NULL，并用固定含 NULL 的 seed 验证改写前后的差异。
+`NOT IN` 遇到候选集合中的 `NULL` 会产生 `UNKNOWN`，而 `WHERE` 只保留 `TRUE`：
+
+| `id` | 候选集合含 `NULL` 时的判断 |
+| --- | --- |
+| 3 | `3 NOT IN (1, NULL)` → `UNKNOWN` |
+| 1 | `1 NOT IN (1, NULL)` → `FALSE` |
+
+所以结果可能为空，即使没有任何用户真的下过订单。`NOT EXISTS` 把判断改成逐行存在性，不受集合中的空值污染；若继续使用 `NOT IN`，必须先保证子查询列 `NOT NULL`，并用含 `NULL` 的 seed 验证边界。
 {% endflashcard %}
 
 ## 参考资料
@@ -274,4 +434,9 @@ ORDER BY u.id;
 {% link MySQL 8.4 EXISTS and NOT EXISTS, https://dev.mysql.com/doc/refman/8.4/en/exists-and-not-exists-subqueries.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Set Operations, https://dev.mysql.com/doc/refman/8.4/en/set-operations.html, https://www.mysql.com/favicon.ico %}
 {% link MySQL 8.4 Derived Tables, https://dev.mysql.com/doc/refman/8.4/en/derived-tables.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Lateral Derived Tables, https://dev.mysql.com/doc/refman/8.4/en/lateral-derived-tables.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Subquery Errors, https://dev.mysql.com/doc/refman/8.4/en/subquery-errors.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Subquery Restrictions, https://dev.mysql.com/doc/refman/8.4/en/subquery-restrictions.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 TABLE Statement, https://dev.mysql.com/doc/refman/8.4/en/table.html, https://www.mysql.com/favicon.ico %}
+{% link MySQL 8.4 Optimizing Subqueries, https://dev.mysql.com/doc/refman/8.4/en/optimizing-subqueries.html, https://www.mysql.com/favicon.ico %}
 {% endlinkgroup %}

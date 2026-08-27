@@ -12,7 +12,7 @@ series: Python
 series_order: 9
 published: true
 abbrlink: 62348dbe
-date: 2026-08-25 13:13:45
+date: 2026-05-10 00:00:00
 ---
 
 {% course_series %}
@@ -178,7 +178,17 @@ Python 类型标注会自动在运行时校验参数吗？
 --- answer
 默认不会；标注主要供静态工具和接口说明使用，运行时边界需要显式验证。
 --- explanation
-外部数据应在进入系统时解析成受控类型并验证范围。标注仍有价值：它让 IDE、静态检查器、测试作者和读者共享接口意图，但不能替代异常处理和安全校验。
+类型标注改变的是工具和读者看到的接口，不是解释器执行时的检查路径：
+
+```python
+def total(values: list[int]) -> int:
+    return sum(values)
+
+total([1, 2])
+total(["wrong"])  # 默认仍能进入函数，可能在运行时才失败
+```
+
+外部数据应在进入系统时解析成受控类型并验证范围；标注可以让 IDE、静态检查器、测试作者和读者共享接口意图，但不能替代异常处理、安全校验或运行时数据转换。
 {% endflashcard %}
 
 {% flashcard basic id:python-quality-deferred-annotation deck:"Python 基础" priority:2 tags:"Python,3.14,注解,annotationlib" %}
@@ -187,7 +197,19 @@ Python 3.14 的延迟注解对代码有什么提醒？
 --- answer
 不要假定注解表达式在函数定义时已求值；需要运行时检查时使用当前标准接口获取注解。
 --- explanation
-延迟求值减少前向引用与导入循环的摩擦。普通业务代码应关注稳定的类型接口；编写框架或反射逻辑时再按当前版本的 annotationlib 文档处理具体格式和求值策略。
+延迟注解意味着函数定义完成时，注解表达式不一定已经按普通表达式求值；这能减少前向引用和导入循环，但也会影响反射代码：
+
+```python
+from annotationlib import Format, get_annotations
+
+def load(value: "Config") -> "Result":
+    ...
+
+raw = get_annotations(load, format=Format.STRING)
+print(raw["value"])  # 需要字符串形式时显式选择格式
+```
+
+普通业务代码只依赖稳定的类型接口；框架、序列化器和依赖注入代码需要按当前 Python 版本的 `annotationlib` 文档选择求值格式，不能假设定义时已经拿到最终类型对象。
 {% endflashcard %}
 
 {% flashcard basic id:python-quality-assert deck:"Python 基础" priority:1 tags:"Python,assert,测试,不变量" %}
@@ -196,7 +218,17 @@ Python 3.14 的延迟注解对代码有什么提醒？
 --- answer
 优化模式可移除 assert，因此它不能承担生产环境必须执行的校验。
 --- explanation
-assert 适合开发期检查内部不变量。用户输入、权限、金额范围和外部数据应使用明确条件与异常/错误结果，以保证任何运行模式下都被验证。
+`assert` 的语义是“这里按设计不应失败”，而不是生产输入校验。优化模式 `python -O` 会移除断言，因此安全边界必须写成普通条件：
+
+```python
+def authorize(user, resource):
+    if not user.can_read(resource):
+        raise PermissionError("read denied")
+
+    assert resource.owner_id is not None  # 内部不变量，可以被优化掉
+```
+
+用户输入、权限、金额范围和外部数据要使用显式条件、异常或错误结果，确保不同运行模式都执行。断言可以帮助开发期尽早发现程序自身的逻辑破坏，但不能承担必须生效的契约。
 {% endflashcard %}
 
 {% flashcard basic id:python-quality-test-isolation deck:"Python 基础" priority:2 tags:"Python,测试,隔离,fixture" %}
@@ -205,7 +237,17 @@ assert 适合开发期检查内部不变量。用户输入、权限、金额范�
 --- answer
 测试顺序、全局状态、真实时间和网络会制造偶发失败，使结果不能可靠定位代码行为。
 --- explanation
-每个测试应自行建立输入与依赖，清理临时资源，并用可控替身处理外部服务。隔离使单个失败更接近真实回归，也让并行执行与重复运行可信。
+隔离的目标是让一次失败只由当前测试的输入和依赖解释。可以把外部状态放进测试作用域：
+
+```python
+def test_parse(tmp_path, monkeypatch):
+    source = tmp_path / "input.txt"
+    source.write_text("ok", encoding="utf-8")
+    monkeypatch.setenv("MODE", "test")
+    assert parse_file(source) == "ok"
+```
+
+测试自行建立输入、清理临时资源，并用可控替身替换时间、网络或环境变量，就能减少顺序依赖和偶发污染。隔离不是拒绝所有集成测试，而是明确哪些状态由本测试拥有、哪些协作由专门场景验证。
 {% endflashcard %}
 
 ## 参考资料

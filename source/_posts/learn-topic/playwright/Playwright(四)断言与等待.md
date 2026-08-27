@@ -14,12 +14,12 @@ series: Playwright
 series_order: 4
 published: true
 abbrlink: 70bae600
-date: 2026-08-24 12:09:00
+date: 2026-04-10 00:00:00
 ---
 
 {% course_series %}
 
-{% note info flat %}
+{% note warning flat %}
 稳定测试不等于增加等待时间。Playwright 将等待分成两类：操作前等待元素可操作，断言时等待业务结果成立。理解两者的边界，才能知道超时发生在哪一步。
 {% endnote %}
 
@@ -37,7 +37,7 @@ flowchart TD
     D --> E[断言通过或超时]
 {% endmermaid %}
 
-{% note info flat %}
+{% note primary flat %}
 `locator.click()` 会等待按钮可见、稳定、能够接收事件且启用，并要求 Locator 最终解析为单一目标，然后执行点击。它不知道点击后应该出现成功提示、跳转到订单页还是更新金额，所以业务结果必须由测试断言。
 {% endnote %}
 
@@ -87,13 +87,13 @@ page.get_by_role("button", name="提交订单").click()
 button.click(force=True)
 ```
 
-{% note info flat %}
+{% note primary flat %}
 优先找出遮挡、动画、禁用状态或定位歧义的原因。
 {% endnote %}
 
 ## 断言设计
 
-{% note info flat %}
+{% note warning flat %}
 Playwright 断言会持续重新查询 Locator，直到条件成立或超时：
 {% endnote %}
 
@@ -127,7 +127,7 @@ def test_order_status(page: Page) -> None:
 assert page.get_by_role("status").text_content() == "提交成功"
 ```
 
-{% note info flat %}
+{% note primary flat %}
 普通 `assert` 适合纯 Python 值和已经稳定的同步计算；页面异步状态优先使用 `expect()`。
 {% endnote %}
 
@@ -193,7 +193,7 @@ expect(total).to_have_class(re.compile(r"\bhighlight\b"))
 expect(input_box).to_have_value("Alice")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `to_have_text()` 更适合完整文本合同，`to_contain_text()` 适合只关心稳定片段。不要为了绕过错误文案而把所有断言都改成模糊包含。
 {% endnote %}
 
@@ -244,7 +244,7 @@ expect(page.get_by_role("heading", name="订单详情")).to_be_visible()
 
 ### 超时配置
 
-{% note info flat %}
+{% note warning flat %}
 超时应按职责设置：
 {% endnote %}
 
@@ -263,7 +263,7 @@ expect.set_options(timeout=10_000)
 expect(report).to_be_visible(timeout=30_000)
 ```
 
-{% note info flat %}
+{% note warning flat %}
 操作超时和导航超时由 Context 或 Page 配置：
 {% endnote %}
 
@@ -281,7 +281,7 @@ page.set_default_navigation_timeout(30_000)
 - 导航和报告生成：使用独立超时；
 - 测试整体：由 pytest 或 CI 设置更外层上限。
 
-{% note info flat %}
+{% note warning flat %}
 断言默认重试超时基线是 5 秒；操作超时、导航超时和测试整体超时分别由 Page/Context、导航调用和 pytest/CI 外层控制。单次调用的 `timeout` 优先于默认值，外层测试超时仍会限制整个用例。
 {% endnote %}
 
@@ -322,7 +322,7 @@ async def wait_for_legacy_boundary(page: Page) -> None:
     await page.wait_for_timeout(100)  # 仅诊断或演示，生产测试优先 expect()
 ```
 
-{% note info flat %}
+{% note primary flat %}
 `wait_for_selector()` 与 `wait_for_timeout()` 已列入旧接口迁移清单；新代码优先使用 `expect()`、Locator 的 `wait_for()` 或事件上下文。
 {% endnote %}
 
@@ -345,7 +345,7 @@ page.wait_for_timeout(1_000)  # 不作为稳定测试方案
 
 ### 事件等待
 
-{% note info flat %}
+{% note primary flat %}
 下载、新页面和响应等事件必须先注册等待，再触发动作：
 {% endnote %}
 
@@ -470,7 +470,7 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 
 ### 失败分析
 
-{% note info flat %}
+{% note warning flat %}
 断言超时时按顺序检查：
 {% endnote %}
 
@@ -585,6 +585,15 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 自动等待只保证动作可执行，不保证业务结果正确。
 --- explanation
 点击会等待元素可操作并发送输入事件；成功提示、URL、订单状态或后端数据属于动作后的业务结果，需要单独使用 Web-first 断言或 API 核验。
+
+动作和结果是两次不同的断言：
+
+~~~python
+page.get_by_role("button", name="提交").click()  # 只证明动作可执行
+expect(page.get_by_role("status")).to_have_text("已提交")  # 才证明业务结果
+~~~
+
+自动等待会检查元素是否可操作，但不会替业务判断成功；结果应使用 Web-first 断言或 API 证据继续确认。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-wait-strategy deck:"Playwright" priority:1 tags:"等待,稳定性" answer:C %}
@@ -597,6 +606,15 @@ expect(summary).to_contain_text("总计", use_inner_text=True)
 C
 --- explanation
 Web-first 断言直接等待业务可观察结果，并在条件提前成立时立即结束。
+
+固定睡眠只等待时间，不等待条件：
+
+~~~python
+page.get_by_role("button", name="提交").click()
+expect(page.get_by_role("status")).to_have_text("完成")
+~~~
+
+状态提前完成时断言会立即通过；状态仍未满足时，它会保留重试和超时证据。sleep 五秒可能浪费时间，也可能在慢环境中仍然过早返回。
 {% endflashcard %}
 
 ## 参考资料

@@ -100,7 +100,627 @@
       }
     ],
     "article_block_tag_plans": {
+      "Linux(一)入门路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "core_content": "本节直接交付：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本篇只说明课程范围、依赖和开始方式；具体知识点与面试复习题放在对应主题文章。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "课程定位",
+          "reader_task": "理解本课程只覆盖 Linux 命令、排障与安全实验边界。",
+          "core_content": "学习范围、实验基线与不纳入内容。",
+          "carrier": "note info flat",
+          "rationale": "路线目标需要直接可见，避免把具体教程塞进导言。",
+          "directly_visible": "课程范围、读者收益和技术边界。",
+          "degradation": "样式失效时文字完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "前置与路径",
+          "reader_task": "确认练习环境并按依赖顺序选择后续主题。",
+          "core_content": "隔离环境、依赖图和并行/可选关系。",
+          "carrier": "warning note flat + TD Mermaid + info note flat",
+          "rationale": "安全前提用警告，依赖关系用流程图。",
+          "directly_visible": "实验风险、路径顺序和可选路线。",
+          "degradation": "图失效时文字保留依赖解释。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "按问题和前置条件选择一篇课程文章。",
+          "core_content": "13 篇文章的职责、入口、依赖和状态。",
+          "carrier": "Markdown table",
+          "rationale": "路线表是精确映射，表格比拆成组件更清楚。",
+          "directly_visible": "标题、问题、入口和前置关系。",
+          "degradation": "表格不依赖交互。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "开始与资料",
+          "reader_task": "知道每篇的实验、闪卡和参考资料如何配合。",
+          "core_content": "证据化实验、长期复习和官方延伸入口。",
+          "carrier": "note info flat + linkgroup/link",
+          "rationale": "开始原则和资料入口分别适合语义 note 与资料卡。",
+          "directly_visible": "实验原则和官方地址。",
+          "degradation": "图标失效仍可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "课程目标",
+          "reader_task": "用自己的话说明「课程目标」为何如此，并核对：这是一套面向零基础到系统排障的 Linux 命令行课程。重点覆盖常用命令、中文场景选命令、Shell 组合、日志查看、性能分析、Bash 自动化和面试复述。主实验基线为 Ubuntu Server 26.04 LTS，同时说明 POSIX.1-2024、Bash 5.3、GNU/uutils 及发行版差异。",
+          "core_content": "本节直接交付：这是一套面向零基础到系统排障的 Linux 命令行课程。重点覆盖常用命令、中文场景选命令、Shell 组合、日志查看、性能分析、Bash 自动化和面试复述。主实验基线为 Ubuntu Server 26.04 LTS，同时说明 POSIX.1-2024、Bash 5.3、GNU/uutils 及发行版差异。",
+          "carrier": "note info flat",
+          "rationale": "「课程目标」需要先看到这是一套面向零基础到系统排障的 Linux 命令行课程。重点覆盖常用命令、中文场景选命令、Shell 组合、日志查看、性能分析、Bash 自；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：这是一套面向零基础到系统排障的 Linux 命令行课程。重点覆盖常用命令、中文场景选命令、Shell 组合、日志查看、性能分析、Bash 自动化和面试复述。主实验基线为 Ubuntu Server 26.04 LTS，同时说明 POSIX.1-2024、Bash 5.3、GNU/uutils 及发行版差异。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "用自己的话说明「前置条件」为何如此，并核对：不要求 Linux 经验。准备一台可丢弃的 Ubuntu Server、WSL2 或虚拟机，并为文件、服务、日志和负载实验建立隔离目录。生产机器、真实凭据和破坏性设备操作不在课程实验范围内。",
+          "core_content": "本节直接交付：不要求 Linux 经验。准备一台可丢弃的 Ubuntu Server、WSL2 或虚拟机，并为文件、服务、日志和负载实验建立隔离目录。生产机器、真实凭据和破坏性设备操作不在课程实验范围内。",
+          "carrier": "note warning flat",
+          "rationale": "「前置条件」需要先看到不要求 Linux 经验。准备一台可丢弃的 Ubuntu Server、WSL2 或虚拟机，并为文件、服务、日志和负载实验建立隔离目录。生产；因此采用note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：不要求 Linux 经验。准备一台可丢弃的 Ubuntu Server、WSL2 或虚拟机，并为文件、服务、日志和负载实验建立隔离目录。生产机器、真实凭据和破坏性设备操作不在课程实验范围内。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "沿图中的关系或时序讲清「学习路径」：每篇文章都按“机制 → 命令选择 → 完整示例 → 失败边界 → 结果验证”推进。第 12 篇是可选拓展，第 13 篇不依赖第 12 篇。",
+          "core_content": "本节直接交付：每篇文章都按“机制 → 命令选择 → 完整示例 → 失败边界 → 结果验证”推进。第 12 篇是可选拓展，第 13 篇不依赖第 12 篇。",
+          "carrier": "mermaid + note info flat",
+          "rationale": "「学习路径」需要先看到每篇文章都按“机制 → 命令选择 → 完整示例 → 失败边界 → 结果验证”推进。第 12 篇是可选拓展，第 13 篇不依赖第 12 篇。；因此采用mermaid + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：每篇文章都按“机制 → 命令选择 → 完整示例 → 失败边界 → 结果验证”推进。第 12 篇是可选拓展，第 13 篇不依赖第 12 篇。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "用自己的话说明「开始学习」为何如此，并核对：每个实验都先确认输入和安全边界，再执行命令、解释输出并完成清理。高频命令使用双向闪卡，日志与性能内容补充字段和指标解释，危险操作单独标出安全边界；跨文章重复的问题统一引用既有闪卡。",
+          "core_content": "本节直接交付：每个实验都先确认输入和安全边界，再执行命令、解释输出并完成清理。高频命令使用双向闪卡，日志与性能内容补充字段和指标解释，危险操作单独标出安全边界；跨文章重复的问题统一引用既有闪卡。",
+          "carrier": "note info flat",
+          "rationale": "「开始学习」需要先看到每个实验都先确认输入和安全边界，再执行命令、解释输出并完成清理。高频命令使用双向闪卡，日志与性能内容补充字段和指标解释，危险操作单独标出安全；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：每个实验都先确认输入和安全边界，再执行命令、解释输出并完成清理。高频命令使用双向闪卡，日志与性能内容补充字段和指标解释，危险操作单独标出安全边界；跨文章重复的问题统一引用既有闪卡。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Linux(七)进程任务与服务管理": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：服务异常时，先区分“进程不存在”“进程存在但卡住”“服务管理器没有加载”和“定时任务没有触发”。本文先收集 PID、状态和 unit 证据，再选择信号或服务动作；不把 kill -9、重启或关机当成第一步。",
+          "core_content": "本节直接交付：服务异常时，先区分“进程不存在”“进程存在但卡住”“服务管理器没有加载”和“定时任务没有触发”。本文先收集 PID、状态和 unit 证据，再选择信号或服务动作；不把 kill -9、重启或关机当成第一步。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到服务异常时，先区分“进程不存在”“进程存在但卡住”“服务管理器没有加载”和“定时任务没有触发”。本文先收集 PID、状态和 unit 证据，；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：服务异常时，先区分“进程不存在”“进程存在但卡住”“服务管理器没有加载”和“定时任务没有触发”。本文先收集 PID、状态和 unit 证据，再选择信号或服务动作；不把 kill -9、重启或关机当成第一步。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "范围与边界",
+          "reader_task": "先判断问题属于进程、服务管理器还是定时环境。",
+          "core_content": "先观察证据，再选择信号或动作，拒绝把 KILL 和重启当起点。",
+          "carrier": "note info flat",
+          "rationale": "风险边界需在开篇可见。",
+          "directly_visible": "本文范围与排除项。",
+          "degradation": "文字独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "进程模型",
+          "reader_task": "从受控子进程读出 PID、父子关系、状态和退出状态。",
+          "core_content": "ps、pgrep、wait 与 kill -0 的证据角色。",
+          "carrier": "TD Mermaid + 自己启动的短命进程代码 + note primary flat",
+          "rationale": "关系用图，进程示例必须不作用于真实服务。",
+          "directly_visible": "进程状态、命令、预期状态。",
+          "degradation": "图失效时代码与说明仍完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "信号与终止",
+          "reader_task": "先安全识别目标，再以 TERM、pkill 条件和 KILL 边界处理。",
+          "core_content": "单 PID 信号、受限匹配、状态与不可恢复边界。",
+          "carrier": "临时子进程代码 + primary/danger notes + 表格",
+          "rationale": "高风险命令需要受控示例和相邻警告。",
+          "directly_visible": "目标范围、状态、KILL 风险。",
+          "degradation": "代码和表格独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "作业控制",
+          "reader_task": "区分当前 Bash 的作业与系统范围的进程。",
+          "core_content": "jobs、wait、nohup 与 bg/fg/pidwait/watch 的选择边界。",
+          "carrier": "短命作业代码 + note info flat + 表格",
+          "rationale": "主线命令直接可见，TTY/低频入口用表格避免误用。",
+          "directly_visible": "会话边界与 nohup 限制。",
+          "degradation": "无交互脚本时表格仍可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "优先级与调度",
+          "reader_task": "用 nice/renice 判断并调整受控进程的调度优先级。",
+          "core_content": "nice 值、权限和非资源配额边界。",
+          "carrier": "临时子进程代码 + note warning flat",
+          "rationale": "修改只落在自身进程，风险文字直接相邻。",
+          "directly_visible": "PID、优先级、恢复边界。",
+          "degradation": "文本与代码不依赖服务。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "systemd 服务",
+          "reader_task": "从 unit 状态、字段与临时 scope 区分读取和变更。",
+          "core_content": "systemctl 的状态证据、systemd-run 的最小可控动作和服务动作边界。",
+          "carrier": "只读 unit 代码 + 条件式 user scope + primary/info notes",
+          "rationale": "环境依赖通过条件式可见，避免虚构服务名或改全局 unit。",
+          "directly_visible": "UNIT 输入、状态字段和不可用分支。",
+          "degradation": "命令与说明独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "定时与迁移",
+          "reader_task": "按一次性、批处理、周期和主机级动作选择入口。",
+          "core_content": "at/batch/crontab/timer 与 init/skill/snice/电源动作的边界。",
+          "carrier": "比较表 + warning note + folding table",
+          "rationale": "依赖服务的低频选择适合表格，迁移材料可折叠。",
+          "directly_visible": "定时环境风险和主机级动作警告。",
+          "degradation": "details 失效时表格仍是文本。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "结果验证与复习",
+          "reader_task": "形成 PID、状态、unit 和日志证据的最小闭环。",
+          "core_content": "可控进程回归、UNIT 失败边界和四张闪卡。",
+          "carrier": "代码 + note success flat + flashcard",
+          "rationale": "证据标准直接可见，复习用独立卡片。",
+          "directly_visible": "成功条件、失败分支和卡片文本。",
+          "degradation": "卡片降级后仍可阅读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅 POSIX、Bash 与 systemd 一手资料。",
+          "core_content": "官方资料入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料标题和 URL 保持可读。",
+          "directly_visible": "资料名称和地址。",
+          "degradation": "图标失效不影响阅读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "定时任务",
+          "reader_task": "比较表中的维度，说明「定时任务」在什么条件下成立。",
+          "core_content": "本节直接交付：定时任务经常在非交互环境失败：没有 TTY，PATH 和工作目录不同，交互式 alias 也不可靠。先把一条只读或可回滚命令在相同用户、相同环境复现，再写入计划。",
+          "carrier": "table + note warning flat",
+          "rationale": "「定时任务」需要先看到定时任务经常在非交互环境失败：没有 TTY，PATH 和工作目录不同，交互式 alias 也不可靠。先把一条只读或可回滚命令在相同用户、相同；因此采用table + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：定时任务经常在非交互环境失败：没有 TTY，PATH 和工作目录不同，交互式 alias 也不可靠。先把一条只读或可回滚命令在相同用户、相同环境复现，再写入计划。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "迁移边界",
+          "reader_task": "比较表中的维度，说明「迁移边界」在什么条件下成立。",
+          "core_content": "本节直接交付：halt、poweroff、reboot、shutdown 影响整机可用性，不是 `systemctl restart <unit>` 的替代品。本课程不要求执行它们；只能在已审批的主机维护窗口、确认用户影响和恢复路径后按组织流程操作。",
+          "carrier": "folding + table + note danger flat",
+          "rationale": "「迁移边界」需要先看到halt、poweroff、reboot、shutdown 影响整机可用性，不是 `systemctl restart <unit>` 的替；因此采用folding + table + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：halt、poweroff、reboot、shutdown 影响整机可用性，不是 `systemctl restart <unit>` 的替代品。本课程不要求执行它们；只能在已审批的主机维护窗口、确认用户影响和恢复路径后按组织流程操作。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：进程证据至少包含 PID、父进程、状态、命令行、动作后的退出状态；服务证据至少包含 unit 名、ActiveState、MainPID 和相邻日志。若 unit 不存在或 systemd 不可用，先记录这个失败边界，不要把它误报为“服务已停止”。",
+          "core_content": "本节直接交付：进程证据至少包含 PID、父进程、状态、命令行、动作后的退出状态；服务证据至少包含 unit 名、ActiveState、MainPID 和相邻日志。若 unit 不存在或 systemd 不可用，先记录这个失败边界，不要把它误报为“服务已停止”。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到进程证据至少包含 PID、父进程、状态、命令行、动作后的退出状态；服务证据至少包含 unit 名、ActiveState、MainPID 和；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：进程证据至少包含 PID、父进程、状态、命令行、动作后的退出状态；服务证据至少包含 unit 名、ActiveState、MainPID 和相邻日志。若 unit 不存在或 systemd 不可用，先记录这个失败边界，不要把它误报为“服务已停止”。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Linux(三)文件与存储管理": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：当程序报告“文件不存在”“磁盘满了”或“归档解不开”时，先把问题拆成文件对象、目录项、inode、文件描述符、文件系统和挂载点六层。本文用一个隔离目录完成创建、复制、校验、归档和容量观察；不在真实设备上执行破坏性写入。",
+          "core_content": "本节直接交付：当程序报告“文件不存在”“磁盘满了”或“归档解不开”时，先把问题拆成文件对象、目录项、inode、文件描述符、文件系统和挂载点六层。本文用一个隔离目录完成创建、复制、校验、归档和容量观察；不在真实设备上执行破坏性写入。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到当程序报告“文件不存在”“磁盘满了”或“归档解不开”时，先把问题拆成文件对象、目录项、inode、文件描述符、文件系统和挂载点六层。本文用一；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：当程序报告“文件不存在”“磁盘满了”或“归档解不开”时，先把问题拆成文件对象、目录项、inode、文件描述符、文件系统和挂载点六层。本文用一个隔离目录完成创建、复制、校验、归档和容量观察；不在真实设备上执行破坏性写入。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "文件模型",
+          "reader_task": "区分路径、目录项、inode、文件描述符与链接。",
+          "core_content": "文件对象关系和诊断模型。",
+          "carrier": "TD Mermaid + primary note",
+          "rationale": "关系图帮助建立路径不等于对象的心智模型。",
+          "directly_visible": "对象关系与机制结论。",
+          "degradation": "图失效时文字仍完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "文件操作",
+          "reader_task": "安全选择创建、复制、移动、链接、查找和校验动作。",
+          "core_content": "范围受控的文件命令、失败边界和低频索引。",
+          "carrier": "code + warning/primary notes + folding blue",
+          "rationale": "可执行动作需邻近风险，长尾索引可折叠。",
+          "directly_visible": "对象范围、命令和回滚边界。",
+          "degradation": "代码与边界提示独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "容量与设备",
+          "reader_task": "从容量、挂载与设备边界判断问题。",
+          "core_content": "df/du、文件系统、挂载和危险设备动作。",
+          "carrier": "table + code + danger note",
+          "rationale": "比较指标用表，设备风险需直接可见。",
+          "directly_visible": "指标、挂载关系和高风险动作边界。",
+          "degradation": "结构内容不依赖组件。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "归档与验证",
+          "reader_task": "在隔离对象上选择 tar 与格式工具并验证结果。",
+          "core_content": "归档、压缩、最小实验、清理和闪卡。",
+          "carrier": "code + notes + flashcard",
+          "rationale": "完整实验与复习题分别需要直接可见。",
+          "directly_visible": "输入输出、验证条件和卡片。",
+          "degradation": "卡片失效时正文仍可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅文件系统、工具与归档资料。",
+          "core_content": "官方资料入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料标题和 URL 需要保留。",
+          "directly_visible": "资料名称和地址。",
+          "degradation": "图标失效不影响阅读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "归档与压缩",
+          "reader_task": "比较表中的维度，说明「归档与压缩」在什么条件下成立。",
+          "core_content": "本节直接交付：归档把多个文件组织为一个流，压缩减少体积；tar 本身不等于压缩。解包前用 tar -tf 检查成员名，避免把绝对路径或 ../ 路径写出实验目录。",
+          "carrier": "table + note info flat",
+          "rationale": "「归档与压缩」需要先看到归档把多个文件组织为一个流，压缩减少体积；tar 本身不等于压缩。解包前用 tar -tf 检查成员名，避免把绝对路径或 ../ 路径写出实；因此采用table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：归档把多个文件组织为一个流，压缩减少体积；tar 本身不等于压缩。解包前用 tar -tf 检查成员名，避免把绝对路径或 ../ 路径写出实验目录。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：实验完成的证据是：文件类型与 inode 关系可解释，硬链接和符号链接行为可复现，复制/移动目标明确，归档清单可先验，校验和符合预期，容量命令的挂载点没有越界。最后只删除由同一 Shell 的 `mktemp -d` 创建并已打印确认的 `LAB` 目录；变量为空或路径不明时停止，不要执行清理命令。",
+          "core_content": "本节直接交付：实验完成的证据是：文件类型与 inode 关系可解释，硬链接和符号链接行为可复现，复制/移动目标明确，归档清单可先验，校验和符合预期，容量命令的挂载点没有越界。最后只删除由同一 Shell 的 `mktemp -d` 创建并已打印确认的 `LAB` 目录；变量为空或路径不明时停止，不要执行清理命令。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到实验完成的证据是：文件类型与 inode 关系可解释，硬链接和符号链接行为可复现，复制/移动目标明确，归档清单可先验，校验和符合预期，容量命；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：实验完成的证据是：文件类型与 inode 关系可解释，硬链接和符号链接行为可复现，复制/移动目标明确，归档清单可先验，校验和符合预期，容量命令的挂载点没有越界。最后只删除由同一 Shell 的 `mktemp -d` 创建并已打印确认的 `LAB` 目录；变量为空或路径不明时停止，不要执行清理命令。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Linux(九)日志查看与故障定位": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：日志排障的产物不是一段“看起来异常”的输出，而是一条可复核的时间线：什么组件在何时、以什么级别记录了什么，随后哪项动作改变了状态。先保留原始证据，再用服务、时间、优先级和崩溃信息缩小范围；不要把观察到的事件直接写成因果结论。",
+          "core_content": "本节直接交付：日志排障的产物不是一段“看起来异常”的输出，而是一条可复核的时间线：什么组件在何时、以什么级别记录了什么，随后哪项动作改变了状态。先保留原始证据，再用服务、时间、优先级和崩溃信息缩小范围；不要把观察到的事件直接写成因果结论。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到日志排障的产物不是一段“看起来异常”的输出，而是一条可复核的时间线：什么组件在何时、以什么级别记录了什么，随后哪项动作改变了状态。先保留原始；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：日志排障的产物不是一段“看起来异常”的输出，而是一条可复核的时间线：什么组件在何时、以什么级别记录了什么，随后哪项动作改变了状态。先保留原始证据，再用服务、时间、优先级和崩溃信息缩小范围；不要把观察到的事件直接写成因果结论。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "范围与来源",
+          "reader_task": "区分服务、内核、转储与轮转的日志来源，再开始筛选。",
+          "core_content": "时间线模型、来源差异和时间校准边界。",
+          "carrier": "note info flat + TD Mermaid + note primary flat",
+          "rationale": "来源关系适合流程图，结论边界必须直接可见。",
+          "directly_visible": "来源、工具职责和时间戳差异。",
+          "degradation": "图失效时文字仍给出完整分层。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未在目标 systemd Journal 上执行真实采集。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "Journal 查询",
+          "reader_task": "按服务、时间、优先级和 boot 组合 journalctl 查询。",
+          "core_content": "查询维度、输出格式、空结果和持续跟随边界。",
+          "carrier": "受限代码 + 表格 + note warning flat",
+          "rationale": "多个筛选维度需要并列比较，实时跟随风险需直接提示。",
+          "directly_visible": "命令、目标 unit、时间窗和结论边界。",
+          "degradation": "代码与边界提示独立可读。",
+          "validation_status": "已完成静态与语法复核；实际 Journal 结果取决于目标主机。"
+        },
+        {
+          "block": "测试与内核",
+          "reader_task": "用唯一 TAG 验证采集链路，并区别 dmesg 与 Journal 内核消息。",
+          "core_content": "logger/systemd-cat 的受控测试、内核缓冲区和保留边界。",
+          "carrier": "代码 + primary/info notes",
+          "rationale": "写入测试事件须带唯一标识并紧邻环境边界。",
+          "directly_visible": "TAG、查询方式、缓冲区和权限限制。",
+          "degradation": "命令与文字不依赖日志服务已成功。",
+          "validation_status": "已完成 Bash 语法复核；不在当前宿主机写入系统日志。"
+        },
+        {
+          "block": "崩溃与轮转",
+          "reader_task": "判断 coredumpctl 与 logrotate 分别回答记录、元数据和保留问题。",
+          "core_content": "转储敏感性、PID 选择、轮转模拟和真实写入边界。",
+          "carrier": "受限代码 + danger/warning notes",
+          "rationale": "高敏感数据与可能改历史的动作必须直接可见。",
+          "directly_visible": "授权条件、失败边界和不可作为练习的写操作。",
+          "degradation": "代码与安全说明独立可读。",
+          "validation_status": "已完成静态与语法复核；需在授权目标环境做运行时验证。"
+        },
+        {
+          "block": "时间线与复习",
+          "reader_task": "把观察、推断与待验证假设固定成可交接时间线。",
+          "core_content": "采集顺序、复测条件和四张闪卡。",
+          "carrier": "代码 + 列表 + note success flat + flashcard",
+          "rationale": "结构化步骤适合列表，证据标准与长期复习需直接可见。",
+          "directly_visible": "时间窗、来源、盲区和卡片文本。",
+          "degradation": "卡片失效时仍保留完整文本。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未在目标 systemd Journal 上执行真实采集。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅 systemd、dmesg 和 logrotate 一手资料。",
+          "core_content": "官方资料卡入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "标题与 URL 在图标失败时仍要可读。",
+          "directly_visible": "资料名称和地址。",
+          "degradation": "图标失效不影响阅读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未在目标 systemd Journal 上执行真实采集。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "日志来源",
+          "reader_task": "沿图中的关系或时序讲清「日志来源」：先确认事件来自哪里：服务事件优先用 journalctl，内核事件用 dmesg，受控测试事件可用 logger 或 systemd-cat，崩溃记录用 coredumpctl，文件保留和轮转用 logrotate。不同来源的时间戳、时区和保留周期可能不同，拼接前要先校准时间窗。",
+          "core_content": "本节直接交付：先确认事件来自哪里：服务事件优先用 journalctl，内核事件用 dmesg，受控测试事件可用 logger 或 systemd-cat，崩溃记录用 coredumpctl，文件保留和轮转用 logrotate。不同来源的时间戳、时区和保留周期可能不同，拼接前要先校准时间窗。",
+          "carrier": "mermaid + note primary flat",
+          "rationale": "「日志来源」需要先看到先确认事件来自哪里：服务事件优先用 journalctl，内核事件用 dmesg，受控测试事件可用 logger 或 systemd-cat；因此采用mermaid + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先确认事件来自哪里：服务事件优先用 journalctl，内核事件用 dmesg，受控测试事件可用 logger 或 systemd-cat，崩溃记录用 coredumpctl，文件保留和轮转用 logrotate。不同来源的时间戳、时区和保留周期可能不同，拼接前要先校准时间窗。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "内核与崩溃",
+          "reader_task": "用自己的话说明「内核与崩溃」为何如此，并核对：dmesg 读取当前内核环形缓冲区，重启或缓冲区覆盖会丢失旧消息；journalctl --dmesg 查询 journald 收集的内核消息。两者都可能受权限和保留策略影响，所以要同时记录命令、时间窗和输出格式。",
+          "core_content": "本节直接交付：dmesg 读取当前内核环形缓冲区，重启或缓冲区覆盖会丢失旧消息；journalctl --dmesg 查询 journald 收集的内核消息。两者都可能受权限和保留策略影响，所以要同时记录命令、时间窗和输出格式。",
+          "carrier": "note primary/danger flat",
+          "rationale": "「内核与崩溃」需要先看到dmesg 读取当前内核环形缓冲区，重启或缓冲区覆盖会丢失旧消息；journalctl --dmesg 查询 journald 收集的内核消；因此采用note primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：dmesg 读取当前内核环形缓冲区，重启或缓冲区覆盖会丢失旧消息；journalctl --dmesg 查询 journald 收集的内核消息。两者都可能受权限和保留策略影响，所以要同时记录命令、时间窗和输出格式。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "轮转与保留",
+          "reader_task": "用自己的话说明「轮转与保留」为何如此，并核对：logrotate -d 只模拟并展示拟议动作；真实的 force 轮转会改名、压缩、删除历史文件或触发 postrotate 脚本，不能当成练习命令。执行任何写入动作前，要先审查配置、目标日志、磁盘空间、保留期、服务重开日志文件的方式和回滚安排。",
+          "core_content": "本节直接交付：logrotate -d 只模拟并展示拟议动作；真实的 force 轮转会改名、压缩、删除历史文件或触发 postrotate 脚本，不能当成练习命令。执行任何写入动作前，要先审查配置、目标日志、磁盘空间、保留期、服务重开日志文件的方式和回滚安排。",
+          "carrier": "note warning flat",
+          "rationale": "「轮转与保留」需要先看到logrotate -d 只模拟并展示拟议动作；真实的 force 轮转会改名、压缩、删除历史文件或触发 postrotate 脚本，不能当；因此采用note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：logrotate -d 只模拟并展示拟议动作；真实的 force 轮转会改名、压缩、删除历史文件或触发 postrotate 脚本，不能当成练习命令。执行任何写入动作前，要先审查配置、目标日志、磁盘空间、保留期、服务重开日志文件的方式和回滚安排。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "时间线方法",
+          "reader_task": "用自己的话说明「时间线方法」为何如此，并核对：合格的日志报告要说明来源、查询条件、时间格式、权限与保留盲区。它能让接手者重新运行查询并判断你的推断是否成立，而不是只得到一张截断截图。",
+          "core_content": "本节直接交付：合格的日志报告要说明来源、查询条件、时间格式、权限与保留盲区。它能让接手者重新运行查询并判断你的推断是否成立，而不是只得到一张截断截图。",
+          "carrier": "note success flat",
+          "rationale": "「时间线方法」需要先看到合格的日志报告要说明来源、查询条件、时间格式、权限与保留盲区。它能让接手者重新运行查询并判断你的推断是否成立，而不是只得到一张截断截图。；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：合格的日志报告要说明来源、查询条件、时间格式、权限与保留盲区。它能让接手者重新运行查询并判断你的推断是否成立，而不是只得到一张截断截图。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
+      "Linux(二)系统与命令行基础": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：把一台陌生 Linux 主机交给你时，第一项工作不是背命令，而是建立一份可复现的环境清单：内核是什么、命令由谁提供、当前目录在哪里、Shell 如何查找命令，以及哪些帮助入口可以继续追查。本文只处理这条主线；文件内容处理、重定向组合、权限、进程、网络、日志和性能在后续主题中展开。",
+          "core_content": "本节直接交付：把一台陌生 Linux 主机交给你时，第一项工作不是背命令，而是建立一份可复现的环境清单：内核是什么、命令由谁提供、当前目录在哪里、Shell 如何查找命令，以及哪些帮助入口可以继续追查。本文只处理这条主线；文件内容处理、重定向组合、权限、进程、网络、日志和性能在后续主题中展开。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到把一台陌生 Linux 主机交给你时，第一项工作不是背命令，而是建立一份可复现的环境清单：内核是什么、命令由谁提供、当前目录在哪里、Shel；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：把一台陌生 Linux 主机交给你时，第一项工作不是背命令，而是建立一份可复现的环境清单：内核是什么、命令由谁提供、当前目录在哪里、Shell 如何查找命令，以及哪些帮助入口可以继续追查。本文只处理这条主线；文件内容处理、重定向组合、权限、进程、网络、日志和性能在后续主题中展开。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "范围与系统模型",
+          "reader_task": "在陌生主机建立环境清单并区分内核、发行版、终端、Shell 与命令。",
+          "core_content": "系统层次、实现边界和范围排除。",
+          "carrier": "note info flat + TD Mermaid + primary/info notes",
+          "rationale": "层次关系适合图，范围和结论须直接可见。",
+          "directly_visible": "对象关系、观测命令和边界。",
+          "degradation": "图失效时文字与表格完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "发行版与交互",
+          "reader_task": "从中文问题选择系统识别、命令提供者、别名、历史与 Readline 入口。",
+          "core_content": "uname、os-release、type、版本、交互和低频 Bash 索引。",
+          "carrier": "代码 + table + folding blue + semantic notes",
+          "rationale": "高频证据直接展示，长尾入口折叠并保留选择边界。",
+          "directly_visible": "命令、输出解释、隐私和实现差异。",
+          "degradation": "代码/表格独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "路径与解析",
+          "reader_task": "判断目录职责、路径语义和命令最终由谁执行。",
+          "core_content": "FHS、逻辑/物理路径、别名/函数/内建/PATH/hash 链。",
+          "carrier": "tables + TD Mermaid + notes",
+          "rationale": "目录和查询对照用表，解析顺序用图。",
+          "directly_visible": "路径选择、查找顺序与失败边界。",
+          "degradation": "图失效时表格与文字仍完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "环境与帮助",
+          "reader_task": "按 Shell、TTY、启动类型和命令类型选择环境检查与帮助入口。",
+          "core_content": "环境变量、身份、启动文件、help/man/info 与最小 Vim 操作。",
+          "carrier": "tables + code + TD Mermaid + folding + notes",
+          "rationale": "不同观察对象要并列，启动链需可视化。",
+          "directly_visible": "命令、选择标准、无 TTY/无帮助入口边界。",
+          "degradation": "结构文本不依赖动态组件。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "验证与复习",
+          "reader_task": "形成可复现环境清单并记住高频判断题。",
+          "core_content": "最小验证链、失败边界和闪卡。",
+          "carrier": "code + success note + flashcard",
+          "rationale": "观察标准与主动回忆分别用专用承载。",
+          "directly_visible": "命令、成功条件、失败表和完整卡片。",
+          "degradation": "卡片失效时正文仍完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "继续查阅一手系统、Shell 和帮助资料。",
+          "core_content": "官方资料入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料卡保留名称和 URL。",
+          "directly_visible": "资料名称和地址。",
+          "degradation": "图标失效不影响阅读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "Linux 系统组成",
+          "reader_task": "沿图中的关系或时序讲清「Linux 系统组成」：Linux 严格说是内核；Ubuntu、Debian、Fedora 等是把内核、用户空间工具、包管理器和默认配置组合起来的发行版。终端是输入输出界面，Shell 是解释命令的程序，ls、cd 等命令可能来自 Shell 内建、外部可执行文件或别名。",
+          "core_content": "本节直接交付：Linux 严格说是内核；Ubuntu、Debian、Fedora 等是把内核、用户空间工具、包管理器和默认配置组合起来的发行版。终端是输入输出界面，Shell 是解释命令的程序，ls、cd 等命令可能来自 Shell 内建、外部可执行文件或别名。",
+          "carrier": "mermaid + note primary/info flat",
+          "rationale": "「Linux 系统组成」需要先看到Linux 严格说是内核；Ubuntu、Debian、Fedora 等是把内核、用户空间工具、包管理器和默认配置组合起来的发行版。终端是输入；因此采用mermaid + note primary/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Linux 严格说是内核；Ubuntu、Debian、Fedora 等是把内核、用户空间工具、包管理器和默认配置组合起来的发行版。终端是输入输出界面，Shell 是解释命令的程序，ls、cd 等命令可能来自 Shell 内建、外部可执行文件或别名。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "发行版与环境",
+          "reader_task": "比较表中的维度，说明「发行版与环境」在什么条件下成立。",
+          "core_content": "本节直接交付：WSL2、容器和虚拟机都可能让“发行版”和“内核提供者”不在同一个边界内。把 uname、/etc/os-release 和命令实现分别记录，才能解释“同一条命令在本机和 CI 中输出不同”。",
+          "carrier": "folding + table + note warning/info/primary flat",
+          "rationale": "「发行版与环境」需要先看到WSL2、容器和虚拟机都可能让“发行版”和“内核提供者”不在同一个边界内。把 uname、/etc/os-release 和命令实现分别记录；因此采用folding + table + note warning/info/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：WSL2、容器和虚拟机都可能让“发行版”和“内核提供者”不在同一个边界内。把 uname、/etc/os-release 和命令实现分别记录，才能解释“同一条命令在本机和 CI 中输出不同”。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "目录与路径",
+          "reader_task": "比较表中的维度，说明「目录与路径」在什么条件下成立。",
+          "core_content": "本节直接交付：Linux 只有一个根目录 /。不同磁盘可以挂载到树上的任意目录，因此目录名表达用途，不直接表达物理设备。",
+          "carrier": "table + note info/warning flat",
+          "rationale": "「目录与路径」需要先看到Linux 只有一个根目录 /。不同磁盘可以挂载到树上的任意目录，因此目录名表达用途，不直接表达物理设备。；因此采用table + note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：Linux 只有一个根目录 /。不同磁盘可以挂载到树上的任意目录，因此目录名表达用途，不直接表达物理设备。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "命令解析",
+          "reader_task": "沿图中的关系或时序讲清「命令解析」：看到“命令找不到”或“执行了旧版本”时，先不要修改 PATH。依次运行 type -a name、command -V name、printf '%s\\\\n' \"$PATH\" 和 hash -r，把解析层、搜索路径和缓存状态分开验证。",
+          "core_content": "本节直接交付：看到“命令找不到”或“执行了旧版本”时，先不要修改 PATH。依次运行 type -a name、command -V name、printf '%s\\\\n' \"$PATH\" 和 hash -r，把解析层、搜索路径和缓存状态分开验证。",
+          "carrier": "mermaid + table + note primary flat",
+          "rationale": "「命令解析」需要先看到看到“命令找不到”或“执行了旧版本”时，先不要修改 PATH。依次运行 type -a name、command -V name、print；因此采用mermaid + table + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：看到“命令找不到”或“执行了旧版本”时，先不要修改 PATH。依次运行 type -a name、command -V name、printf '%s\\\\n' \"$PATH\" 和 hash -r，把解析层、搜索路径和缓存状态分开验证。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "运行环境",
+          "reader_task": "沿图中的关系或时序讲清「运行环境」：env 默认列出环境变量，printenv NAME 适合取一个变量；Shell 局部变量不一定会被子进程继承。不要用 env 的完整输出当作稳定配置文件，报告中只记录与问题相关的键。",
+          "core_content": "本节直接交付：env 默认列出环境变量，printenv NAME 适合取一个变量；Shell 局部变量不一定会被子进程继承。不要用 env 的完整输出当作稳定配置文件，报告中只记录与问题相关的键。",
+          "carrier": "mermaid + folding + table + note info/warning/primary flat",
+          "rationale": "「运行环境」需要先看到env 默认列出环境变量，printenv NAME 适合取一个变量；Shell 局部变量不一定会被子进程继承。不要用 env 的完整输出当；因此采用mermaid + folding + table + note info/warning/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：env 默认列出环境变量，printenv NAME 适合取一个变量；Shell 局部变量不一定会被子进程继承。不要用 env 的完整输出当作稳定配置文件，报告中只记录与问题相关的键。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "帮助与编辑",
+          "reader_task": "比较表中的维度，说明「帮助与编辑」在什么条件下成立。",
+          "core_content": "本节直接交付：先用 type 判断对象，再按对象选择帮助：Shell 内建用 help，外部命令用 man，GNU 复杂组件可补充 info，只要一句摘要用 whatis。--help 是常见入口，但不是所有命令都保证格式一致。",
+          "carrier": "table + note primary/info/danger flat",
+          "rationale": "「帮助与编辑」需要先看到先用 type 判断对象，再按对象选择帮助：Shell 内建用 help，外部命令用 man，GNU 复杂组件可补充 info，只要一句摘要；因此采用table + note primary/info/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先用 type 判断对象，再按对象选择帮助：Shell 内建用 help，外部命令用 man，GNU 复杂组件可补充 info，只要一句摘要用 whatis。--help 是常见入口，但不是所有命令都保证格式一致。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "比较表中的维度，说明「结果验证」在什么条件下成立。",
+          "core_content": "本节直接交付：按顺序执行并保存与问题相关的输出；不要把密钥、令牌或整份私有环境变量发布到日志。",
+          "carrier": "table + note info/success flat",
+          "rationale": "「结果验证」需要先看到按顺序执行并保存与问题相关的输出；不要把密钥、令牌或整份私有环境变量发布到日志。；因此采用table + note info/success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：按顺序执行并保存与问题相关的输出；不要把密钥、令牌或整份私有环境变量发布到日志。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        }
+      ],
       "Linux(五)Shell 语法与命令组合": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：组合命令并不是“把几条命令写在一行”。Shell 会先解析结构和展开参数，再设置重定向并执行。本文只练习解析、引号、标准流、管道、作用域和批处理；不展开文件文本处理、进程服务、日志诊断或脚本自动化。",
+          "core_content": "本节直接交付：组合命令并不是“把几条命令写在一行”。Shell 会先解析结构和展开参数，再设置重定向并执行。本文只练习解析、引号、标准流、管道、作用域和批处理；不展开文件文本处理、进程服务、日志诊断或脚本自动化。",
+          "carrier": "note info/warning flat",
+          "rationale": "「开篇定位」需要先看到组合命令并不是“把几条命令写在一行”。Shell 会先解析结构和展开参数，再设置重定向并执行。本文只练习解析、引号、标准流、管道、作用域和批；因此采用note info/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：组合命令并不是“把几条命令写在一行”。Shell 会先解析结构和展开参数，再设置重定向并执行。本文只练习解析、引号、标准流、管道、作用域和批处理；不展开文件文本处理、进程服务、日志诊断或脚本自动化。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
         {
           "block": "范围与边界",
           "reader_task": "判断问题属于 Shell 解析与组合，还是文件、文本、进程或脚本自动化。",
@@ -210,183 +830,39 @@
           "directly_visible": "资料名称和目标 URL。",
           "degradation": "图标失败时文字和链接仍可辨认。",
           "validation_status": "资料卡已通过发布级内容与标签 lint。"
-        }
-      ],
-      "Linux(六)用户权限与软件管理": [
-        {
-          "block": "范围与边界",
-          "reader_task": "先区分身份、权限、提权和软件包问题，再决定是否变更。",
-          "core_content": "先读取事实，拒绝用 root、777 或盲装包替代诊断。",
-          "carrier": "note info flat",
-          "rationale": "高风险范围与排除项必须在开篇直接可见。",
-          "directly_visible": "本文职责、生产变更边界。",
-          "degradation": "样式失效后仍保留完整风险文字。",
-          "validation_status": "正文、账本和范围已复核；发布级静态、构建与页面证据由本轮课程收尾统一复核。"
         },
         {
-          "block": "身份模型",
-          "reader_task": "用 UID、GID、组和 NSS 解释访问主体。",
-          "core_content": "id、groups、getent 的角色与证据边界。",
-          "carrier": "TD Mermaid + 只读命令 + note primary flat",
-          "rationale": "权限关系适合流程图，身份证据必须可直接运行。",
-          "directly_visible": "身份来源、NSS 边界和预期结果。",
-          "degradation": "图失效时命令和解释仍可独立阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：test -s 判断文件是否非空，test \"$a\" = \"$b\" 判断字符串是否相等；真返回 0、假返回非 0。预期可见 test-assertions=pass、pipeline-status=1 与 xargs-check=pass。实验不会自动删除 LAB，检查完再按你的环境安全清理。",
+          "core_content": "本节直接交付：test -s 判断文件是否非空，test \"$a\" = \"$b\" 判断字符串是否相等；真返回 0、假返回非 0。预期可见 test-assertions=pass、pipeline-status=1 与 xargs-check=pass。实验不会自动删除 LAB，检查完再按你的环境安全清理。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到test -s 判断文件是否非空，test \"$a\" = \"$b\" 判断字符串是否相等；真返回 0、假返回非 0。预期可见 test-ass；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：test -s 判断文件是否非空，test \"$a\" = \"$b\" 判断字符串是否相等；真返回 0、假返回非 0。预期可见 test-assertions=pass、pipeline-status=1 与 xargs-check=pass。实验不会自动删除 LAB，检查完再按你的环境安全清理。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "账户操作",
-          "reader_task": "从中文场景选择账户或组工具，而不在生产环境试错。",
-          "core_content": "user/group/passwd/newgrp 的用途与不可替代的审批边界。",
-          "carrier": "比较表 + note warning flat",
-          "rationale": "改变账户数据库的操作不应伪装成安全练习。",
-          "directly_visible": "选择条件、影响对象和禁止的试错方式。",
-          "degradation": "表格与警告文字不依赖交互组件。",
-          "validation_status": "八项账户/组命令已逐项写明中文场景与选择边界；变更动作保持测试环境门禁。"
-        },
-        {
-          "block": "权限计算",
-          "reader_task": "用私有目录验证模式、父目录搜索权限、组和 umask。",
-          "core_content": "chmod/chgrp/chown/umask 的职责、成功和授权失败边界。",
-          "carrier": "隔离目录代码 + note primary/info/warning flat",
-          "rationale": "权限差异需要用同一目标和可见模式验证。",
-          "directly_visible": "实验目录、命令顺序、失败解释和特殊边界。",
-          "degradation": "代码、ls 输出与文字不依赖网络或脚本。",
-          "validation_status": "9 个 Bash 围栏已通过语法检查；隔离权限实验已通过模式、GID 与 owner/group 断言（本地以兼容 stat 适配验证逻辑）。"
-        },
-        {
-          "block": "提权边界",
-          "reader_task": "区别受限 sudo 与切换登录环境，并避免扩大权限。",
-          "core_content": "sudo -l、目标用户、su -、sudoedit 与提供者差异。",
-          "carrier": "只读代码 + danger/info notes + 比较表",
-          "rationale": "授权风险必须在命令相邻处强调，比较表适合选择。",
-          "directly_visible": "最小权限、密码安全和提供者不等于授权模型。",
-          "degradation": "文字和命令即使无样式也可读。",
-          "validation_status": "sudo 与受控 TEST_USER 的 su 示例已补齐策略/认证失败边界；目标主机策略需按实际环境读取。"
-        },
-        {
-          "block": "软件包生命周期",
-          "reader_task": "从索引、候选、模拟到安装结果选择 APT/dpkg 或 RHEL 工具。",
-          "core_content": "apt-cache、apt-get --simulate、apt、apt-mark、dpkg 与 dnf/rpm 边界。",
-          "carrier": "TD Mermaid + 代码 + note primary/warning/info flat + 表格",
-          "rationale": "生命周期关系用流程图，写入前模拟与发行版差异必须并列可见。",
-          "directly_visible": "只读查询、会写操作、模拟计划和 signed-by 风险。",
-          "degradation": "代码和表格不依赖外部资源。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "结果验证与复习",
-          "reader_task": "用身份、私有文件和包元数据形成可复述的证据链。",
-          "core_content": "最小断言、成功条件与五张高价值闪卡。",
-          "carrier": "代码 + note success flat + flashcard",
-          "rationale": "核心验证需直接可见，长期记忆用专用卡片。",
-          "directly_visible": "身份、路径权限、候选与已安装元数据证据。",
-          "degradation": "卡片降级为完整题面、答案与解析。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "参考资料",
-          "reader_task": "继续查阅标准、Ubuntu 源配置和 RHEL 包管理的一手资料。",
-          "core_content": "官方延伸资料。",
-          "carrier": "linkgroup/link",
-          "rationale": "资料卡保留标题和 URL，图标仅作增强。",
-          "directly_visible": "资料名称和目标地址。",
-          "degradation": "图标加载失败时仍保留可读链接。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        }
-      ],
-      "Linux(七)进程任务与服务管理": [
-        {
-          "block": "范围与边界",
-          "reader_task": "先判断问题属于进程、服务管理器还是定时环境。",
-          "core_content": "先观察证据，再选择信号或动作，拒绝把 KILL 和重启当起点。",
-          "carrier": "note info flat",
-          "rationale": "风险边界需在开篇可见。",
-          "directly_visible": "本文范围与排除项。",
-          "degradation": "文字独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "进程模型",
-          "reader_task": "从受控子进程读出 PID、父子关系、状态和退出状态。",
-          "core_content": "ps、pgrep、wait 与 kill -0 的证据角色。",
-          "carrier": "TD Mermaid + 自己启动的短命进程代码 + note primary flat",
-          "rationale": "关系用图，进程示例必须不作用于真实服务。",
-          "directly_visible": "进程状态、命令、预期状态。",
-          "degradation": "图失效时代码与说明仍完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "信号与终止",
-          "reader_task": "先安全识别目标，再以 TERM、pkill 条件和 KILL 边界处理。",
-          "core_content": "单 PID 信号、受限匹配、状态与不可恢复边界。",
-          "carrier": "临时子进程代码 + primary/danger notes + 表格",
-          "rationale": "高风险命令需要受控示例和相邻警告。",
-          "directly_visible": "目标范围、状态、KILL 风险。",
-          "degradation": "代码和表格独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "作业控制",
-          "reader_task": "区分当前 Bash 的作业与系统范围的进程。",
-          "core_content": "jobs、wait、nohup 与 bg/fg/pidwait/watch 的选择边界。",
-          "carrier": "短命作业代码 + note info flat + 表格",
-          "rationale": "主线命令直接可见，TTY/低频入口用表格避免误用。",
-          "directly_visible": "会话边界与 nohup 限制。",
-          "degradation": "无交互脚本时表格仍可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "优先级与调度",
-          "reader_task": "用 nice/renice 判断并调整受控进程的调度优先级。",
-          "core_content": "nice 值、权限和非资源配额边界。",
-          "carrier": "临时子进程代码 + note warning flat",
-          "rationale": "修改只落在自身进程，风险文字直接相邻。",
-          "directly_visible": "PID、优先级、恢复边界。",
-          "degradation": "文本与代码不依赖服务。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "systemd 服务",
-          "reader_task": "从 unit 状态、字段与临时 scope 区分读取和变更。",
-          "core_content": "systemctl 的状态证据、systemd-run 的最小可控动作和服务动作边界。",
-          "carrier": "只读 unit 代码 + 条件式 user scope + primary/info notes",
-          "rationale": "环境依赖通过条件式可见，避免虚构服务名或改全局 unit。",
-          "directly_visible": "UNIT 输入、状态字段和不可用分支。",
-          "degradation": "命令与说明独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "定时与迁移",
-          "reader_task": "按一次性、批处理、周期和主机级动作选择入口。",
-          "core_content": "at/batch/crontab/timer 与 init/skill/snice/电源动作的边界。",
-          "carrier": "比较表 + warning note + folding table",
-          "rationale": "依赖服务的低频选择适合表格，迁移材料可折叠。",
-          "directly_visible": "定时环境风险和主机级动作警告。",
-          "degradation": "details 失效时表格仍是文本。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "结果验证与复习",
-          "reader_task": "形成 PID、状态、unit 和日志证据的最小闭环。",
-          "core_content": "可控进程回归、UNIT 失败边界和四张闪卡。",
-          "carrier": "代码 + note success flat + flashcard",
-          "rationale": "证据标准直接可见，复习用独立卡片。",
-          "directly_visible": "成功条件、失败分支和卡片文本。",
-          "degradation": "卡片降级后仍可阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "参考资料",
-          "reader_task": "继续查阅 POSIX、Bash 与 systemd 一手资料。",
-          "core_content": "官方资料入口。",
-          "carrier": "linkgroup/link",
-          "rationale": "资料标题和 URL 保持可读。",
-          "directly_visible": "资料名称和地址。",
-          "degradation": "图标失效不影响阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；受控 Shell 回归已完成；未在当前宿主机对目标 systemd 服务执行真实变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ],
       "Linux(八)网络连接与远程排障": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：“网络不通”必须拆层验证：链路和地址、路由、DNS、端口、TLS、应用请求与抓包。本文从本机状态开始逐层缩小范围；ping 成功不能证明 HTTPS 正常，抓包内容也不能当作可公开的日志。",
+          "core_content": "本节直接交付：“网络不通”必须拆层验证：链路和地址、路由、DNS、端口、TLS、应用请求与抓包。本文从本机状态开始逐层缩小范围；ping 成功不能证明 HTTPS 正常，抓包内容也不能当作可公开的日志。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到“网络不通”必须拆层验证：链路和地址、路由、DNS、端口、TLS、应用请求与抓包。本文从本机状态开始逐层缩小范围；ping 成功不能证明 H；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：“网络不通”必须拆层验证：链路和地址、路由、DNS、端口、TLS、应用请求与抓包。本文从本机状态开始逐层缩小范围；ping 成功不能证明 HTTPS 正常，抓包内容也不能当作可公开的日志。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
         {
           "block": "范围与分层",
           "reader_task": "把“网络不通”拆为接口、路由、DNS、端口、应用与抓包证据，不跨层猜测。",
@@ -486,71 +962,181 @@
           "directly_visible": "资料名称和地址。",
           "degradation": "图标失效不影响阅读。",
           "validation_status": "已完成该块的正文、账本和标签静态复核；未对陌生远端、真实抓包接口或生产网络执行连接、抓包或写入。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "排障分层",
+          "reader_task": "沿图中的关系或时序讲清「排障分层」：每层都有独立成功标准：ip 说明本机状态，tracepath 或 traceroute 说明路径，dig 说明 DNS，ss 或 nc 说明端口，curl 说明应用协议，tcpdump 留下受限报文证据。先记录上一层已知事实，避免跳过路由或 DNS 直接猜应用故障。",
+          "core_content": "本节直接交付：每层都有独立成功标准：ip 说明本机状态，tracepath 或 traceroute 说明路径，dig 说明 DNS，ss 或 nc 说明端口，curl 说明应用协议，tcpdump 留下受限报文证据。先记录上一层已知事实，避免跳过路由或 DNS 直接猜应用故障。",
+          "carrier": "mermaid + note primary flat",
+          "rationale": "「排障分层」需要先看到每层都有独立成功标准：ip 说明本机状态，tracepath 或 traceroute 说明路径，dig 说明 DNS，ss 或 nc 说明；因此采用mermaid + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：每层都有独立成功标准：ip 说明本机状态，tracepath 或 traceroute 说明路径，dig 说明 DNS，ss 或 nc 说明端口，curl 说明应用协议，tcpdump 留下受限报文证据。先记录上一层已知事实，避免跳过路由或 DNS 直接猜应用故障。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "路径与可达性",
+          "reader_task": "用自己的话说明「路径与可达性」为何如此，并核对：ping 验证 ICMP 可达，可能被限速或防火墙丢弃；tracepath 与 traceroute 的中间跳也可能隐藏。tracepath 只提供最大跳数，所以用 timeout 再限制总时长；traceroute 的 -m、-q、-w 分别限制跳数、每跳探测数和单次等待。timeout 返回 124 只表示采样窗口结束，不是“路径不通”的结论。把“…",
+          "core_content": "本节直接交付：ping 验证 ICMP 可达，可能被限速或防火墙丢弃；tracepath 与 traceroute 的中间跳也可能隐藏。tracepath 只提供最大跳数，所以用 timeout 再限制总时长；traceroute 的 -m、-q、-w 分别限制跳数、每跳探测数和单次等待。timeout 返回 124 只表示采样窗口结束，不是“路径不通”的结论。把“…",
+          "carrier": "note warning flat",
+          "rationale": "「路径与可达性」需要先看到ping 验证 ICMP 可达，可能被限速或防火墙丢弃；tracepath 与 traceroute 的中间跳也可能隐藏。tracepath；因此采用note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：ping 验证 ICMP 可达，可能被限速或防火墙丢弃；tracepath 与 traceroute 的中间跳也可能隐藏。tracepath 只提供最大跳数，所以用 timeout 再限制总时长；traceroute 的 -m、-q、-w 分别限制跳数、每跳探测数和单次等待。timeout 返回 124 只表示采样窗口结束，不是“路径不通”的结论。把“…。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "DNS 解析",
+          "reader_task": "用自己的话说明「DNS 解析」为何如此，并核对：dig 适合记录查询类型、服务器、TTL 与响应状态。无记录、解析超时、返回错误地址、缓存差异和应用绕过系统解析器是不同故障；先保存回答了哪个问题，再继续检查端口。",
+          "core_content": "本节直接交付：dig 适合记录查询类型、服务器、TTL 与响应状态。无记录、解析超时、返回错误地址、缓存差异和应用绕过系统解析器是不同故障；先保存回答了哪个问题，再继续检查端口。",
+          "carrier": "note primary flat",
+          "rationale": "「DNS 解析」需要先看到dig 适合记录查询类型、服务器、TTL 与响应状态。无记录、解析超时、返回错误地址、缓存差异和应用绕过系统解析器是不同故障；先保存回答了哪；因此采用note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：dig 适合记录查询类型、服务器、TTL 与响应状态。无记录、解析超时、返回错误地址、缓存差异和应用绕过系统解析器是不同故障；先保存回答了哪个问题，再继续检查端口。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：一份合格网络报告包含目标、源地址、命令、时间、层级、输出摘要和下一步，而不是一句“网络不通”。同一目标至少用一个被动观察和一个主动请求交叉验证；某层失败时，把结论限制在该层，不要跳到“整个网络坏了”。",
+          "core_content": "本节直接交付：一份合格网络报告包含目标、源地址、命令、时间、层级、输出摘要和下一步，而不是一句“网络不通”。同一目标至少用一个被动观察和一个主动请求交叉验证；某层失败时，把结论限制在该层，不要跳到“整个网络坏了”。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到一份合格网络报告包含目标、源地址、命令、时间、层级、输出摘要和下一步，而不是一句“网络不通”。同一目标至少用一个被动观察和一个主动请求交叉验；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：一份合格网络报告包含目标、源地址、命令、时间、层级、输出摘要和下一步，而不是一句“网络不通”。同一目标至少用一个被动观察和一个主动请求交叉验证；某层失败时，把结论限制在该层，不要跳到“整个网络坏了”。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ],
-      "Linux(九)日志查看与故障定位": [
+      "Linux(六)用户权限与软件管理": [
         {
-          "block": "范围与来源",
-          "reader_task": "区分服务、内核、转储与轮转的日志来源，再开始筛选。",
-          "core_content": "时间线模型、来源差异和时间校准边界。",
-          "carrier": "note info flat + TD Mermaid + note primary flat",
-          "rationale": "来源关系适合流程图，结论边界必须直接可见。",
-          "directly_visible": "来源、工具职责和时间戳差异。",
-          "degradation": "图失效时文字仍给出完整分层。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未在目标 systemd Journal 上执行真实采集。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：权限和软件管理都先做“读取事实”，再决定是否改变系统：先确认有效身份、目标对象和包来源，最后才考虑 chmod、sudo 或安装动作。本文不把 root 当作万能修复，也不指导在生产主机上试错式创建账户、修改仓库或安装软件。",
+          "core_content": "本节直接交付：权限和软件管理都先做“读取事实”，再决定是否改变系统：先确认有效身份、目标对象和包来源，最后才考虑 chmod、sudo 或安装动作。本文不把 root 当作万能修复，也不指导在生产主机上试错式创建账户、修改仓库或安装软件。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到权限和软件管理都先做“读取事实”，再决定是否改变系统：先确认有效身份、目标对象和包来源，最后才考虑 chmod、sudo 或安装动作。本文不；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：权限和软件管理都先做“读取事实”，再决定是否改变系统：先确认有效身份、目标对象和包来源，最后才考虑 chmod、sudo 或安装动作。本文不把 root 当作万能修复，也不指导在生产主机上试错式创建账户、修改仓库或安装软件。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "Journal 查询",
-          "reader_task": "按服务、时间、优先级和 boot 组合 journalctl 查询。",
-          "core_content": "查询维度、输出格式、空结果和持续跟随边界。",
-          "carrier": "受限代码 + 表格 + note warning flat",
-          "rationale": "多个筛选维度需要并列比较，实时跟随风险需直接提示。",
-          "directly_visible": "命令、目标 unit、时间窗和结论边界。",
-          "degradation": "表格与代码独立可读。",
-          "validation_status": "已完成静态与语法复核；实际 Journal 结果取决于目标主机。"
+          "block": "范围与边界",
+          "reader_task": "先区分身份、权限、提权和软件包问题，再决定是否变更。",
+          "core_content": "先读取事实，拒绝用 root、777 或盲装包替代诊断。",
+          "carrier": "note info flat",
+          "rationale": "高风险范围与排除项必须在开篇直接可见。",
+          "directly_visible": "本文职责、生产变更边界。",
+          "degradation": "样式失效后仍保留完整风险文字。",
+          "validation_status": "正文、账本和范围已复核；发布级静态、构建与页面证据由本轮课程收尾统一复核。"
         },
         {
-          "block": "测试与内核",
-          "reader_task": "用唯一 TAG 验证采集链路，并区别 dmesg 与 Journal 内核消息。",
-          "core_content": "logger/systemd-cat 的受控测试、内核缓冲区和保留边界。",
-          "carrier": "代码 + primary/info notes",
-          "rationale": "写入测试事件须带唯一标识并紧邻环境边界。",
-          "directly_visible": "TAG、查询方式、缓冲区和权限限制。",
-          "degradation": "命令与文字不依赖日志服务已成功。",
-          "validation_status": "已完成 Bash 语法复核；不在当前宿主机写入系统日志。"
+          "block": "身份模型",
+          "reader_task": "用 UID、GID、组和 NSS 解释访问主体。",
+          "core_content": "id、groups、getent 的角色与证据边界。",
+          "carrier": "TD Mermaid + 只读命令 + note primary flat",
+          "rationale": "权限关系适合流程图，身份证据必须可直接运行。",
+          "directly_visible": "身份来源、NSS 边界和预期结果。",
+          "degradation": "图失效时命令和解释仍可独立阅读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
-          "block": "崩溃与轮转",
-          "reader_task": "判断 coredumpctl 与 logrotate 分别回答记录、元数据和保留问题。",
-          "core_content": "转储敏感性、PID 选择、轮转模拟和真实写入边界。",
-          "carrier": "受限代码 + danger/warning notes",
-          "rationale": "高敏感数据与可能改历史的动作必须直接可见。",
-          "directly_visible": "授权条件、失败边界和不可作为练习的写操作。",
-          "degradation": "代码与安全说明独立可读。",
-          "validation_status": "已完成静态与语法复核；需在授权目标环境做运行时验证。"
+          "block": "账户操作",
+          "reader_task": "从中文场景选择账户或组工具，而不在生产环境试错。",
+          "core_content": "user/group/passwd/newgrp 的用途与不可替代的审批边界。",
+          "carrier": "比较表 + note warning flat",
+          "rationale": "改变账户数据库的操作不应伪装成安全练习。",
+          "directly_visible": "选择条件、影响对象和禁止的试错方式。",
+          "degradation": "表格与警告文字不依赖交互组件。",
+          "validation_status": "八项账户/组命令已逐项写明中文场景与选择边界；变更动作保持测试环境门禁。"
         },
         {
-          "block": "时间线与复习",
-          "reader_task": "把观察、推断与待验证假设固定成可交接时间线。",
-          "core_content": "采集顺序、复测条件和四张闪卡。",
-          "carrier": "代码 + 列表 + note success flat + flashcard",
-          "rationale": "结构化步骤适合列表，证据标准与长期复习需直接可见。",
-          "directly_visible": "时间窗、来源、盲区和卡片文本。",
-          "degradation": "卡片失效时仍保留完整文本。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未在目标 systemd Journal 上执行真实采集。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "权限计算",
+          "reader_task": "用私有目录验证模式、父目录搜索权限、组和 umask。",
+          "core_content": "chmod/chgrp/chown/umask 的职责、成功和授权失败边界。",
+          "carrier": "隔离目录代码 + note primary/info/warning flat",
+          "rationale": "权限差异需要用同一目标和可见模式验证。",
+          "directly_visible": "实验目录、命令顺序、失败解释和特殊边界。",
+          "degradation": "代码、ls 输出与文字不依赖网络或脚本。",
+          "validation_status": "9 个 Bash 围栏已通过语法检查；隔离权限实验已通过模式、GID 与 owner/group 断言（本地以兼容 stat 适配验证逻辑）。"
+        },
+        {
+          "block": "提权边界",
+          "reader_task": "区别受限 sudo 与切换登录环境，并避免扩大权限。",
+          "core_content": "sudo -l、目标用户、su -、sudoedit 与提供者差异。",
+          "carrier": "只读代码 + danger/info notes + 比较表",
+          "rationale": "授权风险必须在命令相邻处强调，比较表适合选择。",
+          "directly_visible": "最小权限、密码安全和提供者不等于授权模型。",
+          "degradation": "文字和命令即使无样式也可读。",
+          "validation_status": "sudo 与受控 TEST_USER 的 su 示例已补齐策略/认证失败边界；目标主机策略需按实际环境读取。"
+        },
+        {
+          "block": "软件包生命周期",
+          "reader_task": "从索引、候选、模拟到安装结果选择 APT/dpkg 或 RHEL 工具。",
+          "core_content": "apt-cache、apt-get --simulate、apt、apt-mark、dpkg 与 dnf/rpm 边界。",
+          "carrier": "TD Mermaid + 代码 + note primary/warning/info flat + 表格",
+          "rationale": "生命周期关系用流程图，写入前模拟与发行版差异必须并列可见。",
+          "directly_visible": "只读查询、会写操作、模拟计划和 signed-by 风险。",
+          "degradation": "代码和表格不依赖外部资源。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "结果验证与复习",
+          "reader_task": "用身份、私有文件和包元数据形成可复述的证据链。",
+          "core_content": "最小断言、成功条件与五张高价值闪卡。",
+          "carrier": "代码 + note success flat + flashcard",
+          "rationale": "核心验证需直接可见，长期记忆用专用卡片。",
+          "directly_visible": "身份、路径权限、候选与已安装元数据证据。",
+          "degradation": "卡片降级为完整题面、答案与解析。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
           "block": "参考资料",
-          "reader_task": "继续查阅 systemd、dmesg 和 logrotate 一手资料。",
-          "core_content": "官方资料卡入口。",
+          "reader_task": "继续查阅标准、Ubuntu 源配置和 RHEL 包管理的一手资料。",
+          "core_content": "官方延伸资料。",
           "carrier": "linkgroup/link",
-          "rationale": "标题与 URL 在图标失败时仍要可读。",
-          "directly_visible": "资料名称和地址。",
-          "degradation": "图标失效不影响阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未在目标 systemd Journal 上执行真实采集。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "rationale": "资料卡保留标题和 URL，图标仅作增强。",
+          "directly_visible": "资料名称和目标地址。",
+          "degradation": "图标加载失败时仍保留可读链接。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机对目标发行版执行身份或包管理变更。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：权限验证要能回答“谁在访问、父目录能否搜索、文件模式与归属是什么”；软件验证要能回答“候选来自哪里、计划会改变什么、已安装数据库是否有记录”。LAB 不会被自动删除，检查完再按你的环境安全清理。",
+          "core_content": "本节直接交付：权限验证要能回答“谁在访问、父目录能否搜索、文件模式与归属是什么”；软件验证要能回答“候选来自哪里、计划会改变什么、已安装数据库是否有记录”。LAB 不会被自动删除，检查完再按你的环境安全清理。",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到权限验证要能回答“谁在访问、父目录能否搜索、文件模式与归属是什么”；软件验证要能回答“候选来自哪里、计划会改变什么、已安装数据库是否有记录”；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：权限验证要能回答“谁在访问、父目录能否搜索、文件模式与归属是什么”；软件验证要能回答“候选来自哪里、计划会改变什么、已安装数据库是否有记录”。LAB 不会被自动删除，检查完再按你的环境安全清理。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ],
       "Linux(十)性能分析与资源诊断": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：性能分析先回答“哪段时间、哪个请求、哪个进程变慢”，再采集 CPU、内存、I/O 和系统调用证据。单个高百分比、一次 top 截图或一次命令耗时都不是根因；所有比较都应复用相同的时间窗、采样间隔和负载条件。",
+          "core_content": "本节直接交付：性能分析先回答“哪段时间、哪个请求、哪个进程变慢”，再采集 CPU、内存、I/O 和系统调用证据。单个高百分比、一次 top 截图或一次命令耗时都不是根因；所有比较都应复用相同的时间窗、采样间隔和负载条件。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到性能分析先回答“哪段时间、哪个请求、哪个进程变慢”，再采集 CPU、内存、I/O 和系统调用证据。单个高百分比、一次 top 截图或一次命令；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：性能分析先回答“哪段时间、哪个请求、哪个进程变慢”，再采集 CPU、内存、I/O 和系统调用证据。单个高百分比、一次 top 截图或一次命令耗时都不是根因；所有比较都应复用相同的时间窗、采样间隔和负载条件。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
         {
           "block": "范围与模型",
           "reader_task": "先固定症状和时间窗，再决定采样维度。",
@@ -630,9 +1216,59 @@
           "directly_visible": "资料名称和目标地址。",
           "degradation": "图标失败不影响阅读。",
           "validation_status": "已完成该块的正文、账本和标签静态复核；未在当前宿主机执行 perf、strace 等目标性能采样。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "诊断框架",
+          "reader_task": "沿图中的关系或时序讲清「诊断框架」：先用 uptime、top 和 free 判断症状是否仍在发生，再用 mpstat、vmstat、iostat、pidstat 按维度分解，最后才把 perf、strace、pmap 或 lsof 对准已确认的 PID。每次只改变一个变量，否则无法区分修复效果和负载波动。",
+          "core_content": "本节直接交付：先用 uptime、top 和 free 判断症状是否仍在发生，再用 mpstat、vmstat、iostat、pidstat 按维度分解，最后才把 perf、strace、pmap 或 lsof 对准已确认的 PID。每次只改变一个变量，否则无法区分修复效果和负载波动。",
+          "carrier": "mermaid + note primary flat",
+          "rationale": "「诊断框架」需要先看到先用 uptime、top 和 free 判断症状是否仍在发生，再用 mpstat、vmstat、iostat、pidstat 按维度分解，；因此采用mermaid + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先用 uptime、top 和 free 判断症状是否仍在发生，再用 mpstat、vmstat、iostat、pidstat 按维度分解，最后才把 perf、strace、pmap 或 lsof 对准已确认的 PID。每次只改变一个变量，否则无法区分修复效果和负载波动。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "CPU 与负载",
+          "reader_task": "比较表中的维度，说明「CPU 与负载」在什么条件下成立。",
+          "core_content": "本节直接交付：高 load 可能来自可运行任务，也可能来自不可中断 I/O 等待；高 CPU 也可能只是短暂尖峰。必须把 load、运行队列、iowait、用户态和内核态放进同一时间窗解释。",
+          "carrier": "table + note warning/primary flat",
+          "rationale": "「CPU 与负载」需要先看到高 load 可能来自可运行任务，也可能来自不可中断 I/O 等待；高 CPU 也可能只是短暂尖峰。必须把 load、运行队列、iowait；因此采用table + note warning/primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：高 load 可能来自可运行任务，也可能来自不可中断 I/O 等待；高 CPU 也可能只是短暂尖峰。必须把 load、运行队列、iowait、用户态和内核态放进同一时间窗解释。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "复测报告",
+          "reader_task": "用自己的话说明「复测报告」为何如此，并核对：性能结论至少包含指标含义、时间窗、CPU/容器配额、负载来源和复测结果。“内存 90%”“CPU 100%”是观察值，不是根因；只有证据链能说明下一步该优化代码、容量、配置还是依赖服务。",
+          "core_content": "本节直接交付：性能结论至少包含指标含义、时间窗、CPU/容器配额、负载来源和复测结果。“内存 90%”“CPU 100%”是观察值，不是根因；只有证据链能说明下一步该优化代码、容量、配置还是依赖服务。",
+          "carrier": "note success flat",
+          "rationale": "「复测报告」需要先看到性能结论至少包含指标含义、时间窗、CPU/容器配额、负载来源和复测结果。“内存 90%”“CPU 100%”是观察值，不是根因；只有证据链能；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：性能结论至少包含指标含义、时间窗、CPU/容器配额、负载来源和复测结果。“内存 90%”“CPU 100%”是观察值，不是根因；只有证据链能说明下一步该优化代码、容量、配置还是依赖服务。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ],
       "Linux(十一)Bash 脚本与任务自动化": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：自动化脚本的成功标准不是“能跑一次”，而是输入、输出、退出状态、清理和重复执行都能解释。本文用 Bash 把命令组合成小程序：先解析参数和校验输入，再执行受控动作，最后用明确状态和测试说明结果；不把未处理输入重新交给 Shell 解析。",
+          "core_content": "本节直接交付：自动化脚本的成功标准不是“能跑一次”，而是输入、输出、退出状态、清理和重复执行都能解释。本文用 Bash 把命令组合成小程序：先解析参数和校验输入，再执行受控动作，最后用明确状态和测试说明结果；不把未处理输入重新交给 Shell 解析。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到自动化脚本的成功标准不是“能跑一次”，而是输入、输出、退出状态、清理和重复执行都能解释。本文用 Bash 把命令组合成小程序：先解析参数和校；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：自动化脚本的成功标准不是“能跑一次”，而是输入、输出、退出状态、清理和重复执行都能解释。本文用 Bash 把命令组合成小程序：先解析参数和校验输入，再执行受控动作，最后用明确状态和测试说明结果；不把未处理输入重新交给 Shell 解析。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
         {
           "block": "脚本模型",
           "reader_task": "理解脚本从输入、校验、执行到状态和清理的责任链。",
@@ -712,227 +1348,181 @@
           "directly_visible": "完整题面、答案、解析和资料 URL。",
           "degradation": "卡片或图标失效时正文仍可读。",
           "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "沿官方资料入口继续核对与「参考资料」相关的能力。",
+          "core_content": "本节直接交付：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。",
+          "carrier": "linkgroup + link",
+          "rationale": "「参考资料」需要先看到本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。；因此采用linkgroup + link，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节提供与主题直接对应的官方资料入口，注明资料用途和 URL。。",
+          "degradation": "卡片或图标失效时资料标题、用途和 URL 仍可访问。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ],
-      "Linux(一)入门路线": [
+      "Linux(十三)综合实战": [
         {
-          "block": "课程定位",
-          "reader_task": "理解本课程只覆盖 Linux 命令、排障与安全实验边界。",
-          "core_content": "学习范围、实验基线与不纳入内容。",
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：本篇演练的是“健康检查变慢或报错”的值班处置方法，不是对任意服务执行的一串命令。先固定影响、时间窗和授权边界，再让网络、服务、进程、资源和日志相互验证；只有证据已保存、变更被批准且有回滚时，才执行 reload 或其他动作。",
+          "core_content": "本节直接交付：本篇演练的是“健康检查变慢或报错”的值班处置方法，不是对任意服务执行的一串命令。先固定影响、时间窗和授权边界，再让网络、服务、进程、资源和日志相互验证；只有证据已保存、变更被批准且有回滚时，才执行 reload 或其他动作。",
           "carrier": "note info flat",
-          "rationale": "路线目标需要直接可见，避免把具体教程塞进导言。",
-          "directly_visible": "课程范围、读者收益和技术边界。",
-          "degradation": "样式失效时文字完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "rationale": "「开篇定位」需要先看到本篇演练的是“健康检查变慢或报错”的值班处置方法，不是对任意服务执行的一串命令。先固定影响、时间窗和授权边界，再让网络、服务、进程、资源和日；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本篇演练的是“健康检查变慢或报错”的值班处置方法，不是对任意服务执行的一串命令。先固定影响、时间窗和授权边界，再让网络、服务、进程、资源和日志相互验证；只有证据已保存、变更被批准且有回滚时，才执行 reload 或其他动作。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "前置与路径",
-          "reader_task": "确认练习环境并按依赖顺序选择后续主题。",
-          "core_content": "隔离环境、依赖图和并行/可选关系。",
-          "carrier": "warning note flat + TD Mermaid + info note flat",
-          "rationale": "安全前提用警告，依赖关系用流程图。",
-          "directly_visible": "实验风险、路径顺序和可选路线。",
-          "degradation": "图失效时文字保留依赖解释。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "事件与授权",
+          "reader_task": "固定影响、时间窗和受批准的目标，避免把假设当事实。",
+          "core_content": "证据流程、初始记录、变量白名单与空值保护。",
+          "carrier": "info/danger/primary notes + TD Mermaid + code",
+          "rationale": "多层证据关系需可视化，目标输入与安全边界必须直接可见。",
+          "directly_visible": "时间、范围、变量与未审批时的跳过行为。",
+          "degradation": "图失效时文字和代码完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未对真实服务执行 reload 或远端健康探针。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
-          "block": "文章安排",
-          "reader_task": "按问题和前置条件选择一篇课程文章。",
-          "core_content": "13 篇文章的职责、入口、依赖和状态。",
-          "carrier": "Markdown table",
-          "rationale": "路线表是精确映射，表格比拆成组件更清楚。",
-          "directly_visible": "标题、问题、入口和前置关系。",
-          "degradation": "表格不依赖交互。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "网络、服务与进程",
+          "reader_task": "用最小请求、unit、PID 和句柄证据逐层缩小问题。",
+          "core_content": "HTTP(S) 单 URL 探针、状态字段、进程对象和敏感输出。",
+          "carrier": "guarded code + table + primary/warning notes",
+          "rationale": "不同证据对象需并列，未批准目标必须跳过。",
+          "directly_visible": "变量守卫、HTTP(S) 协议/无 glob/curlrc 边界、命令、输出含义与脱敏要求。",
+          "degradation": "表格和代码不依赖外部组件。",
+          "validation_status": "已用 mock 验证 HTTP(S) 探针传入 --disable、--globoff、--proto 和用户名拒绝；非 HTTP(S) URL 不调用 curl。未对未批准目标发请求或查服务。"
         },
         {
-          "block": "开始与资料",
-          "reader_task": "知道每篇的实验、闪卡和参考资料如何配合。",
-          "core_content": "证据化实验、长期复习和官方延伸入口。",
-          "carrier": "note info flat + linkgroup/link",
-          "rationale": "开始原则和资料入口分别适合语义 note 与资料卡。",
-          "directly_visible": "实验原则和官方地址。",
-          "degradation": "图标失效仍可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        }
-      ],
-      "Linux(二)系统与命令行基础": [
-        {
-          "block": "范围与系统模型",
-          "reader_task": "在陌生主机建立环境清单并区分内核、发行版、终端、Shell 与命令。",
-          "core_content": "系统层次、实现边界和范围排除。",
-          "carrier": "note info flat + TD Mermaid + primary/info notes",
-          "rationale": "层次关系适合图，范围和结论须直接可见。",
-          "directly_visible": "对象关系、观测命令和边界。",
-          "degradation": "图失效时文字与表格完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "资源与日志",
+          "reader_task": "用相同时间窗的资源和 Journal 证据支撑或否定假设。",
+          "core_content": "CPU、内存、I/O、容量、服务日志和内核时间线。",
+          "carrier": "code + warning/info notes",
+          "rationale": "采样边界和日志盲区需要紧邻命令。",
+          "directly_visible": "时间窗、数据目录守卫、指标和日志限制。",
+          "degradation": "文字与代码独立可读。",
+          "validation_status": "已完成语法复核；运行时结果取决于目标环境，未在当前宿主机对真实服务或日志执行采样。"
         },
         {
-          "block": "发行版与交互",
-          "reader_task": "从中文问题选择系统识别、命令提供者、别名、历史与 Readline 入口。",
-          "core_content": "uname、os-release、type、版本、交互和低频 Bash 索引。",
-          "carrier": "代码 + table + folding blue + semantic notes",
-          "rationale": "高频证据直接展示，长尾入口折叠并保留选择边界。",
-          "directly_visible": "命令、输出解释、隐私和实现差异。",
-          "degradation": "代码/表格独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "路径与解析",
-          "reader_task": "判断目录职责、路径语义和命令最终由谁执行。",
-          "core_content": "FHS、逻辑/物理路径、别名/函数/内建/PATH/hash 链。",
-          "carrier": "tables + TD Mermaid + notes",
-          "rationale": "目录和查询对照用表，解析顺序用图。",
-          "directly_visible": "路径选择、查找顺序与失败边界。",
-          "degradation": "图失效时表格与文字仍完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "环境与帮助",
-          "reader_task": "按 Shell、TTY、启动类型和命令类型选择环境检查与帮助入口。",
-          "core_content": "环境变量、身份、启动文件、help/man/info 与最小 Vim 操作。",
-          "carrier": "tables + code + TD Mermaid + folding + notes",
-          "rationale": "不同观察对象要并列，启动链需可视化。",
-          "directly_visible": "命令、选择标准、无 TTY/无帮助入口边界。",
-          "degradation": "结构文本不依赖动态组件。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "验证与复习",
-          "reader_task": "形成可复现环境清单并记住高频判断题。",
-          "core_content": "最小验证链、失败边界和闪卡。",
-          "carrier": "code + success note + flashcard",
-          "rationale": "观察标准与主动回忆分别用专用承载。",
-          "directly_visible": "命令、成功条件、失败表和完整卡片。",
+          "block": "回滚、交接与复述",
+          "reader_task": "在批准条件下执行一个可回滚动作，并交接可复测结论。",
+          "core_content": "APPLY 门、sudo -n reload、状态保留的同条件复测、交接字段与面试框架。",
+          "carrier": "guarded code + success/primary notes + table + flashcard",
+          "rationale": "真实动作默认禁用，流程和记忆任务采用合适载体。",
+          "directly_visible": "批准门、HTTP(S) URL 限制、每一步失败即停止并返回原状态、交接表和四张闪卡。",
           "degradation": "卡片失效时正文仍完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未对真实服务执行 reload 或远端健康探针。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
           "block": "参考资料",
-          "reader_task": "继续查阅一手系统、Shell 和帮助资料。",
-          "core_content": "官方资料入口。",
-          "carrier": "linkgroup/link",
-          "rationale": "资料卡保留名称和 URL。",
-          "directly_visible": "资料名称和地址。",
+          "reader_task": "按服务/请求与进程/资源两组继续查阅官方资料。",
+          "core_content": "systemctl、journalctl、curl、lsof、iostat、pidstat 和内核性能资料入口。",
+          "carrier": "H3 分组 + linkgroup/link",
+          "rationale": "七项资料按实际处置用途拆为两组，资料标题和 URL 仍可独立阅读。",
+          "directly_visible": "两组资料名称和地址。",
           "degradation": "图标失效不影响阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        }
-      ],
-      "Linux(三)文件与存储管理": [
-        {
-          "block": "文件模型",
-          "reader_task": "区分路径、目录项、inode、文件描述符与链接。",
-          "core_content": "文件对象关系和诊断模型。",
-          "carrier": "TD Mermaid + primary note",
-          "rationale": "关系图帮助建立路径不等于对象的心智模型。",
-          "directly_visible": "对象关系与机制结论。",
-          "degradation": "图失效时文字仍完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "validation_status": "已完成该块的正文、账本和标签静态复核；未对真实服务执行 reload 或远端健康探针。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
-          "block": "文件操作",
-          "reader_task": "安全选择创建、复制、移动、链接、查找和校验动作。",
-          "core_content": "范围受控的文件命令、失败边界和低频索引。",
-          "carrier": "code + warning/primary notes + folding blue",
-          "rationale": "可执行动作需邻近风险，长尾索引可折叠。",
-          "directly_visible": "对象范围、命令和回滚边界。",
-          "degradation": "代码/表格独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "事件边界",
+          "reader_task": "沿图中的关系或时序讲清「事件边界」：先记录请求延迟、错误率、受影响的调用方与主机、开始时间和最近变更。把“CPU 高导致慢”标为待验证假设，而不是初始事实；每次采样都应附上时间、执行者、目标和输出摘要。",
+          "core_content": "本节直接交付：先记录请求延迟、错误率、受影响的调用方与主机、开始时间和最近变更。把“CPU 高导致慢”标为待验证假设，而不是初始事实；每次采样都应附上时间、执行者、目标和输出摘要。",
+          "carrier": "mermaid + note primary/danger flat",
+          "rationale": "「事件边界」需要先看到先记录请求延迟、错误率、受影响的调用方与主机、开始时间和最近变更。把“CPU 高导致慢”标为待验证假设，而不是初始事实；每次采样都应附上时间；因此采用mermaid + note primary/danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：先记录请求延迟、错误率、受影响的调用方与主机、开始时间和最近变更。把“CPU 高导致慢”标为待验证假设，而不是初始事实；每次采样都应附上时间、执行者、目标和输出摘要。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "容量与设备",
-          "reader_task": "从容量、挂载与设备边界判断问题。",
-          "core_content": "df/du、文件系统、挂载和危险设备动作。",
-          "carrier": "table + code + danger note",
-          "rationale": "比较指标用表，设备风险需直接可见。",
-          "directly_visible": "指标、挂载关系和高风险动作边界。",
-          "degradation": "结构内容不依赖组件。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "网络证据",
+          "reader_task": "比较表中的维度，说明「网络证据」在什么条件下成立。",
+          "core_content": "本节直接交付：curl 的状态码和总耗时回答“请求是否到达应用并得到响应”；它不自动跳过 TLS 证书校验。示例只接受带 http:// 或 https:// 的已批准 URL，并以首参数 --disable 忽略本机 curlrc、用 --globoff 关闭 URL 展开、用 --proto 限制协议，也拒绝 URL 中的用户名。若需要解释握手或代理差异，另起一…",
+          "carrier": "table + note primary/warning flat",
+          "rationale": "「网络证据」需要先看到curl 的状态码和总耗时回答“请求是否到达应用并得到响应”；它不自动跳过 TLS 证书校验。示例只接受带 http:// 或 https:；因此采用table + note primary/warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：curl 的状态码和总耗时回答“请求是否到达应用并得到响应”；它不自动跳过 TLS 证书校验。示例只接受带 http:// 或 https:// 的已批准 URL，并以首参数 --disable 忽略本机 curlrc、用 --globoff 关闭 URL 展开、用 --proto 限制协议，也拒绝 URL 中的用户名。若需要解释握手或代理差异，另起一…。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "归档与验证",
-          "reader_task": "在隔离对象上选择 tar 与格式工具并验证结果。",
-          "core_content": "归档、压缩、最小实验、清理和闪卡。",
-          "carrier": "code + notes + flashcard",
-          "rationale": "完整实验与复习题分别需要直接可见。",
-          "directly_visible": "输入输出、验证条件和卡片。",
-          "degradation": "卡片失效时正文仍可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "服务与进程",
+          "reader_task": "用自己的话说明「服务与进程」为何如此，并核对：systemctl 给出 unit 与 MainPID，ps 给出进程状态和资源快照，lsof 说明打开的文件和 Socket。三类证据一致后，才能把“服务故障”缩小到某个进程；PID 变化、重启、容器边界和 lsof 的敏感输出都要求重新采样与脱敏。",
+          "core_content": "本节直接交付：systemctl 给出 unit 与 MainPID，ps 给出进程状态和资源快照，lsof 说明打开的文件和 Socket。三类证据一致后，才能把“服务故障”缩小到某个进程；PID 变化、重启、容器边界和 lsof 的敏感输出都要求重新采样与脱敏。",
+          "carrier": "note primary flat",
+          "rationale": "「服务与进程」需要先看到systemctl 给出 unit 与 MainPID，ps 给出进程状态和资源快照，lsof 说明打开的文件和 Socket。三类证据一致；因此采用note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：systemctl 给出 unit 与 MainPID，ps 给出进程状态和资源快照，lsof 说明打开的文件和 Socket。三类证据一致后，才能把“服务故障”缩小到某个进程；PID 变化、重启、容器边界和 lsof 的敏感输出都要求重新采样与脱敏。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "参考资料",
-          "reader_task": "继续查阅文件系统、工具与归档资料。",
-          "core_content": "官方资料入口。",
-          "carrier": "linkgroup/link",
-          "rationale": "资料标题和 URL 需要保留。",
-          "directly_visible": "资料名称和地址。",
-          "degradation": "图标失效不影响阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        }
-      ],
-      "Linux(四)文本处理与数据提取": [
-        {
-          "block": "流水线与样本",
-          "reader_task": "在受控文本夹具上建立抽取、转换、聚合和验证模型。",
-          "core_content": "数据流、实验边界和输入样本。",
-          "carrier": "TD Mermaid + code + notes",
-          "rationale": "数据关系用图，夹具使输出可复现。",
-          "directly_visible": "步骤、样本和边界。",
-          "degradation": "图失效时夹具和文字完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "资源证据",
+          "reader_task": "用自己的话说明「资源证据」为何如此，并核对：把 CPU、内存、I/O 和容量放进同一时间窗，区分瓶颈与伴随现象：高 load 可能来自 I/O，缓存不是泄漏，df 满也不一定由某个目录造成。需要深挖时才限时使用 perf、strace 或 pmap，并把采样开销本身记录下来。",
+          "core_content": "本节直接交付：把 CPU、内存、I/O 和容量放进同一时间窗，区分瓶颈与伴随现象：高 load 可能来自 I/O，缓存不是泄漏，df 满也不一定由某个目录造成。需要深挖时才限时使用 perf、strace 或 pmap，并把采样开销本身记录下来。",
+          "carrier": "note warning flat",
+          "rationale": "「资源证据」需要先看到把 CPU、内存、I/O 和容量放进同一时间窗，区分瓶颈与伴随现象：高 load 可能来自 I/O，缓存不是泄漏，df 满也不一定由某个目录；因此采用note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：把 CPU、内存、I/O 和容量放进同一时间窗，区分瓶颈与伴随现象：高 load 可能来自 I/O，缓存不是泄漏，df 满也不一定由某个目录造成。需要深挖时才限时使用 perf、strace 或 pmap，并把采样开销本身记录下来。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "查看与匹配",
-          "reader_task": "按查看范围和正则需求选择文本工具。",
-          "core_content": "查看、grep 模式、错误边界和可观察输出。",
-          "carrier": "code + table + primary/warning notes",
-          "rationale": "选择对照需要表，易误用规则直接警告。",
-          "directly_visible": "工具、参数、输出与正则边界。",
-          "degradation": "代码/表格独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "日志时间线",
+          "reader_task": "用自己的话说明「日志时间线」为何如此，并核对：把请求开始、服务错误、资源异常、重试和恢复标在同一条时间线上，并让至少两类来源互相印证。空日志可能来自筛选、轮转、时钟偏移、权限或采集缺口；应把这些盲区写进结论，而不是默认为没有异常。",
+          "core_content": "本节直接交付：把请求开始、服务错误、资源异常、重试和恢复标在同一条时间线上，并让至少两类来源互相印证。空日志可能来自筛选、轮转、时钟偏移、权限或采集缺口；应把这些盲区写进结论，而不是默认为没有异常。",
+          "carrier": "note info flat",
+          "rationale": "「日志时间线」需要先看到把请求开始、服务错误、资源异常、重试和恢复标在同一条时间线上，并让至少两类来源互相印证。空日志可能来自筛选、轮转、时钟偏移、权限或采集缺口；；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：把请求开始、服务错误、资源异常、重试和恢复标在同一条时间线上，并让至少两类来源互相印证。空日志可能来自筛选、轮转、时钟偏移、权限或采集缺口；应把这些盲区写进结论，而不是默认为没有异常。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "字段与转换",
-          "reader_task": "把记录转换为字段并维持数据边界。",
-          "core_content": "cut、awk 等字段模型与输入假设。",
-          "carrier": "code + notes",
-          "rationale": "转换命令需搭配字段模型与失败边界。",
-          "directly_visible": "输入、输出、分隔符和限制。",
-          "degradation": "文字和代码独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "可回滚动作",
+          "reader_task": "比较表中的维度，说明「可回滚动作」在什么条件下成立。",
+          "core_content": "本节直接交付：reload 只在服务支持、影响可接受且回滚已准备好时执行；sudo -n 不会在自动化中悄悄等待口令。reload、is-active 或同条件探针任一失败都会停止后续动作并返回原状态，保留状态、日志和采样后再评估 restart；每次只做一个动作，不能用连续重启掩盖现场。外层子 Shell 让失败退出不影响读者当前终端。",
+          "carrier": "table + note success/info flat",
+          "rationale": "「可回滚动作」需要先看到reload 只在服务支持、影响可接受且回滚已准备好时执行；sudo -n 不会在自动化中悄悄等待口令。reload、is-active 或；因此采用table + note success/info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：reload 只在服务支持、影响可接受且回滚已准备好时执行；sudo -n 不会在自动化中悄悄等待口令。reload、is-active 或同条件探针任一失败都会停止后续动作并返回原状态，保留状态、日志和采样后再评估 restart；每次只做一个动作，不能用连续重启掩盖现场。外层子 Shell 让失败退出不影响读者当前终端。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "排序与关联",
-          "reader_task": "用排序、聚合、差异对比生成可复核结论。",
-          "core_content": "sort、uniq、join/diff 类型任务和证据回查。",
-          "carrier": "code + table + notes",
-          "rationale": "多工具组合适合代码和结果表。",
-          "directly_visible": "聚合、差异、证据与错误边界。",
-          "degradation": "表格与代码独立可读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "面试复述",
+          "reader_task": "用自己的话说明「面试复述」为何如此，并核对：用六句话说明一次排障：现象与范围 → 分层假设 → 最小验证 → 证据排除 → 可回滚动作 → 同条件复测。不要罗列几十条命令；每条命令都要能回答“它排除了哪个假设、输出会如何改变下一步”。",
+          "core_content": "本节直接交付：用六句话说明一次排障：现象与范围 → 分层假设 → 最小验证 → 证据排除 → 可回滚动作 → 同条件复测。不要罗列几十条命令；每条命令都要能回答“它排除了哪个假设、输出会如何改变下一步”。",
+          "carrier": "note primary flat",
+          "rationale": "「面试复述」需要先看到用六句话说明一次排障：现象与范围 → 分层假设 → 最小验证 → 证据排除 → 可回滚动作 → 同条件复测。不要罗列几十条命令；每条命令都要；因此采用note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：用六句话说明一次排障：现象与范围 → 分层假设 → 最小验证 → 证据排除 → 可回滚动作 → 同条件复测。不要罗列几十条命令；每条命令都要能回答“它排除了哪个假设、输出会如何改变下一步”。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "低频与复习",
-          "reader_task": "在不打断主线的前提下提供低频入口、验证与闪卡。",
-          "core_content": "长尾选择边界、最小断言和四张卡。",
-          "carrier": "folding blue + code + success note + flashcard",
-          "rationale": "长尾折叠，验证和复习直接展示。",
-          "directly_visible": "选择条件、成功标准和卡片。",
-          "degradation": "折叠或卡片失效仍保留文本。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
-        },
-        {
-          "block": "参考资料",
-          "reader_task": "继续查阅文本处理的一手文档。",
-          "core_content": "官方资料卡入口。",
-          "carrier": "linkgroup/link",
-          "rationale": "资料卡保留可读标题和 URL。",
-          "directly_visible": "资料名称和地址。",
-          "degradation": "图标失效不影响阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ],
       "Linux(十二)进阶路线": [
+        {
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：进阶不是把更多命令塞进日常排障，而是在基础证据链已经闭合后，针对明确问题进入一个有隔离环境、快照、回滚和复测的方向。本篇是选择路线：它告诉你何时查阅哪一组能力、哪些动作只能阅读或在实验机演练，不把高风险入口伪装成可直接执行的命令清单。",
+          "core_content": "本节直接交付：进阶不是把更多命令塞进日常排障，而是在基础证据链已经闭合后，针对明确问题进入一个有隔离环境、快照、回滚和复测的方向。本篇是选择路线：它告诉你何时查阅哪一组能力、哪些动作只能阅读或在实验机演练，不把高风险入口伪装成可直接执行的命令清单。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到进阶不是把更多命令塞进日常排障，而是在基础证据链已经闭合后，针对明确问题进入一个有隔离环境、快照、回滚和复测的方向。本篇是选择路线：它告诉你；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：进阶不是把更多命令塞进日常排障，而是在基础证据链已经闭合后，针对明确问题进入一个有隔离环境、快照、回滚和复测的方向。本篇是选择路线：它告诉你何时查阅哪一组能力、哪些动作只能阅读或在实验机演练，不把高风险入口伪装成可直接执行的命令清单。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
         {
           "block": "进入条件与方向",
           "reader_task": "根据问题、特权与回滚能力选择是否进入进阶路线。",
@@ -992,58 +1582,228 @@
           "directly_visible": "资料名称和地址。",
           "degradation": "图标失效不影响阅读。",
           "validation_status": "已完成该块的正文、账本和标签静态复核；首个进阶折叠已在页面实测展开；未在当前宿主机执行高风险进阶操作。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "进入条件",
+          "reader_task": "用自己的话说明「进入条件」为何如此，并核对：进入任何方向前，先能独立完成系统识别、文件与文本处理、Shell 组合、权限、进程、网络、日志和性能的基础闭环。涉及内核权限、物理设备、真实密钥、启动链或停机窗口时，先在隔离环境确认恢复路径；缺少任一前提就停留在阅读和设计阶段。",
+          "core_content": "本节直接交付：进入任何方向前，先能独立完成系统识别、文件与文本处理、Shell 组合、权限、进程、网络、日志和性能的基础闭环。涉及内核权限、物理设备、真实密钥、启动链或停机窗口时，先在隔离环境确认恢复路径；缺少任一前提就停留在阅读和设计阶段。",
+          "carrier": "note primary flat",
+          "rationale": "「进入条件」需要先看到进入任何方向前，先能独立完成系统识别、文件与文本处理、Shell 组合、权限、进程、网络、日志和性能的基础闭环。涉及内核权限、物理设备、真实；因此采用note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：进入任何方向前，先能独立完成系统识别、文件与文本处理、Shell 组合、权限、进程、网络、日志和性能的基础闭环。涉及内核权限、物理设备、真实密钥、启动链或停机窗口时，先在隔离环境确认恢复路径；缺少任一前提就停留在阅读和设计阶段。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "方向选择",
+          "reader_task": "沿图中的关系或时序讲清「方向选择」：chroot、nsenter、unshare、wipefs、mkfs、fsck、swapon、sysctl、nft、run0 等能力都可能改变进程、设备、网络或权限边界。命令存在不等于可以执行：先读官方手册，明确输入对象、影响范围、恢复条件和可观察的成功标准。",
+          "core_content": "本节直接交付：chroot、nsenter、unshare、wipefs、mkfs、fsck、swapon、sysctl、nft、run0 等能力都可能改变进程、设备、网络或权限边界。命令存在不等于可以执行：先读官方手册，明确输入对象、影响范围、恢复条件和可观察的成功标准。",
+          "carrier": "mermaid + table + note warning flat",
+          "rationale": "「方向选择」需要先看到chroot、nsenter、unshare、wipefs、mkfs、fsck、swapon、sysctl、nft、run0 等能力都可能改；因此采用mermaid + table + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：chroot、nsenter、unshare、wipefs、mkfs、fsck、swapon、sysctl、nft、run0 等能力都可能改变进程、设备、网络或权限边界。命令存在不等于可以执行：先读官方手册，明确输入对象、影响范围、恢复条件和可观察的成功标准。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "隔离与资源控制",
+          "reader_task": "用自己的话说明「隔离与资源控制」为何如此，并核对：这一组处理进程树、会话、IPC、锁、调度、命名空间和 cgroup。先用只读观察确认目标 PID、namespace、锁或控制组，再设计最小作用域的实验；不要把一个服务的 PID、文件锁或 IPC 标识复制到另一个环境操作。",
+          "core_content": "本节直接交付：这一组处理进程树、会话、IPC、锁、调度、命名空间和 cgroup。先用只读观察确认目标 PID、namespace、锁或控制组，再设计最小作用域的实验；不要把一个服务的 PID、文件锁或 IPC 标识复制到另一个环境操作。",
+          "carrier": "folding + note info flat",
+          "rationale": "「隔离与资源控制」需要先看到这一组处理进程树、会话、IPC、锁、调度、命名空间和 cgroup。先用只读观察确认目标 PID、namespace、锁或控制组，再设计最小；因此采用folding + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：这一组处理进程树、会话、IPC、锁、调度、命名空间和 cgroup。先用只读观察确认目标 PID、namespace、锁或控制组，再设计最小作用域的实验；不要把一个服务的 PID、文件锁或 IPC 标识复制到另一个环境操作。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "深度观测",
+          "reader_task": "用自己的话说明「深度观测」为何如此，并核对：当基础性能采样已经指出方向，才进入硬件、内核、系统调用或长期统计。每次限定采样时间、目标对象和输出位置；深度工具的空结果、权限拒绝或开销本身也是证据，不能静默忽略。",
+          "core_content": "本节直接交付：当基础性能采样已经指出方向，才进入硬件、内核、系统调用或长期统计。每次限定采样时间、目标对象和输出位置；深度工具的空结果、权限拒绝或开销本身也是证据，不能静默忽略。",
+          "carrier": "folding + note info flat",
+          "rationale": "「深度观测」需要先看到当基础性能采样已经指出方向，才进入硬件、内核、系统调用或长期统计。每次限定采样时间、目标对象和输出位置；深度工具的空结果、权限拒绝或开销本身；因此采用folding + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：当基础性能采样已经指出方向，才进入硬件、内核、系统调用或长期统计。每次限定采样时间、目标对象和输出位置；深度工具的空结果、权限拒绝或开销本身也是证据，不能静默忽略。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "启动与恢复",
+          "reader_task": "用自己的话说明「启动与恢复」为何如此，并核对：引导、登录终端、机器标识、首次启动和临时目录会影响整机可用性。进入本组前必须有控制台、恢复介质、快照或可验证备份；无法现场恢复时，只阅读手册并在隔离镜像演练。",
+          "core_content": "本节直接交付：引导、登录终端、机器标识、首次启动和临时目录会影响整机可用性。进入本组前必须有控制台、恢复介质、快照或可验证备份；无法现场恢复时，只阅读手册并在隔离镜像演练。",
+          "carrier": "folding + note danger flat",
+          "rationale": "「启动与恢复」需要先看到引导、登录终端、机器标识、首次启动和临时目录会影响整机可用性。进入本组前必须有控制台、恢复介质、快照或可验证备份；无法现场恢复时，只阅读手册；因此采用folding + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：引导、登录终端、机器标识、首次启动和临时目录会影响整机可用性。进入本组前必须有控制台、恢复介质、快照或可验证备份；无法现场恢复时，只阅读手册并在隔离镜像演练。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "网络进阶",
+          "reader_task": "用自己的话说明「网络进阶」为何如此，并核对：网络进阶从已证明的接口、路由、DNS、Socket 和抓包事实出发。先在命名空间或实验网络中验证，再应用到真实拓扑；路由、过滤、速率和远程凭据的一次误改都可能扩大事故范围。",
+          "core_content": "本节直接交付：网络进阶从已证明的接口、路由、DNS、Socket 和抓包事实出发。先在命名空间或实验网络中验证，再应用到真实拓扑；路由、过滤、速率和远程凭据的一次误改都可能扩大事故范围。",
+          "carrier": "folding + note info flat",
+          "rationale": "「网络进阶」需要先看到网络进阶从已证明的接口、路由、DNS、Socket 和抓包事实出发。先在命名空间或实验网络中验证，再应用到真实拓扑；路由、过滤、速率和远程凭；因此采用folding + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：网络进阶从已证明的接口、路由、DNS、Socket 和抓包事实出发。先在命名空间或实验网络中验证，再应用到真实拓扑；路由、过滤、速率和远程凭据的一次误改都可能扩大事故范围。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "存储进阶",
+          "reader_task": "用自己的话说明「存储进阶」为何如此，并核对：存储条目的第一原则是精确识别设备、挂载和数据副本。blkdiscard、mkfs、mkswap、swapoff、swapon、wipefs、fsck 和挂载动作可能使数据不可恢复；任何练习都先使用独占 loopback 镜像，并在结束时验证卸载与映射清理。",
+          "core_content": "本节直接交付：存储条目的第一原则是精确识别设备、挂载和数据副本。blkdiscard、mkfs、mkswap、swapoff、swapon、wipefs、fsck 和挂载动作可能使数据不可恢复；任何练习都先使用独占 loopback 镜像，并在结束时验证卸载与映射清理。",
+          "carrier": "folding + note danger flat",
+          "rationale": "「存储进阶」需要先看到存储条目的第一原则是精确识别设备、挂载和数据副本。blkdiscard、mkfs、mkswap、swapoff、swapon、wipefs、；因此采用folding + note danger flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：存储条目的第一原则是精确识别设备、挂载和数据副本。blkdiscard、mkfs、mkswap、swapoff、swapon、wipefs、fsck 和挂载动作可能使数据不可恢复；任何练习都先使用独占 loopback 镜像，并在结束时验证卸载与映射清理。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "安全机制",
+          "reader_task": "用自己的话说明「安全机制」为何如此，并核对：安全机制涉及账户数据库、SELinux 上下文、特权、审计和凭据。任何“方便”的扩大权限动作都应先被最小权限、恢复账户、日志留存和双人复核约束；测试用账户、密钥和策略不得复用到生产。",
+          "core_content": "本节直接交付：安全机制涉及账户数据库、SELinux 上下文、特权、审计和凭据。任何“方便”的扩大权限动作都应先被最小权限、恢复账户、日志留存和双人复核约束；测试用账户、密钥和策略不得复用到生产。",
+          "carrier": "folding + note warning flat",
+          "rationale": "「安全机制」需要先看到安全机制涉及账户数据库、SELinux 上下文、特权、审计和凭据。任何“方便”的扩大权限动作都应先被最小权限、恢复账户、日志留存和双人复核约；因此采用folding + note warning flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：安全机制涉及账户数据库、SELinux 上下文、特权、审计和凭据。任何“方便”的扩大权限动作都应先被最小权限、恢复账户、日志留存和双人复核约束；测试用账户、密钥和策略不得复用到生产。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "准入检查",
+          "reader_task": "用自己的话说明「准入检查」为何如此，并核对：开始进阶实验前，先把 TOOL 改成你要研究的一个已知入口，并补齐五项证据：官方手册、隔离环境、变更前快照、失败回滚和同条件复测。若工具不存在、文档与发行版不匹配，或无法说明恢复步骤，就不要进入执行阶段。",
+          "core_content": "本节直接交付：开始进阶实验前，先把 TOOL 改成你要研究的一个已知入口，并补齐五项证据：官方手册、隔离环境、变更前快照、失败回滚和同条件复测。若工具不存在、文档与发行版不匹配，或无法说明恢复步骤，就不要进入执行阶段。",
+          "carrier": "note success flat",
+          "rationale": "「准入检查」需要先看到开始进阶实验前，先把 TOOL 改成你要研究的一个已知入口，并补齐五项证据：官方手册、隔离环境、变更前快照、失败回滚和同条件复测。若工具不存；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：开始进阶实验前，先把 TOOL 改成你要研究的一个已知入口，并补齐五项证据：官方手册、隔离环境、变更前快照、失败回滚和同条件复测。若工具不存在、文档与发行版不匹配，或无法说明恢复步骤，就不要进入执行阶段。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ],
-      "Linux(十三)综合实战": [
+      "Linux(四)文本处理与数据提取": [
         {
-          "block": "事件与授权",
-          "reader_task": "固定影响、时间窗和受批准的目标，避免把假设当事实。",
-          "core_content": "证据流程、初始记录、变量白名单与空值保护。",
-          "carrier": "info/danger/primary notes + TD Mermaid + code",
-          "rationale": "多层证据关系需可视化，目标输入与安全边界必须直接可见。",
-          "directly_visible": "时间、范围、变量与未审批时的跳过行为。",
-          "degradation": "图失效时文字和代码完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未对真实服务执行 reload 或远端健康探针。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "开篇定位",
+          "reader_task": "用自己的话说明「开篇定位」为何如此，并核对：文本排障的目标不是“把日志全部打印出来”，而是把原始行变成可复核的证据：先限定输入，再匹配、切列、排序、聚合，最后回到原文。本篇只处理文本和半结构化日志；Shell 重定向语法、日志服务管理和脚本自动化分别留给后续主题。",
+          "core_content": "本节直接交付：文本排障的目标不是“把日志全部打印出来”，而是把原始行变成可复核的证据：先限定输入，再匹配、切列、排序、聚合，最后回到原文。本篇只处理文本和半结构化日志；Shell 重定向语法、日志服务管理和脚本自动化分别留给后续主题。",
+          "carrier": "note info flat",
+          "rationale": "「开篇定位」需要先看到文本排障的目标不是“把日志全部打印出来”，而是把原始行变成可复核的证据：先限定输入，再匹配、切列、排序、聚合，最后回到原文。本篇只处理文本和；因此采用note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：文本排障的目标不是“把日志全部打印出来”，而是把原始行变成可复核的证据：先限定输入，再匹配、切列、排序、聚合，最后回到原文。本篇只处理文本和半结构化日志；Shell 重定向语法、日志服务管理和脚本自动化分别留给后续主题。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         },
         {
-          "block": "网络、服务与进程",
-          "reader_task": "用最小请求、unit、PID 和句柄证据逐层缩小问题。",
-          "core_content": "HTTP(S) 单 URL 探针、状态字段、进程对象和敏感输出。",
-          "carrier": "guarded code + table + primary/warning notes",
-          "rationale": "不同证据对象需并列，未批准目标必须跳过。",
-          "directly_visible": "变量守卫、HTTP(S) 协议/无 glob/curlrc 边界、命令、输出含义与脱敏要求。",
-          "degradation": "表格和代码不依赖外部组件。",
-          "validation_status": "已用 mock 验证 HTTP(S) 探针传入 --disable、--globoff、--proto 和用户名拒绝；非 HTTP(S) URL 不调用 curl。未对未批准目标发请求或查服务。"
+          "block": "流水线与样本",
+          "reader_task": "在受控文本夹具上建立抽取、转换、聚合和验证模型。",
+          "core_content": "数据流、实验边界和输入样本。",
+          "carrier": "TD Mermaid + code + notes",
+          "rationale": "数据关系用图，夹具使输出可复现。",
+          "directly_visible": "步骤、样本和边界。",
+          "degradation": "图失效时夹具和文字完整。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
-          "block": "资源与日志",
-          "reader_task": "用相同时间窗的资源和 Journal 证据支撑或否定假设。",
-          "core_content": "CPU、内存、I/O、容量、服务日志和内核时间线。",
-          "carrier": "code + warning/info notes",
-          "rationale": "采样边界和日志盲区需要紧邻命令。",
-          "directly_visible": "时间窗、数据目录守卫、指标和日志限制。",
-          "degradation": "文字与代码独立可读。",
-          "validation_status": "已完成语法复核；运行时结果取决于目标环境，未在当前宿主机对真实服务或日志执行采样。"
+          "block": "查看与匹配",
+          "reader_task": "按查看范围和正则需求选择文本工具。",
+          "core_content": "查看、grep 模式、错误边界和可观察输出。",
+          "carrier": "code + primary/warning notes",
+          "rationale": "查看与匹配的结论由命令示例和边界提示直接支撑，易误用规则用警告收束。",
+          "directly_visible": "工具、参数、输出与正则边界。",
+          "degradation": "代码/表格独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
-          "block": "回滚、交接与复述",
-          "reader_task": "在批准条件下执行一个可回滚动作，并交接可复测结论。",
-          "core_content": "APPLY 门、sudo -n reload、状态保留的同条件复测、交接字段与面试框架。",
-          "carrier": "guarded code + success/primary notes + table + flashcard",
-          "rationale": "真实动作默认禁用，流程和记忆任务采用合适载体。",
-          "directly_visible": "批准门、HTTP(S) URL 限制、每一步失败即停止并返回原状态、交接表和四张闪卡。",
-          "degradation": "卡片失效时正文仍完整。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未对真实服务执行 reload 或远端健康探针。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "block": "字段与转换",
+          "reader_task": "把记录转换为字段并维持数据边界。",
+          "core_content": "cut、awk 等字段模型与输入假设。",
+          "carrier": "code + notes",
+          "rationale": "转换命令需搭配字段模型与失败边界。",
+          "directly_visible": "输入、输出、分隔符和限制。",
+          "degradation": "文字和代码独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "排序与关联",
+          "reader_task": "用排序、聚合、差异对比生成可复核结论。",
+          "core_content": "sort、uniq、join/diff 类型任务和证据回查。",
+          "carrier": "code + notes",
+          "rationale": "排序与关联的组合关系由命令示例和边界提示直接支撑，避免把未出现的结果表写进计划。",
+          "directly_visible": "聚合、差异、证据与错误边界。",
+          "degradation": "表格与代码独立可读。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "低频与复习",
+          "reader_task": "在不打断主线的前提下提供低频入口、验证与闪卡。",
+          "core_content": "长尾选择边界、最小断言和四张卡。",
+          "carrier": "folding blue + code + success note + flashcard",
+          "rationale": "长尾折叠，验证和复习直接展示。",
+          "directly_visible": "选择条件、成功标准和卡片。",
+          "degradation": "折叠或卡片失效仍保留文本。",
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
         },
         {
           "block": "参考资料",
-          "reader_task": "按服务/请求与进程/资源两组继续查阅官方资料。",
-          "core_content": "systemctl、journalctl、curl、lsof、iostat、pidstat 和内核性能资料入口。",
-          "carrier": "H3 分组 + linkgroup/link",
-          "rationale": "七项资料按实际处置用途拆为两组，资料标题和 URL 仍可独立阅读。",
-          "directly_visible": "两组资料名称和地址。",
+          "reader_task": "继续查阅文本处理的一手文档。",
+          "core_content": "官方资料卡入口。",
+          "carrier": "linkgroup/link",
+          "rationale": "资料卡保留可读标题和 URL。",
+          "directly_visible": "资料名称和地址。",
           "degradation": "图标失效不影响阅读。",
-          "validation_status": "已完成该块的正文、账本和标签静态复核；未对真实服务执行 reload 或远端健康探针。；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+          "validation_status": "已完成该块的正文、账本和标签静态复核；最终构建通过；13 篇页面已在桌面与 390×844 当前暗色预览加载，课程导航和正文均无横向溢出。"
+        },
+        {
+          "block": "处理流水线",
+          "reader_task": "沿图中的关系或时序讲清「处理流水线」：每一步只做一种变换，并保留输入样本、命令和结果。结果为空时，先区分“没有匹配”与“输入或字段定义错误”；结果有值时，再用原文行号、计数或 diff 回查。",
+          "core_content": "本节直接交付：每一步只做一种变换，并保留输入样本、命令和结果。结果为空时，先区分“没有匹配”与“输入或字段定义错误”；结果有值时，再用原文行号、计数或 diff 回查。",
+          "carrier": "mermaid + note primary flat",
+          "rationale": "「处理流水线」需要先看到每一步只做一种变换，并保留输入样本、命令和结果。结果为空时，先区分“没有匹配”与“输入或字段定义错误”；结果有值时，再用原文行号、计数或 d；因此采用mermaid + note primary flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：每一步只做一种变换，并保留输入样本、命令和结果。结果为空时，先区分“没有匹配”与“输入或字段定义错误”；结果有值时，再用原文行号、计数或 diff 回查。。",
+          "degradation": "图形失效时结论、步骤和代码仍保留在正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "样本与边界",
+          "reader_task": "复现本节示例并解释「样本与边界」的输入、输出和失败边界。",
+          "core_content": "本节直接交付：后续命令只以这组已列出的文本夹具为输入：前三个文件是原始样本，`status.sorted` 是数值排序后的固定中间结果，两个 `*.sorted` 文件用于连接，两个 `5xx` 文件用于比较。真实日志先复制一小段到隔离目录，再确认时间窗、编码和字段含义；不要直接在生产日志上做会改写文件的操作。",
+          "carrier": "code + note info flat",
+          "rationale": "「样本与边界」需要先看到后续命令只以这组已列出的文本夹具为输入：前三个文件是原始样本，`status.sorted` 是数值排序后的固定中间结果，两个 `*.sor；因此采用code + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：后续命令只以这组已列出的文本夹具为输入：前三个文件是原始样本，`status.sorted` 是数值排序后的固定中间结果，两个 `*.sorted` 文件用于连接，两个 `5xx` 文件用于比较。真实日志先复制一小段到隔离目录，再确认时间窗、编码和字段含义；不要直接在生产日志上做会改写文件的操作。。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "低频入口",
+          "reader_task": "比较表中的维度，说明「低频入口」在什么条件下成立。",
+          "core_content": "本节直接交付：下面的工具在排障中会遇到，但不应打断“查看—匹配—字段—聚合—回查”主线。需要它们时，先判断输入格式与前置条件；它们不是 grep、awk 或 sort 的通用替代品。",
+          "carrier": "folding + table + note info flat",
+          "rationale": "「低频入口」需要先看到下面的工具在排障中会遇到，但不应打断“查看—匹配—字段—聚合—回查”主线。需要它们时，先判断输入格式与前置条件；它们不是 grep、awk ；因此采用folding + table + note info flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：下面的工具在排障中会遇到，但不应打断“查看—匹配—字段—聚合—回查”主线。需要它们时，先判断输入格式与前置条件；它们不是 grep、awk 或 sort 的通用替代品。。",
+          "degradation": "折叠未展开时摘要仍可见；交互失效时补充内容仍保留为正文。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "结果验证",
+          "reader_task": "用自己的话说明「结果验证」为何如此，并核对：`wc -l` 计数的是换行符，不是抽象的“记录数”。夹具中的 `access.log` 最后一行必须以换行结束，所以结果为 4；若复制的真实片段最后一条记录没有换行，`wc -l` 可能少 1，应同时检查文件尾部后再解释样本规模。合格的文本结论还应能回答输入范围、匹配规则、字段定义、排序或关联前提、结果数量和原文行号。最后用同一输入的另一种观察方式回…",
+          "core_content": "本节直接交付：`wc -l` 计数的是换行符，不是抽象的“记录数”。夹具中的 `access.log` 最后一行必须以换行结束，所以结果为 4；若复制的真实片段最后一条记录没有换行，`wc -l` 可能少 1，应同时检查文件尾部后再解释样本规模。合格的文本结论还应能回答输入范围、匹配规则、字段定义、排序或关联前提、结果数量和原文行号。最后用同一输入的另一种观察方式回…",
+          "carrier": "note success flat",
+          "rationale": "「结果验证」需要先看到`wc -l` 计数的是换行符，不是抽象的“记录数”。夹具中的 `access.log` 最后一行必须以换行结束，所以结果为 4；若复制的真；因此采用note success flat，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：`wc -l` 计数的是换行符，不是抽象的“记录数”。夹具中的 `access.log` 最后一行必须以换行结束，所以结果为 4；若复制的真实片段最后一条记录没有换行，`wc -l` 可能少 1，应同时检查文件尾部后再解释样本规模。合格的文本结论还应能回答输入范围、匹配规则、字段定义、排序或关联前提、结果数量和原文行号。最后用同一输入的另一种观察方式回…。",
+          "degradation": "样式失效时标题下的结论、代码、表格和列表仍可独立阅读。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "用题面先独立作答，再用答案和解析核对自己的判断。",
+          "core_content": "本节直接交付：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。",
+          "carrier": "flashcard / flashcard_ref",
+          "rationale": "「常见问题」需要先看到本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。；因此采用flashcard / flashcard_ref，让证据与结论保持在同一阅读路径。",
+          "directly_visible": "结论：本节将高价值问题留在主动回忆中，解析补充机制、边界和验证方式。。",
+          "degradation": "翻卡交互失效时题面、答案、解析和标签仍以静态文本保留。",
+          "validation_status": "content/release/tags/lint 与 npm run build 已通过；本文尚未单独进行浏览器抽样。"
         }
       ]
     },

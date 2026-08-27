@@ -12,7 +12,7 @@ series: Python
 series_order: 2
 published: true
 abbrlink: 5891c180
-date: 2026-08-25 13:13:45
+date: 2026-05-03 00:00:00
 ---
 
 {% course_series %}
@@ -231,7 +231,17 @@ Python、CPython 与当前解释器版本分别指什么？
 --- answer
 Python 是语言与规范；CPython 是一种实现；当前解释器版本是实际执行代码的运行时版本。
 --- explanation
-语言规则不等于某个实现的优化或内部行为。写业务代码先依赖语言保证；讨论 GIL、引用计数、字节码或对象缓存时，再标明 CPython 与具体版本。用 `platform.python_implementation()` 和 `sys.version` 检查当前运行时。
+“Python 3.14”通常指语言/标准库版本；CPython 是实现，当前进程的解释器则是你真正运行代码的对象。诊断时把两者分开记录：
+
+```python
+import platform
+import sys
+
+print(platform.python_implementation())  # 例如 CPython
+print(sys.version)                       # 当前实现与版本
+```
+
+业务代码应依赖语言和标准库公开保证；讨论 GIL、引用计数、字节码或对象缓存时，必须同时写明实现和版本。不要把 CPython 的优化现象当成所有 Python 实现都必须遵守的语义。
 {% endflashcard %}
 
 {% flashcard basic id:python-env-import deck:"Python 基础" priority:1 tags:"import,sys.modules,循环导入" %}
@@ -240,7 +250,23 @@ Python 导入一个尚未缓存的模块时，关键顺序是什么？
 --- answer
 查缓存，寻找 spec，创建模块，先登记缓存，再执行模块代码并返回模块。
 --- explanation
-提前登记 `sys.modules` 能避免递归创建同一模块，但模块可能仍处于部分初始化状态。循环导入报错时，应检查是否在对方顶层代码未完成前读取了名称，并通过提取共享模块或调整依赖方向修复。
+一次新导入可以拆成几个可观察步骤：
+
+| 步骤 | 作用 |
+| --- | --- |
+| 查 `sys.modules` | 命中缓存就直接复用 |
+| 找到 module spec | 决定加载器和来源 |
+| 创建并登记模块 | 先放入缓存，防止递归重复创建 |
+| 执行模块顶层代码 | 填充函数、类和常量 |
+
+“先登记、后执行”意味着循环导入时可能拿到一个尚未初始化完的模块：
+
+```python
+# a.py 导入 b；b.py 又读取 a.ready
+# 此时 a 可能已在 sys.modules，但 ready 尚未赋值。
+```
+
+因此循环导入应通过提取共享模块或调整依赖方向修复，而不是依赖“缓存里已经有模块”来掩盖部分初始化状态。
 {% endflashcard %}
 
 {% flashcard basic id:python-env-main deck:"Python 基础" priority:2 tags:"__main__,模块执行,入口" %}
@@ -249,7 +275,19 @@ Python 导入一个尚未缓存的模块时，关键顺序是什么？
 --- answer
 它只在模块被当作程序入口执行时运行启动逻辑，被导入时保留函数和类供复用。
 --- explanation
-直接执行脚本和 `python -m package` 都会建立入口模块，但后者还能保留包上下文。把可测试逻辑放在普通函数中，把命令行启动放进 `main()` 和该判断中，能避免导入时产生副作用。
+这个判断把“导入模块”与“启动程序”分开：
+
+```python
+def main() -> int:
+    print("run command")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+```
+
+直接执行文件或使用 `python -m package` 时，入口模块的 `__name__` 才是 `"__main__"`；被其他模块导入时，函数和类可复用，但启动逻辑不会自动执行。把可测试逻辑放在 `main()` 外的普通函数中，也能避免导入副作用。
 {% endflashcard %}
 
 ## 参考资料

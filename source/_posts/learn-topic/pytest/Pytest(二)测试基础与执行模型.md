@@ -13,7 +13,7 @@ series: Pytest
 series_order: 2
 published: true
 abbrlink: 9d696b94
-date: 2026-08-26 09:00:00
+date: 2026-04-20 00:00:00
 ---
 
 {% course_series %}
@@ -46,7 +46,7 @@ flowchart TD
 ## 环境准备
 
 {% note info flat %}
-把运行环境当作测试输入的一部分。使用当前目录下的隔离环境，随后用 `python -m pytest` 调用解释器绑定的 Pytest，避免系统中另一个 `pytest` 可执行文件抢先被找到。
+把运行环境当作测试输入的一部分。使用当前目录下的隔离环境，随后用 `python -m pytest` 调用解释器绑定的 Pytest，避免系统中另一个 `pytest` 可执行文件抢先被找到。在 CI 中也沿用这个调用形式，并把 `python --version` 与 `pytest --version` 写入日志，环境不一致时先核对解释器和版本。
 {% endnote %}
 
 ```bash
@@ -191,7 +191,13 @@ class TestLegacyDiscount(unittest.TestCase):
 --- answer
 按启动、收集、setup、call、teardown、报告和退出码理解；setup 失败不会进入 call，teardown 失败会追加清理错误。
 --- explanation
-先确认是否收集到目标 Node ID，再判断失败发生在 Fixture 建立、测试调用还是资源清理。`failed` 通常表示断言不符，`error` 表示流程异常；两者都应结合回溯和退出码处理，不能只看终端颜色。
+先确认目标是否进入收集树，再定位失败阶段。一个最小测试的证据链可以写成：
+
+```text
+collect → setup(Fixture) → call(测试体) → teardown → report → exit code
+```
+
+例如，Fixture 在 `setup` 阶段抛错时，测试函数根本不会执行；测试体断言失败通常出现在 `call`；清理代码抛错则会在原结果之外追加 teardown 错误。`failed` 和 `error` 都要结合回溯、Node ID 与退出码判断，不能只看终端颜色。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-vs-unittest deck:"Pytest" priority:2 tags:"迁移" %}
@@ -200,7 +206,20 @@ Pytest 与 unittest 的兼容边界是什么？
 --- answer
 Pytest 能运行 `unittest.TestCase`，但 Fixture 参数化等 Pytest 注入能力不会自动变成 TestCase 方法参数。
 --- explanation
-兼容主要覆盖发现与执行，旧的 `setUp`、`tearDown` 和 `self.assert*` 可以继续工作。迁移时先保持行为证据，再按模块把测试函数、Fixture 和参数化改成 Pytest 风格，避免一次迁移同时改变测试语义。
+兼容层解决的是“能被发现并运行”，不是把两套生命周期合并成同一套 API。旧的 `setUp`、`tearDown` 和 `self.assert*` 可以继续工作，但 Pytest 的 Fixture 参数不会自动注入 `TestCase` 方法。
+
+```python
+class TestDiscount(unittest.TestCase):
+    def test_total(self):
+        self.assertEqual(apply_discount(100), 90)
+
+
+def test_total_pytest(discount_service):
+    # Fixture 注入发生在普通测试函数签名中。
+    assert discount_service(100) == 90
+```
+
+迁移时先保留旧测试的行为证据，再按模块改成普通函数、Fixture 或参数化；不要同时改变断言语义和依赖边界。
 {% endflashcard %}
 
 ## 参考资料

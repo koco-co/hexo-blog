@@ -14,12 +14,12 @@ series: Playwright
 series_order: 9
 published: true
 abbrlink: 316789b8
-date: 2026-08-24 12:04:00
+date: 2026-04-15 00:00:00
 ---
 
 {% course_series %}
 
-{% note info flat %}
+{% note warning flat %}
 UI 测试不应该用 UI 完成所有准备和清理。本文复用同一份 ShopLab 服务：`POST /api/orders` 造订单、`GET /api/orders/{id}` 核验、`DELETE /api/test/orders/{id}` 清理；浏览器只负责用户真正关心的提交动作。
 {% endnote %}
 
@@ -76,7 +76,7 @@ expect(updated).to_be_ok()
 assert updated.json()["status"] == "ready"
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `to_be_ok()` 只接受 `APIResponse`，通过条件是 2xx；反向条件使用 `expect(response).not_to_be_ok()`。默认情况下 4xx/5xx 不会让请求方法抛错，而是由 `status`、`ok` 或断言暴露；`fail_on_status_code=True` 才会把它们转成异常。`max_redirects` 限制重定向次数，`max_retries` 在 1.62 只重试 `ECONNRESET`，不会按 HTTP 状态码重试，`ignore_https_errors` 只应在受控测试证书环境中启用。
 {% endnote %}
 
@@ -84,7 +84,7 @@ assert updated.json()["status"] == "ready"
 APIResponse 按验证目标选择读取方式：`status` 是整数状态码，`status_text` 是状态文本，`ok` 是“是否为 2xx”的布尔值；`headers` 返回便于按名称读取的字典，`headers_array` 则保留原始大小写与重复 header；`json()` 解析 JSON，`text()` 解析文本，`body()` 保留原始 bytes，`url` 查看最终地址。JSON 格式错误会在 `json()` 处失败；大型响应不再使用后应 `dispose()` 释放内存。`security_details()`、`server_addr()` 与 `timing` 属于 TLS、服务器地址和性能诊断入口，本篇索引保留但不作为普通业务断言。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 `new_context()` 的长参数表按进入条件选择：`http_credentials`、`extra_http_headers` 和 `storage_state` 用于认证；`proxy`、`client_certificates` 和 `ignore_https_errors` 只在受控网络或测试证书环境使用；`timeout`、`max_redirects` 与请求方法上的 `max_retries` 用于限制等待和重试；需要录制或回放时再进入 Context 的 HAR 配置。不要为了“让请求成功”同时打开所有开关。
 {% endnote %}
 
@@ -160,7 +160,7 @@ def test_buyer_submits_order(page: Page, admin_api, shoplab_url: str) -> None:
         assert deleted.status == 200
 ```
 
-{% note info flat %}
+{% note warning flat %}
 cleanup 放在 `finally`，因为 UI 断言失败后更需要清理。删除设计为幂等，允许资源已经不存在。测试 ID 带固定前缀与随机后缀，既能定位测试数据，又避免并行冲突。
 {% endnote %}
 
@@ -240,7 +240,7 @@ page.route("**/api/orders/**", verify_and_continue)
 page.route("**/api/**", add_run_id)
 ```
 
-{% note info flat %}
+{% note primary flat %}
 `fallback()` 还可以修改 `method`、`post_data`、`headers` 和同协议 `url`，让下一个处理器看到修改后的请求。`continue_(method=..., post_data=..., headers=..., url=...)` 也能覆盖原请求，但会立即发送网络并终止路由链；`method`、`post_data` 与 `url` 只作用于原请求，不会自动延续到后续重定向，只有 header 会传播到重定向请求，且 `url` 必须保持协议不变。只想拦截一次时使用 `page.route(pattern, handler, times=1)`。
 {% endnote %}
 
@@ -261,11 +261,11 @@ page.goto(f"{shoplab_url}/shop")
 expect(page.get_by_role("list", name="推荐商品")).to_contain_text("测试鼠标")
 ```
 
-{% note info flat %}
+{% note warning flat %}
 `Route.request` 是当前被拦截的页面 Request，可读取 URL、方法、header 与请求体。`Route.fetch()` 遇到 4xx/5xx 仍返回 APIResponse，需要主动检查 `status` 或 `ok`；传输错误、超时或重定向超限才会抛错，不能把它当成永不失败的本地 Mock。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 路由范围应尽量窄，并在测试结束时由 Context 回收。不要拦截所有 `**/*` 再凭猜测转发，这会让静态资源和 Service Worker 行为难以诊断。
 {% endnote %}
 
@@ -292,21 +292,21 @@ def test_context_route_covers_popup(context, page):
     expect(popup.get_by_role("heading", name="测试买家资料")).to_be_visible()
 ```
 
-{% note info flat %}
+{% note primary flat %}
 这个例子在 popup 创建前注册 Context 路由，因此能覆盖首个导航请求。若同一 URL 同时存在 Page route，Page 规则优先；Service Worker 接管的请求仍需按前文设置单独处理，Context 关闭时规则随之回收。
 {% endnote %}
 
-{% note info flat %}
+{% note warning flat %}
 结束前可用 `page.unroute()` / `context.unroute()` 移除指定规则；动态注册了多条规则时使用 `unroute_all(behavior="wait")` 等待正在执行的 handler，避免并发清理悬空。`page.route_from_har()` 只影响当前 Page，`context.route_from_har()` 影响整个 Context。
 {% endnote %}
 
-{% note info flat %}
+{% note primary flat %}
 WebSocket 拦截必须在目标连接创建前注册。`page.route_web_socket()` 只作用于当前页面，`context.route_web_socket()` 覆盖 Context；本文只负责入口与范围，消息转发、修改和关闭属于 `WebSocketRoute` 的进一步用法。
 {% endnote %}
 
 ### HAR 回放
 
-{% note info flat %}
+{% note primary flat %}
 HAR 回放适合响应大而固定、逐个 `fulfill()` 成本高的依赖。下面的练习先启动本地 ShopLab 服务录制推荐响应，关闭真实服务后再从 HAR 回放同一 URL：
 {% endnote %}
 
@@ -346,7 +346,7 @@ def test_har_replays_without_real_server(browser: Browser, tmp_path: Path) -> No
         replay.close()
 ```
 
-{% note info flat %}
+{% note danger flat %}
 录制时使用专用测试账号和脱敏数据；HAR 可能包含 URL、header、请求体与响应体。不能把真实 Cookie、Authorization 或个人数据写进博客、产物或仓库。API 变化时应重新录制并审查 diff，不能让旧 HAR 永久冻结错误合同。
 {% endnote %}
 
@@ -419,7 +419,7 @@ Request 成员按诊断任务选择：
 | 生命周期 | `response()`、`failure` | 前者等待关联响应；传输失败读取 `failure`，HTTP 错误不属于 failure |
 | 重定向 | `redirected_from`、`redirected_to` | 沿请求链向前或向后诊断，不能只看最终 URL |
 
-{% note info flat %}
+{% note warning flat %}
 `existing_response` 只返回当前已经存在的关联响应，不会等待；`response()` 才适合需要等待响应的流程。`is_navigation_request()`、`frame`、`service_worker` 用于判断请求发起方，`timing` 与 `sizes()` 用于性能诊断。这些低频诊断成员保留在进阶索引中，不应作为脆弱的日常业务断言。
 {% endnote %}
 
@@ -434,7 +434,7 @@ Response 成员也按任务分组：
 | 响应头 | `headers`、`all_headers()`、`headers_array()` | 读取一个名称用 `header_value()`；需要同名全部重复值，尤其 `Set-Cookie`，用 `header_values()`；完整或数组形态用于整体诊断 |
 | 关联 | `request`、`finished()` | 回到触发请求；`finished()` 等待响应体结束，正常返回 `None`，目标关闭等异常情况直接抛出 |
 
-{% note info flat %}
+{% note warning flat %}
 `frame`、`from_service_worker`、`http_version()`、`security_details()` 与 `server_addr()` 用于请求发起方、协议、TLS 和服务器诊断。不要用这些易受环境影响的值代替用户可观察结果。
 {% endnote %}
 
@@ -457,7 +457,7 @@ assert failed and failed[0].failure is not None
 
 ### 策略选择
 
-{% note info flat %}
+{% note primary flat %}
 为“固定推荐列表”“追加追踪 header”“模拟断网”“分层规则继续匹配”“保留真实响应但局部改写”“准备订单”“核验订单”分别选择 fulfill、continue、abort、fallback、fetch 或 APIRequestContext，并说明每项还缺哪一层业务证据。
 {% endnote %}
 
@@ -528,6 +528,16 @@ assert failed and failed[0].failure is not None
 前置数据用 API，被测用户旅程使用 UI。
 --- explanation
 创建大量历史订单只是准备条件，可由 API 高效完成；买家提交订单若是被测行为，就必须通过 UI 执行，并结合页面或 API 验证结果。
+
+准备数据和验证用户行为可以分开：
+
+~~~python
+api.create_order(status="draft")       # 快速准备前置状态
+page.get_by_role("button", name="提交").click()  # 被测行为走 UI
+api.get_order(order_id)                # 需要时从服务端核验结果
+~~~
+
+API 适合高效造数和清理；用户真正要完成的旅程仍应由 UI 驱动，否则测试没有覆盖页面与交互合同。
 {% endflashcard %}
 
 {% flashcard choice id:playwright-route-actions deck:"Playwright" priority:2 tags:"网络Mock,Route" answer:C %}
@@ -540,6 +550,16 @@ assert failed and failed[0].failure is not None
 C
 --- explanation
 `abort()` 注入网络失败；`fulfill()` 返回模拟响应；`continue_()` 修改后继续发送真实请求。
+
+三个路由动作对应三种证据：
+
+| 动作 | 请求后续 | 适用场景 |
+| --- | --- | --- |
+| continue_() | 继续真实请求 | 只改请求后放行 |
+| fulfill() | 返回测试构造的响应 | 稳定模拟服务结果 |
+| abort() | 直接制造网络失败 | 验证断网、错误 UI |
+
+选择动作前先定义被测系统应该看到什么；不要用 abort 代替真实服务错误，也不要用 fulfill 假装已经验证了后端兼容性。
 {% endflashcard %}
 
 ## 参考资料

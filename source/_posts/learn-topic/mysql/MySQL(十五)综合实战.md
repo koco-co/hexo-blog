@@ -13,7 +13,7 @@ series: MySQL
 series_order: 15
 published: true
 abbrlink: e11b5c6b
-date: 2026-08-25 13:18:42
+date: 2026-04-06 00:00:00
 ---
 
 {% course_series %}
@@ -26,6 +26,10 @@ date: 2026-08-25 13:18:42
 
 {% note info flat %}
 实验使用九张 InnoDB 表、UTC 时间和 `utf8mb4`。结构应包含用户、部门、员工、商品、库存、订单、明细、登录事件和导入批次；每道题都应在隔离库运行，先记录版本和 SQL mode。
+{% endnote %}
+
+{% note info flat %}
+`order_items.unit_price` 是下单时保存的价格快照，故意允许与当前 `products.price` 不同；验算订单金额时应以订单明细快照为准，而不是回读商品当前价。
 {% endnote %}
 
 ```sql
@@ -90,7 +94,8 @@ CREATE TABLE user_imports_raw (
 );
 INSERT INTO user_imports_raw (source_name, external_id, email, raw_payload) VALUES
   ('crm', 'u-1', 'alice@example.com', JSON_OBJECT('name', 'Alice')),
-  ('crm', 'u-1', 'alice@example.com', JSON_OBJECT('name', 'Alice duplicate'));
+  ('crm', 'u-1', 'alice@example.com', JSON_OBJECT('name', 'Alice duplicate')),
+  ('legacy', 'u-null', NULL, JSON_OBJECT('name', 'Missing email'));
 ```
 
 {% note warning flat %}
@@ -146,7 +151,7 @@ INSERT INTO user_imports_raw (source_name, external_id, email, raw_payload) VALU
 ## 场景闪卡
 
 {% note primary flat %}
-下面 19 张卡复用前面已经定义的原题，避免复制出多个版本；最后新增一张 cohort 卡。统一卡组 `mysql-8.4-interview`，优先级 1 是高频面试题，2 是需要巩固的中频题。
+下面 22 张卡复用前面已经定义的原题，避免复制出多个版本；最后新增一张 cohort 卡。统一卡组 `mysql-8.4-interview`，优先级 1 是高频面试题，2 是需要巩固的中频题。
 {% endnote %}
 
 {% flashcard_ref id="mysql84-02-order-schema-ddl-p1" %}
@@ -163,11 +168,14 @@ INSERT INTO user_imports_raw (source_name, external_id, email, raw_payload) VALU
 {% flashcard_ref id="mysql84-06-topn-per-group-p1" %}
 {% flashcard_ref id="mysql84-06-running-total-p1" %}
 {% flashcard_ref id="mysql84-06-consecutive-login-p1" %}
+{% flashcard_ref id="mysql84-07-index-design-p1" %}
 {% flashcard_ref id="mysql84-08-sargable-rewrite-p1" %}
 {% flashcard_ref id="mysql84-08-keyset-pagination-p1" %}
+{% flashcard_ref id="mysql84-09-redo-undo-binlog-p1" %}
 {% flashcard_ref id="mysql84-10-order-rollback-p1" %}
 {% flashcard_ref id="mysql84-11-stock-for-update-p1" %}
 {% flashcard_ref id="mysql84-12-app-role-grants-p1" %}
+{% flashcard_ref id="mysql84-13-backup-vs-replication-p1" %}
 
 {% flashcard basic id:mysql84-15-retention-cohort-p1 deck:"mysql-8.4-interview" priority:1 tags:"留存,Cohort,CTE" %}
 --- question
@@ -192,11 +200,20 @@ SELECT f.cohort_month,
 FROM first_paid AS f
 JOIN paid_activity AS a ON a.user_id = f.user_id
 WHERE a.activity_month >= f.cohort_month
+  AND a.activity_month < f.cohort_month + INTERVAL 3 MONTH
 GROUP BY f.cohort_month, month_number
 ORDER BY f.cohort_month, month_number;
 ```
 --- explanation
-首月必须来自 paid 订单；活跃月要去重，重复订单不能重复计算用户。上面的写法返回实际出现的 cohort-month 组合；若题目要求固定显示第 0、1、2 月，即使没有活跃用户，也要先生成月份维度再 `LEFT JOIN` 聚合结果补 0。题目没有要求补零时，不要凭空补出不存在的月份。
+这条查询把每个用户的活动折成两条时间轴：
+
+| 阶段 | 规则 |
+| --- | --- |
+| `first_paid` | 只取用户最早的 `paid` 订单月，形成 cohort |
+| `paid_activity` | 按用户和月份去重，形成活跃月 |
+| 连接与分组 | 用 `TIMESTAMPDIFF` 算相对月份并统计用户数 |
+
+因此重复订单不会重复计数，首月也不会被待支付订单污染。当前写法只返回实际出现的月份；若产品要求固定显示第 0、1、2 月，先生成月份维度再 `LEFT JOIN` 并用 `COALESCE` 补 0。没有这个要求时不要凭空制造不存在的组合。
 {% endflashcard %}
 
 ```sql
@@ -218,6 +235,7 @@ WITH first_paid AS (
   FROM first_paid AS f
   JOIN paid_activity AS a ON a.user_id = f.user_id
   WHERE a.activity_month >= f.cohort_month
+    AND a.activity_month < f.cohort_month + INTERVAL 3 MONTH
 )
 SELECT cohort_month,
        month_number,
@@ -229,6 +247,16 @@ ORDER BY cohort_month, month_number;
 
 {% note success flat %}
 这道题的验证重点是：首月用户数等于第 0 月活跃用户数；同一用户同一月份只计一次；cancelled/pending 订单不影响 cohort；结果排序稳定。若产品要显示没有活跃用户的月份，先生成月份维度再 LEFT JOIN 聚合结果补 0。
+{% endnote %}
+
+| cohort_month | month_number | active_users |
+| --- | ---: | ---: |
+| `2026-06-01` | 0 | 1 |
+| `2026-06-01` | 1 | 1 |
+| `2026-07-01` | 0 | 1 |
+
+{% note info flat %}
+上表是本篇固定 seed 对 cohort 题的确定输出；没有活跃用户的第 2 月不自动补行。其余题目沿用题目清单中的核对重点，并把 SQL 运行结果、影响行数、错误码或执行计划保存为各自证据。
 {% endnote %}
 
 ## 评分复盘

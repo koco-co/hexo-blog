@@ -11,12 +11,10 @@ description: 能在参数化、Fixture 参数化、动态生成和 subtests 之�
 cover: /img/picgo-images/pytest-course-cover.png
 series: Pytest
 series_order: 6
-published: false
+published: true
 abbrlink: f6690364
-date: 2026-08-26 09:00:00
+date: 2026-04-24 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
 
 {% course_series %}
 
@@ -102,6 +100,12 @@ pytest.param 把单行数据、标记和 ID 放在一起，适合为某个边界
 import pytest
 
 
+def apply_discount(total, rate):
+    if total < 0:
+        raise ValueError("total must be non-negative")
+    return total * (100 - rate) // 100
+
+
 cases = [
     pytest.param(100, 20, 80, id="member-20"),
     pytest.param(0, 20, 0, id="empty-total"),
@@ -112,10 +116,9 @@ cases = [
 @pytest.mark.parametrize(("total", "rate", "expected"), cases)
 def test_discount_cases(total, rate, expected):
     if expected is None:
-        with pytest.raises(ValueError):
-            raise ValueError("total must be non-negative")
+        apply_discount(total, rate)
     else:
-        assert total * (100 - rate) // 100 == expected
+        assert apply_discount(total, rate) == expected
 ```
 
 {% note info flat %}
@@ -181,6 +184,12 @@ def pytest_generate_tests(metafunc):
     cases = [("CNY", 0), ("CNY", 20)]
     ids = [f"{currency}-{rate}" for currency, rate in cases]
     metafunc.parametrize("currency_case", cases, ids=ids)
+
+
+def test_currency_case(currency_case):
+    currency, rate = currency_case
+    assert currency == "CNY"
+    assert 0 <= rate <= 100
 ```
 
 如果数据文件不存在，选择明确的错误或空参数集行为，并把路径、数量和版本写入收集日志；不要在测试函数执行时临时追加全局列表。
@@ -212,7 +221,25 @@ def pytest_generate_tests(metafunc):
 --- answer
 参数化在收集阶段为每组数据生成独立 Node；subtests 通常在一次测试体中循环，共享调用上下文。
 --- explanation
-参数化可以按 Node ID、标记和缓存单独复跑，失败通常只影响对应数据。subtests 适合必须共享一次昂贵准备的 unittest 风格测试，但报告粒度取决于运行器支持；需要 Pytest 级独立选择时应拆成参数化。
+参数化发生在收集阶段，每组数据都有自己的 Node ID、标记和失败位置；subtests 通常发生在一次测试函数执行期间，所有数据共享该次 setup。
+
+```python
+import unittest
+
+
+@pytest.mark.parametrize("value", [0, 1], ids=["zero", "one"])
+def test_value(value):
+    assert value >= 0
+
+
+class TestWithSubtests(unittest.TestCase):
+    def test_values(self):
+        for value in (0, 1):
+            with self.subTest(value=value):
+                self.assertGreaterEqual(value, 0)
+```
+
+需要 `tests.py::test_value[one]` 这种 Pytest 级精确复跑时选参数化；只有必须共享一次昂贵准备且运行器能提供足够子测试报告时，才保留 subtests。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-indirect deck:"Pytest" priority:2 tags:"Fixture 参数化" %}
@@ -221,7 +248,20 @@ indirect 参数化改变了哪一段数据流？
 --- answer
 参数值先进入 Fixture 的 request.param，再由 Fixture 创建测试资源，测试函数收到转换后的对象。
 --- explanation
-间接参数化把资源建立留在 setup 阶段，适合文件、客户端和数据库输入。只有写在 parametrize 中的对应参数才会有 request.param；普通 Fixture 不应无条件读取它。
+`indirect=True` 改变的是参数进入测试的路径：值先交给同名 Fixture 的 `request.param`，Fixture 再把它转换为可用资源。
+
+```python
+@pytest.fixture
+def client(request):
+    return Client(base_url=request.param)
+
+
+@pytest.mark.parametrize("client", ["https://staging.example"], indirect=True)
+def test_health(client):
+    assert client.health() == "ok"
+```
+
+这里只有 `client` 被间接参数化，所以只有它能可靠读取 `request.param`；普通 Fixture 不应无条件访问该属性。文件、数据库连接等需要 setup/teardown 的资源更适合走这条路径。
 {% endflashcard %}
 
 {% flashcard basic id:pytest-param-ids deck:"Pytest" priority:2 tags:"可诊断性" %}
@@ -230,7 +270,20 @@ indirect 参数化改变了哪一段数据流？
 --- answer
 单行语义用 pytest.param(id=...)，一组规则用 ids=，跨项目统一格式才考虑收集 Hook。
 --- explanation
-先选择最窄的公开入口：局部 ID 不需要全局 Hook。ID 应稳定、可读并包含业务输入；动态生成时同时检查重复和 Unicode 复制边界，确保 Node ID 能复跑。
+ID 的选择范围应和数据规则一致：单行特殊命名用 `pytest.param`，同一组规则用 `ids=`，跨项目统一才值得写收集 Hook。
+
+```python
+cases = [
+    pytest.param("vip", 20, id="vip-20"),
+    pytest.param("guest", 0, id="guest-0"),
+]
+
+@pytest.mark.parametrize("level, rate", cases)
+def test_discount(level, rate):
+    ...
+```
+
+稳定 ID 应能让失败报告直接指向业务输入，并且不能重复；动态生成时还要检查转义、Unicode 和路径长度，确保复制 Node ID 后仍能精确复跑。
 {% endflashcard %}
 
 ## 参考资料

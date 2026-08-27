@@ -228,13 +228,24 @@ rm -rf -- "$LAB"
 实验完成的证据是：文件类型与 inode 关系可解释，硬链接和符号链接行为可复现，复制/移动目标明确，归档清单可先验，校验和符合预期，容量命令的挂载点没有越界。最后只删除由同一 Shell 的 `mktemp -d` 创建并已打印确认的 `LAB` 目录；变量为空或路径不明时停止，不要执行清理命令。
 {% endnote %}
 
+## 常见问题
+
 {% flashcard basic id:linux-a3-inode-link deck:"Linux" priority:1 tags:"inode,链接" %}
 --- question
 硬链接和符号链接的核心区别是什么？
 --- answer
 硬链接直接共享 inode；符号链接保存目标路径，目标改名或删除后可能悬空。
 --- explanation
-用 ls -li 比较 inode，再用 ls -l 查看符号链接目标；目录通常不能随意创建硬链接，跨文件系统也不能创建硬链接。
+用一个最小目录就能看见两种链接的差异：
+
+```bash
+printf '%s\n' data > original
+ln original hard
+ln -s original soft
+ls -li original hard soft
+```
+
+`original` 和 `hard` 的 inode 号相同，`soft` 自己有 inode，内容只是目标路径。删除 `original` 后，`hard` 仍能读取数据，`soft` 则可能变成悬空链接；目录硬链接和跨文件系统硬链接还受文件系统限制。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a3-df-du deck:"Linux" priority:1 tags:"容量,排障" %}
@@ -243,7 +254,15 @@ rm -rf -- "$LAB"
 --- answer
 df 看文件系统层面的可用块，du 汇总目录可见文件；打开后删除的文件或其他挂载边界可能让两者不一致。
 --- explanation
-先用 df 找满的文件系统，再用 du 定位目录；若差距很大，继续检查打开文件、挂载点和保留块。
+两个命令观察的层次不同：
+
+```bash
+df -h .              # 文件系统还剩多少块
+du -xhd1 .           # 当前挂载点下各目录可见文件的占用
+lsof +L1 2>/dev/null # 已删除但仍被进程打开的文件（若系统提供 lsof）
+```
+
+`df` 看到的是文件系统账本，`du` 只能遍历当前目录树。文件已经 unlink 但进程仍持有描述符、目录下还有另一个挂载点，都会让 `df` 明显大于 `du`；这时继续查打开文件和挂载边界，而不是盲目删除目录。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a3-tar-compression deck:"Linux" priority:2 tags:"归档,压缩" %}
@@ -252,7 +271,16 @@ tar 和 gzip 的职责有什么不同？
 --- answer
 tar 负责把多个文件组织成归档，gzip/xz 负责压缩归档流；tar -czf 是两者组合。
 --- explanation
-解包前用 tar -tf 预览成员；压缩不提供加密和来源可信证明，敏感归档需要另行设计。
+`tar` 和压缩器是两层动作，可以这样拆开观察：
+
+```bash
+tar -cf sample.tar sample.txt       # 只归档
+tar -tf sample.tar                  # 只查看成员
+gzip -c sample.tar > sample.tar.gz  # 再压缩归档流
+gzip -dc sample.tar.gz | tar -tf -  # 解压后交给 tar 查看
+```
+
+`tar -czf` 只是把这两步连起来。解包前先检查成员名，重点拒绝绝对路径和 `../` 穿越；gzip/xz 只改变体积，不提供加密、签名或来源可信证明。
 {% endflashcard %}
 
 {% flashcard basic id:linux-a3-safe-delete deck:"Linux" priority:1 tags:"文件操作,安全" %}
@@ -261,7 +289,18 @@ tar 负责把多个文件组织成归档，gzip/xz 负责压缩归档流；tar -
 --- answer
 用 pwd 确认当前位置，用 ls -ld 或 find 列出精确目标，并确认没有把变量展开为空或指向根目录。
 --- explanation
-删除不可逆；rmdir 只删除空目录，rm/unlink 的能力更强，真实设备和生产挂载点必须有备份与恢复方案。
+删除前把“当前目录”和“目标集合”都打印出来，再执行动作：
+
+```bash
+printf 'cwd=%s\n' "$PWD"
+find ./work -maxdepth 1 -type f -name '*.tmp' -print
+read -r -p '确认删除以上文件？[y/N] ' reply
+if [[ $reply == y ]]; then
+  find ./work -maxdepth 1 -type f -name '*.tmp' -delete
+fi
+```
+
+`rmdir` 只接受空目录，`rm` 和 `unlink` 更容易造成不可逆损失。变量为空、通配符未匹配或当前路径位于真实挂载点时，命令的目标集合可能完全变形；生产操作必须另有备份和恢复窗口。
 {% endflashcard %}
 
 ## 参考资料

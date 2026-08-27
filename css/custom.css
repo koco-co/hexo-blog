@@ -369,6 +369,41 @@ div#archive {
     }
 }
 
+/* Markdown 任务列表：Kramed 不原生转换 [ ] / [x]，由 Hexo 过滤器补齐可见状态 */
+#article-container li.task-list-item {
+    padding-left: 0.25rem;
+    list-style: none;
+}
+
+#article-container li.task-list-item .task-list-checkbox {
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.45rem 0 0;
+    border: 2px solid var(--theme-color, #49b1f5);
+    border-radius: 4px;
+    appearance: none;
+    background: transparent;
+    vertical-align: -0.15em;
+    cursor: default;
+    opacity: 1;
+}
+
+#article-container li.task-list-item .task-list-checkbox:checked {
+    border-color: var(--theme-color, #49b1f5);
+    background: var(--theme-color, #49b1f5);
+}
+
+#article-container li.task-list-item .task-list-checkbox:checked::after {
+    display: block;
+    width: 0.28rem;
+    height: 0.55rem;
+    margin: 0.06rem 0 0 0.22rem;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    content: '';
+    transform: rotate(45deg);
+}
+
 /* ===== Giscus 评论区：与站点单色亚克力卡片保持一致 ===== */
 #post-comment {
     margin-top: 2rem;

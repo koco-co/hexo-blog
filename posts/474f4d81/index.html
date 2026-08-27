@@ -6,8 +6,8 @@
 <meta property="og:description" content="从一次同网段通信出发，理解分层、封装、以太网帧、MAC、交换机 FDB、ARP 与 IPv6 邻居发现的边界。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png">
-<meta property="article:published_time" content="2026-08-24T21:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-26T10:48:58.546Z">
+<meta property="article:published_time" content="2026-03-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-27T04:53:50.682Z">
 <meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
 <meta property="article:tag" content="ARP">
 <meta property="article:tag" content="以太网">
@@ -19,8 +19,8 @@
   "headline": "计算机网络(二)网络分层与局域网",
   "url": "https://koco-co.github.io/posts/474f4d81/",
   "image": "https://koco-co.github.io/img/picgo-images/computer-network-course-cover.png",
-  "datePublished": "2026-08-24T21:00:00.000Z",
-  "dateModified": "2026-08-26T10:48:58.546Z",
+  "datePublished": "2026-03-01T16:00:00.000Z",
+  "dateModified": "2026-08-27T04:53:50.682Z",
   "author": [
     {
       "@type": "Person",
@@ -179,7 +179,7 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">76</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">124</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/computer-network-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">计算机网络(二)网络分层与局域网</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络(二)网络分层与局域网<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/computer-network/计算机网络(二)网络分层与局域网.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-24T21:00:00.000Z" title="发表于 2026-08-25 05:00:00">2026-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-26T10:48:58.546Z" title="更新于 2026-08-26 18:48:58">2026-08-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="计算机网络 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>计算机网络 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="9" aria-valuenow="2"><span style="width: 22.2222%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/347ce4f2/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">计算机网络(一)入门路线</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/474f4d81/" aria-current="page"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">计算机网络(二)网络分层与局域网</span></a></li><li class="course-series-nav__item"><a href="/posts/5bd659bc/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">计算机网络(三)IP 与网络寻址</span></a></li><li class="course-series-nav__item"><a href="/posts/ec8f5dd0/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">计算机网络(四)UDP 与 TCP</span></a></li><li class="course-series-nav__item"><a href="/posts/366484e7/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">计算机网络(五)HTTP 协议</span></a></li><li class="course-series-nav__item"><a href="/posts/36cb963b/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">计算机网络(六)HTTPS 与现代 HTTP</span></a></li><li class="course-series-nav__item"><a href="/posts/61ba71fc/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">计算机网络(七)抓包与网络排障</span></a></li><li class="course-series-nav__item"><a href="/posts/e470b049/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">计算机网络(八)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/e25e16df/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">计算机网络(九)综合实战</span></a></li></ol></nav>
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/computer-network-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">计算机网络(二)网络分层与局域网</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络(二)网络分层与局域网<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/computer-network/计算机网络(二)网络分层与局域网.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-01T16:00:00.000Z" title="发表于 2026-03-02 00:00:00">2026-03-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-27T04:53:50.682Z" title="更新于 2026-08-27 12:53:50">2026-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">8.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>28分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="计算机网络 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>计算机网络 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="9" aria-valuenow="2"><span style="width: 22.2222%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/347ce4f2/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">计算机网络(一)入门路线</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/474f4d81/" aria-current="page"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">计算机网络(二)网络分层与局域网</span></a></li><li class="course-series-nav__item"><a href="/posts/5bd659bc/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">计算机网络(三)IP 与网络寻址</span></a></li><li class="course-series-nav__item"><a href="/posts/ec8f5dd0/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">计算机网络(四)UDP 与 TCP</span></a></li><li class="course-series-nav__item"><a href="/posts/366484e7/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">计算机网络(五)HTTP 协议</span></a></li><li class="course-series-nav__item"><a href="/posts/36cb963b/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">计算机网络(六)HTTPS 与现代 HTTP</span></a></li><li class="course-series-nav__item"><a href="/posts/61ba71fc/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">计算机网络(七)抓包与网络排障</span></a></li><li class="course-series-nav__item"><a href="/posts/e470b049/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">计算机网络(八)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/e25e16df/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">计算机网络(九)综合实战</span></a></li></ol></nav>
 <div class="note info flat"><p>本文从一次同网段通信开始，解释应用数据如何经过协议栈、以太网和交换机交给正确的网卡。重点放在四个边界：封装与解封装、IP 与 MAC、FDB 与 ARP、广播域与三层转发。</p>
 </div>
 <h2 id="从一次局域网通信开始"><a href="#从一次局域网通信开始" class="headerlink" title="从一次局域网通信开始"></a>从一次局域网通信开始</h2><p>假设主机 A 的配置是：</p>
@@ -307,7 +307,7 @@
     A[发送端&lt;br&#x2F;&gt;判断本地或远端&lt;br&#x2F;&gt;确定下一跳及其 MAC] --&gt; B[交换机&lt;br&#x2F;&gt;按链路上下文与目的 MAC 查询 FDB]
     B --&gt; C[接收端&lt;br&#x2F;&gt;确认本机 IP&lt;br&#x2F;&gt;把端口交给监听进程]
   </pre></div>
-<div class="note info flat"><p>这三个角色是同一条通信链路中的连续步骤，不是三种可替换方案。排障时沿着“下一跳 → 二层转发 → 本机协议栈”逐段验证，才能确定故障落在哪个边界。</p>
+<div class="note warning flat"><p>这三个角色是同一条通信链路中的连续步骤，不是三种可替换方案。排障时沿着“下一跳 → 二层转发 → 本机协议栈”逐段验证，才能确定故障落在哪个边界。</p>
 </div>
 <h2 id="以太网帧与-MAC"><a href="#以太网帧与-MAC" class="headerlink" title="以太网帧与 MAC"></a>以太网帧与 MAC</h2><h3 id="帧字段"><a href="#帧字段" class="headerlink" title="帧字段"></a>帧字段</h3><p>以太网帧的字段可以先用一个教学级抽象理解：</p>
 <div class="table-container">
@@ -406,7 +406,7 @@
   C --&gt;|已知且是其他端口| E[只向目标端口转发]
   C --&gt;|已知但仍是入端口| F[过滤]
   </pre></div>
-<div class="note info flat"><p>FDB 是动态状态，不是永久事实。主机换端口、链路发生故障、设备重启或条目老化后，第一次通信可能经历未知单播泛洪；这并不自动表示交换机坏了。</p>
+<div class="note warning flat"><p>FDB 是动态状态，不是永久事实。主机换端口、链路发生故障、设备重启或条目老化后，第一次通信可能经历未知单播泛洪；这并不自动表示交换机坏了。</p>
 </div>
 <h3 id="环路和广播域边界"><a href="#环路和广播域边界" class="headerlink" title="环路和广播域边界"></a>环路和广播域边界</h3><div class="note info flat"><p>如果多个交换机通过二层链路形成物理环路，广播和未知单播泛洪可能不断绕圈。生成树类机制用于避免二层环路带来的持续复制；路由器则通过三层边界阻止普通二层广播直接跨接口扩散。</p>
 </div>
@@ -528,7 +528,7 @@
   </pre></div>
 <div class="note info flat"><p>主机不需要像 IPv4 ARP 那样把请求广播给整个链路，而是根据目标 IPv6 地址构造 solicited-node multicast。多个 IPv6 地址可能映射到同一个组播组，因此组成员会先收到报文，再由目标地址匹配的邻居决定是否发送 Neighbor Advertisement；它不是“组播地址直接等于唯一目标”的单播替代。邻居公告可以携带目标链路层地址；缓存条目还会经历 reachable、stale、delay、probe 等状态，发送方在需要时通过 NUD 检查邻居是否仍可达。</p>
 </div>
-<div class="note info flat"><p>路由器发现是另一条重要路径：主机可以发送 Router Solicitation，路由器用 Router Advertisement 通告默认路由、前缀和接口参数。于是 IPv6 的自动配置和默认网关学习也属于 ND 相关能力，不应把 ND 只画成“地址换 MAC”。</p>
+<div class="note warning flat"><p>路由器发现是另一条重要路径：主机可以发送 Router Solicitation，路由器用 Router Advertisement 通告默认路由、前缀和接口参数。于是 IPv6 的自动配置和默认网关学习也属于 ND 相关能力，不应把 ND 只画成“地址换 MAC”。</p>
 </div>
 <div class="table-container">
 <table>
@@ -606,10 +606,10 @@
 </tbody>
 </table>
 </div>
-<div class="note info flat"><p>安全验证时，优先只读命令：</p>
+<div class="note primary flat"><p>安全验证时，优先只读命令：</p>
 </div>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip addr</span><br><span class="line">ip route</span><br><span class="line">ip neigh</span><br><span class="line">ss -lntup</span><br></pre></td></tr></table></figure>
-<div class="note info flat"><p>如果需要清理邻居缓存，必须先确认目标接口和影响范围，并把它当成会改变本机网络状态的操作；学习文章不把清理缓存作为默认修复步骤。</p>
+<div class="note warning flat"><p>如果需要清理邻居缓存，必须先确认目标接口和影响范围，并把它当成会改变本机网络状态的操作；学习文章不把清理缓存作为默认修复步骤。</p>
 </div>
 <details class="folding-tag" blue><summary> 展开查看交换机四种动作 </summary>
               <div class='content'>
@@ -634,6 +634,30 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>寻址说明目标是谁，可达性说明数据能否沿路径交付，应用语义说明交付后请求是否按协议完成。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>同一个“页面打不开”可能分别卡在 DNS/IP、TCP/TLS 或 HTTP/CORS。把三条轴分开，才能选择下一条证据，而不是把所有问题都叫作网络不通。</p>
+<p>把这类局域网问题落到现场时，先记录当前链路的 MAC、IP、VLAN 和接口，再检查下一层证据。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>先确认</th>
+<th>再确认</th>
+<th>不要直接推出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>当前帧或邻居状态</td>
+<td>路由或传输连接</td>
+<td>整个应用请求成功</td>
+</tr>
+<tr>
+<td>设备功能边界</td>
+<td>具体配置与动态条目</td>
+<td>所有同类设备行为相同</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div></div>
       
     </div>
@@ -657,6 +681,30 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>把它们当作定位职责和边界的抽象，不要把现实协议机械地一一塞进唯一层。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>OSI 便于描述物理、链路、网络、传输和应用等职责；TCP/IP 更接近互联网协议族的组织方式。排障时先说明观察对象，再指出层间依赖。</p>
+<p>把这类局域网问题落到现场时，先记录当前链路的 MAC、IP、VLAN 和接口，再检查下一层证据。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>先确认</th>
+<th>再确认</th>
+<th>不要直接推出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>当前帧或邻居状态</td>
+<td>路由或传输连接</td>
+<td>整个应用请求成功</td>
+</tr>
+<tr>
+<td>设备功能边界</td>
+<td>具体配置与动态条目</td>
+<td>所有同类设备行为相同</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div></div>
       
     </div>
@@ -680,6 +728,9 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>发送端逐层为载荷增加本层字段，接收端按协议栈逐层读取并消费字段，再把剩余载荷交给上层。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>交换机通常只需读取当前帧的链路字段，路由器会处理 IP 和下一跳，最终主机才把应用数据交给 HTTP、DNS 等应用协议。</p>
+<p>可以把一次传输压缩成“每层只消费自己的字段”这条线：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">应用数据</span><br><span class="line">  ↓ 加上传输层字段（端口、序列信息）</span><br><span class="line">传输层载荷</span><br><span class="line">  ↓ 加上网络层字段（源/目标 IP）</span><br><span class="line">网络层载荷</span><br><span class="line">  ↓ 加上链路层字段（源/目标 MAC）</span><br><span class="line">以太网帧</span><br></pre></td></tr></table></figure>
+<p>接收端按相反方向读取这些字段；中间交换机只需要完成当前链路的转发，不能因为它转发了一个帧就推断 HTTP 已经成功。</p>
 </div></div>
       
     </div>
@@ -703,6 +754,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>每层只能证明相应观察点存在；后续层仍可能失败。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>看到 ARP 只说明链路地址解析发生，看到 TCP 建立只说明传输连接建立，看到 HTTP 404 才说明某个 HTTP 服务返回了响应；结论必须标明已验证的层。</p>
+<p>排障时可以把证据写成一条逐层收窄的记录：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>观察点</th>
+<th>能确认</th>
+<th>还不能确认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP/ND 或 FDB</td>
+<td>当前链路的下一跳线索</td>
+<td>IP 路由和应用响应</td>
+</tr>
+<tr>
+<td>TCP/TLS 握手</td>
+<td>传输或安全会话建立</td>
+<td>HTTP 状态和业务结果</td>
+</tr>
+<tr>
+<td>HTTP 响应</td>
+<td>某个服务返回了应用层结果</td>
+<td>业务数据一定正确</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这样“看到字段”会变成有边界的证据，而不是把某一层的成功扩大成端到端成功。</p>
 </div></div>
       
     </div>
@@ -726,6 +807,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>普通交换机主要根据当前链路的目的 MAC 和 FDB 转发，路由器根据 IP 前缀和路由表选择下一跳并重新封装链路帧。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>三层交换机、防火墙和网关可能同时具备多层能力；回答时要说明正在讨论的是哪种转发功能，不能把 FDB 和路由表混为一谈。</p>
+<p>观察交换机时，先区分“学习”与“转发”两个动作：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>交换机动作</th>
+<th>观察结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源 MAC 从端口 1 进入</td>
+<td>记录 MAC → 端口 1</td>
+<td>FDB 新增或刷新</td>
+</tr>
+<tr>
+<td>目的 MAC 已在端口 2</td>
+<td>查询 FDB</td>
+<td>只发往端口 2</td>
+</tr>
+<tr>
+<td>目的 MAC 未知</td>
+<td>暂时无法定向</td>
+<td>同广播域泛洪且不回入端口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因此主机换端口或条目老化时，短暂泛洪是动态学习的结果；要判断故障，还要看端口、VLAN 和后续是否重新学习。</p>
 </div></div>
       
     </div>
@@ -749,6 +860,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>把现象映射到可验证的层和字段，并明确下一步要观察的证据。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>例如“本地网关可达但远端失败”应继续看路由、NAT、TCP 或 HTTP，而不是反复清理 ARP；“收到 404”则应转向资源、路由、Host 和应用响应。</p>
+<p>排障时可以把证据写成一条逐层收窄的记录：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>观察点</th>
+<th>能确认</th>
+<th>还不能确认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP/ND 或 FDB</td>
+<td>当前链路的下一跳线索</td>
+<td>IP 路由和应用响应</td>
+</tr>
+<tr>
+<td>TCP/TLS 握手</td>
+<td>传输或安全会话建立</td>
+<td>HTTP 状态和业务结果</td>
+</tr>
+<tr>
+<td>HTTP 响应</td>
+<td>某个服务返回了应用层结果</td>
+<td>业务数据一定正确</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这样“看到字段”会变成有边界的证据，而不是把某一层的成功扩大成端到端成功。</p>
 </div></div>
       
     </div>
@@ -772,6 +913,31 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>IP 决定逻辑目标和是否需要经过路由，MAC 负责当前链路上的一跳交付。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>主机先根据前缀判断目标是本地还是远端，再为当前下一跳获取 MAC。MAC 会在每一跳重写，不能当作跨互联网的最终地址。</p>
+<p>可以用“最终目标”和“当前一跳”对照：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>解决的问题</th>
+<th>是否每跳变化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目标 IP</td>
+<td>数据最终要到哪个网络/主机</td>
+<td>通常保持到达目标</td>
+</tr>
+<tr>
+<td>目的 MAC</td>
+<td>当前链路交给哪个下一跳</td>
+<td>经过路由器会重写</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>二层交换机只查 FDB；具备三层能力的设备才会进一步查路由表，不能把两种转发路径混为一谈。</p>
 </div></div>
       
     </div>
@@ -795,6 +961,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>目的/源 MAC 标识当前链路交付双方，类型字段指示载荷协议，FCS 用于检测帧传输错误。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>帧字段服务于链路层；IP、TCP、HTTP 字段不应与它们混为一谈。抓包还可能受网卡校验和卸载影响。</p>
+<p>排障时可以把证据写成一条逐层收窄的记录：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>观察点</th>
+<th>能确认</th>
+<th>还不能确认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP/ND 或 FDB</td>
+<td>当前链路的下一跳线索</td>
+<td>IP 路由和应用响应</td>
+</tr>
+<tr>
+<td>TCP/TLS 握手</td>
+<td>传输或安全会话建立</td>
+<td>HTTP 状态和业务结果</td>
+</tr>
+<tr>
+<td>HTTP 响应</td>
+<td>某个服务返回了应用层结果</td>
+<td>业务数据一定正确</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这样“看到字段”会变成有边界的证据，而不是把某一层的成功扩大成端到端成功。</p>
 </div></div>
       
     </div>
@@ -818,6 +1014,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>它从收到帧的源 MAC 和入端口建立或更新映射。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>目的 MAC 用于查找转发方向，源 MAC 用于学习位置。FDB 会老化、变化或在设备重启后丢失，所以它是动态状态。</p>
+<p>观察交换机时，先区分“学习”与“转发”两个动作：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>交换机动作</th>
+<th>观察结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源 MAC 从端口 1 进入</td>
+<td>记录 MAC → 端口 1</td>
+<td>FDB 新增或刷新</td>
+</tr>
+<tr>
+<td>目的 MAC 已在端口 2</td>
+<td>查询 FDB</td>
+<td>只发往端口 2</td>
+</tr>
+<tr>
+<td>目的 MAC 未知</td>
+<td>暂时无法定向</td>
+<td>同广播域泛洪且不回入端口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因此主机换端口或条目老化时，短暂泛洪是动态学习的结果；要判断故障，还要看端口、VLAN 和后续是否重新学习。</p>
 </div></div>
       
     </div>
@@ -841,6 +1067,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>因为交换机暂时不知道目的 MAC 所在端口，会在同一广播域内扩散，但通常不从入端口发回。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>未知单播泛洪是学习过程的正常边界，不等于广播，也不等于帧一定会被目标主机接受。</p>
+<p>观察交换机时，先区分“学习”与“转发”两个动作：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>交换机动作</th>
+<th>观察结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源 MAC 从端口 1 进入</td>
+<td>记录 MAC → 端口 1</td>
+<td>FDB 新增或刷新</td>
+</tr>
+<tr>
+<td>目的 MAC 已在端口 2</td>
+<td>查询 FDB</td>
+<td>只发往端口 2</td>
+</tr>
+<tr>
+<td>目的 MAC 未知</td>
+<td>暂时无法定向</td>
+<td>同广播域泛洪且不回入端口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因此主机换端口或条目老化时，短暂泛洪是动态学习的结果；要判断故障，还要看端口、VLAN 和后续是否重新学习。</p>
 </div></div>
       
     </div>
@@ -864,6 +1120,32 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>请求方还不知道目标 MAC，只能在广播域询问；目标收到请求后知道请求方 MAC，可以直接单播回复。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>ARP 缓存会减少重复广播。观察 ARP 时应同时看 Ethernet 目的 MAC 和 ARP payload 中的协议地址。</p>
+<p>把地址解析放回一跳范围就容易判断：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>当前帧目的 MAC</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同网段主机</td>
+<td>目标主机 MAC</td>
+<td>目标就在本链路</td>
+</tr>
+<tr>
+<td>远端网络</td>
+<td>默认网关 MAC</td>
+<td>网关是这一跳的下一站</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可用下面的最小证据核对缓存与报文，而不是只猜地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip neigh</span><br><span class="line">tcpdump -ni eth0 <span class="string">&#x27;arp or icmp6&#x27;</span></span><br></pre></td></tr></table></figure>
 </div></div>
       
     </div>
@@ -887,6 +1169,32 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>因为远端 IP 不在本地前缀内，当前链路的下一跳是默认网关。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>IP 目标保持为远端地址，但当前帧目的 MAC 是网关 MAC；路由器收到后重新封装下一跳帧。</p>
+<p>把地址解析放回一跳范围就容易判断：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>当前帧目的 MAC</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同网段主机</td>
+<td>目标主机 MAC</td>
+<td>目标就在本链路</td>
+</tr>
+<tr>
+<td>远端网络</td>
+<td>默认网关 MAC</td>
+<td>网关是这一跳的下一站</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可用下面的最小证据核对缓存与报文，而不是只猜地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip neigh</span><br><span class="line">tcpdump -ni eth0 <span class="string">&#x27;arp or icmp6&#x27;</span></span><br></pre></td></tr></table></figure>
 </div></div>
       
     </div>
@@ -910,6 +1218,32 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>主机通过 ICMPv6 Neighbor Solicitation/Advertisement 解析邻居，使用 solicited-node 组播；ND 还包括 Router Advertisement 和 Neighbor Unreachability Detection。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>NS/NA 对应地址解析，RS/RA 对应路由器和前缀发现，NUD 负责缓存可达性。验证时可看 ICMPv6 类型 133～136 和邻居缓存状态。</p>
+<p>把地址解析放回一跳范围就容易判断：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>当前帧目的 MAC</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同网段主机</td>
+<td>目标主机 MAC</td>
+<td>目标就在本链路</td>
+</tr>
+<tr>
+<td>远端网络</td>
+<td>默认网关 MAC</td>
+<td>网关是这一跳的下一站</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可用下面的最小证据核对缓存与报文，而不是只猜地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip neigh</span><br><span class="line">tcpdump -ni eth0 <span class="string">&#x27;arp or icmp6&#x27;</span></span><br></pre></td></tr></table></figure>
 </div></div>
       
     </div>
@@ -933,6 +1267,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>第一次通信可能经历未知单播泛洪或短暂延迟，随后交换机重新学习位置。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>应结合端口、MAC、广播域和抓包证据判断；不要因为一次泛洪就清空所有网络状态。</p>
+<p>观察交换机时，先区分“学习”与“转发”两个动作：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>交换机动作</th>
+<th>观察结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源 MAC 从端口 1 进入</td>
+<td>记录 MAC → 端口 1</td>
+<td>FDB 新增或刷新</td>
+</tr>
+<tr>
+<td>目的 MAC 已在端口 2</td>
+<td>查询 FDB</td>
+<td>只发往端口 2</td>
+</tr>
+<tr>
+<td>目的 MAC 未知</td>
+<td>暂时无法定向</td>
+<td>同广播域泛洪且不回入端口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因此主机换端口或条目老化时，短暂泛洪是动态学习的结果；要判断故障，还要看端口、VLAN 和后续是否重新学习。</p>
 </div></div>
       
     </div>
@@ -956,6 +1320,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>冲突域关注共享介质上的同时发送和碰撞，广播域关注二层广播的传播范围；Hub 共享冲突域，交换机端口通常隔离冲突，VLAN 切分广播域，路由器三层接口通常隔离广播。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>“交换机隔离冲突域、路由器隔离广播域”是带双工、VLAN 和设备功能前提的口诀。碰撞问题看双工/接口错误，广播问题看 VLAN、环路和泛洪。</p>
+<p>观察交换机时，先区分“学习”与“转发”两个动作：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>交换机动作</th>
+<th>观察结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源 MAC 从端口 1 进入</td>
+<td>记录 MAC → 端口 1</td>
+<td>FDB 新增或刷新</td>
+</tr>
+<tr>
+<td>目的 MAC 已在端口 2</td>
+<td>查询 FDB</td>
+<td>只发往端口 2</td>
+</tr>
+<tr>
+<td>目的 MAC 未知</td>
+<td>暂时无法定向</td>
+<td>同广播域泛洪且不回入端口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因此主机换端口或条目老化时，短暂泛洪是动态学习的结果；要判断故障，还要看端口、VLAN 和后续是否重新学习。</p>
 </div></div>
       
     </div>
@@ -981,6 +1375,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>普通二层交换机依据当前链路中的目的 MAC 和 FDB 转发；根据 IP 做三层转发需要路由表、最长前缀匹配和 TTL 等网络层逻辑。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>三层交换机可以同时具备路由功能，但那是设备启用的另一种转发能力，不能把二层 FDB 与三层路由表混为一谈。</p>
+<p>观察交换机时，先区分“学习”与“转发”两个动作：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>交换机动作</th>
+<th>观察结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源 MAC 从端口 1 进入</td>
+<td>记录 MAC → 端口 1</td>
+<td>FDB 新增或刷新</td>
+</tr>
+<tr>
+<td>目的 MAC 已在端口 2</td>
+<td>查询 FDB</td>
+<td>只发往端口 2</td>
+</tr>
+<tr>
+<td>目的 MAC 未知</td>
+<td>暂时无法定向</td>
+<td>同广播域泛洪且不回入端口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因此主机换端口或条目老化时，短暂泛洪是动态学习的结果；要判断故障，还要看端口、VLAN 和后续是否重新学习。</p>
 </div></div>
       
     </div>
@@ -1004,6 +1428,32 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>不是。缓存可以减少广播，但过期、错误或欺骗性条目会导致错误交付。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>排障时先观察条目状态和请求/应答，再在明确接口范围内刷新；清空缓存不是解释故障原因的证据。</p>
+<p>把地址解析放回一跳范围就容易判断：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>当前帧目的 MAC</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同网段主机</td>
+<td>目标主机 MAC</td>
+<td>目标就在本链路</td>
+</tr>
+<tr>
+<td>远端网络</td>
+<td>默认网关 MAC</td>
+<td>网关是这一跳的下一站</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可用下面的最小证据核对缓存与报文，而不是只猜地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip neigh</span><br><span class="line">tcpdump -ni eth0 <span class="string">&#x27;arp or icmp6&#x27;</span></span><br></pre></td></tr></table></figure>
 </div></div>
       
     </div>
@@ -1027,6 +1477,36 @@
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>不能这样推断。硬件校验和卸载、抓包点和驱动行为都可能使 FCS 不出现在主机看到的帧中。</p>
 </div></div>
       <div class="hfc-explanation-section"><strong>解析：</strong><div><p>应结合网卡错误计数、对端抓包和链路状态验证；单个抓包视图缺少 FCS 不能直接归因于硬件故障。</p>
+<p>这类动态状态要用“当前观察点 + 下一步验证”来解释：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>可能说明</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>缓存缺失或过期</td>
+<td>需要重新解析或学习</td>
+<td>观察请求、应答和接口</td>
+</tr>
+<tr>
+<td>抓包缺少 FCS</td>
+<td>可能是卸载或捕获位置</td>
+<td>对端抓包、接口错误计数</td>
+</tr>
+<tr>
+<td>短暂泛洪</td>
+<td>可能正在重新学习</td>
+<td>比较前后 FDB 条目</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>单个抓包画面不能独立证明网卡损坏、交换机故障或缓存攻击。</p>
 </div></div>
       
     </div>
@@ -1039,11 +1519,11 @@
 <div class="tag link"><a class="link-card" title="IEEE 802.3-2022 Ethernet" target="_blank" rel="noopener" href="https://standards.ieee.org/ieee/7003/10422/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://standards.ieee.org/favicon.ico"/></div><div class="right"><p class="text">IEEE 802.3-2022 Ethernet</p><p class="url">https://standards.ieee.org/ieee/7003/10422/</p></div></a></div>
 <div class="tag link"><a class="link-card" title="Cisco LAN Switching Environments" target="_blank" rel="noopener" href="https://www.cisco.com/c/en/us/support/docs/lan-switching/ethernet/12006-chapter22.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.cisco.com/favicon.ico"/></div><div class="right"><p class="text">Cisco LAN Switching Environments</p><p class="url">https://www.cisco.com/c/en/us/support/docs/lan-switching/ethernet/12006-chapter22.html</p></div></a></div></div>
 
-<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="18"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fcomputer-network%2F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C(%E4%BA%8C)%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E4%B8%8E%E5%B1%80%E5%9F%9F%E7%BD%91.md" title="复习本篇 · 18 张卡片" aria-label="复习本篇 · 18 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 18 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/474f4d81/">https://koco-co.github.io/posts/474f4d81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><a class="post-meta__tags" href="/tags/%E4%BB%A5%E5%A4%AA%E7%BD%91/">以太网</a><a class="post-meta__tags" href="/tags/ARP/">ARP</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络(三)IP 与网络寻址</div></div><div class="info-2"><div class="info-item-1">从一条跨网段访问链路出发，掌握 IPv4/IPv6 地址、CIDR、最长前缀匹配、NAT、ICMP、DHCP、DNS 与旧笔记迁移边界。</div></div></div></a><a class="pagination-related" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机网络(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立计算机网络的学习坐标、依赖顺序、资料边界和复习方式，为后续分层、寻址、传输、HTTP 与排障文章提供统一入口。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(四)UDP 与 TCP</div></div><div class="info-2"><div class="info-item-1">从传输层端点和首部字段出发，逐包理解 UDP、TCP 三次握手、序列确认、重传、拥塞控制、连接关闭、TIME_WAIT 与抓包证据。</div></div></div></a><a class="pagination-related" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(六)HTTPS 与现代 HTTP</div></div><div class="info-2"><div class="info-item-1">按 HTTP/1.1、HTTP/2、TLS 1.3、QUIC、HTTP/3、证书校验和 HTTPS 边界的严格顺序，理解现代 Web 协议栈。</div></div></div></a><a class="pagination-related" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(五)HTTP 协议</div></div><div class="info-2"><div class="info-item-1">从资源、表示、消息和字段出发，系统掌握 HTTP 方法、状态码、缓存、Cookie、CORS、代理与面试分析证据。</div></div></div></a><a class="pagination-related" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(九)综合实战</div></div><div class="info-2"><div class="info-item-1">用两条完整访问链路和可控失败场景整合 DNS、TCP、TLS、HTTP、QUIC、HTTP/3 与状态码证据，完成面试式网络分析。</div></div></div></a><a class="pagination-related" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(七)抓包与网络排障</div></div><div class="info-2"><div class="info-item-1">把 DevTools、curl、tcpdump/Wireshark 和六个安全可回收场景串成 DNS、TCP、TLS、HTTP 的证据链排障方法。</div></div></div></a><a class="pagination-related" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">计算机网络(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立计算机网络的学习坐标、依赖顺序、资料边界和复习方式，为后续分层、寻址、传输、HTTP 与排障文章提供统一入口。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">76</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">124</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="18"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fcomputer-network%2F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C(%E4%BA%8C)%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E4%B8%8E%E5%B1%80%E5%9F%9F%E7%BD%91.md" title="复习本篇 · 18 张卡片" aria-label="复习本篇 · 18 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 18 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/474f4d81/">https://koco-co.github.io/posts/474f4d81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><a class="post-meta__tags" href="/tags/%E4%BB%A5%E5%A4%AA%E7%BD%91/">以太网</a><a class="post-meta__tags" href="/tags/ARP/">ARP</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络(三)IP 与网络寻址</div></div><div class="info-2"><div class="info-item-1">从一条跨网段访问链路出发，掌握 IPv4/IPv6 地址、CIDR、最长前缀匹配、NAT、ICMP、DHCP、DNS 与旧笔记迁移边界。</div></div></div></a><a class="pagination-related" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机网络(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立计算机网络的学习坐标、依赖顺序、资料边界和复习方式，为后续分层、寻址、传输、HTTP 与排障文章提供统一入口。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-03</div><div class="info-item-2">计算机网络(三)IP 与网络寻址</div></div><div class="info-2"><div class="info-item-1">从一条跨网段访问链路出发，掌握 IPv4/IPv6 地址、CIDR、最长前缀匹配、NAT、ICMP、DHCP、DNS 与旧笔记迁移边界。</div></div></div></a><a class="pagination-related" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-07</div><div class="info-item-2">计算机网络(七)抓包与网络排障</div></div><div class="info-2"><div class="info-item-1">把 DevTools、curl、tcpdump/Wireshark 和六个安全可回收场景串成 DNS、TCP、TLS、HTTP 的证据链排障方法。</div></div></div></a><a class="pagination-related" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-05</div><div class="info-item-2">计算机网络(五)HTTP 协议</div></div><div class="info-2"><div class="info-item-1">从资源、表示、消息和字段出发，系统掌握 HTTP 方法、状态码、缓存、Cookie、CORS、代理与面试分析证据。</div></div></div></a><a class="pagination-related" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-08</div><div class="info-item-2">计算机网络(八)进阶路线</div></div><div class="info-2"><div class="info-item-1">在主线完成后，用 WebSocket、DoH/DoT、IPsec、VXLAN 以及 QoS、组播、路由和 WebDAV 扩展网络视野，并明确每个主题的层次、取舍和进入条件。</div></div></div></a><a class="pagination-related" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-04</div><div class="info-item-2">计算机网络(四)UDP 与 TCP</div></div><div class="info-2"><div class="info-item-1">从传输层端点和首部字段出发，逐包理解 UDP、TCP 三次握手、序列确认、重传、拥塞控制、连接关闭、TIME_WAIT 与抓包证据。</div></div></div></a><a class="pagination-related" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-09</div><div class="info-item-2">计算机网络(九)综合实战</div></div><div class="info-2"><div class="info-item-1">用两条完整访问链路和可控失败场景整合 DNS、TCP、TLS、HTTP、QUIC、HTTP/3 与状态码证据，完成面试式网络分析。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
   <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
   </br>
   <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
-</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E4%B8%80%E6%AC%A1%E5%B1%80%E5%9F%9F%E7%BD%91%E9%80%9A%E4%BF%A1%E5%BC%80%E5%A7%8B"><span class="toc-number">1.</span> <span class="toc-text">从一次局域网通信开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E4%B8%8E%E5%B0%81%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">分层与封装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E7%AB%AF%E9%80%90%E5%B1%82%E5%8A%A0%E5%A4%B4"><span class="toc-number">2.1.</span> <span class="toc-text">发送端逐层加头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E7%AB%AF%E9%80%90%E5%B1%82%E8%A7%A3%E5%B0%81%E8%A3%85"><span class="toc-number">2.2.</span> <span class="toc-text">接收端逐层解封装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%B8%A7%E4%B8%8E-MAC"><span class="toc-number">3.</span> <span class="toc-text">以太网帧与 MAC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A7%E5%AD%97%E6%AE%B5"><span class="toc-number">3.1.</span> <span class="toc-text">帧字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%92%AD%E3%80%81%E5%B9%BF%E6%92%AD%E4%B8%8E%E7%BB%84%E6%92%AD"><span class="toc-number">3.2.</span> <span class="toc-text">单播、广播与组播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%BD%AC%E5%8F%91"><span class="toc-number">4.</span> <span class="toc-text">交换机转发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FDB-%E8%BD%AC%E5%8F%91"><span class="toc-number">4.1.</span> <span class="toc-text">FDB 转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E8%B7%AF%E5%92%8C%E5%B9%BF%E6%92%AD%E5%9F%9F%E8%BE%B9%E7%95%8C"><span class="toc-number">4.2.</span> <span class="toc-text">环路和广播域边界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%B2%E7%AA%81%E5%9F%9F%E4%B8%8E%E5%B9%BF%E6%92%AD%E5%9F%9F"><span class="toc-number">4.3.</span> <span class="toc-text">冲突域与广播域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARP-%E4%B8%8E-IPv6-%E9%82%BB%E5%B1%85%E5%8F%91%E7%8E%B0"><span class="toc-number">5.</span> <span class="toc-text">ARP 与 IPv6 邻居发现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP-%E4%BA%A4%E6%8D%A2"><span class="toc-number">5.1.</span> <span class="toc-text">ARP 交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%BD%91%E5%85%B3"><span class="toc-number">5.2.</span> <span class="toc-text">默认网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv6-%E9%82%BB%E5%B1%85%E5%8F%91%E7%8E%B0"><span class="toc-number">5.3.</span> <span class="toc-text">IPv6 邻居发现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%B1%E8%B4%A5%E8%BE%B9%E7%95%8C%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="toc-number">6.</span> <span class="toc-text">失败边界与验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E5%A4%8D%E4%B9%A0"><span class="toc-number">7.</span> <span class="toc-text">分层复习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%A4%8D%E4%B9%A0"><span class="toc-number">8.</span> <span class="toc-text">局域网复习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">9.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(九)综合实战"></a><div class="content"><a class="title" href="/posts/e25e16df/" title="计算机网络(九)综合实战">计算机网络(九)综合实战</a><time datetime="2026-08-25T00:30:00.000Z" title="发表于 2026-08-25 08:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(八)进阶路线"></a><div class="content"><a class="title" href="/posts/e470b049/" title="计算机网络(八)进阶路线">计算机网络(八)进阶路线</a><time datetime="2026-08-25T00:00:00.000Z" title="发表于 2026-08-25 08:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(七)抓包与网络排障"></a><div class="content"><a class="title" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障">计算机网络(七)抓包与网络排障</a><time datetime="2026-08-24T23:30:00.000Z" title="发表于 2026-08-25 07:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(六)HTTPS 与现代 HTTP"></a><div class="content"><a class="title" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP">计算机网络(六)HTTPS 与现代 HTTP</a><time datetime="2026-08-24T23:00:00.000Z" title="发表于 2026-08-25 07:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(五)HTTP 协议"></a><div class="content"><a class="title" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议">计算机网络(五)HTTP 协议</a><time datetime="2026-08-24T22:30:00.000Z" title="发表于 2026-08-25 06:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(四)UDP 与 TCP"></a><div class="content"><a class="title" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP">计算机网络(四)UDP 与 TCP</a><time datetime="2026-08-24T22:00:00.000Z" title="发表于 2026-08-25 06:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(三)IP 与网络寻址"></a><div class="content"><a class="title" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址">计算机网络(三)IP 与网络寻址</a><time datetime="2026-08-24T21:30:00.000Z" title="发表于 2026-08-25 05:30:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(二)网络分层与局域网"></a><div class="content"><a class="title" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网">计算机网络(二)网络分层与局域网</a><time datetime="2026-08-24T21:00:00.000Z" title="发表于 2026-08-25 05:00:00">2026-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(一)入门路线"></a><div class="content"><a class="title" href="/posts/347ce4f2/" title="计算机网络(一)入门路线">计算机网络(一)入门路线</a><time datetime="2026-08-24T19:38:27.000Z" title="发表于 2026-08-25 03:38:27">2026-08-25</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(一)入门路线"/></a><div class="content"><a class="title" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线">Pytest(一)入门路线</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b5dda780/" title="Pytest(三)测试收集与运行控制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(三)测试收集与运行控制"/></a><div class="content"><a class="title" href="/posts/b5dda780/" title="Pytest(三)测试收集与运行控制">Pytest(三)测试收集与运行控制</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(二)测试基础与执行模型"/></a><div class="content"><a class="title" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型">Pytest(二)测试基础与执行模型</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ac715911/" title="Pytest(四)断言与结果诊断"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(四)断言与结果诊断"/></a><div class="content"><a class="title" href="/posts/ac715911/" title="Pytest(四)断言与结果诊断">Pytest(四)断言与结果诊断</a><time datetime="2026-08-26T01:00:00.000Z" title="发表于 2026-08-26 09:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2ec898f2/" title="MySQL(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/mysql-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL(一)入门路线"/></a><div class="content"><a class="title" href="/posts/2ec898f2/" title="MySQL(一)入门路线">MySQL(一)入门路线</a><time datetime="2026-08-25T05:18:42.000Z" title="发表于 2026-08-25 13:18:42">2026-08-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E4%B8%80%E6%AC%A1%E5%B1%80%E5%9F%9F%E7%BD%91%E9%80%9A%E4%BF%A1%E5%BC%80%E5%A7%8B"><span class="toc-number">1.</span> <span class="toc-text">从一次局域网通信开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E4%B8%8E%E5%B0%81%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">分层与封装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E7%AB%AF%E9%80%90%E5%B1%82%E5%8A%A0%E5%A4%B4"><span class="toc-number">2.1.</span> <span class="toc-text">发送端逐层加头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E7%AB%AF%E9%80%90%E5%B1%82%E8%A7%A3%E5%B0%81%E8%A3%85"><span class="toc-number">2.2.</span> <span class="toc-text">接收端逐层解封装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%B8%A7%E4%B8%8E-MAC"><span class="toc-number">3.</span> <span class="toc-text">以太网帧与 MAC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A7%E5%AD%97%E6%AE%B5"><span class="toc-number">3.1.</span> <span class="toc-text">帧字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%92%AD%E3%80%81%E5%B9%BF%E6%92%AD%E4%B8%8E%E7%BB%84%E6%92%AD"><span class="toc-number">3.2.</span> <span class="toc-text">单播、广播与组播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%BD%AC%E5%8F%91"><span class="toc-number">4.</span> <span class="toc-text">交换机转发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FDB-%E8%BD%AC%E5%8F%91"><span class="toc-number">4.1.</span> <span class="toc-text">FDB 转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E8%B7%AF%E5%92%8C%E5%B9%BF%E6%92%AD%E5%9F%9F%E8%BE%B9%E7%95%8C"><span class="toc-number">4.2.</span> <span class="toc-text">环路和广播域边界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%B2%E7%AA%81%E5%9F%9F%E4%B8%8E%E5%B9%BF%E6%92%AD%E5%9F%9F"><span class="toc-number">4.3.</span> <span class="toc-text">冲突域与广播域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARP-%E4%B8%8E-IPv6-%E9%82%BB%E5%B1%85%E5%8F%91%E7%8E%B0"><span class="toc-number">5.</span> <span class="toc-text">ARP 与 IPv6 邻居发现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP-%E4%BA%A4%E6%8D%A2"><span class="toc-number">5.1.</span> <span class="toc-text">ARP 交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%BD%91%E5%85%B3"><span class="toc-number">5.2.</span> <span class="toc-text">默认网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv6-%E9%82%BB%E5%B1%85%E5%8F%91%E7%8E%B0"><span class="toc-number">5.3.</span> <span class="toc-text">IPv6 邻居发现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%B1%E8%B4%A5%E8%BE%B9%E7%95%8C%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="toc-number">6.</span> <span class="toc-text">失败边界与验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E5%A4%8D%E4%B9%A0"><span class="toc-number">7.</span> <span class="toc-text">分层复习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%A4%8D%E4%B9%A0"><span class="toc-number">8.</span> <span class="toc-text">局域网复习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">9.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/e25e16df/" title="计算机网络(九)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(九)综合实战"></a><div class="content"><a class="title" href="/posts/e25e16df/" title="计算机网络(九)综合实战">计算机网络(九)综合实战</a><time datetime="2026-03-08T16:00:00.000Z" title="发表于 2026-03-09 00:00:00">2026-03-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e470b049/" title="计算机网络(八)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(八)进阶路线"></a><div class="content"><a class="title" href="/posts/e470b049/" title="计算机网络(八)进阶路线">计算机网络(八)进阶路线</a><time datetime="2026-03-07T16:00:00.000Z" title="发表于 2026-03-08 00:00:00">2026-03-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(七)抓包与网络排障"></a><div class="content"><a class="title" href="/posts/61ba71fc/" title="计算机网络(七)抓包与网络排障">计算机网络(七)抓包与网络排障</a><time datetime="2026-03-06T16:00:00.000Z" title="发表于 2026-03-07 00:00:00">2026-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(六)HTTPS 与现代 HTTP"></a><div class="content"><a class="title" href="/posts/36cb963b/" title="计算机网络(六)HTTPS 与现代 HTTP">计算机网络(六)HTTPS 与现代 HTTP</a><time datetime="2026-03-05T16:00:00.000Z" title="发表于 2026-03-06 00:00:00">2026-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(五)HTTP 协议"></a><div class="content"><a class="title" href="/posts/366484e7/" title="计算机网络(五)HTTP 协议">计算机网络(五)HTTP 协议</a><time datetime="2026-03-04T16:00:00.000Z" title="发表于 2026-03-05 00:00:00">2026-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(四)UDP 与 TCP"></a><div class="content"><a class="title" href="/posts/ec8f5dd0/" title="计算机网络(四)UDP 与 TCP">计算机网络(四)UDP 与 TCP</a><time datetime="2026-03-03T16:00:00.000Z" title="发表于 2026-03-04 00:00:00">2026-03-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(三)IP 与网络寻址"></a><div class="content"><a class="title" href="/posts/5bd659bc/" title="计算机网络(三)IP 与网络寻址">计算机网络(三)IP 与网络寻址</a><time datetime="2026-03-02T16:00:00.000Z" title="发表于 2026-03-03 00:00:00">2026-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(二)网络分层与局域网"></a><div class="content"><a class="title" href="/posts/474f4d81/" title="计算机网络(二)网络分层与局域网">计算机网络(二)网络分层与局域网</a><time datetime="2026-03-01T16:00:00.000Z" title="发表于 2026-03-02 00:00:00">2026-03-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/347ce4f2/" title="计算机网络(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/computer-network-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络(一)入门路线"></a><div class="content"><a class="title" href="/posts/347ce4f2/" title="计算机网络(一)入门路线">计算机网络(一)入门路线</a><time datetime="2026-02-28T16:00:00.000Z" title="发表于 2026-03-01 00:00:00">2026-03-01</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/eba16d90/" title="App测试(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(一)入门路线"/></a><div class="content"><a class="title" href="/posts/eba16d90/" title="App测试(一)入门路线">App测试(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(七)兼容性与适配"/></a><div class="content"><a class="title" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配">App测试(七)兼容性与适配</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(三)Android 环境与设备"/></a><div class="content"><a class="title" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备">App测试(三)Android 环境与设备</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(二)测试策略与质量模型"/></a><div class="content"><a class="title" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型">App测试(二)测试策略与质量模型</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(九)可用性与可访问性"/></a><div class="content"><a class="title" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性">App测试(九)可用性与可访问性</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
   <p><strong>免责声明</strong></p>
   <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
   <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
@@ -1369,4 +1849,4 @@
         : window.location.href = e.request.responseURL
     }
   })
-})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/flashcard-queue.js"></script><script id="hfc-sync-config-data" type="application/json">{"enabled":true,"url":"https://hkqqjttiqhwfdintqxpx.supabase.co","publishableKey":"sb_publishable_BYiAsjvfObJ1Kj26-YkVeQ_x4ruAFc4"}</script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

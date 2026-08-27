@@ -1,0 +1,830 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FastAPI(八)数据库集成与事务 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="以 SQLAlchemy 2 异步会话为例，让请求级资源、CRUD、事务回滚、连接池故障和测试隔离形成一个闭环。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FastAPI(八)数据库集成与事务">
+<meta property="og:url" content="https://koco-co.github.io/posts/bbbfc80a/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="以 SQLAlchemy 2 异步会话为例，让请求级资源、CRUD、事务回滚、连接池故障和测试隔离形成一个闭环。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/fastapi-course-cover.png">
+<meta property="article:published_time" content="2026-08-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-27T04:53:50.684Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="FastAPI">
+<meta property="article:tag" content="系统学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/fastapi-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FastAPI(八)数据库集成与事务",
+  "url": "https://koco-co.github.io/posts/bbbfc80a/",
+  "image": "https://koco-co.github.io/img/picgo-images/fastapi-course-cover.png",
+  "datePublished": "2026-08-25T16:00:00.000Z",
+  "dateModified": "2026-08-27T04:53:50.684Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/bbbfc80a/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FastAPI(八)数据库集成与事务',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/fastapi-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">FastAPI(八)数据库集成与事务</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FastAPI(八)数据库集成与事务<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/fastapi/FastAPI(八)数据库集成与事务.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-27T04:53:50.684Z" title="更新于 2026-08-27 12:53:50">2026-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/FastAPI/">FastAPI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="FastAPI 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>FastAPI 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="15" aria-valuenow="8"><span style="width: 53.3333%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/7486a2ec/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">FastAPI(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/1c968b87/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">FastAPI(二)快速开始与开发环境</span></a></li><li class="course-series-nav__item"><a href="/posts/fcf9c728/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">FastAPI(三)路由与请求解析</span></a></li><li class="course-series-nav__item"><a href="/posts/ea590b49/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">FastAPI(四)数据模型与响应契约</span></a></li><li class="course-series-nav__item"><a href="/posts/6ddff2f0/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">FastAPI(五)依赖注入与资源管理</span></a></li><li class="course-series-nav__item"><a href="/posts/d0ce794d/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">FastAPI(六)应用结构与生命周期</span></a></li><li class="course-series-nav__item"><a href="/posts/f30a7c3d/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">FastAPI(七)认证授权与接口安全</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/bbbfc80a/" aria-current="page"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">FastAPI(八)数据库集成与事务</span></a></li><li class="course-series-nav__item"><a href="/posts/52af630c/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">FastAPI(九)请求管线与错误处理</span></a></li><li class="course-series-nav__item"><a href="/posts/801e2897/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">FastAPI(十)并发模型与后台任务</span></a></li><li class="course-series-nav__item"><a href="/posts/6be6843f/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">FastAPI(十一)流式响应与实时通信</span></a></li><li class="course-series-nav__item"><a href="/posts/d474d6f1/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">FastAPI(十二)测试与质量保障</span></a></li><li class="course-series-nav__item"><a href="/posts/a584b159/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">FastAPI(十三)部署与生产运维</span></a></li><li class="course-series-nav__item"><a href="/posts/f8ac9084/"><span class="course-series-nav__index">14</span><span class="course-series-nav__title">FastAPI(十四)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/dfdedcc6/"><span class="course-series-nav__index">15</span><span class="course-series-nav__title">FastAPI(十五)项目实战</span></a></li></ol></nav>
+<div class="note primary flat"><p>数据库集成的关键不是把 SQL 写进路由，而是决定 Engine、连接池、Session、事务和测试隔离各自的所有权。本文用 SQLAlchemy 异步会话贯穿查询、新增、更新和回滚，并用池耗尽与同步阻塞实验说明“异步函数”并不会自动让数据库调用变成非阻塞。</p>
+</div>
+<h2 id="集成边界"><a href="#集成边界" class="headerlink" title="集成边界"></a>集成边界</h2><h3 id="FastAPI-与-ORM"><a href="#FastAPI-与-ORM" class="headerlink" title="FastAPI 与 ORM"></a>FastAPI 与 ORM</h3><div class="note info flat"><p>FastAPI 负责请求解析、依赖和响应契约，ORM 负责 SQL 表达、会话状态和事务。路由应调用服务层，服务层通过仓储或 Session 完成数据操作；不要把数据库连接对象放进全局可变变量。</p>
+</div>
+<h3 id="同步与异步驱动"><a href="#同步与异步驱动" class="headerlink" title="同步与异步驱动"></a>同步与异步驱动</h3><div class="note warning flat"><p>异步路由只有在底层驱动也提供 <code>await</code> 接口时才不会阻塞事件循环。同步 SQLAlchemy 驱动可以在同步路由或专用线程中使用，不能直接在 <code>async def</code> 中执行长时间同步查询。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>组合</th>
+<th>调用方式</th>
+<th>适用边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>async 路由 + async 驱动</td>
+<td><code>await session.execute(...)</code></td>
+<td>高并发 I/O API</td>
+</tr>
+<tr>
+<td>sync 路由 + sync 驱动</td>
+<td>普通 <code>session.execute(...)</code></td>
+<td>传统同步业务</td>
+</tr>
+<tr>
+<td>async 路由 + sync 驱动</td>
+<td>需显式线程隔离</td>
+<td>迁移过渡，必须测延迟</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="ORM-选型"><a href="#ORM-选型" class="headerlink" title="ORM 选型"></a>ORM 选型</h3><div class="note info flat"><p>ORM 的选择应服从团队的迁移成本、查询复杂度和异步驱动支持，而不是只看 API 语法。本文使用 SQLAlchemy 2 异步 ORM，补齐驱动、模型、查询和关系加载的必要基础；它仍然只服务 FastAPI 的请求边界，不扩张成完整 ORM 手册。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>常见优势</th>
+<th>与 FastAPI 的边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQLAlchemy 2</td>
+<td>Core/ORM 统一、查询表达力强、异步支持成熟</td>
+<td>Engine/Session 生命周期和事务由应用明确管理</td>
+</tr>
+<tr>
+<td>Django ORM</td>
+<td>与 Django 模型、迁移和管理后台紧密集成</td>
+<td>在 FastAPI 中引入时要单独处理同步/异步边界和启动顺序</td>
+</tr>
+<tr>
+<td>Tortoise ORM</td>
+<td>异步优先、模型写法轻量</td>
+<td>生态和复杂查询能力需按项目版本实测</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="会话依赖"><a href="#会话依赖" class="headerlink" title="会话依赖"></a>会话依赖</h2><h3 id="驱动安装"><a href="#驱动安装" class="headerlink" title="驱动安装"></a>驱动安装</h3><div class="note info flat"><p>驱动必须与 SQLAlchemy URL 的方言匹配。SQLite 适合本地和测试，MySQL 与 PostgreSQL 使用各自的异步驱动；生产凭据从 Settings 或环境变量读取，不要把真实连接串写进路由或仓储代码。</p>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install <span class="string">&quot;sqlalchemy[asyncio]&quot;</span> aiosqlite</span><br><span class="line"><span class="comment"># MySQL：python -m pip install aiomysql</span></span><br><span class="line"><span class="comment"># PostgreSQL：python -m pip install asyncpg</span></span><br></pre></td></tr></table></figure>
+<h3 id="Engine-与连接池"><a href="#Engine-与连接池" class="headerlink" title="Engine 与连接池"></a>Engine 与连接池</h3><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  A[应用 lifespan] --&gt; B[AsyncEngine]
+  B --&gt; C[连接池]
+  C --&gt; D[请求 Session]
+  D --&gt; E[事务与查询]
+  E --&gt; F[请求结束归还连接]
+  </pre></div>
+<div class="note info flat"><p>Engine 和连接池通常是应用级共享资源，Session 是请求级状态。把 Engine 放进 lifespan 或模块级工厂，把 Session 用依赖按请求创建并关闭，避免一个 Session 被并发请求复用。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.asyncio <span class="keyword">import</span> create_async_engine</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DATABASE_URL = os.environ[<span class="string">&quot;DATABASE_URL&quot;</span>]</span><br><span class="line">engine = create_async_engine(</span><br><span class="line">    DATABASE_URL,</span><br><span class="line">    pool_pre_ping=<span class="literal">True</span>,</span><br><span class="line">    pool_recycle=<span class="number">3600</span>,</span><br><span class="line">    pool_size=<span class="number">10</span>,</span><br><span class="line">    max_overflow=<span class="number">20</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>异步 URL 形状</th>
+<th>连接池提醒</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQLite</td>
+<td><code>sqlite+aiosqlite:///./data/app.db</code></td>
+<td>本地文件连接池行为不同，通常不设置网络数据库的 <code>pool_size</code>/<code>max_overflow</code></td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td><code>mysql+aiomysql://user:password@host:3306/app</code></td>
+<td>根据数据库最大连接数和实例数共同设定池大小</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td><code>postgresql+asyncpg://user:password@host:5432/app</code></td>
+<td>观察等待时间、checked-out 数和数据库端连接上限</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note warning flat"><p><code>pool_size</code>、<code>max_overflow</code> 和 <code>pool_recycle</code> 是网络数据库的示例参数，不能不加判断地复制到 SQLite。连接池调优必须结合数据库上限、应用进程数和压测结果；连接串中的用户名和密码只是格式占位符，真实值应由环境配置注入。</p>
+</div>
+<h3 id="模型与建表"><a href="#模型与建表" class="headerlink" title="模型与建表"></a>模型与建表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> String</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.asyncio <span class="keyword">import</span> AsyncEngine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> DeclarativeBase, Mapped, mapped_column</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span>(<span class="title class_ inherited__">DeclarativeBase</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Book</span>(<span class="title class_ inherited__">Base</span>):</span><br><span class="line">    __tablename__ = <span class="string">&quot;book&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">id</span>: Mapped[<span class="built_in">int</span>] = mapped_column(primary_key=<span class="literal">True</span>)</span><br><span class="line">    title: Mapped[<span class="built_in">str</span>] = mapped_column(String(<span class="number">200</span>), nullable=<span class="literal">False</span>)</span><br><span class="line">    price: Mapped[<span class="built_in">float</span>] = mapped_column(nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">create_tables</span>(<span class="params">engine: AsyncEngine</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> engine.begin() <span class="keyword">as</span> conn:</span><br><span class="line">        <span class="keyword">await</span> conn.run_sync(Base.metadata.create_all)</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p><code>DeclarativeBase</code> 和 <code>Mapped</code> 让表结构、Python 类型与迁移工具共享同一模型声明。<code>create_all()</code> 适合演示或一次性测试数据库；生产环境应使用版本化迁移，并在应用 lifespan 中创建和关闭 Engine，而不是每个请求都建表。</p>
+</div>
+<h3 id="请求级-Session"><a href="#请求级-Session" class="headerlink" title="请求级 Session"></a>请求级 Session</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> AsyncIterator</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.asyncio <span class="keyword">import</span> AsyncSession, async_sessionmaker, create_async_engine</span><br><span class="line"></span><br><span class="line">engine = create_async_engine(<span class="string">&quot;sqlite+aiosqlite:///./app.db&quot;</span>, pool_pre_ping=<span class="literal">True</span>)</span><br><span class="line">SessionFactory = async_sessionmaker(engine, expire_on_commit=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">get_session</span>() -&gt; AsyncIterator[AsyncSession]:</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> SessionFactory() <span class="keyword">as</span> session:</span><br><span class="line">        <span class="keyword">yield</span> session</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>路由通过 <code>Annotated[AsyncSession, Depends(get_session)]</code> 获取会话，依赖结束时归还连接。Session 不是缓存层，也不是跨请求事务容器。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> Annotated</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> Depends</span><br><span class="line"></span><br><span class="line">SessionDep = Annotated[AsyncSession, Depends(get_session)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.post(<span class="params"><span class="string">&quot;/tasks&quot;</span>, response_model=TaskPublic, status_code=<span class="number">201</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">create_task_route</span>(<span class="params">payload: TaskCreate, session: SessionDep</span>) -&gt; TaskPublic:</span><br><span class="line">    task = Task(title=payload.title)</span><br><span class="line">    session.add(task)</span><br><span class="line">    <span class="keyword">await</span> session.flush()</span><br><span class="line">    <span class="keyword">await</span> session.commit()</span><br><span class="line">    <span class="keyword">await</span> session.refresh(task)</span><br><span class="line">    <span class="keyword">return</span> task</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>路由只负责把请求模型和请求级 Session 接到服务层；<code>Task</code> 是 SQLAlchemy 声明式模型，<code>TaskCreate</code>/<code>TaskPublic</code> 是前文的 Pydantic 模型。启动时用迁移工具或 <code>Base.metadata.create_all()</code> 创建表，不要在每个请求中重复建表。</p>
+</div>
+<h2 id="事务边界"><a href="#事务边界" class="headerlink" title="事务边界"></a>事务边界</h2><h3 id="提交与回滚"><a href="#提交与回滚" class="headerlink" title="提交与回滚"></a>提交与回滚</h3><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    sequenceDiagram
+  participant H as Handler
+  participant S as Session
+  participant DB as Database
+  H-&gt;&gt;S: begin
+  H-&gt;&gt;S: add and flush
+  S-&gt;&gt;DB: statements
+  alt success
+    H-&gt;&gt;S: commit
+    S--&gt;&gt;H: durable result
+  else error
+    H-&gt;&gt;S: rollback
+    S--&gt;&gt;H: original error
+  end
+  </pre></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> select</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">create_task</span>(<span class="params">session: AsyncSession, title: <span class="built_in">str</span></span>) -&gt; Task:</span><br><span class="line">    task = Task(title=title)</span><br><span class="line">    session.add(task)</span><br><span class="line">    <span class="keyword">await</span> session.flush()  <span class="comment"># 拿到数据库生成的 id，但事务还未提交</span></span><br><span class="line">    <span class="keyword">await</span> session.commit()</span><br><span class="line">    <span class="keyword">await</span> session.refresh(task)</span><br><span class="line">    <span class="keyword">return</span> task</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>更复杂的服务操作可以用 <code>async with session.begin():</code> 让异常自动回滚；无论选择哪一种，都要明确 commit 的唯一所有者，避免服务层和路由层各提交一次。</p>
+</div>
+<h3 id="异常传播"><a href="#异常传播" class="headerlink" title="异常传播"></a>异常传播</h3><div class="note warning flat"><p>事务中途抛出异常后，Session 不能继续假设处于干净状态；先 rollback，再把稳定的业务错误映射为 HTTP Problem。捕获异常只为恢复上下文，不要吞掉数据库约束错误或把部分成功返回给客户端。</p>
+</div>
+<h2 id="CRUD-切片"><a href="#CRUD-切片" class="headerlink" title="CRUD 切片"></a>CRUD 切片</h2><h3 id="查询与新增"><a href="#查询与新增" class="headerlink" title="查询与新增"></a>查询与新增</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> select</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">list_tasks</span>(<span class="params">session: AsyncSession, owner_id: <span class="built_in">str</span></span>) -&gt; <span class="built_in">list</span>[Task]:</span><br><span class="line">    result = <span class="keyword">await</span> session.execute(</span><br><span class="line">        select(Task).where(Task.owner_id == owner_id).order_by(Task.<span class="built_in">id</span>)</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(result.scalars().<span class="built_in">all</span>())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">add_task</span>(<span class="params">session: AsyncSession, owner_id: <span class="built_in">str</span>, title: <span class="built_in">str</span></span>) -&gt; Task:</span><br><span class="line">    task = Task(owner_id=owner_id, title=title)</span><br><span class="line">    session.add(task)</span><br><span class="line">    <span class="keyword">await</span> session.flush()</span><br><span class="line">    <span class="keyword">return</span> task</span><br></pre></td></tr></table></figure>
+<h3 id="条件与分页"><a href="#条件与分页" class="headerlink" title="条件与分页"></a>条件与分页</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> and_, func, or_, select</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">stmt = select(Book).where(</span><br><span class="line">    and_(Book.title.like(<span class="string">f&quot;<span class="subst">&#123;prefix&#125;</span>%&quot;</span>), Book.<span class="built_in">id</span>.in_(book_ids)),</span><br><span class="line">    or_(Book.price &gt;= minimum, Book.price == <span class="number">0</span>),</span><br><span class="line">    ~(Book.title == <span class="string">&quot;archived&quot;</span>),</span><br><span class="line">).offset((page - <span class="number">1</span>) * page_size).limit(page_size)</span><br><span class="line"></span><br><span class="line">result = <span class="keyword">await</span> session.execute(stmt)</span><br><span class="line">books = <span class="built_in">list</span>(result.scalars().<span class="built_in">all</span>())</span><br><span class="line">total = <span class="keyword">await</span> session.scalar(select(func.count(Book.<span class="built_in">id</span>)))</span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>结果调用</th>
+<th>用途</th>
+<th>约束</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>await session.get(Book, book_id)</code></td>
+<td>按主键读取一个实体</td>
+<td>找不到时返回 <code>None</code></td>
+</tr>
+<tr>
+<td><code>result.scalars().all()</code></td>
+<td>取得 ORM 实体列表</td>
+<td>避免把 Row 包装层直接返回响应</td>
+</tr>
+<tr>
+<td><code>result.scalar_one_or_none()</code></td>
+<td>读取至多一个标量</td>
+<td>多于一条时主动失败，暴露唯一性问题</td>
+</tr>
+<tr>
+<td><code>await session.scalar(select(func.count(Book.id)))</code></td>
+<td>聚合统计</td>
+<td>与分页结果分开计算总数</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p><code>where</code> 可以组合 <code>like</code>、<code>in_</code>、<code>and_</code>、<code>or_</code> 和 <code>~</code>，分页则用稳定排序配合 <code>offset</code>/<code>limit</code>。总数查询不能把当前页长度当成全集数量；高页码场景还要评估游标分页和索引，而不是只增大 <code>page_size</code>。</p>
+</div>
+<h3 id="关联加载"><a href="#关联加载" class="headerlink" title="关联加载"></a>关联加载</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> select</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> joinedload, selectinload</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设 Task.owner 与 Task.project 已在模型中声明 relationship。</span></span><br><span class="line">stmt = select(Task).options(</span><br><span class="line">    selectinload(Task.owner),</span><br><span class="line">    joinedload(Task.project),</span><br><span class="line">)</span><br><span class="line">tasks = <span class="built_in">list</span>((<span class="keyword">await</span> session.execute(stmt)).scalars().unique().<span class="built_in">all</span>())</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>列表循环中逐条访问关联对象会形成 N+1 查询。对一对多或集合关系通常优先 <code>selectinload</code>，对适合单次 JOIN 的标量关系可考虑 <code>joinedload</code>；具体选择要看行数、重复列和查询计划。上例的 <code>relationship</code> 名称是占位符，必须换成真实模型字段，并在 SQL 日志中验证查询次数。</p>
+</div>
+<h3 id="更新与删除"><a href="#更新与删除" class="headerlink" title="更新与删除"></a>更新与删除</h3><div class="note info flat"><p>更新先按主键和所有者查询，再修改已加载对象；删除要在提交前确认资源存在和权限。服务层返回领域结果，响应模型负责公开字段，避免把 ORM 内部状态直接交给 JSON 编码器。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">delete_task</span>(<span class="params">session: AsyncSession, owner_id: <span class="built_in">str</span>, task_id: UUID</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">    task = <span class="keyword">await</span> session.get(Task, task_id)</span><br><span class="line">    <span class="keyword">if</span> task <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> task.owner_id != owner_id:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">await</span> session.delete(task)</span><br><span class="line">    <span class="keyword">await</span> session.flush()</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h2 id="并发故障"><a href="#并发故障" class="headerlink" title="并发故障"></a>并发故障</h2><h3 id="池耗尽"><a href="#池耗尽" class="headerlink" title="池耗尽"></a>池耗尽</h3><div class="note warning flat"><p>连接池耗尽通常表现为等待超时，而不是立即的 SQL 语法错误。压满连接池时记录池大小、等待时间和请求路径；恢复应减少连接持有时间、关闭 Session、调整池参数并重新压测，而不是无限增加超时。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>可能原因</th>
+<th>证据</th>
+<th>修复方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>获取连接超时</td>
+<td>Session 未关闭</td>
+<td>池 checked-out 数持续上升</td>
+<td><code>async with</code> 统一释放</td>
+</tr>
+<tr>
+<td>延迟随并发线性增长</td>
+<td>单连接长事务</td>
+<td>事务持续时间和 SQL 日志</td>
+<td>缩短事务、拆分读写</td>
+</tr>
+<tr>
+<td>偶发断连</td>
+<td>网络或数据库重启</td>
+<td><code>pool_pre_ping</code> 与数据库日志</td>
+<td>重试边界、探针与告警</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="阻塞调用"><a href="#阻塞调用" class="headerlink" title="阻塞调用"></a>阻塞调用</h3><div class="note danger flat"><p>在 <code>async def</code> 里调用同步数据库驱动会占住事件循环，连一个慢查询也可能拖慢无关请求。迁移期间要么改用异步驱动，要么显式交给线程并记录延迟；不能只把函数关键字改成 <code>async</code>。</p>
+</div>
+<h2 id="测试隔离"><a href="#测试隔离" class="headerlink" title="测试隔离"></a>测试隔离</h2><h3 id="事务回滚"><a href="#事务回滚" class="headerlink" title="事务回滚"></a>事务回滚</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">test_create_rolls_back</span>(<span class="params">session: AsyncSession</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">await</span> session.begin()</span><br><span class="line">    session.add(Task(title=<span class="string">&quot;temporary&quot;</span>))</span><br><span class="line">    <span class="keyword">await</span> session.flush()</span><br><span class="line">    <span class="keyword">await</span> session.rollback()</span><br><span class="line">    result = <span class="keyword">await</span> session.execute(select(Task).where(Task.title == <span class="string">&quot;temporary&quot;</span>))</span><br><span class="line">    <span class="keyword">assert</span> result.scalar_one_or_none() <span class="keyword">is</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p><code>async with session.begin():</code> 正常离开时会提交，不能在其后再调用 <code>rollback()</code> 期待撤销；上例用显式事务展示测试 fixture 自己拥有回滚权。若被测服务内部已经提交，应改用独立测试库、事务代理 fixture 或每例清理表，先固定事务所有权再断言数据为空。</p>
+</div>
+<h3 id="测试数据库"><a href="#测试数据库" class="headerlink" title="测试数据库"></a>测试数据库</h3><div class="note info flat"><p>测试库应使用独立 URL、独立 schema 或临时数据库，并在每个用例前后清理。真实数据库行为（约束、并发和事务隔离）不能只靠内存字典模拟；模拟适合快速验证路由分支，集成测试再覆盖 SQL 证据。</p>
+</div>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-engine-session-scope" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=SQLAlchemy">#SQLAlchemy</a><a class="hfc-topic" href="/learn-topic/?tag=Session">#Session</a></div>
+      <div class="hfc-question"><p>Engine、连接池和 Session 应该分别是什么作用域？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=SQLAlchemy">#SQLAlchemy</a><a class="hfc-topic" href="/learn-topic/?tag=Session">#Session</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>Engine、连接池和 Session 应该分别是什么作用域？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>Engine/连接池通常是应用级共享资源，Session 是请求级事务状态，不能跨请求共享同一个 Session。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>Engine 管理连接池和方言配置，应用启动时创建、关闭时释放；Session 绑定一次请求的身份和事务，依赖开始时创建、结束时关闭。共享 Session 会让并发请求互相污染事务和对象状态；重复创建 Engine 则会耗尽连接并失去池化收益。用 lifespan 管 Engine、用 <code>yield</code> 依赖管 Session，是可观察且容易测试的分界。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-commit-rollback" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BA%8B%E5%8A%A1">#事务</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9B%9E%E6%BB%9A">#回滚</a></div>
+      <div class="hfc-question"><p>事务失败时为什么必须 rollback，而不是只返回错误？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BA%8B%E5%8A%A1">#事务</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9B%9E%E6%BB%9A">#回滚</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>事务失败时为什么必须 rollback，而不是只返回错误？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>异常可能留下未完成的事务和脏 Session；rollback 释放数据库状态，保证后续请求看到一致结果。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>一个业务操作可能包含多条 SQL。中途失败而不回滚，连接归还池后仍可能持有锁或让 Session 无法继续执行；捕获异常后应先回滚，再映射稳定的 HTTP 错误。复现实验是让第二条写入故意失败，随后查询确认第一条也没有部分提交。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-pool-exhaustion" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%9E%E6%8E%A5%E6%B1%A0">#连接池</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%8F%91">#并发</a></div>
+      <div class="hfc-question"><p>连接池耗尽应从哪些证据定位？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BF%9E%E6%8E%A5%E6%B1%A0">#连接池</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E5%8F%91">#并发</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>连接池耗尽应从哪些证据定位？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>同时记录池大小、checked-out 数、获取连接等待时间和请求路径，再检查 Session 是否在异常和取消路径释放。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>超时只是症状，可能由连接泄漏、长事务、并发过高或数据库不可用造成。先用小池压测复现，观察 checked-out 是否单调增加；若增加，修复 <code>async with</code> 和清理；若稳定但等待高，再评估查询和池参数。无限放大池或超时会把压力推向数据库，不能替代根因修复。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-sync-db-in-async" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BC%82%E6%AD%A5">#异步</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%98%BB%E5%A1%9E">#阻塞</a></div>
+      <div class="hfc-question"><p>为什么 <code>async def</code> 中的同步数据库调用仍会阻塞？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%BC%82%E6%AD%A5">#异步</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%98%BB%E5%A1%9E">#阻塞</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么 <code>async def</code> 中的同步数据库调用仍会阻塞？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>事件循环只会在遇到可等待的异步 I/O 时让出控制权；同步驱动会一直占住当前线程。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>把函数声明成 <code>async</code> 不会改变同步库的实现。慢查询期间，事件循环无法处理同一进程的其他请求，延迟会同时上升。优先使用匹配的异步驱动；若暂时只能用同步驱动，显式放入线程并限制并发，再用无关健康请求的延迟实验验证没有阻塞主循环。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="SQL Databases" target="_blank" rel="noopener" href="https://fastapi.tiangolo.com/tutorial/sql-databases/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://fastapi.tiangolo.com/img/favicon.png"/></div><div class="right"><p class="text">SQL Databases</p><p class="url">https://fastapi.tiangolo.com/tutorial/sql-databases/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="SQLAlchemy AsyncIO" target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.sqlalchemy.org/_static/favicon.ico"/></div><div class="right"><p class="text">SQLAlchemy AsyncIO</p><p class="url">https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Database Testing" target="_blank" rel="noopener" href="https://fastapi.tiangolo.com/how-to/testing-database/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://fastapi.tiangolo.com/img/favicon.png"/></div><div class="right"><p class="text">Database Testing</p><p class="url">https://fastapi.tiangolo.com/how-to/testing-database/</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="4"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Ffastapi%2FFastAPI(%E5%85%AB)%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E6%88%90%E4%B8%8E%E4%BA%8B%E5%8A%A1.md" title="复习本篇 · 4 张卡片" aria-label="复习本篇 · 4 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 4 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/bbbfc80a/">https://koco-co.github.io/posts/bbbfc80a/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/">系统学习</a><a class="post-meta__tags" href="/tags/FastAPI/">FastAPI</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/d0ce794d/" title="FastAPI(六)应用结构与生命周期"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">FastAPI(六)应用结构与生命周期</div></div><div class="info-2"><div class="info-item-1">使用 APIRouter、配置对象、lifespan、子应用和静态或模板资源组织可维护的 FastAPI 应用。</div></div></div></a><a class="pagination-related" href="/posts/6ddff2f0/" title="FastAPI(五)依赖注入与资源管理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">FastAPI(五)依赖注入与资源管理</div></div><div class="info-2"><div class="info-item-1">理解 Depends 依赖图、缓存与作用范围，并用 yield 可靠管理会话、认证和临时资源。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/f8ac9084/" title="FastAPI(十四)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(十四)进阶路线</div></div><div class="info-2"><div class="info-item-1">汇总主线外的 OpenAPI 扩展、自定义路由、兼容集成、客户端生成、前端托管和迁移能力。</div></div></div></a><a class="pagination-related" href="/posts/f30a7c3d/" title="FastAPI(七)认证授权与接口安全"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(七)认证授权与接口安全</div></div><div class="info-2"><div class="info-item-1">实现 OAuth2 与 JWT 登录、权限作用域和多种安全方案，并处理浏览器、主机和密钥边界。</div></div></div></a><a class="pagination-related" href="/posts/fcf9c728/" title="FastAPI(三)路由与请求解析"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(三)路由与请求解析</div></div><div class="info-2"><div class="info-item-1">系统掌握路由匹配、路径与查询参数、请求体、请求头、Cookie、表单、文件和校验约束。</div></div></div></a><a class="pagination-related" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(十三)部署与生产运维</div></div><div class="info-2"><div class="info-item-1">理解 ASGI 进程拓扑、worker、容器、HTTPS、反向代理、路径前缀、健康检查和优雅关闭。</div></div></div></a><a class="pagination-related" href="/posts/6be6843f/" title="FastAPI(十一)流式响应与实时通信"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(十一)流式响应与实时通信</div></div><div class="info-2"><div class="info-item-1">比较 StreamingResponse、JSON Lines、SSE 和 WebSocket，并处理断线、重连、背压及流生命周期。</div></div></div></a><a class="pagination-related" href="/posts/ea590b49/" title="FastAPI(四)数据模型与响应契约"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(四)数据模型与响应契约</div></div><div class="info-2"><div class="info-item-1">使用 Pydantic v2 建立输入输出模型、序列化规则、状态码、错误契约和 OpenAPI 文档。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E8%BE%B9%E7%95%8C"><span class="toc-number">1.</span> <span class="toc-text">集成边界</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FastAPI-%E4%B8%8E-ORM"><span class="toc-number">1.1.</span> <span class="toc-text">FastAPI 与 ORM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.2.</span> <span class="toc-text">同步与异步驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ORM-%E9%80%89%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">ORM 选型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E4%BE%9D%E8%B5%96"><span class="toc-number">2.</span> <span class="toc-text">会话依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.</span> <span class="toc-text">驱动安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Engine-%E4%B8%8E%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="toc-number">2.2.</span> <span class="toc-text">Engine 与连接池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%BB%BA%E8%A1%A8"><span class="toc-number">2.3.</span> <span class="toc-text">模型与建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E7%BA%A7-Session"><span class="toc-number">2.4.</span> <span class="toc-text">请求级 Session</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E8%BE%B9%E7%95%8C"><span class="toc-number">3.</span> <span class="toc-text">事务边界</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E4%B8%8E%E5%9B%9E%E6%BB%9A"><span class="toc-number">3.1.</span> <span class="toc-text">提交与回滚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E4%BC%A0%E6%92%AD"><span class="toc-number">3.2.</span> <span class="toc-text">异常传播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRUD-%E5%88%87%E7%89%87"><span class="toc-number">4.</span> <span class="toc-text">CRUD 切片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%96%B0%E5%A2%9E"><span class="toc-number">4.1.</span> <span class="toc-text">查询与新增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%88%86%E9%A1%B5"><span class="toc-number">4.2.</span> <span class="toc-text">条件与分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%8A%A0%E8%BD%BD"><span class="toc-number">4.3.</span> <span class="toc-text">关联加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E4%B8%8E%E5%88%A0%E9%99%A4"><span class="toc-number">4.4.</span> <span class="toc-text">更新与删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%95%85%E9%9A%9C"><span class="toc-number">5.</span> <span class="toc-text">并发故障</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%A0%E8%80%97%E5%B0%BD"><span class="toc-number">5.1.</span> <span class="toc-text">池耗尽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%A1%9E%E8%B0%83%E7%94%A8"><span class="toc-number">5.2.</span> <span class="toc-text">阻塞调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%9A%94%E7%A6%BB"><span class="toc-number">6.</span> <span class="toc-text">测试隔离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%9B%9E%E6%BB%9A"><span class="toc-number">6.1.</span> <span class="toc-text">事务回滚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">6.2.</span> <span class="toc-text">测试数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/7486a2ec/" title="FastAPI(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(一)入门路线"></a><div class="content"><a class="title" href="/posts/7486a2ec/" title="FastAPI(一)入门路线">FastAPI(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f30a7c3d/" title="FastAPI(七)认证授权与接口安全"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(七)认证授权与接口安全"></a><div class="content"><a class="title" href="/posts/f30a7c3d/" title="FastAPI(七)认证授权与接口安全">FastAPI(七)认证授权与接口安全</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/52af630c/" title="FastAPI(九)请求管线与错误处理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(九)请求管线与错误处理"></a><div class="content"><a class="title" href="/posts/52af630c/" title="FastAPI(九)请求管线与错误处理">FastAPI(九)请求管线与错误处理</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1c968b87/" title="FastAPI(二)快速开始与开发环境"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(二)快速开始与开发环境"></a><div class="content"><a class="title" href="/posts/1c968b87/" title="FastAPI(二)快速开始与开发环境">FastAPI(二)快速开始与开发环境</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/fcf9c728/" title="FastAPI(三)路由与请求解析"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(三)路由与请求解析"></a><div class="content"><a class="title" href="/posts/fcf9c728/" title="FastAPI(三)路由与请求解析">FastAPI(三)路由与请求解析</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6ddff2f0/" title="FastAPI(五)依赖注入与资源管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(五)依赖注入与资源管理"></a><div class="content"><a class="title" href="/posts/6ddff2f0/" title="FastAPI(五)依赖注入与资源管理">FastAPI(五)依赖注入与资源管理</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bbbfc80a/" title="FastAPI(八)数据库集成与事务"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(八)数据库集成与事务"></a><div class="content"><a class="title" href="/posts/bbbfc80a/" title="FastAPI(八)数据库集成与事务">FastAPI(八)数据库集成与事务</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d0ce794d/" title="FastAPI(六)应用结构与生命周期"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(六)应用结构与生命周期"></a><div class="content"><a class="title" href="/posts/d0ce794d/" title="FastAPI(六)应用结构与生命周期">FastAPI(六)应用结构与生命周期</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/801e2897/" title="FastAPI(十)并发模型与后台任务"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十)并发模型与后台任务"></a><div class="content"><a class="title" href="/posts/801e2897/" title="FastAPI(十)并发模型与后台任务">FastAPI(十)并发模型与后台任务</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6be6843f/" title="FastAPI(十一)流式响应与实时通信"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十一)流式响应与实时通信"></a><div class="content"><a class="title" href="/posts/6be6843f/" title="FastAPI(十一)流式响应与实时通信">FastAPI(十一)流式响应与实时通信</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十三)部署与生产运维"></a><div class="content"><a class="title" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维">FastAPI(十三)部署与生产运维</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d474d6f1/" title="FastAPI(十二)测试与质量保障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十二)测试与质量保障"></a><div class="content"><a class="title" href="/posts/d474d6f1/" title="FastAPI(十二)测试与质量保障">FastAPI(十二)测试与质量保障</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dfdedcc6/" title="FastAPI(十五)项目实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十五)项目实战"></a><div class="content"><a class="title" href="/posts/dfdedcc6/" title="FastAPI(十五)项目实战">FastAPI(十五)项目实战</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ea590b49/" title="FastAPI(四)数据模型与响应契约"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(四)数据模型与响应契约"></a><div class="content"><a class="title" href="/posts/ea590b49/" title="FastAPI(四)数据模型与响应契约">FastAPI(四)数据模型与响应契约</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f8ac9084/" title="FastAPI(十四)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十四)进阶路线"></a><div class="content"><a class="title" href="/posts/f8ac9084/" title="FastAPI(十四)进阶路线">FastAPI(十四)进阶路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/eba16d90/" title="App测试(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(一)入门路线"/></a><div class="content"><a class="title" href="/posts/eba16d90/" title="App测试(一)入门路线">App测试(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(七)兼容性与适配"/></a><div class="content"><a class="title" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配">App测试(七)兼容性与适配</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(三)Android 环境与设备"/></a><div class="content"><a class="title" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备">App测试(三)Android 环境与设备</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(二)测试策略与质量模型"/></a><div class="content"><a class="title" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型">App测试(二)测试策略与质量模型</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(九)可用性与可访问性"/></a><div class="content"><a class="title" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性">App测试(九)可用性与可访问性</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/flashcard-queue.js"></script><script id="hfc-sync-config-data" type="application/json">{"enabled":true,"url":"https://hkqqjttiqhwfdintqxpx.supabase.co","publishableKey":"sb_publishable_BYiAsjvfObJ1Kj26-YkVeQ_x4ruAFc4"}</script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Pytest(十三)项目实战 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="能从订单折扣与通知需求出发交付可维护、可并行、可诊断的 Pytest 测试套件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest(十三)项目实战">
+<meta property="og:url" content="https://koco-co.github.io/posts/b428e868/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="能从订单折扣与通知需求出发交付可维护、可并行、可诊断的 Pytest 测试套件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/pytest-course-cover.png">
+<meta property="article:published_time" content="2026-04-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-27T04:53:50.689Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="Pytest">
+<meta property="article:tag" content="测试交付">
+<meta property="article:tag" content="项目实战">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/pytest-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Pytest(十三)项目实战",
+  "url": "https://koco-co.github.io/posts/b428e868/",
+  "image": "https://koco-co.github.io/img/picgo-images/pytest-course-cover.png",
+  "datePublished": "2026-04-30T16:00:00.000Z",
+  "dateModified": "2026-08-27T04:53:50.689Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/b428e868/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Pytest(十三)项目实战',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/pytest-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">Pytest(十三)项目实战</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Pytest(十三)项目实战<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/pytest/Pytest(十三)项目实战.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-30T16:00:00.000Z" title="发表于 2026-05-01 00:00:00">2026-05-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-27T04:53:50.689Z" title="更新于 2026-08-27 12:53:50">2026-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/Pytest/">Pytest</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="Pytest 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>Pytest 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="13" aria-valuenow="13"><span style="width: 100.0000%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/6d7c0bc1/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">Pytest(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/9d696b94/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">Pytest(二)测试基础与执行模型</span></a></li><li class="course-series-nav__item"><a href="/posts/b5dda780/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">Pytest(三)测试收集与运行控制</span></a></li><li class="course-series-nav__item"><a href="/posts/ac715911/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">Pytest(四)断言与结果诊断</span></a></li><li class="course-series-nav__item"><a href="/posts/97e28b51/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">Pytest(五)Fixture 与资源生命周期</span></a></li><li class="course-series-nav__item"><a href="/posts/f6690364/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">Pytest(六)参数化与用例建模</span></a></li><li class="course-series-nav__item"><a href="/posts/1d2bf183/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">Pytest(七)隔离环境与测试替身</span></a></li><li class="course-series-nav__item"><a href="/posts/26397f68/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">Pytest(八)配置与套件组织</span></a></li><li class="course-series-nav__item"><a href="/posts/c50d5948/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">Pytest(九)插件与 Hook 扩展</span></a></li><li class="course-series-nav__item"><a href="/posts/5497f9c8/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">Pytest(十)并行执行与稳定性</span></a></li><li class="course-series-nav__item"><a href="/posts/51d93cec/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">Pytest(十一)覆盖率与测试报告</span></a></li><li class="course-series-nav__item"><a href="/posts/76bdbbc7/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">Pytest(十二)进阶路线</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/b428e868/" aria-current="page"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">Pytest(十三)项目实战</span></a></li></ol></nav>
+<div class="note primary flat"><p>本节要解决的是“怎样把测试设计、资源隔离、扩展、并行和报告连成一次可交付验收”。贯穿项目是订单折扣与通知模块：规则测试要快，仓储测试要真实可控，通知协作者要可替换，CI 需要稳定退出码和无敏感信息的报告。文章最后用故障注入证明套件能发现问题，而不是只展示一条绿色命令。</p>
+</div>
+<h2 id="验收目标"><a href="#验收目标" class="headerlink" title="验收目标"></a>验收目标</h2><div class="note success flat"><p>业务范围是：按会员等级计算折扣、拒绝非法折扣、保存订单并发送通知。非目标是实现真实支付网关、部署生产数据库和编写完整端到端浏览器测试。交付证据包括收集数量、关键边界、失败退出码、并行复跑、覆盖率口径、JUnit/Allure 产物和安全检查。</p>
+</div>
+<ul>
+<li class="task-list-item"><input class="task-list-checkbox" type="checkbox" checked disabled aria-label="已完成"> 折扣规则的正常值、零值、上限和非法输入有独立断言。</li>
+<li class="task-list-item"><input class="task-list-checkbox" type="checkbox" checked disabled aria-label="已完成"> 订单写入使用临时资源，通知协作者在正确绑定点替换。</li>
+<li class="task-list-item"><input class="task-list-checkbox" type="checkbox" checked disabled aria-label="已完成"> 单元、集成和可选端到端场景有清晰标记。</li>
+<li class="task-list-item"><input class="task-list-checkbox" type="checkbox" checked disabled aria-label="已完成"> 并行运行不共享固定文件名，报告不包含令牌或用户隐私。</li>
+<li class="task-list-item"><input class="task-list-checkbox" type="checkbox" checked disabled aria-label="已完成"> 故障注入后能指出症状、根因、修复和复验命令。</li>
+</ul>
+<h2 id="项目骨架"><a href="#项目骨架" class="headerlink" title="项目骨架"></a>项目骨架</h2><div class="note info flat"><p>目录结构先表达所有权，再表达命令。业务代码放在 src，测试按反馈速度拆分，根配置只保留套件边界和稳定标记；conftest 提供公共 Fixture 与项目 Hook，普通支持函数放在可导入模块。</p>
+</div>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">shop/</span><br><span class="line">├── pyproject.toml</span><br><span class="line">├── src/shop/</span><br><span class="line">│   ├── discount.py</span><br><span class="line">│   ├── order.py</span><br><span class="line">│   └── notifier.py</span><br><span class="line">├── tests/</span><br><span class="line">│   ├── conftest.py</span><br><span class="line">│   ├── unit/</span><br><span class="line">│   │   ├── test_discount.py</span><br><span class="line">│   │   └── test_order.py</span><br><span class="line">│   └── integration/</span><br><span class="line">│       └── test_order_repository.py</span><br><span class="line">└── artifacts/</span><br></pre></td></tr></table></figure>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[tool.pytest.ini_options]</span></span><br><span class="line"><span class="attr">testpaths</span> = [<span class="string">&quot;tests&quot;</span>]</span><br><span class="line"><span class="attr">addopts</span> = <span class="string">&quot;-ra&quot;</span></span><br><span class="line"><span class="attr">strict_markers</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">markers</span> = [</span><br><span class="line">  <span class="string">&quot;integration: uses a temporary repository&quot;</span>,</span><br><span class="line">  <span class="string">&quot;smoke: critical business checks&quot;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>运行入口固定为 python -m pytest；需要真实仓储时再使用 -m integration，需要快速反馈时使用 tests/unit。配置文件不写本机绝对路径和秘密，产物目录由 CI 创建并在任务结束时清理。</p>
+</div>
+<h2 id="测试分层"><a href="#测试分层" class="headerlink" title="测试分层"></a>测试分层</h2><div class="note primary flat"><p>分层依据是协作者和反馈速度，而不是文件大小。单元层验证纯规则，集成层验证临时仓储和序列化，通知适配器只在协议需要时进入集成层。每一层都有自己的标记和失败解释，不能用一条全局 Fixture 把所有测试接到真实服务。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>示例</th>
+<th>Fixture/替身</th>
+<th>失败含义</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>unit</td>
+<td>discount、输入校验</td>
+<td>纯值、Fake</td>
+<td>业务规则错误</td>
+<td>python -m pytest tests/unit</td>
+</tr>
+<tr>
+<td>integration</td>
+<td>order repository</td>
+<td>tmp_path、真实序列化</td>
+<td>模块协作或资源错误</td>
+<td>python -m pytest -m integration</td>
+</tr>
+<tr>
+<td>smoke</td>
+<td>关键下单路径</td>
+<td>最小稳定资源</td>
+<td>发布前核心行为回归</td>
+<td>python -m pytest -m smoke</td>
+</tr>
+<tr>
+<td>e2e（可选）</td>
+<td>运行中的服务</td>
+<td>独立环境</td>
+<td>部署/网络/协议问题</td>
+<td>单独 CI 阶段</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@pytest.mark.parametrize(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="meta">    (<span class="params"><span class="string">&quot;level&quot;</span>, <span class="string">&quot;total&quot;</span>, <span class="string">&quot;expected&quot;</span></span>),</span></span></span><br><span class="line"><span class="params"><span class="meta">    [(<span class="params"><span class="string">&quot;member&quot;</span>, <span class="number">100</span>, <span class="number">90</span></span>), (<span class="params"><span class="string">&quot;vip&quot;</span>, <span class="number">100</span>, <span class="number">80</span></span>), (<span class="params"><span class="string">&quot;guest&quot;</span>, <span class="number">100</span>, <span class="number">100</span></span>)],</span></span></span><br><span class="line"><span class="params"><span class="meta">    ids=[<span class="string">&quot;member-10&quot;</span>, <span class="string">&quot;vip-20&quot;</span>, <span class="string">&quot;guest-0&quot;</span>],</span></span></span><br><span class="line"><span class="params"><span class="meta"></span>)</span></span><br><span class="line"><span class="meta">@pytest.mark.smoke</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_discount</span>(<span class="params">level, total, expected</span>):</span><br><span class="line">    <span class="keyword">assert</span> apply_discount(level, total) == expected</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>同一组决策表在 unit 层独立收集，集成层只验证仓储和序列化，不复制全部规则断言。遇到失败先看标记和 Node ID，再判断是规则、资源还是环境。</p>
+</div>
+<h2 id="资源设计"><a href="#资源设计" class="headerlink" title="资源设计"></a>资源设计</h2><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  T[test_order_flow] --&gt; O[order]
+  O --&gt; R[repository]
+  O --&gt; N[notifier fake]
+  R --&gt; P[tmp_path]
+  R --&gt; C[config]
+  </pre></div>
+<div class="note info flat"><p>function 级 tmp_path 保证订单文件互不覆盖，module 级只读 config 可以共享，notifier fake 记录调用但不访问网络。Fixture 清理写在 yield 后，所有外部资源都有明确 owner；并行时 worker_id 进入文件或数据库命名空间。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@pytest.fixture</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">repository</span>(<span class="params">tmp_path</span>):</span><br><span class="line">    path = tmp_path / <span class="string">&quot;orders.json&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">save</span>(<span class="params">order</span>):</span><br><span class="line">        path.write_text(json.dumps(order), encoding=<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">yield</span> save</span><br><span class="line">    path.unlink(missing_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@pytest.fixture</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">notifier</span>():</span><br><span class="line">    calls = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">send</span>(<span class="params">message</span>):</span><br><span class="line">        calls.append(message)</span><br><span class="line"></span><br><span class="line">    send.calls = calls</span><br><span class="line">    <span class="keyword">return</span> send</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_order_flow</span>(<span class="params">repository, notifier</span>):</span><br><span class="line">    repository(&#123;<span class="string">&quot;id&quot;</span>: <span class="string">&quot;o-1&quot;</span>, <span class="string">&quot;total&quot;</span>: <span class="number">80</span>&#125;)</span><br><span class="line">    notifier(<span class="string">&quot;order accepted&quot;</span>)</span><br><span class="line">    <span class="keyword">assert</span> notifier.calls == [<span class="string">&quot;order accepted&quot;</span>]</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>这里的 notifier 是 Fake 而不是全局 Mock；测试仍然可以通过调用记录检查协议，同时不会把真实网络请求混进单元测试。若通知模块在 service.py 中以 from notifier import send 导入，patch 目标应是 service.send。</p>
+</div>
+<h2 id="扩展能力"><a href="#扩展能力" class="headerlink" title="扩展能力"></a>扩展能力</h2><div class="note success flat"><p>项目插件只承担跨测试的公共协议：注册 —region、标记 integration、在报告标题显示区域，并在失败时追加脱敏属性。它不读取私有配置字段、不修改测试断言，也不把原始请求体写进附件。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_addoption</span>(<span class="params">parser</span>):</span><br><span class="line">    parser.addoption(<span class="string">&quot;--region&quot;</span>, action=<span class="string">&quot;store&quot;</span>, default=<span class="string">&quot;test&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_configure</span>(<span class="params">config</span>):</span><br><span class="line">    config.addinivalue_line(<span class="string">&quot;markers&quot;</span>, <span class="string">&quot;integration: uses temporary repository&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@pytest.hookimpl(<span class="params">hookwrapper=<span class="literal">True</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_runtest_makereport</span>(<span class="params">item, call</span>):</span><br><span class="line">    outcome = <span class="keyword">yield</span></span><br><span class="line">    report = outcome.get_result()</span><br><span class="line">    <span class="keyword">if</span> report.when == <span class="string">&quot;call&quot;</span> <span class="keyword">and</span> report.failed:</span><br><span class="line">        report.user_properties.append((<span class="string">&quot;region&quot;</span>, item.config.getoption(<span class="string">&quot;region&quot;</span>)))</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>验证插件时用 —help、—markers 和一个故意失败的 Node ID 检查选项、标记和属性；退出码仍应是失败。只有需要在真实插件发现边界验证时，才用 pytester 子进程。</p>
+</div>
+<h2 id="并行与报告"><a href="#并行与报告" class="headerlink" title="并行与报告"></a>并行与报告</h2><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  A[固定配置与输入] --&gt; B[pytest -n 2]
+  B --&gt; C[JUnit XML]
+  B --&gt; D[覆盖率 XML]
+  B --&gt; E[Allure 结果]
+  C --&gt; F[CI 测试汇总]
+  D --&gt; F
+  E --&gt; G[人工诊断]
+  F --&gt; H[发布门禁]
+  G --&gt; H
+  </pre></div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>产物</th>
+<th>必须包含</th>
+<th>必须排除</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JUnit XML</td>
+<td>Node ID、结果、退出码映射</td>
+<td>令牌、完整用户输入</td>
+</tr>
+<tr>
+<td>coverage XML</td>
+<td>版本、范围、缺口</td>
+<td>与范围无关的生成代码</td>
+</tr>
+<tr>
+<td>Allure</td>
+<td>脱敏步骤、低敏附件</td>
+<td>原始 Authorization、Cookie、响应体</td>
+</tr>
+<tr>
+<td>终端日志</td>
+<td>首次失败、worker、seed</td>
+<td>私有路径和秘密</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先安装可选插件：python -m pip install pytest-xdist pytest-cov allure-pytest</span></span><br><span class="line">python -m pytest -n 2 --junitxml=artifacts/junit.xml --cov=src --cov-report=xml:artifacts/coverage.xml</span><br><span class="line">python -m pytest -n 2 --alluredir=artifacts/allure-results</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>这两条命令分别依赖 pytest-xdist、pytest-cov 和 allure-pytest；它们是交付阶段的可选集成。插件未安装时先执行串行的 JUnit 命令，或跳过对应报告命令，不要把“未知参数”误判为业务测试失败。</p>
+</div>
+<div class="note info flat"><p>先在串行模式验证正确性，再在两个 worker 验证隔离；不要只看最终绿色。对外部资源设置超时和幂等清理，记录第一次失败的 worker 与 Node ID。</p>
+</div>
+<h2 id="故障演练"><a href="#故障演练" class="headerlink" title="故障演练"></a>故障演练</h2><div class="tabs"><div class="nav-tabs"><button type="button" class="tab active">收集失败</button><button type="button" class="tab">资源竞态</button><button type="button" class="tab">flaky 与泄密</button></div><div class="tab-contents"><div class="tab-item-content active"><p>症状：把测试文件改成不匹配的名字，collect-only 显示 0 个节点。</p>
+<p>根因：默认收集规则没有匹配文件。</p>
+<p>修复：恢复 test_ 前缀或显式调整 python_files，并重新运行 collect-only。</p></div><div class="tab-item-content"><p>症状：两个 worker 写入同名结果文件，偶发内容互相覆盖。</p>
+<p>根因：session Fixture 只在单 worker 内共享，固定文件名却跨进程共用。</p>
+<p>修复：使用 tmp_path/worker_id 生成命名空间，或为外部系统加带超时的锁，再重复并行命令。</p></div><div class="tab-item-content"><p>症状：第一次失败记录了请求头，随后 rerun 通过；Allure 页面看不到值但结果目录仍含原文。</p>
+<p>根因：把展示层隐藏当成脱敏，且用重试掩盖了不稳定根因。</p>
+<p>修复：在采集点删除 Authorization/Cookie，保留低敏摘要，保存首次失败证据后再处理竞态或环境抖动。</p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<div class="note danger flat"><p>故障演练的通过条件是“能从证据定位根因并复验”，不是“把失败改成跳过”。跳过、无限重试或删除报告都会降低证据质量，不能作为交付修复。</p>
+</div>
+<h2 id="交付复盘"><a href="#交付复盘" class="headerlink" title="交付复盘"></a>交付复盘</h2><div class="note success flat"><p>交付前逐项复核：代码版本与配置固定，收集数量稳定，核心边界有断言，Fixture 可清理，替身绑定点正确，串行与并行结果一致，JUnit/覆盖率/Allure 可解析且无敏感信息。任何未验证的外部服务、平台差异或私有插件都单独记录，不用绿色徽章掩盖。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>证据项</th>
+<th>结果记录</th>
+<th>未验证边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>收集与退出码</td>
+<td>Node ID、数量、最终退出码</td>
+<td>动态外部数据</td>
+</tr>
+<tr>
+<td>资源隔离</td>
+<td>worker 命名空间、清理日志</td>
+<td>真实生产数据库</td>
+</tr>
+<tr>
+<td>断言诊断</td>
+<td>回溯、捕获输出、日志级别</td>
+<td>线上网络抖动</td>
+</tr>
+<tr>
+<td>报告安全</td>
+<td>产物扫描、权限、保留期</td>
+<td>第三方报告站点策略</td>
+</tr>
+<tr>
+<td>可复现性</td>
+<td>配置、版本、seed、命令</td>
+<td>未锁定的开发者插件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="pytest-suite-fixture-design" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Pytest">#Pytest</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%A1%B9%E7%9B%AE%E8%AE%BE%E8%AE%A1">#项目设计</a></div>
+      <div class="hfc-question"><p>项目 Fixture 应按什么原则拆分？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Pytest">#Pytest</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%A1%B9%E7%9B%AE%E8%AE%BE%E8%AE%A1">#项目设计</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>项目 Fixture 应按什么原则拆分？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>按资源所有权、生命周期和隔离边界拆分，让每个 Fixture 有单一职责并能可靠清理。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>Fixture 的边界应同时回答三个问题：谁拥有资源、资源活多久、失败后谁负责清理。可以把同一个项目拆成独立依赖：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@pytest.fixture(<span class="params">scope=<span class="string">&quot;session&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">config</span>():</span><br><span class="line">    <span class="keyword">return</span> load_config()       <span class="comment"># 只读配置可共享</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@pytest.fixture</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">order_file</span>(<span class="params">tmp_path</span>):</span><br><span class="line">    <span class="keyword">return</span> tmp_path / <span class="string">&quot;order.json&quot;</span>  <span class="comment"># 写入状态按测试隔离</span></span><br></pre></td></tr></table></figure>
+<p>测试函数只声明实际需要的 Fixture，避免一个巨型 Fixture 同时创建数据库、用户、网络客户端和报告附件。共享只读数据才适合提升作用域；写入状态和临时文件通常保持 function 级并在 teardown 中清理。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="pytest-delivery-evidence" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Pytest">#Pytest</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BA%A4%E4%BB%98%E8%AF%81%E6%8D%AE">#交付证据</a></div>
+      <div class="hfc-question"><p>什么证据才能说明测试套件可交付？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Pytest">#Pytest</a><a class="hfc-topic" href="/learn-topic/?tag=%E4%BA%A4%E4%BB%98%E8%AF%81%E6%8D%AE">#交付证据</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>什么证据才能说明测试套件可交付？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>结果、收集范围、退出码、失败诊断、资源清理、并行稳定性、报告可解析性和产物安全共同通过。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>“绿色”只是一个结果，不是完整交付证据。最小证据包应能回答：运行了什么、用什么环境、失败如何定位、产物是否安全。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>证据</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node ID、收集数量、退出码</td>
+<td>证明范围和结果</td>
+</tr>
+<tr>
+<td>Python/Pytest 版本、配置摘要</td>
+<td>解释环境差异</td>
+</tr>
+<tr>
+<td>串行/并行对照与首次回溯</td>
+<td>发现隔离或 flaky 问题</td>
+</tr>
+<tr>
+<td>覆盖率口径、JUnit/Allure 检查</td>
+<td>说明报告含义和安全边界</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>外部服务、平台差异和未执行场景要明确列出；不要把一次本地绿灯写成所有环境都已验证。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="pytest-parallel-isolation" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Pytest">#Pytest</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E8%A1%8C%E9%9A%94%E7%A6%BB">#并行隔离</a></div>
+      <div class="hfc-question"><p>如何证明套件在并行执行下真正隔离？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=Pytest">#Pytest</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B9%B6%E8%A1%8C%E9%9A%94%E7%A6%BB">#并行隔离</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>如何证明套件在并行执行下真正隔离？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>让 worker 使用独立命名空间，运行串行和多 worker 两次，比较结果、资源清理和报告中的 Node ID/worker 证据。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>并行隔离要让资源命名包含 worker 边界，并用对照实验证明它确实生效：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">resource_name</span>(<span class="params">worker_id: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;orders-<span class="subst">&#123;worker_id&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>先串行运行，再以两个 worker 运行同一套件，比较结果、清理状态和报告中的 Node ID/worker；随后故意让两个 worker 竞争固定文件、端口或数据库键，确认它会失败，再用 <code>worker_id</code>、锁或临时目录修复并重复测量。只有这样才能区分“真的隔离”和“恰好没有碰撞”。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="Good integration practices" target="_blank" rel="noopener" href="https://docs.pytest.org/en/stable/explanation/goodpractices.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.pytest.org/en/stable/_static/favicon.png"/></div><div class="right"><p class="text">Good integration practices</p><p class="url">https://docs.pytest.org/en/stable/explanation/goodpractices.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="pytest contents" target="_blank" rel="noopener" href="https://docs.pytest.org/en/stable/contents.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.pytest.org/en/stable/_static/favicon.png"/></div><div class="right"><p class="text">pytest contents</p><p class="url">https://docs.pytest.org/en/stable/contents.html</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Writing plugins" target="_blank" rel="noopener" href="https://docs.pytest.org/en/stable/how-to/writing_plugins.html"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://docs.pytest.org/en/stable/_static/favicon.png"/></div><div class="right"><p class="text">Writing plugins</p><p class="url">https://docs.pytest.org/en/stable/how-to/writing_plugins.html</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="3"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fpytest%2FPytest(%E5%8D%81%E4%B8%89)%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98.md" title="复习本篇 · 3 张卡片" aria-label="复习本篇 · 3 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 3 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/b428e868/">https://koco-co.github.io/posts/b428e868/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/">项目实战</a><a class="post-meta__tags" href="/tags/Pytest/">Pytest</a><a class="post-meta__tags" href="/tags/%E6%B5%8B%E8%AF%95%E4%BA%A4%E4%BB%98/">测试交付</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/1480bf96/" title="Python(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/python-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Python(一)入门路线</div></div><div class="info-2"><div class="info-item-1">建立 Python 系统课程的版本边界、依赖顺序、能力范围和验证方法，为基础语法、运行机制、质量保障与项目实战提供统一入口。</div></div></div></a><a class="pagination-related" href="/posts/76bdbbc7/" title="Pytest(十二)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Pytest(十二)进阶路线</div></div><div class="info-2"><div class="info-item-1">能判断何时进入 pytester、自定义 Collector、doctest、动态 Fixture 与低层 API</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/f6690364/" title="Pytest(六)参数化与用例建模"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-24</div><div class="info-item-2">Pytest(六)参数化与用例建模</div></div><div class="info-2"><div class="info-item-1">能在参数化、Fixture 参数化、动态生成和 subtests 之间选择合适的用例模型</div></div></div></a><a class="pagination-related" href="/posts/76bdbbc7/" title="Pytest(十二)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="info-item-2">Pytest(十二)进阶路线</div></div><div class="info-2"><div class="info-item-1">能判断何时进入 pytester、自定义 Collector、doctest、动态 Fixture 与低层 API</div></div></div></a><a class="pagination-related" href="/posts/ac715911/" title="Pytest(四)断言与结果诊断"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-22</div><div class="info-item-2">Pytest(四)断言与结果诊断</div></div><div class="info-2"><div class="info-item-1">能从断言、异常、警告、输出和日志中提取可定位的失败证据</div></div></div></a><a class="pagination-related" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-19</div><div class="info-item-2">Pytest(一)入门路线</div></div><div class="info-2"><div class="info-item-1">从测试执行模型、收集选择、断言诊断和 Fixture 出发，逐步进入参数化、隔离、配置、插件、并行、报告与项目实战。</div></div></div></a><a class="pagination-related" href="/posts/8141684d/" title="Playwright(十二)项目实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/playwright-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-18</div><div class="info-item-2">Playwright(十二)项目实战</div></div><div class="info-2"><div class="info-item-1">综合环境、定位、断言、交互、上下文、POM、Fixture、API、网络控制、调试与跨浏览器 CI，设计并交付一套可重复、可诊断的 ShopLab 测试套件。</div></div></div></a><a class="pagination-related" href="/posts/26397f68/" title="Pytest(八)配置与套件组织"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-26</div><div class="info-item-2">Pytest(八)配置与套件组织</div></div><div class="info-2"><div class="info-item-1">能建立可预测的配置解析、导入路径和 conftest 可见性边界</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E6%94%B6%E7%9B%AE%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">验收目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%AA%A8%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">项目骨架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%88%86%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text">测试分层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E8%AE%BE%E8%AE%A1"><span class="toc-number">4.</span> <span class="toc-text">资源设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E8%83%BD%E5%8A%9B"><span class="toc-number">5.</span> <span class="toc-text">扩展能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E4%B8%8E%E6%8A%A5%E5%91%8A"><span class="toc-number">6.</span> <span class="toc-text">并行与报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E6%BC%94%E7%BB%83"><span class="toc-number">7.</span> <span class="toc-text">故障演练</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E4%BB%98%E5%A4%8D%E7%9B%98"><span class="toc-number">8.</span> <span class="toc-text">交付复盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">9.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/b428e868/" title="Pytest(十三)项目实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(十三)项目实战"></a><div class="content"><a class="title" href="/posts/b428e868/" title="Pytest(十三)项目实战">Pytest(十三)项目实战</a><time datetime="2026-04-30T16:00:00.000Z" title="发表于 2026-05-01 00:00:00">2026-05-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/76bdbbc7/" title="Pytest(十二)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(十二)进阶路线"></a><div class="content"><a class="title" href="/posts/76bdbbc7/" title="Pytest(十二)进阶路线">Pytest(十二)进阶路线</a><time datetime="2026-04-29T16:00:00.000Z" title="发表于 2026-04-30 00:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/51d93cec/" title="Pytest(十一)覆盖率与测试报告"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(十一)覆盖率与测试报告"></a><div class="content"><a class="title" href="/posts/51d93cec/" title="Pytest(十一)覆盖率与测试报告">Pytest(十一)覆盖率与测试报告</a><time datetime="2026-04-28T16:00:00.000Z" title="发表于 2026-04-29 00:00:00">2026-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5497f9c8/" title="Pytest(十)并行执行与稳定性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(十)并行执行与稳定性"></a><div class="content"><a class="title" href="/posts/5497f9c8/" title="Pytest(十)并行执行与稳定性">Pytest(十)并行执行与稳定性</a><time datetime="2026-04-27T16:00:00.000Z" title="发表于 2026-04-28 00:00:00">2026-04-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c50d5948/" title="Pytest(九)插件与 Hook 扩展"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(九)插件与 Hook 扩展"></a><div class="content"><a class="title" href="/posts/c50d5948/" title="Pytest(九)插件与 Hook 扩展">Pytest(九)插件与 Hook 扩展</a><time datetime="2026-04-26T16:00:00.000Z" title="发表于 2026-04-27 00:00:00">2026-04-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/26397f68/" title="Pytest(八)配置与套件组织"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(八)配置与套件组织"></a><div class="content"><a class="title" href="/posts/26397f68/" title="Pytest(八)配置与套件组织">Pytest(八)配置与套件组织</a><time datetime="2026-04-25T16:00:00.000Z" title="发表于 2026-04-26 00:00:00">2026-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1d2bf183/" title="Pytest(七)隔离环境与测试替身"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(七)隔离环境与测试替身"></a><div class="content"><a class="title" href="/posts/1d2bf183/" title="Pytest(七)隔离环境与测试替身">Pytest(七)隔离环境与测试替身</a><time datetime="2026-04-24T16:00:00.000Z" title="发表于 2026-04-25 00:00:00">2026-04-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f6690364/" title="Pytest(六)参数化与用例建模"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(六)参数化与用例建模"></a><div class="content"><a class="title" href="/posts/f6690364/" title="Pytest(六)参数化与用例建模">Pytest(六)参数化与用例建模</a><time datetime="2026-04-23T16:00:00.000Z" title="发表于 2026-04-24 00:00:00">2026-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/97e28b51/" title="Pytest(五)Fixture 与资源生命周期"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(五)Fixture 与资源生命周期"></a><div class="content"><a class="title" href="/posts/97e28b51/" title="Pytest(五)Fixture 与资源生命周期">Pytest(五)Fixture 与资源生命周期</a><time datetime="2026-04-22T16:00:00.000Z" title="发表于 2026-04-23 00:00:00">2026-04-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ac715911/" title="Pytest(四)断言与结果诊断"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(四)断言与结果诊断"></a><div class="content"><a class="title" href="/posts/ac715911/" title="Pytest(四)断言与结果诊断">Pytest(四)断言与结果诊断</a><time datetime="2026-04-21T16:00:00.000Z" title="发表于 2026-04-22 00:00:00">2026-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b5dda780/" title="Pytest(三)测试收集与运行控制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(三)测试收集与运行控制"></a><div class="content"><a class="title" href="/posts/b5dda780/" title="Pytest(三)测试收集与运行控制">Pytest(三)测试收集与运行控制</a><time datetime="2026-04-20T16:00:00.000Z" title="发表于 2026-04-21 00:00:00">2026-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(二)测试基础与执行模型"></a><div class="content"><a class="title" href="/posts/9d696b94/" title="Pytest(二)测试基础与执行模型">Pytest(二)测试基础与执行模型</a><time datetime="2026-04-19T16:00:00.000Z" title="发表于 2026-04-20 00:00:00">2026-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/pytest-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest(一)入门路线"></a><div class="content"><a class="title" href="/posts/6d7c0bc1/" title="Pytest(一)入门路线">Pytest(一)入门路线</a><time datetime="2026-04-18T16:00:00.000Z" title="发表于 2026-04-19 00:00:00">2026-04-19</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/eba16d90/" title="App测试(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(一)入门路线"/></a><div class="content"><a class="title" href="/posts/eba16d90/" title="App测试(一)入门路线">App测试(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(七)兼容性与适配"/></a><div class="content"><a class="title" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配">App测试(七)兼容性与适配</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(三)Android 环境与设备"/></a><div class="content"><a class="title" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备">App测试(三)Android 环境与设备</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(二)测试策略与质量模型"/></a><div class="content"><a class="title" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型">App测试(二)测试策略与质量模型</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(九)可用性与可访问性"/></a><div class="content"><a class="title" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性">App测试(九)可用性与可访问性</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/flashcard-queue.js"></script><script id="hfc-sync-config-data" type="application/json">{"enabled":true,"url":"https://hkqqjttiqhwfdintqxpx.supabase.co","publishableKey":"sb_publishable_BYiAsjvfObJ1Kj26-YkVeQ_x4ruAFc4"}</script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

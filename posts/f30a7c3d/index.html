@@ -1,0 +1,733 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FastAPI(七)认证授权与接口安全 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="实现 OAuth2 与 JWT 登录、权限作用域和多种安全方案，并处理浏览器、主机和密钥边界。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FastAPI(七)认证授权与接口安全">
+<meta property="og:url" content="https://koco-co.github.io/posts/f30a7c3d/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="实现 OAuth2 与 JWT 登录、权限作用域和多种安全方案，并处理浏览器、主机和密钥边界。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/fastapi-course-cover.png">
+<meta property="article:published_time" content="2026-08-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-27T04:53:50.684Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="FastAPI">
+<meta property="article:tag" content="系统学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/fastapi-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FastAPI(七)认证授权与接口安全",
+  "url": "https://koco-co.github.io/posts/f30a7c3d/",
+  "image": "https://koco-co.github.io/img/picgo-images/fastapi-course-cover.png",
+  "datePublished": "2026-08-25T16:00:00.000Z",
+  "dateModified": "2026-08-27T04:53:50.684Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/f30a7c3d/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FastAPI(七)认证授权与接口安全',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/fastapi-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">FastAPI(七)认证授权与接口安全</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FastAPI(七)认证授权与接口安全<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/fastapi/FastAPI(七)认证授权与接口安全.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-27T04:53:50.684Z" title="更新于 2026-08-27 12:53:50">2026-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/FastAPI/">FastAPI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="FastAPI 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>FastAPI 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="15" aria-valuenow="7"><span style="width: 46.6667%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/7486a2ec/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">FastAPI(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/1c968b87/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">FastAPI(二)快速开始与开发环境</span></a></li><li class="course-series-nav__item"><a href="/posts/fcf9c728/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">FastAPI(三)路由与请求解析</span></a></li><li class="course-series-nav__item"><a href="/posts/ea590b49/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">FastAPI(四)数据模型与响应契约</span></a></li><li class="course-series-nav__item"><a href="/posts/6ddff2f0/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">FastAPI(五)依赖注入与资源管理</span></a></li><li class="course-series-nav__item"><a href="/posts/d0ce794d/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">FastAPI(六)应用结构与生命周期</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/f30a7c3d/" aria-current="page"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">FastAPI(七)认证授权与接口安全</span></a></li><li class="course-series-nav__item"><a href="/posts/bbbfc80a/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">FastAPI(八)数据库集成与事务</span></a></li><li class="course-series-nav__item"><a href="/posts/52af630c/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">FastAPI(九)请求管线与错误处理</span></a></li><li class="course-series-nav__item"><a href="/posts/801e2897/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">FastAPI(十)并发模型与后台任务</span></a></li><li class="course-series-nav__item"><a href="/posts/6be6843f/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">FastAPI(十一)流式响应与实时通信</span></a></li><li class="course-series-nav__item"><a href="/posts/d474d6f1/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">FastAPI(十二)测试与质量保障</span></a></li><li class="course-series-nav__item"><a href="/posts/a584b159/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">FastAPI(十三)部署与生产运维</span></a></li><li class="course-series-nav__item"><a href="/posts/f8ac9084/"><span class="course-series-nav__index">14</span><span class="course-series-nav__title">FastAPI(十四)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/dfdedcc6/"><span class="course-series-nav__index">15</span><span class="course-series-nav__title">FastAPI(十五)项目实战</span></a></li></ol></nav>
+<div class="note primary flat"><p>安全链路必须把“你是谁”和“你能做什么”分开验证。本文用账号注册、密码哈希、OAuth2 Bearer、JWT、角色与 scopes 组成一条可测试的链，再把 CORS、Cookie、TrustedHost 和 HTTPS 重定向放到它们真正的浏览器与部署边界上。</p>
+</div>
+<h2 id="安全链路"><a href="#安全链路" class="headerlink" title="安全链路"></a>安全链路</h2><h3 id="认证与授权"><a href="#认证与授权" class="headerlink" title="认证与授权"></a>认证与授权</h3><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  A[提交凭证] --&gt; B[校验密码哈希]
+  B --&gt; C[签发短期 token]
+  C --&gt; D[解析 subject 与 scopes]
+  D --&gt; E{资源策略允许吗}
+  E --&gt;|允许| F[执行业务]
+  E --&gt;|拒绝| G[403]
+  B --&gt;|失败| H[401 + WWW-Authenticate]
+  </pre></div>
+<div class="note info flat"><p>认证只回答主体身份，授权再根据角色、scope、资源所有权做决定。日志中记录主体 ID 和策略结果即可，不记录密码、完整 token 或 Cookie 值。</p>
+</div>
+<h3 id="威胁边界"><a href="#威胁边界" class="headerlink" title="威胁边界"></a>威胁边界</h3><div class="note danger flat"><p>密码只能保存经过慢哈希算法处理的结果；JWT 只是签名的编码，不是加密容器；浏览器跨域和 CSRF 是不同问题。任何示例都使用环境变量或测试占位值，绝不把可用密钥写进代码。</p>
+</div>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><h3 id="密码哈希"><a href="#密码哈希" class="headerlink" title="密码哈希"></a>密码哈希</h3><div class="note info flat"><p>注册时调用 <code>hash</code> 保存哈希，登录时调用 <code>verify</code> 比较明文和哈希。哈希参数由库选择并随版本升级，业务代码不应自己拼接盐或使用可逆加密。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwdlib <span class="keyword">import</span> PasswordHash</span><br><span class="line"></span><br><span class="line">password_hash = PasswordHash.recommended()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">store_password</span>(<span class="params">password: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> password_hash.<span class="built_in">hash</span>(password)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_password</span>(<span class="params">password: <span class="built_in">str</span>, stored_hash: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">    <span class="keyword">return</span> password_hash.verify(password, stored_hash)</span><br></pre></td></tr></table></figure>
+<h3 id="OAuth2-与-JWT"><a href="#OAuth2-与-JWT" class="headerlink" title="OAuth2 与 JWT"></a>OAuth2 与 JWT</h3><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    sequenceDiagram
+  participant C as Client
+  participant A as API
+  participant T as Token service
+  C-&gt;&gt;T: username&#x2F;password form
+  T-&gt;&gt;T: verify hash
+  T--&gt;&gt;C: signed JWT exp&#x2F;sub
+  C-&gt;&gt;A: Authorization Bearer JWT
+  A-&gt;&gt;A: decode and validate exp&#x2F;sub
+  A--&gt;&gt;C: protected response or 401
+  </pre></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta, timezone</span><br><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> Annotated</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> Depends, HTTPException, Security</span><br><span class="line"><span class="keyword">from</span> fastapi.security <span class="keyword">import</span> (</span><br><span class="line">    OAuth2PasswordBearer,</span><br><span class="line">    OAuth2PasswordRequestForm,</span><br><span class="line">    SecurityScopes,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">oauth2_scheme = OAuth2PasswordBearer(</span><br><span class="line">    tokenUrl=<span class="string">&quot;auth/token&quot;</span>,</span><br><span class="line">    scopes=&#123;<span class="string">&quot;tasks:read&quot;</span>: <span class="string">&quot;Read tasks&quot;</span>, <span class="string">&quot;audit:read&quot;</span>: <span class="string">&quot;Read audit records&quot;</span>&#125;,</span><br><span class="line">)</span><br><span class="line">JWT_ALGORITHM = <span class="string">&quot;HS256&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">issue_token</span>(<span class="params">subject: <span class="built_in">str</span>, scopes: <span class="built_in">list</span>[<span class="built_in">str</span>] | <span class="literal">None</span> = <span class="literal">None</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    secret = os.environ[<span class="string">&quot;APP_JWT_SECRET&quot;</span>]</span><br><span class="line">    now = datetime.now(timezone.utc)</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;sub&quot;</span>: subject,</span><br><span class="line">        <span class="string">&quot;scopes&quot;</span>: scopes <span class="keyword">or</span> [],</span><br><span class="line">        <span class="string">&quot;iat&quot;</span>: now,</span><br><span class="line">        <span class="string">&quot;exp&quot;</span>: now + timedelta(minutes=<span class="number">15</span>),</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> jwt.encode(payload, secret, algorithm=JWT_ALGORITHM)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.post(<span class="params"><span class="string">&quot;/auth/token&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">login</span>(<span class="params">form: Annotated[OAuth2PasswordRequestForm, Depends(<span class="params"></span>)]</span>) -&gt; <span class="built_in">dict</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]:</span><br><span class="line">    <span class="comment"># 真实项目应从数据库读取哈希，再调用 check_password</span></span><br><span class="line">    <span class="keyword">if</span> form.username != <span class="string">&quot;alice&quot;</span> <span class="keyword">or</span> form.password != <span class="string">&quot;correct-password&quot;</span>:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(</span><br><span class="line">            status_code=<span class="number">401</span>,</span><br><span class="line">            detail=<span class="string">&quot;invalid credentials&quot;</span>,</span><br><span class="line">            headers=&#123;<span class="string">&quot;WWW-Authenticate&quot;</span>: <span class="string">&quot;Bearer&quot;</span>&#125;,</span><br><span class="line">        )</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&quot;access_token&quot;</span>: issue_token(form.username, [<span class="string">&quot;tasks:read&quot;</span>]),</span><br><span class="line">        <span class="string">&quot;token_type&quot;</span>: <span class="string">&quot;bearer&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">current_user</span>(<span class="params"></span></span><br><span class="line"><span class="params">    security_scopes: SecurityScopes,</span></span><br><span class="line"><span class="params">    token: Annotated[<span class="built_in">str</span>, Depends(<span class="params">oauth2_scheme</span>)],</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        payload = jwt.decode(</span><br><span class="line">            token,</span><br><span class="line">            os.environ[<span class="string">&quot;APP_JWT_SECRET&quot;</span>],</span><br><span class="line">            algorithms=[JWT_ALGORITHM],</span><br><span class="line">        )</span><br><span class="line">        subject = payload.get(<span class="string">&quot;sub&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">isinstance</span>(subject, <span class="built_in">str</span>) <span class="keyword">or</span> <span class="keyword">not</span> subject:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&quot;missing sub&quot;</span>)</span><br><span class="line">        token_scopes = <span class="built_in">set</span>(payload.get(<span class="string">&quot;scopes&quot;</span>, []))</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">set</span>(security_scopes.scopes).issubset(token_scopes):</span><br><span class="line">            <span class="keyword">raise</span> HTTPException(</span><br><span class="line">                status_code=<span class="number">403</span>,</span><br><span class="line">                detail=<span class="string">&quot;insufficient scope&quot;</span>,</span><br><span class="line">                headers=&#123;<span class="string">&quot;WWW-Authenticate&quot;</span>: <span class="string">&quot;Bearer&quot;</span>&#125;,</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">return</span> subject</span><br><span class="line">    <span class="keyword">except</span> (jwt.InvalidTokenError, KeyError, ValueError) <span class="keyword">as</span> exc:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(</span><br><span class="line">            status_code=<span class="number">401</span>,</span><br><span class="line">            detail=<span class="string">&quot;invalid token&quot;</span>,</span><br><span class="line">            headers=&#123;<span class="string">&quot;WWW-Authenticate&quot;</span>: <span class="string">&quot;Bearer&quot;</span>&#125;,</span><br><span class="line">        ) <span class="keyword">from</span> exc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/tasks&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">protected_tasks</span>(<span class="params"></span></span><br><span class="line"><span class="params">    user: Annotated[<span class="built_in">str</span>, Security(<span class="params">current_user, scopes=[<span class="string">&quot;tasks:read&quot;</span>]</span>)],</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="built_in">dict</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]:</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;owner&quot;</span>: user&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/admin/audit&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">admin_audit</span>(<span class="params"></span></span><br><span class="line"><span class="params">    user: Annotated[<span class="built_in">str</span>, Security(<span class="params">current_user, scopes=[<span class="string">&quot;audit:read&quot;</span>]</span>)],</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="built_in">dict</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]:</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;reader&quot;</span>: user&#125;</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>JWT payload 可以被持有者读取，服务端必须验证签名、<code>exp</code>、<code>sub</code> 和算法。短期 access token 配合刷新策略比把长期凭证塞进浏览器更容易撤销和审计。</p>
+</div>
+<div class="note success flat"><p>最小闭环是 <code>POST /auth/token</code> 返回 Bearer token，再带 <code>Authorization: Bearer ...</code> 请求 <code>/tasks</code>；缺少或篡改 token 预期 401，scope 不足预期 403。<code>OAuth2PasswordRequestForm</code> 需要表单解析依赖，登录接口不能把 JSON 示例误当成 OAuth2 表单。</p>
+</div>
+<h2 id="权限授权"><a href="#权限授权" class="headerlink" title="权限授权"></a>权限授权</h2><h3 id="角色权限"><a href="#角色权限" class="headerlink" title="角色权限"></a>角色权限</h3><div class="note info flat"><p>角色是业务语义，scope 是 OAuth2 令牌中的细粒度权限。依赖可以先解析当前主体，再检查角色或 scope；普通用户和管理员应分别测试拒绝、允许以及共享业务能力不受影响。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>端点</th>
+<th>user</th>
+<th>admin</th>
+<th>失败响应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /tasks</code></td>
+<td>允许自己的任务</td>
+<td>允许</td>
+<td>401/403 按认证阶段区分</td>
+</tr>
+<tr>
+<td><code>GET /admin/audit</code></td>
+<td>拒绝</td>
+<td>允许</td>
+<td>403 且不返回审计数据</td>
+</tr>
+<tr>
+<td><code>DELETE /tasks/&#123;id&#125;</code></td>
+<td>仅所有者</td>
+<td>允许</td>
+<td>403 或 404，避免越权泄露存在性</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="OAuth2-scopes"><a href="#OAuth2-scopes" class="headerlink" title="OAuth2 scopes"></a>OAuth2 scopes</h3><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+  A[Bearer token] --&gt; B[SecurityScopes.scopes]
+  B --&gt; C{token scopes 包含要求吗}
+  C --&gt;|是| D[继续资源检查]
+  C --&gt;|否| E[403 insufficient scope]
+  </pre></div>
+<div class="note info flat"><p>scope 名称会进入 OpenAPI，但文档声明不等于运行时授权。<code>Security</code> 依赖要读取 <code>SecurityScopes</code>，并在缺少权限时返回稳定的 Problem 响应。</p>
+</div>
+<h2 id="凭证方案"><a href="#凭证方案" class="headerlink" title="凭证方案"></a>凭证方案</h2><h3 id="Bearer-与-Basic"><a href="#Bearer-与-Basic" class="headerlink" title="Bearer 与 Basic"></a>Bearer 与 Basic</h3><div class="note info flat"><p>Bearer 适合 API 令牌，客户端在 <code>Authorization</code> 头携带 token；Basic 每次请求携带可解码的用户名和密码，只能在 HTTPS 和受控场景使用。两者都不应出现在 URL 查询参数中。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fastapi.security <span class="keyword">import</span> HTTPBasic, HTTPBasicCredentials</span><br><span class="line"></span><br><span class="line">basic = HTTPBasic()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/internal&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">internal</span>(<span class="params"></span></span><br><span class="line"><span class="params">    credentials: Annotated[HTTPBasicCredentials, Depends(<span class="params">basic</span>)],</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="built_in">dict</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]:</span><br><span class="line">    <span class="keyword">if</span> credentials.username != <span class="string">&quot;ops&quot;</span> <span class="keyword">or</span> credentials.password != <span class="string">&quot;test-only&quot;</span>:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(status_code=<span class="number">401</span>, detail=<span class="string">&quot;invalid basic credentials&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;user&quot;</span>: credentials.username&#125;</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>用 <code>curl -u ops:test-only /internal</code> 和错误凭证各请求一次，记录 200/401 与 <code>WWW-Authenticate</code>，再在 HTTPS 终止代理后复测。Basic 的示例密码只用于本地夹具，不能直接迁移到生产配置。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>服务器验证</th>
+<th>浏览器行为</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bearer</td>
+<td>签名、过期和 scope</td>
+<td>可由前端请求头发送</td>
+<td>SPA/API</td>
+</tr>
+<tr>
+<td>Basic</td>
+<td>用户名与密码</td>
+<td>浏览器可能弹出凭证框</td>
+<td>内部短期保护</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="备用凭证"><a href="#备用凭证" class="headerlink" title="备用凭证"></a>备用凭证</h3><div class="note warning flat"><p>API key、Cookie session 或外部 OIDC 都是不同的信任边界。选择方案时先写撤销、轮换、审计和跨站策略；不要因为实现类名相近就把 API key 当成 JWT，也不要把第三方身份声明未经验证地当成本地角色。</p>
+</div>
+<h2 id="浏览器边界"><a href="#浏览器边界" class="headerlink" title="浏览器边界"></a>浏览器边界</h2><h3 id="CORS-凭证"><a href="#CORS-凭证" class="headerlink" title="CORS 凭证"></a>CORS 凭证</h3><div class="note warning flat"><p>启用 <code>allow_credentials=True</code> 时，不能用通配符 origin 表示任意可信站点；必须列出明确来源并限制方法和请求头。CORS 是浏览器发送响应的规则，不是服务器身份认证。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fastapi.middleware.cors <span class="keyword">import</span> CORSMiddleware</span><br><span class="line"></span><br><span class="line">app.add_middleware(</span><br><span class="line">    CORSMiddleware,</span><br><span class="line">    allow_origins=[<span class="string">&quot;https://frontend.example&quot;</span>],</span><br><span class="line">    allow_credentials=<span class="literal">True</span>,</span><br><span class="line">    allow_methods=[<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;POST&quot;</span>, <span class="string">&quot;PATCH&quot;</span>],</span><br><span class="line">    allow_headers=[<span class="string">&quot;Authorization&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -i -X OPTIONS http://127.0.0.1:8000/tasks \</span><br><span class="line">  -H <span class="string">&#x27;Origin: https://frontend.example&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Access-Control-Request-Method: GET&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Access-Control-Request-Headers: Authorization&#x27;</span></span><br></pre></td></tr></table></figure>
+<div class="note success flat"><p>预检响应应包含明确的 <code>access-control-allow-origin</code>、允许方法和允许请求头；换成未列出的 Origin 时不应得到同样的允许值。这个实验只证明浏览器策略，仍需用无 token/有效 token 请求验证服务器端 401/200。</p>
+</div>
+<h3 id="Cookie-与-CSRF"><a href="#Cookie-与-CSRF" class="headerlink" title="Cookie 与 CSRF"></a>Cookie 与 CSRF</h3><div class="note info flat"><p>Cookie 会被浏览器自动附带，因此要组合 <code>Secure</code>、<code>HttpOnly</code>、合适的 <code>SameSite</code> 和 CSRF token。把 token 放进 Cookie 并不会自动获得 CSRF 防护；Bearer 头和 Cookie 的威胁模型要分别测试。</p>
+</div>
+<h2 id="部署防护"><a href="#部署防护" class="headerlink" title="部署防护"></a>部署防护</h2><h3 id="TrustedHost"><a href="#TrustedHost" class="headerlink" title="TrustedHost"></a>TrustedHost</h3><div class="note warning flat"><p><code>TrustedHostMiddleware</code> 用允许列表校验 Host，防止错误 Host 参与 URL 生成或路由。代理转发前要先确认真实 Host 头来源，允许列表不应写成任意通配符。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> starlette.middleware.trustedhost <span class="keyword">import</span> TrustedHostMiddleware</span><br><span class="line"></span><br><span class="line">app.add_middleware(TrustedHostMiddleware, allowed_hosts=[<span class="string">&quot;api.example.com&quot;</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="HTTPS-Redirect"><a href="#HTTPS-Redirect" class="headerlink" title="HTTPS Redirect"></a>HTTPS Redirect</h3><div class="note danger flat"><p><code>HTTPSRedirectMiddleware</code> 会把 HTTP 重定向到 HTTPS，但它依赖代理正确传递协议并阻止重定向循环。先在终止 TLS 的代理上核对 <code>X-Forwarded-Proto</code> 信任范围，再决定是否在应用层启用。</p>
+</div>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-authn-vs-authz" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%AE%A4%E8%AF%81">#认证</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8E%88%E6%9D%83">#授权</a></div>
+      <div class="hfc-question"><p>认证与授权为什么必须分两步？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%AE%A4%E8%AF%81">#认证</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%8E%88%E6%9D%83">#授权</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>认证与授权为什么必须分两步？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>认证确认主体是谁，授权根据角色、scope 和资源规则决定该主体能否执行当前动作。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>只验证 token 只能说明签发者认可这个主体，不能说明它可以读取另一个账号的任务或审计数据。先解析 subject 并校验签名/过期，再执行角色、scope 和资源所有权检查；缺少凭证通常是 401，凭证有效但权限不足是 403。把两步混成一个布尔值会让日志、OpenAPI 和错误处理都失去边界。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-401-vs-403" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%94%99%E8%AF%AF">#错误</a></div>
+      <div class="hfc-question"><p>什么时候返回 401，什么时候返回 403？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=HTTP">#HTTP</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%94%99%E8%AF%AF">#错误</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>什么时候返回 401，什么时候返回 403？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>无法认证或令牌无效通常返回 401 并带 <code>WWW-Authenticate</code>；已认证但不满足角色或 scope 时返回 403。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>401 是“请提供或修正身份凭证”，客户端可以据此重新登录；403 是“身份已知但策略拒绝”，重试同一凭证不会改变结果。实现时不要把所有安全失败都改成 404 来隐藏问题，除非资源存在性本身就是明确的防枚举策略，并在团队契约中固定它。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-jwt-not-encryption" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=JWT">#JWT</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AF%86%E9%92%A5">#密钥</a></div>
+      <div class="hfc-question"><p>为什么 JWT 不能当作加密数据保存秘密？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q03</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=JWT">#JWT</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AF%86%E9%92%A5">#密钥</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么 JWT 不能当作加密数据保存秘密？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>JWT 的常见形式是可读取的编码加签名；签名保证未被篡改，不会隐藏 payload 内容。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>持有 token 的客户端可以解码 payload，因此只能放置非敏感的 subject、过期时间和 scope。服务器仍必须验证签名、算法和 <code>exp</code>，并把密钥放在受保护的配置来源。需要保密的数据放在服务端存储或真正的加密方案中，不能靠把字段名改得不明显来保护。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="fastapi-0141-cors-credentials" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8F%E8%A7%88%E5%99%A8">#浏览器</a><a class="hfc-topic" href="/learn-topic/?tag=CORS">#CORS</a></div>
+      <div class="hfc-question"><p>为什么带凭证的 CORS 不能使用任意 origin？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q04</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=FastAPI">#FastAPI</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8F%E8%A7%88%E5%99%A8">#浏览器</a><a class="hfc-topic" href="/learn-topic/?tag=CORS">#CORS</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>为什么带凭证的 CORS 不能使用任意 origin？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>凭证请求必须绑定明确的可信来源；通配符会让浏览器无法安全表达“允许携带凭证的站点集合”。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>CORS 只控制浏览器是否把响应交给页面，服务器仍要独立认证。开启 <code>allow_credentials</code> 后列出明确 origin、方法和请求头，并检查预检响应；Cookie 场景还要配合 SameSite 和 CSRF 防护。不要把 CORS 当作 API 访问控制，也不要用它替代令牌过期和撤销。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="OAuth2 and JWT" target="_blank" rel="noopener" href="https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://fastapi.tiangolo.com/img/favicon.png"/></div><div class="right"><p class="text">OAuth2 and JWT</p><p class="url">https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Security Scopes" target="_blank" rel="noopener" href="https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://fastapi.tiangolo.com/img/favicon.png"/></div><div class="right"><p class="text">Security Scopes</p><p class="url">https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/</p></div></a></div>
+<div class="tag link"><a class="link-card" title="CORS" target="_blank" rel="noopener" href="https://fastapi.tiangolo.com/tutorial/cors/"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://fastapi.tiangolo.com/img/favicon.png"/></div><div class="right"><p class="text">CORS</p><p class="url">https://fastapi.tiangolo.com/tutorial/cors/</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="4"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Ffastapi%2FFastAPI(%E4%B8%83)%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E4%B8%8E%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8.md" title="复习本篇 · 4 张卡片" aria-label="复习本篇 · 4 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 4 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/f30a7c3d/">https://koco-co.github.io/posts/f30a7c3d/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/">系统学习</a><a class="post-meta__tags" href="/tags/FastAPI/">FastAPI</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/52af630c/" title="FastAPI(九)请求管线与错误处理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">FastAPI(九)请求管线与错误处理</div></div><div class="info-2"><div class="info-item-1">掌握中间件执行顺序、请求上下文、异常传播、统一错误响应和响应头或 Cookie 控制。</div></div></div></a><a class="pagination-related" href="/posts/7c0260ba/" title="App测试(四)ADB 设备管理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">App测试(四)ADB 设备管理</div></div><div class="info-2"><div class="info-item-1">使用 ADB 在多设备环境中稳定选择目标并管理应用、文件和进程。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/52af630c/" title="FastAPI(九)请求管线与错误处理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(九)请求管线与错误处理</div></div><div class="info-2"><div class="info-item-1">掌握中间件执行顺序、请求上下文、异常传播、统一错误响应和响应头或 Cookie 控制。</div></div></div></a><a class="pagination-related" href="/posts/7486a2ec/" title="FastAPI(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(一)入门路线</div></div><div class="info-2"><div class="info-item-1">说明 FastAPI 系统课程的学习成果、必要前置、依赖顺序、文章安排和第一个可执行入口。</div></div></div></a><a class="pagination-related" href="/posts/d474d6f1/" title="FastAPI(十二)测试与质量保障"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(十二)测试与质量保障</div></div><div class="info-2"><div class="info-item-1">使用 pytest、TestClient 与 HTTPX AsyncClient 测试路由、依赖、生命周期、数据库和实时接口。</div></div></div></a><a class="pagination-related" href="/posts/1c968b87/" title="FastAPI(二)快速开始与开发环境"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(二)快速开始与开发环境</div></div><div class="info-2"><div class="info-item-1">从项目环境、依赖安装和 FastAPI CLI 开始，建立可开发、可运行、可观察的第一个 API。</div></div></div></a><a class="pagination-related" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(十三)部署与生产运维</div></div><div class="info-2"><div class="info-item-1">理解 ASGI 进程拓扑、worker、容器、HTTPS、反向代理、路径前缀、健康检查和优雅关闭。</div></div></div></a><a class="pagination-related" href="/posts/fcf9c728/" title="FastAPI(三)路由与请求解析"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="info-item-2">FastAPI(三)路由与请求解析</div></div><div class="info-2"><div class="info-item-1">系统掌握路由匹配、路径与查询参数、请求体、请求头、Cookie、表单、文件和校验约束。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">115</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">148</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%93%BE%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">安全链路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83"><span class="toc-number">1.1.</span> <span class="toc-text">认证与授权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A8%81%E8%83%81%E8%BE%B9%E7%95%8C"><span class="toc-number">1.2.</span> <span class="toc-text">威胁边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81"><span class="toc-number">2.</span> <span class="toc-text">身份认证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E5%93%88%E5%B8%8C"><span class="toc-number">2.1.</span> <span class="toc-text">密码哈希</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OAuth2-%E4%B8%8E-JWT"><span class="toc-number">2.2.</span> <span class="toc-text">OAuth2 与 JWT</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8E%88%E6%9D%83"><span class="toc-number">3.</span> <span class="toc-text">权限授权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90"><span class="toc-number">3.1.</span> <span class="toc-text">角色权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OAuth2-scopes"><span class="toc-number">3.2.</span> <span class="toc-text">OAuth2 scopes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%AD%E8%AF%81%E6%96%B9%E6%A1%88"><span class="toc-number">4.</span> <span class="toc-text">凭证方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bearer-%E4%B8%8E-Basic"><span class="toc-number">4.1.</span> <span class="toc-text">Bearer 与 Basic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E7%94%A8%E5%87%AD%E8%AF%81"><span class="toc-number">4.2.</span> <span class="toc-text">备用凭证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%B9%E7%95%8C"><span class="toc-number">5.</span> <span class="toc-text">浏览器边界</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CORS-%E5%87%AD%E8%AF%81"><span class="toc-number">5.1.</span> <span class="toc-text">CORS 凭证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie-%E4%B8%8E-CSRF"><span class="toc-number">5.2.</span> <span class="toc-text">Cookie 与 CSRF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E9%98%B2%E6%8A%A4"><span class="toc-number">6.</span> <span class="toc-text">部署防护</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TrustedHost"><span class="toc-number">6.1.</span> <span class="toc-text">TrustedHost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS-Redirect"><span class="toc-number">6.2.</span> <span class="toc-text">HTTPS Redirect</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/7486a2ec/" title="FastAPI(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(一)入门路线"></a><div class="content"><a class="title" href="/posts/7486a2ec/" title="FastAPI(一)入门路线">FastAPI(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f30a7c3d/" title="FastAPI(七)认证授权与接口安全"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(七)认证授权与接口安全"></a><div class="content"><a class="title" href="/posts/f30a7c3d/" title="FastAPI(七)认证授权与接口安全">FastAPI(七)认证授权与接口安全</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/52af630c/" title="FastAPI(九)请求管线与错误处理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(九)请求管线与错误处理"></a><div class="content"><a class="title" href="/posts/52af630c/" title="FastAPI(九)请求管线与错误处理">FastAPI(九)请求管线与错误处理</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1c968b87/" title="FastAPI(二)快速开始与开发环境"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(二)快速开始与开发环境"></a><div class="content"><a class="title" href="/posts/1c968b87/" title="FastAPI(二)快速开始与开发环境">FastAPI(二)快速开始与开发环境</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/fcf9c728/" title="FastAPI(三)路由与请求解析"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(三)路由与请求解析"></a><div class="content"><a class="title" href="/posts/fcf9c728/" title="FastAPI(三)路由与请求解析">FastAPI(三)路由与请求解析</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6ddff2f0/" title="FastAPI(五)依赖注入与资源管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(五)依赖注入与资源管理"></a><div class="content"><a class="title" href="/posts/6ddff2f0/" title="FastAPI(五)依赖注入与资源管理">FastAPI(五)依赖注入与资源管理</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bbbfc80a/" title="FastAPI(八)数据库集成与事务"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(八)数据库集成与事务"></a><div class="content"><a class="title" href="/posts/bbbfc80a/" title="FastAPI(八)数据库集成与事务">FastAPI(八)数据库集成与事务</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d0ce794d/" title="FastAPI(六)应用结构与生命周期"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(六)应用结构与生命周期"></a><div class="content"><a class="title" href="/posts/d0ce794d/" title="FastAPI(六)应用结构与生命周期">FastAPI(六)应用结构与生命周期</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/801e2897/" title="FastAPI(十)并发模型与后台任务"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十)并发模型与后台任务"></a><div class="content"><a class="title" href="/posts/801e2897/" title="FastAPI(十)并发模型与后台任务">FastAPI(十)并发模型与后台任务</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6be6843f/" title="FastAPI(十一)流式响应与实时通信"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十一)流式响应与实时通信"></a><div class="content"><a class="title" href="/posts/6be6843f/" title="FastAPI(十一)流式响应与实时通信">FastAPI(十一)流式响应与实时通信</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十三)部署与生产运维"></a><div class="content"><a class="title" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维">FastAPI(十三)部署与生产运维</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d474d6f1/" title="FastAPI(十二)测试与质量保障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十二)测试与质量保障"></a><div class="content"><a class="title" href="/posts/d474d6f1/" title="FastAPI(十二)测试与质量保障">FastAPI(十二)测试与质量保障</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dfdedcc6/" title="FastAPI(十五)项目实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十五)项目实战"></a><div class="content"><a class="title" href="/posts/dfdedcc6/" title="FastAPI(十五)项目实战">FastAPI(十五)项目实战</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ea590b49/" title="FastAPI(四)数据模型与响应契约"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(四)数据模型与响应契约"></a><div class="content"><a class="title" href="/posts/ea590b49/" title="FastAPI(四)数据模型与响应契约">FastAPI(四)数据模型与响应契约</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f8ac9084/" title="FastAPI(十四)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十四)进阶路线"></a><div class="content"><a class="title" href="/posts/f8ac9084/" title="FastAPI(十四)进阶路线">FastAPI(十四)进阶路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/eba16d90/" title="App测试(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(一)入门路线"/></a><div class="content"><a class="title" href="/posts/eba16d90/" title="App测试(一)入门路线">App测试(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(七)兼容性与适配"/></a><div class="content"><a class="title" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配">App测试(七)兼容性与适配</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(三)Android 环境与设备"/></a><div class="content"><a class="title" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备">App测试(三)Android 环境与设备</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(二)测试策略与质量模型"/></a><div class="content"><a class="title" href="/posts/688d03c1/" title="App测试(二)测试策略与质量模型">App测试(二)测试策略与质量模型</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(九)可用性与可访问性"/></a><div class="content"><a class="title" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性">App测试(九)可用性与可访问性</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/flashcard-queue.js"></script><script id="hfc-sync-config-data" type="application/json">{"enabled":true,"url":"https://hkqqjttiqhwfdintqxpx.supabase.co","publishableKey":"sb_publishable_BYiAsjvfObJ1Kj26-YkVeQ_x4ruAFc4"}</script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

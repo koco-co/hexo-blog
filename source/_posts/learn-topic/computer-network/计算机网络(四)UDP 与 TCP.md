@@ -601,17 +601,7 @@ TCP 三次握手分别确认什么？
 --- answer
 只能说明握手响应没有按预期到达客户端；可能是路径丢弃、服务端不可达、策略静默丢弃或回程异常，需要抓包和路由证据区分。
 --- explanation
-如果立即收到 RST，证据更接近主动拒绝或未监听；SYN 超时和 RST 的失败边界不同，不能都归因于服务端进程停止。
-
-握手报文至少要和状态一起读：
-
-| 报文 | 关键确认 | 典型状态 |
-| --- | --- | --- |
-| SYN | 客户端提出 ISN | SYN-SENT |
-| SYN-ACK | 服务端确认并提出 ISN | SYN-RECEIVED |
-| ACK | 客户端确认服务端 ISN | ESTABLISHED |
-
-握手超时、RST 和握手成功后的 TLS/HTTP 失败是不同证据，不能用一个“端口不通”概括。
+客户端只能确认“自己反复发出了 SYN，但没有按预期收到 SYN-ACK”，不能直接确认服务端进程已停止。两端都抓包时，若服务端看不到 SYN，优先检查路由、ACL、防火墙、接口或抓包位置；若服务端发出 SYN-ACK 但客户端收不到，继续查回程路径；若立即收到 RST，则更接近主动拒绝、端口未监听或中间设备重置。SYN 超时和 RST 的失败边界不同，不能统称为“端口不通”。
 {% endflashcard %}
 
 {% flashcard basic id:CN-TR-007 deck:"计算机网络" priority:2 tags:"TCP,SYN-Flood,backlog" %}
@@ -620,17 +610,15 @@ SYN Flood、backlog 和文件描述符分别可能在哪个阶段成为瓶颈？
 --- answer
 半连接状态、已完成连接队列和进程可接受的连接资源分别可能成为瓶颈；backlog 不是服务器连接数的全局上限。
 --- explanation
-排查要结合握手状态、队列、accept 速度、文件描述符、CPU 和入口策略。仅凭一次客户端超时不能证明发生了 SYN Flood。
+SYN Flood 是大量半连接请求占用等待队列；backlog 通常约束已完成握手、等待应用 `accept` 取走的连接队列；文件描述符则是进程能同时持有的 socket 等资源上限。三者处在不同阶段：
 
-握手报文至少要和状态一起读：
-
-| 报文 | 关键确认 | 典型状态 |
+| 线索 | 更接近的瓶颈 | 还要核对 |
 | --- | --- | --- |
-| SYN | 客户端提出 ISN | SYN-SENT |
-| SYN-ACK | 服务端确认并提出 ISN | SYN-RECEIVED |
-| ACK | 客户端确认服务端 ISN | ESTABLISHED |
+| 大量 SYN-SENT/SYN-RECEIVED | 半连接或路径 | SYN 重传、服务端收包和回包 |
+| 握手完成但 `accept` 变慢 | backlog 或应用消费速度 | 队列长度、进程调度和 CPU |
+| `EMFILE`/`ENFILE` | 进程/系统文件描述符 | 限额、泄漏和关闭路径 |
 
-握手超时、RST 和握手成功后的 TLS/HTTP 失败是不同证据，不能用一个“端口不通”概括。
+仅凭一次客户端超时不能证明发生了 SYN Flood；必须把握手状态、队列和系统资源时间线对齐。
 {% endflashcard %}
 
 {% flashcard basic id:CN-TR-008 deck:"计算机网络" priority:1 tags:"TCP,关闭,FIN" %}
@@ -793,17 +781,16 @@ TCP 只保证字节按序到达；一次 send() 与一次 recv() 没有一一对
 --- answer
 握手只证明 TCP 连接建立；TLS 证书校验、HTTP 状态码、代理、认证、应用处理或响应读取仍可能失败。
 --- explanation
-将时间线拆成 DNS → TCP → TLS → HTTP → 应用，不能把所有后续失败都叫作“网络不通”。
+TCP 三次握手只完成传输层连接，访问还会继续经过多个阶段：
 
-握手报文至少要和状态一起读：
-
-| 报文 | 关键确认 | 典型状态 |
+| 阶段 | 可能的失败 | 典型证据 |
 | --- | --- | --- |
-| SYN | 客户端提出 ISN | SYN-SENT |
-| SYN-ACK | 服务端确认并提出 ISN | SYN-RECEIVED |
-| ACK | 客户端确认服务端 ISN | ESTABLISHED |
+| DNS | 名称解析错误或过期 | DNS 响应、缓存和时间 |
+| TCP | 端口拒绝、丢包或超时 | SYN/SYN-ACK/RST |
+| TLS | 证书、主机名或协议协商失败 | 握手消息和客户端错误 |
+| HTTP/应用 | 401、404、502、业务校验失败 | 响应状态、字段和服务日志 |
 
-握手超时、RST 和握手成功后的 TLS/HTTP 失败是不同证据，不能用一个“端口不通”概括。
+因此握手成功只能缩小范围；不能把握手后的 TLS、HTTP 或应用失败都叫作“网络不通”。
 {% endflashcard %}
 
 {% flashcard basic id:CN-TR-FAQ-003 deck:"计算机网络" priority:1 tags:"UDP,TCP,性能" %}

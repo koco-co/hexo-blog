@@ -211,7 +211,7 @@ adb -s "$target" shell dumpsys activity activities | grep mResumedActivity
 --- answer
 清除数据保留安装包，卸载重装同时改变安装状态和通常的数据状态，观察到的首次启动与升级行为不同。
 --- explanation
-清除数据适合重复同一版本的空数据实验；卸载重装还会覆盖包不存在、安装权限、默认配置和首次引导。升级验证则应保留旧版本数据，不能用清除数据制造一个并不存在的迁移场景。
+清除数据适合重复同一版本的“已安装但没有运行数据”实验；卸载重装还会覆盖包不存在、安装权限、默认配置和首次引导。升级验证要先安装旧版本并保留旧数据，再覆盖安装新版本，观察迁移后的数据和会话是否正确；不能用清除数据制造一个并不存在的迁移场景。
 {% endflashcard %}
 
 {% flashcard basic id:app-testing-process-death deck:"App测试" priority:1 tags:"生命周期,恢复" %}
@@ -220,7 +220,7 @@ adb -s "$target" shell dumpsys activity activities | grep mResumedActivity
 --- answer
 先确认业务状态是否一致，再检查页面、进程和日志如何解释这种结果。
 --- explanation
-页面重新出现可能来自任务栈恢复、缓存或真正的冷启动。先比对服务端结果、未提交输入和重复提交风险，再用 pid、Activity 与日志确认恢复路径；证据不足时标记为待归因并补采集。
+进程是操作系统运行 App 的实例，`pid` (process ID) 是它当前的编号；`Activity` 是 Android 中承载一组界面的组件。进程死亡后重新出现页面，可能是任务栈恢复、缓存恢复，也可能是真正的冷启动。先比对服务端结果、未提交输入和重复提交风险，再用新的 `pid`、Activity 状态和日志确认恢复路径；证据不足时标记为待归因并补采集。
 {% endflashcard %}
 
 ## 参考资料

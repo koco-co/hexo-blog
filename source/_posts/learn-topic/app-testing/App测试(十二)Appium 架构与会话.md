@@ -210,7 +210,7 @@ deviceName 和 udid 在多设备 Appium 测试中的职责有什么不同？
 --- answer
 deviceName 是描述性能力，udid 才用于把会话绑定到具体设备 serial。
 --- explanation
-单设备示例可以只写 deviceName，但多设备或并行执行必须显式设置 udid，并在会话日志中回读实际设备型号和 API。仅按名称选择可能把命令发到错误设备。
+`deviceName` 是给人看的设备描述，`udid` (设备唯一标识，也就是 ADB serial) 才能把会话绑定到某一台具体设备。单设备示例可以只写 deviceName，但多设备或并行执行必须显式设置 udid，并在会话日志中回读实际设备型号和 API；仅按名称选择可能把命令发到错误设备。
 {% endflashcard %}
 
 {% flashcard basic id:app-testing-session-startup deck:"App测试" priority:1 tags:"Appium,会话" %}
@@ -219,7 +219,7 @@ Appium 会话启动失败时，为什么不能先改定位器？
 --- answer
 会话还未建立时尚未进入元素定位阶段，应先按客户端、Server、驱动、ADB、安装和 Activity 分层排障。
 --- explanation
-保存客户端异常、Server/驱动日志、ADB 状态、APK 信息和设备时间线，先确认目标 App 已安装并能启动。只有会话稳定建立后，才进入页面层和定位器诊断。
+Appium session (会话) 是客户端、Appium Server、设备驱动和目标设备之间维持的一次自动化连接。保存客户端异常、Server/驱动日志、ADB 状态、APK 信息和设备时间线，先确认目标 App 已安装并能启动；会话都没有建立时，页面还不存在，修改 locator (定位器) 不会改变根因。只有会话稳定建立后，才进入页面层和定位器诊断。
 {% endflashcard %}
 
 ## 参考资料

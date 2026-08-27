@@ -178,7 +178,7 @@ adb -s "<serial>" shell dumpsys package com.example.demo
 --- answer
 它必须对应明确的用户任务，在实际需要时请求，并提供可用的拒绝与恢复路径。
 --- explanation
-检查权限用途、请求时机、数据范围和拒绝行为；首次启动不应一次性索取无关权限，拒绝后也不能通过空对象、循环弹窗或隐藏入口迫使用户授权。用代码、系统状态和用户旅程三组证据交叉确认。
+运行时权限是 Android 在访问相机、定位等敏感能力前提供的系统授权门。检查权限用途、请求时机、数据范围和拒绝行为；首次启动不应一次性索取无关权限，拒绝后也不能通过空对象、循环弹窗或隐藏入口迫使用户授权。用代码确认声明了什么、用系统状态确认实际授予什么，再走一遍用户旅程确认拒绝后仍有可理解的替代或恢复路径。
 {% endflashcard %}
 
 {% flashcard basic id:app-testing-security-boundary deck:"App测试" priority:1 tags:"安全,边界" %}
@@ -187,7 +187,7 @@ adb -s "<serial>" shell dumpsys package com.example.demo
 --- answer
 入口可达性与身份、授权、参数校验和会话隔离是不同问题。
 --- explanation
-外部 Intent、重定向和 WebView 内容都应视为不可信输入。进入后仍要验证登录状态、资源归属、允许域名、桥接方法和退出清理；只证明页面显示会遗漏越权和数据残留。
+Deep Link 是从外部 URL 或 Intent 进入 App 的入口；WebView 是 App 内嵌的网页容器；Intent 是 Android 组件之间传递请求和数据的消息。它们能打开页面只证明入口可达，不能证明调用者有权访问数据。外部 Intent、重定向和 WebView 内容都应视为不可信输入，进入后仍要验证登录状态、资源归属、允许域名、桥接方法和退出清理；只证明页面显示会遗漏越权和数据残留。
 {% endflashcard %}
 
 ## 参考资料

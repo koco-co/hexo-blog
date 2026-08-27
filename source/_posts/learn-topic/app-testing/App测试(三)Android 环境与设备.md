@@ -165,7 +165,7 @@ adb shell settings get system screen_off_timeout
 --- answer
 还要确认状态为 device，并验证授权、系统版本和测试前置。
 --- explanation
-adb devices -l 可能列出 unauthorized 或 offline 设备。前者表示设备尚未接受主机调试授权，后者表示通信链路不稳定；即使状态为 device，也要继续检查 API、屏幕、时间、网络和账号。
+`adb` (Android Debug Bridge) 是电脑与 Android 设备通信的命令行工具。`adb devices -l` 只是在读取连接状态，可能列出 `unauthorized` 或 `offline`：前者表示设备尚未接受这台电脑的调试授权，后者表示连接存在但通信不稳定。即使状态为 `device`，也只说明 ADB 通道基本可用，还要继续检查 API、屏幕、时间、网络和账号。
 
 | 状态 | 含义 | 下一步 |
 | --- | --- | --- |

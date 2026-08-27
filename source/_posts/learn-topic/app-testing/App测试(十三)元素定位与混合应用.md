@@ -198,7 +198,7 @@ Appium 定位器应该按什么优先级选择？
 --- answer
 先用稳定的 accessibility id 或 resource id，再用有范围的语义组合；XPath 和坐标只作为有证据的兜底。
 --- explanation
-优先级的核心是业务语义和变化成本。定位后还要验证唯一性、可操作状态和点击结果，不能因为某个 XPath 当前能找到节点就认为长期稳定。
+accessibility id 是面向无障碍语义的稳定标识，resource id 是 Android 资源标识，XPath 是按元素树路径查找，坐标则只依赖当前屏幕位置。优先级的核心是业务语义和变化成本：先用前两类稳定标识，再用有范围的语义组合，最后才把 XPath 或坐标作为有证据的兜底。定位后还要验证唯一性、可操作状态和点击结果，不能因为某个 XPath 当前能找到节点就认为长期稳定。
 {% endflashcard %}
 
 {% flashcard basic id:app-testing-stale-element deck:"App测试" priority:2 tags:"Appium,动态界面" %}
@@ -207,7 +207,7 @@ Appium 定位器应该按什么优先级选择？
 --- answer
 页面或列表刷新后旧元素引用可能已经不属于当前层级，重新定位才能确认当前状态和业务对象。
 --- explanation
-保存刷新时间、页面源和动作证据，从稳定页面重新查找；若每次刷新都失效，说明用例需要以业务键和状态条件建模，而不是延长重试次数。
+`stale element` (元素引用失效) 表示脚本之前找到的节点已经不属于当前页面树，常见原因是列表刷新、页面重建或导航返回。保存刷新时间、页面源和动作证据，从稳定页面重新查找当前业务对象；若每次刷新都失效，说明用例需要以业务键和状态条件建模，而不是延长重试次数。
 {% endflashcard %}
 
 {% flashcard basic id:app-testing-webview-context deck:"App测试" priority:1 tags:"Appium,WebView" %}
@@ -216,7 +216,7 @@ Appium 定位器应该按什么优先级选择？
 --- answer
 原生和 WebView 的元素树、定位策略和驱动命令不同，当前 context 错误时正确 locator 也会失败。
 --- explanation
-先记录 contexts 和当前值，等待 WebView 页面加载后切换；网页用 CSS/DOM 策略，原生用 accessibility id/resource id，完成后显式切回。上下文缺失时检查构建调试开关、页面加载和驱动日志。
+`context` 是 Appium 当前查找元素的界面环境，常见值为 `NATIVE_APP` (原生视图) 和 `WEBVIEW` (内嵌网页视图)。两棵元素树和可用命令不同，所以先记录 contexts 和当前值，等待 WebView 页面加载后切换；网页用 CSS/DOM 策略，原生用 accessibility id/resource id，完成后显式切回。上下文缺失时检查构建调试开关、页面加载和驱动日志。
 {% endflashcard %}
 
 ## 参考资料

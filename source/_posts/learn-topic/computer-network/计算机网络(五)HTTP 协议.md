@@ -647,17 +647,19 @@ HTTP 中资源、表示和消息分别是什么？
 --- answer
 资源是请求目标概念，表示是资源在某时刻以某种媒体类型呈现的数据，消息是承载 HTTP 语义、字段和内容的协议载体。
 --- explanation
-同一资源可以按语言、格式或编码产生不同表示；请求/响应消息携带选择和传输这些表示所需的字段。旧资料中的实体术语应迁移到这个现代模型。
-
-阅读一条 HTTP 消息时，可以先拆出语义，再看线格式：
+资源是被请求的对象或概念，例如订单集合 `/items`；表示是描述该资源的一种具体字节形式，例如 JSON、HTML、某种语言或编码；消息则是承载请求/响应语义的信封，包含起始行、字段和内容。一个资源可以有多个表示，客户端通过 `Accept` 等字段表达偏好，服务器用 `Content-Type` 说明实际返回的表示。
 
 ~~~http
 GET /items HTTP/1.1
-Host: example.test
+Accept: application/json
 
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[{"id": 1}]
 ~~~
 
-空行只结束字段区域；内容是否结束还要结合 Content-Length、分块或协议版本。HTTP/2/3 改变线格式，不改变方法、状态、字段和内容这些语义。
+这里 `/items` 是资源，JSON 数组是表示，整个请求和响应分别是消息。旧资料中的“实体”应放回内容/表示语境；HTTP/2/3 改变线格式，不改变这些方法、状态、字段和内容语义。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-002 deck:"计算机网络" priority:1 tags:"HTTP,请求,响应" %}
@@ -666,17 +668,22 @@ HTTP 请求和响应各自的起始行、字段、内容边界如何阅读？
 --- answer
 请求起始行是方法/目标/版本，响应起始行是版本/状态码/短语；随后是字段，空行后可能有内容，内容长度和分帧还要看字段及协议版本。
 --- explanation
-空行只结束字段区域，不自动说明整个响应的内容长度。HTTP/2/3 的线格式不同，但语义仍可映射到方法、状态、字段和内容。
-
-阅读一条 HTTP 消息时，可以先拆出语义，再看线格式：
+请求的起始行包含方法、目标和版本；响应的起始行包含版本、状态码和原因短语；两者后面都是字段，空行只表示字段区结束。空行之后是否还有多少内容，要继续看 `Content-Length`、分块传输、连接关闭或 HTTP/2/3 的帧结束标记。
 
 ~~~http
-GET /items HTTP/1.1
+POST /items HTTP/1.1
 Host: example.test
+Content-Length: 13
 
+{"name":"A"}
+
+HTTP/1.1 201 Created
+Content-Length: 10
+
+{"id": 1}
 ~~~
 
-空行只结束字段区域；内容是否结束还要结合 Content-Length、分块或协议版本。HTTP/2/3 改变线格式，不改变方法、状态、字段和内容这些语义。
+HTTP/2/3 不再使用 HTTP/1.1 的文本线格式，但仍能映射出方法、状态、字段和内容边界。看到一个空行不能直接把后续字节当成完整响应，也不能仅凭起始行判断业务处理成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-003 deck:"计算机网络" priority:1 tags:"HTTP,方法,幂等性" %}
@@ -685,17 +692,15 @@ Host: example.test
 --- answer
 安全性描述方法预期不改变目标状态，幂等性描述重复执行的预期状态效果，可缓存性描述响应能否由缓存复用；三者不能互相直接推导。
 --- explanation
-GET 通常安全且幂等，但不代表业务没有日志等副作用；POST 通常非幂等；缓存还受响应字段、状态、Vary 和用户上下文影响。
+这三个词回答不同问题：安全性问“按方法的预期，是否改变服务器资源状态”；幂等性问“重复执行后，预期最终效果是否和执行一次相同”，不代表没有日志等副作用；可缓存性问“响应能否在条件满足时被缓存复用”。
 
-这些术语最好分列判断：
-
-| 维度 | 问的是什么 | 例子 |
+| 维度 | 问的是什么 | 常见例子 |
 | --- | --- | --- |
-| 安全性 | 预期是否改变目标状态 | GET 通常安全 |
-| 幂等性 | 重复执行的预期效果 | PUT 通常可幂等 |
-| 可缓存性 | 响应能否被缓存复用 | 仍受字段和上下文影响 |
+| 安全性 | 是否预期改变目标状态 | `GET` 通常安全 |
+| 幂等性 | 重复执行的预期最终效果 | `PUT` 通常可幂等 |
+| 可缓存性 | 响应能否被缓存复用 | 仍受字段、`Vary` 和用户上下文影响 |
 
-方法名称不能替代 API 契约；状态码也只能说明 HTTP 层，不说明 DNS/TCP/TLS 已全部成功。
+所以一个方法可以幂等却不安全，也可以安全但因响应头或私有数据不适合共享缓存。方法名称不能替代 API 契约；状态码也只能说明 HTTP 层，不说明 DNS/TCP/TLS 已全部成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-004 deck:"计算机网络" priority:1 tags:"HTTP,GET,POST,PUT,PATCH" %}
@@ -704,17 +709,17 @@ GET、POST、PUT、PATCH、DELETE 的核心边界是什么？
 --- answer
 GET 获取，POST 提交处理或创建，PUT 以给定表示创建/替换，PATCH 做部分修改，DELETE 删除目标当前关联；具体资源语义仍由 API 契约定义。
 --- explanation
-不要把 POST 等同于“有请求体”、PUT 等同于“全量更新”的绝对规则。方法语义、幂等性和应用接口设计要一起阅读。
+方法表达的是对资源的意图，不是“有没有请求体”的语法开关：
 
-这些术语最好分列判断：
-
-| 维度 | 问的是什么 | 例子 |
+| 方法 | 常见语义 | 幂等/安全的典型边界 |
 | --- | --- | --- |
-| 安全性 | 预期是否改变目标状态 | GET 通常安全 |
-| 幂等性 | 重复执行的预期效果 | PUT 通常可幂等 |
-| 可缓存性 | 响应能否被缓存复用 | 仍受字段和上下文影响 |
+| `GET` | 获取表示 | 通常安全且幂等 |
+| `POST` | 创建或执行一次动作 | 通常非幂等 |
+| `PUT` | 用给定表示替换目标 | 按契约通常幂等 |
+| `PATCH` | 对目标做部分修改 | 是否幂等取决于补丁语义 |
+| `DELETE` | 删除目标 | 最终状态通常幂等，但响应和副作用仍由契约定义 |
 
-方法名称不能替代 API 契约；状态码也只能说明 HTTP 层，不说明 DNS/TCP/TLS 已全部成功。
+不要把 `POST` 等同于“有请求体”、`PUT` 等同于“全量更新”；要结合资源模型、重复请求风险、状态码和应用 API 契约判断。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-005 deck:"计算机网络" priority:1 tags:"HTTP,状态码" %}
@@ -723,17 +728,16 @@ HTTP 状态码 2xx、3xx、4xx、5xx 如何按层次解释？
 --- answer
 2xx 表示成功处理，3xx 表示重定向或条件结果，4xx 表示请求/客户端上下文问题，5xx 表示服务端或网关处理失败。
 --- explanation
-状态码只能证明 HTTP 层的观察结果。DNS 失败、TCP 拒绝、TLS 证书错误通常没有 HTTP 状态码，应先区分是否收到响应。
+状态码首先说明“已经收到 HTTP 响应的这一层发生了什么”：
 
-这些术语最好分列判断：
-
-| 维度 | 问的是什么 | 例子 |
+| 类别 | 主要含义 | 例子 |
 | --- | --- | --- |
-| 安全性 | 预期是否改变目标状态 | GET 通常安全 |
-| 幂等性 | 重复执行的预期效果 | PUT 通常可幂等 |
-| 可缓存性 | 响应能否被缓存复用 | 仍受字段和上下文影响 |
+| `2xx` | 请求被成功处理 | `200`、`201` |
+| `3xx` | 需要重定向或使用缓存条件 | `301`、`304` |
+| `4xx` | 服务器认为请求或权限有问题 | `400`、`401`、`404` |
+| `5xx` | 服务器或网关处理失败 | `500`、`502`、`504` |
 
-方法名称不能替代 API 契约；状态码也只能说明 HTTP 层，不说明 DNS/TCP/TLS 已全部成功。
+DNS 失败、TCP 拒绝和 TLS 证书错误通常根本没有 HTTP 状态码；先区分“是否收到响应”，再解释状态码，不能把所有失败都写成 4xx/5xx。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-006 deck:"计算机网络" priority:1 tags:"HTTP,重定向" %}
@@ -795,7 +799,7 @@ Cookie、同源策略和 CORS 分别解决什么问题？
 --- answer
 Cookie 管理 HTTP 状态，同源策略限制脚本跨源交互，CORS 让服务端声明哪些跨源浏览器上下文可被允许。
 --- explanation
-CORS 不是认证，也不是让所有客户端自动遵守的防火墙。curl 通常不会执行浏览器同源策略，因此 curl 成功不能证明 Fetch 成功。
+Cookie 是浏览器按域名、路径和安全属性保存并发送的会话材料；同源策略 (SOP) 限制一个来源的脚本读取另一个来源的响应；CORS 是服务器通过响应头向浏览器声明“哪些跨源脚本可以读取”。CORS 不是认证，也不是所有客户端都自动遵守的防火墙。
 
 浏览器问题需要保留请求上下文：
 
@@ -805,7 +809,7 @@ Access-Control-Request-Method: PUT
 Access-Control-Request-Headers: authorization
 ~~~
 
-服务端的许可字段、凭据模式和实际响应读取权限分别决定预检、发送和脚本可见性；curl 成功不等于浏览器上下文也会成功。
+服务端的许可字段、浏览器的凭据模式和实际响应读取权限分别决定预检、发送和脚本可见性。`curl` 通常不会执行浏览器同源策略，因此 `curl` 成功不等于 Fetch 成功，也不等于 Cookie、代理或浏览器证书上下文一致。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-010 deck:"计算机网络" priority:1 tags:"HTTP,CORS,预检" %}
@@ -814,9 +818,7 @@ CORS 预检请求会携带什么，服务端需要证明什么？
 --- answer
 浏览器可能先发 OPTIONS，并携带 Origin、Access-Control-Request-Method、Access-Control-Request-Headers；服务端需返回匹配的 Allow-Origin、Allow-Methods、Allow-Headers 等许可。
 --- explanation
-预检失败时实际请求可能根本没有发送；实际请求已有响应但脚本仍报错，则要检查响应读取权限和凭据规则。
-
-浏览器问题需要保留请求上下文：
+预检是浏览器在发送某些跨源实际请求前发出的 `OPTIONS` 请求，用来询问方法、请求头和凭据是否被允许。它通常携带：
 
 ~~~http
 Origin: https://app.example
@@ -824,7 +826,7 @@ Access-Control-Request-Method: PUT
 Access-Control-Request-Headers: authorization
 ~~~
 
-服务端的许可字段、凭据模式和实际响应读取权限分别决定预检、发送和脚本可见性；curl 成功不等于浏览器上下文也会成功。
+服务端需要用 `Access-Control-Allow-Origin`、`Access-Control-Allow-Methods`、`Access-Control-Allow-Headers` 等响应头证明这组来源、方法和请求头可用；带 Cookie 时还要匹配凭据规则。预检失败时实际请求可能根本没有发送；实际请求已有响应但脚本仍报错，则检查实际响应的允许来源和凭据规则。`curl` 成功不能代替浏览器预检验证。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-011 deck:"计算机网络" priority:2 tags:"HTTP,代理,502,504" %}
@@ -892,17 +894,15 @@ curl -i https://example.test/resource
 --- answer
 两者的请求上下文不同。浏览器可能执行同源策略、CORS 预检、Cookie SameSite、缓存和证书策略，curl 通常只按命令参数发送请求。
 --- explanation
-复现浏览器问题时记录 Origin、方法、请求头、凭据、证书和重定向链，不能只复制 URL。
+浏览器和 `curl` 的请求上下文可能不同：浏览器会执行同源策略和 CORS，可能自动带符合规则的 Cookie，使用页面代理和证书策略，还会处理 Fetch 的重定向/凭据模式；`curl` 默认不会替你执行这些浏览器限制。复现时记录 Origin、方法、实际请求头、凭据、证书和重定向链，不能只复制 URL。
 
-浏览器问题需要保留请求上下文：
+| 差异 | 浏览器可能做什么 | `curl` 默认行为 |
+| --- | --- | --- |
+| 跨源读取 | 检查 CORS 响应头 | 通常直接显示响应 |
+| 会话材料 | 按 Cookie/SameSite 等规则发送 | 需显式提供 Cookie |
+| 页面上下文 | 受代理、证书和 Origin 影响 | 由命令参数决定 |
 
-~~~http
-Origin: https://app.example
-Access-Control-Request-Method: PUT
-Access-Control-Request-Headers: authorization
-~~~
-
-服务端的许可字段、凭据模式和实际响应读取权限分别决定预检、发送和脚本可见性；curl 成功不等于浏览器上下文也会成功。
+因此 `curl` 成功只能证明该命令的请求成功，不能直接证明页面中的 Fetch 成功。
 {% endflashcard %}
 
 {% flashcard basic id:CN-HTTP-FAQ-004 deck:"计算机网络" priority:2 tags:"HTTP,304,缓存" %}
@@ -929,15 +929,9 @@ Access-Control-Request-Headers: authorization
 --- answer
 这是常见但不完整的简化：401 关注认证凭据缺失或无效，403 表示服务器理解请求但拒绝授权。
 --- explanation
-实际系统还可能使用 404 隐藏资源存在性，必须结合 API 契约、认证字段和响应内容判断。
+通常可以这样记：`401 Unauthorized` 表示没有提供有效身份凭证，或凭证已过期/错误，客户端往往需要重新登录；`403 Forbidden` 表示服务端已经识别请求者，但权限策略拒绝这次操作。`401` 常伴随 `WWW-Authenticate`，但最终响应仍以 API 契约为准。
 
-状态码首先说明“某个 HTTP 端点如何回应”：
-
-~~~bash
-curl -i https://example.test/resource
-~~~
-
-收到 404/401/403 说明至少有 HTTP 响应可观察；资源路由、认证、授权和隐藏资源策略仍需结合响应头、请求上下文和 API 契约判断。
+实际系统还可能用 `404` 隐藏资源是否存在，避免被枚举。复现时结合认证字段、资源所有权、响应头和 API 契约判断；收到这三个状态都说明至少有 HTTP 响应可观察，却不能只用“未登录/没权限”两句口诀覆盖所有策略。
 {% endflashcard %}
 
 ## 参考资料

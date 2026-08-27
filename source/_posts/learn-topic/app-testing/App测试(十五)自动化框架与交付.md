@@ -302,7 +302,7 @@ Appium 的 driver Fixture 为什么通常从 function 作用域开始？
 --- answer
 每条用例独立建立和关闭会话，可以隔离页面、权限、账号和数据状态，让失败起点更可解释。
 --- explanation
-session 或 module 作用域可能更快，但需要证明清理完整且用例顺序不会影响结果。移动端状态复杂时先使用 function 作用域，等证据证明共享安全后再优化，并把设备与账号资源分配显式化。
+Fixture 是测试框架负责准备资源、在用例结束后清理资源的函数。`function` 作用域表示每条用例都新建并关闭一次 driver session；`session` 或 `module` 作用域可以更快，但会共享页面、权限、账号或数据状态，需要证明清理完整且用例顺序不会影响结果。移动端状态复杂时先使用 function 作用域，等证据证明共享安全后再优化，并把设备与账号资源分配显式化。
 {% endflashcard %}
 
 {% flashcard basic id:app-testing-flaky-retry-boundary deck:"App测试" priority:1 tags:"pytest,稳定性" %}
@@ -311,7 +311,7 @@ session 或 module 作用域可能更快，但需要证明清理完整且用例�
 --- answer
 只对已确认的瞬时环境错误有限重试，并保留首次失败；确定性的断言、定位和数据污染不能靠重试掩盖。
 --- explanation
-重试前定义失败分类、次数和证据字段。设备短暂 offline 可以重连并标为环境问题，业务断言失败应直接保存工件并修复根因，重试后通过也要保留 flaky 趋势。
+`flaky` 用来描述“代码和输入没有改变，但同一用例有时通过、有时失败”的不稳定现象。重试前定义失败分类、次数和证据字段；设备短暂 `offline` 可以重连并标为环境问题，业务断言失败应直接保存工件并修复根因。重试后通过也要保留首次失败和 flaky 趋势，不能把偶然成功当成稳定通过。
 {% endflashcard %}
 
 ## 参考资料

@@ -185,7 +185,7 @@ Monkey 的结论应写成“在某设备、某构建、某 seed 和某事件策�
 --- answer
 seed 决定伪随机事件序列；没有它就无法重放同一输入并收敛失败。
 --- explanation
-复现还需要同一 APK、设备、数据和事件参数。先用相同 seed 与 count 重跑，确认环境一致，再逐步缩短事件数，最后把最小序列转为有业务断言的人工或自动化用例。
+Monkey 是 Android 用来连续发送伪随机触摸、按键和生命周期事件的命令行工具；`seed` 是生成这串伪随机事件的起始数字，`count` 是事件数量。复现还需要同一 APK、设备、数据和事件参数：先用相同 seed 与 count 重跑，确认环境一致，再逐步缩短事件数，最后把最小序列转为有业务断言的人工或自动化用例。
 {% endflashcard %}
 
 {% flashcard basic id:app-testing-monkey-ignore-errors deck:"App测试" priority:1 tags:"Monkey,稳定性" %}
@@ -194,7 +194,7 @@ seed 决定伪随机事件序列；没有它就无法重放同一输入并收敛
 --- answer
 它们只让 Monkey 继续发送事件或改变退出行为，不能消除 Crash、ANR 或业务错误。
 --- explanation
-忽略选项适合探索性长跑，但报告必须保留原始输出、错误计数和系统日志。发现异常后应停止扩大运行，按 seed、时间线和系统证据复现，而不是用忽略参数掩盖失败。
+`--ignore-crashes` 或 `--ignore-timeouts` 只改变 Monkey 遇到异常后是否继续发送事件，不会让 Crash (进程崩溃)、ANR (应用无响应) 或业务错误消失。忽略选项适合探索性长跑，但报告必须保留原始输出、错误计数和系统日志；发现异常后应停止扩大运行，按 seed、时间线和系统证据复现，而不是用忽略参数掩盖失败。
 {% endflashcard %}
 
 ## 参考资料

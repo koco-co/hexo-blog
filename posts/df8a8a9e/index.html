@@ -1,0 +1,1985 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>AI 编程工作流插件选型指南 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="对比 8 个超过一万 Star 的 AI 编程工作流项目, 逐项解释 Skills、需求到交付的流程、优势与限制, 帮助开发者按实际场景选择。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 编程工作流插件选型指南">
+<meta property="og:url" content="https://koco-co.github.io/posts/df8a8a9e/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="对比 8 个超过一万 Star 的 AI 编程工作流项目, 逐项解释 Skills、需求到交付的流程、优势与限制, 帮助开发者按实际场景选择。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A208.png">
+<meta property="article:published_time" content="2026-08-27T08:24:15.000Z">
+<meta property="article:modified_time" content="2026-08-27T09:05:52.480Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="AI编程">
+<meta property="article:tag" content="Coding Agent">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A208.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AI 编程工作流插件选型指南",
+  "url": "https://koco-co.github.io/posts/df8a8a9e/",
+  "image": "https://koco-co.github.io/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A208.png",
+  "datePublished": "2026-08-27T08:24:15.000Z",
+  "dateModified": "2026-08-27T09:05:52.480Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/df8a8a9e/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AI 编程工作流插件选型指南',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">151</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A208.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">AI 编程工作流插件选型指南</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">AI 编程工作流插件选型指南<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/ai-guides/AI编程工作流插件选型指南.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-27T08:24:15.000Z" title="发表于 2026-08-27 16:24:15">2026-08-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-27T09:05:52.480Z" title="更新于 2026-08-27 17:05:52">2026-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI%E5%BC%80%E5%8F%91/">AI开发</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">16.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>51分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>一个 PR 可以编译通过、测试全绿, 同时仍然做错需求。测试只覆盖了实现者选择的路径, 规格中的异常行为没有进入任务列表, 讨论中已经否决的方案又被带回代码。这些问题很难靠一句“请遵循最佳实践”解决。</p>
+<p>Coding Agent 工作流插件试图把这些容易遗漏的环节固定下来: 哪些问题必须在编码前决定, 实现依据保存在哪里, 谁检查代码与需求是否一致, 完成声明需要哪些证据。它们的差异也在这里。都有 plan、review 和 test, 不代表对开发过程施加了相同的约束。</p>
+<p>纳入比较的 8 个项目均超过 10,000 Star, 包括原生插件、具有完整开发主线的 Skills 套件, 以及向 Agent 分发指令的规格工具。通用工具合集、资源导航和独立 Agent 客户端不在讨论范围内。</p>
+<p>选型的起点是项目最常发生的返工: 业务规则没有决定, 需要改善需求讨论; 规则已经明确却没有被实现, 需要约束执行; 相同问题反复出现, 则需要保留并复用工程经验。</p>
+<div class="note info flat"><p>Star 用于筛选社区关注度。功能和流程以官方文档、分发清单及 Skill 源文件为依据; 选型结论是对这些机制的分析, 不代表在统一项目、模型和环境下的性能排名。</p>
+</div>
+<h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2><p>开发流程的差距经常出现在阶段交接处: 需求没有进入任务, 任务完成后没有回归, 审查问题尚未处理便开始交付。比较插件时, 应看这些交接怎样发生、凭什么进入下一阶段。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart TD
+    A[需求澄清: 目标与边界] --&gt; B[设计与规格: 行为和约束]
+    B --&gt; C[任务拆分: 小步与依赖]
+    C --&gt; D[实现: 代码与测试]
+    D --&gt; E[验证与审查: 证据和风险]
+    E --&gt; F[交付与沉淀: PR 和项目知识]
+    E --&gt;|发现偏差| C
+    F --&gt;|下一轮需求| A
+  </pre></div>
+<p>流程可以概括为: <strong>需求澄清 → 设计与规格 → 任务拆分 → 实现 → 验证与审查 → 交付与沉淀</strong>。各项目对这条流程的投入并不均衡: Spec Kit、OpenSpec 更突出规格的组织和演进; Superpowers 更突出实施与验证纪律; BMAD 展开产品和技术决策; Compound 则把已解决问题重新送入后续开发。</p>
+<p>Skill、宿主 Agent 和检查工具各负其责。Skill 描述工作方法, 宿主提供文件、终端和子 Agent 等能力, 测试与构建工具产生结果。评价某个工作流是否有效, 要看这些步骤是否实际执行, 不能只看指令中是否写了“必须验证”。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>实际含义</th>
+<th>阅读清单时的注意点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Skill</td>
+<td>一组可复用的任务指令, 常以 <code>SKILL.md</code> 为入口</td>
+<td>可能包含脚本和引用文件, 不等于一段提示词</td>
+</tr>
+<tr>
+<td>Command</td>
+<td>用户显式启动流程的命令入口</td>
+<td>一个命令可能对应一个 Skill, 也可能协调多个 Skill</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>执行任务的角色或独立上下文</td>
+<td>“扮演架构师”不自动等于启动一个独立子 Agent</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>清单因此区分 Skill、命令和角色, 不把兼容别名或客户端镜像重复算作新能力。名称链接到对应源文件, 可以直接检查其输入、执行步骤和停止条件。</p>
+<h2 id="插件概览"><a href="#插件概览" class="headerlink" title="插件概览"></a>插件概览</h2><p>按 Star 数排列, 八个项目分别把重点放在规格、执行、产品交付或工程知识积累上。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>项目与仓库</th>
+<th style="text-align:right">Stars</th>
+<th>最突出的工作流重心</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers">Superpowers</a></td>
+<td style="text-align:right">278,309</td>
+<td>设计、计划、TDD、审查和完成前验证</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills">Matt Pocock Skills</a></td>
+<td style="text-align:right">238,336</td>
+<td>追问决策、规格与工单、可接续的工程实现</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit">GitHub Spec Kit</a></td>
+<td style="text-align:right">131,765</td>
+<td>原则、规格、技术方案、任务之间的可追溯关系</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack">gstack</a></td>
+<td style="text-align:right">129,934</td>
+<td>产品评审、浏览器 QA、PR 与上线后检查</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills">Addy Osmani Agent Skills</a></td>
+<td style="text-align:right">90,126</td>
+<td>从规格到交付的工程实践, 包括性能、安全和可观测性</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec">OpenSpec</a></td>
+<td style="text-align:right">66,386</td>
+<td>以一次变更为单位维护提案、增量规格和实现任务</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD">BMAD-METHOD</a></td>
+<td style="text-align:right">52,366</td>
+<td>产品、架构、UX、开发等视角协作与项目交付</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin">Compound Engineering</a></td>
+<td style="text-align:right">24,587</td>
+<td>计划、执行、审查, 再把解决经验反馈给下一轮开发</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>各节先讨论工作机制和采用成本, Skills 表保留完整分发清单。辅助能力与兼容入口折叠展示, 便于按名称查阅。</p>
+<h2 id="Superpowers"><a href="#Superpowers" class="headerlink" title="Superpowers"></a>Superpowers</h2><h3 id="实施与验证"><a href="#实施与验证" class="headerlink" title="实施与验证"></a>实施与验证</h3><p>Superpowers 的核心是把实施计划、任务执行和审查连接起来。它对开发过程的要求比较具体: 设计先经过确认, 计划拆到可执行步骤, 行为修改通过 TDD 推进, 完成前重新运行对应验证。对于已经知道要做什么、却经常在实施细节上失控的项目, 这种约束比继续扩充需求文档更直接。</p>
+<p>常见路径是 <code>brainstorming</code> → <code>using-git-worktrees</code> → <code>writing-plans</code> → <code>subagent-driven-development</code>。如果没有合适的子 Agent 能力, 则通过 <code>executing-plans</code> 执行已有计划。TDD、调试与验证贯穿实施, 最后由 <code>finishing-a-development-branch</code> 处理分支收尾。<a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/README.md">工作流入口</a></p>
+<p>v6.3.0 的子 Agent 流程为每项任务分配新的实施上下文, 任务审查同时检查规格符合性与代码质量, 全部任务结束后再做整条分支的审查。局部任务正确, 不代表集成后的行为也正确, 最后一轮检查正是为了补上这个差距。<a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/subagent-driven-development/SKILL.md">任务与分支审查</a></p>
+<p><code>verification-before-completion</code> 则约束结果表达: 编译成功不能推导出测试通过, 测试通过也不能直接推导出全部需求已满足。它要求把每一项完成声明对应到实际检查, 而非接受实施 Agent 的自述。<a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/verification-before-completion/SKILL.md">完成前验证</a></p>
+<h3 id="Skills-清单"><a href="#Skills-清单" class="headerlink" title="Skills 清单"></a>Skills 清单</h3><p>v6.3.0 包含 14 个 Skills。前 12 个覆盖日常开发, 最后两个负责套件使用与 Skill 本身的建设。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/brainstorming/SKILL.md">brainstorming</a></td>
+<td>开始新功能或行为改动前</td>
+<td>追问目标、约束和备选设计, 形成经确认的设计方案, 再进入实现计划。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/using-git-worktrees/SKILL.md">using-git-worktrees</a></td>
+<td>需要隔离开发现场时</td>
+<td>选择独立工作区, 检查仓库状态和测试基线, 避免与当前修改混在一起。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/writing-plans/SKILL.md">writing-plans</a></td>
+<td>已有设计或明确规格时</td>
+<td>拆出具体文件、实施步骤和验证动作, 形成可以交给下一执行阶段的计划。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/subagent-driven-development/SKILL.md">subagent-driven-development</a></td>
+<td>同一会话执行可拆分计划时</td>
+<td>每项任务使用新的实施上下文, 任务审查同时检查规格与质量, 最后审查整条分支。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/executing-plans/SKILL.md">executing-plans</a></td>
+<td>在另一会话执行已有计划时</td>
+<td>先审查计划, 再逐项实施与验证; 遇到阻塞时停止, 全部完成后进入分支收尾。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/test-driven-development/SKILL.md">test-driven-development</a></td>
+<td>新行为或 Bug 修复时</td>
+<td>先观察测试失败, 再写最少实现, 最后重构, 保持红绿重构循环。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/systematic-debugging/SKILL.md">systematic-debugging</a></td>
+<td>测试失败或行为异常时</td>
+<td>复现问题、收集证据、定位原因并验证假设, 避免连续猜测式修补。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/requesting-code-review/SKILL.md">requesting-code-review</a></td>
+<td>任务完成或准备集成时</td>
+<td>把改动、要求和范围交给审查者, 获取可以执行的反馈。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/receiving-code-review/SKILL.md">receiving-code-review</a></td>
+<td>收到审查意见时</td>
+<td>理解并验证反馈, 处理合理问题, 对不适用建议说明技术依据。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/dispatching-parallel-agents/SKILL.md">dispatching-parallel-agents</a></td>
+<td>存在互不依赖的问题时</td>
+<td>分派独立任务并收集结果; 共享状态或依赖紧密的工作不宜直接并行。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/verification-before-completion/SKILL.md">verification-before-completion</a></td>
+<td>准备宣称修复或完成时</td>
+<td>实际运行对应检查, 阅读结果, 让完成声明与本次证据相匹配。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/finishing-a-development-branch/SKILL.md">finishing-a-development-branch</a></td>
+<td>实现和测试结束时</td>
+<td>检查状态后提供合并、PR、保留或放弃等收尾路径, 按选择处理分支。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="folding-tag" blue><summary> 套件与 Skill 维护 </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th>Skill</th><th>使用时机</th><th>职责与产出</th></tr></thead><tbody><tr><td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/using-superpowers/SKILL.md">using-superpowers</a></td><td>开始处理任务时</td><td>识别应加载的 Skills 及其使用规则, 负责流程入口与路由。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/blob/v6.3.0/skills/writing-skills/SKILL.md">writing-skills</a></td><td>新建或修改 Skill 时</td><td>编写并测试 Skill 指令, 检查其是否真的改变 Agent 行为。</td></tr></tbody></table></div>
+              </div>
+            </details>
+<h3 id="使用取舍"><a href="#使用取舍" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>Superpowers 的优势集中在需求明确之后。它适合已有代码库中的功能开发、重构和缺陷修复, 尤其适合将“实现后统一看看”改成逐任务检查。任务之间能够划清边界时, 新上下文也更容易围绕有限目标工作。</p>
+<p>代价来自任务交接和审查。跨模块高度耦合的修改若被过度拆分, 每个执行者都要重新理解同一套约束, 协调成本可能超过并行收益。业务规则仍需在设计阶段确认, 不能指望后续代码审查替团队决定需求。</p>
+<h2 id="Matt-Pocock"><a href="#Matt-Pocock" class="headerlink" title="Matt Pocock"></a>Matt Pocock</h2><h3 id="决策与工单"><a href="#决策与工单" class="headerlink" title="决策与工单"></a>决策与工单</h3><p>Matt Pocock Skills 更重视编码之前的决策质量。<code>grill-with-docs</code> 会持续追问并维护 <code>CONTEXT.md</code> 与 ADR, 将讨论中的约定保留下来。这里的 ADR 是架构决策记录, 不只写选了哪个方案, 也让后续执行者能够理解取舍。</p>
+<p>主流程有一个明确分支: 能在当前会话完成的小任务直接进入 <code>implement</code>; 需要跨会话推进的工作, 则先经过 <code>to-spec</code> → <code>to-tickets</code>, 再逐个实施。工单按能够验证的纵向功能切片拆分, 并声明阻塞关系, 从而减少执行者对整段聊天记录的依赖。<a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/ask-matt/SKILL.md">官方流程</a></p>
+<p>这套方法对上下文的处理也有区分。需求追问、规格和工单生成尽量沿用同一段讨论, 保留推理的连续性; 进入每张工单的实施时再使用新的上下文。单独做技术试验时, 通过 <code>prototype</code> 和 <code>handoff</code> 带回结论, 不把试验代码直接视为正式实现。</p>
+<p>因此, 它适合处理“讨论似乎已经说清楚, 换个会话又解释一遍”的协作问题。<code>implement</code> 内部驱动 TDD, 并在提交前从工程标准与规格两方面审查差异; 需求分析与工程实施并没有被割裂成两套独立工具。</p>
+<h3 id="Skills-清单-1"><a href="#Skills-清单-1" class="headerlink" title="Skills 清单"></a>Skills 清单</h3><p>这里按插件 v1.2.3 的分发清单列出 <strong>25 个 Skills: 18 个 engineering, 7 个 productivity</strong>。仓库里的实验目录与其他零散 Skill 没有因此全部算进插件。<a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/.claude-plugin/plugin.json">插件清单</a></p>
+<p>先看需求、研究和决策:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/ask-matt/SKILL.md">ask-matt</a></td>
+<td>不确定下一步该用什么时</td>
+<td>解释这套工程流程, 根据项目状态选择合适的 Skill 和衔接路径。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/setup-matt-pocock-skills/SKILL.md">setup-matt-pocock-skills</a></td>
+<td>首次在项目中使用时</td>
+<td>配置工单系统、标签和文档习惯, 让后续流程遵循同一项目约定。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/grill-with-docs/SKILL.md">grill-with-docs</a></td>
+<td>需要长期保留需求讨论时</td>
+<td>在工作目录中逐项追问, 将决策维护到上下文和 ADR 等文档。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/wayfinder/SKILL.md">wayfinder</a></td>
+<td>大型且模糊的工作开始前</td>
+<td>梳理未知、决策和探索路径, 产出方向图; 不直接等同于实施计划。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/research/SKILL.md">research</a></td>
+<td>需要资料支撑技术选择时</td>
+<td>优先查找一手资料并形成研究结论, 为后续决策提供依据。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/prototype/SKILL.md">prototype</a></td>
+<td>需要验证具体技术假设时</td>
+<td>用隔离的试验回答问题, 记录发现; 试验代码不自动成为正式实现。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/domain-modeling/SKILL.md">domain-modeling</a></td>
+<td>业务概念混乱或边界不清时</td>
+<td>澄清领域术语、模型和关键区别, 减少同词异义导致的设计偏差。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/to-spec/SKILL.md">to-spec</a></td>
+<td>决策足够明确且需跨会话时</td>
+<td>将讨论整理为可实施规格, 固定范围、行为和验收要求。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/to-tickets/SKILL.md">to-tickets</a></td>
+<td>规格需要分批落地时</td>
+<td>拆成可验证的纵向工单, 说明阻塞关系与实施顺序。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>实现与维护部分:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/implement/SKILL.md">implement</a></td>
+<td>已有工单、规格或明确小任务时</td>
+<td>执行修改并结合 TDD 与审查, 将要求变成可以检查的代码结果。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/tdd/SKILL.md">tdd</a></td>
+<td>增加行为或修复缺陷时</td>
+<td>通过行为测试驱动实现, 以小步红绿循环控制改动范围。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/code-review/SKILL.md">code-review</a></td>
+<td>实现完成后</td>
+<td>分别检查工程标准与规格符合性, 避免代码漂亮却做错需求。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/diagnosing-bugs/SKILL.md">diagnosing-bugs</a></td>
+<td>已知异常尚未定位时</td>
+<td>优先建立短反馈回路和失败复现, 验证原因并补回归保护。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/triage/SKILL.md">triage</a></td>
+<td>收到原始问题或外部 PR 时</td>
+<td>分类、补全信息并决定处理路径; 不把已生成的实施工单重新当原始线索。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/codebase-design/SKILL.md">codebase-design</a></td>
+<td>讨论模块与接口设计时</td>
+<td>提供模块深度、边界和接口设计原则, 支持结构判断而非代替整个执行流程。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/improve-codebase-architecture/SKILL.md">improve-codebase-architecture</a></td>
+<td>现有代码难以维护时</td>
+<td>识别浅模块、耦合与重构机会, 形成便于讨论的架构改进报告。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/resolving-merge-conflicts/SKILL.md">resolving-merge-conflicts</a></td>
+<td>分支合并发生冲突时</td>
+<td>结合两侧修改意图解决冲突, 避免只按文本选择一边。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/engineering/wizard/SKILL.md">wizard</a></td>
+<td>下一步必须由人操作时</td>
+<td>生成可跟随的人类操作步骤, 用于账号、凭据、基础设施等 Agent 无法代办的动作。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="folding-tag" blue><summary> 沟通与交接 Skills </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th>Skill</th><th>使用时机</th><th>职责与产出</th></tr></thead><tbody><tr><td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/grill-me/SKILL.md">grill-me</a></td><td>临时讨论想法时</td><td>追问关键假设与决策, 不要求建立持久化的讨论目录。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/grilling/SKILL.md">grilling</a></td><td>需要结构化追问方法时</td><td>提供共享的追问过程, 支撑其他讨论型 Skills。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/handoff/SKILL.md">handoff</a></td><td>换会话、工具或协作者时</td><td>整理任务状态、决策和下一步, 减少接手者重新推断上下文。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/teach/SKILL.md">teach</a></td><td>需要理解知识而非立即实现时</td><td>用教学方式解释概念和推理过程, 帮助使用者自己作判断。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/to-questionnaire/SKILL.md">to-questionnaire</a></td><td>缺少外部人员的决定时</td><td>把未解决问题转成可交给相关人的问卷, 收集后再推进。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/wait-what/SKILL.md">wait-what</a></td><td>当前解释难以理解时</td><td>重新解释、澄清术语和推理, 修复沟通断点。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/skills/productivity/writing-for-agents/SKILL.md">writing-for-agents</a></td><td>编写供 Agent 使用的文档时</td><td>让指令和上下文清晰、可行动, 降低歧义及无关信息。</td></tr></tbody></table></div>
+              </div>
+            </details>
+<h3 id="使用取舍-1"><a href="#使用取舍-1" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>Matt Pocock Skills 的价值取决于决策能否沉淀为可独立执行的工单。一张工单需要交代行为、依赖和验收条件; 只写“按刚才讨论的做”, 就无法支持新的执行上下文。</p>
+<p>相比 Superpowers, 选择它的理由通常是需要更深入的需求追问与跨会话交接, 而不只是增加测试纪律。追问也有成本: 已经形成稳定规格的任务, 可以直接实施, 没必要重新审问每个决定。<code>grill-me</code>、<code>teach</code> 等辅助入口适合临时讨论, 不应全部加入产品交付的必经流程。</p>
+<h2 id="GitHub-Spec-Kit"><a href="#GitHub-Spec-Kit" class="headerlink" title="GitHub Spec Kit"></a>GitHub Spec Kit</h2><h3 id="规格与一致性"><a href="#规格与一致性" class="headerlink" title="规格与一致性"></a>规格与一致性</h3><p>Spec Kit 把开发依据组织成几类相互关联的产物: constitution 约束项目原则, <code>spec.md</code> 描述功能行为, <code>plan.md</code> 记录技术方案, <code>tasks.md</code> 指导实施。它让需求审查可以发生在代码出现之前, 也让代码审查有一份相对稳定的参照。</p>
+<p>完整路径可写作 <code>constitution</code> → <code>specify</code> → <code>clarify</code> → <code>plan</code> → <code>tasks</code> → <code>analyze</code> → <code>implement</code> → <code>converge</code>。其中 clarify 消除关键歧义, analyze 检查产物间的矛盾与遗漏, converge 在实施后把尚未完成的要求追加到任务文件, 再交回 implement。<a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/README.md">内置流程</a></p>
+<p>例如规格要求“只能导出当前用户有权查看的订单”, 计划和任务却只安排查询与 CSV 生成, 权限约束就可能在阶段交接时丢失。跨产物分析应检查这种覆盖缺口。它能够帮助审查需求如何进入实施, 但仍需要实际的越权用例验证代码行为。<a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/analyze.md">analyze 的检查范围</a></p>
+<p><code>checklist</code> 同样容易被误读。它检查的是需求是否完整、明确、可判断, 并非调用测试框架运行用例。这使 Spec Kit 更接近一套规格与实施的协作协议, 实际测试仍由项目工具完成。</p>
+<h3 id="命令与-Skills"><a href="#命令与-Skills" class="headerlink" title="命令与 Skills"></a>命令与 Skills</h3><p>v1.0.1 的 <strong>10 个内置入口</strong>来自命令模板, 可按客户端生成命令或 Skill。<code>/speckit.plan</code> 与 <code>speckit-plan</code> 是同一类工作的不同入口表示, 不应重复计算。扩展、预设和外部工作流不并入下面的内置清单。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/constitution.md">speckit-constitution</a></td>
+<td>项目建立或原则调整时</td>
+<td>定义必须遵循的工程原则和治理约束, 为后续规格与实现提供共同尺度。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/specify.md">speckit-specify</a></td>
+<td>收到功能需求时</td>
+<td>形成用户场景、功能要求和成功标准, 优先描述需要的行为。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/clarify.md">speckit-clarify</a></td>
+<td>规格仍存在歧义时</td>
+<td>找出会影响实现的缺口, 通过问题补全规格中的决定。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/plan.md">speckit-plan</a></td>
+<td>规格已足够明确时</td>
+<td>结合技术约束形成实施方案, 按需产出研究、数据模型及接口契约。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/tasks.md">speckit-tasks</a></td>
+<td>需要进入实施时</td>
+<td>根据方案拆分有依赖顺序的任务, 明确实施与检查工作。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/analyze.md">speckit-analyze</a></td>
+<td>任务生成后、实现前</td>
+<td>检查规格、计划和任务的矛盾、遗漏与覆盖关系, 输出一致性问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/checklist.md">speckit-checklist</a></td>
+<td>检查需求描述质量时</td>
+<td>生成并使用需求质量清单, 关注清楚、完整和可判断; 不是运行软件测试。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/implement.md">speckit-implement</a></td>
+<td>任务已就绪时</td>
+<td>按任务推进代码修改与相关检查, 更新实施进展。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/converge.md">speckit-converge</a></td>
+<td>implement 已执行、需核对剩余工作时</td>
+<td>对照规格、计划与当前代码, 只向 tasks.md 追加差距任务; 不修改产品代码或重写原任务。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/blob/v1.0.1/templates/commands/taskstoissues.md">speckit-taskstoissues</a></td>
+<td>团队要在 GitHub 跟踪任务时</td>
+<td>将任务转换成 GitHub Issues, 涉及对外写入, 需要对应仓库权限。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="使用取舍-2"><a href="#使用取舍-2" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>当团队需要讨论需求、审查方案并追溯实施依据时, Spec Kit 的文档结构很有价值。尤其是多人接手同一功能, 明确的规格比散落在聊天记录中的要求更容易核对。</p>
+<p>成本也来自这些相互关联的文件。需求发生变化后, 规格、计划和任务需要共同调整; 只改一份文件, 一致性就会下降。对于范围很小、验收条件已经写在 Issue 中的修复, 再生成全套产物可能只是增加维护负担。选用它之前, 应确定这些产物会由谁持续维护。</p>
+<h2 id="gstack"><a href="#gstack" class="headerlink" title="gstack"></a>gstack</h2><h3 id="评审与产品交付"><a href="#评审与产品交付" class="headerlink" title="评审与产品交付"></a>评审与产品交付</h3><p>gstack 把产品评审、设计评审、浏览器检查和交付操作放进同一个工作流。它的 CEO、工程师、设计师等名称对应不同审查视角: 产品评审讨论范围和值得解决的问题, 工程评审检查架构和失败路径, 设计评审关注交互与视觉。角色名称有助于切换关注点, 并不意味着已经获得相应岗位的专业判断。</p>
+<p>开发通常从 <code>office-hours</code> 或 <code>spec</code> 开始, 经计划评审后交给宿主 Agent 实现, 再进入 <code>review</code> 与 <code>qa</code>。<code>autoplan</code> 可以协调多种计划评审, 但实现后的运行检查仍是另一项工作。<a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/README.md">套件工作流</a></p>
+<p>gstack 对 Web 产品的吸引力在浏览器这一环。接口测试通过, 仍可能存在错误的按钮状态、窄屏布局或无法完成的登录路径。<code>qa</code> 检查并修复运行中的产品, <code>qa-only</code> 只报告问题; <code>plan-design-review</code> 评审设计方案, <code>design-review</code> 检查已实现界面。这些入口检查的对象不同, 不应相互替代。</p>
+<p>交付也分两层: <code>ship</code> 包含测试、差异审查、版本与变更记录、提交、推送及 PR; <code>land-and-deploy</code> 才继续处理合入和部署, <code>canary</code> 检查上线后的信号。区分这些步骤, 才能判断一次“交付完成”究竟停在哪个环境。<a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/ship/SKILL.md">ship 的执行范围</a></p>
+<h3 id="Skills-清单-2"><a href="#Skills-清单-2" class="headerlink" title="Skills 清单"></a>Skills 清单</h3><p>仓库安装脚本会扫描顶层 Skill 目录。这里列出 <strong>53 个顶层 Skills</strong>, 另列根目录的 <strong>gstack 路由 Skill</strong>, 不把其他客户端的镜像再算一遍。实际可用的能力仍受浏览器、设备、服务和宿主工具支持限制。<a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/setup">安装脚本</a></p>
+<p>产品与方案阶段:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/office-hours/SKILL.md">office-hours</a></td>
+<td>产品方向还不明确时</td>
+<td>追问用户、问题与价值, 挑战最初方案, 收敛值得构建的方向。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/spec/SKILL.md">spec</a></td>
+<td>需要把意图交给执行阶段时</td>
+<td>将想法转成明确、可执行的规格, 减少实现阶段自由补全需求。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/plan-ceo-review/SKILL.md">plan-ceo-review</a></td>
+<td>审查产品与范围时</td>
+<td>从产品价值和业务方向检查方案, 讨论应扩大、收缩还是维持范围。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/plan-eng-review/SKILL.md">plan-eng-review</a></td>
+<td>编码前检查技术方案时</td>
+<td>审查架构、数据流、边界情况和测试设计, 发现执行前的工程风险。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/plan-design-review/SKILL.md">plan-design-review</a></td>
+<td>设计还停留在计划中时</td>
+<td>检查界面、交互和体验方案, 在实现前提出设计改进。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/plan-devex-review/SKILL.md">plan-devex-review</a></td>
+<td>计划涉及开发者产品时</td>
+<td>审查接入、API、文档与使用路径, 提前发现开发者体验问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/autoplan/SKILL.md">autoplan</a></td>
+<td>希望集中完成多视角评审时</td>
+<td>按决策原则协调产品、设计、工程和开发者体验评审, 汇总可执行方案。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/design-consultation/SKILL.md">design-consultation</a></td>
+<td>尚无统一视觉方向时</td>
+<td>梳理产品背景并建立设计系统, 约定风格、组件与视觉规则。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/design-shotgun/SKILL.md">design-shotgun</a></td>
+<td>需要比较不同设计方向时</td>
+<td>生成多种视觉方案供选择, 可能依赖外部图像服务。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/design-html/SKILL.md">design-html</a></td>
+<td>已选定视觉方案时</td>
+<td>将选中的设计转成可运行的 HTML/CSS 表达, 作为后续实现基础。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/diagram/SKILL.md">diagram</a></td>
+<td>复杂结构难以用文字解释时</td>
+<td>生成可编辑的 Excalidraw 图及 SVG/PNG 等交付物。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>实现后的检查与交付:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/review/SKILL.md">review</a></td>
+<td>准备提交或合入改动时</td>
+<td>审查差异中的正确性和工程风险, 形成需要处理的问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/investigate/SKILL.md">investigate</a></td>
+<td>发现失败但原因不明时</td>
+<td>建立复现并追踪根因, 用证据约束修复方向。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/qa/SKILL.md">qa</a></td>
+<td>Web 功能实现后</td>
+<td>在浏览器中测试用户路径, 发现问题后进入修复与回归循环。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/qa-only/SKILL.md">qa-only</a></td>
+<td>只允许检查而不修改时</td>
+<td>执行浏览器 QA 并报告发现, 不走自动修复路径。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/design-review/SKILL.md">design-review</a></td>
+<td>界面已经可以运行时</td>
+<td>检查实际 UI 的视觉和交互问题, 在授权范围内修正。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/devex-review/SKILL.md">devex-review</a></td>
+<td>产品可以实际接入时</td>
+<td>走查安装、入门、文档与 API 使用路径, 检验真实开发者体验。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/benchmark/SKILL.md">benchmark</a></td>
+<td>性能可能发生变化时</td>
+<td>采集浏览器性能基线并比较改动后的表现, 识别回归。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/cso/SKILL.md">cso</a></td>
+<td>需要安全检查时</td>
+<td>从攻击面和代码风险进行安全审查, 形成分级问题与处置建议。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/health/SKILL.md">health</a></td>
+<td>想跟踪代码健康情况时</td>
+<td>汇总代码质量指标与变化趋势, 帮助选择后续维护工作。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/ship/SKILL.md">ship</a></td>
+<td>改动准备交付为 PR 时</td>
+<td>串联检查、版本与变更记录、提交、推送和 PR 等步骤; 不等同于生产部署。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/setup-deploy/SKILL.md">setup-deploy</a></td>
+<td>首次接入部署流程时</td>
+<td>建立后续上线流程使用的部署配置与约定。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/land-and-deploy/SKILL.md">land-and-deploy</a></td>
+<td>已授权合并和上线时</td>
+<td>协调合入、部署和上线检查, 并按流程处理失败及回退。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/canary/SKILL.md">canary</a></td>
+<td>部署之后</td>
+<td>检查上线后的运行状态与异常信号, 补上本地验证看不到的部分。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/landing-report/SKILL.md">landing-report</a></td>
+<td>想知道待合入任务状态时</td>
+<td>只读汇总交付队列, 查看阻塞与准备情况。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/retro/SKILL.md">retro</a></td>
+<td>一轮开发结束时</td>
+<td>从开发记录中总结进展、问题和可改进的工作习惯。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/document-generate/SKILL.md">document-generate</a></td>
+<td>缺少必要项目文档时</td>
+<td>根据项目事实生成文档, 支撑使用与维护。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/document-release/SKILL.md">document-release</a></td>
+<td>功能交付后</td>
+<td>同步受改动影响的说明和发布文档, 减少代码与文档脱节。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>移动端专用流程, 需要对应的 iOS 环境与设备能力:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/ios-sync/SKILL.md">ios-sync</a></td>
+<td>接入或更新设备调试能力时</td>
+<td>同步 DebugBridge 等开发调试支持, 让后续设备检查可运行。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/ios-qa/SKILL.md">ios-qa</a></td>
+<td>SwiftUI 功能完成后</td>
+<td>在真实设备上检查操作路径和功能表现, 记录问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/ios-design-review/SKILL.md">ios-design-review</a></td>
+<td>需要检查设备端 UI 时</td>
+<td>对真实设备上的界面与交互进行设计审查。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/ios-fix/SKILL.md">ios-fix</a></td>
+<td>设备上存在明确异常时</td>
+<td>在设备环境中复现、修复并回归验证问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/ios-clean/SKILL.md">ios-clean</a></td>
+<td>调试桥不应继续留在项目时</td>
+<td>清理 DebugBridge 与相关 DEBUG 接线, 控制调试设施的残留。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="folding-tag" blue><summary> 浏览器基础能力与执行护栏 </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th>Skill</th><th>使用时机</th><th>职责与产出</th></tr></thead><tbody><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/browse/SKILL.md">browse</a></td><td>需要自动操作网页时</td><td>提供持久浏览器会话和页面操作能力, 供 QA 等流程使用。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/open-gstack-browser/SKILL.md">open-gstack-browser</a></td><td>需要可见的交互浏览器时</td><td>打开可控制的 Chromium 会话, 支持人和 Agent 围绕同一页面协作。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/setup-browser-cookies/SKILL.md">setup-browser-cookies</a></td><td>测试需要已有登录状态时</td><td>将授权的浏览器登录状态提供给测试会话, 应严格限制账号与站点范围。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/pair-agent/SKILL.md">pair-agent</a></td><td>多个执行方需要共享浏览器时</td><td>建立远程 Agent 的浏览器协作通道, 需要明确访问权限。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/scrape/SKILL.md">scrape</a></td><td>页面数据需要结构化获取时</td><td>提取网页内容与数据, 为后续分析或自动化提供输入。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/skillify/SKILL.md">skillify</a></td><td>某个浏览器操作反复执行时</td><td>把抓取或操作流程整理为可复用的浏览器 Skill。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/careful/SKILL.md">careful</a></td><td>执行可能破坏数据的命令前</td><td>对危险操作增加提醒与约束, 降低误操作概率。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/freeze/SKILL.md">freeze</a></td><td>当前任务只能修改特定目录时</td><td>设置可写范围, 防止执行过程扩散到无关路径。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/unfreeze/SKILL.md">unfreeze</a></td><td>已确认可以解除目录限制时</td><td>解除 freeze 设置的修改范围约束。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/guard/SKILL.md">guard</a></td><td>同时需要范围与危险操作保护时</td><td>组合 careful 和 freeze 的约束。</td></tr></tbody></table></div>
+              </div>
+            </details>
+<details class="folding-tag" blue><summary> 上下文与套件维护 </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th>Skill</th><th>使用时机</th><th>职责与产出</th></tr></thead><tbody><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/SKILL.md">gstack</a></td><td>不知道应进入哪个工作阶段时</td><td>根据任务意图路由到对应 Skill, 提供套件总入口。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/context-save/SKILL.md">context-save</a></td><td>准备暂停或切换会话时</td><td>保存当前开发上下文, 为恢复任务留下信息。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/context-restore/SKILL.md">context-restore</a></td><td>继续此前任务时</td><td>恢复已保存的上下文, 减少重复梳理。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/learn/SKILL.md">learn</a></td><td>想保留可复用经验时</td><td>管理从工作中学到的规则与模式, 支撑后续任务。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/setup-gbrain/SKILL.md">setup-gbrain</a></td><td>需要可选的知识后端时</td><td>配置持久知识能力; 不属于运行核心开发流程的必选步骤。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/sync-gbrain/SKILL.md">sync-gbrain</a></td><td>仓库知识需要更新时</td><td>同步项目知识与 Agent 指导信息, 保持上下文可用。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/codex/SKILL.md">codex</a></td><td>需要额外模型意见时</td><td>通过对应 CLI 请求第二视角的审查或咨询, 受账户与工具可用性限制。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/plan-tune/SKILL.md">plan-tune</a></td><td>计划阶段的追问方式不合适时</td><td>调整决策询问和评审偏好, 适配个人协作习惯。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/benchmark-models/SKILL.md">benchmark-models</a></td><td>选择执行模型时</td><td>比较模型处理 gstack 任务的表现, 服务于工具配置而非产品功能。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/make-pdf/SKILL.md">make-pdf</a></td><td>文档需要导出时</td><td>将 Markdown 文档转换为 PDF 交付物。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/gstack-upgrade/SKILL.md">gstack-upgrade</a></td><td>需要升级套件时</td><td>执行 gstack 的更新流程, 属于工具维护。</td></tr></tbody></table></div>
+              </div>
+            </details>
+<h3 id="使用取舍-3"><a href="#使用取舍-3" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>如果主要工作是把 Web 功能交付给真实用户, gstack 的评审和浏览器链路很有针对性。对无界面的库或命令行工具, 同样可以使用工程评审与交付能力, 但没有必要为用不到的 UI 流程承担全部配置成本。</p>
+<p>它对环境的要求也更具体: 测试页面需要可访问的服务、合适的账号与数据, iOS 检查需要设备和调试支持, 部分设计功能依赖外部服务。账号权限、测试数据和依赖服务, 都应纳入 QA 的准备范围。</p>
+<div class="note warning flat"><p><code>ship</code>、<code>land-and-deploy</code> 涉及提交、推送、合并或部署; <code>setup-browser-cookies</code> 涉及登录状态。执行前应明确允许操作的仓库、环境与账号。只读检查应使用对应入口, 不把审查请求交给自动交付流程。</p>
+</div>
+<h2 id="Addy-Osmani"><a href="#Addy-Osmani" class="headerlink" title="Addy Osmani"></a>Addy Osmani</h2><h3 id="工程质量覆盖"><a href="#工程质量覆盖" class="headerlink" title="工程质量覆盖"></a>工程质量覆盖</h3><p>Addy Osmani Agent Skills 将规格、计划、增量实施和交付作为开发主线, 再把接口设计、安全、性能、可观测性和迁移等专项工作接入相应阶段。相比只关注功能是否完成的流程, 它更强调一个改动进入长期维护后需要满足的工程条件。</p>
+<p>基本路径是 <code>idea-refine / interview-me</code> → <code>spec-driven-development</code> → <code>planning-and-task-breakdown</code> → <code>incremental-implementation</code> → <code>测试与审查</code> → <code>shipping-and-launch</code>。这些入口负责阶段衔接, 专项 Skills 则根据改动性质介入, 不需要每个任务全部运行一遍。<a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/README.md">主流程与命令映射</a></p>
+<p>例如新增批量导出, 功能测试可能只检查文件内容。性能优化还需要测量大数据量下的资源使用, 可观测性需要定义失败任务如何定位, 接口设计需要明确异步结果与错误行为。把这些工作分开, 才能分别提出目标并验证结果, 而不只是让 Agent 笼统地“检查一下质量”。</p>
+<p><code>doubt-driven-development</code> 使用新的审查上下文寻找遗漏和反例, <code>source-driven-development</code> 要求实现依据一手资料。两者分别针对自我审查和凭记忆调用接口的问题, 与 TDD、增量实施形成互补。</p>
+<h3 id="Skills-清单-3"><a href="#Skills-清单-3" class="headerlink" title="Skills 清单"></a>Skills 清单</h3><p>仓库包含 <strong>24 个 Skills</strong>, 其中 using-agent-skills 负责总路由。另有 <code>/spec</code>、<code>/plan</code>、<code>/build</code>、<code>/test</code>、<code>/review</code>、<code>/webperf</code>、<code>/code-simplify</code>、<code>/ship</code> 等 8 个命令入口, 它们不是另外 8 个独立 Skill。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/using-agent-skills/SKILL.md">using-agent-skills</a></td>
+<td>开始任务或阶段切换时</td>
+<td>根据任务性质选择 Skill, 组织这套工程实践的使用顺序。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/idea-refine/SKILL.md">idea-refine</a></td>
+<td>想法尚未成形时</td>
+<td>明确问题、目标与约束, 比较方向后收敛需求。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/interview-me/SKILL.md">interview-me</a></td>
+<td>关键需求仍需人作决定时</td>
+<td>有针对性地追问, 在执行前暴露隐藏假设。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/spec-driven-development/SKILL.md">spec-driven-development</a></td>
+<td>需要把行为固定下来时</td>
+<td>编写清楚、可验证的规格, 让实现有明确依据。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/planning-and-task-breakdown/SKILL.md">planning-and-task-breakdown</a></td>
+<td>需求已明确时</td>
+<td>拆分可实施任务与依赖, 安排小步验证路径。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/source-driven-development/SKILL.md">source-driven-development</a></td>
+<td>要使用不熟悉的技术时</td>
+<td>查阅一手文档与源码, 让实现依据实际接口而非模型印象。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/context-engineering/SKILL.md">context-engineering</a></td>
+<td>项目信息分散或会话变长时</td>
+<td>组织相关上下文与指令, 控制信息噪声和遗忘风险。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/api-and-interface-design/SKILL.md">api-and-interface-design</a></td>
+<td>设计模块或服务边界时</td>
+<td>设计清晰接口、错误行为和兼容约定, 降低调用方负担。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/frontend-ui-engineering/SKILL.md">frontend-ui-engineering</a></td>
+<td>实现前端界面时</td>
+<td>处理组件、交互、可访问性与界面质量, 形成可用 UI。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/incremental-implementation/SKILL.md">incremental-implementation</a></td>
+<td>开始实现计划时</td>
+<td>按纵向切片实施, 在小步实现、测试和验证之间循环。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/test-driven-development/SKILL.md">test-driven-development</a></td>
+<td>新行为需要可靠约束时</td>
+<td>先写能失败的测试, 再实现和重构, 防止只补结果式测试。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/debugging-and-error-recovery/SKILL.md">debugging-and-error-recovery</a></td>
+<td>遇到故障或执行失败时</td>
+<td>建立复现、定位原因并规划恢复, 避免无依据重试。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/browser-testing-with-devtools/SKILL.md">browser-testing-with-devtools</a></td>
+<td>Web 改动需要运行证据时</td>
+<td>利用 Chrome DevTools MCP 检查实际页面、交互和相关诊断信息。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/code-review-and-quality/SKILL.md">code-review-and-quality</a></td>
+<td>实现完成或准备集成时</td>
+<td>检查正确性、可维护性和测试质量, 输出改进项。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/doubt-driven-development/SKILL.md">doubt-driven-development</a></td>
+<td>实现可能受原有假设影响时</td>
+<td>让新的审查上下文主动质疑结果, 寻找遗漏和反例。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/code-simplification/SKILL.md">code-simplification</a></td>
+<td>代码已正确但过于复杂时</td>
+<td>简化结构与表达, 保持行为不变, 降低后续维护成本。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/performance-optimization/SKILL.md">performance-optimization</a></td>
+<td>有性能目标或瓶颈时</td>
+<td>先测量和定位, 再优化与复测, 避免凭直觉调整。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/security-and-hardening/SKILL.md">security-and-hardening</a></td>
+<td>涉及攻击面与敏感行为时</td>
+<td>检查安全风险并加固输入、权限及相关边界。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/observability-and-instrumentation/SKILL.md">observability-and-instrumentation</a></td>
+<td>功能需要在线可诊断时</td>
+<td>设计日志、指标和追踪等观测点, 支撑故障发现与定位。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/ci-cd-and-automation/SKILL.md">ci-cd-and-automation</a></td>
+<td>手工检查需固化时</td>
+<td>将验证和交付步骤转成自动化流程, 提供稳定反馈。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/git-workflow-and-versioning/SKILL.md">git-workflow-and-versioning</a></td>
+<td>多分支协作与版本交付时</td>
+<td>组织分支、提交和版本管理, 保持改动可理解、可追踪。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/documentation-and-adrs/SKILL.md">documentation-and-adrs</a></td>
+<td>决策或用法需要长期保留时</td>
+<td>更新工程文档和架构决策记录, 说明做法与原因。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/deprecation-and-migration/SKILL.md">deprecation-and-migration</a></td>
+<td>旧接口或实现需要替换时</td>
+<td>设计兼容、弃用与迁移步骤, 控制升级对使用者的影响。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/skills/shipping-and-launch/SKILL.md">shipping-and-launch</a></td>
+<td>准备上线或交付版本时</td>
+<td>整理发布准备、验证和风险事项, 检查交付条件是否满足。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="使用取舍-4"><a href="#使用取舍-4" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>选择这套 Skills 的主要理由是补齐工程检查维度。对于已经有需求与任务管理方式的团队, 可以保留现有协作制度, 只在接口、性能、安全或迁移等薄弱环节引入对应流程。</p>
+<p>覆盖范围广也要求使用者作筛选。性能优化需要基线, 安全加固需要明确攻击面, 浏览器检查需要 Chrome DevTools MCP。缺少这些条件, 专项 Skill 很容易退化为一般性建议。单独引入某个 Skill 时, 还要带上其依赖的共享引用文件, 不能只复制入口 Markdown。</p>
+<h2 id="OpenSpec"><a href="#OpenSpec" class="headerlink" title="OpenSpec"></a>OpenSpec</h2><h3 id="增量规格管理"><a href="#增量规格管理" class="headerlink" title="增量规格管理"></a>增量规格管理</h3><p>OpenSpec 将长期规格与待实施变更分开保存。<code>openspec/specs/</code> 描述项目已经形成的行为基线, <code>openspec/changes/&lt;变更名&gt;/</code> 保存本次提案、规格增量、设计与任务。开发完成后再同步规格并归档变更, 使“系统现在怎样工作”和“准备怎样修改”保持可区分。</p>
+<p>这种组织方式对已有项目尤为实用。增加导出功能时, 可以明确本次新增的权限和任务行为, 同时保留已有订单查询的约束; 后续评审能够围绕差异展开, 不需要把整个系统重新写成一份需求文档。<a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/docs/workflows.md">变更工作流</a></p>
+<p>快速路径是 <code>explore</code> → <code>propose</code> → <code>apply</code>, 随后检查结果并选择 <code>sync</code> 或 <code>archive</code>。希望逐项审查规划产物时, 则使用 <code>new</code> → <code>continue</code>; 需要调整已形成的方案时, 使用 <code>update</code>。这些入口按产物依赖推进, 允许在实现中返回设计, 而非把前期文档视为不可修改的承诺。</p>
+<p>同步与归档有不同含义。<code>sync</code> 合并规格增量, <code>archive</code> 结束该变更的活动状态, 两者都不能说明代码已部署。<code>verify</code> 可以对照实现与规划检查差异, 但仍要用项目测试验证真实行为。</p>
+<h3 id="命令与-Skills-1"><a href="#命令与-Skills-1" class="headerlink" title="命令与 Skills"></a>命令与 Skills</h3><p>v1.11.0 提供 <strong>12 个工作流 Skills</strong>。默认 core 配置选择其中 <strong>6 个: propose、explore、apply、update、sync、archive</strong>; 其余需要扩展选择。下表用 Skill 全名, 命令采用 <code>/opsx:apply</code> 这样的形式, 具体拼写由客户端适配。<a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/docs/commands.md">命令与配置说明</a></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-explore/SKILL.md">openspec-explore</a></td>
+<td>尚未决定如何改时</td>
+<td>阅读代码、调查问题和比较方案, 先澄清思路, 不直接执行产品实现。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-propose/SKILL.md">openspec-propose</a></td>
+<td>已能描述一项变更时</td>
+<td>创建变更并生成实现前所需的提案、规格、设计与任务产物。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-apply-change/SKILL.md">openspec-apply-change</a></td>
+<td>变更任务已经就绪时</td>
+<td>按任务修改代码并记录进度, 把规划产物转成实现。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-update-change/SKILL.md">openspec-update-change</a></td>
+<td>原计划需要调整时</td>
+<td>修改并协调已有规划产物, 处理相互影响; 这个入口不负责改产品代码。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-sync-specs/SKILL.md">openspec-sync-specs</a></td>
+<td>增量规格需并入长期规格时</td>
+<td>将变更中的规格差异同步到主规格, 不必同时归档变更。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-archive-change/SKILL.md">openspec-archive-change</a></td>
+<td>变更完成准备收尾时</td>
+<td>检查相关完成与同步状态, 将变更移入归档, 保留历史。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-new-change/SKILL.md">openspec-new-change</a></td>
+<td>想逐步控制规划过程时</td>
+<td>建立变更骨架, 显示下一项可创建的产物, 不一次生成全部内容。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-continue-change/SKILL.md">openspec-continue-change</a></td>
+<td>逐项确认规划产物时</td>
+<td>根据依赖关系创建下一项就绪产物, 便于人工检查后继续。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-ff-change/SKILL.md">openspec-ff-change</a></td>
+<td>变更已清晰且希望快速规划时</td>
+<td>从已有变更出发, 连续生成实施前需要的规划产物。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-verify-change/SKILL.md">openspec-verify-change</a></td>
+<td>实现后需要对照产物时</td>
+<td>从完整性、正确性与一致性检查实现, 输出差异和待处理问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-bulk-archive-change/SKILL.md">openspec-bulk-archive-change</a></td>
+<td>多项变更都已结束时</td>
+<td>批量归档并处理规格重叠与冲突, 避免简单覆盖。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/skills/openspec-onboard/SKILL.md">openspec-onboard</a></td>
+<td>初次学习这套流程时</td>
+<td>带着实际仓库走一遍完整变更, 理解产物与动作的关系。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="使用取舍-5"><a href="#使用取舍-5" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>OpenSpec 适合持续修改同一代码库, 尤其是接口和业务行为需要保留演进记录的项目。它的维护单位是一项变更, 能把评审范围压到“这次究竟修改了什么”。相比每次都展开产品简报和完整 PRD, 这种粒度更容易融入常规迭代。</p>
+<p>前提是主规格值得信任。如果代码已经变化, 主规格长期不同步, 新变更就会建立在错误基线上。并行变更修改同一行为时, 也需要处理语义冲突, 不能只按文件是否能够合并来判断。主规格的更新应成为变更收尾的一部分。</p>
+<h2 id="BMAD-METHOD"><a href="#BMAD-METHOD" class="headerlink" title="BMAD-METHOD"></a>BMAD-METHOD</h2><h3 id="产品与技术决策"><a href="#产品与技术决策" class="headerlink" title="产品与技术决策"></a>产品与技术决策</h3><p>BMAD 将产品、业务分析、UX、架构和开发分别组织为可调用的角色与工作流。复杂项目可以依次形成产品简报、PRD、体验设计、架构与交付故事, 让不同层面的决定保留各自的依据。清晰的小修改也可以直接进入 <code>bmad-build</code>, 当前方法并不要求所有任务走完同样的文档流程。<a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/README.md">Method 的交付路径</a></p>
+<p>它适合处理相互牵制的决策。例如审批系统支持临时代理人, 产品层要决定代理范围与有效期, UX 要呈现当前操作身份, 架构要处理权限和审计, 开发再落实接口与测试。只让 Agent 从需求直接拆代码任务, 这些决定很容易被实施细节代替。BMAD 的多层产物为讨论提供了明确位置。</p>
+<p>角色的价值仍取决于输入。架构师角色需要已确认的业务约束, 开发者角色需要能够实施的规格和代码库上下文; <code>party-mode</code> 汇集不同视角, 但不能因为几个角色表示赞同就跳过事实核查。角色分工提供的是讨论与执行组织, 不构成独立专家认证。</p>
+<p>实施后的预览、代码审查、测试生成、方向纠偏和复盘也有单独入口。因此 BMAD 的完整性体现在决策如何传到实现, 以及实现反馈如何调整计划, 而不只是前期文档数量。</p>
+<h3 id="Skills-清单-4"><a href="#Skills-清单-4" class="headerlink" title="Skills 清单"></a>Skills 清单</h3><p>按 v6.11.0 的 Method 与 Core 源目录, 有 <strong>29 个非弃用的角色和工作流 Skills</strong>, 另有 <strong>20 个兼容或弃用入口</strong>。这里区分角色、规划、交付与通用方法。Test Architect、Builder、Loop 等独立扩展模块不混入主项目清单。</p>
+<p>首先是 5 个角色入口。它们提供对话身份和能力路由, 不等于已经启动 5 个独立执行进程。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/agents/bmad-agent-analyst/SKILL.md">bmad-agent-analyst</a></td>
+<td>需要业务分析视角时</td>
+<td>以分析师 Mary 的角色辅助研究、探索和需求理解, 路由到相应工作流。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/agents/bmad-agent-pm/SKILL.md">bmad-agent-pm</a></td>
+<td>需要产品管理视角时</td>
+<td>以产品经理 John 的角色梳理价值、范围和产品要求。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/agents/bmad-agent-architect/SKILL.md">bmad-agent-architect</a></td>
+<td>需要系统设计视角时</td>
+<td>以架构师 Winston 的角色讨论技术边界与架构决策。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/agents/bmad-agent-ux-designer/SKILL.md">bmad-agent-ux-designer</a></td>
+<td>需要体验设计视角时</td>
+<td>以 UX 设计师 Sally 的角色分析用户路径和交互要求。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/agents/bmad-agent-dev/SKILL.md">bmad-agent-dev</a></td>
+<td>进入工程实施时</td>
+<td>以开发者 Amelia 的角色承接实施工作, 使用开发与验证流程。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>规划阶段有 9 个主要工作流:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-product-brief/SKILL.md">bmad-product-brief</a></td>
+<td>产品目标需要明确时</td>
+<td>梳理目标用户、问题、价值与范围, 产出产品简报。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-prfaq/SKILL.md">bmad-prfaq</a></td>
+<td>需要检验产品是否值得做时</td>
+<td>用面向用户的发布说明与常见问题反推产品, 暴露价值和可行性缺口。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-prd/SKILL.md">bmad-prd</a></td>
+<td>需要正式产品要求时</td>
+<td>创建、更新或验证 PRD, 维护需求与约束的一致性。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-ux/SKILL.md">bmad-ux</a></td>
+<td>用户体验需要系统设计时</td>
+<td>整理用户路径、交互和设计要求, 为实现提供 UX 依据。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-architecture/SKILL.md">bmad-architecture</a></td>
+<td>多模块方案需要统一时</td>
+<td>确定架构主线、系统不变量和技术决策, 给实现提供稳定边界。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-spec/SKILL.md">bmad-spec</a></td>
+<td>需要更明确的实施契约时</td>
+<td>建立规范化 SPEC 及配套内容, 固定可供后续构建消费的要求。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-create-epics-and-stories/SKILL.md">bmad-create-epics-and-stories</a></td>
+<td>大需求需要分批交付时</td>
+<td>将要求拆为史诗与用户故事, 组织可实施的交付单元。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-sprint-planning/SKILL.md">bmad-sprint-planning</a></td>
+<td>准备或管理一轮迭代时</td>
+<td>检查就绪情况, 生成、报告或修复迭代状态, 维护执行顺序。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-project-context/SKILL.md">bmad-project-context</a></td>
+<td>接手或维护现有仓库时</td>
+<td>建立、刷新或审计仓库指导信息, 将核实过的关键约束写入 AGENTS.md。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>构建、测试和交付有 7 个工作流:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/ship/bmad-build/SKILL.md">bmad-build</a></td>
+<td>收到清晰改动或已有规划时</td>
+<td>按任务规模选择实施路径, 利用项目上下文完成构建与验证。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/ship/bmad-build-auto/SKILL.md">bmad-build-auto</a></td>
+<td>外层流程安排自动迭代时</td>
+<td>执行一次无人值守构建循环中的工作, 不等同于独立永久运行的调度器。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/ship/bmad-checkpoint-preview/SKILL.md">bmad-checkpoint-preview</a></td>
+<td>需要人验收当前结果时</td>
+<td>整理变更、风险和检查方式, 提供可跟随的验收预览。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/ship/bmad-code-review/SKILL.md">bmad-code-review</a></td>
+<td>实现需要严格审查时</td>
+<td>从多个角度寻找缺陷并归类处理, 检查要求、实现与证据。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/ship/bmad-qa-generate-e2e-tests/SKILL.md">bmad-qa-generate-e2e-tests</a></td>
+<td>已实现功能缺少自动化测试时</td>
+<td>为已有代码生成 API 与端到端测试; 不代替代码审查或故事验收。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/ship/bmad-correct-course/SKILL.md">bmad-correct-course</a></td>
+<td>迭代中发生方向变化时</td>
+<td>分析变更影响, 调整范围、计划与相关产物, 避免只修改任务标题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/ship/bmad-retrospective/SKILL.md">bmad-retrospective</a></td>
+<td>一个史诗或阶段结束时</td>
+<td>依据交付与验证事实复盘, 提炼问题和后续改进。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>通用方法有 8 个入口:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-help/SKILL.md">bmad-help</a></td>
+<td>不知道下一步或哪些步骤可省时</td>
+<td>识别当前工作状态, 推荐适合的下一工作流。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-brainstorming/SKILL.md">bmad-brainstorming</a></td>
+<td>需要探索候选方向时</td>
+<td>组织多种头脑风暴方法, 扩展并整理可讨论的想法。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-forge-idea/SKILL.md">bmad-forge-idea</a></td>
+<td>想法需要经受挑战时</td>
+<td>检验概念的假设、价值和薄弱点, 收敛更可靠的方向。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-advanced-elicitation/SKILL.md">bmad-advanced-elicitation</a></td>
+<td>已有内容需要深入推敲时</td>
+<td>运用结构化质疑和分析方法, 改进当前结论或产物。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-deep-recon/SKILL.md">bmad-deep-recon</a></td>
+<td>决策依赖外部研究时</td>
+<td>支持研究任务的构造、执行和报告提炼, 覆盖市场、领域与技术等问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-party-mode/SKILL.md">bmad-party-mode</a></td>
+<td>需要多种专业视角讨论时</td>
+<td>组织多个角色参与同一议题, 综合分歧与建议; 不等于并行编码团队。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-review/SKILL.md">bmad-review</a></td>
+<td>文档、规格或差异需要审查时</td>
+<td>提供多角度审查, 查找表达、边界和验证缺口等问题。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/bmad-customize/SKILL.md">bmad-customize</a></td>
+<td>标准流程需要适配团队时</td>
+<td>管理已安装 Skills 的定制覆盖, 保留基础实现与团队差异的边界。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="folding-tag" blue><summary> 20 个兼容与弃用入口 </summary>
+              <div class='content'>
+              <p>这些名称用于承接旧调用, 不代表额外的独立工作流。</p><div class="table-container"><table><thead><tr><th>Skill</th><th>使用时机</th><th>职责与产出</th></tr></thead><tbody><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-create-architecture/SKILL.md">bmad-create-architecture</a></td><td>旧版架构创建入口</td><td>转向 bmad-architecture。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-create-prd/SKILL.md">bmad-create-prd</a></td><td>旧版 PRD 创建入口</td><td>转向 bmad-prd 的创建工作。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-edit-prd/SKILL.md">bmad-edit-prd</a></td><td>旧版 PRD 编辑入口</td><td>转向 bmad-prd 的更新工作。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-validate-prd/SKILL.md">bmad-validate-prd</a></td><td>旧版 PRD 验证入口</td><td>转向 bmad-prd 的验证工作。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-create-story/SKILL.md">bmad-create-story</a></td><td>显式调用旧故事入口时</td><td>转向 bmad-build, 由统一构建路径处理。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-dev-story/SKILL.md">bmad-dev-story</a></td><td>显式调用旧故事开发入口时</td><td>转向 bmad-build, 不单独算另一套实施流程。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-quick-dev/SKILL.md">bmad-quick-dev</a></td><td>显式调用旧快速开发入口时</td><td>转向 bmad-build 的按规模实施路径。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-dev-auto/SKILL.md">bmad-dev-auto</a></td><td>旧自动开发入口</td><td>转向 bmad-build-auto。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-document-project/SKILL.md">bmad-document-project</a></td><td>旧项目文档化入口</td><td>转向 bmad-project-context。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-domain-research/SKILL.md">bmad-domain-research</a></td><td>旧领域研究入口</td><td>转向 bmad-deep-recon 的对应研究任务。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-market-research/SKILL.md">bmad-market-research</a></td><td>旧市场研究入口</td><td>转向 bmad-deep-recon 的对应研究任务。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-technical-research/SKILL.md">bmad-technical-research</a></td><td>旧技术研究入口</td><td>转向 bmad-deep-recon 的对应研究任务。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/v6-shims/bmad-sprint-status/SKILL.md">bmad-sprint-status</a></td><td>旧迭代状态入口</td><td>转向 bmad-sprint-planning 的状态工作。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/v6-shims/bmad-editorial-review/SKILL.md">bmad-editorial-review</a></td><td>旧编辑审查入口</td><td>转向 bmad-review。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/v6-shims/bmad-editorial-review-prose/SKILL.md">bmad-editorial-review-prose</a></td><td>旧行文审查入口</td><td>转向 bmad-review, 保留对应审查意图。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/v6-shims/bmad-editorial-review-structure/SKILL.md">bmad-editorial-review-structure</a></td><td>旧结构审查入口</td><td>转向 bmad-review, 保留对应审查意图。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/v6-shims/bmad-review-adversarial-general/SKILL.md">bmad-review-adversarial-general</a></td><td>旧对抗式审查入口</td><td>转向 bmad-review。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/v6-shims/bmad-review-edge-case-hunter/SKILL.md">bmad-review-edge-case-hunter</a></td><td>旧边界情况审查入口</td><td>转向 bmad-review。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/core-skills/v6-shims/bmad-review-verification-gap/SKILL.md">bmad-review-verification-gap</a></td><td>旧验证缺口审查入口</td><td>转向 bmad-review。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.11.0/src/bmm-skills/plan/bmad-generate-project-context/SKILL.md">bmad-generate-project-context</a></td><td>已弃用的上下文生成入口</td><td>转向 bmad-project-context; 旧 project-context.md 不再是唯一输出目标。</td></tr></tbody></table></div>
+              </div>
+            </details>
+<h3 id="使用取舍-6"><a href="#使用取舍-6" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>当产品、UX 与架构都需要认真展开, BMAD 能提供比单纯任务执行框架更充分的协作结构。它尤其适合从模糊需求启动的复杂项目, 或需要多个参与者理解设计依据的团队。</p>
+<p>若团队已经有成熟的 PRD、设计评审和迭代制度, 引入 BMAD 前应确定哪些产物继续由原流程维护。两套系统同时生成近似文档, 很容易出现无人负责同步的副本。版本变化也是成本之一: 当前统一入口与旧教程存在差异, 应按实际安装版本使用, 不把兼容命令当成额外能力。</p>
+<h2 id="Compound"><a href="#Compound" class="headerlink" title="Compound"></a>Compound</h2><h3 id="工程知识复用"><a href="#工程知识复用" class="headerlink" title="工程知识复用"></a>工程知识复用</h3><p>Compound Engineering 将已解决的问题视为后续开发的输入。计划、实施、审查完成后, <code>ce-compound</code> 把问题、解法及验证依据写入项目的 <code>solutions/</code> 知识目录, 供后续任务检索。目录根路径可由项目配置决定; 经验复用发生在文档与上下文层, 不涉及更新模型权重。<a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-compound/SKILL.md">经验记录的输入与产物</a></p>
+<p>阶段关系通常概括为 <code>ce-brainstorm</code> → <code>ce-plan</code> → <code>ce-work</code> → <code>ce-code-review</code> → <code>ce-compound</code>。实际调用需要注意流程所有权: 独立运行 <code>ce-work</code> 时, 它负责实现、本地验证及后续交付检查; 由外层流程调用时, 可以只返回实施和验证结果, 把余下步骤交回调用方。已经完成的审查不应因为看见流程图而机械重跑。<a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-work/SKILL.md">ce-work 的执行模式</a></p>
+<p>一次后台任务重复执行的修复, 值得记录的不只是最终代码。触发条件、曾经误判的原因、幂等约束和回归方法, 都可能改变下一次相关任务的方案。反过来, 未验证的猜测如果被写成项目经验, 也会被持续放大。<code>ce-compound-refresh</code> 因而负责检查与更新已有知识, 而不是不断堆积开发总结。</p>
+<p>浏览器测试、代码审查、PR 反馈处理和提交入口构成执行部分。Proof 文档协作、产品反馈和推广功能则属于外围能力, 不影响其核心方法的判断。</p>
+<h3 id="Skills-清单-5"><a href="#Skills-清单-5" class="headerlink" title="Skills 清单"></a>Skills 清单</h3><p>这里按 compound-engineering-v3.23.4 的 <strong>33 个 Skills</strong>列出。研究、审查等工作还会调用配套 Agent 与工具, 它们不另算成 Skill。Proof、反馈服务和推广能力属于可选外围环节。</p>
+<p>需求与计划:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-strategy/SKILL.md">ce-strategy</a></td>
+<td>需要明确产品长期方向时</td>
+<td>整理并维护 STRATEGY.md, 为后续想法选择提供依据。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-ideate/SKILL.md">ce-ideate</a></td>
+<td>还没有选定要做的事情时</td>
+<td>结合项目背景提出候选改进方向, 供人筛选。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-pov/SKILL.md">ce-pov</a></td>
+<td>需要对采用某个方向作判断时</td>
+<td>形成有依据的立场与取舍, 帮助决定是否推进。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-brainstorm/SKILL.md">ce-brainstorm</a></td>
+<td>已选方向但要求不清时</td>
+<td>探索需求和备选方案, 将讨论整理为后续计划的基础。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-prototype/SKILL.md">ce-prototype</a></td>
+<td>有具体未知需要实验时</td>
+<td>用可丢弃的试验回答问题, 将发现带回正式方案。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-plan/SKILL.md">ce-plan</a></td>
+<td>准备实施一个改动时</td>
+<td>结合代码、资料与已有经验形成可执行计划, 明确任务及验收。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-doc-review/SKILL.md">ce-doc-review</a></td>
+<td>规划文档需要检查时</td>
+<td>审查需求、计划等产物的清楚程度与缺口, 改善执行输入。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>实现、验证与知识沉淀:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-worktree/SKILL.md">ce-worktree</a></td>
+<td>需要隔离并行或独立工作时</td>
+<td>管理工作树和工作目录, 为实施建立安全边界。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-work/SKILL.md">ce-work</a></td>
+<td>已有计划或明确构建请求时</td>
+<td>实现并本地验证改动; 独立模式继续交付收尾, 调用模式将结果交回外层流程。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-debug/SKILL.md">ce-debug</a></td>
+<td>Bug 原因尚未明确时</td>
+<td>调查和验证根因, 以复现与证据驱动修复。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-simplify-code/SKILL.md">ce-simplify-code</a></td>
+<td>正确实现需要整理时</td>
+<td>在保持行为的前提下减少复杂度, 改善可读性与结构。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-code-review/SKILL.md">ce-code-review</a></td>
+<td>实现需要独立检查时</td>
+<td>按风险选择审查视角, 检查缺陷、回归与标准; 可按配置跨模型审查, 本地应用修复需明确选择。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-test-browser/SKILL.md">ce-test-browser</a></td>
+<td>分支或 PR 影响页面时</td>
+<td>对受影响路由进行浏览器验证, 分别报告通过、失败或有原因的跳过。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-test-xcode/SKILL.md">ce-test-xcode</a></td>
+<td>iOS 改动需要模拟器证据时</td>
+<td>借助 XcodeBuildMCP 构建并操作模拟器, 保留截图、日志和各界面结果。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-dogfood/SKILL.md">ce-dogfood</a></td>
+<td>希望像用户一样试用改动时</td>
+<td>围绕当前差异执行浏览器探索, 可进行小范围修复、回归与提交。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-polish/SKILL.md">ce-polish</a></td>
+<td>需要人工引导的体验打磨时</td>
+<td>在浏览器中共同调整 UI 和使用体验, 收敛细节质量。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-optimize/SKILL.md">ce-optimize</a></td>
+<td>有明确可测量的优化目标时</td>
+<td>以基线和实验比较改动, 接受有证据的性能或效率提升。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-compound/SKILL.md">ce-compound</a></td>
+<td>一个有价值的问题已解决时</td>
+<td>将原因、解法和经验记录到可检索的项目知识, 支撑后续开发。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-compound-refresh/SKILL.md">ce-compound-refresh</a></td>
+<td>经验库可能过时时</td>
+<td>审查并更新已有解决方案知识, 避免过时经验持续误导。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-handoff/SKILL.md">ce-handoff</a></td>
+<td>需要换会话或协作者时</td>
+<td>记录现状、决定、验证与下一步, 让任务可接续。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>提交与 PR 流程:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用时机</th>
+<th>职责与产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-commit/SKILL.md">ce-commit</a></td>
+<td>已授权创建本地提交时</td>
+<td>整理本次范围内的差异并提交, 不把它等同于对外发布。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-commit-push-pr/SKILL.md">ce-commit-push-pr</a></td>
+<td>已授权远程交付时</td>
+<td>完成提交、推送与创建 PR, 将本地成果送入协作流程。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-resolve-pr-feedback/SKILL.md">ce-resolve-pr-feedback</a></td>
+<td>已有 PR 收到反馈时</td>
+<td>理解并解决评论、审查和相关检查问题, 推进该 PR。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-babysit-pr/SKILL.md">ce-babysit-pr</a></td>
+<td>PR 需要持续跟进时</td>
+<td>观察检查与反馈并处理阻塞, 推进至可合入状态; 不等同于自动合并。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/lfg/SKILL.md">lfg</a></td>
+<td>明确要求自主完成交付时</td>
+<td>串联完整执行、验证与交付过程, 可以继续到推送和打开 PR, 属于高授权入口。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="folding-tag" blue><summary> 初始化与可选外围能力 </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th>Skill</th><th>使用时机</th><th>职责与产出</th></tr></thead><tbody><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-setup/SKILL.md">ce-setup</a></td><td>首次使用或项目配置不完整时</td><td>建立适配项目的工作流配置并检查可用能力。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-retune/SKILL.md">ce-retune</a></td><td>有可比较的评测环境时</td><td>通过 A/B 基准调整 Agent 指令或工作流, 缺少评测条件时不凭感觉调优。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-explain/SKILL.md">ce-explain</a></td><td>需要理解代码或设计时</td><td>制作面向人的解释材料, 支持学习和沟通。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-proof/SKILL.md">ce-proof</a></td><td>需要共享 Markdown 文档时</td><td>在 Proof 文档服务中发布、读取、评论或编辑; 不是测试证明或形式化验证。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-product-pulse/SKILL.md">ce-product-pulse</a></td><td>已连接产品反馈来源时</td><td>汇总产品信号与用户反馈, 为下一轮选择提供输入。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-sweep/SKILL.md">ce-sweep</a></td><td>需要整理多渠道工作线索时</td><td>处理已配置的 Slack、GitHub、邮件等线索并形成后续工作, 可能包含外部回复。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-riffrec-feedback-analysis/SKILL.md">ce-riffrec-feedback-analysis</a></td><td>收到屏幕与语音反馈时</td><td>分析 Riffrec 反馈材料, 提取可操作的问题与改进项。</td></tr><tr><td><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/blob/compound-engineering-v3.23.4/skills/ce-promote/SKILL.md">ce-promote</a></td><td>产品交付后需要传播材料时</td><td>生成推广与发布文案, 是外围产品工作, 不计为代码质量保障。</td></tr></tbody></table></div>
+              </div>
+            </details>
+<h3 id="使用取舍-7"><a href="#使用取舍-7" class="headerlink" title="使用取舍"></a>使用取舍</h3><p>Compound 的收益更容易出现在长期维护的仓库: 相同领域模型、基础设施约束和故障模式反复出现, 记录一次可以服务于多次任务。短期原型或一次性脚本缺少这种复用机会, 没必要为了积累而为每个小修改生成知识文档。</p>
+<p>知识文档需要说明适用条件, 能够被后续任务检索, 并在代码变化后更新。缺少维护, 原本有效的解决方案也可能变成错误前提。</p>
+<div class="note warning flat"><p><code>ce-code-review</code> 可按配置调用外部模型, 应核对代码发送范围与目标; 只输出审查报告不等于全程本地执行。<code>ce-proof</code> 操作外部文档服务, <code>ce-dogfood</code> 可修改并提交代码, <code>lfg</code> 可继续到推送与创建 PR。</p>
+</div>
+<h2 id="横向对比"><a href="#横向对比" class="headerlink" title="横向对比"></a>横向对比</h2><h3 id="核心差异"><a href="#核心差异" class="headerlink" title="核心差异"></a>核心差异</h3><p>几乎每个项目都涉及需求、计划和审查, 因而单纯标记“支持 / 不支持”区分度很低。更有用的是看它把哪些信息固定为产物, 又在哪些步骤要求额外检查。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>主要约束对象</th>
+<th>采用成本与边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Superpowers</td>
+<td>将实施计划落实为逐任务执行、审查和完成前验证</td>
+<td>任务交接与审查增加消耗, 高耦合任务不宜过度拆分</td>
+</tr>
+<tr>
+<td>Matt Pocock Skills</td>
+<td>将讨论中的决定转成可独立实施的规格与工单</td>
+<td>需要维护决策和上下文, 避免对已明确事项反复追问</td>
+</tr>
+<tr>
+<td>Spec Kit</td>
+<td>维持项目原则、规格、方案与任务之间的一致性</td>
+<td>需求变化会带来多份文档的同步工作</td>
+</tr>
+<tr>
+<td>gstack</td>
+<td>将产品评审、运行中 UI 检查与交付操作衔接</td>
+<td>浏览器、账号、设备和部署环境需要具备实际验证条件</td>
+</tr>
+<tr>
+<td>Addy Agent Skills</td>
+<td>将性能、安全、观测等专项要求纳入开发阶段</td>
+<td>需要先设定目标与基线, 再选择对应 Skill</td>
+</tr>
+<tr>
+<td>OpenSpec</td>
+<td>管理长期规格与每次变更之间的差异</td>
+<td>主规格必须持续更新, 并行修改还需解决语义冲突</td>
+</tr>
+<tr>
+<td>BMAD</td>
+<td>将产品、UX、架构决定传递到实施与迭代</td>
+<td>容易与团队已有文档体系重叠, 需明确产物维护者</td>
+</tr>
+<tr>
+<td>Compound Engineering</td>
+<td>将验证过的解决方案反馈到后续开发</td>
+<td>经验需要可检索、标明条件并持续更新</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="产物与检查点"><a href="#产物与检查点" class="headerlink" title="产物与检查点"></a>产物与检查点</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>主要持久产物</th>
+<th>人应保留的决策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Superpowers</td>
+<td>设计、实施计划、代码和测试</td>
+<td>设计边界、重大审查分歧、分支合入方式</td>
+</tr>
+<tr>
+<td>Matt Pocock Skills</td>
+<td>CONTEXT.md、ADR、规格和工单</td>
+<td>业务规则、未决假设、工单的验收范围</td>
+</tr>
+<tr>
+<td>Spec Kit</td>
+<td>constitution、spec、plan、tasks</td>
+<td>项目原则、规格歧义、需求与实现的偏差</td>
+</tr>
+<tr>
+<td>gstack</td>
+<td>产品与设计方案、QA 发现、PR 和交付记录</td>
+<td>产品范围、设计取舍、目标账号与发布环境</td>
+</tr>
+<tr>
+<td>Addy Agent Skills</td>
+<td>规格、计划、测试、工程文档与 ADR</td>
+<td>性能和安全目标、兼容边界、发布风险</td>
+</tr>
+<tr>
+<td>OpenSpec</td>
+<td>主规格、变更提案、规格增量、任务与归档</td>
+<td>行为变更范围、规格冲突和同步时机</td>
+</tr>
+<tr>
+<td>BMAD</td>
+<td>简报、PRD、UX、架构、故事和迭代状态</td>
+<td>产品与架构取舍、阶段验收、方向调整</td>
+</tr>
+<tr>
+<td>Compound Engineering</td>
+<td>计划、实现、审查记录、解决方案知识</td>
+<td>经验的适用条件、知识更新与对外交付权限</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="验证与执行成本"><a href="#验证与执行成本" class="headerlink" title="验证与执行成本"></a>验证与执行成本</h3><p>验证能力是否能用起来, 取决于项目是否提供了对应环境。浏览器 QA 需要可以复现的用户状态, 性能优化需要基线, 规格检查需要可信的文档。缺少输入条件时, 多运行一轮 Agent 也难以得到可靠结论。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>验证方式</th>
+<th>需要准备的条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Superpowers</td>
+<td>TDD、逐任务与整分支审查、完成前实跑</td>
+<td>可运行的测试命令; 使用子 Agent 路径时需支持独立执行上下文</td>
+</tr>
+<tr>
+<td>Matt Pocock Skills</td>
+<td>短反馈回路、TDD、规格与工程标准审查</td>
+<td>自包含工单、明确的行为预期、可快速复现的测试</td>
+</tr>
+<tr>
+<td>Spec Kit</td>
+<td>analyze 检查产物, converge 将实施差距转回任务</td>
+<td>已形成的 spec、plan、tasks 及当前代码; 实际运行测试另由项目工具提供</td>
+</tr>
+<tr>
+<td>gstack</td>
+<td>浏览器 QA、视觉与性能检查、部署后检查</td>
+<td>可访问的服务、测试账号与数据; 上线检查还需部署环境</td>
+</tr>
+<tr>
+<td>Addy Agent Skills</td>
+<td>TDD、独立质疑、性能与安全等专项检查</td>
+<td>明确的专项目标和基线; 浏览器 Skill 需 Chrome DevTools MCP</td>
+</tr>
+<tr>
+<td>OpenSpec</td>
+<td>verify 对照实现与变更产物</td>
+<td>当前变更、主规格和实际代码; 行为回归需项目自身测试</td>
+</tr>
+<tr>
+<td>BMAD</td>
+<td>阶段预览、代码审查、API 与端到端测试工作流</td>
+<td>可执行项目、验收条件、适用的测试框架与环境</td>
+</tr>
+<tr>
+<td>Compound Engineering</td>
+<td>代码与浏览器审查、PR 检查、可选 iOS 验证</td>
+<td>宿主支持的浏览器能力; iOS 模拟器路径需 XcodeBuildMCP; 跨模型审查需核对数据边界</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p>成本不仅是 Token, 还包括环境配置、人工决策和文档维护。试用时记录漏项、返工、验证覆盖与人工接手时间, 才能判断新增流程是否有收益。未经同条件测试的固定节省比例, 不适合作为选型依据。</p>
+</div>
+<h2 id="场景选择"><a href="#场景选择" class="headerlink" title="场景选择"></a>场景选择</h2><h3 id="优先使用场景"><a href="#优先使用场景" class="headerlink" title="优先使用场景"></a>优先使用场景</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>当前主要问题</th>
+<th>优先考虑</th>
+<th>预期改善</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需求已经明确, 实施仍漏测试或缺少完成证据</td>
+<td>Superpowers</td>
+<td>将计划、逐任务审查和实际验证连接起来</td>
+</tr>
+<tr>
+<td>关键业务决定没有留下记录, 换会话后反复解释</td>
+<td>Matt Pocock Skills</td>
+<td>先保留决策依据, 再生成可以接续的工单</td>
+</tr>
+<tr>
+<td>多人协作需要统一需求和技术方案</td>
+<td>Spec Kit</td>
+<td>建立能够共同审查的规格及其实施映射</td>
+</tr>
+<tr>
+<td>现有代码持续演进, 很难分清当前行为与待改行为</td>
+<td>OpenSpec</td>
+<td>分离主规格和变更增量, 控制每次修改范围</td>
+</tr>
+<tr>
+<td>Web 功能需要经过实际使用路径再交付</td>
+<td>gstack</td>
+<td>补上计划评审、浏览器 QA 与交付操作</td>
+</tr>
+<tr>
+<td>功能完成后才补性能、安全或观测要求</td>
+<td>Addy Agent Skills</td>
+<td>把专项工程要求提前放进开发流程</td>
+</tr>
+<tr>
+<td>产品、UX 和架构决策互相影响</td>
+<td>BMAD</td>
+<td>分层记录决定, 再传递到实施和迭代</td>
+</tr>
+<tr>
+<td>同一仓库不断重复解决相似问题</td>
+<td>Compound Engineering</td>
+<td>让已验证经验参与下一轮研究与计划</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="相近方案的取舍"><a href="#相近方案的取舍" class="headerlink" title="相近方案的取舍"></a>相近方案的取舍</h3><p>用“给订单服务增加异步导出”这类常规需求, 更容易看出工作流的差异。这是对流程的推演, 并非八个项目的实测结果。</p>
+<p><strong>Spec Kit 与 OpenSpec:</strong> 如果需要先确定导出权限、异步接口和任务契约, 并追溯这些要求如何进入实施, Spec Kit 的 spec、plan、tasks 关系更直接。如果已有稳定接口, 本次只是调整导出行为, OpenSpec 可以把修改放进独立变更, 评审规格增量, 完成后再同步主规格。关键在于需要建立需求基线, 还是维护基线之上的变更, 不必严格按新旧项目划分。</p>
+<p><strong>Superpowers 与 Matt Pocock Skills:</strong> 当产品尚未决定导出哪些字段、谁可以下载结果, Matt 的追问和决策记录应先介入。当这些规则已确定, 工作重点变成队列任务、权限检查和回归测试, Superpowers 的逐任务实施与审查更有针对性。两者都包含 TDD, 但解决返工的起点不同。</p>
+<p><strong>BMAD 与 gstack:</strong> 如果导出功能牵涉产品套餐、角色权限、交互与后台架构, BMAD 适合展开这些相互影响的决定。如果方案已定, 主要风险是进度展示、失败重试和下载路径是否真的可用, gstack 的浏览器 QA 与交付流程更贴近问题。</p>
+<p><strong>Addy Agent Skills 与 Compound:</strong> 当导出功能需要补上大数据量性能、可观测性和失败恢复, Addy 的专项 Skills 能把这些工作纳入当前计划。如果仓库过去已经出现过队列重复执行或权限泄漏, Compound 更关注把这些经过验证的历史结论带入本次开发, 避免重复探索。</p>
+<h3 id="试用与组合"><a href="#试用与组合" class="headerlink" title="试用与组合"></a>试用与组合</h3><p>实际试用时, 固定同一项任务及其验收条件, 观察工作流能否发现需求漏项、形成可执行计划, 并留下真实验证结果。再加入一次小范围需求调整, 检查需要同步哪些文件、已完成任务如何修正, 可以更清楚地看出维护成本。</p>
+<p>若要组合多个套件, 应先划分产物与执行职责。以 OpenSpec 配合 Superpowers 为例, 可以约定 OpenSpec 维护正式规格和变更任务, Superpowers 根据这些要求实施与验证; 验证中的差异再回到原变更处理。还需明确谁更新任务状态、谁处理审查分歧, 避免两个流程分别宣告完成。这是职责划分建议, 不代表已验证的跨插件兼容方案。</p>
+<div class="note warning flat"><p>多个套件可能同时维护项目指导文件、生成任务、创建工作区或执行提交。组合前应指定主流程, 明确辅助 Skill 的输入、允许修改的文件和返回结果。合并、推送、部署及外部内容共享继续单独授权, 不随“完整流程”一并放开。</p>
+</div>
+<p>我会优先保留能减少实际返工的步骤: 需求没有遗漏到测试之外, 工单能够交给新会话, 历史故障能够影响新方案。工作流的价值最终应体现在这些结果上, 而不是产物数量或角色数量。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>各节 Skill 名称链接到相应源文件。以下入口用于继续查看官方方法、分发方式与完整目录。</p>
+<div class="link-group"><div class="tag link"><a class="link-card" title="Superpowers" target="_blank" rel="noopener" href="https://github.com/obra/superpowers"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">Superpowers</p><p class="url">https://github.com/obra/superpowers</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Matt Pocock Skills" target="_blank" rel="noopener" href="https://github.com/mattpocock/skills"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">Matt Pocock Skills</p><p class="url">https://github.com/mattpocock/skills</p></div></a></div>
+<div class="tag link"><a class="link-card" title="GitHub Spec Kit" target="_blank" rel="noopener" href="https://github.com/github/spec-kit"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">GitHub Spec Kit</p><p class="url">https://github.com/github/spec-kit</p></div></a></div>
+<div class="tag link"><a class="link-card" title="gstack" target="_blank" rel="noopener" href="https://github.com/garrytan/gstack"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">gstack</p><p class="url">https://github.com/garrytan/gstack</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Addy Osmani Agent Skills" target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">Addy Osmani Agent Skills</p><p class="url">https://github.com/addyosmani/agent-skills</p></div></a></div>
+<div class="tag link"><a class="link-card" title="OpenSpec" target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">OpenSpec</p><p class="url">https://github.com/Fission-AI/OpenSpec</p></div></a></div>
+<div class="tag link"><a class="link-card" title="BMAD METHOD" target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">BMAD METHOD</p><p class="url">https://github.com/bmad-code-org/BMAD-METHOD</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Compound Engineering" target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">Compound Engineering</p><p class="url">https://github.com/EveryInc/compound-engineering-plugin</p></div></a></div></div>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers/tree/v6.3.0/skills">Superpowers 的工作流与 Skills</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mattpocock/skills/blob/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76/.claude-plugin/plugin.json">Matt Pocock Skills 的实际插件清单</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/github/spec-kit/tree/v1.0.1/templates/commands">Spec Kit 的内置命令模板</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/garrytan/gstack/blob/ad8400543cd9ce8d07641362db48d44a95417e33/README.md">gstack 的安装与目录说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/addyosmani/agent-skills/blob/7cb7a20bb38b199728d456999c725a0488490ab6/README.md">Addy Osmani Agent Skills 的工作流说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Fission-AI/OpenSpec/blob/v1.11.0/docs/commands.md">OpenSpec 的命令参考</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/tree/v6.11.0/src/bmm-skills">BMAD 的 Method Skills</a> 与 <a target="_blank" rel="noopener" href="https://github.com/bmad-code-org/BMAD-METHOD/tree/v6.11.0/src/core-skills">Core Skills</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/EveryInc/compound-engineering-plugin/tree/compound-engineering-v3.23.4/skills">Compound Engineering 的 Skills</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/df8a8a9e/">https://koco-co.github.io/posts/df8a8a9e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI%E7%BC%96%E7%A8%8B/">AI编程</a><a class="post-meta__tags" href="/tags/Coding-Agent/">Coding Agent</a><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/ea590b49/" title="FastAPI(四)数据模型与响应契约"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">FastAPI(四)数据模型与响应契约</div></div><div class="info-2"><div class="info-item-1">使用 Pydantic v2 建立输入输出模型、序列化规则、状态码、错误契约和 OpenAPI 文档。</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">151</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">开发流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E6%A6%82%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">插件概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Superpowers"><span class="toc-number">3.</span> <span class="toc-text">Superpowers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%96%BD%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="toc-number">3.1.</span> <span class="toc-text">实施与验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Skills-%E6%B8%85%E5%8D%95"><span class="toc-number">3.2.</span> <span class="toc-text">Skills 清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D"><span class="toc-number">3.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Matt-Pocock"><span class="toc-number">4.</span> <span class="toc-text">Matt Pocock</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%B3%E7%AD%96%E4%B8%8E%E5%B7%A5%E5%8D%95"><span class="toc-number">4.1.</span> <span class="toc-text">决策与工单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Skills-%E6%B8%85%E5%8D%95-1"><span class="toc-number">4.2.</span> <span class="toc-text">Skills 清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D-1"><span class="toc-number">4.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Spec-Kit"><span class="toc-number">5.</span> <span class="toc-text">GitHub Spec Kit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E6%A0%BC%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">5.1.</span> <span class="toc-text">规格与一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%B8%8E-Skills"><span class="toc-number">5.2.</span> <span class="toc-text">命令与 Skills</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D-2"><span class="toc-number">5.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gstack"><span class="toc-number">6.</span> <span class="toc-text">gstack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E5%AE%A1%E4%B8%8E%E4%BA%A7%E5%93%81%E4%BA%A4%E4%BB%98"><span class="toc-number">6.1.</span> <span class="toc-text">评审与产品交付</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Skills-%E6%B8%85%E5%8D%95-2"><span class="toc-number">6.2.</span> <span class="toc-text">Skills 清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D-3"><span class="toc-number">6.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Addy-Osmani"><span class="toc-number">7.</span> <span class="toc-text">Addy Osmani</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E8%B4%A8%E9%87%8F%E8%A6%86%E7%9B%96"><span class="toc-number">7.1.</span> <span class="toc-text">工程质量覆盖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Skills-%E6%B8%85%E5%8D%95-3"><span class="toc-number">7.2.</span> <span class="toc-text">Skills 清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D-4"><span class="toc-number">7.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenSpec"><span class="toc-number">8.</span> <span class="toc-text">OpenSpec</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E9%87%8F%E8%A7%84%E6%A0%BC%E7%AE%A1%E7%90%86"><span class="toc-number">8.1.</span> <span class="toc-text">增量规格管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%B8%8E-Skills-1"><span class="toc-number">8.2.</span> <span class="toc-text">命令与 Skills</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D-5"><span class="toc-number">8.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BMAD-METHOD"><span class="toc-number">9.</span> <span class="toc-text">BMAD-METHOD</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E4%B8%8E%E6%8A%80%E6%9C%AF%E5%86%B3%E7%AD%96"><span class="toc-number">9.1.</span> <span class="toc-text">产品与技术决策</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Skills-%E6%B8%85%E5%8D%95-4"><span class="toc-number">9.2.</span> <span class="toc-text">Skills 清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D-6"><span class="toc-number">9.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Compound"><span class="toc-number">10.</span> <span class="toc-text">Compound</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E5%A4%8D%E7%94%A8"><span class="toc-number">10.1.</span> <span class="toc-text">工程知识复用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Skills-%E6%B8%85%E5%8D%95-5"><span class="toc-number">10.2.</span> <span class="toc-text">Skills 清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%96%E8%88%8D-7"><span class="toc-number">10.3.</span> <span class="toc-text">使用取舍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E5%AF%B9%E6%AF%94"><span class="toc-number">11.</span> <span class="toc-text">横向对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82"><span class="toc-number">11.1.</span> <span class="toc-text">核心差异</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A7%E7%89%A9%E4%B8%8E%E6%A3%80%E6%9F%A5%E7%82%B9"><span class="toc-number">11.2.</span> <span class="toc-text">产物与检查点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E4%B8%8E%E6%89%A7%E8%A1%8C%E6%88%90%E6%9C%AC"><span class="toc-number">11.3.</span> <span class="toc-text">验证与执行成本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E9%80%89%E6%8B%A9"><span class="toc-number">12.</span> <span class="toc-text">场景选择</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">12.1.</span> <span class="toc-text">优先使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E8%BF%91%E6%96%B9%E6%A1%88%E7%9A%84%E5%8F%96%E8%88%8D"><span class="toc-number">12.2.</span> <span class="toc-text">相近方案的取舍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%95%E7%94%A8%E4%B8%8E%E7%BB%84%E5%90%88"><span class="toc-number">12.3.</span> <span class="toc-text">试用与组合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">13.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A208.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 编程工作流插件选型指南"/></a><div class="content"><a class="title" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南">AI 编程工作流插件选型指南</a><time datetime="2026-08-27T08:24:15.000Z" title="发表于 2026-08-27 16:24:15">2026-08-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/eba16d90/" title="App测试(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(一)入门路线"/></a><div class="content"><a class="title" href="/posts/eba16d90/" title="App测试(一)入门路线">App测试(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(七)兼容性与适配"/></a><div class="content"><a class="title" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配">App测试(七)兼容性与适配</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(三)Android 环境与设备"/></a><div class="content"><a class="title" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备">App测试(三)Android 环境与设备</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(九)可用性与可访问性"/></a><div class="content"><a class="title" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性">App测试(九)可用性与可访问性</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/flashcard-queue.js"></script><script id="hfc-sync-config-data" type="application/json">{"enabled":true,"url":"https://hkqqjttiqhwfdintqxpx.supabase.co","publishableKey":"sb_publishable_BYiAsjvfObJ1Kj26-YkVeQ_x4ruAFc4"}</script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

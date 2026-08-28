@@ -2474,6 +2474,16 @@
       ],
       "App测试(十二)Appium 架构与会话": [
         {
+          "block": "组件架构 / 城内信差",
+          "reader_task": "从委托在信差、翻译官、守卫与宅院间的回执，推导 Appium 会话的分层调用链和排障证据。",
+          "core_content": "故事把客户端、Appium Server、UiAutomator2 驱动与 ADB/设备映射为四个传递层；结尾强调同一会话固定目标和资源，随后用架构图、组件表与启动链验证。",
+          "carrier": "story + note primary flat + mermaid + table",
+          "rationale": "把会话失败统称为“点不动”会遮蔽故障层；故事先让每层回执承担定位职责，再用真实组件名称限制隐喻。",
+          "directly_visible": "故事、四层映射、架构图、组件职责表、日志证据和会话关闭边界均直接可见。",
+          "degradation": "图像或 Mermaid 失效时故事后的文字映射、表格与命令仍完整。",
+          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+        },
+        {
           "block": "组件架构",
           "reader_task": "在“用 Python 启动 ApiDemos 会话，打印 session id，完成一次命令后可靠 quit”中以“Server 与 Client”的输入为起点，按“Server 与 Client→Driver 与设备端 Server”的依赖完成“组件架构”，最终交付一张含节点职责、转移条件、失败回路和文字降级的关系图",
           "core_content": "“组件架构”只接受一个章节级产物：一张含节点职责、转移条件、失败回路和文字降级的关系图。入口必须先满足“Server 与 Client”的专属条件“跟踪 Python Client 如何把 WebDriver 命令编码为 W3C HTTP 请求并由 Appium Server 路由；状态路由不通时先恢复 server 而不重置设备”；章节出口必须能以“Driver 与设备端 Server”的专属结果“从 Appium 路由跟到 UiAutomator2 driver、设备端 server 与 Android 系统，分别保存四层日志；设备端 server 未就绪时只重建该层并清理旧会话”关闭本节任务",

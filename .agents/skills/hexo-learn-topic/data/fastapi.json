@@ -1071,6 +1071,18 @@
       ],
       "FastAPI(五)依赖注入与资源管理": [
         {
+          "block": "资源清理 / 剧院交接",
+          "h2": "资源清理",
+          "h3": "yield 依赖",
+          "reader_task": "先从资源借出后无论成功失败都要回收的后果，推导 `yield` 依赖的进入、使用与退出边界。",
+          "core_content": "故事把开门、交钥匙和收钥匙映射到 `yield` 前、处理函数使用与 `yield` 后清理；随后用时序图、代码和流式响应边界验证。",
+          "carrier": "story + tag:mermaid sequenceDiagram + code + note info flat",
+          "rationale": "资源清理的关键不是记住语法，而是异常和流式响应下的时机；故事先暴露钥匙遗留的后果，时序图再明确调用顺序。",
+          "directly_visible": "故事、资源映射、异常清理和 scope 对流式响应的影响均直接可见。",
+          "degradation": "故事、代码和紧邻的说明在 Mermaid 失效时仍可读。",
+          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+        },
+        {
           "block": "依赖图 / 函数依赖",
           "h2": "依赖图",
           "h3": "函数依赖",

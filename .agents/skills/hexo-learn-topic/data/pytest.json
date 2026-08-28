@@ -4404,12 +4404,22 @@
           "fallback": "纯文本首段保留全部定位信息",
           "status": "planned"
         },
-        "sections": [
-          {
-            "section": "依赖注入",
-            "blocks": [
-              {
-                "name": "fixture 依赖图",
+      "sections": [
+        {
+          "section": "依赖注入",
+          "blocks": [
+            {
+              "name": "造船坊工单故事",
+              "task": "从工单、登记员、材料库和临时钥匙的依赖关系推导 Fixture 注入与清理。",
+              "content": "故事先呈现资源建立失败时不应进入测试、调用失败仍要回收资源的后果；结尾映射测试参数、Fixture、子依赖和逆序清理。",
+              "carrier": "concept story + mermaid graph TD + code",
+              "reason": "Fixture 容易被误用成隐藏全局状态；先让读者观察可追踪的准备关系，再用依赖图和代码固化真实机制。",
+              "visible": "故事、参数/Fixture/子依赖映射、依赖图、代码与清理边界均可见。",
+              "fallback": "故事、代码和依赖列表不依赖图形或交互。",
+              "status": "implemented; content and tags audit passed; pending batch build/browser sampling"
+            },
+            {
+              "name": "fixture 依赖图",
                 "task": "从测试参数追踪 fixture 解析和注入",
                 "content": "请求 Fixture；组合依赖",
                 "carrier": "mermaid graph TD + 代码",

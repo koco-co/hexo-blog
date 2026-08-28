@@ -50,12 +50,30 @@ SDK Platform 提供目标 API 的编译和调试接口；Platform Tools 提供 a
 模拟器适合快速覆盖 API 版本、屏幕尺寸和系统入口；它不能替代真机对功耗、厂商 ROM、传感器和射频的判断。
 {% endnote %}
 
+{% note info flat %}
+在 Android Studio 中，模拟器入口位于 More Actions → Virtual Device Manager；命令行流程则从 `emulator -list-avds` 开始。两种入口最终都应落到可记录的 AVD 名称和设备基线。
+{% endnote %}
+
+![Android Studio 的 Virtual Device Manager 入口](/img/learn-topic/app-testing/android-studio-virtual-device-manager.png)
+
 ### AVD 配置
 
 1. 选择与产品支持范围对应的系统镜像和 ABI，不为了“能启动”随意降低 API。
 2. 为设备记录屏幕尺寸、密度、方向、内存和存储空间。
 3. 关闭会改变结果的随机设置，例如自动恢复到未知快照或后台持续运行。
 4. 运行 emulator -list-avds 确认名称，再以同一名称启动并等待设备状态稳定。
+
+{% note info flat %}
+配置 AVD 时同时确认 API、ABI、服务类型与屏幕规格；这些字段应写入设备基线，而不是只保存一个设备名称。
+{% endnote %}
+
+![Android Studio 配置虚拟设备的系统镜像、ABI 与屏幕规格](/img/learn-topic/app-testing/android-avd-system-image.png)
+
+{% note info flat %}
+创建完成后回到 Device Manager，确认 AVD 名称、API、架构和可启动状态；设备列表是启动前的可审计检查点。
+{% endnote %}
+
+![Android Studio Device Manager 中的 AVD 列表](/img/learn-topic/app-testing/android-device-manager.png)
 
 ### 快照与冷启动
 
@@ -82,6 +100,12 @@ SDK Platform 提供目标 API 的编译和调试接口；Platform Tools 提供 a
 2. 使用可信数据线连接，首次连接时核对设备上的 RSA 授权提示。
 3. 运行 adb devices -l，确认序列号、型号和状态。
 4. 锁屏、切换 USB 模式或拔插后重新检查，不把一次成功当成永久授权。
+
+{% note info flat %}
+真机信息页可以帮助核对开发者模式、型号和系统版本。下图只是历史设备示例，正式记录仍应来自当前设备，并以 `adb devices -l` 的回读结果为准。
+{% endnote %}
+
+![Android 真机开发者模式与系统版本页面示例](/img/learn-topic/app-testing/android-real-device-developer-mode.jpg)
 
 ### 无线调试
 

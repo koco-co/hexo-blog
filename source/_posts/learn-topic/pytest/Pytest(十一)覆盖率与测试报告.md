@@ -98,6 +98,12 @@ xdist 下使用 pytest-cov 时要确认各 worker 的数据被合并；子进程
 Allure 将 Pytest 结果写入结果目录，再由报告工具生成静态站点。步骤、标签、链接和附件可以帮助人工诊断；结果目录应视为构建产物，生命周期、访问权限和清理策略要与 JUnit/覆盖率分开管理。
 {% endnote %}
 
+![Allure 测试报告的套件、用例状态与步骤概览](/img/learn-topic/pytest/allure-report-overview.png "Allure 报告概览")
+
+{% note info flat %}
+报告界面适合快速定位失败步骤与历史趋势，但页面上的通过状态仍要回到原始 Node、退出码、环境和附件验证。示例报告中的业务名称仅用于演示，真实项目应先脱敏再上传。
+{% endnote %}
+
 ```bash
 python -m pytest tests/integration --alluredir=artifacts/allure-results
 allure generate artifacts/allure-results --clean -o artifacts/allure-report

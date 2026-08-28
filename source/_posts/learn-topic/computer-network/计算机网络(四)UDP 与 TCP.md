@@ -86,6 +86,12 @@ TCP 首部的常用字段如下。选项会使首部长度大于最小的 20 字
 | 校验和 | 检测 TCP 段和伪首部等传输错误 | 校验通过不代表应用处理成功 |
 | 选项 | MSS、窗口扩大、SACK、时间戳等协商或反馈 | 选项是否存在要看具体抓包 |
 
+![TCP 首部字段与控制标志的布局示意图](/img/learn-topic/computer-network/tcp-header-fields.jpeg "TCP 首部字段")
+
+{% note info flat %}
+首部图适合在抓包中定位字段，不应替代具体版本和选项长度的核对。尤其要区分接收窗口 `rwnd` 与拥塞窗口 `cwnd`，并确认数据偏移字段后再定位应用载荷。
+{% endnote %}
+
 ## 连接模型
 
 ### 序列与确认
@@ -278,6 +284,12 @@ sequenceDiagram
     A->>B: ACK ack=b+1
     Note over A: 主动关闭方进入 TIME-WAIT 后等待旧报文消失
 {% endmermaid %}
+
+![TCP 常见四段挥手与半关闭状态示意图](/img/learn-topic/computer-network/tcp-four-way-close.jpeg "TCP 四段挥手")
+
+{% note info flat %}
+图示的是最常见的“先 FIN、再 ACK、再 FIN、再 ACK”时序；真实抓包中 ACK 可能与数据合并，双方也可能同时关闭。判断异常时以 FIN/RST 的方向、序列号和套接字状态为准。
+{% endnote %}
 
 ### 关闭信号
 

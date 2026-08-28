@@ -125,6 +125,12 @@ def test_discount_cases(total, rate, expected):
 ID 应说明业务输入而不是重复实现细节。使用 ids= 函数时必须保证在参数变化后仍稳定；Unicode ID 可以提高可读性，但 CI 日志和复制命令仍应可识别。
 {% endnote %}
 
+![Pytest 参数化用例使用 Unicode ID 后的收集与结果输出](/img/learn-topic/pytest/parametrize-unicode-ids.png "Pytest 参数化 ID 输出")
+
+{% note info flat %}
+可读的 ID 让失败节点直接表达业务输入，但 ID 仍必须唯一、稳定并能被命令行复用。团队若有终端编码或报告系统限制，可以保留短 ASCII ID，并在参数值中记录更完整的业务描述。
+{% endnote %}
+
 ## 组合策略
 
 {% note warning flat %}

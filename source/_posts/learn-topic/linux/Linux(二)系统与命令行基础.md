@@ -147,6 +147,12 @@ Linux 只有一个根目录 /。不同磁盘可以挂载到树上的任意目录
 | /boot | 启动相关内核和引导文件 | 修改前是否有恢复路径 |
 | /opt、/srv | 第三方软件、对外服务数据 | 是否属于应用自己的约定 |
 
+{% note info flat %}
+目录层级图适合建立“用途 → 排障问题”的第一印象；实际发行版可能增加目录或把目录挂载到独立分区，仍应以当前主机的挂载表和软件包清单为准。
+{% endnote %}
+
+![Linux 常见 FHS 目录层级示意图](/img/learn-topic/linux/filesystem-hierarchy.png "Linux 常见 FHS 目录层级示意图")
+
 ### 路径语义
 
 | 写法 | 起点 | 示例 | 适合场景 |
@@ -333,6 +339,12 @@ info coreutils 'ls invocation'
 vi 是 POSIX 编辑器入口，vim 是常见的增强实现。只需完成一次配置修改时，记住以下最小状态机即可。
 {% endnote %}
 
+![Vim 从普通模式、插入模式到命令行模式的状态切换](/img/learn-topic/linux/vim-modes.png "Vim 模式状态切换示意图")
+
+{% note info flat %}
+模式图解释的是“按键当前由谁消费”：普通模式负责移动和操作，插入模式负责输入，命令行模式负责保存、退出和搜索。按 `Esc` 回到普通模式是排查误输入的最短恢复路径。
+{% endnote %}
+
 ~~~text
 vim file        # 打开文件
 i               # 进入插入模式
@@ -343,6 +355,12 @@ Esc             # 回到普通模式
 u               # 撤销
 dd              # 删除当前行
 ~~~
+
+![Vim 常用移动、编辑与命令按键速查图](/img/learn-topic/linux/vim-keyboard-reference.jpeg "Vim 常用按键速查图")
+
+{% note warning flat %}
+按键图只是速查表，不取代 `:help`；终端、Vim 配置和键盘布局可能改变实际行为。先在临时文件确认按键，再操作生产配置。
+{% endnote %}
 
 {% note danger flat %}
 在生产配置上按 :wq 前先确认文件路径和备份策略；:q! 只放弃本次编辑，不会恢复此前已经写入磁盘的内容。不能使用 Vim 时，先用 man、more 或受控的编辑器替代，不要把未验证的命令粘贴到配置文件。

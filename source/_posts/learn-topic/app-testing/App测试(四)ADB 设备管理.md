@@ -35,6 +35,12 @@ flowchart TD
 客户端负责接受命令，主机 server 负责发现并路由设备，设备端 adbd 负责执行。命令没有显式目标时，单设备可以省略选择，多设备必须把 serial 当成隔离边界。
 {% endnote %}
 
+{% note info flat %}
+旧笔记中的示意图把主机端 Client/Server 与设备端 adbd 画成两侧，用来理解进程边界和 5037/transport；实际排障仍以当前命令输出和目标 serial 为准。
+{% endnote %}
+
+![ADB 客户端、服务端与设备端 adbd 的概念关系](/img/learn-topic/app-testing/adb-client-server-adbd-architecture.jpeg)
+
 ### client
 
 {% note primary flat %}

@@ -62,6 +62,12 @@ flowchart TD
 `INNER JOIN` 只保留双方匹配的行；`LEFT JOIN` 保留左表全部行，右表未匹配列为 NULL；`CROSS JOIN` 生成笛卡尔积；自连接把同一表看作两个角色。外连接中，匹配条件和右表过滤通常应写在 `ON`，否则放进 WHERE 可能把 `LEFT JOIN` 变回 `INNER JOIN`；对 INNER JOIN，等价的过滤也可以写在 WHERE。
 {% endnote %}
 
+![INNER JOIN、LEFT JOIN、RIGHT JOIN 与 FULL OUTER JOIN 的集合关系示意图](/img/learn-topic/mysql/join-types.jpeg "SQL JOIN 类型示意图")
+
+{% note warning flat %}
+集合图只帮助判断“保留哪一侧的行”，不能代替基于键和基数的结果推导。MySQL 原生没有 `FULL OUTER JOIN` 语法；需要两侧保留时，应明确用 `LEFT JOIN` 与反向 `LEFT JOIN` 的 `UNION` 组合，并验证重复行与 NULL。
+{% endnote %}
+
 | 需求 | 首选 | 结果边界 |
 | --- | --- | --- |
 | 只要有订单的用户 | `INNER JOIN` 或 `EXISTS` | 一个用户多订单会重复，必要时 `DISTINCT` |

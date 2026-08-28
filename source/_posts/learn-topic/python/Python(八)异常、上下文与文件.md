@@ -75,6 +75,12 @@ except ValueError as error:
     raise ConfigError("配置中的 port 无效") from error
 ```
 
+![异常从底层调用向上层传播并被捕获或转换的路径](/img/learn-topic/python/exception-propagation.png "Python 异常传播")
+
+{% note info flat %}
+异常传播图强调调用栈上的责任边界：底层保留足够上下文，上层只在能处理时捕获或转换；没有处理能力的层应继续抛出，而不是用空 `except` 把失败伪装成成功。
+{% endnote %}
+
 ### 异常组
 
 {% note primary flat %}
@@ -123,6 +129,12 @@ with labelled_operation("import"):
 
 {% note primary flat %}
 用 `pathlib.Path` 表达路径，用 `with path.open(...)` 读写文件。文本模式必须明确编码；二进制模式读写 `bytes`。路径拼接用 `/` 运算符或 `joinpath()`，不要手工拼接 Windows 或 POSIX 分隔符。
+{% endnote %}
+
+![Python 文件对象、缓冲区与持久化介质之间的输入输出关系](/img/learn-topic/python/python-file-io-model.png "Python 文件 I/O 模型")
+
+{% note info flat %}
+文件 I/O 图用于区分程序缓冲区、操作系统和持久化介质：`write()` 返回并不等于数据已经安全落盘，是否需要 `flush()`、`fsync()` 或事务提交取决于可靠性要求。文章只把资源关闭交给 `with`，不把关闭误读成持久化保证。
 {% endnote %}
 
 ```python

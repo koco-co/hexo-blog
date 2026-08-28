@@ -51,6 +51,12 @@ flowchart TD
 | pct | 事件比例 | 组合不合理导致覆盖偏斜 |
 | monitor | 是否忽略特定错误 | 忽略后可能漏报严重问题 |
 
+{% note info flat %}
+运行 `adb shell monkey -h` 可以先确认当前系统支持的事件比例和脚本参数；不同 API 的帮助文本可能略有差异，执行脚本仍以目标设备输出为准。
+{% endnote %}
+
+![Android Monkey 帮助输出中的事件比例与脚本参数](/img/learn-topic/app-testing/monkey-help-event-options.png)
+
 ## 执行约束
 
 {% note warning flat %}

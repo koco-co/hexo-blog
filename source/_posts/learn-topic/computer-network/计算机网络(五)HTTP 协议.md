@@ -105,6 +105,12 @@ Cache-Control: max-age=60
 | 内容 | 可选请求内容 | 可选响应内容 | MIME 类型和分帧不能混为一谈 |
 | 传输版本 | HTTP/1.1 文本消息等 | HTTP/2/3 会映射到帧和流 | 语义与线格式是两个维度 |
 
+![HTTP 请求与响应的起始行、字段区和内容区结构](/img/learn-topic/computer-network/http-message-structure.jpeg "HTTP 消息结构")
+
+{% note info flat %}
+结构图用于阅读 HTTP/1.x 的线格式；HTTP/2 和 HTTP/3 把这些语义映射到帧与流，却仍保留方法、状态、字段和内容边界。看到空行只能知道字段区结束，不能单独证明响应体已经完整接收。
+{% endnote %}
+
 ### 内容类型、长度和分帧
 
 {% note info flat %}

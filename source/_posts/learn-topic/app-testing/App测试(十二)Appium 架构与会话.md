@@ -39,6 +39,12 @@ flowchart LR
 图失效时仍按客户端→Server→驱动→ADB→设备的方向检查。客户端只负责发送协议请求，真正的设备安装、启动和元素查找由驱动与 Android 工具链共同完成。
 {% endnote %}
 
+{% note info flat %}
+这张旧版概念图用于理解脚本、UiAutomator2 driver 与设备端辅助服务之间的请求方向。图中组件名称会随 Appium 版本变化，当前实现以 W3C options、Server 日志和实际驱动版本为准。
+{% endnote %}
+
+![Appium 脚本、UiAutomator2 驱动与 Android 设备的概念架构](/img/learn-topic/app-testing/appium-architecture-overview.jpeg)
+
 | 组件 | 负责 | 常见失败 |
 | --- | --- | --- |
 | 客户端 | 构造 options、调用 WebDriver API | 依赖或参数版本不匹配 |
@@ -119,6 +125,12 @@ finally:
 | noReset | 控制数据清理 | 要与测试起点和证据一致 |
 | newCommandTimeout | 无命令超时 | 长断点调试时按团队策略设置 |
 
+{% note info flat %}
+Inspector 的 Capability Builder 可以帮助检查键值与 JSON 映射，但它不是运行时契约；最终仍以代码中的 `UiAutomator2Options` 和 Server 日志为准。
+{% endnote %}
+
+![Appium Inspector Capability Builder 中的 platformName 与 automationName](/img/learn-topic/app-testing/appium-inspector-capabilities.png)
+
 {% note warning flat %}
 能力不是越多越好。每增加一项 capability，就增加驱动分支和诊断维度；先使用能启动目标 App 的最小集合，再按实际问题补充。
 {% endnote %}
@@ -176,6 +188,8 @@ options.load_capabilities({
 {% note info flat %}
 Inspector 适合观察和试探，不是稳定性证明。层级树、显示文本和可点击状态会随数据、动画和版本变化，最终定位仍需放进可复现用例。
 {% endnote %}
+
+![Appium Inspector 源码树与设备预览的界面示例](/img/learn-topic/app-testing/appium-inspector-source-panel.png)
 
 ### 信息记录
 

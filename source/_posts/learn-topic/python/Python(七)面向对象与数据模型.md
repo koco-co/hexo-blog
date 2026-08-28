@@ -108,10 +108,22 @@ print([cls.__name__ for cls in Job.mro()])
 多重继承中的每个协作方法都应使用 `super()`，并接受兼容签名；直接点名某个父类可能跳过 MRO 中的其他协作者。若关系只是复用一小段行为，优先组合、小型 mixin 或独立函数。
 {% endnote %}
 
+![基类、子类与继承关系的层级示意图](/img/learn-topic/python/inheritance-hierarchy.png "Python 继承层级示意图")
+
+{% note info flat %}
+继承图只表示“是什么”的类型关系；它不说明所有方法都应被覆写，也不代表子类可以绕过基类不变量。设计时先检查替换关系和共享协议，再决定是否需要继承。
+{% endnote %}
+
 ## 数据类与抽象
 
 {% note primary flat %}
 `@dataclass` 适合主要承载数据的类，能生成初始化、表示和相等性等样板代码；字段默认可变值仍应使用 `default_factory`。抽象基类（ABC）表达必须实现的能力，适合需要多个可替换实现的边界，不是每个类都必须继承的框架。
+{% endnote %}
+
+![抽象基类与具体子类实现能力的关系](/img/learn-topic/python/abstract-class-subclass-model.png "Python 抽象类与子类")
+
+{% note info flat %}
+抽象类图表达的是“调用方依赖能力、实现方提供细节”。实例化前必须满足抽象方法契约；如果只有少量共享行为而没有稳定替换边界，组合或协议通常比抽象继承更轻量。
 {% endnote %}
 
 ```python

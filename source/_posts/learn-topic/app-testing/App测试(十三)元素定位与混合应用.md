@@ -71,6 +71,12 @@ row = driver.find_element(
 save_button.click()
 ~~~
 
+{% note info flat %}
+Inspector 的元素详情可以同时看到 resource-id、class 和生成的 UiAutomator/XPath 候选。先用稳定属性，再在代码中验证唯一性与业务状态。
+{% endnote %}
+
+![Appium Inspector 中从页面源提取 resource-id 和 UiAutomator 定位的示例](/img/learn-topic/app-testing/appium-inspector-locator.png)
+
 {% note warning flat %}
 自动生成的绝对 XPath、包含多个 index 的定位和裸坐标很难解释失败。定位成功后仍要断言点击后的业务状态，避免“找到了错误节点”却让用例通过。
 {% endnote %}
@@ -161,6 +167,12 @@ driver.switch_to.context("NATIVE_APP")
 2. 设备允许调试并能被 Chrome DevTools 发现。
 3. 页面已加载目标域名和 DOM，避免在空白页切换。
 4. 记录 WebView 版本、设备 API 和驱动版本。
+
+{% note info flat %}
+Chrome 的 `chrome://inspect/#devices` 可用来确认 USB 调试设备是否暴露可调试 WebView。截图中的应用与域名只是示例，正式检查仍以当前测试构建和目标页面为准。
+{% endnote %}
+
+![Chrome DevTools 发现 Android 模拟器 WebView 的示例](/img/learn-topic/app-testing/chrome-remote-debugging-webview.png)
 
 {% note warning flat %}
 WebView 调试依赖构建和设备条件。若上下文列表没有目标 WebView，先查调试开关、页面加载和驱动日志，不要凭猜测修改 locator。

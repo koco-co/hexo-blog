@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">因果图中的与关系和约束</title>
+  <desc id="desc">展示三个原因通过 AND 关系和约束连接到允许借阅结果。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#315c9b"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="600" rx="28" fill="#f7f9fc"/>
+  <text x="60" y="70" font-size="32" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" fill="#1d2733">因果图：AND 关系、约束与结果</text>
+  <g font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="24" text-anchor="middle">
+    <rect x="75" y="150" width="220" height="90" rx="16" fill="#dbeafe" stroke="#315c9b" stroke-width="3"/>
+    <text x="185" y="205" fill="#1d2733">原因 A：已注册</text>
+    <rect x="75" y="350" width="220" height="90" rx="16" fill="#dbeafe" stroke="#315c9b" stroke-width="3"/>
+    <text x="185" y="405" fill="#1d2733">原因 B：无逾期</text>
+    <rect x="455" y="235" width="250" height="120" rx="18" fill="#fff3cd" stroke="#9a6b00" stroke-width="3"/>
+    <text x="580" y="285" fill="#5b4300">逻辑约束</text>
+    <text x="580" y="322" fill="#5b4300">A ∧ B ∧ C</text>
+    <rect x="455" y="450" width="250" height="90" rx="16" fill="#f1f5f9" stroke="#64748b" stroke-width="3"/>
+    <text x="580" y="505" fill="#334155">原因 C：未达上限</text>
+    <rect x="900" y="235" width="220" height="120" rx="18" fill="#dcfce7" stroke="#2f855a" stroke-width="3"/>
+    <text x="1010" y="285" fill="#1f5134">结果</text>
+    <text x="1010" y="322" fill="#1f5134">允许借阅</text>
+    <path d="M295 195 C360 195 390 250 455 270" fill="none" stroke="#315c9b" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M295 395 C360 395 390 340 455 320" fill="none" stroke="#315c9b" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M580 450 L580 355" fill="none" stroke="#315c9b" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M705 295 L900 295" fill="none" stroke="#315c9b" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="760" y="265" font-size="20" fill="#315c9b">满足</text>
+  </g>
+  <text x="60" y="575" font-size="20" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" fill="#475569">图示为本课程原创教学图；AND 关系的完整组合仍需在判定表中逐列验证。</text>
+</svg>

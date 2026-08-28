@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">性能测试类型</title>
+  <desc id="desc">基准、负载、压力、容量和稳定性测试有不同目标，不能用一个指标替代。</desc>
+  <rect width="1200" height="430" fill="#f7f9fc"/>
+  <text x="60" y="52" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#20304a">按问题选择性能测试类型</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <g><rect x="55" y="110" width="200" height="145" rx="18" fill="#2563eb"/><text x="155" y="155" font-size="24" font-weight="700" fill="white">基准</text><text x="155" y="192" font-size="18" fill="white">小负载基线</text><text x="155" y="222" font-size="16" fill="white">延迟/资源</text></g>
+    <g><rect x="275" y="110" width="200" height="145" rx="18" fill="#0f766e"/><text x="375" y="155" font-size="24" font-weight="700" fill="white">负载</text><text x="375" y="192" font-size="18" fill="white">目标并发</text><text x="375" y="222" font-size="16" fill="white">吞吐/分位数</text></g>
+    <g><rect x="495" y="110" width="200" height="145" rx="18" fill="#c2410c"/><text x="595" y="155" font-size="24" font-weight="700" fill="white">压力</text><text x="595" y="192" font-size="18" fill="white">超过目标</text><text x="595" y="222" font-size="16" fill="white">退化/拒绝</text></g>
+    <g><rect x="715" y="110" width="200" height="145" rx="18" fill="#7c3aed"/><text x="815" y="155" font-size="24" font-weight="700" fill="white">容量</text><text x="815" y="192" font-size="18" fill="white">规模上限</text><text x="815" y="222" font-size="16" fill="white">拐点/余量</text></g>
+    <g><rect x="935" y="110" width="200" height="145" rx="18" fill="#be123c"/><text x="1035" y="155" font-size="24" font-weight="700" fill="white">稳定性</text><text x="1035" y="192" font-size="18" fill="white">长时间运行</text><text x="1035" y="222" font-size="16" fill="white">泄漏/趋势</text></g>
+  </g>
+  <path d="M75 315H1125" stroke="#94a3b8" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="600" y="365" font-family="Arial, sans-serif" font-size="19" text-anchor="middle" fill="#475569">问题不同，负载曲线、指标和失败后的行动也不同。</text>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#94a3b8"/></marker></defs>
+</svg>

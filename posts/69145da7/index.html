@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://koco-co.github.io/img/learn-topic/testing-basics/course-cover.png">
 <meta property="article:published_time" content="2026-05-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-28T05:39:03.576Z">
+<meta property="article:modified_time" content="2026-08-28T11:49:21.798Z">
 <meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
 <meta property="article:tag" content="测试基础">
 <meta property="article:tag" content="系统学习">
@@ -19,7 +19,7 @@
   "url": "https://koco-co.github.io/posts/69145da7/",
   "image": "https://koco-co.github.io/img/learn-topic/testing-basics/course-cover.png",
   "datePublished": "2026-05-19T16:00:00.000Z",
-  "dateModified": "2026-08-28T05:39:03.576Z",
+  "dateModified": "2026-08-28T11:49:21.798Z",
   "author": [
     {
       "@type": "Person",
@@ -178,12 +178,12 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">151</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/learn-topic/testing-basics/course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">测试基础(七)输入域与边界测试</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">测试基础(七)输入域与边界测试<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/testing-basics/测试基础(七)输入域与边界测试.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-05-19T16:00:00.000Z" title="发表于 2026-05-20 00:00:00">2026-05-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-28T05:39:03.576Z" title="更新于 2026-08-28 13:39:03">2026-08-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/">测试基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="测试基础 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>测试基础 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="18" aria-valuenow="7"><span style="width: 38.8889%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/3acc7773/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">测试基础(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/90ac9409/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">测试基础(二)测试原理与质量观</span></a></li><li class="course-series-nav__item"><a href="/posts/562e1ecf/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">测试基础(三)研发流程与敏捷协作</span></a></li><li class="course-series-nav__item"><a href="/posts/f6e019d6/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">测试基础(四)需求分析与静态评审</span></a></li><li class="course-series-nav__item"><a href="/posts/cb5d3b8f/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">测试基础(五)测试计划与风险管理</span></a></li><li class="course-series-nav__item"><a href="/posts/cd81672d/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">测试基础(六)功能测试用例设计</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/69145da7/" aria-current="page"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">测试基础(七)输入域与边界测试</span></a></li><li class="course-series-nav__item"><a href="/posts/ed62e469/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">测试基础(八)规则组合与判定测试</span></a></li><li class="course-series-nav__item"><a href="/posts/7677ef32/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">测试基础(九)状态迁移与业务流程</span></a></li><li class="course-series-nav__item"><a href="/posts/c75ad281/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">测试基础(十)功能测试场景训练</span></a></li><li class="course-series-nav__item"><a href="/posts/1d4f3128/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">测试基础(十一)探索式测试</span></a></li><li class="course-series-nav__item"><a href="/posts/b597e925/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">测试基础(十二)白盒测试与覆盖率</span></a></li><li class="course-series-nav__item"><a href="/posts/69978da/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">测试基础(十三)非功能测试补充</span></a></li><li class="course-series-nav__item"><a href="/posts/adb68b7b/"><span class="course-series-nav__index">14</span><span class="course-series-nav__title">测试基础(十四)缺陷管理与测试报告</span></a></li><li class="course-series-nav__item"><a href="/posts/269e708b/"><span class="course-series-nav__index">15</span><span class="course-series-nav__title">测试基础(十五)发布验证与维护测试</span></a></li><li class="course-series-nav__item"><a href="/posts/b843aa71/"><span class="course-series-nav__index">16</span><span class="course-series-nav__title">测试基础(十六)自动化测试策略</span></a></li><li class="course-series-nav__item"><a href="/posts/69e11ff/"><span class="course-series-nav__index">17</span><span class="course-series-nav__title">测试基础(十七)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/1462056d/"><span class="course-series-nav__index">18</span><span class="course-series-nav__title">测试基础(十八)综合实战</span></a></li></ol></nav>
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">151</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/learn-topic/testing-basics/course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">测试基础(七)输入域与边界测试</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">测试基础(七)输入域与边界测试<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/testing-basics/测试基础(七)输入域与边界测试.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-05-19T16:00:00.000Z" title="发表于 2026-05-20 00:00:00">2026-05-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-28T11:49:21.798Z" title="更新于 2026-08-28 19:49:21">2026-08-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/">测试基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">8.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>26分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="测试基础 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>测试基础 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="18" aria-valuenow="7"><span style="width: 38.8889%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/3acc7773/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">测试基础(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/90ac9409/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">测试基础(二)测试原理与质量观</span></a></li><li class="course-series-nav__item"><a href="/posts/562e1ecf/"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">测试基础(三)研发流程与敏捷协作</span></a></li><li class="course-series-nav__item"><a href="/posts/f6e019d6/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">测试基础(四)需求分析与静态评审</span></a></li><li class="course-series-nav__item"><a href="/posts/cb5d3b8f/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">测试基础(五)测试计划与风险管理</span></a></li><li class="course-series-nav__item"><a href="/posts/cd81672d/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">测试基础(六)功能测试用例设计</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/69145da7/" aria-current="page"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">测试基础(七)输入域与边界测试</span></a></li><li class="course-series-nav__item"><a href="/posts/ed62e469/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">测试基础(八)规则组合与判定测试</span></a></li><li class="course-series-nav__item"><a href="/posts/7677ef32/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">测试基础(九)状态迁移与业务流程</span></a></li><li class="course-series-nav__item"><a href="/posts/c75ad281/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">测试基础(十)功能测试场景训练</span></a></li><li class="course-series-nav__item"><a href="/posts/1d4f3128/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">测试基础(十一)探索式测试</span></a></li><li class="course-series-nav__item"><a href="/posts/b597e925/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">测试基础(十二)白盒测试与覆盖率</span></a></li><li class="course-series-nav__item"><a href="/posts/69978da/"><span class="course-series-nav__index">13</span><span class="course-series-nav__title">测试基础(十三)非功能测试补充</span></a></li><li class="course-series-nav__item"><a href="/posts/adb68b7b/"><span class="course-series-nav__index">14</span><span class="course-series-nav__title">测试基础(十四)缺陷管理与测试报告</span></a></li><li class="course-series-nav__item"><a href="/posts/269e708b/"><span class="course-series-nav__index">15</span><span class="course-series-nav__title">测试基础(十五)发布验证与维护测试</span></a></li><li class="course-series-nav__item"><a href="/posts/b843aa71/"><span class="course-series-nav__index">16</span><span class="course-series-nav__title">测试基础(十六)自动化测试策略</span></a></li><li class="course-series-nav__item"><a href="/posts/69e11ff/"><span class="course-series-nav__index">17</span><span class="course-series-nav__title">测试基础(十七)进阶路线</span></a></li><li class="course-series-nav__item"><a href="/posts/1462056d/"><span class="course-series-nav__index">18</span><span class="course-series-nav__title">测试基础(十八)综合实战</span></a></li></ol></nav>
 <div class="note info flat"><p>输入域测试解决“可能的值太多，哪些值最值得选”。先把类型、格式、范围、单位和缺失语义写成约束，再用等价类选代表值，用边界值补上最容易出错的邻近点；组合关系留给判定表和状态模型。</p>
 </div>
-<h2 id="输入建模"><a href="#输入建模" class="headerlink" title="输入建模"></a>输入建模</h2><div class="note primary flat"><p>一个输入条件至少包含数据类型、格式、允许范围、单位、精度、空值和跨字段约束。手机号练习只接受 11 个 ASCII 数字是教学规则，不等同于全球真实号码规范；改变规则就要重新划分输入域。</p>
+<h2 id="输入建模"><a href="#输入建模" class="headerlink" title="输入建模"></a>输入建模</h2><h3 id="类型与单位"><a href="#类型与单位" class="headerlink" title="类型与单位"></a>类型与单位</h3><div class="note primary flat"><p>一个输入条件至少包含数据类型、格式、允许范围、单位、精度、空值和跨字段约束。手机号练习只接受 11 个 ASCII 数字是教学规则，不等同于全球真实号码规范；改变规则就要重新划分输入域。</p>
 </div>
-<div class="table-container">
+<h3 id="约束与缺失值"><a href="#约束与缺失值" class="headerlink" title="约束与缺失值"></a>约束与缺失值</h3><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -202,29 +202,81 @@
 </tr>
 <tr>
 <td>金额</td>
-<td>0～9999.99，精度 2（假设）</td>
-<td>负数、超上限、过多小数</td>
+<td>0.01～200.00，精度 2（教学假设）</td>
+<td>0、负数、超上限、过多小数</td>
 <td>四舍五入规则与币种</td>
 </tr>
 <tr>
 <td>文件</td>
-<td>允许扩展名且不超过 10 MB</td>
-<td>类型不符、0 字节、超限</td>
-<td>同名覆盖与病毒扫描</td>
+<td>PNG/JPEG，1 字节～5 MiB，且内容可解码</td>
+<td>0/1 字节、损坏内容、类型不符、超限</td>
+<td>大小单位、内容检测和校验顺序</td>
 </tr>
 <tr>
 <td>日期</td>
-<td>合法日历日期</td>
-<td>2 月 30 日、错误格式、时区歧义</td>
-<td>本地时间还是 UTC</td>
+<td>合法日历日期，开始日≤结束日，最多 31 个自然日（含首尾）</td>
+<td>2 月 30 日、32 天、反向区间、时区歧义</td>
+<td>本地时间还是 UTC，夏令时如何算</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h2 id="等价划分"><a href="#等价划分" class="headerlink" title="等价划分"></a>等价划分</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/equivalence-partitions.jpeg" alt="等价类把连续输入域划分为有效与无效代表区间" title="等价类划分"></p>
+<div class="note info flat"><p>下面把六道常见输入题固定成可执行的小题。假设只服务于练习，真实项目应以需求中的单位、格式和错误码替换。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>场景 ID</th>
+<th>教学规则</th>
+<th>代表输入</th>
+<th>功能预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>phone-input</code></td>
+<td>11 个 ASCII 数字</td>
+<td>空、10/11/12 位、字母、全角数字、前后空格</td>
+<td>只有符合规则的值进入下一步；错误原因可定位且不建立会话</td>
+</tr>
+<tr>
+<td><code>password-input</code></td>
+<td>长度 8～20 个字符，字符计数口径先澄清</td>
+<td>7/8/9/19/20/21 字符、空白、两次不一致</td>
+<td>边界值按约定单位判断；不回显密码，失败不改变账号状态</td>
+</tr>
+<tr>
+<td><code>otp-input</code></td>
+<td>6 个 ASCII 数字，验证码一次有效</td>
+<td><code>001234</code>、5/7 位、过期码、已用码</td>
+<td>前导零保留；过期或重复使用拒绝，正确码只消费一次</td>
+</tr>
+<tr>
+<td><code>money-input</code></td>
+<td>0.01～200.00，最多两位小数</td>
+<td><code>0</code>、<code>0.01</code>、<code>0.02</code>、<code>199.99</code>、<code>200.00</code>、<code>200.01</code>、三位小数、负号、科学计数法</td>
+<td>展示、传输和存储使用同一最小货币单位；拒绝超限与多余精度</td>
+</tr>
+<tr>
+<td><code>date-range</code></td>
+<td>合法日期且开始日≤结束日，最多 31 个自然日（含首尾）</td>
+<td>同日、30/31/32 天、跨月、闰日、反向区间、非法日期</td>
+<td>反向、超过 31 天和非法日期不提交；时区转换不改变业务日期</td>
+</tr>
+<tr>
+<td><code>attachment-input</code></td>
+<td>PNG/JPEG，声明大小 1 字节～5 MiB，且必须是可解码有效图片</td>
+<td>0/1 B 拒绝、可解码下界样本、5 MiB、5 MiB+1、伪装后缀、损坏文件</td>
+<td>先说明 1 B 不可能同时满足可解码格式；类型和大小错误可解释，失败不遗留半成品</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="等价划分"><a href="#等价划分" class="headerlink" title="等价划分"></a>等价划分</h2><h3 id="有效与无效"><a href="#有效与无效" class="headerlink" title="有效与无效"></a>有效与无效</h3><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/equivalence-partitions.jpeg" alt="等价类把连续输入域划分为有效与无效代表区间" title="等价类划分"></p>
 <div class="note primary flat"><p>等价类假设同一分区内的值对被测行为具有相近影响，因此选一个或少量代表值即可；这是降低测试数量的模型假设，不是证明分区内每个值都等价。每个有效类和重要无效类都要至少有代表。</p>
 </div>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/partition-rules.jpeg" alt="等价类划分时从约束、类别到代表值的规则" title="等价类划分规则"></p>
+<h3 id="分区与代表值"><a href="#分区与代表值" class="headerlink" title="分区与代表值"></a>分区与代表值</h3><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/partition-rules.jpeg" alt="等价类划分时从约束、类别到代表值的规则" title="等价类划分规则"></p>
 <div class="table-container">
 <table>
 <thead>
@@ -250,17 +302,17 @@
 </tr>
 <tr>
 <td>文件大小</td>
-<td>0、1～10 MB、超过 10 MB</td>
-<td>0 B、1 B、10 MB、10 MB+1 B</td>
-<td>超限给出大小错误</td>
+<td>0/1 B 不可解码、可解码有效文件≤5 MiB、超过 5 MiB</td>
+<td>0 B、1 B、实际最小可解码 PNG、5 MiB、5 MiB+1 B</td>
+<td>先按内容可解码性，再按大小；超限给出大小错误</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h2 id="边界推导"><a href="#边界推导" class="headerlink" title="边界推导"></a>边界推导</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/boundary-values.jpeg" alt="边界值分析关注有效区间两侧和最邻近输入" title="边界值分析"></p>
+<h2 id="边界推导"><a href="#边界推导" class="headerlink" title="边界推导"></a>边界推导</h2><h3 id="两值与三值"><a href="#两值与三值" class="headerlink" title="两值与三值"></a>两值与三值</h3><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/boundary-values.jpeg" alt="边界值分析关注有效区间两侧和最邻近输入" title="边界值分析"></p>
 <div class="note primary flat"><p>对闭区间 <code>[min, max]</code>，两值边界通常取 <code>min-1、min、max、max+1</code>；三值边界再补 <code>min+1、max-1</code>。小数、时间和字符串长度要先确定单位与精度，否则“相邻值”没有意义。</p>
 </div>
-<div class="table-container">
+<h3 id="开闭区间"><a href="#开闭区间" class="headerlink" title="开闭区间"></a>开闭区间</h3><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -278,9 +330,9 @@
 <td>是否按数值而非字符串比较</td>
 </tr>
 <tr>
-<td>金额 0.00～9999.99</td>
-<td>-0.01、0.00、9999.99、10000.00</td>
-<td>再补 0.01、9999.98</td>
+<td>金额 0.01～200.00</td>
+<td>0、0.01、200.00、200.01</td>
+<td>再补 0.02、199.99</td>
 <td>舍入与币种精度</td>
 </tr>
 <tr>
@@ -292,9 +344,11 @@
 </tbody>
 </table>
 </div>
-<h2 id="约束组合"><a href="#约束组合" class="headerlink" title="约束组合"></a>约束组合</h2><div class="note primary flat"><p>一次把所有非法值塞进同一请求，会让失败原因不可归因。先每次只改变一个条件验证分区，再用判定表或场景组合检查字段之间的关系；必要时为每条组合指定唯一的失败预期。</p>
+<h2 id="约束组合"><a href="#约束组合" class="headerlink" title="约束组合"></a>约束组合</h2><h3 id="单一无效输入"><a href="#单一无效输入" class="headerlink" title="单一无效输入"></a>单一无效输入</h3><div class="note primary flat"><p>一次把所有非法值塞进同一请求，会让失败原因不可归因。先每次只改变一个条件验证分区，再用判定表或场景组合检查字段之间的关系；必要时为每条组合指定唯一的失败预期。</p>
 </div>
-<h2 id="数据练习"><a href="#数据练习" class="headerlink" title="数据练习"></a>数据练习</h2><div class="table-container">
+<h3 id="多字段交互"><a href="#多字段交互" class="headerlink" title="多字段交互"></a>多字段交互</h3><div class="note primary flat"><p>手机号、验证码、金额和日期常常在一个表单中共同决定是否能提交。先固定三个字段为有效值，只改变一个字段定位错误；再为有明确业务关系的组合建立独立用例，并在预期中写出错误优先级。</p>
+</div>
+<h2 id="数据练习"><a href="#数据练习" class="headerlink" title="数据练习"></a>数据练习</h2><h3 id="文本与验证码"><a href="#文本与验证码" class="headerlink" title="文本与验证码"></a>文本与验证码</h3><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -322,11 +376,95 @@
 </tbody>
 </table>
 </div>
-<div class="note warning flat"><p>边界数据应使用可控时钟、合成文件和固定区域；不把真实手机号、身份证或客户文件当作测试数据。若系统在入口规范化空白或 Unicode，记录规范化后的值和原始输入，避免误判为同一分区。</p>
+<h3 id="金额日期与文件"><a href="#金额日期与文件" class="headerlink" title="金额日期与文件"></a>金额日期与文件</h3><div class="note warning flat"><p>边界数据应使用可控时钟、合成文件和固定区域；不把真实手机号、身份证或客户文件当作测试数据。若系统在入口规范化空白或 Unicode，记录规范化后的值和原始输入，避免误判为同一分区。</p>
 </div>
-<h2 id="覆盖检查"><a href="#覆盖检查" class="headerlink" title="覆盖检查"></a>覆盖检查</h2><ul>
+<h3 id="从规则到用例"><a href="#从规则到用例" class="headerlink" title="从规则到用例"></a>从规则到用例</h3><div class="note primary flat"><p>下面把一条规则完整落成可执行用例：先写分区或边界，再说明为什么选这个代表值，最后固定输入动作、提交动作、观察证据和逐项预期。表中的“未覆盖”不是遗漏事故，而是把仍需澄清或交给其他方法的范围显式留下。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>规则→分区/边界</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>逐项预期</th>
+<th>代表性理由与未覆盖</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PWD-07</td>
+<td>8～20 字符；下界外一位</td>
+<td>注册页为空；密码为 7 个 ASCII 字符，确认框相同</td>
+<td>输入密码→输入确认→点击注册→观察字段提示、请求是否发送、账号列表</td>
+<td>显示“长度不足”；不发送创建请求；账号数不变；密码不回显</td>
+<td>7 是下界左邻点；尚未覆盖 8～20 内部字符集、21 和 Unicode 计数</td>
+</tr>
+<tr>
+<td>PWD-08</td>
+<td>8～20 字符；下界</td>
+<td>同一页面；密码和确认均为 8 个 ASCII 字符</td>
+<td>输入两框→提交→观察成功提示、账号状态和密码展示</td>
+<td>通过长度校验并进入下一步；保存后的账号可登录；页面只显示掩码</td>
+<td>8 是最小有效边界；尚未覆盖服务端重复提交和 20/21</td>
+</tr>
+<tr>
+<td>MONEY-00</td>
+<td>0.01～200.00；下界左侧</td>
+<td>订单金额输入框为空；输入 <code>0</code></td>
+<td>输入金额→点击下一步→观察字段提示、请求金额分值</td>
+<td>拒绝小于 0.01；不创建订单；错误指向金额字段</td>
+<td>0 是下界外代表；尚未覆盖负数和科学计数法</td>
+</tr>
+<tr>
+<td>MONEY-01</td>
+<td>0.01～200.00；下界及最小增量</td>
+<td>同一订单；输入 <code>0.01</code>，币种 CNY</td>
+<td>输入→失焦→提交→观察展示值、请求分值和订单摘要</td>
+<td>接受；展示 <code>0.01</code>；请求按 1 分传输；摘要与后端金额一致</td>
+<td>0.01 是最小可表示有效值；尚未覆盖舍入、币种变更和 200.00</td>
+</tr>
+<tr>
+<td>DATE-31</td>
+<td>含首尾最多 31 个自然日；上界</td>
+<td>查询页固定时钟 UTC；开始 <code>2026-03-01</code>，结束 <code>2026-03-31</code></td>
+<td>选择开始日→选择结束日→提交→观察请求日期、结果天数和页码</td>
+<td>接受 31 天闭区间；请求保留两端日期；结果范围不多不少</td>
+<td>31 是上界有效值；尚未覆盖 30/32 天、夏令时和本地时区</td>
+</tr>
+<tr>
+<td>DATE-32</td>
+<td>含首尾最多 31 个自然日；上界右侧</td>
+<td>同一页面；开始 <code>2026-03-01</code>，结束 <code>2026-04-01</code></td>
+<td>选择两日期→提交→观察前端拦截、请求是否发送、错误提示</td>
+<td>拒绝 32 天；给出明确范围提示；不发查询请求；已填日期不被静默改写</td>
+<td>32 是上界右邻点；尚未覆盖跨月的 30 天和闰年日期</td>
+</tr>
+<tr>
+<td>FILE-LOW</td>
+<td>PNG/JPEG 且可解码；大小下界冲突</td>
+<td>合成 <code>one-byte.bin</code> 和实际可解码的最小 PNG；准备空上传记录</td>
+<td>选择文件→点击上传→观察类型/大小校验、记录列表和临时文件→清理</td>
+<td>0/1 B 文件拒绝；可解码样本按实际字节数判断；失败不留可见记录</td>
+<td>1 B 不能同时满足可解码图片；尚未确定跨编码最小值，不能伪造一个统一下界</td>
+</tr>
+<tr>
+<td>FILE-BOUND</td>
+<td>PNG/JPEG 且≤5 MiB；上界两侧</td>
+<td>生成可解码 PNG，大小恰为 5 MiB 与 5 MiB+1</td>
+<td>分别选择→上传→观察响应大小、记录、预览和临时分片→重新进入页面</td>
+<td>5 MiB 接受并可预览；5 MiB+1 拒绝；记录/分片与预期一致</td>
+<td>两个值只改变 1 字节，隔离上界；尚未覆盖伪装后缀、损坏内容和多文件总量</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="覆盖检查"><a href="#覆盖检查" class="headerlink" title="覆盖检查"></a>覆盖检查</h2><h3 id="分母与去重"><a href="#分母与去重" class="headerlink" title="分母与去重"></a>分母与去重</h3><ul>
 <li>为每个有效/无效等价类建立唯一代表值；</li>
 <li>标注已覆盖的边界和未覆盖的组合约束；</li>
+</ul>
+<h3 id="边界遗漏"><a href="#边界遗漏" class="headerlink" title="边界遗漏"></a>边界遗漏</h3><ul>
 <li>统计分母是已定义的分区或边界集合，不是输入域中所有可能值；</li>
 <li>若规则改变、单位改变或修复了解析逻辑，重新审视分区，不只重跑旧数据。</li>
 </ul>
@@ -347,7 +485,80 @@
 </div></div>
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>把教学规则固定为 11 个 ASCII 数字，组合等价类与长度边界，覆盖空、10/11/12 位、非数字、Unicode 数字和空白。</p>
 </div></div>
-      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>代表数据：空值/缺失、10 位、11 位有效、12 位、含字母、全角数字、前后空格。每条用例记录输入原样、规范化规则、步骤和预期；有效值进入下一步，其他值应给出具体错误并不建立会话。不要称该规则为全球手机号标准。追问国际区号、空白是否裁剪、格式化展示是否与存储值分离。</p>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>假设：本练习只接受 11 个 ASCII 数字；前后空格、国际区号和格式化展示尚未定案。模型：长度等价类 × 字符集等价类，边界取 10/11/12 位；每次只改变一个输入条件。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>预期</th>
+<th style="text-align:right">优先级</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PH-01</td>
+<td>注册页；空值</td>
+<td>保持空白→点击下一步→观察字段提示和请求</td>
+<td>提示必填；不发请求；不建立会话</td>
+<td style="text-align:right">1</td>
+<td>缺失类</td>
+</tr>
+<tr>
+<td>PH-02</td>
+<td>输入 10 个 ASCII 数字</td>
+<td>输入→提交→观察提示</td>
+<td>拒绝长度不足；不发请求</td>
+<td style="text-align:right">1</td>
+<td>下界左邻点</td>
+</tr>
+<tr>
+<td>PH-03</td>
+<td>输入 11 个 ASCII 数字</td>
+<td>输入→提交→观察下一步和会话状态</td>
+<td>通过手机号校验并进入下一步；不改变原值</td>
+<td style="text-align:right">1</td>
+<td>唯一有效长度</td>
+</tr>
+<tr>
+<td>PH-04</td>
+<td>输入 12 个 ASCII 数字</td>
+<td>输入→提交→观察提示</td>
+<td>拒绝长度超限；不发请求</td>
+<td style="text-align:right">1</td>
+<td>上界右邻点</td>
+</tr>
+<tr>
+<td>PH-05</td>
+<td>11 位中混入 <code>a</code></td>
+<td>输入→提交→观察错误归属</td>
+<td>拒绝字符集；不建立会话</td>
+<td style="text-align:right">1</td>
+<td>字符类型无效类</td>
+</tr>
+<tr>
+<td>PH-06</td>
+<td>11 个全角数字</td>
+<td>输入→提交→记录原始码点和规范化值</td>
+<td>按 ASCII 规则拒绝，或按已确认规范化规则处理；结果可追溯</td>
+<td style="text-align:right">1</td>
+<td>Unicode 与 ASCII 分区</td>
+</tr>
+<tr>
+<td>PH-07</td>
+<td>11 位前后各一个空格</td>
+<td>输入→提交→观察原始/规范化值</td>
+<td>按规则明确接受或拒绝；不能静默改变存储值</td>
+<td style="text-align:right">1</td>
+<td>空白边界与规范化</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>遗漏与追问：国际区号、国家切换、粘贴/自动填充、格式化展示与存储值是否分离；规则变化后重新划分分区，不能沿用本表结论。</p>
 </div></div>
       
     </div>
@@ -439,7 +650,72 @@
 </div></div>
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>先按长度、字符集、空白和确认密码关系划分分区，再用最小集合覆盖每个分区和相邻边界。</p>
 </div></div>
-      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>如果规则是 8～64 个字符，应覆盖 7/8/9 和 63/64/65，并分别检查 ASCII、Unicode、空白、不可见字符和两次输入不一致。长度单位要确认是字符还是字节；日志和错误提示不能回显密码。相同失败原因可以合并报告，不同安全或业务后果应拆成独立用例。</p>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>假设：密码长度为 8～20 个字符，长度单位先按产品确认；允许字符集、空白和确认框是独立条件。先隔离长度，再隔离字符集和两次输入关系。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>预期</th>
+<th style="text-align:right">优先级</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PB-07</td>
+<td>密码/确认均 7 个字符</td>
+<td>输入两框→提交→观察字段提示和账号状态</td>
+<td>长度不足；不创建账号；不回显密码</td>
+<td style="text-align:right">1</td>
+<td>下界左邻点</td>
+</tr>
+<tr>
+<td>PB-08</td>
+<td>密码/确认均 8 个字符</td>
+<td>输入→提交→观察成功结果</td>
+<td>通过长度校验；进入下一步或创建账号</td>
+<td style="text-align:right">1</td>
+<td>最小有效边界</td>
+</tr>
+<tr>
+<td>PB-20</td>
+<td>密码/确认均 20 个字符</td>
+<td>输入→提交→观察结果</td>
+<td>通过长度校验</td>
+<td style="text-align:right">1</td>
+<td>最大有效边界</td>
+</tr>
+<tr>
+<td>PB-21</td>
+<td>密码/确认均 21 个字符</td>
+<td>输入→提交→观察错误归属</td>
+<td>长度超限；不创建账号</td>
+<td style="text-align:right">1</td>
+<td>上界右邻点</td>
+</tr>
+<tr>
+<td>PB-CHAR</td>
+<td>8 个字符但含未允许字符</td>
+<td>只替换一个字符→提交→观察错误</td>
+<td>只报告字符集错误；不混淆长度原因</td>
+<td style="text-align:right">1</td>
+<td>独立无效分区</td>
+</tr>
+<tr>
+<td>PB-CONF</td>
+<td>主密码 8 个、确认 9 个字符</td>
+<td>输入→提交→观察两框提示</td>
+<td>确认不一致；不创建账号</td>
+<td style="text-align:right">1</td>
+<td>跨字段关系</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>遗漏与追问：7/8/9/19/20/21 的完整集合、Unicode 码点与用户感知字符、前后空格、不可见字符、密码管理器粘贴和服务端重复提交；安全检查另列，不从掩码现象推断存储安全。</p>
 </div></div>
       
     </div>
@@ -468,18 +744,530 @@
     </div>
   </div>
 </article>
-<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="testing-basics-a07-concept-1" tabindex="0">
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="testing-basics-scenario-password-input" tabindex="0">
 
   <div class="hfc-flip__inner" data-hfc-flip-inner>
     <div class="hfc-face hfc-face--front" data-hfc-face="front">
       <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AF%86%E7%A0%81">#密码</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%93%E5%85%A5%E5%9F%9F">#输入域</a></div>
+      <div class="hfc-question"><p>给定注册密码框，如何设计功能测试用例？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%AF%86%E7%A0%81">#密码</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%93%E5%85%A5%E5%9F%9F">#输入域</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>给定注册密码框，如何设计功能测试用例？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>先固定长度、字符集、空白和确认密码规则，再覆盖 7/8/9/19/20/21 字符、两次不一致和提交后账号状态。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>假设：教学规则为 8～20 个字符；字符计数按需求确认，允许字符集另列。模型：长度等价类与两侧边界 + 字符集/确认密码关系，每条用例都固定其余字段。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>预期</th>
+<th style="text-align:right">优先级</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PI-01</td>
+<td>注册页空白</td>
+<td>不输入→提交→观察必填提示、请求和账号数</td>
+<td>必填提示；不创建账号；不回显密码</td>
+<td style="text-align:right">1</td>
+<td>缺失类</td>
+</tr>
+<tr>
+<td>PI-02</td>
+<td>主/确认均 7 字符</td>
+<td>输入→提交→观察错误归属</td>
+<td>长度不足；不创建账号</td>
+<td style="text-align:right">1</td>
+<td>下界左邻点</td>
+</tr>
+<tr>
+<td>PI-03</td>
+<td>主/确认均 8 字符</td>
+<td>输入→提交→观察下一步/账号状态</td>
+<td>接受最小有效长度</td>
+<td style="text-align:right">1</td>
+<td>下界</td>
+</tr>
+<tr>
+<td>PI-04</td>
+<td>主/确认均 9 字符</td>
+<td>输入→提交→观察结果</td>
+<td>接受下界内邻值</td>
+<td style="text-align:right">1</td>
+<td>下界内邻点</td>
+</tr>
+<tr>
+<td>PI-05</td>
+<td>主/确认均 19 字符</td>
+<td>输入→提交→观察结果</td>
+<td>接受上界内邻值</td>
+<td style="text-align:right">1</td>
+<td>上界内邻点</td>
+</tr>
+<tr>
+<td>PI-06</td>
+<td>主/确认均 20 字符</td>
+<td>输入→提交→观察结果</td>
+<td>接受最大有效长度</td>
+<td style="text-align:right">1</td>
+<td>上界</td>
+</tr>
+<tr>
+<td>PI-07</td>
+<td>主/确认均 21 字符</td>
+<td>输入→提交→观察错误</td>
+<td>长度超限；不创建账号</td>
+<td style="text-align:right">1</td>
+<td>上界右邻点</td>
+</tr>
+<tr>
+<td>PI-08</td>
+<td>8 字符但含未允许字符</td>
+<td>只改变一个字符→提交→观察字段提示</td>
+<td>拒绝字符集；不把原因归为长度</td>
+<td style="text-align:right">1</td>
+<td>独立无效分区</td>
+</tr>
+<tr>
+<td>PI-09</td>
+<td>主密码 8 字符、确认 9 字符</td>
+<td>输入两框→提交→观察两框提示和请求</td>
+<td>确认不一致；不创建账号</td>
+<td style="text-align:right">1</td>
+<td>跨字段关系</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>代表值选择：7/8/9 与 19/20/21 是冻结规则两侧的最小集合；每次只改变一个条件，便于定位失败。遗漏与追问：Unicode 与 emoji 的计数口径、前后空格、不可见字符、密码管理器粘贴、服务端重复提交及安全日志脱敏。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="testing-basics-scenario-otp-input" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%AA%8C%E8%AF%81%E7%A0%81">#验证码</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C">#边界</a></div>
+      <div class="hfc-question"><p>短信验证码输入框如何用等价类和边界值设计？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%AA%8C%E8%AF%81%E7%A0%81">#验证码</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C">#边界</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>短信验证码输入框如何用等价类和边界值设计？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>按位数、字符集、前导零、有效期和一次性消费划分，覆盖正确、长度两侧、过期和重复提交。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>假设：验证码为 6 个 ASCII 数字，允许前导零；验证码格式和码值有效性是两个独立条件，模拟有效期为 300 秒且一次性消费。模型：位数/字符集等价类 + 6 位边界 + 时间状态。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>预期</th>
+<th style="text-align:right">优先级</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OTP-05</td>
+<td>发送到手机号的验证码为空</td>
+<td>不输入→提交→观察提示、重试次数</td>
+<td>必填/格式提示；不建立会话；不消费验证码</td>
+<td style="text-align:right">1</td>
+<td>缺失类</td>
+</tr>
+<tr>
+<td>OTP-06</td>
+<td>有效码 <code>001234</code>，发送时刻固定</td>
+<td>输入 6 位→提交→观察会话和码状态</td>
+<td>接受；建立会话；前导零保留；码标记已用</td>
+<td style="text-align:right">1</td>
+<td>有效边界与前导零</td>
+</tr>
+<tr>
+<td>OTP-07</td>
+<td>5 位 <code>01234</code></td>
+<td>输入→提交→观察错误归属</td>
+<td>拒绝位数不足；不消费验证码</td>
+<td style="text-align:right">1</td>
+<td>下界左邻点</td>
+</tr>
+<tr>
+<td>OTP-08</td>
+<td>7 位 <code>0012345</code></td>
+<td>输入→提交→观察错误</td>
+<td>拒绝位数超限；不消费验证码</td>
+<td style="text-align:right">1</td>
+<td>上界右邻点</td>
+</tr>
+<tr>
+<td>OTP-09</td>
+<td>6 位含 <code>a</code> 或全角数字</td>
+<td>输入→提交→观察字符提示</td>
+<td>按 ASCII 规则拒绝；不把格式错误当作码值错误</td>
+<td style="text-align:right">1</td>
+<td>字符集无效分区</td>
+</tr>
+<tr>
+<td>OTP-10</td>
+<td>有效码，时钟为发送后 300 秒</td>
+<td>输入→提交→观察会话、码状态</td>
+<td>按半开区间 <code>[发送时刻,发送时刻+300秒)</code> 判定；过期不建会话</td>
+<td style="text-align:right">1</td>
+<td>时间边界右侧</td>
+</tr>
+<tr>
+<td>OTP-11</td>
+<td>已成功消费的 <code>001234</code></td>
+<td>再次输入→提交→观察会话和码状态</td>
+<td>拒绝或明确已使用；不重复建立会话</td>
+<td style="text-align:right">1</td>
+<td>一次性状态</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>遗漏与追问：错误码重试次数、重发是否废弃旧码、复制粘贴/自动填充、验证码与手机号绑定、服务端时钟漂移；所有时间用例使用可控时钟，清理测试账号和验证码记录。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="testing-basics-scenario-money-input" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%91%E9%A2%9D">#金额</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%B2%BE%E5%BA%A6">#精度</a></div>
+      <div class="hfc-question"><p>金额输入框的功能用例如何设计？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%87%91%E9%A2%9D">#金额</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%B2%BE%E5%BA%A6">#精度</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>金额输入框的功能用例如何设计？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>先明确币种、最小单位、上下限和舍入，再覆盖精度边界、负数、空值和展示与存储一致性。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>假设：金额范围为 0.01～200.00，最多两位小数，币种和最小单位已固定；是否四舍五入必须另问。模型：数值边界 + 精度/表示等价类，金额预期同时看界面、请求分值和订单摘要。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>预期</th>
+<th style="text-align:right">优先级</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MI-00</td>
+<td>订单金额为空</td>
+<td>不输入→提交→观察必填提示和请求</td>
+<td>提示必填；不创建订单</td>
+<td style="text-align:right">1</td>
+<td>缺失类</td>
+</tr>
+<tr>
+<td>MI-01</td>
+<td>输入 <code>0</code></td>
+<td>输入→失焦→提交→观察提示和请求金额</td>
+<td>拒绝小于 0.01；不产生订单副作用</td>
+<td style="text-align:right">1</td>
+<td>下界左邻点</td>
+</tr>
+<tr>
+<td>MI-02</td>
+<td>输入 <code>0.01</code></td>
+<td>输入→失焦→提交→观察显示、请求分值、摘要</td>
+<td>接受；请求为 1 分；摘要仍为 <code>0.01</code></td>
+<td style="text-align:right">1</td>
+<td>最小有效边界</td>
+</tr>
+<tr>
+<td>MI-03</td>
+<td>输入 <code>0.02</code></td>
+<td>输入→提交→观察结果</td>
+<td>接受；按 2 分传输</td>
+<td style="text-align:right">1</td>
+<td>下界内邻点与最小增量</td>
+</tr>
+<tr>
+<td>MI-04</td>
+<td>输入 <code>199.99</code></td>
+<td>输入→提交→观察结果</td>
+<td>接受；金额不被舍入到 200.00</td>
+<td style="text-align:right">1</td>
+<td>上界内邻点</td>
+</tr>
+<tr>
+<td>MI-05</td>
+<td>输入 <code>200.00</code></td>
+<td>输入→提交→观察结果</td>
+<td>接受最大值；请求和摘要一致</td>
+<td style="text-align:right">1</td>
+<td>最大有效边界</td>
+</tr>
+<tr>
+<td>MI-06</td>
+<td>输入 <code>200.01</code></td>
+<td>输入→提交→观察错误</td>
+<td>拒绝超上限；不创建订单</td>
+<td style="text-align:right">1</td>
+<td>上界右邻点</td>
+</tr>
+<tr>
+<td>MI-07</td>
+<td>输入 <code>1.234</code>、<code>-0.01</code>、<code>1e2</code>（分别执行）</td>
+<td>每次只改一种表示→提交→观察错误归属</td>
+<td>三位小数、负号、科学计数法按规则分别拒绝或明确规范化；不能混成一个原因</td>
+<td style="text-align:right">1</td>
+<td>精度、符号、表示分区</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>代表值选择：<code>0/0.01/0.02</code> 与 <code>199.99/200/200.01</code> 对应两侧边界和最小货币增量；三类表示值每次单独执行。遗漏与追问：币种小数位变化、舍入模式、服务端整数分/十进制定点实现、溢出和权限额度；不把浮点显示近似当作业务金额证据。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="testing-basics-scenario-date-range" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A5%E6%9C%9F">#日期</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8C%BA%E9%97%B4">#区间</a></div>
+      <div class="hfc-question"><p>开始日期和结束日期如何设计功能测试？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q10</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A5%E6%9C%9F">#日期</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%8C%BA%E9%97%B4">#区间</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>开始日期和结束日期如何设计功能测试？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>分别覆盖合法日历日期和区间关系，再检查同日、30/31/32 天、跨月、闰日、反向输入及时间区的展示与提交。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>假设：开始日不晚于结束日，最多 31 个自然日且首尾都计入；时区固定为 UTC，夏令时另列后续。模型：合法日期等价类 + 30/31/32 天边界 + 跨字段关系。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>预期</th>
+<th style="text-align:right">优先级</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DR-01</td>
+<td>开始/结束均为空</td>
+<td>选择器保持空→提交→观察提示、请求和草稿</td>
+<td>提示必填；不发请求；不保存不完整草稿</td>
+<td style="text-align:right">1</td>
+<td>缺失类</td>
+</tr>
+<tr>
+<td>DR-02</td>
+<td>开始=结束=<code>2026-03-15</code></td>
+<td>选开始→选结束→提交→观察请求和结果天数</td>
+<td>接受 1 个自然日；请求保留当天</td>
+<td style="text-align:right">1</td>
+<td>同日关系</td>
+</tr>
+<tr>
+<td>DR-30</td>
+<td>开始 <code>2026-03-01</code>，结束 <code>2026-03-30</code></td>
+<td>依次选择→提交→观察结果范围/计数</td>
+<td>接受 30 天闭区间；结果含首尾</td>
+<td style="text-align:right">1</td>
+<td>上界内邻点</td>
+</tr>
+<tr>
+<td>DR-31</td>
+<td>开始 <code>2026-03-01</code>，结束 <code>2026-03-31</code></td>
+<td>依次选择→提交→观察请求和计数</td>
+<td>接受 31 天闭区间</td>
+<td style="text-align:right">1</td>
+<td>最大有效边界</td>
+</tr>
+<tr>
+<td>DR-32</td>
+<td>开始 <code>2026-03-01</code>，结束 <code>2026-04-01</code></td>
+<td>依次选择→提交→观察前端拦截和请求</td>
+<td>拒绝 32 天；提示范围；不发请求</td>
+<td style="text-align:right">1</td>
+<td>上界右邻点</td>
+</tr>
+<tr>
+<td>DR-LEAP</td>
+<td><code>2024-02-29</code> 至 <code>2024-03-01</code></td>
+<td>选择日期→提交→观察日历和结果</td>
+<td>闰日合法；天数计算包含两端</td>
+<td style="text-align:right">1</td>
+<td>闰年合法类</td>
+</tr>
+<tr>
+<td>DR-INVALID</td>
+<td><code>2025-02-29</code> 或 <code>2026-02-30</code></td>
+<td>输入/选择→提交→观察字段错误</td>
+<td>拒绝非法日历日期；不发请求</td>
+<td style="text-align:right">1</td>
+<td>日历无效类</td>
+</tr>
+<tr>
+<td>DR-REVERSE</td>
+<td>开始 <code>2026-04-02</code>，结束 <code>2026-04-01</code></td>
+<td>选择两端→提交→观察关系提示和草稿</td>
+<td>拒绝反向区间；不保存为有效查询</td>
+<td style="text-align:right">1</td>
+<td>关系约束</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>代表值选择：同日、30/31/32 天覆盖闭区间关系和上限两侧；闰日与月末覆盖日历分区。遗漏与追问：空一端、输入格式、浏览器时区与服务端 UTC、夏令时跨越、切换时区后是否仍按自然日；固定时钟后再比较结果，不能凭本机日期下结论。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="testing-basics-scenario-attachment-input" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q11</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%99%84%E4%BB%B6">#附件</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C">#边界</a></div>
+      <div class="hfc-question"><p>附件选择器如何设计输入域和功能用例？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q11</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%9C%BA%E6%99%AF">#场景</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%99%84%E4%BB%B6">#附件</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C">#边界</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>附件选择器如何设计输入域和功能用例？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>按真实类型、扩展名、大小、空文件、文件名和重复上传划分，并验证失败清理和权限；先处理大小与可解码格式的交集。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>假设：允许 PNG/JPEG，声明大小范围 1 字节～5 MiB，且内容必须是可解码图片；固定 MiB=1024×1024。由于 1 字节不能构成有效 PNG/JPEG，先记录“大小下界与格式约束不可同时满足”，再用实际可解码小图表示可行下界。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>前置与数据</th>
+<th>步骤与观察</th>
+<th>预期</th>
+<th style="text-align:right">优先级</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI-00</td>
+<td>空上传控件</td>
+<td>不选文件→点击上传→观察提示、记录和临时目录</td>
+<td>提示需要文件；不生成记录或分片</td>
+<td style="text-align:right">1</td>
+<td>缺失类</td>
+</tr>
+<tr>
+<td>AI-01</td>
+<td>0 字节文件</td>
+<td>选择 <code>empty.png</code>→上传→观察大小、类型、记录和清理</td>
+<td>拒绝；错误说明为空/不可解码；无可见半成品</td>
+<td style="text-align:right">1</td>
+<td>下界外样本</td>
+</tr>
+<tr>
+<td>AI-DEC</td>
+<td>1 字节文件与实际可解码最小 PNG</td>
+<td>分别选择→上传→观察校验顺序和精确字节数</td>
+<td>1 字节样本拒绝；可解码样本按实际大小判断；不把不可行下界报告为有效覆盖</td>
+<td style="text-align:right">1</td>
+<td>交集约束</td>
+</tr>
+<tr>
+<td>AI-5M</td>
+<td>可解码 PNG 恰为 5 MiB</td>
+<td>选择→上传→观察响应大小、预览、记录和分片</td>
+<td>接受；预览可解码；记录大小与文件一致</td>
+<td style="text-align:right">1</td>
+<td>上界有效边界</td>
+</tr>
+<tr>
+<td>AI-5M1</td>
+<td>可解码 PNG 为 5 MiB+1</td>
+<td>选择→上传→观察拦截位置、记录和临时分片</td>
+<td>拒绝超限；清理临时分片；无可见记录</td>
+<td style="text-align:right">1</td>
+<td>上界右邻点</td>
+</tr>
+<tr>
+<td>AI-TYPE</td>
+<td><code>.png</code> 后缀但内容为文本，或 JPEG 声明 MIME 不符</td>
+<td>选择→上传→观察真实内容检测和错误原因</td>
+<td>按内容拒绝；不能只看扩展名/MIME；状态可重试</td>
+<td style="text-align:right">1</td>
+<td>类型交集无效类</td>
+</tr>
+<tr>
+<td>AI-CORRUPT</td>
+<td>正确后缀但图片头损坏</td>
+<td>选择→上传→观察解码、记录和重新进入页面</td>
+<td>拒绝不可解码内容；无半条记录；重新进入不显示失败文件</td>
+<td style="text-align:right">1</td>
+<td>内容有效性无效类</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>代表值选择：0/1 字节、可解码下界、5 MiB/5 MiB+1 分别覆盖声明下界、可行格式交集和上界；每次只改变一个条件。遗漏与追问：PNG/JPEG 编码差异导致的最小尺寸、多文件总大小、Unicode/超长文件名、同名覆盖、病毒扫描、断线重试和权限可见性；这些需要单独需求和专项证据。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="testing-basics-a07-concept-1" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q12</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
       <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AD%89%E4%BB%B7%E7%B1%BB">#等价类</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C%E5%80%BC">#边界值</a></div>
       <div class="hfc-question"><p>等价类和边界值应该如何组合？</p>
 </div>
       <span class="hfc-flip-hint">点击查看答案</span>
     </div>
     <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
-      <div class="hfc-card-head"><span class="hfc-number">Q07</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-card-head"><span class="hfc-number">Q12</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
       <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E7%AD%89%E4%BB%B7%E7%B1%BB">#等价类</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C%E5%80%BC">#边界值</a></div>
       <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>等价类和边界值应该如何组合？</p>
 </div></div>
@@ -495,20 +1283,20 @@
 
   <div class="hfc-flip__inner" data-hfc-flip-inner>
     <div class="hfc-face hfc-face--front" data-hfc-face="front">
-      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-card-head"><span class="hfc-number">Q13</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
       <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B0%8F%E6%95%B0">#小数</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C">#边界</a></div>
       <div class="hfc-question"><p>小数边界的离点应该怎么选？</p>
 </div>
       <span class="hfc-flip-hint">点击查看答案</span>
     </div>
     <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
-      <div class="hfc-card-head"><span class="hfc-number">Q08</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-card-head"><span class="hfc-number">Q13</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
       <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E5%B0%8F%E6%95%B0">#小数</a><a class="hfc-topic" href="/learn-topic/?tag=%E8%BE%B9%E7%95%8C">#边界</a></div>
       <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>小数边界的离点应该怎么选？</p>
 </div></div>
       <div class="hfc-answer-section"><strong>回答：</strong><div><p>按业务精度选择最小可表示增量，并在边界两侧各取一个值；先澄清舍入、币种和输入单位。</p>
 </div></div>
-      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>金额上限为 9999.99 且精度为 0.01 时，离点可以是 9999.98、9999.99、10000.00；若接口以分为整数传输，邻近值应按 1 分构造。不能直接用浮点 <code>max ± 0.01</code> 断言，因为二进制表示和舍入可能改变结果。预期同时检查展示、存储和计算值。</p>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>本篇金额上限为 200.00、精度为 0.01，离点是 199.99、200.00、200.01；下界离点是 0、0.01、0.02。若接口以分为整数传输，邻近值应按 1 分构造。不能直接用浮点 <code>max ± 0.01</code> 断言，因为二进制表示和舍入可能改变结果。预期同时检查展示、存储和计算值。</p>
 </div></div>
       
     </div>
@@ -518,14 +1306,14 @@
 
   <div class="hfc-flip__inner" data-hfc-flip-inner>
     <div class="hfc-face hfc-face--front" data-hfc-face="front">
-      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-card-head"><span class="hfc-number">Q14</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
       <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A0%E6%95%88%E8%BE%93%E5%85%A5">#无效输入</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%9A%94%E7%A6%BB">#隔离</a></div>
       <div class="hfc-question"><p>多个非法值能否一次全部填入？</p>
 </div>
       <span class="hfc-flip-hint">点击查看答案</span>
     </div>
     <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
-      <div class="hfc-card-head"><span class="hfc-number">Q09</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
+      <div class="hfc-card-head"><span class="hfc-number">Q14</span><a class="hfc-priority hfc-priority--1" href="/learn-topic/?priority=1" title="筛选高频题" aria-label="筛选高频题">高频</a></div>
       <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80">#测试基础</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%97%A0%E6%95%88%E8%BE%93%E5%85%A5">#无效输入</a><a class="hfc-topic" href="/learn-topic/?tag=%E9%9A%94%E7%A6%BB">#隔离</a></div>
       <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>多个非法值能否一次全部填入？</p>
 </div></div>
@@ -539,11 +1327,11 @@
 </article>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="ISTQB CTFL v4.0.1" target="_blank" rel="noopener" href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png"/></div><div class="right"><p class="text">ISTQB CTFL v4.0.1</p><p class="url">https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf</p></div></a></div></div>
 
-<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="9"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Ftesting-basics%2F%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80(%E4%B8%83)%E8%BE%93%E5%85%A5%E5%9F%9F%E4%B8%8E%E8%BE%B9%E7%95%8C%E6%B5%8B%E8%AF%95.md" title="复习本篇 · 9 张卡片" aria-label="复习本篇 · 9 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 9 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/69145da7/">https://koco-co.github.io/posts/69145da7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/">系统学习</a><a class="post-meta__tags" href="/tags/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/">测试基础</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">测试基础(八)规则组合与判定测试</div></div><div class="info-2"><div class="info-item-1">把多条件业务规则转换成可验证组合，产出可追踪判定表和一组有依据的功能用例。</div></div></div></a><a class="pagination-related" href="/posts/cd81672d/" title="测试基础(六)功能测试用例设计"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">测试基础(六)功能测试用例设计</div></div><div class="info-2"><div class="info-item-1">把测试点写成可执行、可复核的功能用例，将模糊测试点改成完整用例表并通过评审。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/cb5d3b8f/" title="测试基础(五)测试计划与风险管理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-18</div><div class="info-item-2">测试基础(五)测试计划与风险管理</div></div><div class="info-2"><div class="info-item-1">在有限时间里分配测试投入，写一份包含优先级和取舍理由的小测试计划。</div></div></div></a><a class="pagination-related" href="/posts/c75ad281/" title="测试基础(十)功能测试场景训练"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-23</div><div class="info-item-2">测试基础(十)功能测试场景训练</div></div><div class="info-2"><div class="info-item-1">把方法组合用于陌生场景并表达思路，独立给出澄清问题、功能模型、代表用例和未覆盖风险。</div></div></div></a><a class="pagination-related" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-21</div><div class="info-item-2">测试基础(八)规则组合与判定测试</div></div><div class="info-2"><div class="info-item-1">把多条件业务规则转换成可验证组合，产出可追踪判定表和一组有依据的功能用例。</div></div></div></a><a class="pagination-related" href="/posts/269e708b/" title="测试基础(十五)发布验证与维护测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-28</div><div class="info-item-2">测试基础(十五)发布验证与维护测试</div></div><div class="info-2"><div class="info-item-1">验证变更并控制发布后的功能风险，提出有证据的回归范围、发布检查和回退验证。</div></div></div></a><a class="pagination-related" href="/posts/1d4f3128/" title="测试基础(十一)探索式测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-24</div><div class="info-item-2">测试基础(十一)探索式测试</div></div><div class="info-2"><div class="info-item-1">通过有目的的探索发现模型遗漏，执行一场限时探索并提交可复盘记录。</div></div></div></a><a class="pagination-related" href="/posts/562e1ecf/" title="测试基础(三)研发流程与敏捷协作"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-16</div><div class="info-item-2">测试基础(三)研发流程与敏捷协作</div></div><div class="info-2"><div class="info-item-1">把测试活动安排到研发流程，为一个迭代安排反馈、评审和测试职责。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">151</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="14"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Ftesting-basics%2F%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80(%E4%B8%83)%E8%BE%93%E5%85%A5%E5%9F%9F%E4%B8%8E%E8%BE%B9%E7%95%8C%E6%B5%8B%E8%AF%95.md" title="复习本篇 · 14 张卡片" aria-label="复习本篇 · 14 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 14 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/69145da7/">https://koco-co.github.io/posts/69145da7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/">系统学习</a><a class="post-meta__tags" href="/tags/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/">测试基础</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">测试基础(八)规则组合与判定测试</div></div><div class="info-2"><div class="info-item-1">把多条件业务规则转换成可验证组合，产出可追踪判定表和一组有依据的功能用例。</div></div></div></a><a class="pagination-related" href="/posts/cd81672d/" title="测试基础(六)功能测试用例设计"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">测试基础(六)功能测试用例设计</div></div><div class="info-2"><div class="info-item-1">把测试点写成可执行、可复核的功能用例，将模糊测试点改成完整用例表并通过评审。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/b843aa71/" title="测试基础(十六)自动化测试策略"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-29</div><div class="info-item-2">测试基础(十六)自动化测试策略</div></div><div class="info-2"><div class="info-item-1">为功能用例选择合适的自动化投入，列出自动化候选、层级、成本和维护策略。</div></div></div></a><a class="pagination-related" href="/posts/69e11ff/" title="测试基础(十七)进阶路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-30</div><div class="info-item-2">测试基础(十七)进阶路线</div></div><div class="info-2"><div class="info-item-1">为超出主线的需要选择深入方向，按触发条件选择后续学习，不让核心实战依赖本篇。</div></div></div></a><a class="pagination-related" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-21</div><div class="info-item-2">测试基础(八)规则组合与判定测试</div></div><div class="info-2"><div class="info-item-1">把多条件业务规则转换成可验证组合，产出可追踪判定表和一组有依据的功能用例。</div></div></div></a><a class="pagination-related" href="/posts/3acc7773/" title="测试基础(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-14</div><div class="info-item-2">测试基础(一)入门路线</div></div><div class="info-2"><div class="info-item-1">安排功能用例设计学习顺序，明确先读什么、先练什么和何时完成。</div></div></div></a><a class="pagination-related" href="/posts/1d4f3128/" title="测试基础(十一)探索式测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-24</div><div class="info-item-2">测试基础(十一)探索式测试</div></div><div class="info-2"><div class="info-item-1">通过有目的的探索发现模型遗漏，执行一场限时探索并提交可复盘记录。</div></div></div></a><a class="pagination-related" href="/posts/adb68b7b/" title="测试基础(十四)缺陷管理与测试报告"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-27</div><div class="info-item-2">测试基础(十四)缺陷管理与测试报告</div></div><div class="info-2"><div class="info-item-1">将测试观察转为缺陷与质量沟通，写出可复现缺陷和不夸大覆盖的测试报告。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">151</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
   <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
   </br>
   <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
-</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%BB%BA%E6%A8%A1"><span class="toc-number">1.</span> <span class="toc-text">输入建模</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%89%E4%BB%B7%E5%88%92%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">等价划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%B9%E7%95%8C%E6%8E%A8%E5%AF%BC"><span class="toc-number">3.</span> <span class="toc-text">边界推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E7%BB%84%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">约束组合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%83%E4%B9%A0"><span class="toc-number">5.</span> <span class="toc-text">数据练习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E6%A3%80%E6%9F%A5"><span class="toc-number">6.</span> <span class="toc-text">覆盖检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/1462056d/" title="测试基础(十八)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十八)综合实战"></a><div class="content"><a class="title" href="/posts/1462056d/" title="测试基础(十八)综合实战">测试基础(十八)综合实战</a><time datetime="2026-05-30T16:00:00.000Z" title="发表于 2026-05-31 00:00:00">2026-05-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/69e11ff/" title="测试基础(十七)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十七)进阶路线"></a><div class="content"><a class="title" href="/posts/69e11ff/" title="测试基础(十七)进阶路线">测试基础(十七)进阶路线</a><time datetime="2026-05-29T16:00:00.000Z" title="发表于 2026-05-30 00:00:00">2026-05-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b843aa71/" title="测试基础(十六)自动化测试策略"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十六)自动化测试策略"></a><div class="content"><a class="title" href="/posts/b843aa71/" title="测试基础(十六)自动化测试策略">测试基础(十六)自动化测试策略</a><time datetime="2026-05-28T16:00:00.000Z" title="发表于 2026-05-29 00:00:00">2026-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/269e708b/" title="测试基础(十五)发布验证与维护测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十五)发布验证与维护测试"></a><div class="content"><a class="title" href="/posts/269e708b/" title="测试基础(十五)发布验证与维护测试">测试基础(十五)发布验证与维护测试</a><time datetime="2026-05-27T16:00:00.000Z" title="发表于 2026-05-28 00:00:00">2026-05-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/adb68b7b/" title="测试基础(十四)缺陷管理与测试报告"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十四)缺陷管理与测试报告"></a><div class="content"><a class="title" href="/posts/adb68b7b/" title="测试基础(十四)缺陷管理与测试报告">测试基础(十四)缺陷管理与测试报告</a><time datetime="2026-05-26T16:00:00.000Z" title="发表于 2026-05-27 00:00:00">2026-05-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/69978da/" title="测试基础(十三)非功能测试补充"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十三)非功能测试补充"></a><div class="content"><a class="title" href="/posts/69978da/" title="测试基础(十三)非功能测试补充">测试基础(十三)非功能测试补充</a><time datetime="2026-05-25T16:00:00.000Z" title="发表于 2026-05-26 00:00:00">2026-05-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b597e925/" title="测试基础(十二)白盒测试与覆盖率"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十二)白盒测试与覆盖率"></a><div class="content"><a class="title" href="/posts/b597e925/" title="测试基础(十二)白盒测试与覆盖率">测试基础(十二)白盒测试与覆盖率</a><time datetime="2026-05-24T16:00:00.000Z" title="发表于 2026-05-25 00:00:00">2026-05-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1d4f3128/" title="测试基础(十一)探索式测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十一)探索式测试"></a><div class="content"><a class="title" href="/posts/1d4f3128/" title="测试基础(十一)探索式测试">测试基础(十一)探索式测试</a><time datetime="2026-05-23T16:00:00.000Z" title="发表于 2026-05-24 00:00:00">2026-05-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c75ad281/" title="测试基础(十)功能测试场景训练"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十)功能测试场景训练"></a><div class="content"><a class="title" href="/posts/c75ad281/" title="测试基础(十)功能测试场景训练">测试基础(十)功能测试场景训练</a><time datetime="2026-05-22T16:00:00.000Z" title="发表于 2026-05-23 00:00:00">2026-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7677ef32/" title="测试基础(九)状态迁移与业务流程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(九)状态迁移与业务流程"></a><div class="content"><a class="title" href="/posts/7677ef32/" title="测试基础(九)状态迁移与业务流程">测试基础(九)状态迁移与业务流程</a><time datetime="2026-05-21T16:00:00.000Z" title="发表于 2026-05-22 00:00:00">2026-05-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(八)规则组合与判定测试"></a><div class="content"><a class="title" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试">测试基础(八)规则组合与判定测试</a><time datetime="2026-05-20T16:00:00.000Z" title="发表于 2026-05-21 00:00:00">2026-05-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/69145da7/" title="测试基础(七)输入域与边界测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(七)输入域与边界测试"></a><div class="content"><a class="title" href="/posts/69145da7/" title="测试基础(七)输入域与边界测试">测试基础(七)输入域与边界测试</a><time datetime="2026-05-19T16:00:00.000Z" title="发表于 2026-05-20 00:00:00">2026-05-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cd81672d/" title="测试基础(六)功能测试用例设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(六)功能测试用例设计"></a><div class="content"><a class="title" href="/posts/cd81672d/" title="测试基础(六)功能测试用例设计">测试基础(六)功能测试用例设计</a><time datetime="2026-05-18T16:00:00.000Z" title="发表于 2026-05-19 00:00:00">2026-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cb5d3b8f/" title="测试基础(五)测试计划与风险管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(五)测试计划与风险管理"></a><div class="content"><a class="title" href="/posts/cb5d3b8f/" title="测试基础(五)测试计划与风险管理">测试基础(五)测试计划与风险管理</a><time datetime="2026-05-17T16:00:00.000Z" title="发表于 2026-05-18 00:00:00">2026-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f6e019d6/" title="测试基础(四)需求分析与静态评审"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(四)需求分析与静态评审"></a><div class="content"><a class="title" href="/posts/f6e019d6/" title="测试基础(四)需求分析与静态评审">测试基础(四)需求分析与静态评审</a><time datetime="2026-05-16T16:00:00.000Z" title="发表于 2026-05-17 00:00:00">2026-05-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/562e1ecf/" title="测试基础(三)研发流程与敏捷协作"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(三)研发流程与敏捷协作"></a><div class="content"><a class="title" href="/posts/562e1ecf/" title="测试基础(三)研发流程与敏捷协作">测试基础(三)研发流程与敏捷协作</a><time datetime="2026-05-15T16:00:00.000Z" title="发表于 2026-05-16 00:00:00">2026-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/90ac9409/" title="测试基础(二)测试原理与质量观"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(二)测试原理与质量观"></a><div class="content"><a class="title" href="/posts/90ac9409/" title="测试基础(二)测试原理与质量观">测试基础(二)测试原理与质量观</a><time datetime="2026-05-14T16:00:00.000Z" title="发表于 2026-05-15 00:00:00">2026-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3acc7773/" title="测试基础(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(一)入门路线"></a><div class="content"><a class="title" href="/posts/3acc7773/" title="测试基础(一)入门路线">测试基础(一)入门路线</a><time datetime="2026-05-13T16:00:00.000Z" title="发表于 2026-05-14 00:00:00">2026-05-14</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A209.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 编程工作流插件选型指南"/></a><div class="content"><a class="title" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南">AI 编程工作流插件选型指南</a><time datetime="2026-08-27T08:24:15.000Z" title="发表于 2026-08-27 16:24:15">2026-08-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/eba16d90/" title="App测试(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(一)入门路线"/></a><div class="content"><a class="title" href="/posts/eba16d90/" title="App测试(一)入门路线">App测试(一)入门路线</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(七)兼容性与适配"/></a><div class="content"><a class="title" href="/posts/1a4ff107/" title="App测试(七)兼容性与适配">App测试(七)兼容性与适配</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(三)Android 环境与设备"/></a><div class="content"><a class="title" href="/posts/b69bc933/" title="App测试(三)Android 环境与设备">App测试(三)Android 环境与设备</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/app-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="App测试(九)可用性与可访问性"/></a><div class="content"><a class="title" href="/posts/d4da928f/" title="App测试(九)可用性与可访问性">App测试(九)可用性与可访问性</a><time datetime="2026-08-25T16:00:00.000Z" title="发表于 2026-08-26 00:00:00">2026-08-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%BB%BA%E6%A8%A1"><span class="toc-number">1.</span> <span class="toc-text">输入建模</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8D%95%E4%BD%8D"><span class="toc-number">1.1.</span> <span class="toc-text">类型与单位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E4%B8%8E%E7%BC%BA%E5%A4%B1%E5%80%BC"><span class="toc-number">1.2.</span> <span class="toc-text">约束与缺失值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%89%E4%BB%B7%E5%88%92%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">等价划分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%95%88%E4%B8%8E%E6%97%A0%E6%95%88"><span class="toc-number">2.1.</span> <span class="toc-text">有效与无效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E4%B8%8E%E4%BB%A3%E8%A1%A8%E5%80%BC"><span class="toc-number">2.2.</span> <span class="toc-text">分区与代表值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%B9%E7%95%8C%E6%8E%A8%E5%AF%BC"><span class="toc-number">3.</span> <span class="toc-text">边界推导</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E5%80%BC%E4%B8%8E%E4%B8%89%E5%80%BC"><span class="toc-number">3.1.</span> <span class="toc-text">两值与三值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E9%97%AD%E5%8C%BA%E9%97%B4"><span class="toc-number">3.2.</span> <span class="toc-text">开闭区间</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E7%BB%84%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">约束组合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%B8%80%E6%97%A0%E6%95%88%E8%BE%93%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">单一无效输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E5%AD%97%E6%AE%B5%E4%BA%A4%E4%BA%92"><span class="toc-number">4.2.</span> <span class="toc-text">多字段交互</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%83%E4%B9%A0"><span class="toc-number">5.</span> <span class="toc-text">数据练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E4%B8%8E%E9%AA%8C%E8%AF%81%E7%A0%81"><span class="toc-number">5.1.</span> <span class="toc-text">文本与验证码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%91%E9%A2%9D%E6%97%A5%E6%9C%9F%E4%B8%8E%E6%96%87%E4%BB%B6"><span class="toc-number">5.2.</span> <span class="toc-text">金额日期与文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E8%A7%84%E5%88%99%E5%88%B0%E7%94%A8%E4%BE%8B"><span class="toc-number">5.3.</span> <span class="toc-text">从规则到用例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E6%A3%80%E6%9F%A5"><span class="toc-number">6.</span> <span class="toc-text">覆盖检查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AF%8D%E4%B8%8E%E5%8E%BB%E9%87%8D"><span class="toc-number">6.1.</span> <span class="toc-text">分母与去重</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%B9%E7%95%8C%E9%81%97%E6%BC%8F"><span class="toc-number">6.2.</span> <span class="toc-text">边界遗漏</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/1462056d/" title="测试基础(十八)综合实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十八)综合实战"></a><div class="content"><a class="title" href="/posts/1462056d/" title="测试基础(十八)综合实战">测试基础(十八)综合实战</a><time datetime="2026-05-30T16:00:00.000Z" title="发表于 2026-05-31 00:00:00">2026-05-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/69e11ff/" title="测试基础(十七)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十七)进阶路线"></a><div class="content"><a class="title" href="/posts/69e11ff/" title="测试基础(十七)进阶路线">测试基础(十七)进阶路线</a><time datetime="2026-05-29T16:00:00.000Z" title="发表于 2026-05-30 00:00:00">2026-05-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b843aa71/" title="测试基础(十六)自动化测试策略"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十六)自动化测试策略"></a><div class="content"><a class="title" href="/posts/b843aa71/" title="测试基础(十六)自动化测试策略">测试基础(十六)自动化测试策略</a><time datetime="2026-05-28T16:00:00.000Z" title="发表于 2026-05-29 00:00:00">2026-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/269e708b/" title="测试基础(十五)发布验证与维护测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十五)发布验证与维护测试"></a><div class="content"><a class="title" href="/posts/269e708b/" title="测试基础(十五)发布验证与维护测试">测试基础(十五)发布验证与维护测试</a><time datetime="2026-05-27T16:00:00.000Z" title="发表于 2026-05-28 00:00:00">2026-05-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/adb68b7b/" title="测试基础(十四)缺陷管理与测试报告"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十四)缺陷管理与测试报告"></a><div class="content"><a class="title" href="/posts/adb68b7b/" title="测试基础(十四)缺陷管理与测试报告">测试基础(十四)缺陷管理与测试报告</a><time datetime="2026-05-26T16:00:00.000Z" title="发表于 2026-05-27 00:00:00">2026-05-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/69978da/" title="测试基础(十三)非功能测试补充"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十三)非功能测试补充"></a><div class="content"><a class="title" href="/posts/69978da/" title="测试基础(十三)非功能测试补充">测试基础(十三)非功能测试补充</a><time datetime="2026-05-25T16:00:00.000Z" title="发表于 2026-05-26 00:00:00">2026-05-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b597e925/" title="测试基础(十二)白盒测试与覆盖率"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十二)白盒测试与覆盖率"></a><div class="content"><a class="title" href="/posts/b597e925/" title="测试基础(十二)白盒测试与覆盖率">测试基础(十二)白盒测试与覆盖率</a><time datetime="2026-05-24T16:00:00.000Z" title="发表于 2026-05-25 00:00:00">2026-05-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1d4f3128/" title="测试基础(十一)探索式测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十一)探索式测试"></a><div class="content"><a class="title" href="/posts/1d4f3128/" title="测试基础(十一)探索式测试">测试基础(十一)探索式测试</a><time datetime="2026-05-23T16:00:00.000Z" title="发表于 2026-05-24 00:00:00">2026-05-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c75ad281/" title="测试基础(十)功能测试场景训练"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(十)功能测试场景训练"></a><div class="content"><a class="title" href="/posts/c75ad281/" title="测试基础(十)功能测试场景训练">测试基础(十)功能测试场景训练</a><time datetime="2026-05-22T16:00:00.000Z" title="发表于 2026-05-23 00:00:00">2026-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7677ef32/" title="测试基础(九)状态迁移与业务流程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(九)状态迁移与业务流程"></a><div class="content"><a class="title" href="/posts/7677ef32/" title="测试基础(九)状态迁移与业务流程">测试基础(九)状态迁移与业务流程</a><time datetime="2026-05-21T16:00:00.000Z" title="发表于 2026-05-22 00:00:00">2026-05-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(八)规则组合与判定测试"></a><div class="content"><a class="title" href="/posts/ed62e469/" title="测试基础(八)规则组合与判定测试">测试基础(八)规则组合与判定测试</a><time datetime="2026-05-20T16:00:00.000Z" title="发表于 2026-05-21 00:00:00">2026-05-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/69145da7/" title="测试基础(七)输入域与边界测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(七)输入域与边界测试"></a><div class="content"><a class="title" href="/posts/69145da7/" title="测试基础(七)输入域与边界测试">测试基础(七)输入域与边界测试</a><time datetime="2026-05-19T16:00:00.000Z" title="发表于 2026-05-20 00:00:00">2026-05-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cd81672d/" title="测试基础(六)功能测试用例设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(六)功能测试用例设计"></a><div class="content"><a class="title" href="/posts/cd81672d/" title="测试基础(六)功能测试用例设计">测试基础(六)功能测试用例设计</a><time datetime="2026-05-18T16:00:00.000Z" title="发表于 2026-05-19 00:00:00">2026-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cb5d3b8f/" title="测试基础(五)测试计划与风险管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(五)测试计划与风险管理"></a><div class="content"><a class="title" href="/posts/cb5d3b8f/" title="测试基础(五)测试计划与风险管理">测试基础(五)测试计划与风险管理</a><time datetime="2026-05-17T16:00:00.000Z" title="发表于 2026-05-18 00:00:00">2026-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f6e019d6/" title="测试基础(四)需求分析与静态评审"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(四)需求分析与静态评审"></a><div class="content"><a class="title" href="/posts/f6e019d6/" title="测试基础(四)需求分析与静态评审">测试基础(四)需求分析与静态评审</a><time datetime="2026-05-16T16:00:00.000Z" title="发表于 2026-05-17 00:00:00">2026-05-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/562e1ecf/" title="测试基础(三)研发流程与敏捷协作"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(三)研发流程与敏捷协作"></a><div class="content"><a class="title" href="/posts/562e1ecf/" title="测试基础(三)研发流程与敏捷协作">测试基础(三)研发流程与敏捷协作</a><time datetime="2026-05-15T16:00:00.000Z" title="发表于 2026-05-16 00:00:00">2026-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/90ac9409/" title="测试基础(二)测试原理与质量观"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(二)测试原理与质量观"></a><div class="content"><a class="title" href="/posts/90ac9409/" title="测试基础(二)测试原理与质量观">测试基础(二)测试原理与质量观</a><time datetime="2026-05-14T16:00:00.000Z" title="发表于 2026-05-15 00:00:00">2026-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3acc7773/" title="测试基础(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/learn-topic/testing-basics/course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试基础(一)入门路线"></a><div class="content"><a class="title" href="/posts/3acc7773/" title="测试基础(一)入门路线">测试基础(一)入门路线</a><time datetime="2026-05-13T16:00:00.000Z" title="发表于 2026-05-14 00:00:00">2026-05-14</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A208.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 编程工作流插件选型指南"/></a><div class="content"><a class="title" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南">AI 编程工作流插件选型指南</a><time datetime="2026-08-27T08:24:15.000Z" title="发表于 2026-08-27 16:24:15">2026-08-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dfdedcc6/" title="FastAPI(十五)项目实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十五)项目实战"/></a><div class="content"><a class="title" href="/posts/dfdedcc6/" title="FastAPI(十五)项目实战">FastAPI(十五)项目实战</a><time datetime="2026-07-01T16:00:00.000Z" title="发表于 2026-07-02 00:00:00">2026-07-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f8ac9084/" title="FastAPI(十四)进阶路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十四)进阶路线"/></a><div class="content"><a class="title" href="/posts/f8ac9084/" title="FastAPI(十四)进阶路线">FastAPI(十四)进阶路线</a><time datetime="2026-06-30T16:00:00.000Z" title="发表于 2026-07-01 00:00:00">2026-07-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十三)部署与生产运维"/></a><div class="content"><a class="title" href="/posts/a584b159/" title="FastAPI(十三)部署与生产运维">FastAPI(十三)部署与生产运维</a><time datetime="2026-06-29T16:00:00.000Z" title="发表于 2026-06-30 00:00:00">2026-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d474d6f1/" title="FastAPI(十二)测试与质量保障"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/fastapi-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="FastAPI(十二)测试与质量保障"/></a><div class="content"><a class="title" href="/posts/d474d6f1/" title="FastAPI(十二)测试与质量保障">FastAPI(十二)测试与质量保障</a><time datetime="2026-06-28T16:00:00.000Z" title="发表于 2026-06-29 00:00:00">2026-06-29</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
   <p><strong>免责声明</strong></p>
   <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
   <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>

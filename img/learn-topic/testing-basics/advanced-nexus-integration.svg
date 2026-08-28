@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">Nexus 集成边界</title>
+  <desc id="desc">产品待办进入共享冲刺待办，多个团队形成集成增量，再经过评审反馈。</desc>
+  <rect width="1200" height="500" fill="#f7f9fc"/>
+  <text x="600" y="52" font-family="Arial, sans-serif" text-anchor="middle" font-size="28" font-weight="700" fill="#20304a">集成边界要有共同增量与反馈</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <rect x="70" y="190" width="210" height="110" rx="18" fill="#2563eb"/><text x="175" y="238" font-size="24" font-weight="700" fill="white">产品待办</text><text x="175" y="272" font-size="17" fill="white">需求与优先级</text>
+    <rect x="345" y="190" width="210" height="110" rx="18" fill="#0f766e"/><text x="450" y="238" font-size="24" font-weight="700" fill="white">共享冲刺</text><text x="450" y="272" font-size="17" fill="white">依赖与拆分</text>
+    <rect x="620" y="145" width="250" height="200" rx="22" fill="#7c3aed"/><text x="745" y="218" font-size="24" font-weight="700" fill="white">多个团队</text><text x="745" y="255" font-size="17" fill="white">局部实现、共同集成</text><text x="745" y="288" font-size="17" fill="white">接口、数据、质量证据</text>
+    <rect x="935" y="190" width="200" height="110" rx="18" fill="#be123c"/><text x="1035" y="238" font-size="24" font-weight="700" fill="white">集成增量</text><text x="1035" y="272" font-size="17" fill="white">评审与回流</text>
+  </g>
+  <g stroke="#64748b" stroke-width="4" fill="none" marker-end="url(#arrow)"><path d="M280 245h60"/><path d="M555 245h60"/><path d="M870 245h60"/><path d="M1035 300V405H175V300"/></g>
+  <text x="600" y="455" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="#475569">图示只强调依赖和集成证据，不替代当前框架指南。</text>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+</svg>

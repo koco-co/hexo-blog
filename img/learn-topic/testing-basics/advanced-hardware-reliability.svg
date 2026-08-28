@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">硬件可靠性专项边界</title>
+  <desc id="desc">老化、温湿度、防水防尘、腐蚀、跌落、碰撞、振动和冲击属于需要设施与资质的硬件专项。</desc>
+  <rect width="1200" height="430" fill="#f7f9fc"/>
+  <text x="600" y="52" font-family="Arial, sans-serif" text-anchor="middle" font-size="28" font-weight="700" fill="#20304a">硬件可靠性要交给专项设施</text>
+  <rect x="80" y="120" width="450" height="210" rx="22" fill="#2563eb"/>
+  <text x="305" y="175" font-family="Arial, sans-serif" text-anchor="middle" font-size="25" font-weight="700" fill="white">环境与老化</text><text x="305" y="220" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="white">温度 · 湿度 · 防水 · 防尘</text><text x="305" y="260" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="white">气体腐蚀 · 长时运行</text>
+  <rect x="670" y="120" width="450" height="210" rx="22" fill="#be123c"/>
+  <text x="895" y="175" font-family="Arial, sans-serif" text-anchor="middle" font-size="25" font-weight="700" fill="white">机械应力</text><text x="895" y="220" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="white">跌落 · 碰撞 · 振动 · 冲击</text><text x="895" y="260" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="white">需设备、样品和安全审批</text>
+  <text x="600" y="380" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="#475569">本课程只说明边界，不在普通功能测试中实施破坏性实验。</text>
+</svg>

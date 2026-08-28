@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "mimosa-finding-ledger-batch/v1",
+  "batchId": "stop-20260828T161646828Z-73281-061ade0715cb",
+  "runId": "20260828T161646828Z-73281-061ade0715cb",
+  "runStatus": "completed",
+  "coverage": {
+    "status": "complete",
+    "reasons": [
+      {
+        "code": "baseline_partial",
+        "stage": "baseline",
+        "target": ".",
+        "detail": "baseline capture had enumeration or snapshot errors",
+        "affectsCompletion": false
+      }
+    ]
+  },
+  "source": {
+    "component": "zcode-hook",
+    "operationId": "Stop"
+  },
+  "revision": "d49fc08e0744b74be9dbed660e3bc7a0577d1cc3",
+  "diffHash": "658bd2f74c11551a2ce062e89475424cd6c203280ec5f95e29d9aafed2619030",
+  "rulesVersion": "unavailable",
+  "sessionHash": "b10f449385222376ba56736c17975236d181223effb4439109353eca7d63d064",
+  "reportRef": ".mimosa/reports/task-review-sess_e8172da6-bb8e-4ea1-aac7-0c26e21cb691-20260828T161646828Z-73281-061ade0715cb.json",
+  "events": [],
+  "observedFindingIds": [],
+  "verifiedFiles": [
+    {
+      "file": "node_modules/hexo-flashcard-plugin/assets/flashcard-queue.js",
+      "direct": "complete",
+      "projectContext": "partial"
+    },
+    {
+      "file": "node_modules/hexo-flashcard-plugin/assets/flashcard.js",
+      "direct": "complete",
+      "projectContext": "partial"
+    }
+  ],
+  "recordedAt": "2026-08-28T16:16:47.837Z"
+}

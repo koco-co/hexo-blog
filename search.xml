@@ -3028,9 +3028,9 @@
             
             <tag> MySQL </tag>
             
-            <tag> 数据库 </tag>
-            
             <tag> 数据写入与约束 </tag>
+            
+            <tag> 数据库 </tag>
             
         </tags>
       
@@ -3264,9 +3264,9 @@
       
         <tags>
             
-            <tag> 网络排障 </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> 网络排障 </tag>
             
         </tags>
       
@@ -3496,9 +3496,9 @@
       
         <tags>
             
-            <tag> 计算机网络 </tag>
-            
             <tag> 网络排障 </tag>
+            
+            <tag> 计算机网络 </tag>
             
             <tag> 面试题 </tag>
             
@@ -3558,9 +3558,9 @@
       
         <tags>
             
-            <tag> 计算机网络 </tag>
-            
             <tag> 网络排障 </tag>
+            
+            <tag> 计算机网络 </tag>
             
             <tag> Wireshark </tag>
             

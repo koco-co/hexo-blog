@@ -2481,7 +2481,7 @@
           "rationale": "把会话失败统称为“点不动”会遮蔽故障层；故事先让每层回执承担定位职责，再用真实组件名称限制隐喻。",
           "directly_visible": "故事、四层映射、架构图、组件职责表、日志证据和会话关闭边界均直接可见。",
           "degradation": "图像或 Mermaid 失效时故事后的文字映射、表格与命令仍完整。",
-          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+          "validation_status": "本轮 content 与 tags 审计、canonical npm run build 均已通过；本篇尚未独立浏览器验收。"
         },
         {
           "block": "组件架构",

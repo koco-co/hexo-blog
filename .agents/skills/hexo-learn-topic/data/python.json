@@ -768,7 +768,7 @@
           "rationale": "一次性消费的原因容易被术语掩盖；故事先暴露“为了观察而耗尽来源”的后果，正式定义和代码随后校正隐喻。",
           "directly_visible": "故事主线、书架/木签/纸卷的技术映射、一次性边界与代码结果均直接可见。",
           "degradation": "HTML 注释不渲染时故事仍是连续 Markdown；样式或图表失效时正式定义、代码和表格仍可独立阅读。",
-          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+          "validation_status": "本轮 content 与 tags 审计、canonical npm run build 均已通过；本篇尚未独立浏览器验收。"
         },
         {
           "block": "开篇定位",

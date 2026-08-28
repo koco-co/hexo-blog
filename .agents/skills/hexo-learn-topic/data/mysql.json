@@ -861,7 +861,7 @@
           "rationale": "快照读容易被误解成复制整张表；故事先呈现同一账本在不同视野下的可见页，Mermaid 再展开真实的回溯关系。",
           "directly_visible": "故事、三项映射、旧版本回收边界和版本链图均直接可见。",
           "degradation": "图形失效时故事后的正式说明、隔离级别表和实验仍可读。",
-          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+          "validation_status": "本轮 content 与 tags 审计、canonical npm run build 均已通过；文章路由已完成默认主题的桌面与移动端抽样。"
         },
         {
           "block": "开篇定位",

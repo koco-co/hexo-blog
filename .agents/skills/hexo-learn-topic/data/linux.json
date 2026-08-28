@@ -211,7 +211,7 @@
           "rationale": "直接背信号名称会诱发按名字误杀进程；故事先显示错误对象带来的后果，再用受控命令建立证据边界。",
           "directly_visible": "故事、身份映射、进程关系图、只作用于子进程的命令和强制终止边界均可见。",
           "degradation": "故事和命令在图形或样式失效时仍保持顺序和安全限制。",
-          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+          "validation_status": "本轮 content 与 tags 审计、canonical npm run build 均已通过；本篇尚未独立浏览器验收。"
         },
         {
           "block": "开篇定位",

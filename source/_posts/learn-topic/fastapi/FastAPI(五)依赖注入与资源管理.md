@@ -196,6 +196,10 @@ async def audit(
 
 <!-- concept-story:end -->
 
+{% note info flat %}
+交接单的上半段、钥匙和下半段分别对应 `yield` 前的准备、交给处理函数的资源与 `yield` 后的清理。退出路径统一经过清理代码；数据库会话、临时文件和锁都应放进 `try/finally`，不要只在成功分支关闭。流式响应还会改变“观众何时离场”，因此清理作用域必须与响应消费时机匹配。
+{% endnote %}
+
 {% mermaid %}
 sequenceDiagram
   participant C as Client
@@ -206,10 +210,6 @@ sequenceDiagram
   H-->>C: response or error
   D->>D: finally cleanup
 {% endmermaid %}
-
-{% note info flat %}
-交接单的上半段、钥匙和下半段分别对应 `yield` 前的准备、交给处理函数的资源与 `yield` 后的清理。退出路径统一经过清理代码；数据库会话、临时文件和锁都应放进 `try/finally`，不要只在成功分支关闭。流式响应还会改变“观众何时离场”，因此清理作用域必须与响应消费时机匹配。
-{% endnote %}
 
 ```python
 from collections.abc import Generator

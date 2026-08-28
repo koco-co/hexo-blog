@@ -74,6 +74,10 @@ ACID 不是四个互相独立的开关：约束提供一致性，redo 提供持�
 
 <!-- concept-story:end -->
 
+{% note info flat %}
+账页顶端、细线和查验单分别对应当前行版本、undo 版本链与 Read View。InnoDB 在行记录中维护事务标记和 undo 链；普通一致性读根据 Read View 判断当前版本是否可见，不可见就沿 undo 找到满足快照的旧版本。这不等同于复制整张表，也不表示旧版本可以无限保留。
+{% endnote %}
+
 {% mermaid %}
 flowchart TD
   N[当前记录 value=30\nDB_TRX_ID=T3] --> U[undo 旧版本 value=20\nT2]
@@ -81,10 +85,6 @@ flowchart TD
   R[Read View] -.可见性判断.- N
   R -.不可见则沿 undo 回溯.- U
 {% endmermaid %}
-
-{% note info flat %}
-账页顶端、细线和查验单分别对应当前行版本、undo 版本链与 Read View。InnoDB 在行记录中维护事务标记和 undo 链；普通一致性读根据 Read View 判断当前版本是否可见，不可见就沿 undo 找到满足快照的旧版本。这不等同于复制整张表，也不表示旧版本可以无限保留。
-{% endnote %}
 
 ## 隔离级别
 

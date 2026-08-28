@@ -1080,7 +1080,7 @@
           "rationale": "资源清理的关键不是记住语法，而是异常和流式响应下的时机；故事先暴露钥匙遗留的后果，时序图再明确调用顺序。",
           "directly_visible": "故事、资源映射、异常清理和 scope 对流式响应的影响均直接可见。",
           "degradation": "故事、代码和紧邻的说明在 Mermaid 失效时仍可读。",
-          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+          "validation_status": "本轮 content 与 tags 审计、canonical npm run build 均已通过；本篇尚未独立浏览器验收。"
         },
         {
           "block": "依赖图 / 函数依赖",

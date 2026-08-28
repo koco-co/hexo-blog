@@ -839,7 +839,7 @@
           "rationale": "“三次打招呼”的错误类比会掩盖确认方向；故事让每一趟回信承担可观察的证明，再由报文字段限制隐喻。",
           "directly_visible": "故事主线、报文映射、ISN 含义、字段表和失败边界均直接可见。",
           "degradation": "故事与表格无需客户端交互；样式失效时仍保留三趟消息的文字顺序。",
-          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+          "validation_status": "本轮 content 与 tags 审计、canonical npm run build 均已通过；本篇尚未独立浏览器验收。"
         },
         {
           "block": "开篇定位",

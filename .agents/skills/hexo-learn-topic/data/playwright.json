@@ -1026,7 +1026,7 @@
           "rationale": "把所有超时归为页面慢会掩盖故障位置；故事让两个承诺分别需要证据，图和代码再给出准确接口边界。",
           "directly_visible": "故事、两类等待的映射、流程图、断言代码和强制点击边界均直接可见。",
           "degradation": "故事和相邻说明不依赖交互；图形失效时仍按文本说明定位失败阶段。",
-          "validation_status": "本轮 content 与 tags 审计已通过；待本批构建和浏览器抽样。"
+          "validation_status": "本轮 content 与 tags 审计、canonical npm run build 均已通过；本篇尚未独立浏览器验收。"
         },
         {
           "block": "开篇定位",

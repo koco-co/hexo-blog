@@ -4416,7 +4416,7 @@
               "reason": "Fixture 容易被误用成隐藏全局状态；先让读者观察可追踪的准备关系，再用依赖图和代码固化真实机制。",
               "visible": "故事、参数/Fixture/子依赖映射、依赖图、代码与清理边界均可见。",
               "fallback": "故事、代码和依赖列表不依赖图形或交互。",
-              "status": "implemented; content and tags audit passed; pending batch build/browser sampling"
+              "status": "implemented; content and tags audit plus canonical npm run build passed; article-specific browser acceptance pending"
             },
             {
               "name": "fixture 依赖图",

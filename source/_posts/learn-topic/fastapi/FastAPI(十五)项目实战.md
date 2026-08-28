@@ -12,7 +12,7 @@ series: FastAPI
 series_order: 15
 published: true
 abbrlink: dfdedcc6
-date: 2026-08-26 00:00:00
+date: 2026-07-02 00:00:00
 ---
 {% course_series %}
 

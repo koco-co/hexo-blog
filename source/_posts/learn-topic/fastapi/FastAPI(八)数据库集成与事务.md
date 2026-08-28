@@ -12,7 +12,7 @@ series: FastAPI
 series_order: 8
 published: true
 abbrlink: bbbfc80a
-date: 2026-08-26 00:00:00
+date: 2026-06-25 00:00:00
 ---
 {% course_series %}
 

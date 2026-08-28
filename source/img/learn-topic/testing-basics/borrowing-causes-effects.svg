@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">借阅资格原因到动作</title>
+  <desc id="desc">展示已注册、无逾期、未达上限三个原因合取后决定允许借阅，否则按优先级拒绝。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="600" rx="28" fill="#ffffff"/>
+  <text x="60" y="70" font-size="32" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" fill="#1e293b">借阅资格：原因到动作</text>
+  <g font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="23" text-anchor="middle">
+    <rect x="70" y="140" width="250" height="72" rx="14" fill="#e0f2fe" stroke="#0369a1" stroke-width="3"/><text x="195" y="185" fill="#0c4a6e">已注册？</text>
+    <rect x="70" y="260" width="250" height="72" rx="14" fill="#e0f2fe" stroke="#0369a1" stroke-width="3"/><text x="195" y="305" fill="#0c4a6e">无逾期？</text>
+    <rect x="70" y="380" width="250" height="72" rx="14" fill="#e0f2fe" stroke="#0369a1" stroke-width="3"/><text x="195" y="425" fill="#0c4a6e">未达上限？</text>
+    <rect x="470" y="210" width="260" height="160" rx="18" fill="#fef3c7" stroke="#b45309" stroke-width="3"/><text x="600" y="270" fill="#78350f">判定表</text><text x="600" y="310" fill="#78350f">8 列 → 4 规则</text><text x="600" y="350" fill="#78350f">先决条件优先</text>
+    <rect x="900" y="130" width="230" height="80" rx="16" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/><text x="1015" y="180" fill="#7f1d1d">拒绝：未注册</text>
+    <rect x="900" y="250" width="230" height="80" rx="16" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/><text x="1015" y="300" fill="#7f1d1d">拒绝：逾期</text>
+    <rect x="900" y="370" width="230" height="80" rx="16" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/><text x="1015" y="420" fill="#7f1d1d">拒绝：达到上限</text>
+    <rect x="470" y="450" width="260" height="80" rx="16" fill="#dcfce7" stroke="#15803d" stroke-width="3"/><text x="600" y="500" fill="#14532d">允许借阅</text>
+    <path d="M320 176 L470 260" fill="none" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/><path d="M320 296 L470 295" fill="none" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/><path d="M320 416 L470 340" fill="none" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M730 250 L900 170" fill="none" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/><path d="M730 295 L900 290" fill="none" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/><path d="M730 340 L900 410" fill="none" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/><path d="M600 370 L600 450" fill="none" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+  </g>
+  <text x="60" y="575" font-size="20" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" fill="#475569">原创示意图：否定条件对应独立拒绝规则，满足全部条件才进入成功动作。</text>
+</svg>

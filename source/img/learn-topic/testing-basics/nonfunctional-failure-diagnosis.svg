@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">故障诊断证据链</title>
+  <desc id="desc">从症状到证据、假设、隔离和行动，故障诊断需要保留可审计的链路。</desc>
+  <rect width="1200" height="430" fill="#f7f9fc"/>
+  <text x="60" y="52" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#20304a">故障诊断：不要用猜测替代证据</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <g><circle cx="150" cy="205" r="82" fill="#be123c"/><text x="150" y="198" font-size="25" font-weight="700" fill="white">症状</text><text x="150" y="230" font-size="17" fill="white">用户/指标异常</text></g>
+    <g><circle cx="390" cy="205" r="82" fill="#2563eb"/><text x="390" y="198" font-size="25" font-weight="700" fill="white">证据</text><text x="390" y="230" font-size="17" fill="white">版本、请求 ID、日志</text></g>
+    <g><circle cx="630" cy="205" r="82" fill="#0f766e"/><text x="630" y="198" font-size="25" font-weight="700" fill="white">假设</text><text x="630" y="230" font-size="17" fill="white">可证伪的原因</text></g>
+    <g><circle cx="870" cy="205" r="82" fill="#7c3aed"/><text x="870" y="198" font-size="25" font-weight="700" fill="white">隔离</text><text x="870" y="230" font-size="17" fill="white">缩小变量范围</text></g>
+    <g><circle cx="1080" cy="205" r="82" fill="#475569"/><text x="1080" y="198" font-size="25" font-weight="700" fill="white">行动</text><text x="1080" y="230" font-size="17" fill="white">修复、转交、复测</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="4" fill="none" marker-end="url(#arrow)"><path d="M232 205h76"/><path d="M472 205h76"/><path d="M712 205h76"/><path d="M952 205h46"/></g>
+  <text x="600" y="355" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="#475569">每一步都写输入、观察、排除项和下一步，才能被别人复盘。</text>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+</svg>

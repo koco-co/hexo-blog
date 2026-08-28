@@ -294,7 +294,90 @@ function structuralLeadLineNumbers(text) {
   return leads
 }
 
-function learnTopicPlainBodyBlocks(text) {
+// Story markers grant only a bounded prose exception, never a general audit skip.
+function conceptStoryRegions(text) {
+  const ranges = []
+  const issues = []
+  const stack = []
+  const containers = new Set([...KNOWN_CONTAINER_TAGS, 'subtabs', 'subsubtabs', 'subnote'])
+  const hiddenTags = new Set(['folding', 'hideBlock', 'hideToggle', 'hideInline', 'psw', 'carousel', 'tabs', 'subtabs', 'subsubtabs', 'flashcard'])
+  let inComment = false
+  let detailsDepth = 0
+  let story = null
+  const reject = (code, line, message) => {
+    issues.push({ code, line, message })
+    if (story) story.invalid = true
+  }
+
+  for (const [index, raw] of markdownBodyLines(text).entries()) {
+    const line = index + 1
+    let visible = raw.replace(/(`+)(.*?)\1/g, '')
+    const marker = !inComment && raw.match(/^<!-- concept-story:(start|end) -->\s*$/)
+    if (marker) {
+      if (marker[1] === 'start') {
+        if (story) {
+          reject('CONCEPT_STORY_NESTED', line, '故事片段不能嵌套。')
+          continue
+        }
+        story = { start: line, invalid: false, hasProse: false }
+        if (stack.length) reject('CONCEPT_STORY_CONTAINER', line, '故事边界必须位于标签容器外，主线直接可见。')
+        if (detailsDepth) reject('CONCEPT_STORY_HTML', line, '故事边界不能位于 HTML 折叠区内。')
+      } else if (!story) {
+        reject('CONCEPT_STORY_UNEXPECTED_END', line, '故事结束标记没有对应的开始标记。')
+      } else {
+        if (stack.length) reject('CONCEPT_STORY_CONTAINER', line, '故事结束前必须闭合内部标签容器。')
+        if (!story.hasProse) reject('CONCEPT_STORY_EMPTY', story.start, '故事片段必须有可见叙事，不能只有标记、代码或图表。')
+        if (!story.invalid) ranges.push({ start: story.start, end: line })
+        story = null
+      }
+      continue
+    }
+    if (!inComment && /<!--\s*concept-story\b/.test(visible)) {
+      reject('CONCEPT_STORY_MARKER_INVALID', line, '故事标记必须独占一行且不缩进，使用 <!-- concept-story:start --> 或 <!-- concept-story:end -->。')
+    }
+    // Ignore both single-line and multiline comments, while retaining real markers above.
+    let prose = ''
+    while (visible) {
+      const delimiter = inComment ? '-->' : '<!--'
+      const position = visible.indexOf(delimiter)
+      if (position < 0) {
+        if (!inComment) prose += visible
+        break
+      }
+      if (!inComment) prose += visible.slice(0, position)
+      visible = visible.slice(position + delimiter.length)
+      inComment = !inComment
+    }
+    visible = prose
+    // Story prose uses Markdown and approved tags, not arbitrary HTML visibility rules.
+    const inDiagram = stack.includes('mermaid') || stack.includes('chartjs')
+    if (story && !inDiagram && /<\/?[A-Za-z][A-Za-z0-9-]*(?:\s[^>]*|\s*\/?)>/.test(visible)) {
+      reject('CONCEPT_STORY_HTML', line, '故事片段不使用原生 HTML 容器；改用直接可见的 Markdown、图表或图片。')
+    }
+    for (const html of (inDiagram ? '' : visible).matchAll(/<(\/?)(details)\b[^>]*>/gi)) {
+      detailsDepth = html[1] ? Math.max(0, detailsDepth - 1) : detailsDepth + 1
+    }
+    if (story && (/^\s{0,3}#{1,6}\s/.test(visible) || /^\s{0,3}(?:=+|-+)\s*$/.test(visible))) {
+      reject('CONCEPT_STORY_HEADING', line, '故事片段不能跨章节或包含标题；在同一概念内结束叙事，再解释机制。')
+    }
+    for (const token of visible.matchAll(/\{%\s*([A-Za-z][A-Za-z0-9_-]*)\b[^%]*%\}/g)) {
+      const name = token[1]
+      if (story && hiddenTags.has(name)) reject('CONCEPT_STORY_HIDDEN', line, '故事主线不能使用折叠、隐藏、轮播、页签或闪卡标签。')
+      if (containers.has(name)) {
+        stack.push(name)
+      } else if (name.startsWith('end') && containers.has(name.slice(3))) {
+        const match = stack.lastIndexOf(name.slice(3))
+        if (match >= 0) stack.splice(match, 1)
+      }
+    }
+    if (story && !stack.length && !isSingleTagLine(visible)
+      && !/^\s*(?:!\[|<)/.test(visible) && /[\p{L}\p{N}]/u.test(visible)) story.hasProse = true
+  }
+  if (story) reject('CONCEPT_STORY_UNCLOSED', story.start, '故事片段缺少结束标记；不会豁免后续正文。')
+  return { ranges, issues }
+}
+
+function learnTopicPlainBodyBlocks(text, storyRanges = []) {
   const rows = markdownBodyLines(text)
   const structuralLeads = structuralLeadLineNumbers(text)
   const blocks = []
@@ -332,6 +415,12 @@ function learnTopicPlainBodyBlocks(text) {
   for (const [index, rawLine] of rows.entries()) {
     const line = { line: index + 1, text: rawLine }
     const trimmed = rawLine.trim()
+    if (storyRanges.some(range => line.line >= range.start && line.line <= range.end)) {
+      flush()
+      inList = false
+      inTable = false
+      continue
+    }
     if (isSingleTagLine(rawLine)) {
       flush()
       updateStack(rawLine)
@@ -1523,6 +1612,10 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
       }
 
       const courseTags = renderedTagTokens(text)
+      const stories = conceptStoryRegions(text)
+      for (const issue of stories.issues) {
+        report.errors.push(finding(issue.code, relativeFile, `第 ${issue.line} 行：${issue.message}`))
+      }
       if (data.published === true && enforcesPublishedArticleContract && !courseTags.some(token => LEARN_TOPIC_SEMANTIC_BLOCK_TAGS.has(token.name))) {
         report.errors.push(finding('LEARN_TOPIC_VISUAL_COMPOSITION_MISSING', relativeFile, '公开课程正文必须至少包含一个承担真实信息结构的块级标签；仅有 course_series、资料链接、行内标签或纯 Markdown 正文不满足可读性合同。'))
       }
@@ -1566,7 +1659,7 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
         for (const issue of learnTopicPublicCopyIssues(text)) {
           report.errors.push(finding(issue.code, relativeFile, `第 ${issue.line} 行包含不应出现在公开正文中的课程导航、进度、能力账本或内部合同文案：${issue.text}`))
         }
-        for (const block of learnTopicPlainBodyBlocks(text)) {
+        for (const block of learnTopicPlainBodyBlocks(text, stories.ranges)) {
           report.errors.push(finding(
             'LEARN_TOPIC_PLAIN_BODY_BLOCK',
             relativeFile,

@@ -1,0 +1,79 @@
+{
+  "slug": "69978da",
+  "url": "http://127.0.0.1:4000/posts/69978da/",
+  "title": "测试基础(十三)非功能测试补充",
+  "headings": 20,
+  "cards": 3,
+  "mermaid": 0,
+  "images": [
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/performance-process.jpeg",
+      "alt": "性能测试从目标、负载、观测到分析的流程",
+      "width": 2360,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/performance-types.jpeg",
+      "alt": "基准、负载、压力、容量和稳定性测试的类型区别",
+      "width": 2360,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/performance-reliability.jpeg",
+      "alt": "性能与可靠性指标从负载到恢复的关系",
+      "width": 2280,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/high-availability.jpeg",
+      "alt": "高可用性测试关注故障期间的服务能力",
+      "width": 862,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/scalability.jpeg",
+      "alt": "可扩展性测试比较规模增长与资源/性能变化",
+      "width": 1835,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/recoverability.jpeg",
+      "alt": "可恢复性测试中的故障、恢复和数据验证",
+      "width": 2200,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/failure-diagnosis.jpeg",
+      "alt": "故障诊断将症状、证据和下一步行动连接起来",
+      "width": 1861,
+      "complete": true
+    },
+    {
+      "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+      "alt": "",
+      "width": 32,
+      "complete": true
+    },
+    {
+      "src": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+      "alt": "",
+      "width": 1,
+      "complete": true
+    },
+    {
+      "src": "https://www.w3.org/favicon.ico",
+      "alt": "",
+      "width": 48,
+      "complete": true
+    },
+    {
+      "src": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+      "alt": "",
+      "width": 1,
+      "complete": true
+    }
+  ],
+  "overflow": false,
+  "bodyWidth": 1280,
+  "clientWidth": 1280
+}

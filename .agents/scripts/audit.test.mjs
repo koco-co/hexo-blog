@@ -469,6 +469,95 @@ test('learn-topic audit rejects naked explanation blocks and repeated course nav
   assert.ok(!tagOnlyReport.errors.some(item => item.code === 'LEARN_TOPIC_LEDGER_COPY_FORBIDDEN'))
 })
 
+test('concept stories exempt only bounded prose and preserve checks outside and inside the story', () => {
+  const root = makeRoot()
+  const target = 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md'
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', validPlaywrightCoursePost())
+  writeCourseContract(root)
+  const story = '<!-- concept-story:start -->\n\n守门人按姓名找人，座位换了也能找到。\n\n{% mermaid %}\nflowchart TD\nA[姓名<br/>门牌] --> B[查找]\n{% endmermaid %}\n\n他不再记住一张旧座位表。\n\n<!-- concept-story:end -->'
+  const base = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+  const withStory = base.replace('## 主题内容', `## 主题内容\n\n${story}\n\n${story}`)
+  write(root, target, withStory)
+  assert.equal(auditContent({ root, release: true }).status, 'pass')
+
+  write(root, target, withStory.replace('## 常见问题', '标记外仍然需要语义承载。\n\n## 常见问题'))
+  const outside = auditContent({ root, release: true }).errors.find(item => item.code === 'LEARN_TOPIC_PLAIN_BODY_BLOCK')
+  assert.equal(outside.path, target)
+  assert.match(outside.message, /标记外仍然需要语义承载/)
+
+  write(root, target, withStory.replace('守门人按姓名找人', '前置文章是上一篇，守门人按姓名找人'))
+  assert.ok(auditContent({ root, release: true }).errors.some(item => item.code === 'LEARN_TOPIC_NAVIGATION_COPY_FORBIDDEN'))
+  write(root, target, withStory.replace('守门人按姓名找人', '/tmp/story-result 是示例路径，守门人按姓名找人'))
+  const contractPath = '.agents/skills/hexo-learn-topic/data/playwright.json'
+  const contract = JSON.parse(readFileSync(path.join(root, contractPath), 'utf8'))
+  contract.course.forbid_local_absolute_paths = true
+  write(root, contractPath, JSON.stringify(contract))
+  assert.ok(auditContent({ root, release: true }).errors.some(item => item.code === 'LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_FORBIDDEN'))
+})
+
+test('concept story boundaries fail closed for malformed, nested, hidden and unclosed regions', () => {
+  const root = makeRoot()
+  const target = 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md'
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', validPlaywrightCoursePost())
+  writeCourseContract(root)
+  const start = '<!-- concept-story:start -->'
+  const end = '<!-- concept-story:end -->'
+  const cases = [
+    [`${start}\n故事没有结束。`, 'CONCEPT_STORY_UNCLOSED'],
+    [end, 'CONCEPT_STORY_UNEXPECTED_END'],
+    [`${start}\n${start}\n故事。\n${end}`, 'CONCEPT_STORY_NESTED'],
+    [`${start}\n故事。\n### 新章节\n越界。\n${end}`, 'CONCEPT_STORY_HEADING'],
+    [`${start}\n故事标题\n===\n故事。\n${end}`, 'CONCEPT_STORY_HEADING'],
+    [`${start}\n${end}`, 'CONCEPT_STORY_EMPTY'],
+    [`${start}\n<!--\n故事文字\n-->\n${end}`, 'CONCEPT_STORY_EMPTY'],
+    [`${start}\n<details><summary>故事</summary>\n故事文字\n</details>\n${end}`, 'CONCEPT_STORY_HTML'],
+    [`<details>\n${start}\n故事文字\n${end}\n</details>`, 'CONCEPT_STORY_HTML'],
+    [`${start}\n故事开场。\n{% hideInline 结局,查看 %}\n${end}`, 'CONCEPT_STORY_HIDDEN'],
+    [`${start}\n故事开场。\n{% psw 结局 %}\n${end}`, 'CONCEPT_STORY_HIDDEN'],
+    [`${start}\n~~~text\n仅有代码。\n~~~\n${end}`, 'CONCEPT_STORY_EMPTY'],
+    [`${start}\n{% folding open, 故事 %}\n故事。\n{% endfolding %}\n${end}`, 'CONCEPT_STORY_HIDDEN'],
+    [`{% tabs 故事 %}\n${start}\n故事。\n${end}\n{% endtabs %}`, 'CONCEPT_STORY_CONTAINER'],
+    [`${start}\n故事。\n{% note info flat %}\n${end}\n{% endnote %}`, 'CONCEPT_STORY_CONTAINER'],
+    [`前缀 ${start}\n故事。\n${end}`, 'CONCEPT_STORY_MARKER_INVALID'],
+    [`${start}\n故事。\n<!-- concept-story:stop -->`, 'CONCEPT_STORY_MARKER_INVALID'],
+  ]
+  for (const [fragment, code] of cases) {
+    write(root, target, validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+      .replace('## 主题内容', `## 主题内容\n\n${fragment}\n\n仍需检查的普通解释。`))
+    const report = auditContent({ root, release: true })
+    assert.ok(report.errors.some(item => item.code === code && item.path === target && /第 \d+ 行/.test(item.message)), `${code}: ${JSON.stringify(report.errors)}`)
+    assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_PLAIN_BODY_BLOCK'), `invalid region must not exempt prose: ${code}`)
+  }
+})
+
+test('story markers in fenced code or inline code do not activate an exception', () => {
+  const root = makeRoot()
+  const target = 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md'
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', validPlaywrightCoursePost())
+  writeCourseContract(root)
+  const base = validPlaywrightCoursePost({ number: '二', topic: '快速开始' })
+  for (const fragment of [
+    '````markdown\n<!-- concept-story:start -->\n```text\n示例。\n```\n<!-- concept-story:end -->\n````',
+    '~~~markdown\n<!-- concept-story:start -->\n<!-- concept-story:end -->\n~~~',
+    '{% note info flat %}\n使用 `<!-- concept-story:start -->` 作为示例。\n{% endnote %}',
+  ]) {
+    write(root, target, base.replace('## 主题内容', `## 主题内容\n\n${fragment}\n\n普通解释不能被示例标记豁免。`))
+    const report = auditContent({ root, release: true })
+    assert.ok(!report.errors.some(item => item.code.startsWith('CONCEPT_STORY_')), JSON.stringify(report.errors))
+    assert.ok(report.errors.some(item => item.code === 'LEARN_TOPIC_PLAIN_BODY_BLOCK'))
+  }
+})
+
+test('unpublished course drafts also validate story boundaries', () => {
+  const root = makeRoot()
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(一)入门路线.md', validPlaywrightCoursePost())
+  writeCourseContract(root)
+  write(root, 'source/_posts/learn-topic/playwright/Playwright(二)快速开始.md',
+    validPlaywrightCoursePost({ number: '二', topic: '快速开始', published: false, placeholder: true })
+      .concat('\n<!-- concept-story:start -->\n未完成的叙事。\n'))
+  assert.ok(auditContent({ root }).errors.some(item => item.code === 'CONCEPT_STORY_UNCLOSED'))
+})
+
 test('learn-topic audit rejects local filesystem absolute paths when the course contract enables the gate', () => {
   const root = makeRoot()
   const entry = validPlaywrightCoursePost()

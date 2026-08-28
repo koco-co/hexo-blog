@@ -35,10 +35,10 @@
         {
           "block": "{{简短 H2 或正文块名}}",
           "reader_task": "{{读者要完成的一个动作或判断}}",
-          "core_content": "{{本块必须直接交付的结论或能力}}",
-          "carrier": "{{一个主承载：note/mermaid/table/code/folding/tabs/list}}",
-          "rationale": "{{该承载为什么能降低理解成本}}",
-          "directly_visible": "{{不能隐藏的命令、风险、结论或验证}}",
+          "core_content": "{{本块内容；故事块记录概念卡点、情境、选择与后果、揭示位置}}",
+          "carrier": "{{一个主承载：note/mermaid/table/code/folding/tabs/list/story；story 仅指公开合同中的有界自然段，不是 Hexo 标签}}",
+          "rationale": "{{选型理由；难点记录关键映射、隐喻边界、视觉介入和迁移检查；不使用故事时说明替代推演或实验}}",
+          "directly_visible": "{{不能隐藏的信息；故事主线、揭示后的解释与映射，以及命令、风险和验证}}",
           "degradation": "{{样式、交互、图片或外部资源失效时仍可读到什么}}",
           "validation_status": "{{构建、桌面/移动、明暗主题和交互检查状态}}"
         }

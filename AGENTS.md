@@ -54,7 +54,8 @@
 - 编辑已有文章时保留与任务无关的 Front Matter，包括 `cover`、`updated`、`sticky`、`password` 等可选字段，且不得展示密码值。
 - 新建文章以维护 Skill 的 `templates/post.template.md` 为完整结构；使用 Hexo scaffold 创建后仍须补全缺失字段。
 - 课程文章公开正文不使用“来源”“来源与核验范围”或“核验于 YYYY-MM-DD”等内部工作文案；入门路线固定六个 H2：`课程目标`、`前置条件`、`学习路径`、`文章安排`、`开始学习`、`参考资料`，不放 FAQ/闪卡；其他公开主题、进阶和实战文章如有 `常见问题`，其中必须包含 `flashcard` 或 `flashcard_ref`，最后一个 H2 为 `参考资料`。
-- 课程 Mermaid 图必须使用 Butterfly 的 `{% mermaid %}` 与 `{% endmermaid %}`，不得使用 Markdown `mermaid` 代码围栏；课程公开正文的唯一内容与视觉合同是 `.agents/skills/hexo-learn-topic/rules/published-article-contract.md`：每个有意义正文块必须有语义对应的块级标签，H2/H3、代码、表格、列表和结构连接可保留普通 Markdown，不用无关组件硬凑数量。
+- 课程 Mermaid 图必须使用 Butterfly 的 `{% mermaid %}` 与 `{% endmermaid %}`，不得使用 Markdown `mermaid` 代码围栏；课程公开正文的唯一内容与视觉合同是 `.agents/skills/hexo-learn-topic/rules/published-article-contract.md`：解释块使用语义对应的块级标签，H2/H3、代码、表格、列表和结构连接可保留普通 Markdown；概念开头的故事自然段仅按该合同第 2.1 节的显式边界例外处理，不放宽其他审计，也不用无关组件硬凑数量。
+- 技术正文、概念故事和闪卡解析的教学方法统一由 `.agents/skills/hexo-blog-maintenance/rules/technical-writing-style.md` 定义：难点先建立理解，再回到真实机制、隐喻边界和验证；故事质量由语义审查判断，更新 Skill 不自动授权批量改写历史文章。
 - 公开课程的 `参考资料` 必须使用 `{% linkgroup %}` 包裹至少一个 `{% link %}` 资料卡片，并包含有效的 HTTP(S) 目标地址；每个 `{% link %}` 必须显式提供同域或同组织的官方图标，只有能明确证明属于目标资料的官方产品 CDN 才可例外，禁止默认 avatar、cover、placeholder、资料页面本身或无关图片；未发布文章中的已有资料卡也接受同一预览图 lint。
 - 课程文章的普通 H2/H3 使用“快速开始”“作用范围”“核心功能”等简洁书面表达，通常不超过 15 个字符；不使用聊天式、口号式、解释性副标题或把多个概念堆在一起的长标题。原因、步骤和失败边界写入正文、图表或 FAQ；固定的入门路线六个 H2、`常见问题` 和 `参考资料` 不改名。已发布课程文章禁止 `学习目标`、`章节计划`、`验证方式` 等内部合同标题，也禁止重复“前置文章是……”、课程进度或能力账本文案；`course_series` 是唯一课程导航。`audit.mjs content --release` 会报告具体文件与行号，必须修复后再交付全仓库 lint。
 - 需要长期复习的疑难问答、关联面试题和自测优先使用 `hexo-flashcard-plugin` 的 `flashcard`；跨文章复用同一道题使用 `flashcard_ref`，不得复制卡片正文。`basic`、`cloze`、`choice` 卡片都必须具有全站唯一稳定 ID、单一卡组、`priority:1|2|3`、精简回答和详细解析；三档依次表示高频、中频和低频，`priority` 不得省略或写成插件不支持的值。

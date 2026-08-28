@@ -1,0 +1,31 @@
+{
+  "slug": "cd81672d",
+  "url": "http://127.0.0.1:4000/posts/cd81672d/",
+  "title": "测试基础(六)功能测试用例设计",
+  "headings": 20,
+  "cards": 7,
+  "mermaid": 1,
+  "images": [
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/black-box-model.jpeg",
+      "alt": "黑盒测试从输入、行为到可观察结果的关系",
+      "width": 2008,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/interface-checkpoints.jpeg",
+      "alt": "接口检查点从请求、响应到业务状态的证据链",
+      "width": 768,
+      "complete": true
+    },
+    {
+      "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+      "alt": "",
+      "width": 32,
+      "complete": true
+    }
+  ],
+  "overflow": false,
+  "bodyWidth": 1280,
+  "clientWidth": 1280
+}

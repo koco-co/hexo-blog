@@ -1,0 +1,37 @@
+{
+  "slug": "1d4f3128",
+  "url": "http://127.0.0.1:4000/posts/1d4f3128/",
+  "title": "测试基础(十一)探索式测试",
+  "headings": 13,
+  "cards": 2,
+  "mermaid": 0,
+  "images": [
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/exploratory-local.png",
+      "alt": "局部探索围绕一个功能区域逐步扩大问题空间",
+      "width": 1548,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/exploratory-tours.png",
+      "alt": "全局探索沿用户旅程和关联功能寻找遗漏",
+      "width": 1110,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/exploratory-session.png",
+      "alt": "探索式测试会话中目标、时间盒、观察与结论的记录方式",
+      "width": 2240,
+      "complete": true
+    },
+    {
+      "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+      "alt": "",
+      "width": 32,
+      "complete": true
+    }
+  ],
+  "overflow": false,
+  "bodyWidth": 1280,
+  "clientWidth": 1280
+}

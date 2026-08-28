@@ -42,7 +42,7 @@ metadata:
 
 3. 执行
    - 内容任务完整读取 `workflows/§01-authoring.md`。
-   - 新建或改写技术正文时完整读取 `rules/technical-writing-style.md`，按理解困难选择代码、表格、图示、图片或有边界的类比，不套固定教学栏目。
+   - 新建或改写技术正文时完整读取 `rules/technical-writing-style.md`，按理解困难先设计概念故事或替代推演，再选择代码、表格、图示或图片；入口、隐喻边界与迁移验收遵循该规则，不套固定教学栏目。
    - 图片任务同时完整读取 `workflows/§06-local-images.md`。
    - AI 新建文章或整体视觉重构先完整执行 `workflows/§05-visual-rich-authoring.md`，输出文章结构与标签编排预案；只有用户确认后才能写入。
    - 标签外挂任务同时完整读取 `workflows/§04-tag-plugins-plus.md`，并按所有者读取对应参考；不得仅凭历史文章猜测语法。
@@ -68,7 +68,7 @@ metadata:
 
 ## 正文视觉合同
 
-- 系统课程文章的逐正文块覆盖、公开导航和复习合同只由 `../hexo-learn-topic/rules/published-article-contract.md` 定义；本节只说明标签选择和真实渲染边界。
+- 系统课程文章的逐正文块覆盖、公开导航和复习合同只由 `../hexo-learn-topic/rules/published-article-contract.md` 定义；本节只说明标签选择和真实渲染边界；故事自然段例外也只由该合同定义。
 - 非系统课程的新建文章或整体重写不得采用连续的纯 Markdown 文本墙；应按语义选择 Butterfly 内置标签或 Tag Plugins Plus 标签，不把标签数量当成质量指标。
 - `note`/`tip` 用于结论、提示和风险，`tabs` 用于方案或代码切换，`folding`/`hideToggle`/`hideBlock` 用于非关键补充，`mermaid`/`timeline`/`chartjs` 用于关系、流程、状态和数据，`flashcard`/`flashcard_ref` 用于长期复习，`linkgroup`/`link` 用于扩展资料，`p`/`span`/`emp`/`kbd`/`bubble` 用于行内语义强调；这里只是语义映射，不是要把所有标签都凑一遍。
 - 普通 Markdown 的适用范围、标签容器和失败降级以具体文章类型的合同为准；标签必须保留正文信息、可访问名称和失败降级。

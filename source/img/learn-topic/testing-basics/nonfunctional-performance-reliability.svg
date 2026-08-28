@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">性能与可靠性</title>
+  <desc id="desc">高并发、大数据量和长时间运行分别连接到压力测试与稳定性测试，最终共同影响性能可靠性。</desc>
+  <rect width="1200" height="430" fill="#f7f9fc"/>
+  <text x="60" y="52" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#20304a">性能与可靠性要同时看速度和持续正确性</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <rect x="80" y="115" width="245" height="100" rx="16" fill="#2563eb"/><text x="202" y="158" font-size="23" font-weight="700" fill="white">高并发</text><text x="202" y="190" font-size="17" fill="white">压力：退化与拒绝</text>
+    <rect x="80" y="245" width="245" height="100" rx="16" fill="#0f766e"/><text x="202" y="288" font-size="23" font-weight="700" fill="white">大数据量</text><text x="202" y="320" font-size="17" fill="white">容量：规模与余量</text>
+    <rect x="875" y="180" width="245" height="100" rx="16" fill="#be123c"/><text x="997" y="223" font-size="23" font-weight="700" fill="white">性能可靠性</text><text x="997" y="255" font-size="17" fill="white">速度、错误、恢复</text>
+    <rect x="465" y="165" width="270" height="130" rx="22" fill="#7c3aed"/><text x="600" y="215" font-size="25" font-weight="700" fill="white">长时间运行</text><text x="600" y="252" font-size="18" fill="white">稳定性：趋势与泄漏</text>
+  </g>
+  <g stroke="#64748b" stroke-width="4" fill="none" marker-end="url(#arrow)"><path d="M325 165L460 205"/><path d="M325 295L460 255"/><path d="M735 230h132"/></g>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+</svg>

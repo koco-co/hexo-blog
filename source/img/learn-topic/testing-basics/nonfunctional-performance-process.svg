@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">性能测试流程</title>
+  <desc id="desc">从功能目标确认到负载模型、环境准备、执行、结果分析和调优验证的闭环。</desc>
+  <rect width="1200" height="360" fill="#f7f9fc"/>
+  <text x="60" y="52" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#20304a">性能检查要先闭合目标与证据</text>
+  <g font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">
+    <g fill="#2563eb"><rect x="45" y="125" width="150" height="92" rx="14"/><text x="120" y="164" fill="white">功能目标</text><text x="120" y="194" fill="white">与 SLO</text></g>
+    <g fill="#0f766e"><rect x="215" y="125" width="150" height="92" rx="14"/><text x="290" y="164" fill="white">负载模型</text><text x="290" y="194" fill="white">数据与并发</text></g>
+    <g fill="#7c3aed"><rect x="385" y="125" width="150" height="92" rx="14"/><text x="460" y="164" fill="white">环境准备</text><text x="460" y="194" fill="white">依赖与观测</text></g>
+    <g fill="#c2410c"><rect x="555" y="125" width="150" height="92" rx="14"/><text x="630" y="164" fill="white">执行</text><text x="630" y="194" fill="white">基准与负载</text></g>
+    <g fill="#be123c"><rect x="725" y="125" width="150" height="92" rx="14"/><text x="800" y="164" fill="white">结果分析</text><text x="800" y="194" fill="white">分位数与错误</text></g>
+    <g fill="#475569"><rect x="895" y="125" width="150" height="92" rx="14"/><text x="970" y="164" fill="white">调优验证</text><text x="970" y="194" fill="white">复测与结论</text></g>
+  </g>
+  <g stroke="#64748b" stroke-width="4" fill="none" marker-end="url(#arrow)"><path d="M195 171h18"/><path d="M365 171h18"/><path d="M535 171h18"/><path d="M705 171h18"/><path d="M875 171h18"/></g>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+  <text x="60" y="292" font-family="Arial, sans-serif" font-size="18" fill="#475569">没有目标、环境和分母，单次“感觉很快”不能形成性能结论。</text>
+</svg>

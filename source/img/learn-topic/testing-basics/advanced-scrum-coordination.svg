@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">多团队 Scrum 协调</title>
+  <desc id="desc">多个团队分别交付增量，通过代表同步依赖、风险和集成问题。</desc>
+  <rect width="1200" height="500" fill="#f7f9fc"/>
+  <text x="600" y="52" font-family="Arial, sans-serif" text-anchor="middle" font-size="28" font-weight="700" fill="#20304a">多团队协调的关注点是依赖与风险</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <rect x="100" y="120" width="220" height="105" rx="18" fill="#2563eb"/><text x="210" y="165" font-size="23" font-weight="700" fill="white">团队 A</text><text x="210" y="198" font-size="17" fill="white">局部增量与阻塞</text>
+    <rect x="100" y="285" width="220" height="105" rx="18" fill="#0f766e"/><text x="210" y="330" font-size="23" font-weight="700" fill="white">团队 B</text><text x="210" y="363" font-size="17" fill="white">接口与数据依赖</text>
+    <rect x="880" y="120" width="220" height="105" rx="18" fill="#7c3aed"/><text x="990" y="165" font-size="23" font-weight="700" fill="white">团队 C</text><text x="990" y="198" font-size="17" fill="white">平台与发布风险</text>
+    <rect x="880" y="285" width="220" height="105" rx="18" fill="#c2410c"/><text x="990" y="330" font-size="23" font-weight="700" fill="white">团队 D</text><text x="990" y="363" font-size="17" fill="white">体验与支持反馈</text>
+    <ellipse cx="600" cy="255" rx="180" ry="100" fill="#be123c"/><text x="600" y="245" font-size="26" font-weight="700" fill="white">协调同步</text><text x="600" y="280" font-size="18" fill="white">依赖 · 风险 · 下一步</text>
+  </g>
+  <g stroke="#64748b" stroke-width="4" fill="none" marker-end="url(#arrow)"><path d="M320 172L440 220"/><path d="M320 338L440 290"/><path d="M880 172L760 220"/><path d="M880 338L760 290"/></g>
+  <text x="600" y="450" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="#475569">图示是历史协调思路，不规定团队角色或固定会议数量。</text>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+</svg>

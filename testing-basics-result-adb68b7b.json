@@ -1,0 +1,31 @@
+{
+  "slug": "adb68b7b",
+  "url": "http://127.0.0.1:4000/posts/adb68b7b/",
+  "title": "测试基础(十四)缺陷管理与测试报告",
+  "headings": 12,
+  "cards": 3,
+  "mermaid": 1,
+  "images": [
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/test-execution-outputs.png",
+      "alt": "测试执行结果、日志和附件组成可追踪证据",
+      "width": 1644,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/defect-statuses.png",
+      "alt": "缺陷从新建到关闭、拒绝或重新打开的状态",
+      "width": 2066,
+      "complete": true
+    },
+    {
+      "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+      "alt": "",
+      "width": 32,
+      "complete": true
+    }
+  ],
+  "overflow": false,
+  "bodyWidth": 1280,
+  "clientWidth": 1280
+}

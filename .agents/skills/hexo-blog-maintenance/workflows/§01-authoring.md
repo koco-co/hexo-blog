@@ -48,10 +48,10 @@
 ## Phase 4：编写 Markdown 与 Butterfly 标签
 
 1. 使用清晰的标题层级，不跳级制造仅靠字号表达的结构；H2/H3 只写简短对象、动作或边界名，通常不超过 15 个字符，不把解释性副标题和聊天式问句写进普通章节标题。
-2. 按 `rules/technical-writing-style.md` 从读者正在观察的问题、对象或操作进入主题，用因果关系组织解释；代码、表格、图示、图片和类比只在确实降低理解成本时使用，不套固定教学栏目。
+2. 按 `rules/technical-writing-style.md` 从读者正在观察的问题、对象或操作进入主题，用因果关系组织解释；难点按该规则先规划概念开头的故事或替代推演，随后给出机制、映射、边界和验证，不套固定教学栏目。
 3. 中英文相邻处留空格；使用英文半角标点；代码、命令、路径和配置键用反引号。
 4. 围栏代码块注明合适语言；若内容本身要求展示 Markdown 围栏，正确处理嵌套，避免提前结束代码块。
-5. 课程文章按 `published-article-contract.md` 逐正文块确定标签外挂角色，再写入正文；普通 Markdown 仅承载 H2/H3、代码、表格、列表和结构连接。课程文章不得保留公开占位合同、前置文章/进度/能力账本文案，也不得用无关组件硬凑视觉数量；审计器会拒绝标签外裸解释块。
+5. 课程文章按 `published-article-contract.md` 逐正文块确定标签外挂角色，再写入正文；普通 Markdown 承载结构内容；故事自然段仅适用公开合同第 2.1 节的有界例外。课程文章不得保留公开占位合同、前置文章/进度/能力账本文案，也不得用无关组件硬凑视觉数量；审计器会拒绝非法故事标记及例外范围外的裸解释块。
 6. Butterfly 内置标签以 `references/butterfly-built-in-tags.md` 的当前源码契约为准；Tag Plugins Plus 标签以 `references/butterfly-tag-plugins-plus.md` 为准；闪卡以 `references/hexo-flashcard-plugin.md` 为准。
 7. 按 `workflows/§04-tag-plugins-plus.md` 核对标签所有者、配置门禁、外部依赖和组合边界；不得为增加种类使用不适合正文语义的标签。
 8. 不混淆同名或相邻能力：当前 `timeline` 来自 Butterfly；`inlineImg` 来自 Butterfly，`inlineimage` 来自 Tag Plugins Plus；`btn` 与 `btns/cell` 不是同一语法。
@@ -81,7 +81,7 @@
 4. 完整执行 `workflows/§03-verification.md` 的适用步骤。
 5. 构建后运行 `node .agents/scripts/audit.mjs content --release --json`，确认 `abbrlink` 已生成且唯一。
 6. 使用 `checklists/maintenance-acceptance.md` 检查内容语义和真实页面。
-7. 逐段检查 `rules/technical-writing-style.md`，确认正文和闪卡解析自然、可独立理解，没有固定教学栏目或抽象术语堆叠。
+7. 逐段检查 `rules/technical-writing-style.md`，确认正文和闪卡解析自然、可独立理解，没有固定教学栏目或抽象术语堆叠；故事与预案匹配，读者能从情节回到机制并判断新情境，标记没有包住普通解释。
 8. 视觉丰富分支逐节对照已确认预案；任何实质偏差必须有用户确认过的修订预案。
 
 失败路径：字段错误、构建失败、标签解析失败、链接或资源缺失时停止交付，修复后重跑受影响检查。

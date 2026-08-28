@@ -1,0 +1,55 @@
+{
+  "slug": "69e11ff",
+  "url": "http://127.0.0.1:4000/posts/69e11ff/",
+  "title": "测试基础(十七)进阶路线",
+  "headings": 14,
+  "cards": 2,
+  "mermaid": 1,
+  "images": [
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/scrum-of-scrums.jpeg",
+      "alt": "多团队协作机制示意图",
+      "width": 612,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/nexus-framework.jpeg",
+      "alt": "Nexus 多团队集成示意图",
+      "width": 2329,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/less-framework.jpeg",
+      "alt": "LeSS 规模化协作示意图",
+      "width": 770,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/safe-framework.jpeg",
+      "alt": "SAFe 规模化交付示意图",
+      "width": 1846,
+      "complete": true
+    },
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/hardware-reliability.jpeg",
+      "alt": "硬件可靠性图示",
+      "width": 1488,
+      "complete": true
+    },
+    {
+      "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+      "alt": "",
+      "width": 32,
+      "complete": true
+    },
+    {
+      "src": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+      "alt": "",
+      "width": 1,
+      "complete": true
+    }
+  ],
+  "overflow": false,
+  "bodyWidth": 1280,
+  "clientWidth": 1280
+}

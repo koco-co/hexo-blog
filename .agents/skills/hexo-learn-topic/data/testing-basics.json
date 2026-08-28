@@ -959,7 +959,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "把含糊需求变成测试依据；产出：产出问题清单、验收条件和追踪关系",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b02",
@@ -970,7 +970,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "区分显式需求、假设和待澄清项，未给规则不能编造成真实产品限制",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b03",
@@ -981,7 +981,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "INVEST与协作写故事；AC描述本需求结果，DoD是增量质量承诺，不混用",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b04",
@@ -992,7 +992,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "用借阅实例澄清边界并形成验收测试，不要求先安装BDD框架；对照TDD/ATDD/BDD的目标、输入和反馈对象；只完整演示ATDD，不讲框架实现。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b05",
@@ -1003,7 +1003,7 @@
             "rationale": "7节点且有反馈分支，使用TD与短标签保证手机可读；可见验收表提供完整输入输出，补充GWT放原生folding",
             "directly_visible": "用借阅实例澄清边界并形成验收测试，不要求先安装BDD框架；对照TDD/ATDD/BDD的目标、输入和反馈对象；只完整演示ATDD，不讲框架实现。",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending",
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint",
             "supplemental_carriers": {
               "table": "5个验收输入输出与TDD/ATDD/BDD比较，核心直接可见",
               "folding open": "可选完整Given/When/Then写法，主要预期已在可见表中，原生details可键盘展开"
@@ -1018,7 +1018,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "文档/设计/代码可被静态检查；非正式/走查/技术评审/审查的选择",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b07",
@@ -1029,7 +1029,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "个人检查→沟通分析→修订复核；识别成功因素",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b08",
@@ -1040,7 +1040,7 @@
             "rationale": "活动按时间/迭代发生；比把连续步骤塞进tabs更符合顺序",
             "directly_visible": "个人检查→沟通分析→修订复核；识别成功因素",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b09",
@@ -1051,7 +1051,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "需求/条件/用例/结果/缺陷可追踪，维护最小矩阵，不与6的用例字段重复",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b10",
@@ -1062,7 +1062,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b11",
@@ -1073,7 +1073,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "CTFL与Scrum2020官方资料；2个已核验同组织图标",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           }
         ]
       },
@@ -1214,7 +1214,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "在有限时间里分配测试投入；产出：写一份包含优先级和取舍理由的小测试计划",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b02",
@@ -1225,7 +1225,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "测试目标/范围/环境/数据/角色/交付物/假设/进度的可执行计划",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b03",
@@ -1236,7 +1236,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "产品风险改变覆盖深度，项目风险影响交付；不把P等级当精确数学；风险控制包括缓解、接受、转移/分担及应急计划，明确风险负责人，覆盖深度随残余风险调整。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b04",
@@ -1244,10 +1244,14 @@
             "reader_task": "完成工作估算中的分解与历史数据、三点估算",
             "core_content": "在现有两个H3下比较四类方法：基于相近历史活动比例的ratio-based estimation、根据当前观测趋势外推、Wideband Delphi专家迭代讨论及其Planning Poker变体、三点估算。给可复算教学样本；明确历史数据可比性、趋势稳定性、专家分歧与乐观/最可能/悲观假设的适用边界；用区间表达不确定性，估算不是承诺。",
             "carrier": "table",
-            "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
+            "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据；四类估算的输入与算式直接可见，不用tabs隐藏核心比较，不用chartjs表现假想精度",
             "directly_visible": "在现有两个H3下比较四类方法：基于相近历史活动比例的ratio-based estimation、根据当前观测趋势外推、Wideband Delphi专家迭代讨论及其Planning Poker变体、三点估算。给可复算教学样本；明确历史数据可比性、趋势稳定性、专家分歧与乐观/最可能/悲观假设的适用边界；用区间表达不确定性，估算不是承诺。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending",
+            "supplemental_carriers": [
+              "语义note",
+              "计算表"
+            ]
           },
           {
             "id": "a05-b05",
@@ -1258,7 +1262,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b06",
@@ -1266,10 +1270,11 @@
             "reader_task": "完成执行排序中的风险与依赖、迭代与发布计划",
             "core_content": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
             "carrier": "mermaid",
-            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
+            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支；8节点且有阻塞分支，采用TD减少手机横向压缩",
             "directly_visible": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending",
+            "direction": "TD"
           },
           {
             "id": "a05-b07",
@@ -1280,7 +1285,7 @@
             "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
             "directly_visible": "数据准备和环境是前置；配置管理支持复现和追踪，禁止真实客户数据",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b08",
@@ -1288,10 +1293,14 @@
             "reader_task": "完成开始与结束中的准入条件、准出与剩余风险",
             "core_content": "条件需事先约定，时间用尽不等于测试质量达标，风险由适当角色接受",
             "carrier": "note primary flat",
-            "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
+            "rationale": "准出核心判断直接可见；表格比较未满足条件的处理，warning说明时间耗尽与质量达标的区别",
             "directly_visible": "条件需事先约定，时间用尽不等于测试质量达标，风险由适当角色接受",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending",
+            "supplemental_carriers": [
+              "准入/准出比较表",
+              "note warning flat"
+            ]
           },
           {
             "id": "a05-b09",
@@ -1302,7 +1311,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b10",
@@ -1313,7 +1322,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           }
         ]
       },
@@ -1459,7 +1468,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "把测试点写成可执行、可复核的功能用例；产出：将模糊测试点改成完整用例表并通过评审",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b02",
@@ -1470,7 +1479,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "唯一ID/关联规则/标题/前置/数据/步骤/预期/优先级/清理；字段服务复现，不机械堆字段",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b03",
@@ -1481,7 +1490,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b04",
@@ -1489,10 +1498,11 @@
             "reader_task": "完成拆解规则中的输入与输出、检查点与状态",
             "core_content": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
             "carrier": "mermaid",
-            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
+            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支；6节点连续推导，采用TD避免手机压缩，三类方法另用同时可见的比较表",
             "directly_visible": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证",
+            "direction": "TD"
           },
           {
             "id": "a06-b05",
@@ -1503,7 +1513,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "先演示密码登录S01的完整推导；验证码登录S02作为变式，覆盖错误与恢复",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b06",
@@ -1514,7 +1524,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "写明确提示、状态和副作用，不写功能正常；接口状态码只是证据之一",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b07",
@@ -1522,10 +1532,16 @@
             "reader_task": "完成组织用例中的粒度与独立性、优先级与追踪",
             "core_content": "S03购物车和S04搜索筛选用于检查职责单一、前置自足、可重复、测试清理",
             "carrier": "list",
-            "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
+            "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件；购物车和搜索的具体数据、动作、期望值需要表格同时核对，不用tabs隐藏共同主线，不把假想数据做成测量图",
             "directly_visible": "S03购物车和S04搜索筛选用于检查职责单一、前置自足、可重复、测试清理",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证",
+            "supplemental_carriers": [
+              "购物车完整用例表",
+              "固定商品数据表",
+              "搜索结果用例表",
+              "语义note"
+            ]
           },
           {
             "id": "a06-b08",
@@ -1536,7 +1552,7 @@
             "rationale": "表达条件明确的用例评审标准，不声称尚未运行的测试已经通过",
             "directly_visible": "评审标准为可执行/可判定/可追踪/可维护；不能凭用例数量宣称覆盖完整",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b09",
@@ -1545,9 +1561,9 @@
             "core_content": "testing-basics-scenario-password-login；testing-basics-scenario-sms-login；testing-basics-scenario-cart-edit；testing-basics-scenario-search-filter；完整题目/假设/模型/代表性用例/遗漏/追问以scenarios逐题合同为准",
             "carrier": "flashcard",
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
-            "directly_visible": "题面、假设和任务始终可识别；核心方法和S23-25正文模型/用例不依赖翻卡",
+            "directly_visible": "题面、假设和任务始终可识别；核心方法和S01–S04正文模型/用例不依赖翻卡",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b10",
@@ -1558,7 +1574,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b11",
@@ -1569,7 +1585,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           }
         ]
       },
@@ -2237,7 +2253,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "沿状态和业务路径推导功能用例；产出：产出状态表、转换覆盖和流程用例集",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b02",
@@ -2248,7 +2264,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "状态是可区分的稳定条件，点击是事件；先模型再用例，无法观察的状态需建立证据",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b03",
@@ -2259,7 +2275,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "状态是可区分的稳定条件，点击是事件；先模型再用例，无法观察的状态需建立证据",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b04",
@@ -2270,7 +2286,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "区分访问所有状态、所有有效转换、全部转换；明确不可到达与未覆盖，孤立非法转换避免缺陷掩蔽",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b05",
@@ -2281,7 +2297,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "流程场景有前置、事件序列和终态；图上线路覆盖不等于穷尽循环路径",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b06",
@@ -2292,7 +2308,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "流程场景有前置、事件序列和终态；图上线路覆盖不等于穷尽循环路径",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b07",
@@ -2303,7 +2319,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "消息已入库但客户端超时的重试，用消息标识和最终记录判断是否重复；弱网是条件，不自动把功能题变性能题",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b08",
@@ -2314,7 +2330,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "S17红包和S19取消支付冲突观察金额/订单不变量，性能指标另归13",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b09",
@@ -2325,7 +2341,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "S17-S22各给初始状态/序列/每步观察/终态/清理与覆盖项",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b10",
@@ -2336,7 +2352,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题面、假设和任务始终可识别；核心方法和S23-25正文模型/用例不依赖翻卡",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b11",
@@ -2347,7 +2363,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b12",
@@ -2358,7 +2374,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -2900,7 +2916,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "理解代码结构覆盖的意义与局限；产出：对简单分支手工计算覆盖并找到业务遗漏",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b02",
@@ -2911,7 +2927,7 @@
             "rationale": "代码/输入输出本身是观察对象；不引入第二条工具安装链，给逐步轨迹和文字结论",
             "directly_visible": "补齐最少Python阅读知识；修复源文代码格式，不要求安装Pytest",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b03",
@@ -2922,7 +2938,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "用控制流图列分母再标执行轨迹，区分可执行语句、分支和业务规则",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b04",
@@ -2933,7 +2949,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "用控制流图列分母再标执行轨迹，区分可执行语句、分支和业务规则",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b05",
@@ -2944,7 +2960,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "识别条件覆盖与组合覆盖不同，未被求值的条件不能记作已经取过真/假；不把本篇扩写为行业认证覆盖教程。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b06",
@@ -2955,7 +2971,7 @@
             "rationale": "一个易误用但可恢复的风险直接可见，非装饰配色",
             "directly_visible": "100%结构覆盖仍可能遗漏需求、数据和值域错误，用最小反例证明",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b07",
@@ -2966,7 +2982,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b08",
@@ -2977,7 +2993,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；python-expressions；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -3360,7 +3376,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "将测试观察转为缺陷与质量沟通；产出：写出可复现缺陷和不夸大覆盖的测试报告",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b02",
@@ -3371,7 +3387,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "区分实现缺陷、测试数据/环境问题和需求疑问；不能所有不符都直接归开发",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b03",
@@ -3382,7 +3398,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "版本/环境/最小步骤/数据/实际预期/证据/影响，敏感字段脱敏",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b04",
@@ -3393,7 +3409,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "状态图是团队可调整示例，不宣称通用必需状态；定义重开/拒绝/延后依据",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b05",
@@ -3404,7 +3420,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "状态图是团队可调整示例，不宣称通用必需状态；定义重开/拒绝/延后依据",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b06",
@@ -3415,7 +3431,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "已测范围/未测/阻塞/缺陷/剩余风险/偏差/建议；不用通过率替代整体质量",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b07",
@@ -3426,7 +3442,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "区分建议和授权发布决策，未知明确写出",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b08",
@@ -3437,7 +3453,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b09",
@@ -3448,7 +3464,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -3582,7 +3598,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "验证变更并控制发布后的功能风险；产出：提出有证据的回归范围、发布检查和回退验证",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b02",
@@ -3593,7 +3609,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "修复确认针对原缺陷，回归检查变更副作用；明确维护触发含修改/迁移/退役",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b03",
@@ -3604,7 +3620,7 @@
             "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
             "directly_visible": "使用5定义的准出标准，选择核心功能冒烟，不重讲风险管理",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b04",
@@ -3615,7 +3631,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "安装/升级/取消/卸载及数据兼容；回退程序成功不等于数据可回退",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b05",
@@ -3626,7 +3642,7 @@
             "rationale": "活动按时间/迭代发生；比把连续步骤塞进tabs更符合顺序",
             "directly_visible": "安装/升级/取消/卸载及数据兼容；回退程序成功不等于数据可回退",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b06",
@@ -3637,7 +3653,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "理解策略下验证点；灰度发布不等于A/B实验，讲概念不操作基础设施",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b07",
@@ -3648,7 +3664,7 @@
             "rationale": "直接说明真实用户数据、安全设备或破坏性操作边界，不藏在补充内容",
             "directly_visible": "仅用授权环境与合成数据；真实用户操作/破坏性回退不作为本课实验",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b08",
@@ -3659,7 +3675,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b09",
@@ -3670,7 +3686,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；blue-green；canary-release；kubernetes-deployment；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -3803,7 +3819,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "为功能用例选择合适的自动化投入；产出：列出自动化候选、层级、成本和维护策略",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b02",
@@ -3814,7 +3830,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "从已明确预期的用例选择，不把无稳定oracle的场景直接脚本化",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b03",
@@ -3825,7 +3841,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "金字塔与象限各有用途，不是固定比例和强制组织结构",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b04",
@@ -3836,7 +3852,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "金字塔与象限各有用途，不是固定比例和强制组织结构",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b05",
@@ -3847,7 +3863,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "工具帮助管理/分析/数据/执行/报告，不止自动化执行；接口与端到端证据不同",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b06",
@@ -3858,7 +3874,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "说明CI快速反馈、脆弱用例、环境隔离、误报与漏报；不重复安装Pytest/Playwright",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b07",
@@ -3869,7 +3885,7 @@
             "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
             "directly_visible": "按收益/变更频率/稳定性排序并解释暂不自动化的用例",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b08",
@@ -3880,7 +3896,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b09",
@@ -3891,7 +3907,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -4658,7 +4674,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "把含糊需求变成测试依据；产出：产出问题清单、验收条件和追踪关系",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b02",
@@ -4669,7 +4685,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "区分显式需求、假设和待澄清项，未给规则不能编造成真实产品限制",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b03",
@@ -4680,7 +4696,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "INVEST与协作写故事；AC描述本需求结果，DoD是增量质量承诺，不混用",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b04",
@@ -4691,7 +4707,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "用借阅实例澄清边界并形成验收测试，不要求先安装BDD框架；对照TDD/ATDD/BDD的目标、输入和反馈对象；只完整演示ATDD，不讲框架实现。",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b05",
@@ -4702,7 +4718,7 @@
           "rationale": "7节点且有反馈分支，使用TD与短标签保证手机可读；可见验收表提供完整输入输出，补充GWT放原生folding",
           "directly_visible": "用借阅实例澄清边界并形成验收测试，不要求先安装BDD框架；对照TDD/ATDD/BDD的目标、输入和反馈对象；只完整演示ATDD，不讲框架实现。",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending",
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint",
           "supplemental_carriers": {
             "table": "5个验收输入输出与TDD/ATDD/BDD比较，核心直接可见",
             "folding open": "可选完整Given/When/Then写法，主要预期已在可见表中，原生details可键盘展开"
@@ -4717,7 +4733,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "文档/设计/代码可被静态检查；非正式/走查/技术评审/审查的选择",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b07",
@@ -4728,7 +4744,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "个人检查→沟通分析→修订复核；识别成功因素",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b08",
@@ -4739,7 +4755,7 @@
           "rationale": "活动按时间/迭代发生；比把连续步骤塞进tabs更符合顺序",
           "directly_visible": "个人检查→沟通分析→修订复核；识别成功因素",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b09",
@@ -4750,7 +4766,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "需求/条件/用例/结果/缺陷可追踪，维护最小矩阵，不与6的用例字段重复",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b10",
@@ -4761,7 +4777,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         },
         {
           "id": "a04-b11",
@@ -4772,7 +4788,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "CTFL与Scrum2020官方资料；2个已核验同组织图标",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+          "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
         }
       ],
       "测试基础(五)测试计划与风险管理": [
@@ -4785,7 +4801,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "在有限时间里分配测试投入；产出：写一份包含优先级和取舍理由的小测试计划",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending"
         },
         {
           "id": "a05-b02",
@@ -4796,7 +4812,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "测试目标/范围/环境/数据/角色/交付物/假设/进度的可执行计划",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending"
         },
         {
           "id": "a05-b03",
@@ -4807,7 +4823,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "产品风险改变覆盖深度，项目风险影响交付；不把P等级当精确数学；风险控制包括缓解、接受、转移/分担及应急计划，明确风险负责人，覆盖深度随残余风险调整。",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending"
         },
         {
           "id": "a05-b04",
@@ -4815,10 +4831,14 @@
           "reader_task": "完成工作估算中的分解与历史数据、三点估算",
           "core_content": "在现有两个H3下比较四类方法：基于相近历史活动比例的ratio-based estimation、根据当前观测趋势外推、Wideband Delphi专家迭代讨论及其Planning Poker变体、三点估算。给可复算教学样本；明确历史数据可比性、趋势稳定性、专家分歧与乐观/最可能/悲观假设的适用边界；用区间表达不确定性，估算不是承诺。",
           "carrier": "table",
-          "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
+          "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据；四类估算的输入与算式直接可见，不用tabs隐藏核心比较，不用chartjs表现假想精度",
           "directly_visible": "在现有两个H3下比较四类方法：基于相近历史活动比例的ratio-based estimation、根据当前观测趋势外推、Wideband Delphi专家迭代讨论及其Planning Poker变体、三点估算。给可复算教学样本；明确历史数据可比性、趋势稳定性、专家分歧与乐观/最可能/悲观假设的适用边界；用区间表达不确定性，估算不是承诺。",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending",
+          "supplemental_carriers": [
+            "语义note",
+            "计算表"
+          ]
         },
         {
           "id": "a05-b05",
@@ -4829,7 +4849,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending"
         },
         {
           "id": "a05-b06",
@@ -4837,10 +4857,11 @@
           "reader_task": "完成执行排序中的风险与依赖、迭代与发布计划",
           "core_content": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
           "carrier": "mermaid",
-          "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
+          "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支；8节点且有阻塞分支，采用TD减少手机横向压缩",
           "directly_visible": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending",
+          "direction": "TD"
         },
         {
           "id": "a05-b07",
@@ -4851,7 +4872,7 @@
           "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
           "directly_visible": "数据准备和环境是前置；配置管理支持复现和追踪，禁止真实客户数据",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending"
         },
         {
           "id": "a05-b08",
@@ -4859,10 +4880,14 @@
           "reader_task": "完成开始与结束中的准入条件、准出与剩余风险",
           "core_content": "条件需事先约定，时间用尽不等于测试质量达标，风险由适当角色接受",
           "carrier": "note primary flat",
-          "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
+          "rationale": "准出核心判断直接可见；表格比较未满足条件的处理，warning说明时间耗尽与质量达标的区别",
           "directly_visible": "条件需事先约定，时间用尽不等于测试质量达标，风险由适当角色接受",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending",
+          "supplemental_carriers": [
+            "准入/准出比较表",
+            "note warning flat"
+          ]
         },
         {
           "id": "a05-b09",
@@ -4873,7 +4898,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending"
         },
         {
           "id": "a05-b10",
@@ -4884,7 +4909,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "draft written; audits/build/browser pending"
         }
       ],
       "测试基础(六)功能测试用例设计": [
@@ -4897,7 +4922,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "把测试点写成可执行、可复核的功能用例；产出：将模糊测试点改成完整用例表并通过评审",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b02",
@@ -4908,7 +4933,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "唯一ID/关联规则/标题/前置/数据/步骤/预期/优先级/清理；字段服务复现，不机械堆字段",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b03",
@@ -4919,7 +4944,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b04",
@@ -4927,10 +4952,11 @@
           "reader_task": "完成拆解规则中的输入与输出、检查点与状态",
           "core_content": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
           "carrier": "mermaid",
-          "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
+          "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支；6节点连续推导，采用TD避免手机压缩，三类方法另用同时可见的比较表",
           "directly_visible": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证",
+          "direction": "TD"
         },
         {
           "id": "a06-b05",
@@ -4941,7 +4967,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "先演示密码登录S01的完整推导；验证码登录S02作为变式，覆盖错误与恢复",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b06",
@@ -4952,7 +4978,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "写明确提示、状态和副作用，不写功能正常；接口状态码只是证据之一",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b07",
@@ -4960,10 +4986,16 @@
           "reader_task": "完成组织用例中的粒度与独立性、优先级与追踪",
           "core_content": "S03购物车和S04搜索筛选用于检查职责单一、前置自足、可重复、测试清理",
           "carrier": "list",
-          "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
+          "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件；购物车和搜索的具体数据、动作、期望值需要表格同时核对，不用tabs隐藏共同主线，不把假想数据做成测量图",
           "directly_visible": "S03购物车和S04搜索筛选用于检查职责单一、前置自足、可重复、测试清理",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证",
+          "supplemental_carriers": [
+            "购物车完整用例表",
+            "固定商品数据表",
+            "搜索结果用例表",
+            "语义note"
+          ]
         },
         {
           "id": "a06-b08",
@@ -4974,7 +5006,7 @@
           "rationale": "表达条件明确的用例评审标准，不声称尚未运行的测试已经通过",
           "directly_visible": "评审标准为可执行/可判定/可追踪/可维护；不能凭用例数量宣称覆盖完整",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b09",
@@ -4983,9 +5015,9 @@
           "core_content": "testing-basics-scenario-password-login；testing-basics-scenario-sms-login；testing-basics-scenario-cart-edit；testing-basics-scenario-search-filter；完整题目/假设/模型/代表性用例/遗漏/追问以scenarios逐题合同为准",
           "carrier": "flashcard",
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
-          "directly_visible": "题面、假设和任务始终可识别；核心方法和S23-25正文模型/用例不依赖翻卡",
+          "directly_visible": "题面、假设和任务始终可识别；核心方法和S01–S04正文模型/用例不依赖翻卡",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b10",
@@ -4996,7 +5028,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         },
         {
           "id": "a06-b11",
@@ -5007,7 +5039,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "已确认预案细化；尚未写入新正文或验证"
         }
       ],
       "测试基础(七)输入域与边界测试": [
@@ -5266,7 +5298,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "沿状态和业务路径推导功能用例；产出：产出状态表、转换覆盖和流程用例集",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b02",
@@ -5277,7 +5309,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "状态是可区分的稳定条件，点击是事件；先模型再用例，无法观察的状态需建立证据",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b03",
@@ -5288,7 +5320,7 @@
           "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
           "directly_visible": "状态是可区分的稳定条件，点击是事件；先模型再用例，无法观察的状态需建立证据",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b04",
@@ -5299,7 +5331,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "区分访问所有状态、所有有效转换、全部转换；明确不可到达与未覆盖，孤立非法转换避免缺陷掩蔽",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b05",
@@ -5310,7 +5342,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "流程场景有前置、事件序列和终态；图上线路覆盖不等于穷尽循环路径",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b06",
@@ -5321,7 +5353,7 @@
           "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
           "directly_visible": "流程场景有前置、事件序列和终态；图上线路覆盖不等于穷尽循环路径",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b07",
@@ -5332,7 +5364,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "消息已入库但客户端超时的重试，用消息标识和最终记录判断是否重复；弱网是条件，不自动把功能题变性能题",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b08",
@@ -5343,7 +5375,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "S17红包和S19取消支付冲突观察金额/订单不变量，性能指标另归13",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b09",
@@ -5354,7 +5386,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "S17-S22各给初始状态/序列/每步观察/终态/清理与覆盖项",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b10",
@@ -5365,7 +5397,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题面、假设和任务始终可识别；核心方法和S23-25正文模型/用例不依赖翻卡",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b11",
@@ -5376,7 +5408,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a09-b12",
@@ -5387,7 +5419,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
         }
       ],
       "测试基础(十)功能测试场景训练": [
@@ -5602,7 +5634,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "理解代码结构覆盖的意义与局限；产出：对简单分支手工计算覆盖并找到业务遗漏",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a12-b02",
@@ -5613,7 +5645,7 @@
           "rationale": "代码/输入输出本身是观察对象；不引入第二条工具安装链，给逐步轨迹和文字结论",
           "directly_visible": "补齐最少Python阅读知识；修复源文代码格式，不要求安装Pytest",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a12-b03",
@@ -5624,7 +5656,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "用控制流图列分母再标执行轨迹，区分可执行语句、分支和业务规则",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a12-b04",
@@ -5635,7 +5667,7 @@
           "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
           "directly_visible": "用控制流图列分母再标执行轨迹，区分可执行语句、分支和业务规则",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a12-b05",
@@ -5646,7 +5678,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "识别条件覆盖与组合覆盖不同，未被求值的条件不能记作已经取过真/假；不把本篇扩写为行业认证覆盖教程。",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a12-b06",
@@ -5657,7 +5689,7 @@
           "rationale": "一个易误用但可恢复的风险直接可见，非装饰配色",
           "directly_visible": "100%结构覆盖仍可能遗漏需求、数据和值域错误，用最小反例证明",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a12-b07",
@@ -5668,7 +5700,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a12-b08",
@@ -5679,7 +5711,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "ctfl；python-expressions；按正文顺序，每组≤6张；图标需同组织且写入前验证",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         }
       ],
       "测试基础(十三)非功能测试补充": [
@@ -5793,7 +5825,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "将测试观察转为缺陷与质量沟通；产出：写出可复现缺陷和不夸大覆盖的测试报告",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b02",
@@ -5804,7 +5836,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "区分实现缺陷、测试数据/环境问题和需求疑问；不能所有不符都直接归开发",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b03",
@@ -5815,7 +5847,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "版本/环境/最小步骤/数据/实际预期/证据/影响，敏感字段脱敏",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b04",
@@ -5826,7 +5858,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "状态图是团队可调整示例，不宣称通用必需状态；定义重开/拒绝/延后依据",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b05",
@@ -5837,7 +5869,7 @@
           "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
           "directly_visible": "状态图是团队可调整示例，不宣称通用必需状态；定义重开/拒绝/延后依据",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b06",
@@ -5848,7 +5880,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "已测范围/未测/阻塞/缺陷/剩余风险/偏差/建议；不用通过率替代整体质量",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b07",
@@ -5859,7 +5891,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "区分建议和授权发布决策，未知明确写出",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b08",
@@ -5870,7 +5902,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a14-b09",
@@ -5881,7 +5913,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         }
       ],
       "测试基础(十五)发布验证与维护测试": [
@@ -5894,7 +5926,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "验证变更并控制发布后的功能风险；产出：提出有证据的回归范围、发布检查和回退验证",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b02",
@@ -5905,7 +5937,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "修复确认针对原缺陷，回归检查变更副作用；明确维护触发含修改/迁移/退役",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b03",
@@ -5916,7 +5948,7 @@
           "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
           "directly_visible": "使用5定义的准出标准，选择核心功能冒烟，不重讲风险管理",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b04",
@@ -5927,7 +5959,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "安装/升级/取消/卸载及数据兼容；回退程序成功不等于数据可回退",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b05",
@@ -5938,7 +5970,7 @@
           "rationale": "活动按时间/迭代发生；比把连续步骤塞进tabs更符合顺序",
           "directly_visible": "安装/升级/取消/卸载及数据兼容；回退程序成功不等于数据可回退",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b06",
@@ -5949,7 +5981,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "理解策略下验证点；灰度发布不等于A/B实验，讲概念不操作基础设施",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b07",
@@ -5960,7 +5992,7 @@
           "rationale": "直接说明真实用户数据、安全设备或破坏性操作边界，不藏在补充内容",
           "directly_visible": "仅用授权环境与合成数据；真实用户操作/破坏性回退不作为本课实验",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b08",
@@ -5971,7 +6003,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         },
         {
           "id": "a15-b09",
@@ -5982,7 +6014,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "ctfl；blue-green；canary-release；kubernetes-deployment；按正文顺序，每组≤6张；图标需同组织且写入前验证",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
         }
       ],
       "测试基础(十六)自动化测试策略": [
@@ -5995,7 +6027,7 @@
           "rationale": "一个中性范围、定义或前置，不承担长篇解释",
           "directly_visible": "为功能用例选择合适的自动化投入；产出：列出自动化候选、层级、成本和维护策略",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b02",
@@ -6006,7 +6038,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "从已明确预期的用例选择，不把无稳定oracle的场景直接脚本化",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b03",
@@ -6017,7 +6049,7 @@
           "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
           "directly_visible": "金字塔与象限各有用途，不是固定比例和强制组织结构",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b04",
@@ -6028,7 +6060,7 @@
           "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
           "directly_visible": "金字塔与象限各有用途，不是固定比例和强制组织结构",
           "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b05",
@@ -6039,7 +6071,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "工具帮助管理/分析/数据/执行/报告，不止自动化执行；接口与端到端证据不同",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b06",
@@ -6050,7 +6082,7 @@
           "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
           "directly_visible": "说明CI快速反馈、脆弱用例、环境隔离、误报与漏报；不重复安装Pytest/Playwright",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b07",
@@ -6061,7 +6093,7 @@
           "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
           "directly_visible": "按收益/变更频率/稳定性排序并解释暂不自动化的用例",
           "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b08",
@@ -6072,7 +6104,7 @@
           "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
           "directly_visible": "题目可见；概念结论在相应正文块已经解释",
           "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         },
         {
           "id": "a16-b09",
@@ -6083,7 +6115,7 @@
           "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
           "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
           "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-          "validation_status": "planned；未生成/未构建/未浏览器验证"
+          "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
         }
       ],
       "测试基础(十七)进阶路线": [
@@ -7440,58 +7472,58 @@
       {
         "n": 28,
         "file": "7DED1A04-3EEF-43E5-A5F6-4795E62CFFB4_4_5005_c.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          612,
-          360
+          1200,
+          500
         ],
         "context": "**Scrum of Scrums（简称 SoS）**** 是一种用于****多团队协作下的敏捷协调机制****，当单一 Scrum 团队不足以交付复杂产品时，可以通过多个团队并行工作，而 SoS 用于协调这些团队之间的依赖和沟通。**",
         "owner": 17,
-        "target": "/img/learn-topic/testing-basics/scrum-of-scrums.jpeg",
-        "disposition": "historical",
-        "reason": "版本未知的旧笔记参考图，正文不据此教授当前实施规则"
+        "target": "/img/learn-topic/testing-basics/advanced-scrum-coordination.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印历史背景矢量图表达协作或专项边界，正文明确不作为当前规范"
       },
       {
         "n": 29,
         "file": "DE5E519F-BCF1-4B61-B022-1869E3D5D7A5_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          2329,
-          914
+          1200,
+          500
         ],
         "context": "**Nexus**** 是一个为 ****大规模敏捷开发（Scaled Agile Development）**** 设计的框架，专门用于****协调 3\\~9 个 Scrum 团队共同开发一个产品****。它是 Scrum 的自然扩展，由 Scrum 联合创始人 Ken Schwaber 提出，并由 ****Scrum\\.org**** 维护。**",
         "owner": 17,
-        "target": "/img/learn-topic/testing-basics/nexus-framework.jpeg",
-        "disposition": "historical",
-        "reason": "只作历史背景，非当前完整指南"
+        "target": "/img/learn-topic/testing-basics/advanced-nexus-integration.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印历史背景矢量图表达协作或专项边界，正文明确不作为当前规范"
       },
       {
         "n": 30,
         "file": "ADAF0DD8-0EBB-4928-A3C2-17C35C91BE1E_4_5005_c.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          770,
-          360
+          1200,
+          500
         ],
         "context": "**LeSS（Large\\-Scale Scrum）**** 是一种将 ****Scrum 原则扩展到多个团队**** 的轻量级框架。它强调保留 Scrum 的本质，同时将其规模化用于多个团队共同开发一个产品。**",
         "owner": 17,
-        "target": "/img/learn-topic/testing-basics/less-framework.jpeg",
-        "disposition": "historical",
-        "reason": "只作历史背景"
+        "target": "/img/learn-topic/testing-basics/advanced-less-flow.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印历史背景矢量图表达协作或专项边界，正文明确不作为当前规范"
       },
       {
         "n": 31,
         "file": "0AB3098B-E19C-4631-8B5B-FD3500495CE8_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          1846,
-          1097
+          1200,
+          500
         ],
         "context": "**SAFe（Scaled Agile Framework）****是一个用于企业级敏捷开发的框架，旨在帮助大型组织在多个团队、多个部门甚至整个企业范围内实现 ****敏捷（Agile）、精益（Lean） 和 DevOps**** 的结合，以实现 ****持续交付高价值解决方案****。**",
         "owner": 17,
-        "target": "/img/learn-topic/testing-basics/safe-framework.jpeg",
-        "disposition": "historical",
-        "reason": "只作历史背景"
+        "target": "/img/learn-topic/testing-basics/advanced-safe-flow.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印历史背景矢量图表达协作或专项边界，正文明确不作为当前规范"
       },
       {
         "n": 32,
@@ -7566,114 +7598,114 @@
       {
         "n": 37,
         "file": "63114D6E-769E-4A09-BEA2-C4006243DCC8_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          2360,
-          381
+          1200,
+          360
         ],
         "context": "**性能测试流程**",
         "owner": 13,
-        "target": "/img/learn-topic/testing-basics/performance-process.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/nonfunctional-performance-process.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印教学矢量图表达同一概念，补充图后文字结论与限制"
       },
       {
         "n": 38,
         "file": "DA55E961-BB09-4FAA-8E32-0062BB55AA29_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          2360,
-          720
+          1200,
+          430
         ],
         "context": "**性能测试类型**",
         "owner": 13,
-        "target": "/img/learn-topic/testing-basics/performance-types.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/nonfunctional-performance-types.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印教学矢量图表达同一概念，补充图后文字结论与限制"
       },
       {
         "n": 39,
         "file": "71F1EA42-14C6-4175-904F-449745C4EAA1_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          1488,
-          722
+          1200,
+          430
         ],
         "context": "- **硬件可靠性**",
         "owner": 17,
-        "target": "/img/learn-topic/testing-basics/hardware-reliability.jpeg",
-        "disposition": "historical",
-        "reason": "仅选学边界：硬件可靠性不作为软件功能主线或实际破坏试验"
+        "target": "/img/learn-topic/testing-basics/advanced-hardware-reliability.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印历史背景矢量图表达协作或专项边界，正文明确不作为当前规范"
       },
       {
         "n": 40,
         "file": "78C73459-B121-437D-8E4C-25F230C56478_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          2280,
-          846
+          1200,
+          430
         ],
         "context": "- **性能可靠性**",
         "owner": 13,
-        "target": "/img/learn-topic/testing-basics/performance-reliability.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/nonfunctional-performance-reliability.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印教学矢量图表达同一概念，补充图后文字结论与限制"
       },
       {
         "n": 41,
         "file": "E96B44E9-8E84-4144-93BC-74B1EC9F7F41_4_5005_c.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          862,
-          360
+          1200,
+          420
         ],
         "context": "- **高可用性**",
         "owner": 13,
-        "target": "/img/learn-topic/testing-basics/high-availability.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/nonfunctional-high-availability.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印教学矢量图表达同一概念，补充图后文字结论与限制"
       },
       {
         "n": 42,
         "file": "6C64EEF1-198E-487E-AB7B-05A10B480D83_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          1835,
-          882
+          1200,
+          430
         ],
         "context": "- **可扩展性**",
         "owner": 13,
-        "target": "/img/learn-topic/testing-basics/scalability.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/nonfunctional-scalability.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印教学矢量图表达同一概念，补充图后文字结论与限制"
       },
       {
         "n": 43,
         "file": "D9B593EA-1DE0-4EFB-90B0-6471A043B4D4_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          2200,
-          789
+          1200,
+          430
         ],
         "context": "- **可恢复性**",
         "owner": 13,
-        "target": "/img/learn-topic/testing-basics/recoverability.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/nonfunctional-recoverability.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印教学矢量图表达同一概念，补充图后文字结论与限制"
       },
       {
         "n": 44,
         "file": "8F32C6A7-4478-497B-B3D0-E09A30A50783_1_201_a.jpeg",
-        "format": "JPEG",
+        "format": "SVG",
         "size": [
-          1861,
-          926
+          1200,
+          430
         ],
         "context": "- **故障诊断**",
         "owner": 13,
-        "target": "/img/learn-topic/testing-basics/failure-diagnosis.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/nonfunctional-failure-diagnosis.svg",
+        "disposition": "replace-clean-vector",
+        "reason": "用本地无水印教学矢量图表达同一概念，补充图后文字结论与限制"
       },
       {
         "n": 45,
@@ -7761,31 +7793,31 @@
       },
       {
         "n": 51,
-        "file": "8C963D76-8E6B-41DA-A707-E6ADBD40E9C6_4_5005_c.jpeg",
-        "format": "JPEG",
+        "file": "cause-effect-symbols.svg",
+        "format": "SVG",
         "size": [
-          774,
-          360
+          1200,
+          600
         ],
         "context": "**因果图法（Cause\\-Effect Graphing）****是一种黑盒测试方法，用于分析输入条件（原因）与输出结果（结果）之间的逻辑关系，从而设计测试用例。该方法特别适用于输入条件较多、存在复杂组合和约束关系的场景。通过因果图法，可以系统地识别输入条件的各种组合及其对输出的影响，确保测试用例覆盖所有重要的输入组合和相应的输出结果。**",
         "owner": 8,
-        "target": "/img/learn-topic/testing-basics/cause-effect-symbols.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/cause-effect-symbols.svg",
+        "disposition": "original",
+        "reason": "使用本课程原创 SVG 示意图，避免用户素材水印与公开授权不确定性；文字和图注同时保留。"
       },
       {
         "n": 52,
-        "file": "D5CEB8F0-6DBA-40F0-B23E-899A61C47D6A_4_5005_c.jpeg",
-        "format": "JPEG",
+        "file": "borrowing-causes-effects.svg",
+        "format": "SVG",
         "size": [
-          960,
-          360
+          1200,
+          600
         ],
         "context": "1. ***分析原因与结果定义***",
         "owner": 8,
-        "target": "/img/learn-topic/testing-basics/borrowing-causes-effects.jpeg",
-        "disposition": "reuse",
-        "reason": "保留原始字节与格式，正文补图注、替代文本、模型局限和文字结论"
+        "target": "/img/learn-topic/testing-basics/borrowing-causes-effects.svg",
+        "disposition": "original",
+        "reason": "使用本课程原创 SVG 示意图，避免用户素材水印与公开授权不确定性；文字和图注同时保留。"
       },
       {
         "n": 53,
@@ -7856,13 +7888,16 @@
       ],
       "by_disposition": {
         "exclude": 3,
-        "reuse": 42,
+        "reuse": 40,
         "reuse-identical": 1,
         "historical": 5,
         "replace-table": 3,
-        "reuse-concept": 2
+        "reuse-concept": 2,
+        "original": 2
       },
-      "preserve": "下载目录全保留；只导入将实际使用的原图，替代/排除原图在内部清单保留去向与理由，不默默丢失"
+      "preserve": "下载目录全保留；只导入将实际使用的原图，替代/排除原图在内部清单保留去向与理由，不默默丢失",
+      "a13_replacement": "7 张原水印性能/可靠性 JPEG 不再作为正文引用，已替换为 nonfunctional-*.svg 本地教学图；旧 JPEG 保留为未引用历史资源。",
+      "a17_replacement": "5 张历史背景/硬件边界 JPEG 不再作为正文引用，已替换为 advanced-*.svg 本地教学图。"
     },
     "cover": {
       "title": "测试基础",
@@ -8061,7 +8096,7 @@
         18
       ],
       "goal": "Complete all17 formal articles following frozen curriculum; no commits or deployment",
-      "current_order": 4,
+      "current_order": 5,
       "articles": {
         "2": {
           "status": "complete",
@@ -8458,9 +8493,9 @@
           }
         },
         "4": {
-          "status": "public_candidate_pass_waiting_root_lint_authorization",
+          "status": "complete",
           "real_published": true,
-          "real_body_status": "pre-existing thin public body untouched; reviewed candidate ready for guarded replacement",
+          "real_body_status": "reviewed candidate promoted with exact readback",
           "candidate": "/tmp/testing-basics-authoring/a4-edit-3wuQYY",
           "reviewer": "/root/article04_review",
           "review_input": "/tmp/testing-basics-authoring/a04-review-input.json",
@@ -8561,37 +8596,1068 @@
               "baseline": "/tmp/testing-basics-authoring/a04-roadmap-baseline.md",
               "candidate": "/tmp/testing-basics-authoring/a04-roadmap-candidate.md",
               "scope": "Only rows2/3/4 links, prerequisites and actual completed status corrected; rest untouched; public browser snapshot verified",
-              "real_state": "NOT promoted"
+              "real_state": "Promoted; rows2/3/4 verified"
             },
-            "real_promotion": "NOT performed; root lint blocked solely by newly appeared system metadata requiring user cleanup authorization"
-          }
+            "real_promotion": "Completed after explicit authorization to move only pending .DS_Store; source+roadmap exact readback and root build/lint/browser passed"
+          },
+          "root_evidence": {
+            "build": "npm run build exit0",
+            "lint": "pass; a04-root-lint.json",
+            "browser": "root real route,20headings/3cards/1Mermaid,390/390; a04-root-browser.txt"
+          },
+          "roadmap": "Rows2/3/4 corrected and verified"
         },
         "5": {
-          "status": "preparation_only",
+          "status": "root_lint_blocked_metadata_authorization",
           "evidence": "/tmp/testing-basics-authoring/a05-preparation.json",
-          "body_edited": false
+          "body_edited": true,
+          "candidate": "/tmp/testing-basics-authoring/a5-edit-tzMl8j",
+          "real_published": true,
+          "real_body_status": "reviewed public candidate promoted; exact source and roadmap readbacks verified; original public status preserved",
+          "reviewer": "/root/article05_review",
+          "review_input": "/tmp/testing-basics-authoring/a05-review-input.json",
+          "draft_evidence": {
+            "article": 5,
+            "stage": "isolated edit of existing public source",
+            "candidate": "/tmp/testing-basics-authoring/a5-edit-tzMl8j",
+            "build": "npm run build -- --draft exit0;676generated",
+            "audits": {
+              "content": "pass",
+              "tags": "pass",
+              "assets": "pass"
+            },
+            "browser": {
+              "url": "http://127.0.0.1:4018/posts/cb5d3b8f/",
+              "images": [
+                {
+                  "src": "http://127.0.0.1:4018/img/learn-topic/testing-basics/scope-time-resources.png",
+                  "alt": "范围、时间、成本与质量之间的约束示意",
+                  "width": 1800
+                },
+                {
+                  "src": "http://127.0.0.1:4018/img/learn-topic/testing-basics/risk-based-testing.png",
+                  "alt": "风险优先与先做容易任务时的风险变化示意",
+                  "width": 2252
+                },
+                {
+                  "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+                  "alt": "",
+                  "width": 32
+                }
+              ],
+              "views": [
+                {
+                  "name": "desktop-light",
+                  "client": 1280,
+                  "scroll": 1280,
+                  "theme": "light"
+                },
+                {
+                  "name": "desktop-dark",
+                  "client": 1280,
+                  "scroll": 1280,
+                  "theme": "dark"
+                },
+                {
+                  "name": "mobile-dark",
+                  "client": 390,
+                  "scroll": 390,
+                  "theme": "dark"
+                },
+                {
+                  "name": "mobile-light",
+                  "client": 390,
+                  "scroll": 390,
+                  "theme": "light"
+                }
+              ],
+              "interactions": {
+                "card": {
+                  "mouse": "true",
+                  "keyboard": "false",
+                  "final": "true"
+                }
+              },
+              "counts": {
+                "cards": 3,
+                "mermaid": 1,
+                "headings": 20,
+                "details": 0
+              }
+            },
+            "visual_inspection": "Main viewed all4saved screenshots: desktop card explanation light/dark and mobileTD light/dark readable.2localimages+1officialicon loaded.",
+            "recovery": "Initial theme-toggle click timed out because hidden settings menu was translated outside viewport. Corrected browser procedure to open actual menu; repeated all4views successfully. No page code/style modified.",
+            "public_candidate": "pending independent review and normal public build/browser",
+            "source_evidence": "CTFL4.0.1 §5.1.1–5,5.2.1–4,5.4 refreshed; calculations ratio30/60*40=20,mean14/18/16=16,threepoint3/6/15=>E7SD2 verified; all teaching data, not product execution",
+            "revision": {
+              "change": "首次夹具改为恢复预先准备的测试数据与状态（测试夹具）；正文仅此一处变化",
+              "build": "npm run build -- --draft exit0;405generated; a05-draft-revision-build.log",
+              "content_release": "pass",
+              "browser": "构建完成后重新加载，定位完整新句通过，宽度390/390；a05-revision-browser.txt；a05-revision-fixture.png 已实际查看",
+              "discarded_attempt": "构建未结束前的旧DOM超时不计为验证通过"
+            }
+          },
+          "review": {
+            "verdict": "PASS",
+            "article_path": "/tmp/testing-basics-authoring/a5-edit-tzMl8j/source/_posts/learn-topic/testing-basics/测试基础(五)测试计划与风险管理.md",
+            "review_input": "/tmp/testing-basics-authoring/a05-review-input.json",
+            "review_mode": "Independent read-only article review, followed by one-sentence revision recheck; no shared-browser operation",
+            "blocking_findings": [],
+            "nonblocking_findings": [],
+            "resolved_findings": [
+              {
+                "id": "AR-N001",
+                "status": "RESOLVED",
+                "location": "L57",
+                "resolution": "测试者须先能恢复预先准备的测试数据与状态（测试夹具），并读取库存和借阅记录",
+                "later_use": "L230 独立夹具已有首次定义"
+              }
+            ],
+            "checks": [
+              {
+                "number": 1,
+                "name": "合同与职责",
+                "status": "PASS",
+                "evidence": "L24–267：范围、风险、估算、排序、环境和准出共同服务有限时间内的测试投入；不替代后续完整用例设计。"
+              },
+              {
+                "number": 2,
+                "name": "来源与技术事实",
+                "status": "PASS",
+                "evidence": "独立打开官方CTFL4.0.1 PDF，并直接读取§5.1.1–5、5.2.1–4、5.4；未发现对应事实错误。"
+              },
+              {
+                "number": 3,
+                "name": "技术文风",
+                "status": "PASS",
+                "evidence": "L21从交付前测试未完进入；通过借阅的具体条件、状态和证据解释取舍。"
+              },
+              {
+                "number": 4,
+                "name": "示例闭环",
+                "status": "PASS",
+                "evidence": "BR-1规则、TP-BR-1计划、计算与覆盖排序示例包含输入、操作、预期、核对和失败边界；均明确为教学样本。"
+              },
+              {
+                "number": 5,
+                "name": "可视化",
+                "status": "PASS",
+                "evidence": "两原图有局限说明；表格比较精确字段；8节点TD图展示依赖及阻塞分支。"
+              },
+              {
+                "number": 6,
+                "name": "FAQ与主动回忆",
+                "status": "PASS",
+                "evidence": "三题分别训练时间取舍、严重度与执行优先级区分、结束条件判断。"
+              },
+              {
+                "number": 7,
+                "name": "闪卡合同",
+                "status": "PASS",
+                "evidence": "三原始稳定ID保留，候选全站原始定义各1，均为测试基础单一卡组、priority:2、精简答案和独立解析。"
+              },
+              {
+                "number": 8,
+                "name": "隐藏标签用途",
+                "status": "PASS",
+                "evidence": "本篇无folding/hideToggle/hideBlock/hideInline，主线信息保持可见。"
+              },
+              {
+                "number": 9,
+                "name": "初学者连续性",
+                "status": "PASS",
+                "evidence": "L57已改为预先准备的测试数据与状态（测试夹具）；L230简称有前置定义，AR-N001关闭。"
+              },
+              {
+                "number": 10,
+                "name": "公开边界",
+                "status": "PASS",
+                "evidence": "L234–235限定合成数据、非生产环境、授权和停止条件；参考图标同域，图片有文字兜底。"
+              },
+              {
+                "number": 11,
+                "name": "证据层级",
+                "status": "PASS",
+                "evidence": "教学数据未冒充实测；提供方build/browser与Reviewer独立检查分列，正式公开门禁待主流程。"
+              },
+              {
+                "number": 12,
+                "name": "知识顺序与标题",
+                "status": "PASS",
+                "evidence": "范围→风险→估算→排序→环境→开始结束；8个H2、12个H3为简短书面标题。"
+              },
+              {
+                "number": 13,
+                "name": "公开正文合同",
+                "status": "PASS",
+                "evidence": "仅course_series承担课程导航；无内部能力ID、Reviewer门禁、核验日期或禁用内部标题。"
+              },
+              {
+                "number": 14,
+                "name": "解释块承载",
+                "status": "PASS",
+                "evidence": "解释段均有语义note；标题、表格、列表、图片及Mermaid保留合适结构。"
+              },
+              {
+                "number": 15,
+                "name": "文章角色与参考资料",
+                "status": "PASS",
+                "evidence": "主题文章常见问题含3张flashcard；最后H2参考资料；linkgroup内为真实官方资料与同域图标。"
+              },
+              {
+                "number": 16,
+                "name": "官方全集全量差集",
+                "status": "PASS",
+                "evidence": "独立从官方PDF提取85编号节点→64叶，并独立提取64FL目标；manifest/capabilities/ledger全部双向差集为空。"
+              },
+              {
+                "number": 17,
+                "name": "处置语义落地",
+                "status": "PASS",
+                "evidence": "本篇10项core均有机制、例子、失败边界与检查依据，无降格为单纯列名。"
+              },
+              {
+                "number": 18,
+                "name": "全部分配逐项对账",
+                "status": "PASS",
+                "evidence": "10个稳定能力ID、10个FL目标逐项核对；allocation与完整ledger本篇归属完全相等。"
+              },
+              {
+                "number": 19,
+                "name": "单一主线与负载",
+                "status": "PASS",
+                "evidence": "所有H2服务测试计划投入决策；不增加工具安装或第二条独立项目链。"
+              },
+              {
+                "number": 20,
+                "name": "逐块标签与重复复查",
+                "status": "PASS",
+                "evidence": "无tip；26个note均flat且按语义分级；估算和响应适合直接比较表，不需为多样性改tabs/folding。"
+              },
+              {
+                "number": 21,
+                "name": "核心可见性与降级",
+                "status": "PASS",
+                "evidence": "无issues/Butterfly series/tabs或隐藏核心；图片、Mermaid均有正文支撑，资料标题链接不依赖图标。"
+              },
+              {
+                "number": 22,
+                "name": "自然表达与全部原始解析",
+                "status": "PASS",
+                "evidence": "三卡均含原因过程、比较表及边界；没有只重复答案或堆积术语；原夹具解释缺口已修复。"
+              }
+            ],
+            "capability_results": [
+              {
+                "id": "ctfl4.0.1:5.1.1",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.1.1"
+                ],
+                "official_title": "Purpose and Content of a Test Plan",
+                "article_location": "L29–65",
+                "article_evidence": "计划目标、范围、排除、策略偏离、角色、资源、环境、交付、沟通和可执行检查",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.1.1"
+              },
+              {
+                "id": "ctfl4.0.1:5.1.2",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.1.2"
+                ],
+                "official_title": "Tester's Contribution to Iteration and Release Planning",
+                "article_location": "L198–204",
+                "article_evidence": "发布与迭代两层测试参与任务、借阅例子及变更旧功能边界",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.1.2"
+              },
+              {
+                "id": "ctfl4.0.1:5.1.3",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.1.3"
+                ],
+                "official_title": "Entry Criteria and Exit Criteria",
+                "article_location": "L243–266",
+                "article_evidence": "准入/准出区别、具体检查、未满足处理、时间用尽与发布权边界",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.1.3"
+              },
+              {
+                "id": "ctfl4.0.1:5.1.4",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.1.4"
+                ],
+                "official_title": "Estimation Techniques",
+                "article_location": "L125–158",
+                "article_evidence": "四方法及扑克变体，比例20、外推16、三点E7/SD2，假设和非保证区间",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.1.4"
+              },
+              {
+                "id": "ctfl4.0.1:5.1.5",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.1.5"
+                ],
+                "official_title": "Test Case Prioritization",
+                "article_location": "L165–193",
+                "article_evidence": "风险/需求/覆盖及新增覆盖排序，TC-B→TC-C，依赖和资源窗口",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.1.5"
+              },
+              {
+                "id": "ctfl4.0.1:5.2.1",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.2.1"
+                ],
+                "official_title": "Risk Definition and Risk Attributes",
+                "article_location": "L73–83",
+                "article_evidence": "可能性与影响、定性矩阵、定量前提和任意评分不等于精确概率",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.2.1"
+              },
+              {
+                "id": "ctfl4.0.1:5.2.2",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.2.2"
+                ],
+                "official_title": "Project Risks and Product Risks",
+                "article_location": "L89–98",
+                "article_evidence": "产品损失与项目交付风险的分类及同一现象的双重后果",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.2.2"
+              },
+              {
+                "id": "ctfl4.0.1:5.2.3",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.2.3"
+                ],
+                "official_title": "Product Risk Analysis",
+                "article_location": "L94–101",
+                "article_evidence": "识别→评估→改变范围、层级、方法、深度、技能与投入",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.2.3"
+              },
+              {
+                "id": "ctfl4.0.1:5.2.4",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.2.4"
+                ],
+                "official_title": "Product Risk Control",
+                "article_location": "L110–118",
+                "article_evidence": "缓解、接受、转移/分担、应急计划以及负责人、证据与持续监测",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.2.4"
+              },
+              {
+                "id": "ctfl4.0.1:5.4",
+                "disposition": "core",
+                "status": "PASS",
+                "objectives": [
+                  "FL-5.4.1"
+                ],
+                "official_title": "Configuration Management",
+                "article_location": "L212–235",
+                "article_evidence": "配置项唯一标识、关系、基线、变更与恢复、核对实际状态及安全边界",
+                "official_source": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+                "official_section": "5.4"
+              }
+            ],
+            "block_results": [
+              {
+                "id": "a05-b01",
+                "status": "PASS",
+                "article_location": "L20–22",
+                "reader_task": "中性交代任务",
+                "carrier": "note info",
+                "visibility_and_fallback": "直接可见",
+                "finding": null
+              },
+              {
+                "id": "a05-b02",
+                "status": "PASS",
+                "article_location": "L24–66",
+                "reader_task": "范围转成计划",
+                "carrier": "表格、语义note、原图",
+                "visibility_and_fallback": "图外保留约束说明和可执行标准",
+                "finding": null
+              },
+              {
+                "id": "a05-b03",
+                "status": "PASS",
+                "article_location": "L68–119",
+                "reader_task": "分类评估和响应风险",
+                "carrier": "矩阵、表格、note、原图",
+                "visibility_and_fallback": "数据不是实测、响应证据直接可见",
+                "finding": null
+              },
+              {
+                "id": "a05-b04",
+                "status": "PASS",
+                "article_location": "L121–159",
+                "reader_task": "比较估算方法并计算",
+                "carrier": "表格、note",
+                "visibility_and_fallback": "输入、算式、输出和不确定性均可见",
+                "finding": null
+              },
+              {
+                "id": "a05-b05",
+                "status": "PASS",
+                "article_location": "L165–167",
+                "reader_task": "区分风险优先级与执行前置",
+                "carrier": "note primary",
+                "visibility_and_fallback": "核心结论直接可见",
+                "finding": null
+              },
+              {
+                "id": "a05-b06",
+                "status": "PASS",
+                "article_location": "L169–205",
+                "reader_task": "应用排序和计划层次",
+                "carrier": "TD Mermaid、比较表",
+                "visibility_and_fallback": "8节点分支，资源和替身边界在正文",
+                "finding": null
+              },
+              {
+                "id": "a05-b07",
+                "status": "PASS",
+                "article_location": "L207–236",
+                "reader_task": "保存基线和恢复状态",
+                "carrier": "表格、列表、语义note",
+                "visibility_and_fallback": "L57已解释夹具；安全条件直接可见",
+                "finding": null
+              },
+              {
+                "id": "a05-b08",
+                "status": "PASS",
+                "article_location": "L238–267",
+                "reader_task": "判断准入准出和剩余风险",
+                "carrier": "note、比较表",
+                "visibility_and_fallback": "时间耗尽的例外和责任直接可见",
+                "finding": null
+              },
+              {
+                "id": "a05-b09",
+                "status": "PASS",
+                "article_location": "L269–321",
+                "reader_task": "主动回忆判断边界",
+                "carrier": "flashcard",
+                "visibility_and_fallback": "核心知识已在正文，卡背非唯一信息",
+                "finding": null
+              },
+              {
+                "id": "a05-b10",
+                "status": "PASS",
+                "article_location": "L323–327",
+                "reader_task": "访问实际官方依据",
+                "carrier": "linkgroup/link",
+                "visibility_and_fallback": "图标失效仍有标题和URL",
+                "finding": null
+              }
+            ],
+            "flashcard_results": [
+              {
+                "id": "testing-basics-a05-concept-1",
+                "status": "PASS",
+                "location": "L271–287",
+                "evidence": "风险和需求选择证据，再满足依赖与资源；四行案例表，未测/替身/依赖不等于降级边界完整"
+              },
+              {
+                "id": "testing-basics-a05-concept-2",
+                "status": "PASS",
+                "location": "L289–304",
+                "evidence": "严重度、测试执行优先级、修复安排分开；三反例表，未发现缺陷仍可优先测试；与第十四篇修复优先级题职责不同"
+              },
+              {
+                "id": "testing-basics-a05-concept-3",
+                "status": "PASS",
+                "location": "L306–321",
+                "evidence": "准出条件、未测风险、停止条件与移交有三类观察表；停止测试不授予发布权限"
+              }
+            ],
+            "independent_universe_reconciliation": {
+              "source_url": "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
+              "method": "pdftotext -layout to stdout; extract all chapter1-6 TOC nodes from PDF pages4-7, remove nodes with descendants, independently extract all FL targets from chapter learning-objective pages, map each FL to exactly one leaf, compare every set and per-leaf owner against frozen complete manifest/capabilities/ledger",
+              "directory_nodes": 85,
+              "leaf_count": 64,
+              "objective_count": 64,
+              "leaves": {
+                "1.1.1": "Test Objectives",
+                "1.1.2": "Testing and Debugging",
+                "1.2.1": "Testing’s Contributions to Success",
+                "1.2.2": "Testing and Quality Assurance (QA)",
+                "1.2.3": "Errors, Defects, Failures, and Root Causes",
+                "1.3": "Testing Principles",
+                "1.4.1": "Test Activities and Tasks",
+                "1.4.2": "Test Process in Context",
+                "1.4.3": "Testware",
+                "1.4.4": "Traceability between the Test Basis and Testware",
+                "1.4.5": "Roles in Testing",
+                "1.5.1": "Generic Skills Required for Testing",
+                "1.5.2": "Whole Team Approach",
+                "1.5.3": "Independence of Testing",
+                "2.1.1": "Impact of the Software Development Lifecycle on Testing",
+                "2.1.2": "Software Development Lifecycle and Good Testing Practices",
+                "2.1.3": "Testing as a Driver for Software Development",
+                "2.1.4": "DevOps and Testing",
+                "2.1.5": "Shift Left",
+                "2.1.6": "Retrospectives and Process Improvement",
+                "2.2.1": "Test Levels",
+                "2.2.2": "Test Types",
+                "2.2.3": "Confirmation Testing and Regression Testing",
+                "2.3": "Maintenance Testing",
+                "3.1.1": "Work Products Examinable by Static Testing",
+                "3.1.2": "Value of Static Testing",
+                "3.1.3": "Differences between Static Testing and Dynamic Testing",
+                "3.2.1": "Benefits of Early and Frequent Stakeholder Feedback",
+                "3.2.2": "Review Process Activities",
+                "3.2.3": "Roles and Responsibilities in Reviews",
+                "3.2.4": "Review Types",
+                "3.2.5": "Success Factors for Reviews",
+                "4.1": "Test Techniques Overview",
+                "4.2.1": "Equivalence Partitioning",
+                "4.2.2": "Boundary Value Analysis",
+                "4.2.3": "Decision Table Testing",
+                "4.2.4": "State Transition Testing",
+                "4.3.1": "Statement Testing and Statement Coverage",
+                "4.3.2": "Branch Testing and Branch Coverage",
+                "4.3.3": "The Value of White-box Testing",
+                "4.4.1": "Error Guessing",
+                "4.4.2": "Exploratory Testing",
+                "4.4.3": "Checklist-Based Testing",
+                "4.5.1": "Collaborative User Story Writing",
+                "4.5.2": "Acceptance Criteria",
+                "4.5.3": "Acceptance Test-driven Development (ATDD)",
+                "5.1.1": "Purpose and Content of a Test Plan",
+                "5.1.2": "Tester's Contribution to Iteration and Release Planning",
+                "5.1.3": "Entry Criteria and Exit Criteria",
+                "5.1.4": "Estimation Techniques",
+                "5.1.5": "Test Case Prioritization",
+                "5.1.6": "Test Pyramid",
+                "5.1.7": "Testing Quadrants",
+                "5.2.1": "Risk Definition and Risk Attributes",
+                "5.2.2": "Project Risks and Product Risks",
+                "5.2.3": "Product Risk Analysis",
+                "5.2.4": "Product Risk Control",
+                "5.3.1": "Metrics used in Testing",
+                "5.3.2": "Purpose, Content and Audience for Test Reports",
+                "5.3.3": "Communicating the Status of Testing",
+                "5.4": "Configuration Management",
+                "5.5": "Defect Management",
+                "6.1": "Tool Support for Testing",
+                "6.2": "Benefits and Risks of Test Automation"
+              },
+              "objectives_by_leaf": {
+                "1.1.1": [
+                  "FL-1.1.1"
+                ],
+                "1.1.2": [
+                  "FL-1.1.2"
+                ],
+                "1.2.1": [
+                  "FL-1.2.1"
+                ],
+                "1.2.2": [
+                  "FL-1.2.2"
+                ],
+                "1.2.3": [
+                  "FL-1.2.3"
+                ],
+                "1.3": [
+                  "FL-1.3.1"
+                ],
+                "1.4.1": [
+                  "FL-1.4.1"
+                ],
+                "1.4.2": [
+                  "FL-1.4.2"
+                ],
+                "1.4.3": [
+                  "FL-1.4.3"
+                ],
+                "1.4.4": [
+                  "FL-1.4.4"
+                ],
+                "1.4.5": [
+                  "FL-1.4.5"
+                ],
+                "1.5.1": [
+                  "FL-1.5.1"
+                ],
+                "1.5.2": [
+                  "FL-1.5.2"
+                ],
+                "1.5.3": [
+                  "FL-1.5.3"
+                ],
+                "2.1.1": [
+                  "FL-2.1.1"
+                ],
+                "2.1.2": [
+                  "FL-2.1.2"
+                ],
+                "2.1.3": [
+                  "FL-2.1.3"
+                ],
+                "2.1.4": [
+                  "FL-2.1.4"
+                ],
+                "2.1.5": [
+                  "FL-2.1.5"
+                ],
+                "2.1.6": [
+                  "FL-2.1.6"
+                ],
+                "2.2.1": [
+                  "FL-2.2.1"
+                ],
+                "2.2.2": [
+                  "FL-2.2.2"
+                ],
+                "2.2.3": [
+                  "FL-2.2.3"
+                ],
+                "2.3": [
+                  "FL-2.3.1"
+                ],
+                "3.1.1": [
+                  "FL-3.1.1"
+                ],
+                "3.1.2": [
+                  "FL-3.1.2"
+                ],
+                "3.1.3": [
+                  "FL-3.1.3"
+                ],
+                "3.2.1": [
+                  "FL-3.2.1"
+                ],
+                "3.2.2": [
+                  "FL-3.2.2"
+                ],
+                "3.2.3": [
+                  "FL-3.2.3"
+                ],
+                "3.2.4": [
+                  "FL-3.2.4"
+                ],
+                "3.2.5": [
+                  "FL-3.2.5"
+                ],
+                "4.1": [
+                  "FL-4.1.1"
+                ],
+                "4.2.1": [
+                  "FL-4.2.1"
+                ],
+                "4.2.2": [
+                  "FL-4.2.2"
+                ],
+                "4.2.3": [
+                  "FL-4.2.3"
+                ],
+                "4.2.4": [
+                  "FL-4.2.4"
+                ],
+                "4.3.1": [
+                  "FL-4.3.1"
+                ],
+                "4.3.2": [
+                  "FL-4.3.2"
+                ],
+                "4.3.3": [
+                  "FL-4.3.3"
+                ],
+                "4.4.1": [
+                  "FL-4.4.1"
+                ],
+                "4.4.2": [
+                  "FL-4.4.2"
+                ],
+                "4.4.3": [
+                  "FL-4.4.3"
+                ],
+                "4.5.1": [
+                  "FL-4.5.1"
+                ],
+                "4.5.2": [
+                  "FL-4.5.2"
+                ],
+                "4.5.3": [
+                  "FL-4.5.3"
+                ],
+                "5.1.1": [
+                  "FL-5.1.1"
+                ],
+                "5.1.2": [
+                  "FL-5.1.2"
+                ],
+                "5.1.3": [
+                  "FL-5.1.3"
+                ],
+                "5.1.4": [
+                  "FL-5.1.4"
+                ],
+                "5.1.5": [
+                  "FL-5.1.5"
+                ],
+                "5.1.6": [
+                  "FL-5.1.6"
+                ],
+                "5.1.7": [
+                  "FL-5.1.7"
+                ],
+                "5.2.1": [
+                  "FL-5.2.1"
+                ],
+                "5.2.2": [
+                  "FL-5.2.2"
+                ],
+                "5.2.3": [
+                  "FL-5.2.3"
+                ],
+                "5.2.4": [
+                  "FL-5.2.4"
+                ],
+                "5.3.1": [
+                  "FL-5.3.1"
+                ],
+                "5.3.2": [
+                  "FL-5.3.2"
+                ],
+                "5.3.3": [
+                  "FL-5.3.3"
+                ],
+                "5.4": [
+                  "FL-5.4.1"
+                ],
+                "5.5": [
+                  "FL-5.5.1"
+                ],
+                "6.1": [
+                  "FL-6.1.1"
+                ],
+                "6.2": [
+                  "FL-6.2.1"
+                ]
+              },
+              "chapter_counts": [
+                {
+                  "chapter": 1,
+                  "leaves": 14,
+                  "objectives": 14
+                },
+                {
+                  "chapter": 2,
+                  "leaves": 10,
+                  "objectives": 10
+                },
+                {
+                  "chapter": 3,
+                  "leaves": 8,
+                  "objectives": 8
+                },
+                {
+                  "chapter": 4,
+                  "leaves": 14,
+                  "objectives": 14
+                },
+                {
+                  "chapter": 5,
+                  "leaves": 16,
+                  "objectives": 16
+                },
+                {
+                  "chapter": 6,
+                  "leaves": 2,
+                  "objectives": 2
+                }
+              ],
+              "bidirectional_differences": [
+                {
+                  "comparison": "manifest.sections",
+                  "official_only": [],
+                  "stored_only": []
+                },
+                {
+                  "comparison": "capabilities",
+                  "official_only": [],
+                  "stored_only": []
+                },
+                {
+                  "comparison": "ledger",
+                  "official_only": [],
+                  "stored_only": []
+                },
+                {
+                  "comparison": "manifest.objectives",
+                  "official_only": [],
+                  "stored_only": []
+                },
+                {
+                  "comparison": "capabilities.objectives",
+                  "official_only": [],
+                  "stored_only": []
+                },
+                {
+                  "comparison": "ledger.objectives",
+                  "official_only": [],
+                  "stored_only": []
+                }
+              ],
+              "objective_owner_mismatches": [],
+              "duplicates": [],
+              "ledger_dispositions": {
+                "core": 58,
+                "brief": 6
+              },
+              "article_dispositions": {
+                "core": 10
+              },
+              "article_allocation_difference": [],
+              "scope_limit": "Full universe reconciliation does not certify the semantic completeness of other article bodies."
+            },
+            "variants_and_legacy": [
+              {
+                "id": "ctfl4.0.1:5.1.4",
+                "variant": "Planning Poker",
+                "status": "PASS",
+                "evidence": "L133/137 独立估计和讨论分歧，故事点非直接小时"
+              },
+              {
+                "id": "ctfl4.0.1:5.1.5",
+                "variant": "additional coverage prioritization",
+                "status": "PASS",
+                "evidence": "L173–177 TC-B后选TC-C，重算新增目标"
+              },
+              {
+                "id": "ctfl4.0.1:5.2.3",
+                "variant": "qualitative and quantitative",
+                "status": "PASS",
+                "evidence": "L76–83 定性矩阵和定量前提"
+              },
+              {
+                "id": "5.1.6/5.1.7",
+                "status": "OUT_OF_ARTICLE_SCOPE",
+                "owner": "第十六篇分层组合，ledger brief"
+              },
+              {
+                "id": "5.3.1/5.3.2/5.3.3/5.5",
+                "status": "OUT_OF_ARTICLE_SCOPE",
+                "owner": "第十四篇报告/沟通/缺陷，ledger core"
+              },
+              {
+                "id": "legacy_runtime_apis",
+                "status": "NOT_APPLICABLE",
+                "reason": "Knowledge-methodology course, not runtime/API course; legacy supplement is explicitly empty"
+              }
+            ],
+            "arithmetic_recheck": {
+              "ratio": 20,
+              "extrapolation": 16,
+              "threepoint_E": 7,
+              "threepoint_SD": 2,
+              "display_range": [
+                5,
+                9
+              ],
+              "status": "PASS",
+              "boundary": "Teaching samples; effort not calendar time; range not guarantee or verified confidence interval"
+            },
+            "revision_result": {
+              "status": "PASS",
+              "candidate_equals_updated_frozen_body": true,
+              "line_count": 327,
+              "new_phrase_occurrences": 1,
+              "old_phrase_absent": true,
+              "mermaid_plan_count_corrected": 8,
+              "image_inspected": "/tmp/testing-basics-authoring/a05-revision-fixture.png",
+              "image_observation": "390px screenshot shows definition wrapped inside resource/constraint table cell and text is readable",
+              "build_log_read": "/tmp/testing-basics-authoring/a05-draft-revision-build.log",
+              "build_log_observation": "405 files generated in13s; exit0 supplied by main evidence",
+              "browser_record_read": "/tmp/testing-basics-authoring/a05-revision-browser.txt",
+              "browser_record_observation": "main recorded exact new text and width390/390 after build; Reviewer did not replay",
+              "changed_scope": "Main reports one body sentence changed; Reviewer verifies current frozen/candidate identity, exact replacement, unchanged line count and terminology use, retaining preceding complete review."
+            },
+            "evidence_boundaries": {
+              "independent": [
+                "Complete prior22-item review of candidate source, rules, allocation,10blocks,3cards and2images",
+                "Official PDF opened live and read locally; full directory/FL reconciliation independently repeated on final frozen input",
+                "Prior project/tags audits pass",
+                "Prior four supplied screenshots and final revision screenshot visually inspected",
+                "Final frozen body equals candidate; exact fixture definition verified",
+                "Revision build tail and browser record read; report JSON validated after writing"
+              ],
+              "provided_by_main": [
+                "draft build exit0 and content release pass after revision",
+                "initial content/tags/assets pass",
+                "browser four viewports/themes, image natural widths and card toggling",
+                "Giscus404 and PJAX TXMAP_CONFIG errors reported as existing baseline"
+              ],
+              "not_performed_by_reviewer": [
+                "Shared-browser replay",
+                "Formal public-candidate build/browser",
+                "Final root lint and root canonical build",
+                "Production/deployment validation"
+              ],
+              "remaining_gate_owner": "Main workflow must finish public candidate, root synchronization, final lint/build/browser and record actual outcomes; PASS is article-content review only",
+              "console_limit": "No clean-console claim; revised browser record reports2errors and2warnings"
+            },
+            "reporting_notes": [
+              "Older per-block validation_status remains pending and PlusCSS snapshot refers to folding not used in this article; use final evidence records to update bookkeeping, not as content findings.",
+              "No repository files were modified; sole authorized output is this report."
+            ]
+          },
+          "review_verdict": "PASS",
+          "public_candidate_evidence": {
+            "status": "pass",
+            "candidate": "/tmp/testing-basics-authoring/a5-public-final-6SFtax",
+            "build": {
+              "command": "npm run build",
+              "exit_code": 0,
+              "generated": 676
+            },
+            "content_release": "pass",
+            "browser": {
+              "url": "http://127.0.0.1:4018/posts/cb5d3b8f/",
+              "images": [
+                {
+                  "src": "http://127.0.0.1:4018/img/learn-topic/testing-basics/scope-time-resources.png",
+                  "alt": "范围、时间、成本与质量之间的约束示意",
+                  "width": 1800
+                },
+                {
+                  "src": "http://127.0.0.1:4018/img/learn-topic/testing-basics/risk-based-testing.png",
+                  "alt": "风险优先与先做容易任务时的风险变化示意",
+                  "width": 2252
+                },
+                {
+                  "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+                  "alt": "",
+                  "width": 32
+                }
+              ],
+              "views": [
+                {
+                  "name": "desktop-light",
+                  "client": 1280,
+                  "scroll": 1280,
+                  "theme": "light"
+                },
+                {
+                  "name": "desktop-dark",
+                  "client": 1280,
+                  "scroll": 1280,
+                  "theme": "dark"
+                },
+                {
+                  "name": "mobile-dark",
+                  "client": 390,
+                  "scroll": 390,
+                  "theme": "dark"
+                },
+                {
+                  "name": "mobile-light",
+                  "client": 390,
+                  "scroll": 390,
+                  "theme": "light"
+                }
+              ],
+              "interactions": {
+                "card": {
+                  "mouse": "true",
+                  "keyboard": "false",
+                  "final": "true"
+                },
+                "pjax": "A05→A01→A05 actual links; card click/keyboard works",
+                "toc": {
+                  "url": "http://127.0.0.1:4018/posts/cb5d3b8f/",
+                  "heading": "测试范围"
+                }
+              },
+              "counts": {
+                "cards": 3,
+                "mermaid": 1,
+                "headings": 20,
+                "details": 0
+              },
+              "final_counts": {
+                "cards": 3,
+                "mermaid": 1
+              }
+            },
+            "visual_inspection": "Four screenshots actually viewed; desktop expanded card and mobileTD legible, no page horizontal overflow",
+            "console": "Existing Giscus discussion/API404 and TXMAP_CONFIG duplicate declaration on PJAX; inspect log separately; no article JS modified",
+            "review": "PASS latest exact bytes"
+          },
+          "root_evidence": {
+            "build": "npm run build exit0;408 files generated",
+            "lint": "blocked solely STRUCTURE_REPOSITORY_ARTIFACT_FORBIDDEN .DS_Store; a05-root-lint.json",
+            "browser": "real source route shows20headings,3cards,1Mermaid,new fixture explanation,width1280/1280; a05-root-browser.txt"
+          },
+          "roadmap": "Row5 updated and exact-readback verified; final whole-repository acceptance pending"
         },
         "12": {
-          "status": "experiment_preparation_only",
-          "body_edited": false,
-          "artifact": "/tmp/testing-basics-authoring/lab-preparation/short_circuit_lab.py",
-          "result": "/tmp/testing-basics-authoring/lab-preparation/short-circuit-result.json",
+          "status": "complete",
+          "body_edited": true,
+          "artifact": "/tmp/a12-evaluate-final.json",
+          "result": "/tmp/a12-evaluate-final.json",
           "verified": {
-            "python": "3.13.12",
+            "python": "Node 25.8.1 inline evaluator for the published evaluate(a,b,c) fixture",
             "original_note_function": "evaluate(a,b,c)",
             "W1_W2_W3": {
               "statements": "5/5",
               "explicit_CFG_all_edges": "9/10",
-              "actual_condition_outcomes": "5/6"
+              "actual_condition_outcomes": "5/6",
+              "input_ab_combinations": "3/4",
+              "fully_evaluated_ab_combinations": "1/4"
             },
             "plus_W4": {
               "statements": "5/5",
               "explicit_CFG_all_edges": "10/10",
-              "actual_condition_outcomes": "6/6"
+              "actual_condition_outcomes": "6/6",
+              "fully_evaluated_ab_combinations": "2/4"
             },
-            "W5": "binput=1 but B not evaluated; false A skips it"
+            "W5": "a=T and b=T return before c; W6/W7 retain short-circuit traces",
+            "evidence": "/tmp/a12-evaluate-final.json"
           },
-          "limits": "Instrumented teaching model; no Pytest or coverage install, no third-party report, noMC/DCclaim. Need article review and final extracted-code rerun later."
+          "limits": "Teaching-model denominators are explicit; no third-party coverage tool or certification claim. Independent Article Reviewer and final build/browser gates remain.",
+          "real_published": true,
+          "review_pending": true
+        },
+        "14": {
+          "status": "complete",
+          "body_edited": true,
+          "real_published": true,
+          "review_pending": true
+        },
+        "15": {
+          "status": "complete",
+          "body_edited": true,
+          "real_published": true,
+          "review_pending": true
+        },
+        "16": {
+          "status": "complete",
+          "body_edited": true,
+          "real_published": true,
+          "review_pending": true
         },
         "18": {
           "status": "prototype_preparation_only",
@@ -8668,9 +9734,9 @@
         "actual_article_count": 18,
         "a04_present": true,
         "restored_by_this_agent": false,
-        "lint": "blocked; latest lint-blocked-audit-3.json; only source/_posts/learn-topic/.DS_Store causes3structureerrors; other8checks pass",
+        "lint": "blocked solely root .DS_Store; a05-root-lint.json",
         "image_integrity": "47 unique images matched48 eligible source references",
-        "blocking_turns": 0,
+        "blocking_turns": 1,
         "public_articles_found": 18,
         "assessment": "Public files exist; substantive contract and review gates remain to be completed."
       },
@@ -8694,7 +9760,8 @@
         "scope": "links and status only",
         "candidate": "/tmp/testing-basics-authoring/a04-roadmap-candidate.md",
         "baseline": "/tmp/testing-basics-authoring/a04-roadmap-baseline.md",
-        "reason": "Public source currently still says placeholder for completed2/3; correction validated with A04 candidate and must be promoted with baseline guard"
+        "reason": "Public source currently still says placeholder for completed2/3; correction validated with A04 candidate and must be promoted with baseline guard",
+        "status": "promoted"
       },
       "preparation_while_authorization_pending": {
         "article_bodies_changed": false,
@@ -8732,13 +9799,22 @@
         "a12_source_gap": "Frozen contract owns original evaluate(a,b,c), but existing body replaced it withcan_borrow and mixed decision/condition/branch definitions; restore original source example and trace actual short-circuit events."
       },
       "blocker": {
-        "status": "resolved_specific_metadata_backup",
-        "consecutive_goal_turns": 3,
-        "path": "source/_posts/learn-topic/.DS_Store",
-        "reason": "New metadata file is outside earlier exact3-file cleanup grant. Whole-repository lint cannot pass; sequential article gate prevents A04 promotion and next article body work. Arithmetic, scenario gap, A12 trace and A18 runnable prototype preparation already saved.",
-        "required_user_input": "Allow backup-and-move of this new file; optional authorization for same metadata files regenerated during this batch prevents repeated requests.",
-        "source_preservation": "A04 real source unchanged from baseline; reviewed public candidate exact-match verified; no metadata moved without authorization",
-        "resume": "Recheck actual state, back up and move only authorized metadata paths, run lint, guarded copy of A04 plus roadmap rows2-4, root build/lint/browser, then resume A05 throughA18 sequentially"
+        "status": "awaiting_recurring_metadata_authorization",
+        "consecutive_goal_turns": 1,
+        "path": ".DS_Store",
+        "reason": "New root metadata generated after prior exact-file cleanup. A05 content, independent review, candidate and root build/browser passed; root lint blocked. A06 body not edited.",
+        "required_user_input": "Allow backup-and-move current and newly generated .DS_Store in maintained root scope for this batch, excluding both independent worktrees.",
+        "resume": "Recheck state; if authorized move metadata into unique backup preserving relative paths; rerun root lint. Write a05-root-evidence.json with actual completed results, run complete-article.mjs5 then rerun lint after contract update; start A06 candidate /tmp/testing-basics-authoring/a6-edit-Btm7xM."
+      },
+      "recurring_metadata_authorization": {
+        "requested": true,
+        "granted": false,
+        "performed": false,
+        "current_paths": [
+          ".DS_Store"
+        ],
+        "proposed_scope": "During this batch move only current and newly regenerated .DS_Store inside root repository maintained source scope into unique temporary backup; no deletion; excludes themes/butterfly and .deploy_git and generated/dependency directories",
+        "reason": "New metadata regenerated after earlier exact-file moves; prevents final lint"
       }
     }
   },
@@ -9927,7 +11003,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 需求追踪",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10018,7 +11094,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 示例协作",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10096,7 +11172,7 @@
           "core",
           "测试基础(十五)发布验证与维护测试 / 变更分析",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10109,7 +11185,7 @@
           "core",
           "测试基础(十五)发布验证与维护测试 / 变更分析",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10122,7 +11198,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 静态评审",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10135,7 +11211,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 静态评审",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10148,7 +11224,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 静态评审",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10161,7 +11237,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 示例协作",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10174,7 +11250,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 评审闭环",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10187,7 +11263,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 静态评审",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10200,7 +11276,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 静态评审",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10213,7 +11289,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 评审闭环",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10278,7 +11354,7 @@
           "core",
           "测试基础(九)状态迁移与业务流程 / 转换覆盖",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "已完成：状态图、转换覆盖、非法转换、乱序重复与恢复一致性已写入正文；独立审查通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10291,7 +11367,7 @@
           "core",
           "测试基础(十二)白盒测试与覆盖率 / 结构覆盖",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10304,7 +11380,7 @@
           "core",
           "测试基础(十二)白盒测试与覆盖率 / 结构覆盖",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10317,7 +11393,7 @@
           "core",
           "测试基础(十二)白盒测试与覆盖率 / 业务边界",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10369,7 +11445,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 验收条件",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10382,7 +11458,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 验收条件",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10395,7 +11471,7 @@
           "core",
           "测试基础(四)需求分析与静态评审 / 示例协作",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "独立审查PASS；隔离公开候选、正式构建、全仓库lint和目标路由浏览器验证通过",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10473,7 +11549,7 @@
           "brief",
           "测试基础(十六)自动化测试策略 / 分层组合",
           "为功能用例主线提供必要识别与选择边界，不展开工具或组织实施",
-          "已规划，未写正文",
+          "正文已补齐；自动化分层、金字塔维度与 Q1-Q4 测试象限已写入；独立审查待最终复核，构建/浏览器/全仓lint证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10486,7 +11562,7 @@
           "brief",
           "测试基础(十六)自动化测试策略 / 分层组合",
           "为功能用例主线提供必要识别与选择边界，不展开工具或组织实施",
-          "已规划，未写正文",
+          "正文已补齐；自动化分层、金字塔维度与 Q1-Q4 测试象限已写入；独立审查待最终复核，构建/浏览器/全仓lint证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10551,7 +11627,7 @@
           "core",
           "测试基础(十四)缺陷管理与测试报告 / 测试报告",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10564,7 +11640,7 @@
           "core",
           "测试基础(十四)缺陷管理与测试报告 / 测试报告",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10577,7 +11653,7 @@
           "core",
           "测试基础(十四)缺陷管理与测试报告 / 沟通取舍",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10603,7 +11679,7 @@
           "core",
           "测试基础(十四)缺陷管理与测试报告 / 缺陷报告",
           "支撑从需求到功能用例与结果证据的基础能力，必须有解释、示例、失败边界与验证",
-          "已规划，未写正文",
+          "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10616,7 +11692,7 @@
           "brief",
           "测试基础(十六)自动化测试策略 / 工具支持",
           "为功能用例主线提供必要识别与选择边界，不展开工具或组织实施",
-          "已规划，未写正文",
+          "正文已补齐；工具支持、替身边界、持续反馈与维护成本已写入；独立审查待最终复核，构建/浏览器/全仓lint证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -10629,7 +11705,7 @@
           "brief",
           "测试基础(十六)自动化测试策略 / 适用判断",
           "为功能用例主线提供必要识别与选择边界，不展开工具或组织实施",
-          "已规划，未写正文",
+          "正文已补齐；稳定规则、观察成本与候选排序已写入；独立审查待最终复核，构建/浏览器/全仓lint证据待最终课程验收。",
           "https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf",
           "4.0.1",
           "current",
@@ -11461,7 +12537,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "把含糊需求变成测试依据；产出：产出问题清单、验收条件和追踪关系",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b02",
@@ -11472,7 +12548,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "区分显式需求、假设和待澄清项，未给规则不能编造成真实产品限制",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b03",
@@ -11483,7 +12559,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "INVEST与协作写故事；AC描述本需求结果，DoD是增量质量承诺，不混用",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b04",
@@ -11494,7 +12570,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "用借阅实例澄清边界并形成验收测试，不要求先安装BDD框架；对照TDD/ATDD/BDD的目标、输入和反馈对象；只完整演示ATDD，不讲框架实现。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b05",
@@ -11505,7 +12581,7 @@
             "rationale": "7节点且有反馈分支，使用TD与短标签保证手机可读；可见验收表提供完整输入输出，补充GWT放原生folding",
             "directly_visible": "用借阅实例澄清边界并形成验收测试，不要求先安装BDD框架；对照TDD/ATDD/BDD的目标、输入和反馈对象；只完整演示ATDD，不讲框架实现。",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending",
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint",
             "supplemental_carriers": {
               "table": "5个验收输入输出与TDD/ATDD/BDD比较，核心直接可见",
               "folding open": "可选完整Given/When/Then写法，主要预期已在可见表中，原生details可键盘展开"
@@ -11520,7 +12596,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "文档/设计/代码可被静态检查；非正式/走查/技术评审/审查的选择",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b07",
@@ -11531,7 +12607,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "个人检查→沟通分析→修订复核；识别成功因素",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b08",
@@ -11542,7 +12618,7 @@
             "rationale": "活动按时间/迭代发生；比把连续步骤塞进tabs更符合顺序",
             "directly_visible": "个人检查→沟通分析→修订复核；识别成功因素",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b09",
@@ -11553,7 +12629,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "需求/条件/用例/结果/缺陷可追踪，维护最小矩阵，不与6的用例字段重复",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b10",
@@ -11564,7 +12640,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           },
           {
             "id": "a04-b11",
@@ -11575,7 +12651,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "CTFL与Scrum2020官方资料；2个已核验同组织图标",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "draft implemented; release content/draft build/browser passed; independent review pending"
+            "validation_status": "PASS：独立审查、草稿和公开候选、桌面/移动明暗、适用交互、正式构建和lint"
           }
         ]
       },
@@ -11716,7 +12792,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "在有限时间里分配测试投入；产出：写一份包含优先级和取舍理由的小测试计划",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b02",
@@ -11727,7 +12803,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "测试目标/范围/环境/数据/角色/交付物/假设/进度的可执行计划",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b03",
@@ -11738,7 +12814,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "产品风险改变覆盖深度，项目风险影响交付；不把P等级当精确数学；风险控制包括缓解、接受、转移/分担及应急计划，明确风险负责人，覆盖深度随残余风险调整。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b04",
@@ -11746,10 +12822,14 @@
             "reader_task": "完成工作估算中的分解与历史数据、三点估算",
             "core_content": "在现有两个H3下比较四类方法：基于相近历史活动比例的ratio-based estimation、根据当前观测趋势外推、Wideband Delphi专家迭代讨论及其Planning Poker变体、三点估算。给可复算教学样本；明确历史数据可比性、趋势稳定性、专家分歧与乐观/最可能/悲观假设的适用边界；用区间表达不确定性，估算不是承诺。",
             "carrier": "table",
-            "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
+            "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据；四类估算的输入与算式直接可见，不用tabs隐藏核心比较，不用chartjs表现假想精度",
             "directly_visible": "在现有两个H3下比较四类方法：基于相近历史活动比例的ratio-based estimation、根据当前观测趋势外推、Wideband Delphi专家迭代讨论及其Planning Poker变体、三点估算。给可复算教学样本；明确历史数据可比性、趋势稳定性、专家分歧与乐观/最可能/悲观假设的适用边界；用区间表达不确定性，估算不是承诺。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending",
+            "supplemental_carriers": [
+              "语义note",
+              "计算表"
+            ]
           },
           {
             "id": "a05-b05",
@@ -11760,7 +12840,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b06",
@@ -11768,10 +12848,11 @@
             "reader_task": "完成执行排序中的风险与依赖、迭代与发布计划",
             "core_content": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
             "carrier": "mermaid",
-            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
+            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支；8节点且有阻塞分支，采用TD减少手机横向压缩",
             "directly_visible": "先满足依赖再按风险排序；新功能/变更/核心路径优先不是永恒规则",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending",
+            "direction": "TD"
           },
           {
             "id": "a05-b07",
@@ -11782,7 +12863,7 @@
             "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
             "directly_visible": "数据准备和环境是前置；配置管理支持复现和追踪，禁止真实客户数据",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b08",
@@ -11790,10 +12871,14 @@
             "reader_task": "完成开始与结束中的准入条件、准出与剩余风险",
             "core_content": "条件需事先约定，时间用尽不等于测试质量达标，风险由适当角色接受",
             "carrier": "note primary flat",
-            "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
+            "rationale": "准出核心判断直接可见；表格比较未满足条件的处理，warning说明时间耗尽与质量达标的区别",
             "directly_visible": "条件需事先约定，时间用尽不等于测试质量达标，风险由适当角色接受",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending",
+            "supplemental_carriers": [
+              "准入/准出比较表",
+              "note warning flat"
+            ]
           },
           {
             "id": "a05-b09",
@@ -11804,7 +12889,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           },
           {
             "id": "a05-b10",
@@ -11815,7 +12900,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "draft written; audits/build/browser pending"
           }
         ]
       },
@@ -11961,7 +13046,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "把测试点写成可执行、可复核的功能用例；产出：将模糊测试点改成完整用例表并通过评审",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b02",
@@ -11972,7 +13057,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "唯一ID/关联规则/标题/前置/数据/步骤/预期/优先级/清理；字段服务复现，不机械堆字段",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b03",
@@ -11983,7 +13068,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b04",
@@ -11991,10 +13076,11 @@
             "reader_task": "完成拆解规则中的输入与输出、检查点与状态",
             "core_content": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
             "carrier": "mermaid",
-            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
+            "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支；6节点连续推导，采用TD避免手机压缩，三类方法另用同时可见的比较表",
             "directly_visible": "先列规则再识别条件和观察点；不把界面可见当唯一业务证据；比较黑盒、白盒与基于经验的技术，按可用依据和当前问题选用，本篇只建立选择入口，细节各有主文。",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证",
+            "direction": "TD"
           },
           {
             "id": "a06-b05",
@@ -12005,7 +13091,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "先演示密码登录S01的完整推导；验证码登录S02作为变式，覆盖错误与恢复",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b06",
@@ -12016,7 +13102,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "写明确提示、状态和副作用，不写功能正常；接口状态码只是证据之一",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b07",
@@ -12024,10 +13110,16 @@
             "reader_task": "完成组织用例中的粒度与独立性、优先级与追踪",
             "core_content": "S03购物车和S04搜索筛选用于检查职责单一、前置自足、可重复、测试清理",
             "carrier": "list",
-            "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
+            "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件；购物车和搜索的具体数据、动作、期望值需要表格同时核对，不用tabs隐藏共同主线，不把假想数据做成测量图",
             "directly_visible": "S03购物车和S04搜索筛选用于检查职责单一、前置自足、可重复、测试清理",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证",
+            "supplemental_carriers": [
+              "购物车完整用例表",
+              "固定商品数据表",
+              "搜索结果用例表",
+              "语义note"
+            ]
           },
           {
             "id": "a06-b08",
@@ -12038,7 +13130,7 @@
             "rationale": "表达条件明确的用例评审标准，不声称尚未运行的测试已经通过",
             "directly_visible": "评审标准为可执行/可判定/可追踪/可维护；不能凭用例数量宣称覆盖完整",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b09",
@@ -12047,9 +13139,9 @@
             "core_content": "testing-basics-scenario-password-login；testing-basics-scenario-sms-login；testing-basics-scenario-cart-edit；testing-basics-scenario-search-filter；完整题目/假设/模型/代表性用例/遗漏/追问以scenarios逐题合同为准",
             "carrier": "flashcard",
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
-            "directly_visible": "题面、假设和任务始终可识别；核心方法和S23-25正文模型/用例不依赖翻卡",
+            "directly_visible": "题面、假设和任务始终可识别；核心方法和S01–S04正文模型/用例不依赖翻卡",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b10",
@@ -12060,7 +13152,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           },
           {
             "id": "a06-b11",
@@ -12071,7 +13163,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "已确认预案细化；尚未写入新正文或验证"
           }
         ]
       },
@@ -12739,7 +13831,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "沿状态和业务路径推导功能用例；产出：产出状态表、转换覆盖和流程用例集",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b02",
@@ -12750,7 +13842,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "状态是可区分的稳定条件，点击是事件；先模型再用例，无法观察的状态需建立证据",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b03",
@@ -12761,7 +13853,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "状态是可区分的稳定条件，点击是事件；先模型再用例，无法观察的状态需建立证据",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b04",
@@ -12772,7 +13864,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "区分访问所有状态、所有有效转换、全部转换；明确不可到达与未覆盖，孤立非法转换避免缺陷掩蔽",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b05",
@@ -12783,7 +13875,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "流程场景有前置、事件序列和终态；图上线路覆盖不等于穷尽循环路径",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b06",
@@ -12794,7 +13886,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "流程场景有前置、事件序列和终态；图上线路覆盖不等于穷尽循环路径",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b07",
@@ -12805,7 +13897,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "消息已入库但客户端超时的重试，用消息标识和最终记录判断是否重复；弱网是条件，不自动把功能题变性能题",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b08",
@@ -12816,7 +13908,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "S17红包和S19取消支付冲突观察金额/订单不变量，性能指标另归13",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b09",
@@ -12827,7 +13919,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "S17-S22各给初始状态/序列/每步观察/终态/清理与覆盖项",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b10",
@@ -12838,7 +13930,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题面、假设和任务始终可识别；核心方法和S23-25正文模型/用例不依赖翻卡",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b11",
@@ -12849,7 +13941,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a09-b12",
@@ -12860,7 +13952,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；独立审查 PASS；构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -13402,7 +14494,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "理解代码结构覆盖的意义与局限；产出：对简单分支手工计算覆盖并找到业务遗漏",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b02",
@@ -13413,7 +14505,7 @@
             "rationale": "代码/输入输出本身是观察对象；不引入第二条工具安装链，给逐步轨迹和文字结论",
             "directly_visible": "补齐最少Python阅读知识；修复源文代码格式，不要求安装Pytest",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b03",
@@ -13424,7 +14516,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "用控制流图列分母再标执行轨迹，区分可执行语句、分支和业务规则",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b04",
@@ -13435,7 +14527,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "用控制流图列分母再标执行轨迹，区分可执行语句、分支和业务规则",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b05",
@@ -13446,7 +14538,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "识别条件覆盖与组合覆盖不同，未被求值的条件不能记作已经取过真/假；不把本篇扩写为行业认证覆盖教程。",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b06",
@@ -13457,7 +14549,7 @@
             "rationale": "一个易误用但可恢复的风险直接可见，非装饰配色",
             "directly_visible": "100%结构覆盖仍可能遗漏需求、数据和值域错误，用最小反例证明",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b07",
@@ -13468,7 +14560,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a12-b08",
@@ -13479,7 +14571,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；python-expressions；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；evaluate 教学模型结果已重跑；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -13862,7 +14954,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "将测试观察转为缺陷与质量沟通；产出：写出可复现缺陷和不夸大覆盖的测试报告",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b02",
@@ -13873,7 +14965,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "区分实现缺陷、测试数据/环境问题和需求疑问；不能所有不符都直接归开发",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b03",
@@ -13884,7 +14976,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "版本/环境/最小步骤/数据/实际预期/证据/影响，敏感字段脱敏",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b04",
@@ -13895,7 +14987,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "状态图是团队可调整示例，不宣称通用必需状态；定义重开/拒绝/延后依据",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b05",
@@ -13906,7 +14998,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "状态图是团队可调整示例，不宣称通用必需状态；定义重开/拒绝/延后依据",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b06",
@@ -13917,7 +15009,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "已测范围/未测/阻塞/缺陷/剩余风险/偏差/建议；不用通过率替代整体质量",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b07",
@@ -13928,7 +15020,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "区分建议和授权发布决策，未知明确写出",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b08",
@@ -13939,7 +15031,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a14-b09",
@@ -13950,7 +15042,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；复现夹具、状态判据和数值报告样例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -14084,7 +15176,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "验证变更并控制发布后的功能风险；产出：提出有证据的回归范围、发布检查和回退验证",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b02",
@@ -14095,7 +15187,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "修复确认针对原缺陷，回归检查变更副作用；明确维护触发含修改/迁移/退役",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b03",
@@ -14106,7 +15198,7 @@
             "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
             "directly_visible": "使用5定义的准出标准，选择核心功能冒烟，不重讲风险管理",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b04",
@@ -14117,7 +15209,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "安装/升级/取消/卸载及数据兼容；回退程序成功不等于数据可回退",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b05",
@@ -14128,7 +15220,7 @@
             "rationale": "活动按时间/迭代发生；比把连续步骤塞进tabs更符合顺序",
             "directly_visible": "安装/升级/取消/卸载及数据兼容；回退程序成功不等于数据可回退",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b06",
@@ -14139,7 +15231,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "理解策略下验证点；灰度发布不等于A/B实验，讲概念不操作基础设施",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b07",
@@ -14150,7 +15242,7 @@
             "rationale": "直接说明真实用户数据、安全设备或破坏性操作边界，不藏在补充内容",
             "directly_visible": "仅用授权环境与合成数据；真实用户操作/破坏性回退不作为本课实验",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b08",
@@ -14161,7 +15253,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           },
           {
             "id": "a15-b09",
@@ -14172,7 +15264,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；blue-green；canary-release；kubernetes-deployment；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文完成；content --release、tags、assets PASS；R15-01~R15-04 变更影响、迁移中断/重复、取消卸载和回退案例已加入；独立审查待最终确认，构建和浏览器证据待最终课程验收。"
           }
         ]
       },
@@ -14305,7 +15397,7 @@
             "rationale": "一个中性范围、定义或前置，不承担长篇解释",
             "directly_visible": "为功能用例选择合适的自动化投入；产出：列出自动化候选、层级、成本和维护策略",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b02",
@@ -14316,7 +15408,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "从已明确预期的用例选择，不把无稳定oracle的场景直接脚本化",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b03",
@@ -14327,7 +15419,7 @@
             "rationale": "一个核心判断或边界必须直接可见，不能只在折叠或闪卡背面",
             "directly_visible": "金字塔与象限各有用途，不是固定比例和强制组织结构",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b04",
@@ -14338,7 +15430,7 @@
             "rationale": "关系、时序或状态转换是本块的主信息；比长段文字和timeline更能表达条件分支",
             "directly_visible": "金字塔与象限各有用途，不是固定比例和强制组织结构",
             "degradation": "图后给文字结论与状态/边表；运行库失败仍能推导结果",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b05",
@@ -14349,7 +15441,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "工具帮助管理/分析/数据/执行/报告，不止自动化执行；接口与端到端证据不同",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b06",
@@ -14360,7 +15452,7 @@
             "rationale": "需要比较精确字段、条件、结果或证据；比连续note更便于逐项核对，比chartjs适合非测量数据",
             "directly_visible": "说明CI快速反馈、脆弱用例、环境隔离、误报与漏报；不重复安装Pytest/Playwright",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b07",
@@ -14371,7 +15463,7 @@
             "rationale": "步骤或检查项已经能明确表达动作；无需把它们包装成提示或伪进度组件",
             "directly_visible": "按收益/变更频率/稳定性排序并解释暂不自动化的用例",
             "degradation": "文本/表格/代码在样式或脚本失败时仍完整",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b08",
@@ -14382,7 +15474,7 @@
             "rationale": "用户明确要求长期复习与独立迁移训练；题面与答案/解析完整，方法定义不重复",
             "directly_visible": "题目可见；概念结论在相应正文块已经解释",
             "degradation": "静态生成的题面、答案、解析可恢复阅读；不把正文唯一结论放在卡背；构建校验ID",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           },
           {
             "id": "a16-b09",
@@ -14393,7 +15485,7 @@
             "rationale": "正文使用的真实官方扩展阅读；比按钮墙和外部站点截图更稳定",
             "directly_visible": "ctfl；按正文顺序，每组≤6张；图标需同组织且写入前验证",
             "degradation": "官方图标加载失败仍有资料标题和HTTP链接",
-            "validation_status": "planned；未生成/未构建/未浏览器验证"
+            "validation_status": "正文已补齐；content --release、tags、assets PASS；独立审查待最终复核，canonical build 与固定 4000 桌面/移动浏览器证据待最终课程验收。"
           }
         ]
       },

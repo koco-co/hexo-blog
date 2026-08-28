@@ -1,0 +1,25 @@
+{
+  "slug": "c75ad281",
+  "url": "http://127.0.0.1:4000/posts/c75ad281/",
+  "title": "测试基础(十)功能测试场景训练",
+  "headings": 18,
+  "cards": 14,
+  "mermaid": 1,
+  "images": [
+    {
+      "src": "http://127.0.0.1:4000/img/learn-topic/testing-basics/testing-thinking.jpeg",
+      "alt": "测试思维从提问、建模到证据复盘的循环",
+      "width": 520,
+      "complete": true
+    },
+    {
+      "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+      "alt": "",
+      "width": 32,
+      "complete": true
+    }
+  ],
+  "overflow": false,
+  "bodyWidth": 1280,
+  "clientWidth": 1280
+}

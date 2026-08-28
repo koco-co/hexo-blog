@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">高可用性检查</title>
+  <desc id="desc">断网、断电、弱网、存储故障和 CPU 高占用是故障注入入口，SLA、MTBF、MTTF 和 MTTR 是需要确认的指标。</desc>
+  <rect width="1200" height="420" fill="#f7f9fc"/>
+  <text x="60" y="52" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#20304a">高可用性：故障发生时仍能安全服务</text>
+  <rect x="70" y="125" width="280" height="190" rx="18" fill="#be123c"/>
+  <g font-family="Arial, sans-serif" fill="white" text-anchor="middle"><text x="210" y="165" font-size="22" font-weight="700">故障入口</text><text x="210" y="205" font-size="18">断网 · 断电 · 弱网</text><text x="210" y="238" font-size="18">存储故障 · CPU 高占用</text><text x="210" y="282" font-size="17">降级、重试、告警</text></g>
+  <rect x="480" y="135" width="250" height="170" rx="22" fill="#2563eb"/>
+  <text x="605" y="198" font-family="Arial, sans-serif" text-anchor="middle" font-size="25" font-weight="700" fill="white">安全恢复</text><text x="605" y="238" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">数据不变量 · 可观察性</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#20304a"><text x="980" y="130" font-size="21" font-weight="700">指标先确认</text><text x="980" y="175" font-size="19">SLA：服务承诺</text><text x="980" y="215" font-size="19">MTBF：平均故障间隔</text><text x="980" y="255" font-size="19">MTTF：平均无故障时间</text><text x="980" y="295" font-size="19">MTTR：平均修复时间</text></g>
+  <g stroke="#64748b" stroke-width="4" fill="none" marker-end="url(#arrow)"><path d="M350 220h120"/><path d="M730 220h210"/></g>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+</svg>

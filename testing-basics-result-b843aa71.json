@@ -1,0 +1,19 @@
+{
+  "slug": "b843aa71",
+  "url": "http://127.0.0.1:4000/posts/b843aa71/",
+  "title": "测试基础(十六)自动化测试策略",
+  "headings": 16,
+  "cards": 3,
+  "mermaid": 1,
+  "images": [
+    {
+      "src": "https://istqb.org/wp-content/uploads/2024/10/cropped-favicon-32x32.png",
+      "alt": "",
+      "width": 32,
+      "complete": true
+    }
+  ],
+  "overflow": false,
+  "bodyWidth": 1280,
+  "clientWidth": 1280
+}

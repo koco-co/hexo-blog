@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">可扩展性</title>
+  <desc id="desc">横向扩展、纵向扩展、负载均衡和优雅降级是容量增长时需要验证的策略。</desc>
+  <rect width="1200" height="430" fill="#f7f9fc"/>
+  <text x="60" y="52" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#20304a">可扩展性：规模增长后仍可预测</text>
+  <rect x="65" y="130" width="250" height="160" rx="20" fill="#2563eb"/>
+  <text x="190" y="185" font-family="Arial, sans-serif" text-anchor="middle" font-size="26" font-weight="700" fill="white">横向扩展</text><text x="190" y="225" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">增加实例与分片</text>
+  <rect x="350" y="130" width="250" height="160" rx="20" fill="#0f766e"/>
+  <text x="475" y="185" font-family="Arial, sans-serif" text-anchor="middle" font-size="26" font-weight="700" fill="white">纵向扩展</text><text x="475" y="225" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">增加单机资源</text>
+  <rect x="635" y="130" width="250" height="160" rx="20" fill="#7c3aed"/>
+  <text x="760" y="185" font-family="Arial, sans-serif" text-anchor="middle" font-size="26" font-weight="700" fill="white">负载均衡</text><text x="760" y="225" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">分配请求与热点</text>
+  <rect x="920" y="130" width="215" height="160" rx="20" fill="#be123c"/>
+  <text x="1027" y="185" font-family="Arial, sans-serif" text-anchor="middle" font-size="26" font-weight="700" fill="white">优雅降级</text><text x="1027" y="225" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">保核心、报可恢复</text>
+  <text x="600" y="360" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="#475569">验证增长曲线、资源瓶颈、数据一致性和失败后的用户结果。</text>
+</svg>

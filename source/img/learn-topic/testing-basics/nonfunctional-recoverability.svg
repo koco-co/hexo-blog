@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">可恢复性验证</title>
+  <desc id="desc">灾备策略、恢复策略、恢复时间和数据正确性共同构成可恢复性检查，并由备份同步与监控支持。</desc>
+  <rect width="1200" height="430" fill="#f7f9fc"/>
+  <text x="60" y="52" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#20304a">可恢复性：恢复后仍要证明数据正确</text>
+  <rect x="65" y="145" width="235" height="130" rx="18" fill="#2563eb"/><text x="182" y="198" font-family="Arial, sans-serif" text-anchor="middle" font-size="24" font-weight="700" fill="white">故障</text><text x="182" y="235" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">中断与损坏</text>
+  <rect x="340" y="145" width="235" height="130" rx="18" fill="#0f766e"/><text x="457" y="198" font-family="Arial, sans-serif" text-anchor="middle" font-size="24" font-weight="700" fill="white">灾备策略</text><text x="457" y="235" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">备份、切换、隔离</text>
+  <rect x="615" y="145" width="235" height="130" rx="18" fill="#7c3aed"/><text x="732" y="198" font-family="Arial, sans-serif" text-anchor="middle" font-size="24" font-weight="700" fill="white">恢复时间</text><text x="732" y="235" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">RTO 与过程证据</text>
+  <rect x="890" y="145" width="245" height="130" rx="18" fill="#be123c"/><text x="1012" y="198" font-family="Arial, sans-serif" text-anchor="middle" font-size="24" font-weight="700" fill="white">数据正确性</text><text x="1012" y="235" font-family="Arial, sans-serif" text-anchor="middle" font-size="18" fill="white">RPO、不变量、对账</text>
+  <g stroke="#64748b" stroke-width="4" fill="none" marker-end="url(#arrow)"><path d="M300 210h35"/><path d="M575 210h35"/><path d="M850 210h35"/></g>
+  <text x="600" y="355" font-family="Arial, sans-serif" text-anchor="middle" font-size="19" fill="#475569">只看到服务重新启动，不足以证明恢复完成。</text>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker></defs>
+</svg>

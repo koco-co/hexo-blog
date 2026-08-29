@@ -3828,15 +3828,7 @@ export function auditProject({ root = process.cwd() } = {}) {
       );
   }
 
-  if (!deployGit.present)
-    report.warnings.push(
-      finding(
-        "DEPLOY_WORKTREE_MISSING",
-        ".deploy_git",
-        "没有发现可检查的部署 Git 工作树。",
-      ),
-    );
-  else if (deployGit.dirty === null)
+  if (deployGit.present && deployGit.dirty === null)
     report.warnings.push(
       finding(
         "DEPLOY_STATUS_UNKNOWN",
@@ -5168,6 +5160,15 @@ export function auditRelease({ root = process.cwd(), route = "local" } = {}) {
 
   for (const item of project.errors)
     report.blockers.push({ ...item, code: `PROJECT_${item.code}` });
+  if (route === "local" && !project.facts.git.deploy?.present) {
+    report.blockers.push(
+      finding(
+        "DEPLOY_WORKTREE_MISSING",
+        ".deploy_git",
+        "本地发布要求存在可检查的部署 Git 工作树。",
+      ),
+    );
+  }
   for (const item of content.errors)
     report.blockers.push({ ...item, code: `CONTENT_${item.code}` });
   for (const item of content.blockers) report.blockers.push(item);

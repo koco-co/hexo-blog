@@ -2048,6 +2048,28 @@ test("content audit rejects unreplaced scaffold placeholders", () => {
   );
 });
 
+test("missing local deployment worktree is informational except on the local release route", () => {
+  const root = makeRoot();
+  createProjectFixture(root);
+
+  const project = auditProject({ root });
+  const ciRelease = auditRelease({ root, route: "ci" });
+  const localRelease = auditRelease({ root, route: "local" });
+
+  assert.ok(
+    !project.warnings.some((item) => item.code === "DEPLOY_WORKTREE_MISSING"),
+  );
+  assert.ok(
+    !ciRelease.warnings.some((item) => item.code === "DEPLOY_WORKTREE_MISSING"),
+  );
+  assert.ok(
+    !ciRelease.blockers.some((item) => item.code === "DEPLOY_WORKTREE_MISSING"),
+  );
+  assert.ok(
+    localRelease.blockers.some((item) => item.code === "DEPLOY_WORKTREE_MISSING"),
+  );
+});
+
 test("release audit blocks a dirty deployment worktree", () => {
   const root = makeRoot();
   createProjectFixture(root);

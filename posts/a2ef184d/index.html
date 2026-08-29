@@ -1,0 +1,683 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>AI 辅助测试(三)需求与测试设计 | 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</title><meta name="author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="copyright" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="能为合成需求产出覆盖矩阵和独立验收点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 辅助测试(三)需求与测试设计">
+<meta property="og:url" content="https://koco-co.github.io/posts/a2ef184d/index.html">
+<meta property="og:site_name" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮&#39;𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮">
+<meta property="og:description" content="能为合成需求产出覆盖矩阵和独立验收点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://koco-co.github.io/img/picgo-images/ai-assisted-testing-course-cover.png">
+<meta property="article:published_time" content="2026-08-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-29T10:30:54.708Z">
+<meta property="article:author" content="𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮">
+<meta property="article:tag" content="AI 测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://koco-co.github.io/img/picgo-images/ai-assisted-testing-course-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AI 辅助测试(三)需求与测试设计",
+  "url": "https://koco-co.github.io/posts/a2ef184d/",
+  "image": "https://koco-co.github.io/img/picgo-images/ai-assisted-testing-course-cover.png",
+  "datePublished": "2026-08-15T16:00:00.000Z",
+  "dateModified": "2026-08-29T10:30:54.708Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮",
+      "url": "https://koco-co.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://koco-co.github.io/posts/a2ef184d/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 10 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AI 辅助测试(三)需求与测试设计',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="/flashcard-assets/flashcard.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">232</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">157</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/picgo-images/ai-assisted-testing-course-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</span></a><a class="nav-page-title" href="/"><span class="site-name">AI 辅助测试(三)需求与测试设计</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/learn-topic/"><i class="fa-fw fas fa-graduation-cap"></i><span> 复习</span></a></div><div class="menus_item"><a class="site-page" href="/video/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></div><div class="menus_item"><a class="site-page" href="/wallpaper/"><i class="fa-fw fas fa-image"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">AI 辅助测试(三)需求与测试设计<a class="post-edit-link" href="https://github.com/koco-co/koco-co.github.io/edit/main/source/_posts/learn-topic/ai-assisted-testing/AI 辅助测试(三)需求与测试设计.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-15T16:00:00.000Z" title="发表于 2026-08-16 00:00:00">2026-08-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-29T10:30:54.708Z" title="更新于 2026-08-29 18:30:54">2026-08-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/">Learn Topic</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Learn-Topic/AI-%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95/">AI 辅助测试</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><nav class="course-series-nav" aria-label="AI 辅助测试 文章进度"><div class="course-series-nav__header"><div class="course-series-nav__heading"><strong>AI 辅助测试 文章进度</strong></div></div><div class="course-series-nav__progress" role="progressbar" aria-label="文章进度" aria-valuemin="1" aria-valuemax="12" aria-valuenow="3"><span style="width: 25.0000%"></span></div><ol class="course-series-nav__list"><li class="course-series-nav__item"><a href="/posts/3108c736/"><span class="course-series-nav__index">01</span><span class="course-series-nav__title">AI 辅助测试(一)入门路线</span></a></li><li class="course-series-nav__item"><a href="/posts/41bcbe17/"><span class="course-series-nav__index">02</span><span class="course-series-nav__title">AI 辅助测试(二)协作边界</span></a></li><li class="course-series-nav__item is-current"><a href="/posts/a2ef184d/" aria-current="page"><span class="course-series-nav__index">03</span><span class="course-series-nav__title">AI 辅助测试(三)需求与测试设计</span></a></li><li class="course-series-nav__item"><a href="/posts/6fc55581/"><span class="course-series-nav__index">04</span><span class="course-series-nav__title">AI 辅助测试(四)数据与环境</span></a></li><li class="course-series-nav__item"><a href="/posts/aa11ab/"><span class="course-series-nav__index">05</span><span class="course-series-nav__title">AI 辅助测试(五)单元测试生成</span></a></li><li class="course-series-nav__item"><a href="/posts/bd0ac657/"><span class="course-series-nav__index">06</span><span class="course-series-nav__title">AI 辅助测试(六)API测试生成</span></a></li><li class="course-series-nav__item"><a href="/posts/4c7b859b/"><span class="course-series-nav__index">07</span><span class="course-series-nav__title">AI 辅助测试(七)UI测试生成</span></a></li><li class="course-series-nav__item"><a href="/posts/cf56e6/"><span class="course-series-nav__index">08</span><span class="course-series-nav__title">AI 辅助测试(八)探索式测试</span></a></li><li class="course-series-nav__item"><a href="/posts/6c305e52/"><span class="course-series-nav__index">09</span><span class="course-series-nav__title">AI 辅助测试(九)缺陷分析与维护</span></a></li><li class="course-series-nav__item"><a href="/posts/ca1f50ce/"><span class="course-series-nav__index">10</span><span class="course-series-nav__title">AI 辅助测试(十)测试资产验收</span></a></li><li class="course-series-nav__item"><a href="/posts/f5e80d23/"><span class="course-series-nav__index">11</span><span class="course-series-nav__title">AI 辅助测试(十一)CI流水线</span></a></li><li class="course-series-nav__item"><a href="/posts/18a17ffa/"><span class="course-series-nav__index">12</span><span class="course-series-nav__title">AI 辅助测试(十二)项目实战</span></a></li></ol></nav>
+<div class="note primary flat"><p>本节要解决：用覆盖、歧义、状态和风险把需求变成可检查测试计划。 最终要留下：能为合成需求产出覆盖矩阵和独立验收点。 练习使用合成数据或 Fake 实现，外部服务的偶然结果不作为单独证明。</p>
+</div>
+<h2 id="需求澄清"><a href="#需求澄清" class="headerlink" title="需求澄清"></a>需求澄清</h2><div class="note primary flat"><p>需求设计先澄清歧义，再建状态和风险覆盖，最后输出可执行计划；更多用例数量不等于覆盖。 在“需求澄清”这一环节负责定义：先固定ambiguity，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>主题字段</th>
+<th>合成示例</th>
+<th>观察结论</th>
+<th>失败边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ambiguity</td>
+<td>未定义行为</td>
+<td>Unknown 清单</td>
+<td>不能自行补规则</td>
+</tr>
+<tr>
+<td>coverage</td>
+<td>状态、转移、风险</td>
+<td>矩阵</td>
+<td>不能只数 cases</td>
+</tr>
+<tr>
+<td>oracle</td>
+<td>独立结果</td>
+<td>验收点</td>
+<td>不能让模型自评</td>
+</tr>
+<tr>
+<td>定义边界</td>
+<td>需求澄清</td>
+<td>对有歧义和状态迁移的需求写矩阵，标出不可判定项、风险和独立 Oracle。</td>
+<td>计划是边界和假设的记录；未决需求要阻断相应结论。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    flowchart LR
+  I[输入] --&gt; F[ambiguity]
+  F --&gt; A[需求澄清]
+  A --&gt; O[观测]
+  O --&gt; V[验收]
+  O --&gt;|越界| D[降级]
+  </pre></div>
+<ul>
+<li>建立基线：把「ambiguity」设为「未定义行为」，同时固定「coverage」为「状态、转移、风险」；记录输入、状态和结果，记录Unknown 清单。</li>
+<li>只改变「oracle」：正常值用「独立结果」，越界或故障按“不能让模型自评”构造；观察矩阵，不要改动其余输入。</li>
+<li>用验收点检查“需求澄清”：对有歧义和状态迁移的需求写矩阵，标出不可判定项、风险和独立 Oracle；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。</li>
+</ul>
+<div class="note warning flat"><p>失败边界：计划是边界和假设的记录；未决需求要阻断相应结论。 对有歧义和状态迁移的需求写测试计划，标出不可判定项。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。</p>
+</div>
+<h2 id="覆盖建模"><a href="#覆盖建模" class="headerlink" title="覆盖建模"></a>覆盖建模</h2><div class="note info flat"><p>需求设计先澄清歧义，再建状态和风险覆盖，最后输出可执行计划；更多用例数量不等于覆盖。 在“覆盖建模”这一环节负责执行：先固定coverage，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。</p>
+</div>
+<div class="note info flat"><p><strong>路径卡片：覆盖建模</strong></p>
+<ol>
+<li>入口：coverage=状态、转移、风险，先记录矩阵。</li>
+<li>转移：由oracle=独立结果进入覆盖建模，只允许声明的动作。</li>
+<li>出口：用Unknown 清单检查ambiguity，越界条件是“不能自行补规则”。</li>
+</ol>
+</div>
+<ul>
+<li>执行正常路径：把「coverage」设为「状态、转移、风险」，同时固定「oracle」为「独立结果」；记录输入、状态和结果，记录矩阵。</li>
+<li>只改变「ambiguity」：正常值用「未定义行为」，越界或故障按“不能自行补规则”构造；观察验收点，不要改动其余输入。</li>
+<li>用Unknown 清单检查“覆盖建模”：对有歧义和状态迁移的需求写矩阵，标出不可判定项、风险和独立 Oracle；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。</li>
+</ul>
+<div class="note warning flat"><p>失败边界：计划是边界和假设的记录；未决需求要阻断相应结论。 对有歧义和状态迁移的需求写测试计划，标出不可判定项。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。</p>
+</div>
+<h2 id="风险排序"><a href="#风险排序" class="headerlink" title="风险排序"></a>风险排序</h2><div class="note info flat"><p>需求设计先澄清歧义，再建状态和风险覆盖，最后输出可执行计划；更多用例数量不等于覆盖。 在“风险排序”这一环节负责故障：先固定oracle，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。</p>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>触发样本</th>
+<th>观察字段</th>
+<th>预期决策</th>
+<th>不能推出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正常：独立结果</td>
+<td>oracle</td>
+<td>验收点</td>
+<td>不能让模型自评</td>
+</tr>
+<tr>
+<td>边界：未定义行为</td>
+<td>ambiguity</td>
+<td>Unknown 清单</td>
+<td>不能自行补规则</td>
+</tr>
+<tr>
+<td>故障：状态、转移、风险</td>
+<td>coverage</td>
+<td>矩阵</td>
+<td>不能只数 cases</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>注入边界：把「oracle」设为「独立结果」，同时固定「ambiguity」为「未定义行为」；记录输入、状态和结果，记录验收点。</li>
+<li>只改变「coverage」：正常值用「状态、转移、风险」，越界或故障按“不能只数 cases”构造；观察Unknown 清单，不要改动其余输入。</li>
+<li>用矩阵检查“风险排序”：对有歧义和状态迁移的需求写矩阵，标出不可判定项、风险和独立 Oracle；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。</li>
+</ul>
+<div class="note warning flat"><p>失败边界：计划是边界和假设的记录；未决需求要阻断相应结论。 对有歧义和状态迁移的需求写测试计划，标出不可判定项。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。</p>
+</div>
+<h2 id="计划输出"><a href="#计划输出" class="headerlink" title="计划输出"></a>计划输出</h2><div class="note info flat"><p>需求设计先澄清歧义，再建状态和风险覆盖，最后输出可执行计划；更多用例数量不等于覆盖。 在“计划输出”这一环节负责复核：先固定ambiguity，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。</p>
+</div>
+<div class="note success flat"><p>结果清单（计划输出）：输入为「未定义行为」；状态观察为「矩阵」；独立判定使用「验收点」。记录对有歧义和状态迁移的需求写矩阵，标出不可判定项、风险和独立 Oracle，把“计划是边界和假设的记录；未决需求要阻断相应结论。”作为未覆盖范围。</p>
+</div>
+<div class="note info flat"><p>下面的夹具只使用 Python 3 标准库，定义了完整的输入、判断和断言。预期结果：对有歧义和状态迁移的需求写矩阵，标出不可判定项、风险和独立 Oracle。</p>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Python 3 标准库夹具：无网络、无外部依赖</span></span><br><span class="line">requirements=[&#123;<span class="string">&quot;state&quot;</span>:<span class="string">&quot;new&quot;</span>,<span class="string">&quot;oracle&quot;</span>:<span class="string">&quot;db status&quot;</span>&#125;,&#123;<span class="string">&quot;state&quot;</span>:<span class="string">&quot;done&quot;</span>,<span class="string">&quot;oracle&quot;</span>:<span class="string">&quot;response&quot;</span>&#125;]</span><br><span class="line">unknown=[r <span class="keyword">for</span> r <span class="keyword">in</span> requirements <span class="keyword">if</span> <span class="keyword">not</span> r[<span class="string">&quot;oracle&quot;</span>]]</span><br><span class="line"><span class="built_in">print</span>(&#123;<span class="string">&quot;planned&quot;</span>:<span class="built_in">len</span>(requirements),<span class="string">&quot;unknown&quot;</span>:<span class="built_in">len</span>(unknown)&#125;)</span><br><span class="line"><span class="keyword">assert</span> <span class="keyword">not</span> unknown</span><br><span class="line"><span class="comment"># 预期观察：对有歧义和状态迁移的需求写矩阵，标出不可判定项、风险和独立 Oracle。</span></span><br></pre></td></tr></table></figure>
+<div class="note success flat"><p>失败边界：计划是边界和假设的记录；未决需求要阻断相应结论。 对有歧义和状态迁移的需求写测试计划，标出不可判定项。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。</p>
+</div>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="g03-independent-oracle" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91">#测试开发</a></div>
+      <div class="hfc-question"><p>当“独立 Oracle”出现时，先检查哪个状态和边界？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q01</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91">#测试开发</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>当“独立 Oracle”出现时，先检查哪个状态和边界？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>先把“独立 Oracle”绑定到ambiguity与coverage；正常、越界和 Unknown 各运行一次，断言验收点。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>在design夹具中，比较未定义行为与状态、转移、风险，保留验收点；计划是边界和假设的记录；未决需求要阻断相应结论。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<article class="hfc-flip hfc-inline" data-hfc-flip data-hfc-inline data-card-id="g03-more-cases-not-coverage" tabindex="0">
+
+  <div class="hfc-flip__inner" data-hfc-flip-inner>
+    <div class="hfc-face hfc-face--front" data-hfc-face="front">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91">#测试开发</a></div>
+      <div class="hfc-question"><p>“计划输出”的课程边界中，为什么“更多用例”不是“覆盖”？</p>
+</div>
+      <span class="hfc-flip-hint">点击查看答案</span>
+    </div>
+    <div class="hfc-face hfc-face--back" data-hfc-face="back" aria-hidden="true">
+      <div class="hfc-card-head"><span class="hfc-number">Q02</span><a class="hfc-priority hfc-priority--2" href="/learn-topic/?priority=2" title="筛选中频题" aria-label="筛选中频题">中频</a></div>
+      <div class="hfc-topics"><a class="hfc-topic" href="/learn-topic/?deck=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=AI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95">#AI 辅助测试</a><a class="hfc-topic" href="/learn-topic/?tag=%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91">#测试开发</a></div>
+      <div class="hfc-back-question"><strong>问题:</strong><div class="hfc-back-question__content"><p>“计划输出”的课程边界中，为什么“更多用例”不是“覆盖”？</p>
+</div></div>
+      <div class="hfc-answer-section"><strong>回答：</strong><div><p>更多用例只提供Unknown 清单；覆盖还需要在coverage上由验收点确认，不能只看文本或单个事件。</p>
+</div></div>
+      <div class="hfc-explanation-section"><strong>解析：</strong><div><p>在design夹具中分别运行“更多用例”和“覆盖”，比较未定义行为与状态、转移、风险；计划是边界和假设的记录；未决需求要阻断相应结论。</p>
+</div></div>
+      
+    </div>
+  </div>
+</article>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><div class="link-group"><div class="tag link"><a class="link-card" title="GitHub Actions documentation" target="_blank" rel="noopener" href="https://docs.github.com/en/actions"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/favicon.ico"/></div><div class="right"><p class="text">GitHub Actions documentation</p><p class="url">https://docs.github.com/en/actions</p></div></a></div>
+<div class="tag link"><a class="link-card" title="Playwright documentation" target="_blank" rel="noopener" href="https://playwright.dev/docs/intro"><div class="left"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://playwright.dev/img/playwright-logo.svg"/></div><div class="right"><p class="text">Playwright documentation</p><p class="url">https://playwright.dev/docs/intro</p></div></a></div></div>
+
+<div class="hfc-article-cta" data-hfc-article-cta data-hfc-article-count="2"><a class="hfc-button hfc-button--primary" href="/learn-topic/?article=_posts%2Flearn-topic%2Fai-assisted-testing%2FAI%20%E8%BE%85%E5%8A%A9%E6%B5%8B%E8%AF%95(%E4%B8%89)%E9%9C%80%E6%B1%82%E4%B8%8E%E6%B5%8B%E8%AF%95%E8%AE%BE%E8%AE%A1.md" title="复习本篇 · 2 张卡片" aria-label="复习本篇 · 2 张卡片"><i class="fas fa-graduation-cap hfc-review-icon" aria-hidden="true"></i><span class="hfc-review-label">复习</span><span class="hfc-review-detail">本篇 · 2 张卡片</span></a></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://koco-co.github.io">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://koco-co.github.io/posts/a2ef184d/">https://koco-co.github.io/posts/a2ef184d/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://koco-co.github.io" target="_blank">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI-%E6%B5%8B%E8%AF%95/">AI 测试</a></div><div class="post-share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpeg"/></a><div class="post-qr-code-desc"></div></li><li class="reward-item"><a href="/img/alipay.jpeg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpeg"/></a><div class="post-qr-code-desc"></div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/6fc55581/" title="AI 辅助测试(四)数据与环境"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">AI 辅助测试(四)数据与环境</div></div><div class="info-2"><div class="info-item-1">能生成 20 个有目的的数据候选并证明可重复重置。</div></div></div></a><a class="pagination-related" href="/posts/41bcbe17/" title="AI 辅助测试(二)协作边界"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">AI 辅助测试(二)协作边界</div></div><div class="info-2"><div class="info-item-1">能画出角色泳道和接口契约，避免把生成结果当测试结论。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/6c305e52/" title="AI 辅助测试(九)缺陷分析与维护"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-19</div><div class="info-item-2">AI 辅助测试(九)缺陷分析与维护</div></div><div class="info-2"><div class="info-item-1">能判断跳过、修补、误报、flaky 和真实修复。</div></div></div></a><a class="pagination-related" href="/posts/18a17ffa/" title="AI 辅助测试(十二)项目实战"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-20</div><div class="info-item-2">AI 辅助测试(十二)项目实战</div></div><div class="info-2"><div class="info-item-1">完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。</div></div></div></a><a class="pagination-related" href="/posts/ca1f50ce/" title="AI 辅助测试(十)测试资产验收"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-19</div><div class="info-item-2">AI 辅助测试(十)测试资产验收</div></div><div class="info-2"><div class="info-item-1">能组合三类互补证据，计算有效分母并划定人工复核。</div></div></div></a><a class="pagination-related" href="/posts/cf56e6/" title="AI 辅助测试(八)探索式测试"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-18</div><div class="info-item-2">AI 辅助测试(八)探索式测试</div></div><div class="info-2"><div class="info-item-1">能提交一条可复现发现，并区分发现、缺陷和已确认根因。</div></div></div></a><a class="pagination-related" href="/posts/3108c736/" title="AI 辅助测试(一)入门路线"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-15</div><div class="info-item-2">AI 辅助测试(一)入门路线</div></div><div class="info-2"><div class="info-item-1">把 AI 贯穿需求分析、测试设计、数据、单元/API/UI 生成、探索、缺陷修复、资产验收和 CI。</div></div></div></a><a class="pagination-related" href="/posts/6fc55581/" title="AI 辅助测试(四)数据与环境"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-16</div><div class="info-item-2">AI 辅助测试(四)数据与环境</div></div><div class="info-2"><div class="info-item-1">能生成 20 个有目的的数据候选并证明可重复重置。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/sisyphus-vale-avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</div><div class="author-info-description">身如柳絮随风扬 无论云泥意贯一</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">232</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">157</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/koco-co"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:kopohub@gmail.com" target="_blank" title="icon-Gmail"><i class="Email" style="color: faa-tada;"></i></a><a class="social-icon" href="https://v.douyin.com/uk6DHVS-OrI" target="_blank" title="icon-douyin"><i class="TikTok" style="color: faa-tada;"></i></a><a class="social-icon" href="https://space.bilibili.com/3546823172033014" target="_blank" title="icon-bilibili3"><i class="Bilibili" style="color: faa-tada;"></i></a><a class="social-icon" href="https://x.com/SugerQvQ" target="_blank" title="icon-tuite1"><i class="Twitter" style="color: faa-tada;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561199483116375/" target="_blank" title="icon-steam"><i class="Steam" style="color: faa-tada;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>
+  <b>主节点：</b> <a target="_blank" rel="noopener" href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
+  </br>
+  <b>备用节点：</b> <a target="_blank" rel="noopener" href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
+</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E6%BE%84%E6%B8%85"><span class="toc-number">1.</span> <span class="toc-text">需求澄清</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E5%BB%BA%E6%A8%A1"><span class="toc-number">2.</span> <span class="toc-text">覆盖建模</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">风险排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E5%88%92%E8%BE%93%E5%87%BA"><span class="toc-number">4.</span> <span class="toc-text">计划输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/18a17ffa/" title="AI 辅助测试(十二)项目实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(十二)项目实战"></a><div class="content"><a class="title" href="/posts/18a17ffa/" title="AI 辅助测试(十二)项目实战">AI 辅助测试(十二)项目实战</a><time datetime="2026-08-20T04:00:00.000Z" title="发表于 2026-08-20 12:00:00">2026-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5e80d23/" title="AI 辅助测试(十一)CI流水线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(十一)CI流水线"></a><div class="content"><a class="title" href="/posts/f5e80d23/" title="AI 辅助测试(十一)CI流水线">AI 辅助测试(十一)CI流水线</a><time datetime="2026-08-19T16:00:00.000Z" title="发表于 2026-08-20 00:00:00">2026-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ca1f50ce/" title="AI 辅助测试(十)测试资产验收"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(十)测试资产验收"></a><div class="content"><a class="title" href="/posts/ca1f50ce/" title="AI 辅助测试(十)测试资产验收">AI 辅助测试(十)测试资产验收</a><time datetime="2026-08-19T04:00:00.000Z" title="发表于 2026-08-19 12:00:00">2026-08-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6c305e52/" title="AI 辅助测试(九)缺陷分析与维护"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(九)缺陷分析与维护"></a><div class="content"><a class="title" href="/posts/6c305e52/" title="AI 辅助测试(九)缺陷分析与维护">AI 辅助测试(九)缺陷分析与维护</a><time datetime="2026-08-18T16:00:00.000Z" title="发表于 2026-08-19 00:00:00">2026-08-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cf56e6/" title="AI 辅助测试(八)探索式测试"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(八)探索式测试"></a><div class="content"><a class="title" href="/posts/cf56e6/" title="AI 辅助测试(八)探索式测试">AI 辅助测试(八)探索式测试</a><time datetime="2026-08-18T04:00:00.000Z" title="发表于 2026-08-18 12:00:00">2026-08-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4c7b859b/" title="AI 辅助测试(七)UI测试生成"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(七)UI测试生成"></a><div class="content"><a class="title" href="/posts/4c7b859b/" title="AI 辅助测试(七)UI测试生成">AI 辅助测试(七)UI测试生成</a><time datetime="2026-08-17T16:00:00.000Z" title="发表于 2026-08-18 00:00:00">2026-08-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bd0ac657/" title="AI 辅助测试(六)API测试生成"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(六)API测试生成"></a><div class="content"><a class="title" href="/posts/bd0ac657/" title="AI 辅助测试(六)API测试生成">AI 辅助测试(六)API测试生成</a><time datetime="2026-08-17T04:00:00.000Z" title="发表于 2026-08-17 12:00:00">2026-08-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/aa11ab/" title="AI 辅助测试(五)单元测试生成"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(五)单元测试生成"></a><div class="content"><a class="title" href="/posts/aa11ab/" title="AI 辅助测试(五)单元测试生成">AI 辅助测试(五)单元测试生成</a><time datetime="2026-08-16T16:00:00.000Z" title="发表于 2026-08-17 00:00:00">2026-08-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6fc55581/" title="AI 辅助测试(四)数据与环境"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(四)数据与环境"></a><div class="content"><a class="title" href="/posts/6fc55581/" title="AI 辅助测试(四)数据与环境">AI 辅助测试(四)数据与环境</a><time datetime="2026-08-16T04:00:00.000Z" title="发表于 2026-08-16 12:00:00">2026-08-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a2ef184d/" title="AI 辅助测试(三)需求与测试设计"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(三)需求与测试设计"></a><div class="content"><a class="title" href="/posts/a2ef184d/" title="AI 辅助测试(三)需求与测试设计">AI 辅助测试(三)需求与测试设计</a><time datetime="2026-08-15T16:00:00.000Z" title="发表于 2026-08-16 00:00:00">2026-08-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/41bcbe17/" title="AI 辅助测试(二)协作边界"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(二)协作边界"></a><div class="content"><a class="title" href="/posts/41bcbe17/" title="AI 辅助测试(二)协作边界">AI 辅助测试(二)协作边界</a><time datetime="2026-08-15T04:00:00.000Z" title="发表于 2026-08-15 12:00:00">2026-08-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3108c736/" title="AI 辅助测试(一)入门路线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(一)入门路线"></a><div class="content"><a class="title" href="/posts/3108c736/" title="AI 辅助测试(一)入门路线">AI 辅助测试(一)入门路线</a><time datetime="2026-08-14T16:00:00.000Z" title="发表于 2026-08-15 00:00:00">2026-08-15</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/%E6%96%87%E7%AB%A0%E9%9A%8F%E6%9C%BA%E5%B0%81%E9%9D%A212.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 编程工作流插件选型指南"/></a><div class="content"><a class="title" href="/posts/df8a8a9e/" title="AI 编程工作流插件选型指南">AI 编程工作流插件选型指南</a><time datetime="2026-08-27T08:24:15.000Z" title="发表于 2026-08-27 16:24:15">2026-08-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/18a17ffa/" title="AI 辅助测试(十二)项目实战"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(十二)项目实战"/></a><div class="content"><a class="title" href="/posts/18a17ffa/" title="AI 辅助测试(十二)项目实战">AI 辅助测试(十二)项目实战</a><time datetime="2026-08-20T04:00:00.000Z" title="发表于 2026-08-20 12:00:00">2026-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5e80d23/" title="AI 辅助测试(十一)CI流水线"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(十一)CI流水线"/></a><div class="content"><a class="title" href="/posts/f5e80d23/" title="AI 辅助测试(十一)CI流水线">AI 辅助测试(十一)CI流水线</a><time datetime="2026-08-19T16:00:00.000Z" title="发表于 2026-08-20 00:00:00">2026-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ca1f50ce/" title="AI 辅助测试(十)测试资产验收"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(十)测试资产验收"/></a><div class="content"><a class="title" href="/posts/ca1f50ce/" title="AI 辅助测试(十)测试资产验收">AI 辅助测试(十)测试资产验收</a><time datetime="2026-08-19T04:00:00.000Z" title="发表于 2026-08-19 12:00:00">2026-08-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/6c305e52/" title="AI 辅助测试(九)缺陷分析与维护"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/picgo-images/ai-assisted-testing-course-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI 辅助测试(九)缺陷分析与维护"/></a><div class="content"><a class="title" href="/posts/6c305e52/" title="AI 辅助测试(九)缺陷分析与维护">AI 辅助测试(九)缺陷分析与维护</a><time datetime="2026-08-18T16:00:00.000Z" title="发表于 2026-08-19 00:00:00">2026-08-19</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮</span></div><div class="footer_custom_text"><div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
+  <p><strong>免责声明</strong></p>
+  <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
+  <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
+  <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
+</div>
+
+<div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
+  <a target="_blank" href="https://hexo.io/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
+  <a target="_blank" href="https://butterfly.js.org/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
+  <a target="_blank" href="https://www.jsdelivr.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
+  <a target="_blank" href="https://github.com/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
+  <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
+</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.5.2/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-strict":"0","data-reactions-enabled":"1","data-emit-metadata":"0","data-input-position":"bottom","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'https://koco-co.github.io/css/giscus-acrylic-dark.css' : 'https://koco-co.github.io/css/giscus-acrylic-light.css'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'koco-co/hexo-blog',
+      'data-repo-id': 'R_kgDOUCj18w',
+      'data-category-id': 'DIC_kwDOUCj1884DEGPp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/txmap.js"></script><script src="/js/tag-heatmap.js"></script><script src="/js/post-tags-style.js"></script><script defer src="/js/flashcard-sync-nav.js"></script><div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:description\"]","link[rel=\"canonical\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div><!-- hexo injector body_end start --><script defer src="/flashcard-assets/ts-fsrs.umd.js"></script><script defer src="/flashcard-assets/flashcard-queue.js"></script><script id="hfc-sync-config-data" type="application/json">{"enabled":true,"url":"https://hkqqjttiqhwfdintqxpx.supabase.co","publishableKey":"sb_publishable_BYiAsjvfObJ1Kj26-YkVeQ_x4ruAFc4"}</script><script defer src="/flashcard-assets/supabase.js"></script><script defer src="/flashcard-assets/flashcard-sync.js"></script><script defer src="/flashcard-assets/flashcard.js"></script><!-- hexo injector body_end end --></body></html>

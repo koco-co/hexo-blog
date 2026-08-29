@@ -149,7 +149,7 @@ const LEARN_TOPIC_NAVIGATION_CARD_PATTERN =
 const LEARN_TOPIC_LOCAL_ABSOLUTE_PATH_PATTERNS = [
   /(?<![A-Za-z0-9/:<])\/(?:Users|home|Volumes|private|tmp|var|etc|usr|opt|Library|System|Applications|bin|sbin|dev|proc|sys|mnt|root|run|srv)(?:\/[^\s`"'<>),;|]+)*/gi,
   /file:\/\/\/[^\s`"'<>),;|]+/gi,
-  /(?<![A-Za-z0-9])[A-Za-z]:[\/\\][^\s`"'<>),;|]+/g,
+  /(?<![A-Za-z0-9])[A-Za-z]:[/\\][^\s`"'<>),;|]+/g,
   /(?<![A-Za-z0-9])\\\\[^\s`"'<>),;|]+/g,
 ];
 const TAG_PLUGIN_EXPECTED_TAGS = [
@@ -535,13 +535,7 @@ function conceptStoryRegions(text) {
             line,
             "故事边界不能位于 HTML 折叠区内。",
           );
-      } else if (!story) {
-        reject(
-          "CONCEPT_STORY_UNEXPECTED_END",
-          line,
-          "故事结束标记没有对应的开始标记。",
-        );
-      } else {
+      } else if (story) {
         if (stack.length)
           reject(
             "CONCEPT_STORY_CONTAINER",
@@ -556,6 +550,12 @@ function conceptStoryRegions(text) {
           );
         if (!story.invalid) ranges.push({ start: story.start, end: line });
         story = null;
+      } else {
+        reject(
+          "CONCEPT_STORY_UNEXPECTED_END",
+          line,
+          "故事结束标记没有对应的开始标记。",
+        );
       }
       continue;
     }
@@ -1222,7 +1222,7 @@ function isRenderedImageReference(line, index, frontMatter) {
 }
 
 function isRemoteUrlPath(line, index) {
-  return /(?:https?:)?\/\/[^\s'\"<>]*$/i.test(line.slice(0, index));
+  return /(?:https?:)?\/\/[^\s'"<>]*$/i.test(line.slice(0, index));
 }
 
 function markdownImageReferences(root) {
@@ -1357,15 +1357,7 @@ export function auditAssets({ root = process.cwd() } = {}) {
   });
 
   const manifestTarget = path.join(projectRoot, IMAGE_MIGRATION_MANIFEST);
-  if (!existsSync(manifestTarget)) {
-    report.errors.push(
-      finding(
-        "IMAGE_MANIFEST_MISSING",
-        IMAGE_MIGRATION_MANIFEST,
-        "图片迁移清单不存在。",
-      ),
-    );
-  } else {
+  if (existsSync(manifestTarget)) {
     try {
       const manifest = readJson(manifestTarget);
       const assets = Array.isArray(manifest.assets) ? manifest.assets : [];
@@ -1493,6 +1485,14 @@ export function auditAssets({ root = process.cwd() } = {}) {
         ),
       );
     }
+  } else {
+    report.errors.push(
+      finding(
+        "IMAGE_MANIFEST_MISSING",
+        IMAGE_MIGRATION_MANIFEST,
+        "图片迁移清单不存在。",
+      ),
+    );
   }
 
   const references = markdownImageReferences(projectRoot);
@@ -1543,7 +1543,7 @@ export function auditAssets({ root = process.cwd() } = {}) {
       );
     }
     for (const match of text.matchAll(LOCAL_IMAGE_URL_PATTERN)) {
-      const url = match[0].replace(/[;\]\}]+$/, "");
+      const url = match[0].replace(/[;\]}]+$/, "");
       if (!/\.(?:png|jpe?g|gif|webp|ico|svg)(?:[?#].*)?$/i.test(url)) continue;
       report.facts.configurationImageReferenceCount += 1;
       const target = resolveLocalImage(projectRoot, url);
@@ -2655,7 +2655,11 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
           file: relativeFile,
         });
 
-        if (!isNonEmptyString(data.series)) {
+        if (isNonEmptyString(data.series)) {
+          if (!courseSeriesNames.has(courseKey))
+            courseSeriesNames.set(courseKey, new Set());
+          courseSeriesNames.get(courseKey).add(data.series.trim());
+        } else {
           report.errors.push(
             finding(
               "LEARN_TOPIC_SERIES_INVALID",
@@ -2663,10 +2667,6 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
               "课程文章必须声明非空 series。",
             ),
           );
-        } else {
-          if (!courseSeriesNames.has(courseKey))
-            courseSeriesNames.set(courseKey, new Set());
-          courseSeriesNames.get(courseKey).add(data.series.trim());
         }
 
         if (!Number.isInteger(data.series_order) || data.series_order <= 0) {
@@ -3196,11 +3196,7 @@ export function auditTags({ root = process.cwd() } = {}) {
   });
 
   const packageTarget = path.join(projectRoot, "package.json");
-  if (!existsSync(packageTarget)) {
-    report.errors.push(
-      finding("PACKAGE_JSON_MISSING", "package.json", "无法核对外挂标签依赖。"),
-    );
-  } else {
+  if (existsSync(packageTarget)) {
     try {
       const projectPackage = readJson(packageTarget);
       const dependencies = {
@@ -3241,6 +3237,10 @@ export function auditTags({ root = process.cwd() } = {}) {
         finding("JSON_PARSE_FAILED", "package.json", "package.json 无法解析。"),
       );
     }
+  } else {
+    report.errors.push(
+      finding("PACKAGE_JSON_MISSING", "package.json", "无法核对外挂标签依赖。"),
+    );
   }
 
   const flashcardPackageTarget = path.join(
@@ -3360,15 +3360,7 @@ export function auditTags({ root = process.cwd() } = {}) {
     report.facts.plugin.configurationSource = "_config.butterfly.yml";
   }
 
-  if (!tagPluginConfig) {
-    report.errors.push(
-      finding(
-        "TAG_PLUGIN_CONFIG_MISSING",
-        "_config.butterfly.yml",
-        "未发现 tag_plugins 配置。",
-      ),
-    );
-  } else {
+  if (tagPluginConfig) {
     report.facts.plugin.enabled = tagPluginConfig.enable === true;
     report.facts.plugin.priority = tagPluginConfig.priority ?? null;
     report.facts.plugin.issuesEnabled = tagPluginConfig.issues === true;
@@ -3402,6 +3394,14 @@ export function auditTags({ root = process.cwd() } = {}) {
         ),
       );
     }
+  } else {
+    report.errors.push(
+      finding(
+        "TAG_PLUGIN_CONFIG_MISSING",
+        "_config.butterfly.yml",
+        "未发现 tag_plugins 配置。",
+      ),
+    );
   }
 
   const flashcardConfig = hexoConfig?.flashcard;
@@ -3614,15 +3614,7 @@ export function auditProject({ root = process.cwd() } = {}) {
   }
 
   const activeTheme = resolveThemeRoot(projectRoot, "butterfly");
-  if (!activeTheme) {
-    report.errors.push(
-      finding(
-        "THEME_NOT_INSTALLED",
-        "node_modules/hexo-theme-butterfly",
-        "未发现可运行的 Butterfly 主题。",
-      ),
-    );
-  } else {
+  if (activeTheme) {
     if (
       activeTheme.source === "npm" &&
       !report.facts.packages.declaredButterfly
@@ -3652,6 +3644,14 @@ export function auditProject({ root = process.cwd() } = {}) {
         );
       }
     }
+  } else {
+    report.errors.push(
+      finding(
+        "THEME_NOT_INSTALLED",
+        "node_modules/hexo-theme-butterfly",
+        "未发现可运行的 Butterfly 主题。",
+      ),
+    );
   }
 
   const hexoConfig = parseProjectYaml(

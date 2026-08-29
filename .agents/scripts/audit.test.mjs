@@ -2066,7 +2066,9 @@ test("missing local deployment worktree is informational except on the local rel
     !ciRelease.blockers.some((item) => item.code === "DEPLOY_WORKTREE_MISSING"),
   );
   assert.ok(
-    localRelease.blockers.some((item) => item.code === "DEPLOY_WORKTREE_MISSING"),
+    localRelease.blockers.some(
+      (item) => item.code === "DEPLOY_WORKTREE_MISSING",
+    ),
   );
 });
 

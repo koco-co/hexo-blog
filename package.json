@@ -18,7 +18,7 @@
     "hexo-butterfly-envelope": "^1.0.15",
     "hexo-butterfly-tag-plugins-plus": "^1.0.18",
     "hexo-deployer-git": "^4.0.0",
-    "hexo-flashcard-plugin": "https://github.com/koco-co/hexo-flashcard-plugin/archive/2aa7b7d.tar.gz",
+    "hexo-flashcard-plugin": "https://github.com/koco-co/hexo-flashcard-plugin/archive/f60bb863fd1edaa61e40a5ccd9c0f84c1a0ed588.tar.gz",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-index": "^4.0.0",

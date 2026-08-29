@@ -1,0 +1,3567 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "agent-quality",
+    "series": "Agent 质量工程",
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "purpose": "建立从质量模型、数据、Oracle、实验、Trace 到持续评测和上线门禁的 Agent 质量工程。",
+    "graduation": "交付一套可复跑的 Agent 评测系统，包含数据集、评分器、统计报告、故障注入、在线回归和发布门禁。",
+    "topics": [
+      "质量建模",
+      "评测任务设计",
+      "数据治理",
+      "统计与实验",
+      "评分器校准",
+      "组件与协议契约",
+      "评测运行器",
+      "评测系统校验",
+      "Trace与归因",
+      "RAG评测",
+      "多轮与长任务评测",
+      "多Agent评测",
+      "Coding Agent评测",
+      "交互Agent评测",
+      "性能与成本",
+      "故障与恢复评测",
+      "持续评测"
+    ],
+    "optional_articles": [
+      "项目实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "Agent 质量工程(一)入门路线",
+        "file": "Agent 质量工程(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "Agent 质量工程(二)质量建模",
+        "file": "Agent 质量工程(二)质量建模.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "Agent 质量工程(三)评测任务设计",
+        "file": "Agent 质量工程(三)评测任务设计.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "Agent 质量工程(四)数据治理",
+        "file": "Agent 质量工程(四)数据治理.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "Agent 质量工程(五)统计与实验",
+        "file": "Agent 质量工程(五)统计与实验.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "Agent 质量工程(六)评分器校准",
+        "file": "Agent 质量工程(六)评分器校准.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "Agent 质量工程(七)组件与协议契约",
+        "file": "Agent 质量工程(七)组件与协议契约.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "Agent 质量工程(八)评测运行器",
+        "file": "Agent 质量工程(八)评测运行器.md",
+        "kind": "topic"
+      },
+      {
+        "order": 9,
+        "title": "Agent 质量工程(九)评测系统校验",
+        "file": "Agent 质量工程(九)评测系统校验.md",
+        "kind": "topic"
+      },
+      {
+        "order": 10,
+        "title": "Agent 质量工程(十)Trace与归因",
+        "file": "Agent 质量工程(十)Trace与归因.md",
+        "kind": "topic"
+      },
+      {
+        "order": 11,
+        "title": "Agent 质量工程(十一)RAG评测",
+        "file": "Agent 质量工程(十一)RAG评测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 12,
+        "title": "Agent 质量工程(十二)多轮与长任务评测",
+        "file": "Agent 质量工程(十二)多轮与长任务评测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 13,
+        "title": "Agent 质量工程(十三)多Agent评测",
+        "file": "Agent 质量工程(十三)多Agent评测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 14,
+        "title": "Agent 质量工程(十四)Coding Agent评测",
+        "file": "Agent 质量工程(十四)Coding Agent评测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 15,
+        "title": "Agent 质量工程(十五)交互Agent评测",
+        "file": "Agent 质量工程(十五)交互Agent评测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 16,
+        "title": "Agent 质量工程(十六)性能与成本",
+        "file": "Agent 质量工程(十六)性能与成本.md",
+        "kind": "topic"
+      },
+      {
+        "order": 17,
+        "title": "Agent 质量工程(十七)故障与恢复评测",
+        "file": "Agent 质量工程(十七)故障与恢复评测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 18,
+        "title": "Agent 质量工程(十八)持续评测",
+        "file": "Agent 质量工程(十八)持续评测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 19,
+        "title": "Agent 质量工程(十九)项目实战",
+        "file": "Agent 质量工程(十九)项目实战.md",
+        "kind": "final"
+      }
+    ],
+    "article_map": [
+      {
+        "order": 1,
+        "title": "Agent 质量工程(一)入门路线",
+        "kind": "entry",
+        "depends": [],
+        "prerequisites": "课程入口基础",
+        "duty": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+        "outcome": "能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+        "h2": [
+          [
+            "课程目标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "前置条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "学习路径",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文章安排",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "开始学习",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "课程依赖路线图（Mermaid TD）"
+        ],
+        "experiment": "只核对已有基础和合成实验目录，不安装新的外部依赖。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          },
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          }
+        ],
+        "openingPlan": null
+      },
+      {
+        "order": 2,
+        "title": "Agent 质量工程(二)质量建模",
+        "kind": "topic",
+        "depends": [
+          "E01"
+        ],
+        "prerequisites": "完成 E01 的相关实验",
+        "duty": "把 Agent 质量拆成结果、组件、体验、性能和风险维度，并建立硬门槛。",
+        "outcome": "能为一个任务写出质量契约、证据和不可平均化的硬失败。",
+        "h2": [
+          [
+            "质量维度",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果证据",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "硬门禁",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "范围边界",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "为合成工单建立质量矩阵，演示单项关键失败不能被平均分掩盖。",
+        "cards": [
+          "e02-outcome-evidence",
+          "e02-hard-gates"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把 Agent 质量拆成结果、组件、体验、性能和风险维度，并建立硬门槛。",
+          "content": "能为一个任务写出质量契约、证据和不可平均化的硬失败。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 3,
+        "title": "Agent 质量工程(三)评测任务设计",
+        "kind": "topic",
+        "depends": [
+          "E02"
+        ],
+        "prerequisites": "完成 E02 的相关实验",
+        "duty": "为 Agent 写清状态、允许动作、完成条件和独立 Oracle。",
+        "outcome": "能设计覆盖状态和转移的评测任务。",
+        "h2": [
+          [
+            "任务状态",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "动作空间",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "Oracle",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "覆盖关系",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "构造有状态工单任务，分别检查状态覆盖和转移覆盖。",
+        "cards": [
+          "e03-state-vs-transition"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "为 Agent 写清状态、允许动作、完成条件和独立 Oracle。",
+          "content": "能设计覆盖状态和转移的评测任务。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 4,
+        "title": "Agent 质量工程(四)数据治理",
+        "kind": "topic",
+        "depends": [
+          "E03"
+        ],
+        "prerequisites": "完成 E03 的相关实验",
+        "duty": "治理来源、授权、切分、标签、版本和合成数据的代表性。",
+        "outcome": "能构造 32 条合成数据，并防止随机切分泄漏。",
+        "h2": [
+          [
+            "来源授权",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "数据切分",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "标签版本",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "代表性",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "按租户、版本和模板切分 32 行，注入相似样本和泄漏。",
+        "cards": [
+          "e04-random-split-leakage",
+          "e04-synthetic-not-representative"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          },
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "治理来源、授权、切分、标签、版本和合成数据的代表性。",
+          "content": "能构造 32 条合成数据，并防止随机切分泄漏。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 5,
+        "title": "Agent 质量工程(五)统计与实验",
+        "kind": "topic",
+        "depends": [
+          "E03",
+          "E04"
+        ],
+        "prerequisites": "完成 E03、E04 的相关实验",
+        "duty": "用重复试验、区间、依赖性和 pass@k 解释 Agent 结果。",
+        "outcome": "能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。",
+        "h2": [
+          [
+            "试验设计",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "区间估计",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "依赖性",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "指标解释",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "比较 pass@k、pass^k、零失败和非独立试验的解释。",
+        "cards": [
+          "e05-pass-at-k",
+          "e05-zero-failures",
+          "e05-nonindependent"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          },
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用重复试验、区间、依赖性和 pass@k 解释 Agent 结果。",
+          "content": "能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 6,
+        "title": "Agent 质量工程(六)评分器校准",
+        "kind": "topic",
+        "depends": [
+          "E04",
+          "E05",
+          "A05"
+        ],
+        "prerequisites": "完成 E04、E05、A05 的相关实验",
+        "duty": "校准 LLM judge、人工标签、Unknown、顺序效应和一致性。",
+        "outcome": "能用双人标签与 Unknown 分支评估评分器可用性。",
+        "h2": [
+          [
+            "人工基线",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "judge校准",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "Unknown",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "顺序效应",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "对合成人工双标注数据做校准，分开一致性、接受度和不确定项。",
+        "cards": [
+          "e06-agreement-not-acceptance",
+          "e06-unknown-separate"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "校准 LLM judge、人工标签、Unknown、顺序效应和一致性。",
+          "content": "能用双人标签与 Unknown 分支评估评分器可用性。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 7,
+        "title": "Agent 质量工程(七)组件与协议契约",
+        "kind": "topic",
+        "depends": [
+          "E03",
+          "A05",
+          "C03",
+          "C09",
+          "A07"
+        ],
+        "prerequisites": "完成 E03、A05、C03、C09、A07 的相关实验",
+        "duty": "为模型、Prompt、上下文、工具、MCP 和业务集成分别定义契约。",
+        "outcome": "能注入 schema、权限、协议和身份故障，找到最小责任边界。",
+        "h2": [
+          [
+            "契约矩阵",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "故障注入",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "差分判断",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "身份绑定",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "建立组件契约矩阵，验证未确认写操作不能改变身份。",
+        "cards": [
+          "e07-schema-not-business",
+          "e07-differential-oracle"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "为模型、Prompt、上下文、工具、MCP 和业务集成分别定义契约。",
+          "content": "能注入 schema、权限、协议和身份故障，找到最小责任边界。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 8,
+        "title": "Agent 质量工程(八)评测运行器",
+        "kind": "topic",
+        "depends": [
+          "E07",
+          "D03",
+          "D06"
+        ],
+        "prerequisites": "完成 E07、D03、D06 的相关实验",
+        "duty": "实现隔离、重置、预算、超时、重放和结果收集。",
+        "outcome": "能运行可复现的评测并保留每次运行的环境和预算。",
+        "h2": [
+          [
+            "运行隔离",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "环境重置",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "预算控制",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果存储",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "比较 replay、monkeypatch、mock、tmp_path 和在线环境的边界。",
+        "cards": [
+          "e08-replay-not-online",
+          "e08-mock-boundary"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          },
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "实现隔离、重置、预算、超时、重放和结果收集。",
+          "content": "能运行可复现的评测并保留每次运行的环境和预算。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 9,
+        "title": "Agent 质量工程(九)评测系统校验",
+        "kind": "topic",
+        "depends": [
+          "E06",
+          "E08"
+        ],
+        "prerequisites": "完成 E06、E08 的相关实验",
+        "duty": "测试 runner、grader、聚合和错误分类本身，避免评测系统成为黑盒。",
+        "outcome": "能用已知结果与注入故障验证评分系统。",
+        "h2": [
+          [
+            "已知结果",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "评分器故障",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "聚合故障",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "状态分类",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "区分 fail、Unknown、error、skip，并验证聚合器。",
+        "cards": [
+          "e09-runner-needs-testing"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          },
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "测试 runner、grader、聚合和错误分类本身，避免评测系统成为黑盒。",
+          "content": "能用已知结果与注入故障验证评分系统。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 10,
+        "title": "Agent 质量工程(十)Trace与归因",
+        "kind": "topic",
+        "depends": [
+          "E08",
+          "E09",
+          "D03"
+        ],
+        "prerequisites": "完成 E08、E09、D03 的相关实验",
+        "duty": "从 Trace 找到第一处偏差，并用控制变量验证归因。",
+        "outcome": "能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。",
+        "h2": [
+          [
+            "轨迹读取",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "首个偏差",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "控制变量",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "归因边界",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "对同一任务做一次受控重跑，说明单次干预不能证明因果。",
+        "cards": [
+          "e10-trace-not-oracle",
+          "e10-one-intervention-not-causal"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "从 Trace 找到第一处偏差，并用控制变量验证归因。",
+          "content": "能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 11,
+        "title": "Agent 质量工程(十一)RAG评测",
+        "kind": "topic",
+        "depends": [
+          "E04",
+          "E06",
+          "E10",
+          "C06"
+        ],
+        "prerequisites": "完成 E04、E06、E10、C06 的相关实验",
+        "duty": "分层评估召回、事实、忠实度和引用支持，不混用指标。",
+        "outcome": "能为有答案、无答案、冲突和过期文档建立分层阈值。",
+        "h2": [
+          [
+            "检索指标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "事实指标",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "忠实度",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "引用覆盖",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "构造六问数据，分别统计召回、引用存在、支持和事实正确。",
+        "cards": [
+          "e11-faithfulness-not-correctness",
+          "e11-metrics-not-interchangeable"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "分层评估召回、事实、忠实度和引用支持，不混用指标。",
+          "content": "能为有答案、无答案、冲突和过期文档建立分层阈值。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 12,
+        "title": "Agent 质量工程(十二)多轮与长任务评测",
+        "kind": "topic",
+        "depends": [
+          "E06",
+          "E10",
+          "C07",
+          "C08"
+        ],
+        "prerequisites": "完成 E06、E10、C07、C08 的相关实验",
+        "duty": "评估纠正、撤销、暂停、恢复和用户体验，而不是只看单轮答案。",
+        "outcome": "能运行六个合成会话并区分 turn-pass、task-pass 和 UX。",
+        "h2": [
+          [
+            "会话设计",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "长任务状态",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "用户体验",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "恢复评估",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "覆盖纠正、撤销、暂停、审批和恢复；评估 simulator 自身。",
+        "cards": [
+          "e12-turn-vs-task"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          },
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "评估纠正、撤销、暂停、恢复和用户体验，而不是只看单轮答案。",
+          "content": "能运行六个合成会话并区分 turn-pass、task-pass 和 UX。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 13,
+        "title": "Agent 质量工程(十三)多Agent评测",
+        "kind": "topic",
+        "depends": [
+          "E10",
+          "E12",
+          "C10"
+        ],
+        "prerequisites": "完成 E10、E12、C10 的相关实验",
+        "duty": "比较多 Agent 团队与单体基线，覆盖交接、投票、委派和级联失败。",
+        "outcome": "能解释局部成功但全局失败的轨迹。",
+        "h2": [
+          [
+            "单体基线",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "团队行为",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "交接评估",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "级联失败",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "故意破坏一个 handoff，比较单体、分工和投票结果。",
+        "cards": [
+          "e13-global-failure",
+          "e13-baseline-first"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          },
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "比较多 Agent 团队与单体基线，覆盖交接、投票、委派和级联失败。",
+          "content": "能解释局部成功但全局失败的轨迹。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 14,
+        "title": "Agent 质量工程(十四)Coding Agent评测",
+        "kind": "topic",
+        "depends": [
+          "E07",
+          "E09",
+          "E10",
+          "B07"
+        ],
+        "prerequisites": "完成 E07、E09、E10、B07 的相关实验",
+        "duty": "评估代码修改、提交、隐藏回归和测试篡改风险。",
+        "outcome": "能识别 fail-to-pass、pass-to-pass 和不安全补丁。",
+        "h2": [
+          [
+            "补丁评估",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "回归检查",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "提交边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "篡改防护",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "使用固定提交、隐藏回归和 mutation，断言没有修改测试以制造通过。",
+        "cards": [
+          "e14-fail-to-pass",
+          "e14-no-test-tampering"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "评估代码修改、提交、隐藏回归和测试篡改风险。",
+          "content": "能识别 fail-to-pass、pass-to-pass 和不安全补丁。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 15,
+        "title": "Agent 质量工程(十五)交互Agent评测",
+        "kind": "topic",
+        "depends": [
+          "E10",
+          "E12",
+          "C11"
+        ],
+        "prerequisites": "完成 E10、E12、C11 的相关实验",
+        "duty": "评估浏览器或计算机操作的可见状态、慢响应、阻断和真实业务结果。",
+        "outcome": "能区分截图、Toast、页面状态和业务状态证据。",
+        "h2": [
+          [
+            "交互任务",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "可见状态",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "慢与阻断",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "Trace范围",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "在 UI Fake 上注入 toast 成功但业务未写入、慢响应和阻断。",
+        "cards": [
+          "e15-screenshot-not-business",
+          "e15-trace-viewer-scope"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "评估浏览器或计算机操作的可见状态、慢响应、阻断和真实业务结果。",
+          "content": "能区分截图、Toast、页面状态和业务状态证据。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 16,
+        "title": "Agent 质量工程(十六)性能与成本",
+        "kind": "topic",
+        "depends": [
+          "E05",
+          "E10",
+          "D10"
+        ],
+        "prerequisites": "完成 E05、E10、D10 的相关实验",
+        "duty": "评估并发、缓存、尾延迟、任务成功成本和资源占用。",
+        "outcome": "能从 20 个任务的并发数据中解释 p95、成本和成功率。",
+        "h2": [
+          [
+            "并发模型",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "尾延迟",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "缓存效果",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "成功成本",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "比较不同并发和缓存配置，避免平均值掩盖长尾。",
+        "cards": [
+          "e16-success-task-cost",
+          "e16-average-hides-tail"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          },
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "评估并发、缓存、尾延迟、任务成功成本和资源占用。",
+          "content": "能从 20 个任务的并发数据中解释 p95、成本和成功率。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 17,
+        "title": "Agent 质量工程(十七)故障与恢复评测",
+        "kind": "topic",
+        "depends": [
+          "E07",
+          "E08",
+          "E10",
+          "D08"
+        ],
+        "prerequisites": "完成 E07、E08、E10、D08 的相关实验",
+        "duty": "在 provider、环境、Agent 和副作用提交窗口注入故障，评估恢复而非简单重跑。",
+        "outcome": "能分别报告故障类型、恢复时间、重复副作用和人工介入。",
+        "h2": [
+          [
+            "故障时点",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "恢复策略",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "副作用检查",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "人工介入",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "覆盖提交前后、读取超时、环境失效和 Agent loop 失败。",
+        "cards": [
+          "e17-recovery-not-rerun"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI evaluation best practices",
+            "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+          },
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "在 provider、环境、Agent 和副作用提交窗口注入故障，评估恢复而非简单重跑。",
+          "content": "能分别报告故障类型、恢复时间、重复副作用和人工介入。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 18,
+        "title": "Agent 质量工程(十八)持续评测",
+        "kind": "topic",
+        "depends": [
+          "E09",
+          "E10",
+          "E16",
+          "E17"
+        ],
+        "prerequisites": "完成 E09、E10、E16、E17 的相关实验",
+        "duty": "把离线、canary、在线 SLO、回滚和事故复盘连接起来。",
+        "outcome": "能设计离线→canary→rollback→incident 的持续门禁。",
+        "h2": [
+          [
+            "发布阶段",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "在线监控",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "回滚验证",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "事故字段",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake release pipeline 演练阈值、回滚、恢复和证据保留。",
+        "cards": [
+          "e18-offline-not-online",
+          "e18-rollback-verification"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "MLflow evaluation documentation",
+            "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+            "icon": "https://mlflow.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把离线、canary、在线 SLO、回滚和事故复盘连接起来。",
+          "content": "能设计离线→canary→rollback→incident 的持续门禁。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 19,
+        "title": "Agent 质量工程(十九)项目实战",
+        "kind": "final",
+        "depends": [
+          "E18",
+          "E11",
+          "E12"
+        ],
+        "prerequisites": "完成 E18、E11、E12 的相关实验",
+        "duty": "交付含三类故障、RAG、多轮和评测系统自测的完整质量证据包。",
+        "outcome": "产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。",
+        "h2": [
+          [
+            "项目范围",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "评测实现",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "故障演练",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "上线复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "使用 C/D Fake Agent 注入检索、审批和恢复故障，跑离线与在线模拟。",
+        "cards": [
+          "e09-runner-needs-testing",
+          "e18-offline-not-online"
+        ],
+        "difficulty": "实战",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "OpenAI evaluation guide",
+            "url": "https://platform.openai.com/docs/guides/evals",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "交付含三类故障、RAG、多轮和评测系统自测的完整质量证据包。",
+          "content": "产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      }
+    ],
+    "article_block_tag_plans": {
+      "Agent 质量工程(一)入门路线": [
+        {
+          "block": "课程目标",
+          "reader_task": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+          "core_content": "课程目标：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "mermaid",
+          "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "完成“前置条件”中的关键理解、操作或判断",
+          "core_content": "前置条件：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "完成“学习路径”中的关键理解、操作或判断",
+          "core_content": "学习路径：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "完成“文章安排”中的关键理解、操作或判断",
+          "core_content": "文章安排：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "完成“开始学习”中的关键理解、操作或判断",
+          "core_content": "开始学习：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(二)质量建模": [
+        {
+          "block": "质量维度",
+          "reader_task": "把 Agent 质量拆成结果、组件、体验、性能和风险维度，并建立硬门槛。",
+          "core_content": "质量维度：能为一个任务写出质量契约、证据和不可平均化的硬失败。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单建立质量矩阵，演示单项关键失败不能被平均分掩盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果证据",
+          "reader_task": "完成“结果证据”中的关键理解、操作或判断",
+          "core_content": "结果证据：能为一个任务写出质量契约、证据和不可平均化的硬失败。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“结果证据”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单建立质量矩阵，演示单项关键失败不能被平均分掩盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "硬门禁",
+          "reader_task": "完成“硬门禁”中的关键理解、操作或判断",
+          "core_content": "硬门禁：能为一个任务写出质量契约、证据和不可平均化的硬失败。",
+          "carrier": "list",
+          "rationale": "该块只承担“硬门禁”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单建立质量矩阵，演示单项关键失败不能被平均分掩盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "范围边界",
+          "reader_task": "完成“范围边界”中的关键理解、操作或判断",
+          "core_content": "范围边界：能为一个任务写出质量契约、证据和不可平均化的硬失败。",
+          "carrier": "table",
+          "rationale": "该块只承担“范围边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单建立质量矩阵，演示单项关键失败不能被平均分掩盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(三)评测任务设计": [
+        {
+          "block": "任务状态",
+          "reader_task": "为 Agent 写清状态、允许动作、完成条件和独立 Oracle。",
+          "core_content": "任务状态：能设计覆盖状态和转移的评测任务。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造有状态工单任务，分别检查状态覆盖和转移覆盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "动作空间",
+          "reader_task": "完成“动作空间”中的关键理解、操作或判断",
+          "core_content": "动作空间：能设计覆盖状态和转移的评测任务。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“动作空间”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造有状态工单任务，分别检查状态覆盖和转移覆盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "Oracle",
+          "reader_task": "完成“Oracle”中的关键理解、操作或判断",
+          "core_content": "Oracle：能设计覆盖状态和转移的评测任务。",
+          "carrier": "list",
+          "rationale": "该块只承担“Oracle”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造有状态工单任务，分别检查状态覆盖和转移覆盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "覆盖关系",
+          "reader_task": "完成“覆盖关系”中的关键理解、操作或判断",
+          "core_content": "覆盖关系：能设计覆盖状态和转移的评测任务。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“覆盖关系”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造有状态工单任务，分别检查状态覆盖和转移覆盖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(四)数据治理": [
+        {
+          "block": "来源授权",
+          "reader_task": "治理来源、授权、切分、标签、版本和合成数据的代表性。",
+          "core_content": "来源授权：能构造 32 条合成数据，并防止随机切分泄漏。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；按租户、版本和模板切分 32 行，注入相似样本和泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "数据切分",
+          "reader_task": "完成“数据切分”中的关键理解、操作或判断",
+          "core_content": "数据切分：能构造 32 条合成数据，并防止随机切分泄漏。",
+          "carrier": "code",
+          "rationale": "该块只承担“数据切分”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；按租户、版本和模板切分 32 行，注入相似样本和泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "标签版本",
+          "reader_task": "完成“标签版本”中的关键理解、操作或判断",
+          "core_content": "标签版本：能构造 32 条合成数据，并防止随机切分泄漏。",
+          "carrier": "list",
+          "rationale": "该块只承担“标签版本”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；按租户、版本和模板切分 32 行，注入相似样本和泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "代表性",
+          "reader_task": "完成“代表性”中的关键理解、操作或判断",
+          "core_content": "代表性：能构造 32 条合成数据，并防止随机切分泄漏。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“代表性”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；按租户、版本和模板切分 32 行，注入相似样本和泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(五)统计与实验": [
+        {
+          "block": "试验设计",
+          "reader_task": "用重复试验、区间、依赖性和 pass@k 解释 Agent 结果。",
+          "core_content": "试验设计：能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 pass@k、pass^k、零失败和非独立试验的解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "区间估计",
+          "reader_task": "完成“区间估计”中的关键理解、操作或判断",
+          "core_content": "区间估计：能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“区间估计”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 pass@k、pass^k、零失败和非独立试验的解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "依赖性",
+          "reader_task": "完成“依赖性”中的关键理解、操作或判断",
+          "core_content": "依赖性：能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。",
+          "carrier": "list",
+          "rationale": "该块只承担“依赖性”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 pass@k、pass^k、零失败和非独立试验的解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "指标解释",
+          "reader_task": "完成“指标解释”中的关键理解、操作或判断",
+          "core_content": "指标解释：能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“指标解释”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 pass@k、pass^k、零失败和非独立试验的解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(六)评分器校准": [
+        {
+          "block": "人工基线",
+          "reader_task": "校准 LLM judge、人工标签、Unknown、顺序效应和一致性。",
+          "core_content": "人工基线：能用双人标签与 Unknown 分支评估评分器可用性。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成人工双标注数据做校准，分开一致性、接受度和不确定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "judge校准",
+          "reader_task": "完成“judge校准”中的关键理解、操作或判断",
+          "core_content": "judge校准：能用双人标签与 Unknown 分支评估评分器可用性。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“judge校准”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成人工双标注数据做校准，分开一致性、接受度和不确定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "Unknown",
+          "reader_task": "完成“Unknown”中的关键理解、操作或判断",
+          "core_content": "Unknown：能用双人标签与 Unknown 分支评估评分器可用性。",
+          "carrier": "list",
+          "rationale": "该块只承担“Unknown”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成人工双标注数据做校准，分开一致性、接受度和不确定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "顺序效应",
+          "reader_task": "完成“顺序效应”中的关键理解、操作或判断",
+          "core_content": "顺序效应：能用双人标签与 Unknown 分支评估评分器可用性。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“顺序效应”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成人工双标注数据做校准，分开一致性、接受度和不确定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(七)组件与协议契约": [
+        {
+          "block": "契约矩阵",
+          "reader_task": "为模型、Prompt、上下文、工具、MCP 和业务集成分别定义契约。",
+          "core_content": "契约矩阵：能注入 schema、权限、协议和身份故障，找到最小责任边界。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立组件契约矩阵，验证未确认写操作不能改变身份。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "故障注入",
+          "reader_task": "完成“故障注入”中的关键理解、操作或判断",
+          "core_content": "故障注入：能注入 schema、权限、协议和身份故障，找到最小责任边界。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“故障注入”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立组件契约矩阵，验证未确认写操作不能改变身份。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "差分判断",
+          "reader_task": "完成“差分判断”中的关键理解、操作或判断",
+          "core_content": "差分判断：能注入 schema、权限、协议和身份故障，找到最小责任边界。",
+          "carrier": "list",
+          "rationale": "该块只承担“差分判断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立组件契约矩阵，验证未确认写操作不能改变身份。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "身份绑定",
+          "reader_task": "完成“身份绑定”中的关键理解、操作或判断",
+          "core_content": "身份绑定：能注入 schema、权限、协议和身份故障，找到最小责任边界。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“身份绑定”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立组件契约矩阵，验证未确认写操作不能改变身份。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(八)评测运行器": [
+        {
+          "block": "运行隔离",
+          "reader_task": "实现隔离、重置、预算、超时、重放和结果收集。",
+          "core_content": "运行隔离：能运行可复现的评测并保留每次运行的环境和预算。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 replay、monkeypatch、mock、tmp_path 和在线环境的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "环境重置",
+          "reader_task": "完成“环境重置”中的关键理解、操作或判断",
+          "core_content": "环境重置：能运行可复现的评测并保留每次运行的环境和预算。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“环境重置”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 replay、monkeypatch、mock、tmp_path 和在线环境的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "预算控制",
+          "reader_task": "完成“预算控制”中的关键理解、操作或判断",
+          "core_content": "预算控制：能运行可复现的评测并保留每次运行的环境和预算。",
+          "carrier": "code",
+          "rationale": "该块只承担“预算控制”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 replay、monkeypatch、mock、tmp_path 和在线环境的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果存储",
+          "reader_task": "完成“结果存储”中的关键理解、操作或判断",
+          "core_content": "结果存储：能运行可复现的评测并保留每次运行的环境和预算。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“结果存储”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较 replay、monkeypatch、mock、tmp_path 和在线环境的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(九)评测系统校验": [
+        {
+          "block": "已知结果",
+          "reader_task": "测试 runner、grader、聚合和错误分类本身，避免评测系统成为黑盒。",
+          "core_content": "已知结果：能用已知结果与注入故障验证评分系统。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；区分 fail、Unknown、error、skip，并验证聚合器。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "评分器故障",
+          "reader_task": "完成“评分器故障”中的关键理解、操作或判断",
+          "core_content": "评分器故障：能用已知结果与注入故障验证评分系统。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“评分器故障”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；区分 fail、Unknown、error、skip，并验证聚合器。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "聚合故障",
+          "reader_task": "完成“聚合故障”中的关键理解、操作或判断",
+          "core_content": "聚合故障：能用已知结果与注入故障验证评分系统。",
+          "carrier": "list",
+          "rationale": "该块只承担“聚合故障”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；区分 fail、Unknown、error、skip，并验证聚合器。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "状态分类",
+          "reader_task": "完成“状态分类”中的关键理解、操作或判断",
+          "core_content": "状态分类：能用已知结果与注入故障验证评分系统。",
+          "carrier": "table",
+          "rationale": "该块只承担“状态分类”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；区分 fail、Unknown、error、skip，并验证聚合器。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十)Trace与归因": [
+        {
+          "block": "轨迹读取",
+          "reader_task": "从 Trace 找到第一处偏差，并用控制变量验证归因。",
+          "core_content": "轨迹读取：能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对同一任务做一次受控重跑，说明单次干预不能证明因果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "首个偏差",
+          "reader_task": "完成“首个偏差”中的关键理解、操作或判断",
+          "core_content": "首个偏差：能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“首个偏差”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对同一任务做一次受控重跑，说明单次干预不能证明因果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "控制变量",
+          "reader_task": "完成“控制变量”中的关键理解、操作或判断",
+          "core_content": "控制变量：能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。",
+          "carrier": "list",
+          "rationale": "该块只承担“控制变量”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对同一任务做一次受控重跑，说明单次干预不能证明因果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "归因边界",
+          "reader_task": "完成“归因边界”中的关键理解、操作或判断",
+          "core_content": "归因边界：能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。",
+          "carrier": "table",
+          "rationale": "该块只承担“归因边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对同一任务做一次受控重跑，说明单次干预不能证明因果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十一)RAG评测": [
+        {
+          "block": "检索指标",
+          "reader_task": "分层评估召回、事实、忠实度和引用支持，不混用指标。",
+          "core_content": "检索指标：能为有答案、无答案、冲突和过期文档建立分层阈值。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造六问数据，分别统计召回、引用存在、支持和事实正确。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "事实指标",
+          "reader_task": "完成“事实指标”中的关键理解、操作或判断",
+          "core_content": "事实指标：能为有答案、无答案、冲突和过期文档建立分层阈值。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“事实指标”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造六问数据，分别统计召回、引用存在、支持和事实正确。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "忠实度",
+          "reader_task": "完成“忠实度”中的关键理解、操作或判断",
+          "core_content": "忠实度：能为有答案、无答案、冲突和过期文档建立分层阈值。",
+          "carrier": "list",
+          "rationale": "该块只承担“忠实度”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造六问数据，分别统计召回、引用存在、支持和事实正确。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "引用覆盖",
+          "reader_task": "完成“引用覆盖”中的关键理解、操作或判断",
+          "core_content": "引用覆盖：能为有答案、无答案、冲突和过期文档建立分层阈值。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“引用覆盖”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造六问数据，分别统计召回、引用存在、支持和事实正确。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十二)多轮与长任务评测": [
+        {
+          "block": "会话设计",
+          "reader_task": "评估纠正、撤销、暂停、恢复和用户体验，而不是只看单轮答案。",
+          "core_content": "会话设计：能运行六个合成会话并区分 turn-pass、task-pass 和 UX。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖纠正、撤销、暂停、审批和恢复；评估 simulator 自身。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "长任务状态",
+          "reader_task": "完成“长任务状态”中的关键理解、操作或判断",
+          "core_content": "长任务状态：能运行六个合成会话并区分 turn-pass、task-pass 和 UX。",
+          "carrier": "table",
+          "rationale": "该块只承担“长任务状态”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖纠正、撤销、暂停、审批和恢复；评估 simulator 自身。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "用户体验",
+          "reader_task": "完成“用户体验”中的关键理解、操作或判断",
+          "core_content": "用户体验：能运行六个合成会话并区分 turn-pass、task-pass 和 UX。",
+          "carrier": "list",
+          "rationale": "该块只承担“用户体验”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖纠正、撤销、暂停、审批和恢复；评估 simulator 自身。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "恢复评估",
+          "reader_task": "完成“恢复评估”中的关键理解、操作或判断",
+          "core_content": "恢复评估：能运行六个合成会话并区分 turn-pass、task-pass 和 UX。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“恢复评估”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖纠正、撤销、暂停、审批和恢复；评估 simulator 自身。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十三)多Agent评测": [
+        {
+          "block": "单体基线",
+          "reader_task": "比较多 Agent 团队与单体基线，覆盖交接、投票、委派和级联失败。",
+          "core_content": "单体基线：能解释局部成功但全局失败的轨迹。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；故意破坏一个 handoff，比较单体、分工和投票结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "团队行为",
+          "reader_task": "完成“团队行为”中的关键理解、操作或判断",
+          "core_content": "团队行为：能解释局部成功但全局失败的轨迹。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“团队行为”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；故意破坏一个 handoff，比较单体、分工和投票结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "交接评估",
+          "reader_task": "完成“交接评估”中的关键理解、操作或判断",
+          "core_content": "交接评估：能解释局部成功但全局失败的轨迹。",
+          "carrier": "list",
+          "rationale": "该块只承担“交接评估”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；故意破坏一个 handoff，比较单体、分工和投票结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "级联失败",
+          "reader_task": "完成“级联失败”中的关键理解、操作或判断",
+          "core_content": "级联失败：能解释局部成功但全局失败的轨迹。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“级联失败”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；故意破坏一个 handoff，比较单体、分工和投票结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十四)Coding Agent评测": [
+        {
+          "block": "补丁评估",
+          "reader_task": "评估代码修改、提交、隐藏回归和测试篡改风险。",
+          "core_content": "补丁评估：能识别 fail-to-pass、pass-to-pass 和不安全补丁。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用固定提交、隐藏回归和 mutation，断言没有修改测试以制造通过。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "回归检查",
+          "reader_task": "完成“回归检查”中的关键理解、操作或判断",
+          "core_content": "回归检查：能识别 fail-to-pass、pass-to-pass 和不安全补丁。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“回归检查”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用固定提交、隐藏回归和 mutation，断言没有修改测试以制造通过。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "提交边界",
+          "reader_task": "完成“提交边界”中的关键理解、操作或判断",
+          "core_content": "提交边界：能识别 fail-to-pass、pass-to-pass 和不安全补丁。",
+          "carrier": "table",
+          "rationale": "该块只承担“提交边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用固定提交、隐藏回归和 mutation，断言没有修改测试以制造通过。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "篡改防护",
+          "reader_task": "完成“篡改防护”中的关键理解、操作或判断",
+          "core_content": "篡改防护：能识别 fail-to-pass、pass-to-pass 和不安全补丁。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“篡改防护”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用固定提交、隐藏回归和 mutation，断言没有修改测试以制造通过。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十五)交互Agent评测": [
+        {
+          "block": "交互任务",
+          "reader_task": "评估浏览器或计算机操作的可见状态、慢响应、阻断和真实业务结果。",
+          "core_content": "交互任务：能区分截图、Toast、页面状态和业务状态证据。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 UI Fake 上注入 toast 成功但业务未写入、慢响应和阻断。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "可见状态",
+          "reader_task": "完成“可见状态”中的关键理解、操作或判断",
+          "core_content": "可见状态：能区分截图、Toast、页面状态和业务状态证据。",
+          "carrier": "table",
+          "rationale": "该块只承担“可见状态”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 UI Fake 上注入 toast 成功但业务未写入、慢响应和阻断。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "慢与阻断",
+          "reader_task": "完成“慢与阻断”中的关键理解、操作或判断",
+          "core_content": "慢与阻断：能区分截图、Toast、页面状态和业务状态证据。",
+          "carrier": "list",
+          "rationale": "该块只承担“慢与阻断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 UI Fake 上注入 toast 成功但业务未写入、慢响应和阻断。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "Trace范围",
+          "reader_task": "完成“Trace范围”中的关键理解、操作或判断",
+          "core_content": "Trace范围：能区分截图、Toast、页面状态和业务状态证据。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“Trace范围”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 UI Fake 上注入 toast 成功但业务未写入、慢响应和阻断。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十六)性能与成本": [
+        {
+          "block": "并发模型",
+          "reader_task": "评估并发、缓存、尾延迟、任务成功成本和资源占用。",
+          "core_content": "并发模型：能从 20 个任务的并发数据中解释 p95、成本和成功率。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较不同并发和缓存配置，避免平均值掩盖长尾。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "尾延迟",
+          "reader_task": "完成“尾延迟”中的关键理解、操作或判断",
+          "core_content": "尾延迟：能从 20 个任务的并发数据中解释 p95、成本和成功率。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“尾延迟”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较不同并发和缓存配置，避免平均值掩盖长尾。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "缓存效果",
+          "reader_task": "完成“缓存效果”中的关键理解、操作或判断",
+          "core_content": "缓存效果：能从 20 个任务的并发数据中解释 p95、成本和成功率。",
+          "carrier": "list",
+          "rationale": "该块只承担“缓存效果”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较不同并发和缓存配置，避免平均值掩盖长尾。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "成功成本",
+          "reader_task": "完成“成功成本”中的关键理解、操作或判断",
+          "core_content": "成功成本：能从 20 个任务的并发数据中解释 p95、成本和成功率。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“成功成本”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较不同并发和缓存配置，避免平均值掩盖长尾。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十七)故障与恢复评测": [
+        {
+          "block": "故障时点",
+          "reader_task": "在 provider、环境、Agent 和副作用提交窗口注入故障，评估恢复而非简单重跑。",
+          "core_content": "故障时点：能分别报告故障类型、恢复时间、重复副作用和人工介入。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖提交前后、读取超时、环境失效和 Agent loop 失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "恢复策略",
+          "reader_task": "完成“恢复策略”中的关键理解、操作或判断",
+          "core_content": "恢复策略：能分别报告故障类型、恢复时间、重复副作用和人工介入。",
+          "carrier": "code",
+          "rationale": "该块只承担“恢复策略”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖提交前后、读取超时、环境失效和 Agent loop 失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "副作用检查",
+          "reader_task": "完成“副作用检查”中的关键理解、操作或判断",
+          "core_content": "副作用检查：能分别报告故障类型、恢复时间、重复副作用和人工介入。",
+          "carrier": "list",
+          "rationale": "该块只承担“副作用检查”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖提交前后、读取超时、环境失效和 Agent loop 失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "人工介入",
+          "reader_task": "完成“人工介入”中的关键理解、操作或判断",
+          "core_content": "人工介入：能分别报告故障类型、恢复时间、重复副作用和人工介入。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“人工介入”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖提交前后、读取超时、环境失效和 Agent loop 失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十八)持续评测": [
+        {
+          "block": "发布阶段",
+          "reader_task": "把离线、canary、在线 SLO、回滚和事故复盘连接起来。",
+          "core_content": "发布阶段：能设计离线→canary→rollback→incident 的持续门禁。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake release pipeline 演练阈值、回滚、恢复和证据保留。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "在线监控",
+          "reader_task": "完成“在线监控”中的关键理解、操作或判断",
+          "core_content": "在线监控：能设计离线→canary→rollback→incident 的持续门禁。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“在线监控”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake release pipeline 演练阈值、回滚、恢复和证据保留。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "回滚验证",
+          "reader_task": "完成“回滚验证”中的关键理解、操作或判断",
+          "core_content": "回滚验证：能设计离线→canary→rollback→incident 的持续门禁。",
+          "carrier": "code",
+          "rationale": "该块只承担“回滚验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake release pipeline 演练阈值、回滚、恢复和证据保留。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "事故字段",
+          "reader_task": "完成“事故字段”中的关键理解、操作或判断",
+          "core_content": "事故字段：能设计离线→canary→rollback→incident 的持续门禁。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“事故字段”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake release pipeline 演练阈值、回滚、恢复和证据保留。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 质量工程(十九)项目实战": [
+        {
+          "block": "项目范围",
+          "reader_task": "交付含三类故障、RAG、多轮和评测系统自测的完整质量证据包。",
+          "core_content": "项目范围：产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 C/D Fake Agent 注入检索、审批和恢复故障，跑离线与在线模拟。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "评测实现",
+          "reader_task": "完成“评测实现”中的关键理解、操作或判断",
+          "core_content": "评测实现：产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。",
+          "carrier": "code",
+          "rationale": "该块只承担“评测实现”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 C/D Fake Agent 注入检索、审批和恢复故障，跑离线与在线模拟。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "故障演练",
+          "reader_task": "完成“故障演练”中的关键理解、操作或判断",
+          "core_content": "故障演练：产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。",
+          "carrier": "list",
+          "rationale": "该块只承担“故障演练”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 C/D Fake Agent 注入检索、审批和恢复故障，跑离线与在线模拟。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "上线复盘",
+          "reader_task": "完成“上线复盘”中的关键理解、操作或判断",
+          "core_content": "上线复盘：产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“上线复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 C/D Fake Agent 注入检索、审批和恢复故障，跑离线与在线模拟。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ]
+    },
+    "reference_cards": [
+      {
+        "title": "OpenAI evaluation guide",
+        "url": "https://platform.openai.com/docs/guides/evals",
+        "icon": "https://platform.openai.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OpenAI evaluation guide: https://platform.openai.com/docs/guides/evals"
+      },
+      {
+        "title": "OpenAI evaluation best practices",
+        "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "icon": "https://platform.openai.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OpenAI evaluation best practices: https://platform.openai.com/docs/guides/evals-best-practices"
+      },
+      {
+        "title": "MLflow evaluation documentation",
+        "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "icon": "https://mlflow.org/favicon.ico",
+        "sourceType": "official",
+        "fallback": "MLflow evaluation documentation: https://mlflow.org/docs/latest/genai/eval-monitor/"
+      },
+      {
+        "title": "NIST AI Risk Management Framework",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "icon": "https://www.nist.gov/favicon.ico",
+        "sourceType": "official",
+        "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+      }
+    ],
+    "research_scope": {
+      "researched_at": "2026-08-29",
+      "source_count": 4,
+      "bounded": true,
+      "note": "仅列可复核官方入口；快速变化内容在逐篇写作前刷新。"
+    }
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "topic_type": "Agent 质量工程：面向测试开发工程师的应用与质量工程课程",
+      "researched_at": "2026-08-29",
+      "boundary": "有限官方入口与稳定工程能力；快速变化的 SDK、模型和协议在逐篇写作前刷新。",
+      "reproduction": "按 sources、stable_id、version_status 和 article target 逐项复核；不宣称穷尽互联网。",
+      "entries": [
+        {
+          "title": "OpenAI evaluation guide",
+          "url": "https://platform.openai.com/docs/guides/evals",
+          "icon": "https://platform.openai.com/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "OpenAI evaluation best practices",
+          "url": "https://platform.openai.com/docs/guides/evals-best-practices",
+          "icon": "https://platform.openai.com/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "MLflow evaluation documentation",
+          "url": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+          "icon": "https://mlflow.org/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "NIST AI Risk Management Framework",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "icon": "https://www.nist.gov/favicon.ico",
+          "sourceType": "official"
+        }
+      ]
+    },
+    "capabilities": {
+      "e01-01-课程目标": {
+        "title": "Agent 质量工程(一)入门路线 / 课程目标",
+        "subject": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e01-01-课程目标"
+      },
+      "e01-02-前置条件": {
+        "title": "Agent 质量工程(一)入门路线 / 前置条件",
+        "subject": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e01-02-前置条件"
+      },
+      "e01-03-学习路径": {
+        "title": "Agent 质量工程(一)入门路线 / 学习路径",
+        "subject": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e01-03-学习路径"
+      },
+      "e01-04-文章安排": {
+        "title": "Agent 质量工程(一)入门路线 / 文章安排",
+        "subject": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e01-04-文章安排"
+      },
+      "e01-05-开始学习": {
+        "title": "Agent 质量工程(一)入门路线 / 开始学习",
+        "subject": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e01-05-开始学习"
+      },
+      "e01-06-参考资料": {
+        "title": "Agent 质量工程(一)入门路线 / 参考资料",
+        "subject": "说明Agent 质量工程的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e01-06-参考资料"
+      },
+      "e02-01-质量维度": {
+        "title": "Agent 质量工程(二)质量建模 / 质量维度",
+        "subject": "把 Agent 质量拆成结果、组件、体验、性能和风险维度，并建立硬门槛。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e02-01-质量维度"
+      },
+      "e02-02-结果证据": {
+        "title": "Agent 质量工程(二)质量建模 / 结果证据",
+        "subject": "把 Agent 质量拆成结果、组件、体验、性能和风险维度，并建立硬门槛。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e02-02-结果证据"
+      },
+      "e02-03-硬门禁": {
+        "title": "Agent 质量工程(二)质量建模 / 硬门禁",
+        "subject": "把 Agent 质量拆成结果、组件、体验、性能和风险维度，并建立硬门槛。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e02-03-硬门禁"
+      },
+      "e02-04-范围边界": {
+        "title": "Agent 质量工程(二)质量建模 / 范围边界",
+        "subject": "把 Agent 质量拆成结果、组件、体验、性能和风险维度，并建立硬门槛。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e02-04-范围边界"
+      },
+      "e03-01-任务状态": {
+        "title": "Agent 质量工程(三)评测任务设计 / 任务状态",
+        "subject": "为 Agent 写清状态、允许动作、完成条件和独立 Oracle。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e03-01-任务状态"
+      },
+      "e03-02-动作空间": {
+        "title": "Agent 质量工程(三)评测任务设计 / 动作空间",
+        "subject": "为 Agent 写清状态、允许动作、完成条件和独立 Oracle。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e03-02-动作空间"
+      },
+      "e03-03-oracle": {
+        "title": "Agent 质量工程(三)评测任务设计 / Oracle",
+        "subject": "为 Agent 写清状态、允许动作、完成条件和独立 Oracle。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e03-03-oracle"
+      },
+      "e03-04-覆盖关系": {
+        "title": "Agent 质量工程(三)评测任务设计 / 覆盖关系",
+        "subject": "为 Agent 写清状态、允许动作、完成条件和独立 Oracle。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e03-04-覆盖关系"
+      },
+      "e04-01-来源授权": {
+        "title": "Agent 质量工程(四)数据治理 / 来源授权",
+        "subject": "治理来源、授权、切分、标签、版本和合成数据的代表性。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e04-01-来源授权"
+      },
+      "e04-02-数据切分": {
+        "title": "Agent 质量工程(四)数据治理 / 数据切分",
+        "subject": "治理来源、授权、切分、标签、版本和合成数据的代表性。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e04-02-数据切分"
+      },
+      "e04-03-标签版本": {
+        "title": "Agent 质量工程(四)数据治理 / 标签版本",
+        "subject": "治理来源、授权、切分、标签、版本和合成数据的代表性。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e04-03-标签版本"
+      },
+      "e04-04-代表性": {
+        "title": "Agent 质量工程(四)数据治理 / 代表性",
+        "subject": "治理来源、授权、切分、标签、版本和合成数据的代表性。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e04-04-代表性"
+      },
+      "e05-01-试验设计": {
+        "title": "Agent 质量工程(五)统计与实验 / 试验设计",
+        "subject": "用重复试验、区间、依赖性和 pass@k 解释 Agent 结果。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e05-01-试验设计"
+      },
+      "e05-02-区间估计": {
+        "title": "Agent 质量工程(五)统计与实验 / 区间估计",
+        "subject": "用重复试验、区间、依赖性和 pass@k 解释 Agent 结果。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e05-02-区间估计"
+      },
+      "e05-03-依赖性": {
+        "title": "Agent 质量工程(五)统计与实验 / 依赖性",
+        "subject": "用重复试验、区间、依赖性和 pass@k 解释 Agent 结果。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e05-03-依赖性"
+      },
+      "e05-04-指标解释": {
+        "title": "Agent 质量工程(五)统计与实验 / 指标解释",
+        "subject": "用重复试验、区间、依赖性和 pass@k 解释 Agent 结果。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e05-04-指标解释"
+      },
+      "e06-01-人工基线": {
+        "title": "Agent 质量工程(六)评分器校准 / 人工基线",
+        "subject": "校准 LLM judge、人工标签、Unknown、顺序效应和一致性。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e06-01-人工基线"
+      },
+      "e06-02-judge校准": {
+        "title": "Agent 质量工程(六)评分器校准 / judge校准",
+        "subject": "校准 LLM judge、人工标签、Unknown、顺序效应和一致性。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e06-02-judge校准"
+      },
+      "e06-03-unknown": {
+        "title": "Agent 质量工程(六)评分器校准 / Unknown",
+        "subject": "校准 LLM judge、人工标签、Unknown、顺序效应和一致性。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e06-03-unknown"
+      },
+      "e06-04-顺序效应": {
+        "title": "Agent 质量工程(六)评分器校准 / 顺序效应",
+        "subject": "校准 LLM judge、人工标签、Unknown、顺序效应和一致性。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e06-04-顺序效应"
+      },
+      "e07-01-契约矩阵": {
+        "title": "Agent 质量工程(七)组件与协议契约 / 契约矩阵",
+        "subject": "为模型、Prompt、上下文、工具、MCP 和业务集成分别定义契约。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e07-01-契约矩阵"
+      },
+      "e07-02-故障注入": {
+        "title": "Agent 质量工程(七)组件与协议契约 / 故障注入",
+        "subject": "为模型、Prompt、上下文、工具、MCP 和业务集成分别定义契约。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e07-02-故障注入"
+      },
+      "e07-03-差分判断": {
+        "title": "Agent 质量工程(七)组件与协议契约 / 差分判断",
+        "subject": "为模型、Prompt、上下文、工具、MCP 和业务集成分别定义契约。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e07-03-差分判断"
+      },
+      "e07-04-身份绑定": {
+        "title": "Agent 质量工程(七)组件与协议契约 / 身份绑定",
+        "subject": "为模型、Prompt、上下文、工具、MCP 和业务集成分别定义契约。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e07-04-身份绑定"
+      },
+      "e08-01-运行隔离": {
+        "title": "Agent 质量工程(八)评测运行器 / 运行隔离",
+        "subject": "实现隔离、重置、预算、超时、重放和结果收集。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e08-01-运行隔离"
+      },
+      "e08-02-环境重置": {
+        "title": "Agent 质量工程(八)评测运行器 / 环境重置",
+        "subject": "实现隔离、重置、预算、超时、重放和结果收集。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e08-02-环境重置"
+      },
+      "e08-03-预算控制": {
+        "title": "Agent 质量工程(八)评测运行器 / 预算控制",
+        "subject": "实现隔离、重置、预算、超时、重放和结果收集。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e08-03-预算控制"
+      },
+      "e08-04-结果存储": {
+        "title": "Agent 质量工程(八)评测运行器 / 结果存储",
+        "subject": "实现隔离、重置、预算、超时、重放和结果收集。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e08-04-结果存储"
+      },
+      "e09-01-已知结果": {
+        "title": "Agent 质量工程(九)评测系统校验 / 已知结果",
+        "subject": "测试 runner、grader、聚合和错误分类本身，避免评测系统成为黑盒。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e09-01-已知结果"
+      },
+      "e09-02-评分器故障": {
+        "title": "Agent 质量工程(九)评测系统校验 / 评分器故障",
+        "subject": "测试 runner、grader、聚合和错误分类本身，避免评测系统成为黑盒。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e09-02-评分器故障"
+      },
+      "e09-03-聚合故障": {
+        "title": "Agent 质量工程(九)评测系统校验 / 聚合故障",
+        "subject": "测试 runner、grader、聚合和错误分类本身，避免评测系统成为黑盒。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e09-03-聚合故障"
+      },
+      "e09-04-状态分类": {
+        "title": "Agent 质量工程(九)评测系统校验 / 状态分类",
+        "subject": "测试 runner、grader、聚合和错误分类本身，避免评测系统成为黑盒。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e09-04-状态分类"
+      },
+      "e10-01-轨迹读取": {
+        "title": "Agent 质量工程(十)Trace与归因 / 轨迹读取",
+        "subject": "从 Trace 找到第一处偏差，并用控制变量验证归因。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e10-01-轨迹读取"
+      },
+      "e10-02-首个偏差": {
+        "title": "Agent 质量工程(十)Trace与归因 / 首个偏差",
+        "subject": "从 Trace 找到第一处偏差，并用控制变量验证归因。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e10-02-首个偏差"
+      },
+      "e10-03-控制变量": {
+        "title": "Agent 质量工程(十)Trace与归因 / 控制变量",
+        "subject": "从 Trace 找到第一处偏差，并用控制变量验证归因。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e10-03-控制变量"
+      },
+      "e10-04-归因边界": {
+        "title": "Agent 质量工程(十)Trace与归因 / 归因边界",
+        "subject": "从 Trace 找到第一处偏差，并用控制变量验证归因。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e10-04-归因边界"
+      },
+      "e11-01-检索指标": {
+        "title": "Agent 质量工程(十一)RAG评测 / 检索指标",
+        "subject": "分层评估召回、事实、忠实度和引用支持，不混用指标。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e11-01-检索指标"
+      },
+      "e11-02-事实指标": {
+        "title": "Agent 质量工程(十一)RAG评测 / 事实指标",
+        "subject": "分层评估召回、事实、忠实度和引用支持，不混用指标。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e11-02-事实指标"
+      },
+      "e11-03-忠实度": {
+        "title": "Agent 质量工程(十一)RAG评测 / 忠实度",
+        "subject": "分层评估召回、事实、忠实度和引用支持，不混用指标。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e11-03-忠实度"
+      },
+      "e11-04-引用覆盖": {
+        "title": "Agent 质量工程(十一)RAG评测 / 引用覆盖",
+        "subject": "分层评估召回、事实、忠实度和引用支持，不混用指标。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e11-04-引用覆盖"
+      },
+      "e12-01-会话设计": {
+        "title": "Agent 质量工程(十二)多轮与长任务评测 / 会话设计",
+        "subject": "评估纠正、撤销、暂停、恢复和用户体验，而不是只看单轮答案。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e12-01-会话设计"
+      },
+      "e12-02-长任务状态": {
+        "title": "Agent 质量工程(十二)多轮与长任务评测 / 长任务状态",
+        "subject": "评估纠正、撤销、暂停、恢复和用户体验，而不是只看单轮答案。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e12-02-长任务状态"
+      },
+      "e12-03-用户体验": {
+        "title": "Agent 质量工程(十二)多轮与长任务评测 / 用户体验",
+        "subject": "评估纠正、撤销、暂停、恢复和用户体验，而不是只看单轮答案。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e12-03-用户体验"
+      },
+      "e12-04-恢复评估": {
+        "title": "Agent 质量工程(十二)多轮与长任务评测 / 恢复评估",
+        "subject": "评估纠正、撤销、暂停、恢复和用户体验，而不是只看单轮答案。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e12-04-恢复评估"
+      },
+      "e13-01-单体基线": {
+        "title": "Agent 质量工程(十三)多Agent评测 / 单体基线",
+        "subject": "比较多 Agent 团队与单体基线，覆盖交接、投票、委派和级联失败。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e13-01-单体基线"
+      },
+      "e13-02-团队行为": {
+        "title": "Agent 质量工程(十三)多Agent评测 / 团队行为",
+        "subject": "比较多 Agent 团队与单体基线，覆盖交接、投票、委派和级联失败。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e13-02-团队行为"
+      },
+      "e13-03-交接评估": {
+        "title": "Agent 质量工程(十三)多Agent评测 / 交接评估",
+        "subject": "比较多 Agent 团队与单体基线，覆盖交接、投票、委派和级联失败。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e13-03-交接评估"
+      },
+      "e13-04-级联失败": {
+        "title": "Agent 质量工程(十三)多Agent评测 / 级联失败",
+        "subject": "比较多 Agent 团队与单体基线，覆盖交接、投票、委派和级联失败。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e13-04-级联失败"
+      },
+      "e14-01-补丁评估": {
+        "title": "Agent 质量工程(十四)Coding Agent评测 / 补丁评估",
+        "subject": "评估代码修改、提交、隐藏回归和测试篡改风险。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e14-01-补丁评估"
+      },
+      "e14-02-回归检查": {
+        "title": "Agent 质量工程(十四)Coding Agent评测 / 回归检查",
+        "subject": "评估代码修改、提交、隐藏回归和测试篡改风险。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e14-02-回归检查"
+      },
+      "e14-03-提交边界": {
+        "title": "Agent 质量工程(十四)Coding Agent评测 / 提交边界",
+        "subject": "评估代码修改、提交、隐藏回归和测试篡改风险。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e14-03-提交边界"
+      },
+      "e14-04-篡改防护": {
+        "title": "Agent 质量工程(十四)Coding Agent评测 / 篡改防护",
+        "subject": "评估代码修改、提交、隐藏回归和测试篡改风险。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e14-04-篡改防护"
+      },
+      "e15-01-交互任务": {
+        "title": "Agent 质量工程(十五)交互Agent评测 / 交互任务",
+        "subject": "评估浏览器或计算机操作的可见状态、慢响应、阻断和真实业务结果。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e15-01-交互任务"
+      },
+      "e15-02-可见状态": {
+        "title": "Agent 质量工程(十五)交互Agent评测 / 可见状态",
+        "subject": "评估浏览器或计算机操作的可见状态、慢响应、阻断和真实业务结果。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e15-02-可见状态"
+      },
+      "e15-03-慢与阻断": {
+        "title": "Agent 质量工程(十五)交互Agent评测 / 慢与阻断",
+        "subject": "评估浏览器或计算机操作的可见状态、慢响应、阻断和真实业务结果。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e15-03-慢与阻断"
+      },
+      "e15-04-trace范围": {
+        "title": "Agent 质量工程(十五)交互Agent评测 / Trace范围",
+        "subject": "评估浏览器或计算机操作的可见状态、慢响应、阻断和真实业务结果。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e15-04-trace范围"
+      },
+      "e16-01-并发模型": {
+        "title": "Agent 质量工程(十六)性能与成本 / 并发模型",
+        "subject": "评估并发、缓存、尾延迟、任务成功成本和资源占用。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e16-01-并发模型"
+      },
+      "e16-02-尾延迟": {
+        "title": "Agent 质量工程(十六)性能与成本 / 尾延迟",
+        "subject": "评估并发、缓存、尾延迟、任务成功成本和资源占用。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e16-02-尾延迟"
+      },
+      "e16-03-缓存效果": {
+        "title": "Agent 质量工程(十六)性能与成本 / 缓存效果",
+        "subject": "评估并发、缓存、尾延迟、任务成功成本和资源占用。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e16-03-缓存效果"
+      },
+      "e16-04-成功成本": {
+        "title": "Agent 质量工程(十六)性能与成本 / 成功成本",
+        "subject": "评估并发、缓存、尾延迟、任务成功成本和资源占用。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e16-04-成功成本"
+      },
+      "e17-01-故障时点": {
+        "title": "Agent 质量工程(十七)故障与恢复评测 / 故障时点",
+        "subject": "在 provider、环境、Agent 和副作用提交窗口注入故障，评估恢复而非简单重跑。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e17-01-故障时点"
+      },
+      "e17-02-恢复策略": {
+        "title": "Agent 质量工程(十七)故障与恢复评测 / 恢复策略",
+        "subject": "在 provider、环境、Agent 和副作用提交窗口注入故障，评估恢复而非简单重跑。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e17-02-恢复策略"
+      },
+      "e17-03-副作用检查": {
+        "title": "Agent 质量工程(十七)故障与恢复评测 / 副作用检查",
+        "subject": "在 provider、环境、Agent 和副作用提交窗口注入故障，评估恢复而非简单重跑。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e17-03-副作用检查"
+      },
+      "e17-04-人工介入": {
+        "title": "Agent 质量工程(十七)故障与恢复评测 / 人工介入",
+        "subject": "在 provider、环境、Agent 和副作用提交窗口注入故障，评估恢复而非简单重跑。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e17-04-人工介入"
+      },
+      "e18-01-发布阶段": {
+        "title": "Agent 质量工程(十八)持续评测 / 发布阶段",
+        "subject": "把离线、canary、在线 SLO、回滚和事故复盘连接起来。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e18-01-发布阶段"
+      },
+      "e18-02-在线监控": {
+        "title": "Agent 质量工程(十八)持续评测 / 在线监控",
+        "subject": "把离线、canary、在线 SLO、回滚和事故复盘连接起来。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e18-02-在线监控"
+      },
+      "e18-03-回滚验证": {
+        "title": "Agent 质量工程(十八)持续评测 / 回滚验证",
+        "subject": "把离线、canary、在线 SLO、回滚和事故复盘连接起来。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e18-03-回滚验证"
+      },
+      "e18-04-事故字段": {
+        "title": "Agent 质量工程(十八)持续评测 / 事故字段",
+        "subject": "把离线、canary、在线 SLO、回滚和事故复盘连接起来。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e18-04-事故字段"
+      },
+      "e19-01-项目范围": {
+        "title": "Agent 质量工程(十九)项目实战 / 项目范围",
+        "subject": "交付含三类故障、RAG、多轮和评测系统自测的完整质量证据包。",
+        "source": "https://platform.openai.com/docs/guides/evals",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e19-01-项目范围"
+      },
+      "e19-02-评测实现": {
+        "title": "Agent 质量工程(十九)项目实战 / 评测实现",
+        "subject": "交付含三类故障、RAG、多轮和评测系统自测的完整质量证据包。",
+        "source": "https://platform.openai.com/docs/guides/evals-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e19-02-评测实现"
+      },
+      "e19-03-故障演练": {
+        "title": "Agent 质量工程(十九)项目实战 / 故障演练",
+        "subject": "交付含三类故障、RAG、多轮和评测系统自测的完整质量证据包。",
+        "source": "https://mlflow.org/docs/latest/genai/eval-monitor/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e19-03-故障演练"
+      },
+      "e19-04-上线复盘": {
+        "title": "Agent 质量工程(十九)项目实战 / 上线复盘",
+        "subject": "交付含三类故障、RAG、多轮和评测系统自测的完整质量证据包。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "e19-04-上线复盘"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "e01-01-课程目标": [
+          "core",
+          "Agent 质量工程(一)入门路线 / 课程目标",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e01-02-前置条件": [
+          "core",
+          "Agent 质量工程(一)入门路线 / 前置条件",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e01-03-学习路径": [
+          "core",
+          "Agent 质量工程(一)入门路线 / 学习路径",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e01-04-文章安排": [
+          "core",
+          "Agent 质量工程(一)入门路线 / 文章安排",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e01-05-开始学习": [
+          "core",
+          "Agent 质量工程(一)入门路线 / 开始学习",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e01-06-参考资料": [
+          "core",
+          "Agent 质量工程(一)入门路线 / 参考资料",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e02-01-质量维度": [
+          "core",
+          "Agent 质量工程(二)质量建模 / 质量维度",
+          "该条目直接服务于“能为一个任务写出质量契约、证据和不可平均化的硬失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e02-02-结果证据": [
+          "core",
+          "Agent 质量工程(二)质量建模 / 结果证据",
+          "该条目直接服务于“能为一个任务写出质量契约、证据和不可平均化的硬失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e02-03-硬门禁": [
+          "core",
+          "Agent 质量工程(二)质量建模 / 硬门禁",
+          "该条目直接服务于“能为一个任务写出质量契约、证据和不可平均化的硬失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e02-04-范围边界": [
+          "core",
+          "Agent 质量工程(二)质量建模 / 范围边界",
+          "该条目直接服务于“能为一个任务写出质量契约、证据和不可平均化的硬失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e03-01-任务状态": [
+          "core",
+          "Agent 质量工程(三)评测任务设计 / 任务状态",
+          "该条目直接服务于“能设计覆盖状态和转移的评测任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e03-02-动作空间": [
+          "core",
+          "Agent 质量工程(三)评测任务设计 / 动作空间",
+          "该条目直接服务于“能设计覆盖状态和转移的评测任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e03-03-oracle": [
+          "core",
+          "Agent 质量工程(三)评测任务设计 / Oracle",
+          "该条目直接服务于“能设计覆盖状态和转移的评测任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e03-04-覆盖关系": [
+          "core",
+          "Agent 质量工程(三)评测任务设计 / 覆盖关系",
+          "该条目直接服务于“能设计覆盖状态和转移的评测任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e04-01-来源授权": [
+          "core",
+          "Agent 质量工程(四)数据治理 / 来源授权",
+          "该条目直接服务于“能构造 32 条合成数据，并防止随机切分泄漏。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e04-02-数据切分": [
+          "core",
+          "Agent 质量工程(四)数据治理 / 数据切分",
+          "该条目直接服务于“能构造 32 条合成数据，并防止随机切分泄漏。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e04-03-标签版本": [
+          "core",
+          "Agent 质量工程(四)数据治理 / 标签版本",
+          "该条目直接服务于“能构造 32 条合成数据，并防止随机切分泄漏。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e04-04-代表性": [
+          "core",
+          "Agent 质量工程(四)数据治理 / 代表性",
+          "该条目直接服务于“能构造 32 条合成数据，并防止随机切分泄漏。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e05-01-试验设计": [
+          "core",
+          "Agent 质量工程(五)统计与实验 / 试验设计",
+          "该条目直接服务于“能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e05-02-区间估计": [
+          "core",
+          "Agent 质量工程(五)统计与实验 / 区间估计",
+          "该条目直接服务于“能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e05-03-依赖性": [
+          "core",
+          "Agent 质量工程(五)统计与实验 / 依赖性",
+          "该条目直接服务于“能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e05-04-指标解释": [
+          "core",
+          "Agent 质量工程(五)统计与实验 / 指标解释",
+          "该条目直接服务于“能分析 20×5×2 模拟表，报告不确定性而不是只报平均值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e06-01-人工基线": [
+          "core",
+          "Agent 质量工程(六)评分器校准 / 人工基线",
+          "该条目直接服务于“能用双人标签与 Unknown 分支评估评分器可用性。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e06-02-judge校准": [
+          "core",
+          "Agent 质量工程(六)评分器校准 / judge校准",
+          "该条目直接服务于“能用双人标签与 Unknown 分支评估评分器可用性。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e06-03-unknown": [
+          "core",
+          "Agent 质量工程(六)评分器校准 / Unknown",
+          "该条目直接服务于“能用双人标签与 Unknown 分支评估评分器可用性。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e06-04-顺序效应": [
+          "core",
+          "Agent 质量工程(六)评分器校准 / 顺序效应",
+          "该条目直接服务于“能用双人标签与 Unknown 分支评估评分器可用性。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e07-01-契约矩阵": [
+          "core",
+          "Agent 质量工程(七)组件与协议契约 / 契约矩阵",
+          "该条目直接服务于“能注入 schema、权限、协议和身份故障，找到最小责任边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e07-02-故障注入": [
+          "core",
+          "Agent 质量工程(七)组件与协议契约 / 故障注入",
+          "该条目直接服务于“能注入 schema、权限、协议和身份故障，找到最小责任边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e07-03-差分判断": [
+          "core",
+          "Agent 质量工程(七)组件与协议契约 / 差分判断",
+          "该条目直接服务于“能注入 schema、权限、协议和身份故障，找到最小责任边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e07-04-身份绑定": [
+          "core",
+          "Agent 质量工程(七)组件与协议契约 / 身份绑定",
+          "该条目直接服务于“能注入 schema、权限、协议和身份故障，找到最小责任边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e08-01-运行隔离": [
+          "core",
+          "Agent 质量工程(八)评测运行器 / 运行隔离",
+          "该条目直接服务于“能运行可复现的评测并保留每次运行的环境和预算。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e08-02-环境重置": [
+          "core",
+          "Agent 质量工程(八)评测运行器 / 环境重置",
+          "该条目直接服务于“能运行可复现的评测并保留每次运行的环境和预算。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e08-03-预算控制": [
+          "core",
+          "Agent 质量工程(八)评测运行器 / 预算控制",
+          "该条目直接服务于“能运行可复现的评测并保留每次运行的环境和预算。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e08-04-结果存储": [
+          "core",
+          "Agent 质量工程(八)评测运行器 / 结果存储",
+          "该条目直接服务于“能运行可复现的评测并保留每次运行的环境和预算。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e09-01-已知结果": [
+          "core",
+          "Agent 质量工程(九)评测系统校验 / 已知结果",
+          "该条目直接服务于“能用已知结果与注入故障验证评分系统。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e09-02-评分器故障": [
+          "core",
+          "Agent 质量工程(九)评测系统校验 / 评分器故障",
+          "该条目直接服务于“能用已知结果与注入故障验证评分系统。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e09-03-聚合故障": [
+          "core",
+          "Agent 质量工程(九)评测系统校验 / 聚合故障",
+          "该条目直接服务于“能用已知结果与注入故障验证评分系统。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e09-04-状态分类": [
+          "core",
+          "Agent 质量工程(九)评测系统校验 / 状态分类",
+          "该条目直接服务于“能用已知结果与注入故障验证评分系统。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e10-01-轨迹读取": [
+          "core",
+          "Agent 质量工程(十)Trace与归因 / 轨迹读取",
+          "该条目直接服务于“能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e10-02-首个偏差": [
+          "core",
+          "Agent 质量工程(十)Trace与归因 / 首个偏差",
+          "该条目直接服务于“能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e10-03-控制变量": [
+          "core",
+          "Agent 质量工程(十)Trace与归因 / 控制变量",
+          "该条目直接服务于“能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e10-04-归因边界": [
+          "core",
+          "Agent 质量工程(十)Trace与归因 / 归因边界",
+          "该条目直接服务于“能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 和集成问题。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e11-01-检索指标": [
+          "core",
+          "Agent 质量工程(十一)RAG评测 / 检索指标",
+          "该条目直接服务于“能为有答案、无答案、冲突和过期文档建立分层阈值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e11-02-事实指标": [
+          "core",
+          "Agent 质量工程(十一)RAG评测 / 事实指标",
+          "该条目直接服务于“能为有答案、无答案、冲突和过期文档建立分层阈值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e11-03-忠实度": [
+          "core",
+          "Agent 质量工程(十一)RAG评测 / 忠实度",
+          "该条目直接服务于“能为有答案、无答案、冲突和过期文档建立分层阈值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e11-04-引用覆盖": [
+          "core",
+          "Agent 质量工程(十一)RAG评测 / 引用覆盖",
+          "该条目直接服务于“能为有答案、无答案、冲突和过期文档建立分层阈值。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e12-01-会话设计": [
+          "core",
+          "Agent 质量工程(十二)多轮与长任务评测 / 会话设计",
+          "该条目直接服务于“能运行六个合成会话并区分 turn-pass、task-pass 和 UX。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e12-02-长任务状态": [
+          "core",
+          "Agent 质量工程(十二)多轮与长任务评测 / 长任务状态",
+          "该条目直接服务于“能运行六个合成会话并区分 turn-pass、task-pass 和 UX。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e12-03-用户体验": [
+          "core",
+          "Agent 质量工程(十二)多轮与长任务评测 / 用户体验",
+          "该条目直接服务于“能运行六个合成会话并区分 turn-pass、task-pass 和 UX。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e12-04-恢复评估": [
+          "core",
+          "Agent 质量工程(十二)多轮与长任务评测 / 恢复评估",
+          "该条目直接服务于“能运行六个合成会话并区分 turn-pass、task-pass 和 UX。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e13-01-单体基线": [
+          "core",
+          "Agent 质量工程(十三)多Agent评测 / 单体基线",
+          "该条目直接服务于“能解释局部成功但全局失败的轨迹。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e13-02-团队行为": [
+          "core",
+          "Agent 质量工程(十三)多Agent评测 / 团队行为",
+          "该条目直接服务于“能解释局部成功但全局失败的轨迹。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e13-03-交接评估": [
+          "core",
+          "Agent 质量工程(十三)多Agent评测 / 交接评估",
+          "该条目直接服务于“能解释局部成功但全局失败的轨迹。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e13-04-级联失败": [
+          "core",
+          "Agent 质量工程(十三)多Agent评测 / 级联失败",
+          "该条目直接服务于“能解释局部成功但全局失败的轨迹。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e14-01-补丁评估": [
+          "core",
+          "Agent 质量工程(十四)Coding Agent评测 / 补丁评估",
+          "该条目直接服务于“能识别 fail-to-pass、pass-to-pass 和不安全补丁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e14-02-回归检查": [
+          "core",
+          "Agent 质量工程(十四)Coding Agent评测 / 回归检查",
+          "该条目直接服务于“能识别 fail-to-pass、pass-to-pass 和不安全补丁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e14-03-提交边界": [
+          "core",
+          "Agent 质量工程(十四)Coding Agent评测 / 提交边界",
+          "该条目直接服务于“能识别 fail-to-pass、pass-to-pass 和不安全补丁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e14-04-篡改防护": [
+          "core",
+          "Agent 质量工程(十四)Coding Agent评测 / 篡改防护",
+          "该条目直接服务于“能识别 fail-to-pass、pass-to-pass 和不安全补丁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e15-01-交互任务": [
+          "core",
+          "Agent 质量工程(十五)交互Agent评测 / 交互任务",
+          "该条目直接服务于“能区分截图、Toast、页面状态和业务状态证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e15-02-可见状态": [
+          "core",
+          "Agent 质量工程(十五)交互Agent评测 / 可见状态",
+          "该条目直接服务于“能区分截图、Toast、页面状态和业务状态证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e15-03-慢与阻断": [
+          "core",
+          "Agent 质量工程(十五)交互Agent评测 / 慢与阻断",
+          "该条目直接服务于“能区分截图、Toast、页面状态和业务状态证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e15-04-trace范围": [
+          "core",
+          "Agent 质量工程(十五)交互Agent评测 / Trace范围",
+          "该条目直接服务于“能区分截图、Toast、页面状态和业务状态证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e16-01-并发模型": [
+          "core",
+          "Agent 质量工程(十六)性能与成本 / 并发模型",
+          "该条目直接服务于“能从 20 个任务的并发数据中解释 p95、成本和成功率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e16-02-尾延迟": [
+          "core",
+          "Agent 质量工程(十六)性能与成本 / 尾延迟",
+          "该条目直接服务于“能从 20 个任务的并发数据中解释 p95、成本和成功率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e16-03-缓存效果": [
+          "core",
+          "Agent 质量工程(十六)性能与成本 / 缓存效果",
+          "该条目直接服务于“能从 20 个任务的并发数据中解释 p95、成本和成功率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e16-04-成功成本": [
+          "core",
+          "Agent 质量工程(十六)性能与成本 / 成功成本",
+          "该条目直接服务于“能从 20 个任务的并发数据中解释 p95、成本和成功率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e17-01-故障时点": [
+          "core",
+          "Agent 质量工程(十七)故障与恢复评测 / 故障时点",
+          "该条目直接服务于“能分别报告故障类型、恢复时间、重复副作用和人工介入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e17-02-恢复策略": [
+          "core",
+          "Agent 质量工程(十七)故障与恢复评测 / 恢复策略",
+          "该条目直接服务于“能分别报告故障类型、恢复时间、重复副作用和人工介入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e17-03-副作用检查": [
+          "core",
+          "Agent 质量工程(十七)故障与恢复评测 / 副作用检查",
+          "该条目直接服务于“能分别报告故障类型、恢复时间、重复副作用和人工介入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e17-04-人工介入": [
+          "core",
+          "Agent 质量工程(十七)故障与恢复评测 / 人工介入",
+          "该条目直接服务于“能分别报告故障类型、恢复时间、重复副作用和人工介入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e18-01-发布阶段": [
+          "core",
+          "Agent 质量工程(十八)持续评测 / 发布阶段",
+          "该条目直接服务于“能设计离线→canary→rollback→incident 的持续门禁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e18-02-在线监控": [
+          "core",
+          "Agent 质量工程(十八)持续评测 / 在线监控",
+          "该条目直接服务于“能设计离线→canary→rollback→incident 的持续门禁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e18-03-回滚验证": [
+          "core",
+          "Agent 质量工程(十八)持续评测 / 回滚验证",
+          "该条目直接服务于“能设计离线→canary→rollback→incident 的持续门禁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e18-04-事故字段": [
+          "core",
+          "Agent 质量工程(十八)持续评测 / 事故字段",
+          "该条目直接服务于“能设计离线→canary→rollback→incident 的持续门禁。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e19-01-项目范围": [
+          "core",
+          "Agent 质量工程(十九)项目实战 / 项目范围",
+          "该条目直接服务于“产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e19-02-评测实现": [
+          "core",
+          "Agent 质量工程(十九)项目实战 / 评测实现",
+          "该条目直接服务于“产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e19-03-故障演练": [
+          "core",
+          "Agent 质量工程(十九)项目实战 / 故障演练",
+          "该条目直接服务于“产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "e19-04-上线复盘": [
+          "core",
+          "Agent 质量工程(十九)项目实战 / 上线复盘",
+          "该条目直接服务于“产出数据、运行器、评分器、Trace、统计、门禁和复盘报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 78,
+      "ledger_entries": 78,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  },
+  "migration_mappings": [],
+  "support_sources": [],
+  "exclusions": [],
+  "cover_contract": {
+    "path": "/img/picgo-images/agent-quality-course-cover.png",
+    "size": "1920x1080",
+    "safe_area": "central 70%",
+    "keywords": [
+      "Dataset",
+      "Oracle",
+      "Trials",
+      "Trace",
+      "Gate"
+    ]
+  }
+}

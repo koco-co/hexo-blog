@@ -1,0 +1,2805 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "llm-application",
+    "series": "AI 大模型应用",
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "purpose": "把测试开发工程师已有的 HTTP、Python、接口校验和故障分析能力迁移到可控的大模型应用开发。",
+    "graduation": "交付一个使用 FakeProvider、可替换模型、结构化输出、流式状态、成本预算与 Pytest 验证的工单分析 CLI。",
+    "topics": [
+      "模型与生成机制",
+      "API调用与开发环境",
+      "Prompt与任务契约",
+      "结构化输出与校验",
+      "流式输出与对话状态",
+      "上下文与缓存管理",
+      "多厂商接口适配",
+      "多模态与文件处理",
+      "调用可靠性与成本",
+      "模型评测与选型",
+      "模型生态与技术演进"
+    ],
+    "optional_articles": [
+      "进阶路线",
+      "项目实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "AI 大模型应用(一)入门路线",
+        "file": "AI 大模型应用(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "AI 大模型应用(二)模型与生成机制",
+        "file": "AI 大模型应用(二)模型与生成机制.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "AI 大模型应用(三)API调用与开发环境",
+        "file": "AI 大模型应用(三)API调用与开发环境.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "AI 大模型应用(四)Prompt与任务契约",
+        "file": "AI 大模型应用(四)Prompt与任务契约.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "AI 大模型应用(五)结构化输出与校验",
+        "file": "AI 大模型应用(五)结构化输出与校验.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "AI 大模型应用(六)流式输出与对话状态",
+        "file": "AI 大模型应用(六)流式输出与对话状态.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "AI 大模型应用(七)上下文与缓存管理",
+        "file": "AI 大模型应用(七)上下文与缓存管理.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "AI 大模型应用(八)多厂商接口适配",
+        "file": "AI 大模型应用(八)多厂商接口适配.md",
+        "kind": "topic"
+      },
+      {
+        "order": 9,
+        "title": "AI 大模型应用(九)多模态与文件处理",
+        "file": "AI 大模型应用(九)多模态与文件处理.md",
+        "kind": "topic"
+      },
+      {
+        "order": 10,
+        "title": "AI 大模型应用(十)调用可靠性与成本",
+        "file": "AI 大模型应用(十)调用可靠性与成本.md",
+        "kind": "topic"
+      },
+      {
+        "order": 11,
+        "title": "AI 大模型应用(十一)模型评测与选型",
+        "file": "AI 大模型应用(十一)模型评测与选型.md",
+        "kind": "topic"
+      },
+      {
+        "order": 12,
+        "title": "AI 大模型应用(十二)模型生态与技术演进",
+        "file": "AI 大模型应用(十二)模型生态与技术演进.md",
+        "kind": "topic"
+      },
+      {
+        "order": 13,
+        "title": "AI 大模型应用(十三)进阶路线",
+        "file": "AI 大模型应用(十三)进阶路线.md",
+        "kind": "advanced"
+      },
+      {
+        "order": 14,
+        "title": "AI 大模型应用(十四)项目实战",
+        "file": "AI 大模型应用(十四)项目实战.md",
+        "kind": "final"
+      }
+    ],
+    "article_map": [
+      {
+        "order": 1,
+        "title": "AI 大模型应用(一)入门路线",
+        "kind": "entry",
+        "depends": [],
+        "prerequisites": "课程入口基础",
+        "duty": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+        "outcome": "能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+        "h2": [
+          [
+            "课程目标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "前置条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "学习路径",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文章安排",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "开始学习",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "课程依赖路线图（Mermaid TD）"
+        ],
+        "experiment": "只核对已有基础和合成实验目录，不安装新的外部依赖。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Anthropic API documentation",
+            "url": "https://docs.anthropic.com/en/docs/intro",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+          },
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          }
+        ],
+        "openingPlan": null
+      },
+      {
+        "order": 2,
+        "title": "AI 大模型应用(二)模型与生成机制",
+        "kind": "topic",
+        "depends": [
+          "A01"
+        ],
+        "prerequisites": "完成 A01 的相关实验",
+        "duty": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+        "outcome": "完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+        "h2": [
+          [
+            "生成过程",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "采样策略",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "能力边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "动手推演",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "常见问题",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "把 token 流经采样器再进入输出的因果链画成对照图。"
+        ],
+        "experiment": "用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
+        "cards": [
+          "a02-generation-variability",
+          "a02-temperature-vs-topp"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          },
+          {
+            "title": "JSON Schema specification",
+            "url": "https://json-schema.org/specification",
+            "icon": "https://json-schema.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "JSON Schema specification: https://json-schema.org/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+          "content": "完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 3,
+        "title": "AI 大模型应用(三)API调用与开发环境",
+        "kind": "topic",
+        "depends": [
+          "A02"
+        ],
+        "prerequisites": "完成 A02 的相关实验",
+        "duty": "把一次模型调用拆成环境、身份、请求、响应和错误边界，避免把配置问题误判为模型问题。",
+        "outcome": "在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。",
+        "h2": [
+          [
+            "环境边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "最小调用",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "错误分类",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "本地验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "将调用链拆成配置、传输、服务和解析四层。"
+        ],
+        "experiment": "离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "JSON Schema specification",
+            "url": "https://json-schema.org/specification",
+            "icon": "https://json-schema.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "JSON Schema specification: https://json-schema.org/specification"
+          },
+          {
+            "title": "OpenAI Platform documentation",
+            "url": "https://platform.openai.com/docs/overview",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Platform documentation: https://platform.openai.com/docs/overview"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把一次模型调用拆成环境、身份、请求、响应和错误边界，避免把配置问题误判为模型问题。",
+          "content": "在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 4,
+        "title": "AI 大模型应用(四)Prompt与任务契约",
+        "kind": "topic",
+        "depends": [
+          "A03"
+        ],
+        "prerequisites": "完成 A03 的相关实验",
+        "duty": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+        "outcome": "为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。",
+        "h2": [
+          [
+            "任务拆解",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "契约字段",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "版本变更",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "注入边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "实验复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用契约字段把“想要一个答案”拆成目标、证据、约束和完成条件。"
+        ],
+        "experiment": "对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
+        "cards": [
+          "a04-prompt-contract",
+          "a04-xml-is-not-defense"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "OpenAI Platform documentation",
+            "url": "https://platform.openai.com/docs/overview",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Platform documentation: https://platform.openai.com/docs/overview"
+          },
+          {
+            "title": "Anthropic API documentation",
+            "url": "https://docs.anthropic.com/en/docs/intro",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+          "content": "为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 5,
+        "title": "AI 大模型应用(五)结构化输出与校验",
+        "kind": "topic",
+        "depends": [
+          "A04"
+        ],
+        "prerequisites": "完成 A04 的相关实验",
+        "duty": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+        "outcome": "为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。",
+        "h2": [
+          [
+            "Schema定义",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "请求约束",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "解析校验",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "业务规则",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "错误分层",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "画出模型输出经过语法、结构、业务三道门的流转。"
+        ],
+        "experiment": "使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
+        "cards": [
+          "a05-structured-output-boundaries",
+          "a05-four-failure-layers"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Anthropic API documentation",
+            "url": "https://docs.anthropic.com/en/docs/intro",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+          },
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+          "content": "为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 6,
+        "title": "AI 大模型应用(六)流式输出与对话状态",
+        "kind": "topic",
+        "depends": [
+          "A05"
+        ],
+        "prerequisites": "完成 A05 的相关实验",
+        "duty": "正确处理增量事件、会话状态、取消、重放和最终完成，避免把“看到文字”当成成功。",
+        "outcome": "实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。",
+        "h2": [
+          [
+            "事件模型",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "会话状态",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "取消语义",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重放验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "把增量事件和最终状态放在同一张状态机中。"
+        ],
+        "experiment": "用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
+        "cards": [
+          "a06-stream-is-not-success",
+          "a06-response-id-boundary"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          },
+          {
+            "title": "JSON Schema specification",
+            "url": "https://json-schema.org/specification",
+            "icon": "https://json-schema.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "JSON Schema specification: https://json-schema.org/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "正确处理增量事件、会话状态、取消、重放和最终完成，避免把“看到文字”当成成功。",
+          "content": "实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 7,
+        "title": "AI 大模型应用(七)上下文与缓存管理",
+        "kind": "topic",
+        "depends": [
+          "A06"
+        ],
+        "prerequisites": "完成 A06 的相关实验",
+        "duty": "在上下文长度、缓存命中和证据保真之间做出可解释取舍。",
+        "outcome": "为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。",
+        "h2": [
+          [
+            "上下文盘点",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "组装顺序",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "缓存边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "压缩取舍",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用分层上下文带表示固定前缀、任务输入、工具结果和短期状态。"
+        ],
+        "experiment": "改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
+        "cards": [
+          "a07-cache-history-memory"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "JSON Schema specification",
+            "url": "https://json-schema.org/specification",
+            "icon": "https://json-schema.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "JSON Schema specification: https://json-schema.org/specification"
+          },
+          {
+            "title": "OpenAI Platform documentation",
+            "url": "https://platform.openai.com/docs/overview",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Platform documentation: https://platform.openai.com/docs/overview"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "在上下文长度、缓存命中和证据保真之间做出可解释取舍。",
+          "content": "为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 8,
+        "title": "AI 大模型应用(八)多厂商接口适配",
+        "kind": "topic",
+        "depends": [
+          "A05",
+          "A06"
+        ],
+        "prerequisites": "完成 A05、A06 的相关实验",
+        "duty": "在切换厂商或 API 表面时保持语义不变，识别兼容层不能覆盖的差异。",
+        "outcome": "为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。",
+        "h2": [
+          [
+            "边界接口",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "语义差异",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "适配策略",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "迁移验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用同一业务契约穿过不同 provider 的转换边界。"
+        ],
+        "experiment": "用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
+        "cards": [
+          "a08-compatibility-is-not-equality"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI Platform documentation",
+            "url": "https://platform.openai.com/docs/overview",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Platform documentation: https://platform.openai.com/docs/overview"
+          },
+          {
+            "title": "Anthropic API documentation",
+            "url": "https://docs.anthropic.com/en/docs/intro",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "在切换厂商或 API 表面时保持语义不变，识别兼容层不能覆盖的差异。",
+          "content": "为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 9,
+        "title": "AI 大模型应用(九)多模态与文件处理",
+        "kind": "topic",
+        "depends": [
+          "A03",
+          "A05"
+        ],
+        "prerequisites": "完成 A03、A05 的相关实验",
+        "duty": "把截图和 PDF 的输入、引用、截取、限制和结果检查串成证据链。",
+        "outcome": "用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。",
+        "h2": [
+          [
+            "输入方式",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文件限制",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果证据",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "练习复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "展示原始材料、模型观察和人工核验之间的三段链路。"
+        ],
+        "experiment": "用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
+        "cards": [
+          "a09-visual-result-needs-inspection"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Anthropic API documentation",
+            "url": "https://docs.anthropic.com/en/docs/intro",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+          },
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把截图和 PDF 的输入、引用、截取、限制和结果检查串成证据链。",
+          "content": "用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 10,
+        "title": "AI 大模型应用(十)调用可靠性与成本",
+        "kind": "topic",
+        "depends": [
+          "A06",
+          "A07",
+          "A08"
+        ],
+        "prerequisites": "完成 A06、A07、A08 的相关实验",
+        "duty": "把截止时间、预算、重试、退避、限流、降级和成本核算放到同一个调用策略中。",
+        "outcome": "在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。",
+        "h2": [
+          [
+            "预算边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "故障分类",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重试策略",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "成本验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "把一次调用画成带 deadline、token budget 和 fallback 的控制回路。"
+        ],
+        "experiment": "使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
+        "cards": [
+          "a10-retry-needs-deadline",
+          "a10-ttft-vs-completion"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          },
+          {
+            "title": "JSON Schema specification",
+            "url": "https://json-schema.org/specification",
+            "icon": "https://json-schema.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "JSON Schema specification: https://json-schema.org/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把截止时间、预算、重试、退避、限流、降级和成本核算放到同一个调用策略中。",
+          "content": "在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 11,
+        "title": "AI 大模型应用(十一)模型评测与选型",
+        "kind": "topic",
+        "depends": [
+          "A05",
+          "A08",
+          "A10"
+        ],
+        "prerequisites": "完成 A05、A08、A10 的相关实验",
+        "duty": "用有限、分层、有业务意义的证据选择模型，而不是照搬排行榜。",
+        "outcome": "用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。",
+        "h2": [
+          [
+            "问题定义",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "实验设计",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果解释",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "决策记录",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用多目标决策矩阵连接质量、成本、延迟与风险。"
+        ],
+        "experiment": "固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
+        "cards": [
+          "a11-leaderboard-is-not-choice",
+          "a11-ten-samples-not-stability"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "JSON Schema specification",
+            "url": "https://json-schema.org/specification",
+            "icon": "https://json-schema.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "JSON Schema specification: https://json-schema.org/specification"
+          },
+          {
+            "title": "OpenAI Platform documentation",
+            "url": "https://platform.openai.com/docs/overview",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Platform documentation: https://platform.openai.com/docs/overview"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用有限、分层、有业务意义的证据选择模型，而不是照搬排行榜。",
+          "content": "用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 12,
+        "title": "AI 大模型应用(十二)模型生态与技术演进",
+        "kind": "topic",
+        "depends": [
+          "A02",
+          "A11"
+        ],
+        "prerequisites": "完成 A02、A11 的相关实验",
+        "duty": "按模型、API、应用、Agent 和评测层建立生态地图，并正确标注版本阶段。",
+        "outcome": "能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。",
+        "h2": [
+          [
+            "生态分层",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "演进节奏",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "入口索引",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "日期判断",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "画出模型能力到产品运行时再到业务集成的分层。"
+        ],
+        "experiment": "使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
+        "cards": [
+          "a12-capability-vs-product"
+        ],
+        "difficulty": "参考",
+        "referenceCards": [
+          {
+            "title": "OpenAI Platform documentation",
+            "url": "https://platform.openai.com/docs/overview",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Platform documentation: https://platform.openai.com/docs/overview"
+          },
+          {
+            "title": "Anthropic API documentation",
+            "url": "https://docs.anthropic.com/en/docs/intro",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "按模型、API、应用、Agent 和评测层建立生态地图，并正确标注版本阶段。",
+          "content": "能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 13,
+        "title": "AI 大模型应用(十三)进阶路线",
+        "kind": "advanced",
+        "depends": [
+          "A11"
+        ],
+        "prerequisites": "完成 A11 的相关实验",
+        "duty": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+        "outcome": "提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。",
+        "h2": [
+          [
+            "瓶颈定位",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "方向选择",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "实验提案",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "常见问题",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用决策树判断应先改检索、Prompt、模型还是数据。"
+        ],
+        "experiment": "从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
+        "cards": [
+          "a13-rag-vs-finetuning"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Anthropic API documentation",
+            "url": "https://docs.anthropic.com/en/docs/intro",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+          },
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+          "content": "提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 14,
+        "title": "AI 大模型应用(十四)项目实战",
+        "kind": "final",
+        "depends": [
+          "A03",
+          "A04",
+          "A05",
+          "A06",
+          "A08",
+          "A10",
+          "A11"
+        ],
+        "prerequisites": "完成 A03、A04、A05、A06、A08、A10、A11 的相关实验",
+        "duty": "把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。",
+        "outcome": "交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。",
+        "h2": [
+          [
+            "范围定义",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "能力组合",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "验收矩阵",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "交付复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用端到端证据链连接输入、调用、状态、输出、失败和测试报告。"
+        ],
+        "experiment": "使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
+        "cards": [
+          "a05-structured-output-boundaries",
+          "a10-retry-needs-deadline"
+        ],
+        "difficulty": "实战",
+        "referenceCards": [
+          {
+            "title": "Gemini API documentation",
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "icon": "https://ai.google.dev/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+          },
+          {
+            "title": "JSON Schema specification",
+            "url": "https://json-schema.org/specification",
+            "icon": "https://json-schema.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "JSON Schema specification: https://json-schema.org/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。",
+          "content": "交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      }
+    ],
+    "article_block_tag_plans": {
+      "AI 大模型应用(一)入门路线": [
+        {
+          "block": "课程目标",
+          "reader_task": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+          "core_content": "课程目标：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "mermaid",
+          "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "完成“前置条件”中的关键理解、操作或判断",
+          "core_content": "前置条件：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "完成“学习路径”中的关键理解、操作或判断",
+          "core_content": "学习路径：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "完成“文章安排”中的关键理解、操作或判断",
+          "core_content": "文章安排：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "完成“开始学习”中的关键理解、操作或判断",
+          "core_content": "开始学习：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(二)模型与生成机制": [
+        {
+          "block": "生成过程",
+          "reader_task": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+          "core_content": "生成过程：完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+          "carrier": "mermaid",
+          "rationale": "用把 token 流经采样器再进入输出的因果链画成对照图。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "采样策略",
+          "reader_task": "完成“采样策略”中的关键理解、操作或判断",
+          "core_content": "采样策略：完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“采样策略”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "能力边界",
+          "reader_task": "完成“能力边界”中的关键理解、操作或判断",
+          "core_content": "能力边界：完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+          "carrier": "table",
+          "rationale": "该块只承担“能力边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "动手推演",
+          "reader_task": "完成“动手推演”中的关键理解、操作或判断",
+          "core_content": "动手推演：完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“动手推演”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "完成“常见问题”中的关键理解、操作或判断",
+          "core_content": "常见问题：完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+          "carrier": "list",
+          "rationale": "该块只承担“常见问题”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(三)API调用与开发环境": [
+        {
+          "block": "环境边界",
+          "reader_task": "把一次模型调用拆成环境、身份、请求、响应和错误边界，避免把配置问题误判为模型问题。",
+          "core_content": "环境边界：在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。",
+          "carrier": "mermaid",
+          "rationale": "用将调用链拆成配置、传输、服务和解析四层。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "最小调用",
+          "reader_task": "完成“最小调用”中的关键理解、操作或判断",
+          "core_content": "最小调用：在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。",
+          "carrier": "code",
+          "rationale": "该块只承担“最小调用”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "错误分类",
+          "reader_task": "完成“错误分类”中的关键理解、操作或判断",
+          "core_content": "错误分类：在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。",
+          "carrier": "list",
+          "rationale": "该块只承担“错误分类”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "本地验证",
+          "reader_task": "完成“本地验证”中的关键理解、操作或判断",
+          "core_content": "本地验证：在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。",
+          "carrier": "code",
+          "rationale": "该块只承担“本地验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(四)Prompt与任务契约": [
+        {
+          "block": "任务拆解",
+          "reader_task": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+          "core_content": "任务拆解：为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。",
+          "carrier": "mermaid",
+          "rationale": "用用契约字段把“想要一个答案”拆成目标、证据、约束和完成条件。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "契约字段",
+          "reader_task": "完成“契约字段”中的关键理解、操作或判断",
+          "core_content": "契约字段：为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。",
+          "carrier": "table",
+          "rationale": "该块只承担“契约字段”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "版本变更",
+          "reader_task": "完成“版本变更”中的关键理解、操作或判断",
+          "core_content": "版本变更：为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。",
+          "carrier": "list",
+          "rationale": "该块只承担“版本变更”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "注入边界",
+          "reader_task": "完成“注入边界”中的关键理解、操作或判断",
+          "core_content": "注入边界：为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。",
+          "carrier": "table",
+          "rationale": "该块只承担“注入边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "实验复盘",
+          "reader_task": "完成“实验复盘”中的关键理解、操作或判断",
+          "core_content": "实验复盘：为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“实验复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(五)结构化输出与校验": [
+        {
+          "block": "Schema定义",
+          "reader_task": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+          "core_content": "Schema定义：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。",
+          "carrier": "mermaid",
+          "rationale": "用画出模型输出经过语法、结构、业务三道门的流转。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "请求约束",
+          "reader_task": "完成“请求约束”中的关键理解、操作或判断",
+          "core_content": "请求约束：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“请求约束”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "解析校验",
+          "reader_task": "完成“解析校验”中的关键理解、操作或判断",
+          "core_content": "解析校验：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。",
+          "carrier": "list",
+          "rationale": "该块只承担“解析校验”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "业务规则",
+          "reader_task": "完成“业务规则”中的关键理解、操作或判断",
+          "core_content": "业务规则：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“业务规则”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "错误分层",
+          "reader_task": "完成“错误分层”中的关键理解、操作或判断",
+          "core_content": "错误分层：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“错误分层”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(六)流式输出与对话状态": [
+        {
+          "block": "事件模型",
+          "reader_task": "正确处理增量事件、会话状态、取消、重放和最终完成，避免把“看到文字”当成成功。",
+          "core_content": "事件模型：实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。",
+          "carrier": "mermaid",
+          "rationale": "用把增量事件和最终状态放在同一张状态机中。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "会话状态",
+          "reader_task": "完成“会话状态”中的关键理解、操作或判断",
+          "core_content": "会话状态：实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。",
+          "carrier": "table",
+          "rationale": "该块只承担“会话状态”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "取消语义",
+          "reader_task": "完成“取消语义”中的关键理解、操作或判断",
+          "core_content": "取消语义：实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。",
+          "carrier": "list",
+          "rationale": "该块只承担“取消语义”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重放验证",
+          "reader_task": "完成“重放验证”中的关键理解、操作或判断",
+          "core_content": "重放验证：实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“重放验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(七)上下文与缓存管理": [
+        {
+          "block": "上下文盘点",
+          "reader_task": "在上下文长度、缓存命中和证据保真之间做出可解释取舍。",
+          "core_content": "上下文盘点：为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。",
+          "carrier": "mermaid",
+          "rationale": "用用分层上下文带表示固定前缀、任务输入、工具结果和短期状态。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "组装顺序",
+          "reader_task": "完成“组装顺序”中的关键理解、操作或判断",
+          "core_content": "组装顺序：为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“组装顺序”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "缓存边界",
+          "reader_task": "完成“缓存边界”中的关键理解、操作或判断",
+          "core_content": "缓存边界：为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。",
+          "carrier": "table",
+          "rationale": "该块只承担“缓存边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "压缩取舍",
+          "reader_task": "完成“压缩取舍”中的关键理解、操作或判断",
+          "core_content": "压缩取舍：为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“压缩取舍”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(八)多厂商接口适配": [
+        {
+          "block": "边界接口",
+          "reader_task": "在切换厂商或 API 表面时保持语义不变，识别兼容层不能覆盖的差异。",
+          "core_content": "边界接口：为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。",
+          "carrier": "mermaid",
+          "rationale": "用用同一业务契约穿过不同 provider 的转换边界。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "语义差异",
+          "reader_task": "完成“语义差异”中的关键理解、操作或判断",
+          "core_content": "语义差异：为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“语义差异”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "适配策略",
+          "reader_task": "完成“适配策略”中的关键理解、操作或判断",
+          "core_content": "适配策略：为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。",
+          "carrier": "list",
+          "rationale": "该块只承担“适配策略”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "迁移验证",
+          "reader_task": "完成“迁移验证”中的关键理解、操作或判断",
+          "core_content": "迁移验证：为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“迁移验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(九)多模态与文件处理": [
+        {
+          "block": "输入方式",
+          "reader_task": "把截图和 PDF 的输入、引用、截取、限制和结果检查串成证据链。",
+          "core_content": "输入方式：用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。",
+          "carrier": "mermaid",
+          "rationale": "用展示原始材料、模型观察和人工核验之间的三段链路。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文件限制",
+          "reader_task": "完成“文件限制”中的关键理解、操作或判断",
+          "core_content": "文件限制：用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文件限制”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果证据",
+          "reader_task": "完成“结果证据”中的关键理解、操作或判断",
+          "core_content": "结果证据：用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。",
+          "carrier": "list",
+          "rationale": "该块只承担“结果证据”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "练习复盘",
+          "reader_task": "完成“练习复盘”中的关键理解、操作或判断",
+          "core_content": "练习复盘：用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“练习复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(十)调用可靠性与成本": [
+        {
+          "block": "预算边界",
+          "reader_task": "把截止时间、预算、重试、退避、限流、降级和成本核算放到同一个调用策略中。",
+          "core_content": "预算边界：在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。",
+          "carrier": "mermaid",
+          "rationale": "用把一次调用画成带 deadline、token budget 和 fallback 的控制回路。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "故障分类",
+          "reader_task": "完成“故障分类”中的关键理解、操作或判断",
+          "core_content": "故障分类：在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“故障分类”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重试策略",
+          "reader_task": "完成“重试策略”中的关键理解、操作或判断",
+          "core_content": "重试策略：在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。",
+          "carrier": "list",
+          "rationale": "该块只承担“重试策略”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "成本验证",
+          "reader_task": "完成“成本验证”中的关键理解、操作或判断",
+          "core_content": "成本验证：在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“成本验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(十一)模型评测与选型": [
+        {
+          "block": "问题定义",
+          "reader_task": "用有限、分层、有业务意义的证据选择模型，而不是照搬排行榜。",
+          "core_content": "问题定义：用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。",
+          "carrier": "mermaid",
+          "rationale": "用用多目标决策矩阵连接质量、成本、延迟与风险。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "实验设计",
+          "reader_task": "完成“实验设计”中的关键理解、操作或判断",
+          "core_content": "实验设计：用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。",
+          "carrier": "code",
+          "rationale": "该块只承担“实验设计”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果解释",
+          "reader_task": "完成“结果解释”中的关键理解、操作或判断",
+          "core_content": "结果解释：用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。",
+          "carrier": "list",
+          "rationale": "该块只承担“结果解释”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "决策记录",
+          "reader_task": "完成“决策记录”中的关键理解、操作或判断",
+          "core_content": "决策记录：用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“决策记录”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(十二)模型生态与技术演进": [
+        {
+          "block": "生态分层",
+          "reader_task": "按模型、API、应用、Agent 和评测层建立生态地图，并正确标注版本阶段。",
+          "core_content": "生态分层：能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。",
+          "carrier": "mermaid",
+          "rationale": "用画出模型能力到产品运行时再到业务集成的分层。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "演进节奏",
+          "reader_task": "完成“演进节奏”中的关键理解、操作或判断",
+          "core_content": "演进节奏：能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“演进节奏”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "入口索引",
+          "reader_task": "完成“入口索引”中的关键理解、操作或判断",
+          "core_content": "入口索引：能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。",
+          "carrier": "list",
+          "rationale": "该块只承担“入口索引”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "日期判断",
+          "reader_task": "完成“日期判断”中的关键理解、操作或判断",
+          "core_content": "日期判断：能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“日期判断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(十三)进阶路线": [
+        {
+          "block": "瓶颈定位",
+          "reader_task": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+          "core_content": "瓶颈定位：提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。",
+          "carrier": "mermaid",
+          "rationale": "用用决策树判断应先改检索、Prompt、模型还是数据。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "方向选择",
+          "reader_task": "完成“方向选择”中的关键理解、操作或判断",
+          "core_content": "方向选择：提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“方向选择”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "实验提案",
+          "reader_task": "完成“实验提案”中的关键理解、操作或判断",
+          "core_content": "实验提案：提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。",
+          "carrier": "code",
+          "rationale": "该块只承担“实验提案”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "常见问题",
+          "reader_task": "完成“常见问题”中的关键理解、操作或判断",
+          "core_content": "常见问题：提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“常见问题”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 大模型应用(十四)项目实战": [
+        {
+          "block": "范围定义",
+          "reader_task": "把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。",
+          "core_content": "范围定义：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。",
+          "carrier": "mermaid",
+          "rationale": "用用端到端证据链连接输入、调用、状态、输出、失败和测试报告。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "能力组合",
+          "reader_task": "完成“能力组合”中的关键理解、操作或判断",
+          "core_content": "能力组合：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“能力组合”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "验收矩阵",
+          "reader_task": "完成“验收矩阵”中的关键理解、操作或判断",
+          "core_content": "验收矩阵：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。",
+          "carrier": "table",
+          "rationale": "该块只承担“验收矩阵”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "交付复盘",
+          "reader_task": "完成“交付复盘”中的关键理解、操作或判断",
+          "core_content": "交付复盘：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“交付复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ]
+    },
+    "reference_cards": [
+      {
+        "title": "OpenAI Platform documentation",
+        "url": "https://platform.openai.com/docs/overview",
+        "icon": "https://platform.openai.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OpenAI Platform documentation: https://platform.openai.com/docs/overview"
+      },
+      {
+        "title": "Anthropic API documentation",
+        "url": "https://docs.anthropic.com/en/docs/intro",
+        "icon": "https://docs.anthropic.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "Anthropic API documentation: https://docs.anthropic.com/en/docs/intro"
+      },
+      {
+        "title": "Gemini API documentation",
+        "url": "https://ai.google.dev/gemini-api/docs",
+        "icon": "https://ai.google.dev/favicon.ico",
+        "sourceType": "official",
+        "fallback": "Gemini API documentation: https://ai.google.dev/gemini-api/docs"
+      },
+      {
+        "title": "JSON Schema specification",
+        "url": "https://json-schema.org/specification",
+        "icon": "https://json-schema.org/favicon.ico",
+        "sourceType": "official",
+        "fallback": "JSON Schema specification: https://json-schema.org/specification"
+      }
+    ],
+    "research_scope": {
+      "researched_at": "2026-08-29",
+      "source_count": 4,
+      "bounded": true,
+      "note": "仅列可复核官方入口；快速变化内容在逐篇写作前刷新。"
+    }
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "topic_type": "AI 大模型应用：面向测试开发工程师的应用与质量工程课程",
+      "researched_at": "2026-08-29",
+      "boundary": "有限官方入口与稳定工程能力；快速变化的 SDK、模型和协议在逐篇写作前刷新。",
+      "reproduction": "按 sources、stable_id、version_status 和 article target 逐项复核；不宣称穷尽互联网。",
+      "entries": [
+        {
+          "title": "OpenAI Platform documentation",
+          "url": "https://platform.openai.com/docs/overview",
+          "icon": "https://platform.openai.com/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "Anthropic API documentation",
+          "url": "https://docs.anthropic.com/en/docs/intro",
+          "icon": "https://docs.anthropic.com/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "Gemini API documentation",
+          "url": "https://ai.google.dev/gemini-api/docs",
+          "icon": "https://ai.google.dev/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "JSON Schema specification",
+          "url": "https://json-schema.org/specification",
+          "icon": "https://json-schema.org/favicon.ico",
+          "sourceType": "official"
+        }
+      ]
+    },
+    "capabilities": {
+      "a01-01-课程目标": {
+        "title": "AI 大模型应用(一)入门路线 / 课程目标",
+        "subject": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a01-01-课程目标"
+      },
+      "a01-02-前置条件": {
+        "title": "AI 大模型应用(一)入门路线 / 前置条件",
+        "subject": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a01-02-前置条件"
+      },
+      "a01-03-学习路径": {
+        "title": "AI 大模型应用(一)入门路线 / 学习路径",
+        "subject": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a01-03-学习路径"
+      },
+      "a01-04-文章安排": {
+        "title": "AI 大模型应用(一)入门路线 / 文章安排",
+        "subject": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a01-04-文章安排"
+      },
+      "a01-05-开始学习": {
+        "title": "AI 大模型应用(一)入门路线 / 开始学习",
+        "subject": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a01-05-开始学习"
+      },
+      "a01-06-参考资料": {
+        "title": "AI 大模型应用(一)入门路线 / 参考资料",
+        "subject": "说明AI 大模型应用的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a01-06-参考资料"
+      },
+      "a02-01-生成过程": {
+        "title": "AI 大模型应用(二)模型与生成机制 / 生成过程",
+        "subject": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a02-01-生成过程"
+      },
+      "a02-02-采样策略": {
+        "title": "AI 大模型应用(二)模型与生成机制 / 采样策略",
+        "subject": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a02-02-采样策略"
+      },
+      "a02-03-能力边界": {
+        "title": "AI 大模型应用(二)模型与生成机制 / 能力边界",
+        "subject": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a02-03-能力边界"
+      },
+      "a02-04-动手推演": {
+        "title": "AI 大模型应用(二)模型与生成机制 / 动手推演",
+        "subject": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a02-04-动手推演"
+      },
+      "a02-05-常见问题": {
+        "title": "AI 大模型应用(二)模型与生成机制 / 常见问题",
+        "subject": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a02-05-常见问题"
+      },
+      "a02-06-参考资料": {
+        "title": "AI 大模型应用(二)模型与生成机制 / 参考资料",
+        "subject": "解释同一输入为何可能产生不同输出，并建立生成过程、采样和能力边界的直觉模型。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a02-06-参考资料"
+      },
+      "a03-01-环境边界": {
+        "title": "AI 大模型应用(三)API调用与开发环境 / 环境边界",
+        "subject": "把一次模型调用拆成环境、身份、请求、响应和错误边界，避免把配置问题误判为模型问题。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a03-01-环境边界"
+      },
+      "a03-02-最小调用": {
+        "title": "AI 大模型应用(三)API调用与开发环境 / 最小调用",
+        "subject": "把一次模型调用拆成环境、身份、请求、响应和错误边界，避免把配置问题误判为模型问题。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a03-02-最小调用"
+      },
+      "a03-03-错误分类": {
+        "title": "AI 大模型应用(三)API调用与开发环境 / 错误分类",
+        "subject": "把一次模型调用拆成环境、身份、请求、响应和错误边界，避免把配置问题误判为模型问题。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a03-03-错误分类"
+      },
+      "a03-04-本地验证": {
+        "title": "AI 大模型应用(三)API调用与开发环境 / 本地验证",
+        "subject": "把一次模型调用拆成环境、身份、请求、响应和错误边界，避免把配置问题误判为模型问题。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a03-04-本地验证"
+      },
+      "a04-01-任务拆解": {
+        "title": "AI 大模型应用(四)Prompt与任务契约 / 任务拆解",
+        "subject": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a04-01-任务拆解"
+      },
+      "a04-02-契约字段": {
+        "title": "AI 大模型应用(四)Prompt与任务契约 / 契约字段",
+        "subject": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a04-02-契约字段"
+      },
+      "a04-03-版本变更": {
+        "title": "AI 大模型应用(四)Prompt与任务契约 / 版本变更",
+        "subject": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a04-03-版本变更"
+      },
+      "a04-04-注入边界": {
+        "title": "AI 大模型应用(四)Prompt与任务契约 / 注入边界",
+        "subject": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a04-04-注入边界"
+      },
+      "a04-05-实验复盘": {
+        "title": "AI 大模型应用(四)Prompt与任务契约 / 实验复盘",
+        "subject": "把自然语言目标改写成可测量、可版本化、可审查的任务契约。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a04-05-实验复盘"
+      },
+      "a05-01-schema定义": {
+        "title": "AI 大模型应用(五)结构化输出与校验 / Schema定义",
+        "subject": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a05-01-schema定义"
+      },
+      "a05-02-请求约束": {
+        "title": "AI 大模型应用(五)结构化输出与校验 / 请求约束",
+        "subject": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a05-02-请求约束"
+      },
+      "a05-03-解析校验": {
+        "title": "AI 大模型应用(五)结构化输出与校验 / 解析校验",
+        "subject": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a05-03-解析校验"
+      },
+      "a05-04-业务规则": {
+        "title": "AI 大模型应用(五)结构化输出与校验 / 业务规则",
+        "subject": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a05-04-业务规则"
+      },
+      "a05-05-错误分层": {
+        "title": "AI 大模型应用(五)结构化输出与校验 / 错误分层",
+        "subject": "把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a05-05-错误分层"
+      },
+      "a06-01-事件模型": {
+        "title": "AI 大模型应用(六)流式输出与对话状态 / 事件模型",
+        "subject": "正确处理增量事件、会话状态、取消、重放和最终完成，避免把“看到文字”当成成功。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a06-01-事件模型"
+      },
+      "a06-02-会话状态": {
+        "title": "AI 大模型应用(六)流式输出与对话状态 / 会话状态",
+        "subject": "正确处理增量事件、会话状态、取消、重放和最终完成，避免把“看到文字”当成成功。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a06-02-会话状态"
+      },
+      "a06-03-取消语义": {
+        "title": "AI 大模型应用(六)流式输出与对话状态 / 取消语义",
+        "subject": "正确处理增量事件、会话状态、取消、重放和最终完成，避免把“看到文字”当成成功。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a06-03-取消语义"
+      },
+      "a06-04-重放验证": {
+        "title": "AI 大模型应用(六)流式输出与对话状态 / 重放验证",
+        "subject": "正确处理增量事件、会话状态、取消、重放和最终完成，避免把“看到文字”当成成功。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a06-04-重放验证"
+      },
+      "a07-01-上下文盘点": {
+        "title": "AI 大模型应用(七)上下文与缓存管理 / 上下文盘点",
+        "subject": "在上下文长度、缓存命中和证据保真之间做出可解释取舍。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a07-01-上下文盘点"
+      },
+      "a07-02-组装顺序": {
+        "title": "AI 大模型应用(七)上下文与缓存管理 / 组装顺序",
+        "subject": "在上下文长度、缓存命中和证据保真之间做出可解释取舍。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a07-02-组装顺序"
+      },
+      "a07-03-缓存边界": {
+        "title": "AI 大模型应用(七)上下文与缓存管理 / 缓存边界",
+        "subject": "在上下文长度、缓存命中和证据保真之间做出可解释取舍。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a07-03-缓存边界"
+      },
+      "a07-04-压缩取舍": {
+        "title": "AI 大模型应用(七)上下文与缓存管理 / 压缩取舍",
+        "subject": "在上下文长度、缓存命中和证据保真之间做出可解释取舍。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a07-04-压缩取舍"
+      },
+      "a08-01-边界接口": {
+        "title": "AI 大模型应用(八)多厂商接口适配 / 边界接口",
+        "subject": "在切换厂商或 API 表面时保持语义不变，识别兼容层不能覆盖的差异。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a08-01-边界接口"
+      },
+      "a08-02-语义差异": {
+        "title": "AI 大模型应用(八)多厂商接口适配 / 语义差异",
+        "subject": "在切换厂商或 API 表面时保持语义不变，识别兼容层不能覆盖的差异。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a08-02-语义差异"
+      },
+      "a08-03-适配策略": {
+        "title": "AI 大模型应用(八)多厂商接口适配 / 适配策略",
+        "subject": "在切换厂商或 API 表面时保持语义不变，识别兼容层不能覆盖的差异。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a08-03-适配策略"
+      },
+      "a08-04-迁移验证": {
+        "title": "AI 大模型应用(八)多厂商接口适配 / 迁移验证",
+        "subject": "在切换厂商或 API 表面时保持语义不变，识别兼容层不能覆盖的差异。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a08-04-迁移验证"
+      },
+      "a09-01-输入方式": {
+        "title": "AI 大模型应用(九)多模态与文件处理 / 输入方式",
+        "subject": "把截图和 PDF 的输入、引用、截取、限制和结果检查串成证据链。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a09-01-输入方式"
+      },
+      "a09-02-文件限制": {
+        "title": "AI 大模型应用(九)多模态与文件处理 / 文件限制",
+        "subject": "把截图和 PDF 的输入、引用、截取、限制和结果检查串成证据链。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a09-02-文件限制"
+      },
+      "a09-03-结果证据": {
+        "title": "AI 大模型应用(九)多模态与文件处理 / 结果证据",
+        "subject": "把截图和 PDF 的输入、引用、截取、限制和结果检查串成证据链。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a09-03-结果证据"
+      },
+      "a09-04-练习复盘": {
+        "title": "AI 大模型应用(九)多模态与文件处理 / 练习复盘",
+        "subject": "把截图和 PDF 的输入、引用、截取、限制和结果检查串成证据链。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a09-04-练习复盘"
+      },
+      "a10-01-预算边界": {
+        "title": "AI 大模型应用(十)调用可靠性与成本 / 预算边界",
+        "subject": "把截止时间、预算、重试、退避、限流、降级和成本核算放到同一个调用策略中。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a10-01-预算边界"
+      },
+      "a10-02-故障分类": {
+        "title": "AI 大模型应用(十)调用可靠性与成本 / 故障分类",
+        "subject": "把截止时间、预算、重试、退避、限流、降级和成本核算放到同一个调用策略中。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a10-02-故障分类"
+      },
+      "a10-03-重试策略": {
+        "title": "AI 大模型应用(十)调用可靠性与成本 / 重试策略",
+        "subject": "把截止时间、预算、重试、退避、限流、降级和成本核算放到同一个调用策略中。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a10-03-重试策略"
+      },
+      "a10-04-成本验证": {
+        "title": "AI 大模型应用(十)调用可靠性与成本 / 成本验证",
+        "subject": "把截止时间、预算、重试、退避、限流、降级和成本核算放到同一个调用策略中。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a10-04-成本验证"
+      },
+      "a11-01-问题定义": {
+        "title": "AI 大模型应用(十一)模型评测与选型 / 问题定义",
+        "subject": "用有限、分层、有业务意义的证据选择模型，而不是照搬排行榜。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a11-01-问题定义"
+      },
+      "a11-02-实验设计": {
+        "title": "AI 大模型应用(十一)模型评测与选型 / 实验设计",
+        "subject": "用有限、分层、有业务意义的证据选择模型，而不是照搬排行榜。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a11-02-实验设计"
+      },
+      "a11-03-结果解释": {
+        "title": "AI 大模型应用(十一)模型评测与选型 / 结果解释",
+        "subject": "用有限、分层、有业务意义的证据选择模型，而不是照搬排行榜。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a11-03-结果解释"
+      },
+      "a11-04-决策记录": {
+        "title": "AI 大模型应用(十一)模型评测与选型 / 决策记录",
+        "subject": "用有限、分层、有业务意义的证据选择模型，而不是照搬排行榜。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a11-04-决策记录"
+      },
+      "a12-01-生态分层": {
+        "title": "AI 大模型应用(十二)模型生态与技术演进 / 生态分层",
+        "subject": "按模型、API、应用、Agent 和评测层建立生态地图，并正确标注版本阶段。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a12-01-生态分层"
+      },
+      "a12-02-演进节奏": {
+        "title": "AI 大模型应用(十二)模型生态与技术演进 / 演进节奏",
+        "subject": "按模型、API、应用、Agent 和评测层建立生态地图，并正确标注版本阶段。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a12-02-演进节奏"
+      },
+      "a12-03-入口索引": {
+        "title": "AI 大模型应用(十二)模型生态与技术演进 / 入口索引",
+        "subject": "按模型、API、应用、Agent 和评测层建立生态地图，并正确标注版本阶段。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a12-03-入口索引"
+      },
+      "a12-04-日期判断": {
+        "title": "AI 大模型应用(十二)模型生态与技术演进 / 日期判断",
+        "subject": "按模型、API、应用、Agent 和评测层建立生态地图，并正确标注版本阶段。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a12-04-日期判断"
+      },
+      "a13-01-瓶颈定位": {
+        "title": "AI 大模型应用(十三)进阶路线 / 瓶颈定位",
+        "subject": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a13-01-瓶颈定位"
+      },
+      "a13-02-方向选择": {
+        "title": "AI 大模型应用(十三)进阶路线 / 方向选择",
+        "subject": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a13-02-方向选择"
+      },
+      "a13-03-实验提案": {
+        "title": "AI 大模型应用(十三)进阶路线 / 实验提案",
+        "subject": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a13-03-实验提案"
+      },
+      "a13-04-常见问题": {
+        "title": "AI 大模型应用(十三)进阶路线 / 常见问题",
+        "subject": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a13-04-常见问题"
+      },
+      "a13-05-参考资料": {
+        "title": "AI 大模型应用(十三)进阶路线 / 参考资料",
+        "subject": "围绕一个仍未解决的质量或成本瓶颈设计有停止条件的进阶实验。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a13-05-参考资料"
+      },
+      "a14-01-范围定义": {
+        "title": "AI 大模型应用(十四)项目实战 / 范围定义",
+        "subject": "把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。",
+        "source": "https://platform.openai.com/docs/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a14-01-范围定义"
+      },
+      "a14-02-能力组合": {
+        "title": "AI 大模型应用(十四)项目实战 / 能力组合",
+        "subject": "把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。",
+        "source": "https://docs.anthropic.com/en/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a14-02-能力组合"
+      },
+      "a14-03-验收矩阵": {
+        "title": "AI 大模型应用(十四)项目实战 / 验收矩阵",
+        "subject": "把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。",
+        "source": "https://ai.google.dev/gemini-api/docs",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a14-03-验收矩阵"
+      },
+      "a14-04-交付复盘": {
+        "title": "AI 大模型应用(十四)项目实战 / 交付复盘",
+        "subject": "把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。",
+        "source": "https://json-schema.org/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "a14-04-交付复盘"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "a01-01-课程目标": [
+          "core",
+          "AI 大模型应用(一)入门路线 / 课程目标",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a01-02-前置条件": [
+          "core",
+          "AI 大模型应用(一)入门路线 / 前置条件",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a01-03-学习路径": [
+          "core",
+          "AI 大模型应用(一)入门路线 / 学习路径",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a01-04-文章安排": [
+          "core",
+          "AI 大模型应用(一)入门路线 / 文章安排",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a01-05-开始学习": [
+          "core",
+          "AI 大模型应用(一)入门路线 / 开始学习",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a01-06-参考资料": [
+          "core",
+          "AI 大模型应用(一)入门路线 / 参考资料",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a02-01-生成过程": [
+          "core",
+          "AI 大模型应用(二)模型与生成机制 / 生成过程",
+          "该条目直接服务于“完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a02-02-采样策略": [
+          "core",
+          "AI 大模型应用(二)模型与生成机制 / 采样策略",
+          "该条目直接服务于“完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a02-03-能力边界": [
+          "core",
+          "AI 大模型应用(二)模型与生成机制 / 能力边界",
+          "该条目直接服务于“完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a02-04-动手推演": [
+          "core",
+          "AI 大模型应用(二)模型与生成机制 / 动手推演",
+          "该条目直接服务于“完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a02-05-常见问题": [
+          "core",
+          "AI 大模型应用(二)模型与生成机制 / 常见问题",
+          "该条目直接服务于“完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a02-06-参考资料": [
+          "core",
+          "AI 大模型应用(二)模型与生成机制 / 参考资料",
+          "该条目直接服务于“完成一组固定种子、温度和 top-p 的对照实验，能记录并解释输出差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a03-01-环境边界": [
+          "core",
+          "AI 大模型应用(三)API调用与开发环境 / 环境边界",
+          "该条目直接服务于“在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a03-02-最小调用": [
+          "core",
+          "AI 大模型应用(三)API调用与开发环境 / 最小调用",
+          "该条目直接服务于“在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a03-03-错误分类": [
+          "core",
+          "AI 大模型应用(三)API调用与开发环境 / 错误分类",
+          "该条目直接服务于“在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a03-04-本地验证": [
+          "core",
+          "AI 大模型应用(三)API调用与开发环境 / 本地验证",
+          "该条目直接服务于“在脱敏和可替换配置下完成一次单请求，并能用离线夹具复现常见失败。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a04-01-任务拆解": [
+          "core",
+          "AI 大模型应用(四)Prompt与任务契约 / 任务拆解",
+          "该条目直接服务于“为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a04-02-契约字段": [
+          "core",
+          "AI 大模型应用(四)Prompt与任务契约 / 契约字段",
+          "该条目直接服务于“为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a04-03-版本变更": [
+          "core",
+          "AI 大模型应用(四)Prompt与任务契约 / 版本变更",
+          "该条目直接服务于“为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a04-04-注入边界": [
+          "core",
+          "AI 大模型应用(四)Prompt与任务契约 / 注入边界",
+          "该条目直接服务于“为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a04-05-实验复盘": [
+          "core",
+          "AI 大模型应用(四)Prompt与任务契约 / 实验复盘",
+          "该条目直接服务于“为六类合成工单建立输入、约束、输出、拒答和验收字段，并能识别冲突指令。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a05-01-schema定义": [
+          "core",
+          "AI 大模型应用(五)结构化输出与校验 / Schema定义",
+          "该条目直接服务于“为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a05-02-请求约束": [
+          "core",
+          "AI 大模型应用(五)结构化输出与校验 / 请求约束",
+          "该条目直接服务于“为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a05-03-解析校验": [
+          "core",
+          "AI 大模型应用(五)结构化输出与校验 / 解析校验",
+          "该条目直接服务于“为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a05-04-业务规则": [
+          "core",
+          "AI 大模型应用(五)结构化输出与校验 / 业务规则",
+          "该条目直接服务于“为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a05-05-错误分层": [
+          "core",
+          "AI 大模型应用(五)结构化输出与校验 / 错误分层",
+          "该条目直接服务于“为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a06-01-事件模型": [
+          "core",
+          "AI 大模型应用(六)流式输出与对话状态 / 事件模型",
+          "该条目直接服务于“实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a06-02-会话状态": [
+          "core",
+          "AI 大模型应用(六)流式输出与对话状态 / 会话状态",
+          "该条目直接服务于“实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a06-03-取消语义": [
+          "core",
+          "AI 大模型应用(六)流式输出与对话状态 / 取消语义",
+          "该条目直接服务于“实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a06-04-重放验证": [
+          "core",
+          "AI 大模型应用(六)流式输出与对话状态 / 重放验证",
+          "该条目直接服务于“实现事件累积器和会话快照，能区分中断、正常结束、工具事件和最终业务结果。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a07-01-上下文盘点": [
+          "core",
+          "AI 大模型应用(七)上下文与缓存管理 / 上下文盘点",
+          "该条目直接服务于“为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a07-02-组装顺序": [
+          "core",
+          "AI 大模型应用(七)上下文与缓存管理 / 组装顺序",
+          "该条目直接服务于“为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a07-03-缓存边界": [
+          "core",
+          "AI 大模型应用(七)上下文与缓存管理 / 缓存边界",
+          "该条目直接服务于“为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a07-04-压缩取舍": [
+          "core",
+          "AI 大模型应用(七)上下文与缓存管理 / 压缩取舍",
+          "该条目直接服务于“为 T-17 组装约束、评分标准、工具说明和日志尾部，并能解释压缩、缓存与历史的差异。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a08-01-边界接口": [
+          "core",
+          "AI 大模型应用(八)多厂商接口适配 / 边界接口",
+          "该条目直接服务于“为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a08-02-语义差异": [
+          "core",
+          "AI 大模型应用(八)多厂商接口适配 / 语义差异",
+          "该条目直接服务于“为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a08-03-适配策略": [
+          "core",
+          "AI 大模型应用(八)多厂商接口适配 / 适配策略",
+          "该条目直接服务于“为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a08-04-迁移验证": [
+          "core",
+          "AI 大模型应用(八)多厂商接口适配 / 迁移验证",
+          "该条目直接服务于“为 Chat、Responses 和另一家兼容接口建立适配层与迁移矩阵，能显式处理不支持能力。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a09-01-输入方式": [
+          "core",
+          "AI 大模型应用(九)多模态与文件处理 / 输入方式",
+          "该条目直接服务于“用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a09-02-文件限制": [
+          "core",
+          "AI 大模型应用(九)多模态与文件处理 / 文件限制",
+          "该条目直接服务于“用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a09-03-结果证据": [
+          "core",
+          "AI 大模型应用(九)多模态与文件处理 / 结果证据",
+          "该条目直接服务于“用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a09-04-练习复盘": [
+          "core",
+          "AI 大模型应用(九)多模态与文件处理 / 练习复盘",
+          "该条目直接服务于“用小型截图和两页 PDF 完成可重复输入，并记录 URL、base64、file_id、裁剪和偏移边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a10-01-预算边界": [
+          "core",
+          "AI 大模型应用(十)调用可靠性与成本 / 预算边界",
+          "该条目直接服务于“在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a10-02-故障分类": [
+          "core",
+          "AI 大模型应用(十)调用可靠性与成本 / 故障分类",
+          "该条目直接服务于“在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a10-03-重试策略": [
+          "core",
+          "AI 大模型应用(十)调用可靠性与成本 / 重试策略",
+          "该条目直接服务于“在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a10-04-成本验证": [
+          "core",
+          "AI 大模型应用(十)调用可靠性与成本 / 成本验证",
+          "该条目直接服务于“在 FakeProvider 的成功、429、401、超时夹具上验证预算内重试，并区分 TTFT 与任务完成。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a11-01-问题定义": [
+          "core",
+          "AI 大模型应用(十一)模型评测与选型 / 问题定义",
+          "该条目直接服务于“用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a11-02-实验设计": [
+          "core",
+          "AI 大模型应用(十一)模型评测与选型 / 实验设计",
+          "该条目直接服务于“用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a11-03-结果解释": [
+          "core",
+          "AI 大模型应用(十一)模型评测与选型 / 结果解释",
+          "该条目直接服务于“用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a11-04-决策记录": [
+          "core",
+          "AI 大模型应用(十一)模型评测与选型 / 决策记录",
+          "该条目直接服务于“用十项合成任务和两个模型 fixture 产出带质量、延迟、成本和风险解释的选择记录。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a12-01-生态分层": [
+          "core",
+          "AI 大模型应用(十二)模型生态与技术演进 / 生态分层",
+          "该条目直接服务于“能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a12-02-演进节奏": [
+          "core",
+          "AI 大模型应用(十二)模型生态与技术演进 / 演进节奏",
+          "该条目直接服务于“能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a12-03-入口索引": [
+          "core",
+          "AI 大模型应用(十二)模型生态与技术演进 / 入口索引",
+          "该条目直接服务于“能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a12-04-日期判断": [
+          "core",
+          "AI 大模型应用(十二)模型生态与技术演进 / 日期判断",
+          "该条目直接服务于“能读懂模型发布、Preview、GA、迁移说明和能力边界，形成有限官方索引。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a13-01-瓶颈定位": [
+          "core",
+          "AI 大模型应用(十三)进阶路线 / 瓶颈定位",
+          "该条目直接服务于“提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a13-02-方向选择": [
+          "core",
+          "AI 大模型应用(十三)进阶路线 / 方向选择",
+          "该条目直接服务于“提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a13-03-实验提案": [
+          "core",
+          "AI 大模型应用(十三)进阶路线 / 实验提案",
+          "该条目直接服务于“提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a13-04-常见问题": [
+          "core",
+          "AI 大模型应用(十三)进阶路线 / 常见问题",
+          "该条目直接服务于“提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a13-05-参考资料": [
+          "core",
+          "AI 大模型应用(十三)进阶路线 / 参考资料",
+          "该条目直接服务于“提交一个可在两周内完成、含假设、对照、停止条件和风险的实验提案。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a14-01-范围定义": [
+          "core",
+          "AI 大模型应用(十四)项目实战 / 范围定义",
+          "该条目直接服务于“交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a14-02-能力组合": [
+          "core",
+          "AI 大模型应用(十四)项目实战 / 能力组合",
+          "该条目直接服务于“交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a14-03-验收矩阵": [
+          "core",
+          "AI 大模型应用(十四)项目实战 / 验收矩阵",
+          "该条目直接服务于“交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "a14-04-交付复盘": [
+          "core",
+          "AI 大模型应用(十四)项目实战 / 交付复盘",
+          "该条目直接服务于“交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 63,
+      "ledger_entries": 63,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  },
+  "migration_mappings": [],
+  "support_sources": [],
+  "exclusions": [],
+  "cover_contract": {
+    "path": "/img/picgo-images/llm-application-course-cover.png",
+    "size": "1920x1080",
+    "safe_area": "central 70%",
+    "keywords": [
+      "Token",
+      "Prompt",
+      "API",
+      "Context",
+      "JSON"
+    ]
+  }
+}

@@ -1,0 +1,2485 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "agent-harness",
+    "series": "Agent Harness",
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "purpose": "把 Agent 的运行系统、状态、恢复、隔离、调度和观测做成可测试的 Harness，而不是只依赖应用层循环。",
+    "graduation": "交付一个 Fake Agent Harness，支持生命周期、持久化、恢复、审批、并发、事件和服务运维检查。",
+    "topics": [
+      "运行时边界",
+      "生命周期",
+      "模型适配与事件流",
+      "插件与资源",
+      "状态与持久化",
+      "上下文组装",
+      "恢复与幂等",
+      "隔离与审批",
+      "调度与并发",
+      "运行事件与观测",
+      "服务运维"
+    ],
+    "optional_articles": [
+      "项目实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "Agent Harness(一)入门路线",
+        "file": "Agent Harness(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "Agent Harness(二)运行时边界",
+        "file": "Agent Harness(二)运行时边界.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "Agent Harness(三)生命周期",
+        "file": "Agent Harness(三)生命周期.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "Agent Harness(四)模型适配与事件流",
+        "file": "Agent Harness(四)模型适配与事件流.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "Agent Harness(五)插件与资源",
+        "file": "Agent Harness(五)插件与资源.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "Agent Harness(六)状态与持久化",
+        "file": "Agent Harness(六)状态与持久化.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "Agent Harness(七)上下文组装",
+        "file": "Agent Harness(七)上下文组装.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "Agent Harness(八)恢复与幂等",
+        "file": "Agent Harness(八)恢复与幂等.md",
+        "kind": "topic"
+      },
+      {
+        "order": 9,
+        "title": "Agent Harness(九)隔离与审批",
+        "file": "Agent Harness(九)隔离与审批.md",
+        "kind": "topic"
+      },
+      {
+        "order": 10,
+        "title": "Agent Harness(十)调度与并发",
+        "file": "Agent Harness(十)调度与并发.md",
+        "kind": "topic"
+      },
+      {
+        "order": 11,
+        "title": "Agent Harness(十一)运行事件与观测",
+        "file": "Agent Harness(十一)运行事件与观测.md",
+        "kind": "topic"
+      },
+      {
+        "order": 12,
+        "title": "Agent Harness(十二)服务运维",
+        "file": "Agent Harness(十二)服务运维.md",
+        "kind": "topic"
+      },
+      {
+        "order": 13,
+        "title": "Agent Harness(十三)项目实战",
+        "file": "Agent Harness(十三)项目实战.md",
+        "kind": "final"
+      }
+    ],
+    "article_map": [
+      {
+        "order": 1,
+        "title": "Agent Harness(一)入门路线",
+        "kind": "entry",
+        "depends": [],
+        "prerequisites": "课程入口基础",
+        "duty": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+        "outcome": "能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+        "h2": [
+          [
+            "课程目标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "前置条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "学习路径",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文章安排",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "开始学习",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "课程依赖路线图（Mermaid TD）"
+        ],
+        "experiment": "只核对已有基础和合成实验目录，不安装新的外部依赖。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "LangGraph persistence",
+            "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+          },
+          {
+            "title": "Python asyncio documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "icon": "https://docs.python.org/3/_static/py.svg",
+            "sourceType": "official",
+            "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+          }
+        ],
+        "openingPlan": null
+      },
+      {
+        "order": 2,
+        "title": "Agent Harness(二)运行时边界",
+        "kind": "topic",
+        "depends": [
+          "D01"
+        ],
+        "prerequisites": "完成 D01 的相关实验",
+        "duty": "区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。",
+        "outcome": "能为一次运行画出边界并定义 adapter、executor、state、observe 接口。",
+        "h2": [
+          [
+            "职责边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "接口分层",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "运行对象",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "观测对象",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake runtime 连接应用和 Harness，列出可替换接口。",
+        "cards": [
+          "d02-trace-vs-harness"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Python asyncio documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "icon": "https://docs.python.org/3/_static/py.svg",
+            "sourceType": "official",
+            "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+          },
+          {
+            "title": "W3C Trace Context",
+            "url": "https://www.w3.org/TR/trace-context/",
+            "icon": "https://www.w3.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "W3C Trace Context: https://www.w3.org/TR/trace-context/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。",
+          "content": "能为一次运行画出边界并定义 adapter、executor、state、observe 接口。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 3,
+        "title": "Agent Harness(三)生命周期",
+        "kind": "topic",
+        "depends": [
+          "D02"
+        ],
+        "prerequisites": "完成 D02 的相关实验",
+        "duty": "把启动、步骤、工具、终止、取消和业务结果建成完整生命周期。",
+        "outcome": "能区分无异常终止、业务正确、取消和恢复等状态。",
+        "h2": [
+          [
+            "启动阶段",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "步骤阶段",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "终止状态",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "业务结果",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
+        "cards": [
+          "d03-terminal-not-correct"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "W3C Trace Context",
+            "url": "https://www.w3.org/TR/trace-context/",
+            "icon": "https://www.w3.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "W3C Trace Context: https://www.w3.org/TR/trace-context/"
+          },
+          {
+            "title": "OpenTelemetry documentation",
+            "url": "https://opentelemetry.io/docs/",
+            "icon": "https://opentelemetry.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenTelemetry documentation: https://opentelemetry.io/docs/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把启动、步骤、工具、终止、取消和业务结果建成完整生命周期。",
+          "content": "能区分无异常终止、业务正确、取消和恢复等状态。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 4,
+        "title": "Agent Harness(四)模型适配与事件流",
+        "kind": "topic",
+        "depends": [
+          "D03",
+          "A08",
+          "A10"
+        ],
+        "prerequisites": "完成 D03、A08、A10 的相关实验",
+        "duty": "统一不同模型适配器的事件、重试和 chunk 组装，同时保留预算。",
+        "outcome": "能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。",
+        "h2": [
+          [
+            "适配接口",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "事件组装",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重试层次",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "预算传播",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
+        "cards": [
+          "d04-retry-layers-break-budget"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenTelemetry documentation",
+            "url": "https://opentelemetry.io/docs/",
+            "icon": "https://opentelemetry.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenTelemetry documentation: https://opentelemetry.io/docs/"
+          },
+          {
+            "title": "LangGraph persistence",
+            "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "统一不同模型适配器的事件、重试和 chunk 组装，同时保留预算。",
+          "content": "能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 5,
+        "title": "Agent Harness(五)插件与资源",
+        "kind": "topic",
+        "depends": [
+          "D03",
+          "C03"
+        ],
+        "prerequisites": "完成 D03、C03 的相关实验",
+        "duty": "管理插件、资源、监听器和后台任务的加载、卸载与清理。",
+        "outcome": "能证明初始化失败仍会执行释放，且资源所有权明确。",
+        "h2": [
+          [
+            "插件加载",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "资源所有权",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "监听器",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "清理路径",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "模拟加载成功、部分失败、卸载和后台任务泄漏。",
+        "cards": [
+          "d05-init-failure-cleanup"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "LangGraph persistence",
+            "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+          },
+          {
+            "title": "Python asyncio documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "icon": "https://docs.python.org/3/_static/py.svg",
+            "sourceType": "official",
+            "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "管理插件、资源、监听器和后台任务的加载、卸载与清理。",
+          "content": "能证明初始化失败仍会执行释放，且资源所有权明确。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 6,
+        "title": "Agent Harness(六)状态与持久化",
+        "kind": "topic",
+        "depends": [
+          "D03",
+          "D05"
+        ],
+        "prerequisites": "完成 D03、D05 的相关实验",
+        "duty": "把事件顺序、提交、版本和恢复数据做成可读的持久化状态。",
+        "outcome": "能区分客户端收到事件、状态已提交和语义记忆。",
+        "h2": [
+          [
+            "序列号",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "提交点",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "版本冲突",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "恢复读取",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用内存存储模拟断电、重复提交、版本冲突和回读。",
+        "cards": [
+          "d06-event-not-durable",
+          "d06-checkpoint-not-memory"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Python asyncio documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "icon": "https://docs.python.org/3/_static/py.svg",
+            "sourceType": "official",
+            "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+          },
+          {
+            "title": "W3C Trace Context",
+            "url": "https://www.w3.org/TR/trace-context/",
+            "icon": "https://www.w3.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "W3C Trace Context: https://www.w3.org/TR/trace-context/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把事件顺序、提交、版本和恢复数据做成可读的持久化状态。",
+          "content": "能区分客户端收到事件、状态已提交和语义记忆。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 7,
+        "title": "Agent Harness(七)上下文组装",
+        "kind": "topic",
+        "depends": [
+          "D04",
+          "D06",
+          "A07",
+          "C07"
+        ],
+        "prerequisites": "完成 D04、D06、A07、C07 的相关实验",
+        "duty": "把上下文投影、压缩、工具结果配对和重建放在可验证的状态层。",
+        "outcome": "能从检查点重建请求并说明哪些信息被丢弃。",
+        "h2": [
+          [
+            "上下文投影",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "压缩策略",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "工具配对",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重建验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
+        "cards": [
+          "d07-reconstructable-not-lossless"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "W3C Trace Context",
+            "url": "https://www.w3.org/TR/trace-context/",
+            "icon": "https://www.w3.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "W3C Trace Context: https://www.w3.org/TR/trace-context/"
+          },
+          {
+            "title": "OpenTelemetry documentation",
+            "url": "https://opentelemetry.io/docs/",
+            "icon": "https://opentelemetry.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenTelemetry documentation: https://opentelemetry.io/docs/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把上下文投影、压缩、工具结果配对和重建放在可验证的状态层。",
+          "content": "能从检查点重建请求并说明哪些信息被丢弃。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 8,
+        "title": "Agent Harness(八)恢复与幂等",
+        "kind": "topic",
+        "depends": [
+          "D04",
+          "D06",
+          "D07"
+        ],
+        "prerequisites": "完成 D04、D06、D07 的相关实验",
+        "duty": "用稳定操作 ID、查询优先和安全重试处理副作用后的崩溃。",
+        "outcome": "能在副作用发生后崩溃的场景下恢复且不重复写入。",
+        "h2": [
+          [
+            "崩溃窗口",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "操作标识",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "查询优先",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重试安全",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
+        "cards": [
+          "d08-new-identity-unsafe",
+          "d08-exactly-once-boundary"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenTelemetry documentation",
+            "url": "https://opentelemetry.io/docs/",
+            "icon": "https://opentelemetry.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenTelemetry documentation: https://opentelemetry.io/docs/"
+          },
+          {
+            "title": "LangGraph persistence",
+            "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用稳定操作 ID、查询优先和安全重试处理副作用后的崩溃。",
+          "content": "能在副作用发生后崩溃的场景下恢复且不重复写入。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 9,
+        "title": "Agent Harness(九)隔离与审批",
+        "kind": "topic",
+        "depends": [
+          "D04",
+          "D05",
+          "F03"
+        ],
+        "prerequisites": "完成 D04、D05、F03 的相关实验",
+        "duty": "将审批绑定到规范化工具调用，并在 Harness 中执行隔离和写入门禁。",
+        "outcome": "能阻止参数、身份和资源变化绕过审批。",
+        "h2": [
+          [
+            "隔离边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "规范化调用",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "审批绑定",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "写入门禁",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake write tool 比较预览、批准、改参、撤销和越权。",
+        "cards": [
+          "d09-approval-binding",
+          "d09-preview-not-security"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "LangGraph persistence",
+            "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+          },
+          {
+            "title": "Python asyncio documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "icon": "https://docs.python.org/3/_static/py.svg",
+            "sourceType": "official",
+            "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "将审批绑定到规范化工具调用，并在 Harness 中执行隔离和写入门禁。",
+          "content": "能阻止参数、身份和资源变化绕过审批。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 10,
+        "title": "Agent Harness(十)调度与并发",
+        "kind": "topic",
+        "depends": [
+          "D03",
+          "D08",
+          "D09"
+        ],
+        "prerequisites": "完成 D03、D08、D09 的相关实验",
+        "duty": "调度多任务、容量、背压、超时和取消，并说明副作用后的取消边界。",
+        "outcome": "能在 3 个任务、2 个槽位下验证公平性和背压。",
+        "h2": [
+          [
+            "槽位分配",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "背压",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "取消传播",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "副作用边界",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
+        "cards": [
+          "d10-cancel-not-rollback"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Python asyncio documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "icon": "https://docs.python.org/3/_static/py.svg",
+            "sourceType": "official",
+            "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+          },
+          {
+            "title": "W3C Trace Context",
+            "url": "https://www.w3.org/TR/trace-context/",
+            "icon": "https://www.w3.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "W3C Trace Context: https://www.w3.org/TR/trace-context/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "调度多任务、容量、背压、超时和取消，并说明副作用后的取消边界。",
+          "content": "能在 3 个任务、2 个槽位下验证公平性和背压。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 11,
+        "title": "Agent Harness(十一)运行事件与观测",
+        "kind": "topic",
+        "depends": [
+          "D03",
+          "D06",
+          "D10"
+        ],
+        "prerequisites": "完成 D03、D06、D10 的相关实验",
+        "duty": "设计运行、步骤、工具、实时和持久事件，使 Trace 能支持定位但不替代业务 Oracle。",
+        "outcome": "能用稳定 ID 关联事件、日志、状态和重放。",
+        "h2": [
+          [
+            "事件字段",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "关联 ID",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "实时观测",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重放限制",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
+        "cards": [
+          "d11-missing-event-not-no-execution",
+          "d11-replay-not-same-output"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "W3C Trace Context",
+            "url": "https://www.w3.org/TR/trace-context/",
+            "icon": "https://www.w3.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "W3C Trace Context: https://www.w3.org/TR/trace-context/"
+          },
+          {
+            "title": "OpenTelemetry documentation",
+            "url": "https://opentelemetry.io/docs/",
+            "icon": "https://opentelemetry.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenTelemetry documentation: https://opentelemetry.io/docs/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "设计运行、步骤、工具、实时和持久事件，使 Trace 能支持定位但不替代业务 Oracle。",
+          "content": "能用稳定 ID 关联事件、日志、状态和重放。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 12,
+        "title": "Agent Harness(十二)服务运维",
+        "kind": "topic",
+        "depends": [
+          "D08",
+          "D09",
+          "D10",
+          "D11",
+          "C13"
+        ],
+        "prerequisites": "完成 D08、D09、D10、D11、C13 的相关实验",
+        "duty": "为 Harness 提供健康、就绪、SLO、停止、drain、版本和恢复检查。",
+        "outcome": "能区分 health 200、可接新任务和可恢复正确任务。",
+        "h2": [
+          [
+            "健康检查",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "优雅停止",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "SLO字段",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "版本恢复",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
+        "cards": [
+          "d12-health-not-correct"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenTelemetry documentation",
+            "url": "https://opentelemetry.io/docs/",
+            "icon": "https://opentelemetry.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenTelemetry documentation: https://opentelemetry.io/docs/"
+          },
+          {
+            "title": "LangGraph persistence",
+            "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "为 Harness 提供健康、就绪、SLO、停止、drain、版本和恢复检查。",
+          "content": "能区分 health 200、可接新任务和可恢复正确任务。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 13,
+        "title": "Agent Harness(十三)项目实战",
+        "kind": "final",
+        "depends": [
+          "D12"
+        ],
+        "prerequisites": "完成 D12 的相关实验",
+        "duty": "交付带审批、崩溃恢复、并发和事件观测的 Fake Agent Harness。",
+        "outcome": "证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。",
+        "h2": [
+          [
+            "项目范围",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "运行实现",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "故障演练",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "证据复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
+        "cards": [
+          "d08-exactly-once-boundary",
+          "d11-missing-event-not-no-execution"
+        ],
+        "difficulty": "实战",
+        "referenceCards": [
+          {
+            "title": "LangGraph persistence",
+            "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+          },
+          {
+            "title": "Python asyncio documentation",
+            "url": "https://docs.python.org/3/library/asyncio.html",
+            "icon": "https://docs.python.org/3/_static/py.svg",
+            "sourceType": "official",
+            "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "交付带审批、崩溃恢复、并发和事件观测的 Fake Agent Harness。",
+          "content": "证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      }
+    ],
+    "article_block_tag_plans": {
+      "Agent Harness(一)入门路线": [
+        {
+          "block": "课程目标",
+          "reader_task": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+          "core_content": "课程目标：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "mermaid",
+          "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "完成“前置条件”中的关键理解、操作或判断",
+          "core_content": "前置条件：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "完成“学习路径”中的关键理解、操作或判断",
+          "core_content": "学习路径：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "完成“文章安排”中的关键理解、操作或判断",
+          "core_content": "文章安排：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "完成“开始学习”中的关键理解、操作或判断",
+          "core_content": "开始学习：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(二)运行时边界": [
+        {
+          "block": "职责边界",
+          "reader_task": "区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。",
+          "core_content": "职责边界：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "接口分层",
+          "reader_task": "完成“接口分层”中的关键理解、操作或判断",
+          "core_content": "接口分层：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“接口分层”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "运行对象",
+          "reader_task": "完成“运行对象”中的关键理解、操作或判断",
+          "core_content": "运行对象：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。",
+          "carrier": "code",
+          "rationale": "该块只承担“运行对象”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "观测对象",
+          "reader_task": "完成“观测对象”中的关键理解、操作或判断",
+          "core_content": "观测对象：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“观测对象”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(三)生命周期": [
+        {
+          "block": "启动阶段",
+          "reader_task": "把启动、步骤、工具、终止、取消和业务结果建成完整生命周期。",
+          "core_content": "启动阶段：能区分无异常终止、业务正确、取消和恢复等状态。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "步骤阶段",
+          "reader_task": "完成“步骤阶段”中的关键理解、操作或判断",
+          "core_content": "步骤阶段：能区分无异常终止、业务正确、取消和恢复等状态。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“步骤阶段”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "终止状态",
+          "reader_task": "完成“终止状态”中的关键理解、操作或判断",
+          "core_content": "终止状态：能区分无异常终止、业务正确、取消和恢复等状态。",
+          "carrier": "table",
+          "rationale": "该块只承担“终止状态”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "业务结果",
+          "reader_task": "完成“业务结果”中的关键理解、操作或判断",
+          "core_content": "业务结果：能区分无异常终止、业务正确、取消和恢复等状态。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“业务结果”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(四)模型适配与事件流": [
+        {
+          "block": "适配接口",
+          "reader_task": "统一不同模型适配器的事件、重试和 chunk 组装，同时保留预算。",
+          "core_content": "适配接口：能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "事件组装",
+          "reader_task": "完成“事件组装”中的关键理解、操作或判断",
+          "core_content": "事件组装：能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“事件组装”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重试层次",
+          "reader_task": "完成“重试层次”中的关键理解、操作或判断",
+          "core_content": "重试层次：能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。",
+          "carrier": "table",
+          "rationale": "该块只承担“重试层次”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "预算传播",
+          "reader_task": "完成“预算传播”中的关键理解、操作或判断",
+          "core_content": "预算传播：能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“预算传播”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(五)插件与资源": [
+        {
+          "block": "插件加载",
+          "reader_task": "管理插件、资源、监听器和后台任务的加载、卸载与清理。",
+          "core_content": "插件加载：能证明初始化失败仍会执行释放，且资源所有权明确。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "资源所有权",
+          "reader_task": "完成“资源所有权”中的关键理解、操作或判断",
+          "core_content": "资源所有权：能证明初始化失败仍会执行释放，且资源所有权明确。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“资源所有权”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "监听器",
+          "reader_task": "完成“监听器”中的关键理解、操作或判断",
+          "core_content": "监听器：能证明初始化失败仍会执行释放，且资源所有权明确。",
+          "carrier": "list",
+          "rationale": "该块只承担“监听器”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "清理路径",
+          "reader_task": "完成“清理路径”中的关键理解、操作或判断",
+          "core_content": "清理路径：能证明初始化失败仍会执行释放，且资源所有权明确。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“清理路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(六)状态与持久化": [
+        {
+          "block": "序列号",
+          "reader_task": "把事件顺序、提交、版本和恢复数据做成可读的持久化状态。",
+          "core_content": "序列号：能区分客户端收到事件、状态已提交和语义记忆。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "提交点",
+          "reader_task": "完成“提交点”中的关键理解、操作或判断",
+          "core_content": "提交点：能区分客户端收到事件、状态已提交和语义记忆。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“提交点”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "版本冲突",
+          "reader_task": "完成“版本冲突”中的关键理解、操作或判断",
+          "core_content": "版本冲突：能区分客户端收到事件、状态已提交和语义记忆。",
+          "carrier": "list",
+          "rationale": "该块只承担“版本冲突”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "恢复读取",
+          "reader_task": "完成“恢复读取”中的关键理解、操作或判断",
+          "core_content": "恢复读取：能区分客户端收到事件、状态已提交和语义记忆。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“恢复读取”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(七)上下文组装": [
+        {
+          "block": "上下文投影",
+          "reader_task": "把上下文投影、压缩、工具结果配对和重建放在可验证的状态层。",
+          "core_content": "上下文投影：能从检查点重建请求并说明哪些信息被丢弃。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "压缩策略",
+          "reader_task": "完成“压缩策略”中的关键理解、操作或判断",
+          "core_content": "压缩策略：能从检查点重建请求并说明哪些信息被丢弃。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“压缩策略”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "工具配对",
+          "reader_task": "完成“工具配对”中的关键理解、操作或判断",
+          "core_content": "工具配对：能从检查点重建请求并说明哪些信息被丢弃。",
+          "carrier": "list",
+          "rationale": "该块只承担“工具配对”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重建验证",
+          "reader_task": "完成“重建验证”中的关键理解、操作或判断",
+          "core_content": "重建验证：能从检查点重建请求并说明哪些信息被丢弃。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“重建验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(八)恢复与幂等": [
+        {
+          "block": "崩溃窗口",
+          "reader_task": "用稳定操作 ID、查询优先和安全重试处理副作用后的崩溃。",
+          "core_content": "崩溃窗口：能在副作用发生后崩溃的场景下恢复且不重复写入。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "操作标识",
+          "reader_task": "完成“操作标识”中的关键理解、操作或判断",
+          "core_content": "操作标识：能在副作用发生后崩溃的场景下恢复且不重复写入。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“操作标识”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "查询优先",
+          "reader_task": "完成“查询优先”中的关键理解、操作或判断",
+          "core_content": "查询优先：能在副作用发生后崩溃的场景下恢复且不重复写入。",
+          "carrier": "list",
+          "rationale": "该块只承担“查询优先”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重试安全",
+          "reader_task": "完成“重试安全”中的关键理解、操作或判断",
+          "core_content": "重试安全：能在副作用发生后崩溃的场景下恢复且不重复写入。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“重试安全”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(九)隔离与审批": [
+        {
+          "block": "隔离边界",
+          "reader_task": "将审批绑定到规范化工具调用，并在 Harness 中执行隔离和写入门禁。",
+          "core_content": "隔离边界：能阻止参数、身份和资源变化绕过审批。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "规范化调用",
+          "reader_task": "完成“规范化调用”中的关键理解、操作或判断",
+          "core_content": "规范化调用：能阻止参数、身份和资源变化绕过审批。",
+          "carrier": "code",
+          "rationale": "该块只承担“规范化调用”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "审批绑定",
+          "reader_task": "完成“审批绑定”中的关键理解、操作或判断",
+          "core_content": "审批绑定：能阻止参数、身份和资源变化绕过审批。",
+          "carrier": "code",
+          "rationale": "该块只承担“审批绑定”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "写入门禁",
+          "reader_task": "完成“写入门禁”中的关键理解、操作或判断",
+          "core_content": "写入门禁：能阻止参数、身份和资源变化绕过审批。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“写入门禁”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(十)调度与并发": [
+        {
+          "block": "槽位分配",
+          "reader_task": "调度多任务、容量、背压、超时和取消，并说明副作用后的取消边界。",
+          "core_content": "槽位分配：能在 3 个任务、2 个槽位下验证公平性和背压。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "背压",
+          "reader_task": "完成“背压”中的关键理解、操作或判断",
+          "core_content": "背压：能在 3 个任务、2 个槽位下验证公平性和背压。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“背压”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "取消传播",
+          "reader_task": "完成“取消传播”中的关键理解、操作或判断",
+          "core_content": "取消传播：能在 3 个任务、2 个槽位下验证公平性和背压。",
+          "carrier": "list",
+          "rationale": "该块只承担“取消传播”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "副作用边界",
+          "reader_task": "完成“副作用边界”中的关键理解、操作或判断",
+          "core_content": "副作用边界：能在 3 个任务、2 个槽位下验证公平性和背压。",
+          "carrier": "table",
+          "rationale": "该块只承担“副作用边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(十一)运行事件与观测": [
+        {
+          "block": "事件字段",
+          "reader_task": "设计运行、步骤、工具、实时和持久事件，使 Trace 能支持定位但不替代业务 Oracle。",
+          "core_content": "事件字段：能用稳定 ID 关联事件、日志、状态和重放。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "关联 ID",
+          "reader_task": "完成“关联 ID”中的关键理解、操作或判断",
+          "core_content": "关联 ID：能用稳定 ID 关联事件、日志、状态和重放。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“关联 ID”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "实时观测",
+          "reader_task": "完成“实时观测”中的关键理解、操作或判断",
+          "core_content": "实时观测：能用稳定 ID 关联事件、日志、状态和重放。",
+          "carrier": "list",
+          "rationale": "该块只承担“实时观测”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重放限制",
+          "reader_task": "完成“重放限制”中的关键理解、操作或判断",
+          "core_content": "重放限制：能用稳定 ID 关联事件、日志、状态和重放。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“重放限制”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(十二)服务运维": [
+        {
+          "block": "健康检查",
+          "reader_task": "为 Harness 提供健康、就绪、SLO、停止、drain、版本和恢复检查。",
+          "core_content": "健康检查：能区分 health 200、可接新任务和可恢复正确任务。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "优雅停止",
+          "reader_task": "完成“优雅停止”中的关键理解、操作或判断",
+          "core_content": "优雅停止：能区分 health 200、可接新任务和可恢复正确任务。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“优雅停止”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "SLO字段",
+          "reader_task": "完成“SLO字段”中的关键理解、操作或判断",
+          "core_content": "SLO字段：能区分 health 200、可接新任务和可恢复正确任务。",
+          "carrier": "list",
+          "rationale": "该块只承担“SLO字段”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "版本恢复",
+          "reader_task": "完成“版本恢复”中的关键理解、操作或判断",
+          "core_content": "版本恢复：能区分 health 200、可接新任务和可恢复正确任务。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“版本恢复”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent Harness(十三)项目实战": [
+        {
+          "block": "项目范围",
+          "reader_task": "交付带审批、崩溃恢复、并发和事件观测的 Fake Agent Harness。",
+          "core_content": "项目范围：证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "运行实现",
+          "reader_task": "完成“运行实现”中的关键理解、操作或判断",
+          "core_content": "运行实现：证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。",
+          "carrier": "code",
+          "rationale": "该块只承担“运行实现”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "故障演练",
+          "reader_task": "完成“故障演练”中的关键理解、操作或判断",
+          "core_content": "故障演练：证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。",
+          "carrier": "list",
+          "rationale": "该块只承担“故障演练”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "证据复盘",
+          "reader_task": "完成“证据复盘”中的关键理解、操作或判断",
+          "core_content": "证据复盘：证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“证据复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ]
+    },
+    "reference_cards": [
+      {
+        "title": "OpenTelemetry documentation",
+        "url": "https://opentelemetry.io/docs/",
+        "icon": "https://opentelemetry.io/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OpenTelemetry documentation: https://opentelemetry.io/docs/"
+      },
+      {
+        "title": "LangGraph persistence",
+        "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+        "sourceType": "official",
+        "fallback": "LangGraph persistence: https://langchain-ai.github.io/langgraph/concepts/persistence/"
+      },
+      {
+        "title": "Python asyncio documentation",
+        "url": "https://docs.python.org/3/library/asyncio.html",
+        "icon": "https://docs.python.org/3/_static/py.svg",
+        "sourceType": "official",
+        "fallback": "Python asyncio documentation: https://docs.python.org/3/library/asyncio.html"
+      },
+      {
+        "title": "W3C Trace Context",
+        "url": "https://www.w3.org/TR/trace-context/",
+        "icon": "https://www.w3.org/favicon.ico",
+        "sourceType": "official",
+        "fallback": "W3C Trace Context: https://www.w3.org/TR/trace-context/"
+      }
+    ],
+    "research_scope": {
+      "researched_at": "2026-08-29",
+      "source_count": 4,
+      "bounded": true,
+      "note": "仅列可复核官方入口；快速变化内容在逐篇写作前刷新。"
+    }
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "topic_type": "Agent Harness：面向测试开发工程师的应用与质量工程课程",
+      "researched_at": "2026-08-29",
+      "boundary": "有限官方入口与稳定工程能力；快速变化的 SDK、模型和协议在逐篇写作前刷新。",
+      "reproduction": "按 sources、stable_id、version_status 和 article target 逐项复核；不宣称穷尽互联网。",
+      "entries": [
+        {
+          "title": "OpenTelemetry documentation",
+          "url": "https://opentelemetry.io/docs/",
+          "icon": "https://opentelemetry.io/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "LangGraph persistence",
+          "url": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+          "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "Python asyncio documentation",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "icon": "https://docs.python.org/3/_static/py.svg",
+          "sourceType": "official"
+        },
+        {
+          "title": "W3C Trace Context",
+          "url": "https://www.w3.org/TR/trace-context/",
+          "icon": "https://www.w3.org/favicon.ico",
+          "sourceType": "official"
+        }
+      ]
+    },
+    "capabilities": {
+      "d01-01-课程目标": {
+        "title": "Agent Harness(一)入门路线 / 课程目标",
+        "subject": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d01-01-课程目标"
+      },
+      "d01-02-前置条件": {
+        "title": "Agent Harness(一)入门路线 / 前置条件",
+        "subject": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d01-02-前置条件"
+      },
+      "d01-03-学习路径": {
+        "title": "Agent Harness(一)入门路线 / 学习路径",
+        "subject": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d01-03-学习路径"
+      },
+      "d01-04-文章安排": {
+        "title": "Agent Harness(一)入门路线 / 文章安排",
+        "subject": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d01-04-文章安排"
+      },
+      "d01-05-开始学习": {
+        "title": "Agent Harness(一)入门路线 / 开始学习",
+        "subject": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d01-05-开始学习"
+      },
+      "d01-06-参考资料": {
+        "title": "Agent Harness(一)入门路线 / 参考资料",
+        "subject": "说明Agent Harness的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d01-06-参考资料"
+      },
+      "d02-01-职责边界": {
+        "title": "Agent Harness(二)运行时边界 / 职责边界",
+        "subject": "区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d02-01-职责边界"
+      },
+      "d02-02-接口分层": {
+        "title": "Agent Harness(二)运行时边界 / 接口分层",
+        "subject": "区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d02-02-接口分层"
+      },
+      "d02-03-运行对象": {
+        "title": "Agent Harness(二)运行时边界 / 运行对象",
+        "subject": "区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d02-03-运行对象"
+      },
+      "d02-04-观测对象": {
+        "title": "Agent Harness(二)运行时边界 / 观测对象",
+        "subject": "区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d02-04-观测对象"
+      },
+      "d03-01-启动阶段": {
+        "title": "Agent Harness(三)生命周期 / 启动阶段",
+        "subject": "把启动、步骤、工具、终止、取消和业务结果建成完整生命周期。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d03-01-启动阶段"
+      },
+      "d03-02-步骤阶段": {
+        "title": "Agent Harness(三)生命周期 / 步骤阶段",
+        "subject": "把启动、步骤、工具、终止、取消和业务结果建成完整生命周期。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d03-02-步骤阶段"
+      },
+      "d03-03-终止状态": {
+        "title": "Agent Harness(三)生命周期 / 终止状态",
+        "subject": "把启动、步骤、工具、终止、取消和业务结果建成完整生命周期。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d03-03-终止状态"
+      },
+      "d03-04-业务结果": {
+        "title": "Agent Harness(三)生命周期 / 业务结果",
+        "subject": "把启动、步骤、工具、终止、取消和业务结果建成完整生命周期。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d03-04-业务结果"
+      },
+      "d04-01-适配接口": {
+        "title": "Agent Harness(四)模型适配与事件流 / 适配接口",
+        "subject": "统一不同模型适配器的事件、重试和 chunk 组装，同时保留预算。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d04-01-适配接口"
+      },
+      "d04-02-事件组装": {
+        "title": "Agent Harness(四)模型适配与事件流 / 事件组装",
+        "subject": "统一不同模型适配器的事件、重试和 chunk 组装，同时保留预算。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d04-02-事件组装"
+      },
+      "d04-03-重试层次": {
+        "title": "Agent Harness(四)模型适配与事件流 / 重试层次",
+        "subject": "统一不同模型适配器的事件、重试和 chunk 组装，同时保留预算。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d04-03-重试层次"
+      },
+      "d04-04-预算传播": {
+        "title": "Agent Harness(四)模型适配与事件流 / 预算传播",
+        "subject": "统一不同模型适配器的事件、重试和 chunk 组装，同时保留预算。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d04-04-预算传播"
+      },
+      "d05-01-插件加载": {
+        "title": "Agent Harness(五)插件与资源 / 插件加载",
+        "subject": "管理插件、资源、监听器和后台任务的加载、卸载与清理。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d05-01-插件加载"
+      },
+      "d05-02-资源所有权": {
+        "title": "Agent Harness(五)插件与资源 / 资源所有权",
+        "subject": "管理插件、资源、监听器和后台任务的加载、卸载与清理。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d05-02-资源所有权"
+      },
+      "d05-03-监听器": {
+        "title": "Agent Harness(五)插件与资源 / 监听器",
+        "subject": "管理插件、资源、监听器和后台任务的加载、卸载与清理。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d05-03-监听器"
+      },
+      "d05-04-清理路径": {
+        "title": "Agent Harness(五)插件与资源 / 清理路径",
+        "subject": "管理插件、资源、监听器和后台任务的加载、卸载与清理。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d05-04-清理路径"
+      },
+      "d06-01-序列号": {
+        "title": "Agent Harness(六)状态与持久化 / 序列号",
+        "subject": "把事件顺序、提交、版本和恢复数据做成可读的持久化状态。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d06-01-序列号"
+      },
+      "d06-02-提交点": {
+        "title": "Agent Harness(六)状态与持久化 / 提交点",
+        "subject": "把事件顺序、提交、版本和恢复数据做成可读的持久化状态。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d06-02-提交点"
+      },
+      "d06-03-版本冲突": {
+        "title": "Agent Harness(六)状态与持久化 / 版本冲突",
+        "subject": "把事件顺序、提交、版本和恢复数据做成可读的持久化状态。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d06-03-版本冲突"
+      },
+      "d06-04-恢复读取": {
+        "title": "Agent Harness(六)状态与持久化 / 恢复读取",
+        "subject": "把事件顺序、提交、版本和恢复数据做成可读的持久化状态。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d06-04-恢复读取"
+      },
+      "d07-01-上下文投影": {
+        "title": "Agent Harness(七)上下文组装 / 上下文投影",
+        "subject": "把上下文投影、压缩、工具结果配对和重建放在可验证的状态层。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d07-01-上下文投影"
+      },
+      "d07-02-压缩策略": {
+        "title": "Agent Harness(七)上下文组装 / 压缩策略",
+        "subject": "把上下文投影、压缩、工具结果配对和重建放在可验证的状态层。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d07-02-压缩策略"
+      },
+      "d07-03-工具配对": {
+        "title": "Agent Harness(七)上下文组装 / 工具配对",
+        "subject": "把上下文投影、压缩、工具结果配对和重建放在可验证的状态层。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d07-03-工具配对"
+      },
+      "d07-04-重建验证": {
+        "title": "Agent Harness(七)上下文组装 / 重建验证",
+        "subject": "把上下文投影、压缩、工具结果配对和重建放在可验证的状态层。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d07-04-重建验证"
+      },
+      "d08-01-崩溃窗口": {
+        "title": "Agent Harness(八)恢复与幂等 / 崩溃窗口",
+        "subject": "用稳定操作 ID、查询优先和安全重试处理副作用后的崩溃。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d08-01-崩溃窗口"
+      },
+      "d08-02-操作标识": {
+        "title": "Agent Harness(八)恢复与幂等 / 操作标识",
+        "subject": "用稳定操作 ID、查询优先和安全重试处理副作用后的崩溃。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d08-02-操作标识"
+      },
+      "d08-03-查询优先": {
+        "title": "Agent Harness(八)恢复与幂等 / 查询优先",
+        "subject": "用稳定操作 ID、查询优先和安全重试处理副作用后的崩溃。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d08-03-查询优先"
+      },
+      "d08-04-重试安全": {
+        "title": "Agent Harness(八)恢复与幂等 / 重试安全",
+        "subject": "用稳定操作 ID、查询优先和安全重试处理副作用后的崩溃。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d08-04-重试安全"
+      },
+      "d09-01-隔离边界": {
+        "title": "Agent Harness(九)隔离与审批 / 隔离边界",
+        "subject": "将审批绑定到规范化工具调用，并在 Harness 中执行隔离和写入门禁。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d09-01-隔离边界"
+      },
+      "d09-02-规范化调用": {
+        "title": "Agent Harness(九)隔离与审批 / 规范化调用",
+        "subject": "将审批绑定到规范化工具调用，并在 Harness 中执行隔离和写入门禁。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d09-02-规范化调用"
+      },
+      "d09-03-审批绑定": {
+        "title": "Agent Harness(九)隔离与审批 / 审批绑定",
+        "subject": "将审批绑定到规范化工具调用，并在 Harness 中执行隔离和写入门禁。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d09-03-审批绑定"
+      },
+      "d09-04-写入门禁": {
+        "title": "Agent Harness(九)隔离与审批 / 写入门禁",
+        "subject": "将审批绑定到规范化工具调用，并在 Harness 中执行隔离和写入门禁。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d09-04-写入门禁"
+      },
+      "d10-01-槽位分配": {
+        "title": "Agent Harness(十)调度与并发 / 槽位分配",
+        "subject": "调度多任务、容量、背压、超时和取消，并说明副作用后的取消边界。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d10-01-槽位分配"
+      },
+      "d10-02-背压": {
+        "title": "Agent Harness(十)调度与并发 / 背压",
+        "subject": "调度多任务、容量、背压、超时和取消，并说明副作用后的取消边界。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d10-02-背压"
+      },
+      "d10-03-取消传播": {
+        "title": "Agent Harness(十)调度与并发 / 取消传播",
+        "subject": "调度多任务、容量、背压、超时和取消，并说明副作用后的取消边界。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d10-03-取消传播"
+      },
+      "d10-04-副作用边界": {
+        "title": "Agent Harness(十)调度与并发 / 副作用边界",
+        "subject": "调度多任务、容量、背压、超时和取消，并说明副作用后的取消边界。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d10-04-副作用边界"
+      },
+      "d11-01-事件字段": {
+        "title": "Agent Harness(十一)运行事件与观测 / 事件字段",
+        "subject": "设计运行、步骤、工具、实时和持久事件，使 Trace 能支持定位但不替代业务 Oracle。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d11-01-事件字段"
+      },
+      "d11-02-关联id": {
+        "title": "Agent Harness(十一)运行事件与观测 / 关联 ID",
+        "subject": "设计运行、步骤、工具、实时和持久事件，使 Trace 能支持定位但不替代业务 Oracle。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d11-02-关联id"
+      },
+      "d11-03-实时观测": {
+        "title": "Agent Harness(十一)运行事件与观测 / 实时观测",
+        "subject": "设计运行、步骤、工具、实时和持久事件，使 Trace 能支持定位但不替代业务 Oracle。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d11-03-实时观测"
+      },
+      "d11-04-重放限制": {
+        "title": "Agent Harness(十一)运行事件与观测 / 重放限制",
+        "subject": "设计运行、步骤、工具、实时和持久事件，使 Trace 能支持定位但不替代业务 Oracle。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d11-04-重放限制"
+      },
+      "d12-01-健康检查": {
+        "title": "Agent Harness(十二)服务运维 / 健康检查",
+        "subject": "为 Harness 提供健康、就绪、SLO、停止、drain、版本和恢复检查。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d12-01-健康检查"
+      },
+      "d12-02-优雅停止": {
+        "title": "Agent Harness(十二)服务运维 / 优雅停止",
+        "subject": "为 Harness 提供健康、就绪、SLO、停止、drain、版本和恢复检查。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d12-02-优雅停止"
+      },
+      "d12-03-slo字段": {
+        "title": "Agent Harness(十二)服务运维 / SLO字段",
+        "subject": "为 Harness 提供健康、就绪、SLO、停止、drain、版本和恢复检查。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d12-03-slo字段"
+      },
+      "d12-04-版本恢复": {
+        "title": "Agent Harness(十二)服务运维 / 版本恢复",
+        "subject": "为 Harness 提供健康、就绪、SLO、停止、drain、版本和恢复检查。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d12-04-版本恢复"
+      },
+      "d13-01-项目范围": {
+        "title": "Agent Harness(十三)项目实战 / 项目范围",
+        "subject": "交付带审批、崩溃恢复、并发和事件观测的 Fake Agent Harness。",
+        "source": "https://opentelemetry.io/docs/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d13-01-项目范围"
+      },
+      "d13-02-运行实现": {
+        "title": "Agent Harness(十三)项目实战 / 运行实现",
+        "subject": "交付带审批、崩溃恢复、并发和事件观测的 Fake Agent Harness。",
+        "source": "https://langchain-ai.github.io/langgraph/concepts/persistence/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d13-02-运行实现"
+      },
+      "d13-03-故障演练": {
+        "title": "Agent Harness(十三)项目实战 / 故障演练",
+        "subject": "交付带审批、崩溃恢复、并发和事件观测的 Fake Agent Harness。",
+        "source": "https://docs.python.org/3/library/asyncio.html",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d13-03-故障演练"
+      },
+      "d13-04-证据复盘": {
+        "title": "Agent Harness(十三)项目实战 / 证据复盘",
+        "subject": "交付带审批、崩溃恢复、并发和事件观测的 Fake Agent Harness。",
+        "source": "https://www.w3.org/TR/trace-context/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "d13-04-证据复盘"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "d01-01-课程目标": [
+          "core",
+          "Agent Harness(一)入门路线 / 课程目标",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d01-02-前置条件": [
+          "core",
+          "Agent Harness(一)入门路线 / 前置条件",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d01-03-学习路径": [
+          "core",
+          "Agent Harness(一)入门路线 / 学习路径",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d01-04-文章安排": [
+          "core",
+          "Agent Harness(一)入门路线 / 文章安排",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d01-05-开始学习": [
+          "core",
+          "Agent Harness(一)入门路线 / 开始学习",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d01-06-参考资料": [
+          "core",
+          "Agent Harness(一)入门路线 / 参考资料",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d02-01-职责边界": [
+          "core",
+          "Agent Harness(二)运行时边界 / 职责边界",
+          "该条目直接服务于“能为一次运行画出边界并定义 adapter、executor、state、observe 接口。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d02-02-接口分层": [
+          "core",
+          "Agent Harness(二)运行时边界 / 接口分层",
+          "该条目直接服务于“能为一次运行画出边界并定义 adapter、executor、state、observe 接口。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d02-03-运行对象": [
+          "core",
+          "Agent Harness(二)运行时边界 / 运行对象",
+          "该条目直接服务于“能为一次运行画出边界并定义 adapter、executor、state、observe 接口。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d02-04-观测对象": [
+          "core",
+          "Agent Harness(二)运行时边界 / 观测对象",
+          "该条目直接服务于“能为一次运行画出边界并定义 adapter、executor、state、observe 接口。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d03-01-启动阶段": [
+          "core",
+          "Agent Harness(三)生命周期 / 启动阶段",
+          "该条目直接服务于“能区分无异常终止、业务正确、取消和恢复等状态。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d03-02-步骤阶段": [
+          "core",
+          "Agent Harness(三)生命周期 / 步骤阶段",
+          "该条目直接服务于“能区分无异常终止、业务正确、取消和恢复等状态。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d03-03-终止状态": [
+          "core",
+          "Agent Harness(三)生命周期 / 终止状态",
+          "该条目直接服务于“能区分无异常终止、业务正确、取消和恢复等状态。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d03-04-业务结果": [
+          "core",
+          "Agent Harness(三)生命周期 / 业务结果",
+          "该条目直接服务于“能区分无异常终止、业务正确、取消和恢复等状态。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d04-01-适配接口": [
+          "core",
+          "Agent Harness(四)模型适配与事件流 / 适配接口",
+          "该条目直接服务于“能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d04-02-事件组装": [
+          "core",
+          "Agent Harness(四)模型适配与事件流 / 事件组装",
+          "该条目直接服务于“能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d04-03-重试层次": [
+          "core",
+          "Agent Harness(四)模型适配与事件流 / 重试层次",
+          "该条目直接服务于“能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d04-04-预算传播": [
+          "core",
+          "Agent Harness(四)模型适配与事件流 / 预算传播",
+          "该条目直接服务于“能在适配层重放增量事件，避免 SDK、loop 和业务层重复重试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d05-01-插件加载": [
+          "core",
+          "Agent Harness(五)插件与资源 / 插件加载",
+          "该条目直接服务于“能证明初始化失败仍会执行释放，且资源所有权明确。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d05-02-资源所有权": [
+          "core",
+          "Agent Harness(五)插件与资源 / 资源所有权",
+          "该条目直接服务于“能证明初始化失败仍会执行释放，且资源所有权明确。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d05-03-监听器": [
+          "core",
+          "Agent Harness(五)插件与资源 / 监听器",
+          "该条目直接服务于“能证明初始化失败仍会执行释放，且资源所有权明确。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d05-04-清理路径": [
+          "core",
+          "Agent Harness(五)插件与资源 / 清理路径",
+          "该条目直接服务于“能证明初始化失败仍会执行释放，且资源所有权明确。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d06-01-序列号": [
+          "core",
+          "Agent Harness(六)状态与持久化 / 序列号",
+          "该条目直接服务于“能区分客户端收到事件、状态已提交和语义记忆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d06-02-提交点": [
+          "core",
+          "Agent Harness(六)状态与持久化 / 提交点",
+          "该条目直接服务于“能区分客户端收到事件、状态已提交和语义记忆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d06-03-版本冲突": [
+          "core",
+          "Agent Harness(六)状态与持久化 / 版本冲突",
+          "该条目直接服务于“能区分客户端收到事件、状态已提交和语义记忆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d06-04-恢复读取": [
+          "core",
+          "Agent Harness(六)状态与持久化 / 恢复读取",
+          "该条目直接服务于“能区分客户端收到事件、状态已提交和语义记忆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d07-01-上下文投影": [
+          "core",
+          "Agent Harness(七)上下文组装 / 上下文投影",
+          "该条目直接服务于“能从检查点重建请求并说明哪些信息被丢弃。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d07-02-压缩策略": [
+          "core",
+          "Agent Harness(七)上下文组装 / 压缩策略",
+          "该条目直接服务于“能从检查点重建请求并说明哪些信息被丢弃。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d07-03-工具配对": [
+          "core",
+          "Agent Harness(七)上下文组装 / 工具配对",
+          "该条目直接服务于“能从检查点重建请求并说明哪些信息被丢弃。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d07-04-重建验证": [
+          "core",
+          "Agent Harness(七)上下文组装 / 重建验证",
+          "该条目直接服务于“能从检查点重建请求并说明哪些信息被丢弃。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d08-01-崩溃窗口": [
+          "core",
+          "Agent Harness(八)恢复与幂等 / 崩溃窗口",
+          "该条目直接服务于“能在副作用发生后崩溃的场景下恢复且不重复写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d08-02-操作标识": [
+          "core",
+          "Agent Harness(八)恢复与幂等 / 操作标识",
+          "该条目直接服务于“能在副作用发生后崩溃的场景下恢复且不重复写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d08-03-查询优先": [
+          "core",
+          "Agent Harness(八)恢复与幂等 / 查询优先",
+          "该条目直接服务于“能在副作用发生后崩溃的场景下恢复且不重复写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d08-04-重试安全": [
+          "core",
+          "Agent Harness(八)恢复与幂等 / 重试安全",
+          "该条目直接服务于“能在副作用发生后崩溃的场景下恢复且不重复写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d09-01-隔离边界": [
+          "core",
+          "Agent Harness(九)隔离与审批 / 隔离边界",
+          "该条目直接服务于“能阻止参数、身份和资源变化绕过审批。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d09-02-规范化调用": [
+          "core",
+          "Agent Harness(九)隔离与审批 / 规范化调用",
+          "该条目直接服务于“能阻止参数、身份和资源变化绕过审批。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d09-03-审批绑定": [
+          "core",
+          "Agent Harness(九)隔离与审批 / 审批绑定",
+          "该条目直接服务于“能阻止参数、身份和资源变化绕过审批。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d09-04-写入门禁": [
+          "core",
+          "Agent Harness(九)隔离与审批 / 写入门禁",
+          "该条目直接服务于“能阻止参数、身份和资源变化绕过审批。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d10-01-槽位分配": [
+          "core",
+          "Agent Harness(十)调度与并发 / 槽位分配",
+          "该条目直接服务于“能在 3 个任务、2 个槽位下验证公平性和背压。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d10-02-背压": [
+          "core",
+          "Agent Harness(十)调度与并发 / 背压",
+          "该条目直接服务于“能在 3 个任务、2 个槽位下验证公平性和背压。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d10-03-取消传播": [
+          "core",
+          "Agent Harness(十)调度与并发 / 取消传播",
+          "该条目直接服务于“能在 3 个任务、2 个槽位下验证公平性和背压。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d10-04-副作用边界": [
+          "core",
+          "Agent Harness(十)调度与并发 / 副作用边界",
+          "该条目直接服务于“能在 3 个任务、2 个槽位下验证公平性和背压。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d11-01-事件字段": [
+          "core",
+          "Agent Harness(十一)运行事件与观测 / 事件字段",
+          "该条目直接服务于“能用稳定 ID 关联事件、日志、状态和重放。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d11-02-关联id": [
+          "core",
+          "Agent Harness(十一)运行事件与观测 / 关联 ID",
+          "该条目直接服务于“能用稳定 ID 关联事件、日志、状态和重放。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d11-03-实时观测": [
+          "core",
+          "Agent Harness(十一)运行事件与观测 / 实时观测",
+          "该条目直接服务于“能用稳定 ID 关联事件、日志、状态和重放。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d11-04-重放限制": [
+          "core",
+          "Agent Harness(十一)运行事件与观测 / 重放限制",
+          "该条目直接服务于“能用稳定 ID 关联事件、日志、状态和重放。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d12-01-健康检查": [
+          "core",
+          "Agent Harness(十二)服务运维 / 健康检查",
+          "该条目直接服务于“能区分 health 200、可接新任务和可恢复正确任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d12-02-优雅停止": [
+          "core",
+          "Agent Harness(十二)服务运维 / 优雅停止",
+          "该条目直接服务于“能区分 health 200、可接新任务和可恢复正确任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d12-03-slo字段": [
+          "core",
+          "Agent Harness(十二)服务运维 / SLO字段",
+          "该条目直接服务于“能区分 health 200、可接新任务和可恢复正确任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d12-04-版本恢复": [
+          "core",
+          "Agent Harness(十二)服务运维 / 版本恢复",
+          "该条目直接服务于“能区分 health 200、可接新任务和可恢复正确任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d13-01-项目范围": [
+          "core",
+          "Agent Harness(十三)项目实战 / 项目范围",
+          "该条目直接服务于“证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d13-02-运行实现": [
+          "core",
+          "Agent Harness(十三)项目实战 / 运行实现",
+          "该条目直接服务于“证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d13-03-故障演练": [
+          "core",
+          "Agent Harness(十三)项目实战 / 故障演练",
+          "该条目直接服务于“证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "d13-04-证据复盘": [
+          "core",
+          "Agent Harness(十三)项目实战 / 证据复盘",
+          "该条目直接服务于“证明副作用不重复、审批不漂移、事件可追踪且服务能停止排空。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 54,
+      "ledger_entries": 54,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  },
+  "migration_mappings": [],
+  "support_sources": [],
+  "exclusions": [],
+  "cover_contract": {
+    "path": "/img/picgo-images/agent-harness-course-cover.png",
+    "size": "1920x1080",
+    "safe_area": "central 70%",
+    "keywords": [
+      "Runtime",
+      "State",
+      "Recovery",
+      "Isolation",
+      "Observe"
+    ]
+  }
+}

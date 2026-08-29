@@ -1,0 +1,2317 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "agent-security",
+    "series": "Agent 安全",
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "purpose": "建立身份、授权、隔离、提示注入、协议、数据、供应链、多 Agent 与审计响应的安全测试体系。",
+    "graduation": "交付双租户 Fake Agent 的安全证据：威胁模型、权限矩阵、对抗样本、审计、撤销和恢复。",
+    "topics": [
+      "威胁建模",
+      "身份与授权",
+      "隔离与执行",
+      "提示注入防御",
+      "工具与协议安全",
+      "数据与记忆安全",
+      "供应链安全",
+      "多Agent安全",
+      "安全测试设计",
+      "审计与事件响应"
+    ],
+    "optional_articles": [
+      "项目实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "Agent 安全(一)入门路线",
+        "file": "Agent 安全(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "Agent 安全(二)威胁建模",
+        "file": "Agent 安全(二)威胁建模.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "Agent 安全(三)身份与授权",
+        "file": "Agent 安全(三)身份与授权.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "Agent 安全(四)隔离与执行",
+        "file": "Agent 安全(四)隔离与执行.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "Agent 安全(五)提示注入防御",
+        "file": "Agent 安全(五)提示注入防御.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "Agent 安全(六)工具与协议安全",
+        "file": "Agent 安全(六)工具与协议安全.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "Agent 安全(七)数据与记忆安全",
+        "file": "Agent 安全(七)数据与记忆安全.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "Agent 安全(八)供应链安全",
+        "file": "Agent 安全(八)供应链安全.md",
+        "kind": "topic"
+      },
+      {
+        "order": 9,
+        "title": "Agent 安全(九)多Agent安全",
+        "file": "Agent 安全(九)多Agent安全.md",
+        "kind": "topic"
+      },
+      {
+        "order": 10,
+        "title": "Agent 安全(十)安全测试设计",
+        "file": "Agent 安全(十)安全测试设计.md",
+        "kind": "topic"
+      },
+      {
+        "order": 11,
+        "title": "Agent 安全(十一)审计与事件响应",
+        "file": "Agent 安全(十一)审计与事件响应.md",
+        "kind": "topic"
+      },
+      {
+        "order": 12,
+        "title": "Agent 安全(十二)项目实战",
+        "file": "Agent 安全(十二)项目实战.md",
+        "kind": "final"
+      }
+    ],
+    "article_map": [
+      {
+        "order": 1,
+        "title": "Agent 安全(一)入门路线",
+        "kind": "entry",
+        "depends": [],
+        "prerequisites": "课程入口基础",
+        "duty": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+        "outcome": "能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+        "h2": [
+          [
+            "课程目标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "前置条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "学习路径",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文章安排",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "开始学习",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "课程依赖路线图（Mermaid TD）"
+        ],
+        "experiment": "只核对已有基础和合成实验目录，不安装新的外部依赖。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "Model Context Protocol authorization",
+            "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol authorization: https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization"
+          }
+        ],
+        "openingPlan": null
+      },
+      {
+        "order": 2,
+        "title": "Agent 安全(二)威胁建模",
+        "kind": "topic",
+        "depends": [
+          "F01"
+        ],
+        "prerequisites": "完成 F01 的相关实验",
+        "duty": "以资产、边界、攻击者和风险为起点建模 Agent，而不是只列危险词。",
+        "outcome": "能为工单 Agent 写出资产清单、信任边界和风险排序。",
+        "h2": [
+          [
+            "资产边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "攻击者",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "风险判断",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "安全目标",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "为合成系统画用户、模型、工具、数据和外部内容边界。",
+        "cards": [
+          "f02-threat-vulnerability-risk",
+          "f02-answer-not-safe-execution"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Model Context Protocol authorization",
+            "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol authorization: https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization"
+          },
+          {
+            "title": "OpenAI safety best practices",
+            "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI safety best practices: https://platform.openai.com/docs/guides/safety-best-practices"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "以资产、边界、攻击者和风险为起点建模 Agent，而不是只列危险词。",
+          "content": "能为工单 Agent 写出资产清单、信任边界和风险排序。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 3,
+        "title": "Agent 安全(三)身份与授权",
+        "kind": "topic",
+        "depends": [
+          "F02"
+        ],
+        "prerequisites": "完成 F02 的相关实验",
+        "duty": "分清认证、授权、审批、委派和撤销，确保调用参数与身份绑定。",
+        "outcome": "能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。",
+        "h2": [
+          [
+            "身份来源",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "权限矩阵",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "审批绑定",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "撤销传播",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "测试 alpha 矩阵、旧消息、过期 grant、改参和子 Agent 请求。",
+        "cards": [
+          "f03-authn-vs-authz",
+          "f03-child-cannot-expand",
+          "f03-changed-params-approval"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "OpenAI safety best practices",
+            "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI safety best practices: https://platform.openai.com/docs/guides/safety-best-practices"
+          },
+          {
+            "title": "OWASP GenAI Security Project",
+            "url": "https://genai.owasp.org/",
+            "icon": "https://genai.owasp.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OWASP GenAI Security Project: https://genai.owasp.org/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "分清认证、授权、审批、委派和撤销，确保调用参数与身份绑定。",
+          "content": "能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 4,
+        "title": "Agent 安全(四)隔离与执行",
+        "kind": "topic",
+        "depends": [
+          "F02",
+          "D09"
+        ],
+        "prerequisites": "完成 F02、D09 的相关实验",
+        "duty": "用沙箱、允许列表、资源上限和网络边界控制工具执行。",
+        "outcome": "能区分黑名单、dry-run 和真正的 host isolation。",
+        "h2": [
+          [
+            "文件边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "进程边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "网络边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "资源限制",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "对 Fake executor 验证允许和拒绝的文件、进程、网络和资源。",
+        "cards": [
+          "f04-blacklist-not-sandbox",
+          "f04-dry-run-not-isolation"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OWASP GenAI Security Project",
+            "url": "https://genai.owasp.org/",
+            "icon": "https://genai.owasp.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OWASP GenAI Security Project: https://genai.owasp.org/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用沙箱、允许列表、资源上限和网络边界控制工具执行。",
+          "content": "能区分黑名单、dry-run 和真正的 host isolation。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 5,
+        "title": "Agent 安全(五)提示注入防御",
+        "kind": "topic",
+        "depends": [
+          "F03",
+          "C03"
+        ],
+        "prerequisites": "完成 F03、C03 的相关实验",
+        "duty": "识别直接、间接、数据源和工具描述中的注入，并把拒答与安全执行分开。",
+        "outcome": "能在 6 个正常样本和 12 个无害注入样本上验证策略。",
+        "h2": [
+          [
+            "注入来源",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "边界识别",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "工具防护",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "拒答验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "对文档、网页、工具描述注入“忽略规则”“外传密钥”等无害样本。",
+        "cards": [
+          "f05-indirect-vs-direct",
+          "f05-schema-not-executable",
+          "f05-refusal-not-safety"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "Model Context Protocol authorization",
+            "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol authorization: https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "识别直接、间接、数据源和工具描述中的注入，并把拒答与安全执行分开。",
+          "content": "能在 6 个正常样本和 12 个无害注入样本上验证策略。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 6,
+        "title": "Agent 安全(六)工具与协议安全",
+        "kind": "topic",
+        "depends": [
+          "F03",
+          "F05",
+          "C09"
+        ],
+        "prerequisites": "完成 F03、F05、C09 的相关实验",
+        "duty": "测试 MCP、OAuth、代理、句柄、会话和上游授权的独立边界。",
+        "outcome": "能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。",
+        "h2": [
+          [
+            "令牌边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "协议代理",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "句柄状态",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "用户同意",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "使用 Fake MCP/OAuth/proxy 测试 token 泄漏、句柄复用和重复同意。",
+        "cards": [
+          "f06-client-token-boundary",
+          "f06-handle-session-distinct"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Model Context Protocol authorization",
+            "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol authorization: https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization"
+          },
+          {
+            "title": "OpenAI safety best practices",
+            "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI safety best practices: https://platform.openai.com/docs/guides/safety-best-practices"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "测试 MCP、OAuth、代理、句柄、会话和上游授权的独立边界。",
+          "content": "能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 7,
+        "title": "Agent 安全(七)数据与记忆安全",
+        "kind": "topic",
+        "depends": [
+          "F03",
+          "F05",
+          "C06",
+          "C07"
+        ],
+        "prerequisites": "完成 F03、F05、C06、C07 的相关实验",
+        "duty": "守住租户、文档、检索、记忆、canary、撤销和删除的边界。",
+        "outcome": "能证明相似度不能绕过访问控制，删除原文不等于副本消失。",
+        "h2": [
+          [
+            "租户隔离",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "来源范围",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "撤销删除",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "副本治理",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "构造双租户文档、canary、过期授权和删除请求，检查所有副本路径。",
+        "cards": [
+          "f07-similarity-not-access",
+          "f07-delete-not-all-copies"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI safety best practices",
+            "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI safety best practices: https://platform.openai.com/docs/guides/safety-best-practices"
+          },
+          {
+            "title": "OWASP GenAI Security Project",
+            "url": "https://genai.owasp.org/",
+            "icon": "https://genai.owasp.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OWASP GenAI Security Project: https://genai.owasp.org/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "守住租户、文档、检索、记忆、canary、撤销和删除的边界。",
+          "content": "能证明相似度不能绕过访问控制，删除原文不等于副本消失。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 8,
+        "title": "Agent 安全(八)供应链安全",
+        "kind": "topic",
+        "depends": [
+          "F03",
+          "B09",
+          "D05"
+        ],
+        "prerequisites": "完成 F03、B09、D05 的相关实验",
+        "duty": "检查组件清单、版本、签名、校验和、权限与依赖更新。",
+        "outcome": "能解释 checksum、signature、固定版本和依赖树的不同作用。",
+        "h2": [
+          [
+            "组件清单",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "签名校验",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "权限审查",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "更新边界",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "对 Fake plugin 清单注入签名错误、依赖漂移和权限扩大。",
+        "cards": [
+          "f08-checksum-signature",
+          "f08-pinned-not-frozen"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OWASP GenAI Security Project",
+            "url": "https://genai.owasp.org/",
+            "icon": "https://genai.owasp.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OWASP GenAI Security Project: https://genai.owasp.org/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "检查组件清单、版本、签名、校验和、权限与依赖更新。",
+          "content": "能解释 checksum、signature、固定版本和依赖树的不同作用。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 9,
+        "title": "Agent 安全(九)多Agent安全",
+        "kind": "topic",
+        "depends": [
+          "F03",
+          "C10"
+        ],
+        "prerequisites": "完成 F03、C10 的相关实验",
+        "duty": "验证委派、消息、审批、身份和级联失败在多 Agent 场景下仍受控。",
+        "outcome": "能阻止伪造批准、旧消息和过期授权导致写入。",
+        "h2": [
+          [
+            "委派边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "消息真实性",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "过期授权",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "级联响应",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 retriever/executor Fake agents 注入 forged approval、replay 和 expired grant。",
+        "cards": [
+          "f09-child-claim-not-auth",
+          "f09-local-vs-cascade"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          },
+          {
+            "title": "Model Context Protocol authorization",
+            "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol authorization: https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "验证委派、消息、审批、身份和级联失败在多 Agent 场景下仍受控。",
+          "content": "能阻止伪造批准、旧消息和过期授权导致写入。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 10,
+        "title": "Agent 安全(十)安全测试设计",
+        "kind": "topic",
+        "depends": [
+          "F04",
+          "F05",
+          "F06",
+          "F07",
+          "F08",
+          "E03",
+          "E05"
+        ],
+        "prerequisites": "完成 F04、F05、F06、F07、F08、E03、E05 的相关实验",
+        "duty": "把安全测试写成有分母、Oracle、良性对照和风险分类的实验。",
+        "outcome": "能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。",
+        "h2": [
+          [
+            "安全Oracle",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "样本分母",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "良性对照",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果解释",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "建立 20 例合成安全集，分开阻断、误报、Unknown 和环境错误。",
+        "cards": [
+          "f10-security-oracle",
+          "f10-attack-rate-denominator",
+          "f10-no-observed-not-absolute"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Model Context Protocol authorization",
+            "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol authorization: https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization"
+          },
+          {
+            "title": "OpenAI safety best practices",
+            "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI safety best practices: https://platform.openai.com/docs/guides/safety-best-practices"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把安全测试写成有分母、Oracle、良性对照和风险分类的实验。",
+          "content": "能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 11,
+        "title": "Agent 安全(十一)审计与事件响应",
+        "kind": "topic",
+        "depends": [
+          "F10",
+          "D11"
+        ],
+        "prerequisites": "完成 F10、D11 的相关实验",
+        "duty": "让审计轨迹支持撤销、停止、恢复和责任追踪，同时控制敏感数据暴露。",
+        "outcome": "能从缺失日志、撤销后写入和异常事件中重建响应步骤。",
+        "h2": [
+          [
+            "审计字段",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "撤销停止",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "事件重建",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "日志最小化",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "注入 revoke 后 write、missing log 和异常工具调用，验证 stop、revoke、recover 的顺序。",
+        "cards": [
+          "f11-trace-not-oracle",
+          "f11-stop-revoke-recover",
+          "f11-log-minimization"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI safety best practices",
+            "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+            "icon": "https://platform.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI safety best practices: https://platform.openai.com/docs/guides/safety-best-practices"
+          },
+          {
+            "title": "OWASP GenAI Security Project",
+            "url": "https://genai.owasp.org/",
+            "icon": "https://genai.owasp.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OWASP GenAI Security Project: https://genai.owasp.org/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "让审计轨迹支持撤销、停止、恢复和责任追踪，同时控制敏感数据暴露。",
+          "content": "能从缺失日志、撤销后写入和异常事件中重建响应步骤。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 12,
+        "title": "Agent 安全(十二)项目实战",
+        "kind": "final",
+        "depends": [
+          "F11"
+        ],
+        "prerequisites": "完成 F11 的相关实验",
+        "duty": "交付双租户安全测试项目，覆盖权限、注入、隔离、数据和审计响应。",
+        "outcome": "形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。",
+        "h2": [
+          [
+            "范围设计",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "攻击实验",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "审计响应",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "项目复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "在 Fake Agent 上执行审批写入、伪造批准、过期 grant、注入和撤销。",
+        "cards": [
+          "f10-security-oracle",
+          "f11-stop-revoke-recover"
+        ],
+        "difficulty": "实战",
+        "referenceCards": [
+          {
+            "title": "OWASP GenAI Security Project",
+            "url": "https://genai.owasp.org/",
+            "icon": "https://genai.owasp.org/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OWASP GenAI Security Project: https://genai.owasp.org/"
+          },
+          {
+            "title": "NIST AI Risk Management Framework",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "icon": "https://www.nist.gov/favicon.ico",
+            "sourceType": "official",
+            "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "交付双租户安全测试项目，覆盖权限、注入、隔离、数据和审计响应。",
+          "content": "形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      }
+    ],
+    "article_block_tag_plans": {
+      "Agent 安全(一)入门路线": [
+        {
+          "block": "课程目标",
+          "reader_task": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+          "core_content": "课程目标：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "mermaid",
+          "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "完成“前置条件”中的关键理解、操作或判断",
+          "core_content": "前置条件：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "完成“学习路径”中的关键理解、操作或判断",
+          "core_content": "学习路径：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "完成“文章安排”中的关键理解、操作或判断",
+          "core_content": "文章安排：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "完成“开始学习”中的关键理解、操作或判断",
+          "core_content": "开始学习：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(二)威胁建模": [
+        {
+          "block": "资产边界",
+          "reader_task": "以资产、边界、攻击者和风险为起点建模 Agent，而不是只列危险词。",
+          "core_content": "资产边界：能为工单 Agent 写出资产清单、信任边界和风险排序。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成系统画用户、模型、工具、数据和外部内容边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "攻击者",
+          "reader_task": "完成“攻击者”中的关键理解、操作或判断",
+          "core_content": "攻击者：能为工单 Agent 写出资产清单、信任边界和风险排序。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“攻击者”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成系统画用户、模型、工具、数据和外部内容边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "风险判断",
+          "reader_task": "完成“风险判断”中的关键理解、操作或判断",
+          "core_content": "风险判断：能为工单 Agent 写出资产清单、信任边界和风险排序。",
+          "carrier": "list",
+          "rationale": "该块只承担“风险判断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成系统画用户、模型、工具、数据和外部内容边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "安全目标",
+          "reader_task": "完成“安全目标”中的关键理解、操作或判断",
+          "core_content": "安全目标：能为工单 Agent 写出资产清单、信任边界和风险排序。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“安全目标”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成系统画用户、模型、工具、数据和外部内容边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(三)身份与授权": [
+        {
+          "block": "身份来源",
+          "reader_task": "分清认证、授权、审批、委派和撤销，确保调用参数与身份绑定。",
+          "core_content": "身份来源：能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；测试 alpha 矩阵、旧消息、过期 grant、改参和子 Agent 请求。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "权限矩阵",
+          "reader_task": "完成“权限矩阵”中的关键理解、操作或判断",
+          "core_content": "权限矩阵：能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。",
+          "carrier": "table",
+          "rationale": "该块只承担“权限矩阵”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；测试 alpha 矩阵、旧消息、过期 grant、改参和子 Agent 请求。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "审批绑定",
+          "reader_task": "完成“审批绑定”中的关键理解、操作或判断",
+          "core_content": "审批绑定：能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。",
+          "carrier": "code",
+          "rationale": "该块只承担“审批绑定”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；测试 alpha 矩阵、旧消息、过期 grant、改参和子 Agent 请求。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "撤销传播",
+          "reader_task": "完成“撤销传播”中的关键理解、操作或判断",
+          "core_content": "撤销传播：能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“撤销传播”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；测试 alpha 矩阵、旧消息、过期 grant、改参和子 Agent 请求。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(四)隔离与执行": [
+        {
+          "block": "文件边界",
+          "reader_task": "用沙箱、允许列表、资源上限和网络边界控制工具执行。",
+          "core_content": "文件边界：能区分黑名单、dry-run 和真正的 host isolation。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake executor 验证允许和拒绝的文件、进程、网络和资源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "进程边界",
+          "reader_task": "完成“进程边界”中的关键理解、操作或判断",
+          "core_content": "进程边界：能区分黑名单、dry-run 和真正的 host isolation。",
+          "carrier": "table",
+          "rationale": "该块只承担“进程边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake executor 验证允许和拒绝的文件、进程、网络和资源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "网络边界",
+          "reader_task": "完成“网络边界”中的关键理解、操作或判断",
+          "core_content": "网络边界：能区分黑名单、dry-run 和真正的 host isolation。",
+          "carrier": "table",
+          "rationale": "该块只承担“网络边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake executor 验证允许和拒绝的文件、进程、网络和资源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "资源限制",
+          "reader_task": "完成“资源限制”中的关键理解、操作或判断",
+          "core_content": "资源限制：能区分黑名单、dry-run 和真正的 host isolation。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“资源限制”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake executor 验证允许和拒绝的文件、进程、网络和资源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(五)提示注入防御": [
+        {
+          "block": "注入来源",
+          "reader_task": "识别直接、间接、数据源和工具描述中的注入，并把拒答与安全执行分开。",
+          "core_content": "注入来源：能在 6 个正常样本和 12 个无害注入样本上验证策略。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对文档、网页、工具描述注入“忽略规则”“外传密钥”等无害样本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "边界识别",
+          "reader_task": "完成“边界识别”中的关键理解、操作或判断",
+          "core_content": "边界识别：能在 6 个正常样本和 12 个无害注入样本上验证策略。",
+          "carrier": "table",
+          "rationale": "该块只承担“边界识别”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对文档、网页、工具描述注入“忽略规则”“外传密钥”等无害样本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "工具防护",
+          "reader_task": "完成“工具防护”中的关键理解、操作或判断",
+          "core_content": "工具防护：能在 6 个正常样本和 12 个无害注入样本上验证策略。",
+          "carrier": "list",
+          "rationale": "该块只承担“工具防护”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对文档、网页、工具描述注入“忽略规则”“外传密钥”等无害样本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "拒答验证",
+          "reader_task": "完成“拒答验证”中的关键理解、操作或判断",
+          "core_content": "拒答验证：能在 6 个正常样本和 12 个无害注入样本上验证策略。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“拒答验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对文档、网页、工具描述注入“忽略规则”“外传密钥”等无害样本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(六)工具与协议安全": [
+        {
+          "block": "令牌边界",
+          "reader_task": "测试 MCP、OAuth、代理、句柄、会话和上游授权的独立边界。",
+          "core_content": "令牌边界：能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Fake MCP/OAuth/proxy 测试 token 泄漏、句柄复用和重复同意。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "协议代理",
+          "reader_task": "完成“协议代理”中的关键理解、操作或判断",
+          "core_content": "协议代理：能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“协议代理”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Fake MCP/OAuth/proxy 测试 token 泄漏、句柄复用和重复同意。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "句柄状态",
+          "reader_task": "完成“句柄状态”中的关键理解、操作或判断",
+          "core_content": "句柄状态：能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。",
+          "carrier": "table",
+          "rationale": "该块只承担“句柄状态”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Fake MCP/OAuth/proxy 测试 token 泄漏、句柄复用和重复同意。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "用户同意",
+          "reader_task": "完成“用户同意”中的关键理解、操作或判断",
+          "core_content": "用户同意：能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“用户同意”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Fake MCP/OAuth/proxy 测试 token 泄漏、句柄复用和重复同意。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(七)数据与记忆安全": [
+        {
+          "block": "租户隔离",
+          "reader_task": "守住租户、文档、检索、记忆、canary、撤销和删除的边界。",
+          "core_content": "租户隔离：能证明相似度不能绕过访问控制，删除原文不等于副本消失。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造双租户文档、canary、过期授权和删除请求，检查所有副本路径。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "来源范围",
+          "reader_task": "完成“来源范围”中的关键理解、操作或判断",
+          "core_content": "来源范围：能证明相似度不能绕过访问控制，删除原文不等于副本消失。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“来源范围”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造双租户文档、canary、过期授权和删除请求，检查所有副本路径。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "撤销删除",
+          "reader_task": "完成“撤销删除”中的关键理解、操作或判断",
+          "core_content": "撤销删除：能证明相似度不能绕过访问控制，删除原文不等于副本消失。",
+          "carrier": "list",
+          "rationale": "该块只承担“撤销删除”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造双租户文档、canary、过期授权和删除请求，检查所有副本路径。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "副本治理",
+          "reader_task": "完成“副本治理”中的关键理解、操作或判断",
+          "core_content": "副本治理：能证明相似度不能绕过访问控制，删除原文不等于副本消失。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“副本治理”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造双租户文档、canary、过期授权和删除请求，检查所有副本路径。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(八)供应链安全": [
+        {
+          "block": "组件清单",
+          "reader_task": "检查组件清单、版本、签名、校验和、权限与依赖更新。",
+          "core_content": "组件清单：能解释 checksum、signature、固定版本和依赖树的不同作用。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake plugin 清单注入签名错误、依赖漂移和权限扩大。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "签名校验",
+          "reader_task": "完成“签名校验”中的关键理解、操作或判断",
+          "core_content": "签名校验：能解释 checksum、signature、固定版本和依赖树的不同作用。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“签名校验”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake plugin 清单注入签名错误、依赖漂移和权限扩大。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "权限审查",
+          "reader_task": "完成“权限审查”中的关键理解、操作或判断",
+          "core_content": "权限审查：能解释 checksum、signature、固定版本和依赖树的不同作用。",
+          "carrier": "list",
+          "rationale": "该块只承担“权限审查”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake plugin 清单注入签名错误、依赖漂移和权限扩大。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "更新边界",
+          "reader_task": "完成“更新边界”中的关键理解、操作或判断",
+          "core_content": "更新边界：能解释 checksum、signature、固定版本和依赖树的不同作用。",
+          "carrier": "table",
+          "rationale": "该块只承担“更新边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake plugin 清单注入签名错误、依赖漂移和权限扩大。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(九)多Agent安全": [
+        {
+          "block": "委派边界",
+          "reader_task": "验证委派、消息、审批、身份和级联失败在多 Agent 场景下仍受控。",
+          "core_content": "委派边界：能阻止伪造批准、旧消息和过期授权导致写入。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 retriever/executor Fake agents 注入 forged approval、replay 和 expired grant。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "消息真实性",
+          "reader_task": "完成“消息真实性”中的关键理解、操作或判断",
+          "core_content": "消息真实性：能阻止伪造批准、旧消息和过期授权导致写入。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“消息真实性”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 retriever/executor Fake agents 注入 forged approval、replay 和 expired grant。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "过期授权",
+          "reader_task": "完成“过期授权”中的关键理解、操作或判断",
+          "core_content": "过期授权：能阻止伪造批准、旧消息和过期授权导致写入。",
+          "carrier": "list",
+          "rationale": "该块只承担“过期授权”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 retriever/executor Fake agents 注入 forged approval、replay 和 expired grant。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "级联响应",
+          "reader_task": "完成“级联响应”中的关键理解、操作或判断",
+          "core_content": "级联响应：能阻止伪造批准、旧消息和过期授权导致写入。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“级联响应”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 retriever/executor Fake agents 注入 forged approval、replay 和 expired grant。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(十)安全测试设计": [
+        {
+          "block": "安全Oracle",
+          "reader_task": "把安全测试写成有分母、Oracle、良性对照和风险分类的实验。",
+          "core_content": "安全Oracle：能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立 20 例合成安全集，分开阻断、误报、Unknown 和环境错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "样本分母",
+          "reader_task": "完成“样本分母”中的关键理解、操作或判断",
+          "core_content": "样本分母：能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“样本分母”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立 20 例合成安全集，分开阻断、误报、Unknown 和环境错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "良性对照",
+          "reader_task": "完成“良性对照”中的关键理解、操作或判断",
+          "core_content": "良性对照：能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。",
+          "carrier": "list",
+          "rationale": "该块只承担“良性对照”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立 20 例合成安全集，分开阻断、误报、Unknown 和环境错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果解释",
+          "reader_task": "完成“结果解释”中的关键理解、操作或判断",
+          "core_content": "结果解释：能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“结果解释”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；建立 20 例合成安全集，分开阻断、误报、Unknown 和环境错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(十一)审计与事件响应": [
+        {
+          "block": "审计字段",
+          "reader_task": "让审计轨迹支持撤销、停止、恢复和责任追踪，同时控制敏感数据暴露。",
+          "core_content": "审计字段：能从缺失日志、撤销后写入和异常事件中重建响应步骤。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入 revoke 后 write、missing log 和异常工具调用，验证 stop、revoke、recover 的顺序。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "撤销停止",
+          "reader_task": "完成“撤销停止”中的关键理解、操作或判断",
+          "core_content": "撤销停止：能从缺失日志、撤销后写入和异常事件中重建响应步骤。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“撤销停止”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入 revoke 后 write、missing log 和异常工具调用，验证 stop、revoke、recover 的顺序。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "事件重建",
+          "reader_task": "完成“事件重建”中的关键理解、操作或判断",
+          "core_content": "事件重建：能从缺失日志、撤销后写入和异常事件中重建响应步骤。",
+          "carrier": "list",
+          "rationale": "该块只承担“事件重建”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入 revoke 后 write、missing log 和异常工具调用，验证 stop、revoke、recover 的顺序。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "日志最小化",
+          "reader_task": "完成“日志最小化”中的关键理解、操作或判断",
+          "core_content": "日志最小化：能从缺失日志、撤销后写入和异常事件中重建响应步骤。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“日志最小化”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入 revoke 后 write、missing log 和异常工具调用，验证 stop、revoke、recover 的顺序。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 安全(十二)项目实战": [
+        {
+          "block": "范围设计",
+          "reader_task": "交付双租户安全测试项目，覆盖权限、注入、隔离、数据和审计响应。",
+          "core_content": "范围设计：形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake Agent 上执行审批写入、伪造批准、过期 grant、注入和撤销。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "攻击实验",
+          "reader_task": "完成“攻击实验”中的关键理解、操作或判断",
+          "core_content": "攻击实验：形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。",
+          "carrier": "code",
+          "rationale": "该块只承担“攻击实验”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake Agent 上执行审批写入、伪造批准、过期 grant、注入和撤销。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "审计响应",
+          "reader_task": "完成“审计响应”中的关键理解、操作或判断",
+          "core_content": "审计响应：形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。",
+          "carrier": "list",
+          "rationale": "该块只承担“审计响应”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake Agent 上执行审批写入、伪造批准、过期 grant、注入和撤销。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "项目复盘",
+          "reader_task": "完成“项目复盘”中的关键理解、操作或判断",
+          "core_content": "项目复盘：形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“项目复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake Agent 上执行审批写入、伪造批准、过期 grant、注入和撤销。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ]
+    },
+    "reference_cards": [
+      {
+        "title": "OWASP GenAI Security Project",
+        "url": "https://genai.owasp.org/",
+        "icon": "https://genai.owasp.org/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OWASP GenAI Security Project: https://genai.owasp.org/"
+      },
+      {
+        "title": "NIST AI Risk Management Framework",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "icon": "https://www.nist.gov/favicon.ico",
+        "sourceType": "official",
+        "fallback": "NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework"
+      },
+      {
+        "title": "Model Context Protocol authorization",
+        "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "icon": "https://modelcontextprotocol.io/favicon.ico",
+        "sourceType": "official",
+        "fallback": "Model Context Protocol authorization: https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization"
+      },
+      {
+        "title": "OpenAI safety best practices",
+        "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "icon": "https://platform.openai.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OpenAI safety best practices: https://platform.openai.com/docs/guides/safety-best-practices"
+      }
+    ],
+    "research_scope": {
+      "researched_at": "2026-08-29",
+      "source_count": 4,
+      "bounded": true,
+      "note": "仅列可复核官方入口；快速变化内容在逐篇写作前刷新。"
+    }
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "topic_type": "Agent 安全：面向测试开发工程师的应用与质量工程课程",
+      "researched_at": "2026-08-29",
+      "boundary": "有限官方入口与稳定工程能力；快速变化的 SDK、模型和协议在逐篇写作前刷新。",
+      "reproduction": "按 sources、stable_id、version_status 和 article target 逐项复核；不宣称穷尽互联网。",
+      "entries": [
+        {
+          "title": "OWASP GenAI Security Project",
+          "url": "https://genai.owasp.org/",
+          "icon": "https://genai.owasp.org/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "NIST AI Risk Management Framework",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "icon": "https://www.nist.gov/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "Model Context Protocol authorization",
+          "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+          "icon": "https://modelcontextprotocol.io/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "OpenAI safety best practices",
+          "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+          "icon": "https://platform.openai.com/favicon.ico",
+          "sourceType": "official"
+        }
+      ]
+    },
+    "capabilities": {
+      "f01-01-课程目标": {
+        "title": "Agent 安全(一)入门路线 / 课程目标",
+        "subject": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f01-01-课程目标"
+      },
+      "f01-02-前置条件": {
+        "title": "Agent 安全(一)入门路线 / 前置条件",
+        "subject": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f01-02-前置条件"
+      },
+      "f01-03-学习路径": {
+        "title": "Agent 安全(一)入门路线 / 学习路径",
+        "subject": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f01-03-学习路径"
+      },
+      "f01-04-文章安排": {
+        "title": "Agent 安全(一)入门路线 / 文章安排",
+        "subject": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f01-04-文章安排"
+      },
+      "f01-05-开始学习": {
+        "title": "Agent 安全(一)入门路线 / 开始学习",
+        "subject": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f01-05-开始学习"
+      },
+      "f01-06-参考资料": {
+        "title": "Agent 安全(一)入门路线 / 参考资料",
+        "subject": "说明Agent 安全的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f01-06-参考资料"
+      },
+      "f02-01-资产边界": {
+        "title": "Agent 安全(二)威胁建模 / 资产边界",
+        "subject": "以资产、边界、攻击者和风险为起点建模 Agent，而不是只列危险词。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f02-01-资产边界"
+      },
+      "f02-02-攻击者": {
+        "title": "Agent 安全(二)威胁建模 / 攻击者",
+        "subject": "以资产、边界、攻击者和风险为起点建模 Agent，而不是只列危险词。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f02-02-攻击者"
+      },
+      "f02-03-风险判断": {
+        "title": "Agent 安全(二)威胁建模 / 风险判断",
+        "subject": "以资产、边界、攻击者和风险为起点建模 Agent，而不是只列危险词。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f02-03-风险判断"
+      },
+      "f02-04-安全目标": {
+        "title": "Agent 安全(二)威胁建模 / 安全目标",
+        "subject": "以资产、边界、攻击者和风险为起点建模 Agent，而不是只列危险词。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f02-04-安全目标"
+      },
+      "f03-01-身份来源": {
+        "title": "Agent 安全(三)身份与授权 / 身份来源",
+        "subject": "分清认证、授权、审批、委派和撤销，确保调用参数与身份绑定。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f03-01-身份来源"
+      },
+      "f03-02-权限矩阵": {
+        "title": "Agent 安全(三)身份与授权 / 权限矩阵",
+        "subject": "分清认证、授权、审批、委派和撤销，确保调用参数与身份绑定。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f03-02-权限矩阵"
+      },
+      "f03-03-审批绑定": {
+        "title": "Agent 安全(三)身份与授权 / 审批绑定",
+        "subject": "分清认证、授权、审批、委派和撤销，确保调用参数与身份绑定。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f03-03-审批绑定"
+      },
+      "f03-04-撤销传播": {
+        "title": "Agent 安全(三)身份与授权 / 撤销传播",
+        "subject": "分清认证、授权、审批、委派和撤销，确保调用参数与身份绑定。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f03-04-撤销传播"
+      },
+      "f04-01-文件边界": {
+        "title": "Agent 安全(四)隔离与执行 / 文件边界",
+        "subject": "用沙箱、允许列表、资源上限和网络边界控制工具执行。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f04-01-文件边界"
+      },
+      "f04-02-进程边界": {
+        "title": "Agent 安全(四)隔离与执行 / 进程边界",
+        "subject": "用沙箱、允许列表、资源上限和网络边界控制工具执行。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f04-02-进程边界"
+      },
+      "f04-03-网络边界": {
+        "title": "Agent 安全(四)隔离与执行 / 网络边界",
+        "subject": "用沙箱、允许列表、资源上限和网络边界控制工具执行。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f04-03-网络边界"
+      },
+      "f04-04-资源限制": {
+        "title": "Agent 安全(四)隔离与执行 / 资源限制",
+        "subject": "用沙箱、允许列表、资源上限和网络边界控制工具执行。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f04-04-资源限制"
+      },
+      "f05-01-注入来源": {
+        "title": "Agent 安全(五)提示注入防御 / 注入来源",
+        "subject": "识别直接、间接、数据源和工具描述中的注入，并把拒答与安全执行分开。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f05-01-注入来源"
+      },
+      "f05-02-边界识别": {
+        "title": "Agent 安全(五)提示注入防御 / 边界识别",
+        "subject": "识别直接、间接、数据源和工具描述中的注入，并把拒答与安全执行分开。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f05-02-边界识别"
+      },
+      "f05-03-工具防护": {
+        "title": "Agent 安全(五)提示注入防御 / 工具防护",
+        "subject": "识别直接、间接、数据源和工具描述中的注入，并把拒答与安全执行分开。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f05-03-工具防护"
+      },
+      "f05-04-拒答验证": {
+        "title": "Agent 安全(五)提示注入防御 / 拒答验证",
+        "subject": "识别直接、间接、数据源和工具描述中的注入，并把拒答与安全执行分开。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f05-04-拒答验证"
+      },
+      "f06-01-令牌边界": {
+        "title": "Agent 安全(六)工具与协议安全 / 令牌边界",
+        "subject": "测试 MCP、OAuth、代理、句柄、会话和上游授权的独立边界。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f06-01-令牌边界"
+      },
+      "f06-02-协议代理": {
+        "title": "Agent 安全(六)工具与协议安全 / 协议代理",
+        "subject": "测试 MCP、OAuth、代理、句柄、会话和上游授权的独立边界。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f06-02-协议代理"
+      },
+      "f06-03-句柄状态": {
+        "title": "Agent 安全(六)工具与协议安全 / 句柄状态",
+        "subject": "测试 MCP、OAuth、代理、句柄、会话和上游授权的独立边界。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f06-03-句柄状态"
+      },
+      "f06-04-用户同意": {
+        "title": "Agent 安全(六)工具与协议安全 / 用户同意",
+        "subject": "测试 MCP、OAuth、代理、句柄、会话和上游授权的独立边界。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f06-04-用户同意"
+      },
+      "f07-01-租户隔离": {
+        "title": "Agent 安全(七)数据与记忆安全 / 租户隔离",
+        "subject": "守住租户、文档、检索、记忆、canary、撤销和删除的边界。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f07-01-租户隔离"
+      },
+      "f07-02-来源范围": {
+        "title": "Agent 安全(七)数据与记忆安全 / 来源范围",
+        "subject": "守住租户、文档、检索、记忆、canary、撤销和删除的边界。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f07-02-来源范围"
+      },
+      "f07-03-撤销删除": {
+        "title": "Agent 安全(七)数据与记忆安全 / 撤销删除",
+        "subject": "守住租户、文档、检索、记忆、canary、撤销和删除的边界。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f07-03-撤销删除"
+      },
+      "f07-04-副本治理": {
+        "title": "Agent 安全(七)数据与记忆安全 / 副本治理",
+        "subject": "守住租户、文档、检索、记忆、canary、撤销和删除的边界。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f07-04-副本治理"
+      },
+      "f08-01-组件清单": {
+        "title": "Agent 安全(八)供应链安全 / 组件清单",
+        "subject": "检查组件清单、版本、签名、校验和、权限与依赖更新。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f08-01-组件清单"
+      },
+      "f08-02-签名校验": {
+        "title": "Agent 安全(八)供应链安全 / 签名校验",
+        "subject": "检查组件清单、版本、签名、校验和、权限与依赖更新。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f08-02-签名校验"
+      },
+      "f08-03-权限审查": {
+        "title": "Agent 安全(八)供应链安全 / 权限审查",
+        "subject": "检查组件清单、版本、签名、校验和、权限与依赖更新。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f08-03-权限审查"
+      },
+      "f08-04-更新边界": {
+        "title": "Agent 安全(八)供应链安全 / 更新边界",
+        "subject": "检查组件清单、版本、签名、校验和、权限与依赖更新。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f08-04-更新边界"
+      },
+      "f09-01-委派边界": {
+        "title": "Agent 安全(九)多Agent安全 / 委派边界",
+        "subject": "验证委派、消息、审批、身份和级联失败在多 Agent 场景下仍受控。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f09-01-委派边界"
+      },
+      "f09-02-消息真实性": {
+        "title": "Agent 安全(九)多Agent安全 / 消息真实性",
+        "subject": "验证委派、消息、审批、身份和级联失败在多 Agent 场景下仍受控。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f09-02-消息真实性"
+      },
+      "f09-03-过期授权": {
+        "title": "Agent 安全(九)多Agent安全 / 过期授权",
+        "subject": "验证委派、消息、审批、身份和级联失败在多 Agent 场景下仍受控。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f09-03-过期授权"
+      },
+      "f09-04-级联响应": {
+        "title": "Agent 安全(九)多Agent安全 / 级联响应",
+        "subject": "验证委派、消息、审批、身份和级联失败在多 Agent 场景下仍受控。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f09-04-级联响应"
+      },
+      "f10-01-安全oracle": {
+        "title": "Agent 安全(十)安全测试设计 / 安全Oracle",
+        "subject": "把安全测试写成有分母、Oracle、良性对照和风险分类的实验。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f10-01-安全oracle"
+      },
+      "f10-02-样本分母": {
+        "title": "Agent 安全(十)安全测试设计 / 样本分母",
+        "subject": "把安全测试写成有分母、Oracle、良性对照和风险分类的实验。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f10-02-样本分母"
+      },
+      "f10-03-良性对照": {
+        "title": "Agent 安全(十)安全测试设计 / 良性对照",
+        "subject": "把安全测试写成有分母、Oracle、良性对照和风险分类的实验。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f10-03-良性对照"
+      },
+      "f10-04-结果解释": {
+        "title": "Agent 安全(十)安全测试设计 / 结果解释",
+        "subject": "把安全测试写成有分母、Oracle、良性对照和风险分类的实验。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f10-04-结果解释"
+      },
+      "f11-01-审计字段": {
+        "title": "Agent 安全(十一)审计与事件响应 / 审计字段",
+        "subject": "让审计轨迹支持撤销、停止、恢复和责任追踪，同时控制敏感数据暴露。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f11-01-审计字段"
+      },
+      "f11-02-撤销停止": {
+        "title": "Agent 安全(十一)审计与事件响应 / 撤销停止",
+        "subject": "让审计轨迹支持撤销、停止、恢复和责任追踪，同时控制敏感数据暴露。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f11-02-撤销停止"
+      },
+      "f11-03-事件重建": {
+        "title": "Agent 安全(十一)审计与事件响应 / 事件重建",
+        "subject": "让审计轨迹支持撤销、停止、恢复和责任追踪，同时控制敏感数据暴露。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f11-03-事件重建"
+      },
+      "f11-04-日志最小化": {
+        "title": "Agent 安全(十一)审计与事件响应 / 日志最小化",
+        "subject": "让审计轨迹支持撤销、停止、恢复和责任追踪，同时控制敏感数据暴露。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f11-04-日志最小化"
+      },
+      "f12-01-范围设计": {
+        "title": "Agent 安全(十二)项目实战 / 范围设计",
+        "subject": "交付双租户安全测试项目，覆盖权限、注入、隔离、数据和审计响应。",
+        "source": "https://genai.owasp.org/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f12-01-范围设计"
+      },
+      "f12-02-攻击实验": {
+        "title": "Agent 安全(十二)项目实战 / 攻击实验",
+        "subject": "交付双租户安全测试项目，覆盖权限、注入、隔离、数据和审计响应。",
+        "source": "https://www.nist.gov/itl/ai-risk-management-framework",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f12-02-攻击实验"
+      },
+      "f12-03-审计响应": {
+        "title": "Agent 安全(十二)项目实战 / 审计响应",
+        "subject": "交付双租户安全测试项目，覆盖权限、注入、隔离、数据和审计响应。",
+        "source": "https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f12-03-审计响应"
+      },
+      "f12-04-项目复盘": {
+        "title": "Agent 安全(十二)项目实战 / 项目复盘",
+        "subject": "交付双租户安全测试项目，覆盖权限、注入、隔离、数据和审计响应。",
+        "source": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "version_status": "bounded-official-entry",
+        "stable_id": "f12-04-项目复盘"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "f01-01-课程目标": [
+          "core",
+          "Agent 安全(一)入门路线 / 课程目标",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f01-02-前置条件": [
+          "core",
+          "Agent 安全(一)入门路线 / 前置条件",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f01-03-学习路径": [
+          "core",
+          "Agent 安全(一)入门路线 / 学习路径",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f01-04-文章安排": [
+          "core",
+          "Agent 安全(一)入门路线 / 文章安排",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f01-05-开始学习": [
+          "core",
+          "Agent 安全(一)入门路线 / 开始学习",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f01-06-参考资料": [
+          "core",
+          "Agent 安全(一)入门路线 / 参考资料",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f02-01-资产边界": [
+          "core",
+          "Agent 安全(二)威胁建模 / 资产边界",
+          "该条目直接服务于“能为工单 Agent 写出资产清单、信任边界和风险排序。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f02-02-攻击者": [
+          "core",
+          "Agent 安全(二)威胁建模 / 攻击者",
+          "该条目直接服务于“能为工单 Agent 写出资产清单、信任边界和风险排序。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f02-03-风险判断": [
+          "core",
+          "Agent 安全(二)威胁建模 / 风险判断",
+          "该条目直接服务于“能为工单 Agent 写出资产清单、信任边界和风险排序。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f02-04-安全目标": [
+          "core",
+          "Agent 安全(二)威胁建模 / 安全目标",
+          "该条目直接服务于“能为工单 Agent 写出资产清单、信任边界和风险排序。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f03-01-身份来源": [
+          "core",
+          "Agent 安全(三)身份与授权 / 身份来源",
+          "该条目直接服务于“能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f03-02-权限矩阵": [
+          "core",
+          "Agent 安全(三)身份与授权 / 权限矩阵",
+          "该条目直接服务于“能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f03-03-审批绑定": [
+          "core",
+          "Agent 安全(三)身份与授权 / 审批绑定",
+          "该条目直接服务于“能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f03-04-撤销传播": [
+          "core",
+          "Agent 安全(三)身份与授权 / 撤销传播",
+          "该条目直接服务于“能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f04-01-文件边界": [
+          "core",
+          "Agent 安全(四)隔离与执行 / 文件边界",
+          "该条目直接服务于“能区分黑名单、dry-run 和真正的 host isolation。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f04-02-进程边界": [
+          "core",
+          "Agent 安全(四)隔离与执行 / 进程边界",
+          "该条目直接服务于“能区分黑名单、dry-run 和真正的 host isolation。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f04-03-网络边界": [
+          "core",
+          "Agent 安全(四)隔离与执行 / 网络边界",
+          "该条目直接服务于“能区分黑名单、dry-run 和真正的 host isolation。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f04-04-资源限制": [
+          "core",
+          "Agent 安全(四)隔离与执行 / 资源限制",
+          "该条目直接服务于“能区分黑名单、dry-run 和真正的 host isolation。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f05-01-注入来源": [
+          "core",
+          "Agent 安全(五)提示注入防御 / 注入来源",
+          "该条目直接服务于“能在 6 个正常样本和 12 个无害注入样本上验证策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f05-02-边界识别": [
+          "core",
+          "Agent 安全(五)提示注入防御 / 边界识别",
+          "该条目直接服务于“能在 6 个正常样本和 12 个无害注入样本上验证策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f05-03-工具防护": [
+          "core",
+          "Agent 安全(五)提示注入防御 / 工具防护",
+          "该条目直接服务于“能在 6 个正常样本和 12 个无害注入样本上验证策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f05-04-拒答验证": [
+          "core",
+          "Agent 安全(五)提示注入防御 / 拒答验证",
+          "该条目直接服务于“能在 6 个正常样本和 12 个无害注入样本上验证策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f06-01-令牌边界": [
+          "core",
+          "Agent 安全(六)工具与协议安全 / 令牌边界",
+          "该条目直接服务于“能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f06-02-协议代理": [
+          "core",
+          "Agent 安全(六)工具与协议安全 / 协议代理",
+          "该条目直接服务于“能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f06-03-句柄状态": [
+          "core",
+          "Agent 安全(六)工具与协议安全 / 句柄状态",
+          "该条目直接服务于“能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f06-04-用户同意": [
+          "core",
+          "Agent 安全(六)工具与协议安全 / 用户同意",
+          "该条目直接服务于“能验证客户端令牌、上游令牌、资源句柄和会话状态不混淆。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f07-01-租户隔离": [
+          "core",
+          "Agent 安全(七)数据与记忆安全 / 租户隔离",
+          "该条目直接服务于“能证明相似度不能绕过访问控制，删除原文不等于副本消失。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f07-02-来源范围": [
+          "core",
+          "Agent 安全(七)数据与记忆安全 / 来源范围",
+          "该条目直接服务于“能证明相似度不能绕过访问控制，删除原文不等于副本消失。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f07-03-撤销删除": [
+          "core",
+          "Agent 安全(七)数据与记忆安全 / 撤销删除",
+          "该条目直接服务于“能证明相似度不能绕过访问控制，删除原文不等于副本消失。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f07-04-副本治理": [
+          "core",
+          "Agent 安全(七)数据与记忆安全 / 副本治理",
+          "该条目直接服务于“能证明相似度不能绕过访问控制，删除原文不等于副本消失。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f08-01-组件清单": [
+          "core",
+          "Agent 安全(八)供应链安全 / 组件清单",
+          "该条目直接服务于“能解释 checksum、signature、固定版本和依赖树的不同作用。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f08-02-签名校验": [
+          "core",
+          "Agent 安全(八)供应链安全 / 签名校验",
+          "该条目直接服务于“能解释 checksum、signature、固定版本和依赖树的不同作用。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f08-03-权限审查": [
+          "core",
+          "Agent 安全(八)供应链安全 / 权限审查",
+          "该条目直接服务于“能解释 checksum、signature、固定版本和依赖树的不同作用。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f08-04-更新边界": [
+          "core",
+          "Agent 安全(八)供应链安全 / 更新边界",
+          "该条目直接服务于“能解释 checksum、signature、固定版本和依赖树的不同作用。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f09-01-委派边界": [
+          "core",
+          "Agent 安全(九)多Agent安全 / 委派边界",
+          "该条目直接服务于“能阻止伪造批准、旧消息和过期授权导致写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f09-02-消息真实性": [
+          "core",
+          "Agent 安全(九)多Agent安全 / 消息真实性",
+          "该条目直接服务于“能阻止伪造批准、旧消息和过期授权导致写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f09-03-过期授权": [
+          "core",
+          "Agent 安全(九)多Agent安全 / 过期授权",
+          "该条目直接服务于“能阻止伪造批准、旧消息和过期授权导致写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f09-04-级联响应": [
+          "core",
+          "Agent 安全(九)多Agent安全 / 级联响应",
+          "该条目直接服务于“能阻止伪造批准、旧消息和过期授权导致写入。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f10-01-安全oracle": [
+          "core",
+          "Agent 安全(十)安全测试设计 / 安全Oracle",
+          "该条目直接服务于“能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f10-02-样本分母": [
+          "core",
+          "Agent 安全(十)安全测试设计 / 样本分母",
+          "该条目直接服务于“能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f10-03-良性对照": [
+          "core",
+          "Agent 安全(十)安全测试设计 / 良性对照",
+          "该条目直接服务于“能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f10-04-结果解释": [
+          "core",
+          "Agent 安全(十)安全测试设计 / 结果解释",
+          "该条目直接服务于“能运行 12 个安全样本和 8 个良性样本，并正确解释攻击率。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f11-01-审计字段": [
+          "core",
+          "Agent 安全(十一)审计与事件响应 / 审计字段",
+          "该条目直接服务于“能从缺失日志、撤销后写入和异常事件中重建响应步骤。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f11-02-撤销停止": [
+          "core",
+          "Agent 安全(十一)审计与事件响应 / 撤销停止",
+          "该条目直接服务于“能从缺失日志、撤销后写入和异常事件中重建响应步骤。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f11-03-事件重建": [
+          "core",
+          "Agent 安全(十一)审计与事件响应 / 事件重建",
+          "该条目直接服务于“能从缺失日志、撤销后写入和异常事件中重建响应步骤。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f11-04-日志最小化": [
+          "core",
+          "Agent 安全(十一)审计与事件响应 / 日志最小化",
+          "该条目直接服务于“能从缺失日志、撤销后写入和异常事件中重建响应步骤。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f12-01-范围设计": [
+          "core",
+          "Agent 安全(十二)项目实战 / 范围设计",
+          "该条目直接服务于“形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f12-02-攻击实验": [
+          "core",
+          "Agent 安全(十二)项目实战 / 攻击实验",
+          "该条目直接服务于“形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f12-03-审计响应": [
+          "core",
+          "Agent 安全(十二)项目实战 / 审计响应",
+          "该条目直接服务于“形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "f12-04-项目复盘": [
+          "core",
+          "Agent 安全(十二)项目实战 / 项目复盘",
+          "该条目直接服务于“形成威胁模型、攻击集、权限矩阵、审计证据与恢复报告。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 50,
+      "ledger_entries": 50,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  },
+  "migration_mappings": [],
+  "support_sources": [],
+  "exclusions": [],
+  "cover_contract": {
+    "path": "/img/picgo-images/agent-security-course-cover.png",
+    "size": "1920x1080",
+    "safe_area": "central 70%",
+    "keywords": [
+      "Identity",
+      "Policy",
+      "Sandbox",
+      "Injection",
+      "Audit"
+    ]
+  }
+}

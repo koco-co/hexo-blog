@@ -1,0 +1,2319 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "ai-assisted-testing",
+    "series": "AI 辅助测试",
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "purpose": "把 AI 贯穿需求分析、测试设计、数据、单元/API/UI 生成、探索、缺陷修复、资产验收和 CI。",
+    "graduation": "交付一套带独立 Oracle、真实执行、缺陷与 mutation 证据、CI 产物和安全边界的 AI 测试流水线。",
+    "topics": [
+      "协作边界",
+      "需求与测试设计",
+      "数据与环境",
+      "单元测试生成",
+      "API测试生成",
+      "UI测试生成",
+      "探索式测试",
+      "缺陷分析与维护",
+      "测试资产验收",
+      "CI流水线"
+    ],
+    "optional_articles": [
+      "项目实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "AI 辅助测试(一)入门路线",
+        "file": "AI 辅助测试(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "AI 辅助测试(二)协作边界",
+        "file": "AI 辅助测试(二)协作边界.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "AI 辅助测试(三)需求与测试设计",
+        "file": "AI 辅助测试(三)需求与测试设计.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "AI 辅助测试(四)数据与环境",
+        "file": "AI 辅助测试(四)数据与环境.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "AI 辅助测试(五)单元测试生成",
+        "file": "AI 辅助测试(五)单元测试生成.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "AI 辅助测试(六)API测试生成",
+        "file": "AI 辅助测试(六)API测试生成.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "AI 辅助测试(七)UI测试生成",
+        "file": "AI 辅助测试(七)UI测试生成.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "AI 辅助测试(八)探索式测试",
+        "file": "AI 辅助测试(八)探索式测试.md",
+        "kind": "topic"
+      },
+      {
+        "order": 9,
+        "title": "AI 辅助测试(九)缺陷分析与维护",
+        "file": "AI 辅助测试(九)缺陷分析与维护.md",
+        "kind": "topic"
+      },
+      {
+        "order": 10,
+        "title": "AI 辅助测试(十)测试资产验收",
+        "file": "AI 辅助测试(十)测试资产验收.md",
+        "kind": "topic"
+      },
+      {
+        "order": 11,
+        "title": "AI 辅助测试(十一)CI流水线",
+        "file": "AI 辅助测试(十一)CI流水线.md",
+        "kind": "topic"
+      },
+      {
+        "order": 12,
+        "title": "AI 辅助测试(十二)项目实战",
+        "file": "AI 辅助测试(十二)项目实战.md",
+        "kind": "final"
+      }
+    ],
+    "article_map": [
+      {
+        "order": 1,
+        "title": "AI 辅助测试(一)入门路线",
+        "kind": "entry",
+        "depends": [],
+        "prerequisites": "课程入口基础",
+        "duty": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+        "outcome": "能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+        "h2": [
+          [
+            "课程目标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "前置条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "学习路径",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文章安排",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "开始学习",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "课程依赖路线图（Mermaid TD）"
+        ],
+        "experiment": "只核对已有基础和合成实验目录，不安装新的外部依赖。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Schemathesis documentation",
+            "url": "https://schemathesis.readthedocs.io/en/stable/",
+            "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+            "sourceType": "official",
+            "fallback": "Schemathesis documentation: https://schemathesis.readthedocs.io/en/stable/"
+          },
+          {
+            "title": "Pytest documentation",
+            "url": "https://docs.pytest.org/en/stable/",
+            "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+            "sourceType": "official",
+            "fallback": "Pytest documentation: https://docs.pytest.org/en/stable/"
+          }
+        ],
+        "openingPlan": null
+      },
+      {
+        "order": 2,
+        "title": "AI 辅助测试(二)协作边界",
+        "kind": "topic",
+        "depends": [
+          "G01"
+        ],
+        "prerequisites": "完成 G01 的相关实验",
+        "duty": "明确需求、测试设计、生成、执行、业务验收和 Agent 的职责边界。",
+        "outcome": "能画出角色泳道和接口契约，避免把生成结果当测试结论。",
+        "h2": [
+          [
+            "角色分工",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "契约边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "生成执行",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "验收责任",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "为一条 API 需求建立泳道，比较 LLM 生成与 Schemathesis 执行。",
+        "cards": [
+          "g02-generation-vs-runner",
+          "g02-schemathesis-not-llm"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Pytest documentation",
+            "url": "https://docs.pytest.org/en/stable/",
+            "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+            "sourceType": "official",
+            "fallback": "Pytest documentation: https://docs.pytest.org/en/stable/"
+          },
+          {
+            "title": "GitHub Actions documentation",
+            "url": "https://docs.github.com/en/actions",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Actions documentation: https://docs.github.com/en/actions"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "明确需求、测试设计、生成、执行、业务验收和 Agent 的职责边界。",
+          "content": "能画出角色泳道和接口契约，避免把生成结果当测试结论。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 3,
+        "title": "AI 辅助测试(三)需求与测试设计",
+        "kind": "topic",
+        "depends": [
+          "G02",
+          "E03",
+          "E04"
+        ],
+        "prerequisites": "完成 G02、E03、E04 的相关实验",
+        "duty": "用覆盖、歧义、状态和风险把需求变成可检查测试计划。",
+        "outcome": "能为合成需求产出覆盖矩阵和独立验收点。",
+        "h2": [
+          [
+            "需求澄清",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "覆盖建模",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "风险排序",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "计划输出",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "对有歧义和状态迁移的需求写测试计划，标出不可判定项。",
+        "cards": [
+          "g03-independent-oracle",
+          "g03-more-cases-not-coverage"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "GitHub Actions documentation",
+            "url": "https://docs.github.com/en/actions",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Actions documentation: https://docs.github.com/en/actions"
+          },
+          {
+            "title": "Playwright documentation",
+            "url": "https://playwright.dev/docs/intro",
+            "icon": "https://playwright.dev/img/playwright-logo.svg",
+            "sourceType": "official",
+            "fallback": "Playwright documentation: https://playwright.dev/docs/intro"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用覆盖、歧义、状态和风险把需求变成可检查测试计划。",
+          "content": "能为合成需求产出覆盖矩阵和独立验收点。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 4,
+        "title": "AI 辅助测试(四)数据与环境",
+        "kind": "topic",
+        "depends": [
+          "G03"
+        ],
+        "prerequisites": "完成 G03 的相关实验",
+        "duty": "建立业务数据工厂、约束、种子、隔离和重置环境。",
+        "outcome": "能生成 20 个有目的的数据候选并证明可重复重置。",
+        "h2": [
+          [
+            "数据约束",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "候选生成",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "环境隔离",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重置验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "覆盖正负数据、唯一性、关联关系、权限和随机来源。",
+        "cards": [
+          "g04-negative-targets-constraint",
+          "g04-seed-not-all-randomness"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Playwright documentation",
+            "url": "https://playwright.dev/docs/intro",
+            "icon": "https://playwright.dev/img/playwright-logo.svg",
+            "sourceType": "official",
+            "fallback": "Playwright documentation: https://playwright.dev/docs/intro"
+          },
+          {
+            "title": "Schemathesis documentation",
+            "url": "https://schemathesis.readthedocs.io/en/stable/",
+            "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+            "sourceType": "official",
+            "fallback": "Schemathesis documentation: https://schemathesis.readthedocs.io/en/stable/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "建立业务数据工厂、约束、种子、隔离和重置环境。",
+          "content": "能生成 20 个有目的的数据候选并证明可重复重置。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 5,
+        "title": "AI 辅助测试(五)单元测试生成",
+        "kind": "topic",
+        "depends": [
+          "G04"
+        ],
+        "prerequisites": "完成 G04 的相关实验",
+        "duty": "让生成的单元测试围绕独立 Oracle、已知缺陷和 mutation 结果验收。",
+        "outcome": "能识别自证式测试、覆盖率幻觉和错误断言。",
+        "h2": [
+          [
+            "单元边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "Oracle",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "mutation",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "维护成本",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "为合成函数生成测试，注入已知缺陷并检查测试是否真正失败。",
+        "cards": [
+          "g05-self-asserting-tests",
+          "g05-coverage-not-correctness"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Schemathesis documentation",
+            "url": "https://schemathesis.readthedocs.io/en/stable/",
+            "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+            "sourceType": "official",
+            "fallback": "Schemathesis documentation: https://schemathesis.readthedocs.io/en/stable/"
+          },
+          {
+            "title": "Pytest documentation",
+            "url": "https://docs.pytest.org/en/stable/",
+            "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+            "sourceType": "official",
+            "fallback": "Pytest documentation: https://docs.pytest.org/en/stable/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "让生成的单元测试围绕独立 Oracle、已知缺陷和 mutation 结果验收。",
+          "content": "能识别自证式测试、覆盖率幻觉和错误断言。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 6,
+        "title": "AI 辅助测试(六)API测试生成",
+        "kind": "topic",
+        "depends": [
+          "G04",
+          "G05"
+        ],
+        "prerequisites": "完成 G04、G05 的相关实验",
+        "duty": "把 OpenAPI、状态链、真实响应 ID 和清理动作转为可执行 API 测试。",
+        "outcome": "能构造 schema、业务、状态和权限层的 API 测试。",
+        "h2": [
+          [
+            "契约输入",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "状态链",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "真实 ID",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "清理回收",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake API 生成创建→查询→更新→删除链，使用真实返回 ID 并执行清理。",
+        "cards": [
+          "g06-real-response-id",
+          "g06-schema-not-business"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Pytest documentation",
+            "url": "https://docs.pytest.org/en/stable/",
+            "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+            "sourceType": "official",
+            "fallback": "Pytest documentation: https://docs.pytest.org/en/stable/"
+          },
+          {
+            "title": "GitHub Actions documentation",
+            "url": "https://docs.github.com/en/actions",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Actions documentation: https://docs.github.com/en/actions"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把 OpenAPI、状态链、真实响应 ID 和清理动作转为可执行 API 测试。",
+          "content": "能构造 schema、业务、状态和权限层的 API 测试。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 7,
+        "title": "AI 辅助测试(七)UI测试生成",
+        "kind": "topic",
+        "depends": [
+          "G03",
+          "G04",
+          "G05"
+        ],
+        "prerequisites": "完成 G03、G04、G05 的相关实验",
+        "duty": "将规划、生成、Playwright 执行、定位和工件职责分开。",
+        "outcome": "能写出稳定 locator、可观察断言和失败工件策略。",
+        "h2": [
+          [
+            "UI规划",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "locator",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "执行器",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "工件角色",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。",
+        "cards": [
+          "g07-artifact-roles",
+          "g07-visible-vs-locator",
+          "g07-trace-scope"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "GitHub Actions documentation",
+            "url": "https://docs.github.com/en/actions",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Actions documentation: https://docs.github.com/en/actions"
+          },
+          {
+            "title": "Playwright documentation",
+            "url": "https://playwright.dev/docs/intro",
+            "icon": "https://playwright.dev/img/playwright-logo.svg",
+            "sourceType": "official",
+            "fallback": "Playwright documentation: https://playwright.dev/docs/intro"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "将规划、生成、Playwright 执行、定位和工件职责分开。",
+          "content": "能写出稳定 locator、可观察断言和失败工件策略。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 8,
+        "title": "AI 辅助测试(八)探索式测试",
+        "kind": "topic",
+        "depends": [
+          "G06",
+          "G07",
+          "E10"
+        ],
+        "prerequisites": "完成 G06、G07、E10 的相关实验",
+        "duty": "用 charter、预算、观察、复现和跟进动作约束 Agent 探索。",
+        "outcome": "能提交一条可复现发现，并区分发现、缺陷和已确认根因。",
+        "h2": [
+          [
+            "探索章程",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "预算控制",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "发现记录",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "跟进复现",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "对 Fake UI/API 进行定时探索，保留输入、状态、步骤和复现条件。",
+        "cards": [
+          "g08-finding-not-defect",
+          "g08-exploration-not-coverage"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Playwright documentation",
+            "url": "https://playwright.dev/docs/intro",
+            "icon": "https://playwright.dev/img/playwright-logo.svg",
+            "sourceType": "official",
+            "fallback": "Playwright documentation: https://playwright.dev/docs/intro"
+          },
+          {
+            "title": "Schemathesis documentation",
+            "url": "https://schemathesis.readthedocs.io/en/stable/",
+            "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+            "sourceType": "official",
+            "fallback": "Schemathesis documentation: https://schemathesis.readthedocs.io/en/stable/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用 charter、预算、观察、复现和跟进动作约束 Agent 探索。",
+          "content": "能提交一条可复现发现，并区分发现、缺陷和已确认根因。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 9,
+        "title": "AI 辅助测试(九)缺陷分析与维护",
+        "kind": "topic",
+        "depends": [
+          "G07",
+          "G08",
+          "E09",
+          "E10"
+        ],
+        "prerequisites": "完成 G07、G08、E09、E10 的相关实验",
+        "duty": "把 healer 当候选补丁，而不是自动真修复，要求干净重跑和差异审查。",
+        "outcome": "能判断跳过、修补、误报、flaky 和真实修复。",
+        "h2": [
+          [
+            "缺陷归因",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "补丁候选",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "干净重跑",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "回归判断",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用候选 diff 修复一个 locator 和一个业务断言，验证清洁环境重跑。",
+        "cards": [
+          "g09-healer-skip-not-fix",
+          "g09-rerun-not-flake-fixed"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Schemathesis documentation",
+            "url": "https://schemathesis.readthedocs.io/en/stable/",
+            "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+            "sourceType": "official",
+            "fallback": "Schemathesis documentation: https://schemathesis.readthedocs.io/en/stable/"
+          },
+          {
+            "title": "Pytest documentation",
+            "url": "https://docs.pytest.org/en/stable/",
+            "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+            "sourceType": "official",
+            "fallback": "Pytest documentation: https://docs.pytest.org/en/stable/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把 healer 当候选补丁，而不是自动真修复，要求干净重跑和差异审查。",
+          "content": "能判断跳过、修补、误报、flaky 和真实修复。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 10,
+        "title": "AI 辅助测试(十)测试资产验收",
+        "kind": "topic",
+        "depends": [
+          "G05",
+          "G06",
+          "G07",
+          "G08",
+          "G09",
+          "E05"
+        ],
+        "prerequisites": "完成 G05、G06、G07、G08、G09、E05 的相关实验",
+        "duty": "用缺陷、mutation、误报和人工接受度证明测试资产有效。",
+        "outcome": "能组合三类互补证据，计算有效分母并划定人工复核。",
+        "h2": [
+          [
+            "资产分类",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "mutation分母",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "误报分析",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "人工验收",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "比较生成、执行、缺陷捕获、mutation 和人工验收，不重复计数。",
+        "cards": [
+          "g10-mutation-denominator",
+          "g10-three-complementary-evidence"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Pytest documentation",
+            "url": "https://docs.pytest.org/en/stable/",
+            "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+            "sourceType": "official",
+            "fallback": "Pytest documentation: https://docs.pytest.org/en/stable/"
+          },
+          {
+            "title": "GitHub Actions documentation",
+            "url": "https://docs.github.com/en/actions",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Actions documentation: https://docs.github.com/en/actions"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用缺陷、mutation、误报和人工接受度证明测试资产有效。",
+          "content": "能组合三类互补证据，计算有效分母并划定人工复核。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 11,
+        "title": "AI 辅助测试(十一)CI流水线",
+        "kind": "topic",
+        "depends": [
+          "G09",
+          "G10",
+          "E18",
+          "B12",
+          "D12"
+        ],
+        "prerequisites": "完成 G09、G10、E18、B12、D12 的相关实验",
+        "duty": "把生成作业、验证作业、来源、版本、失败证据和发布门禁分开。",
+        "outcome": "能构造可追溯的 CI 作业并在故障时阻止无证据通过。",
+        "h2": [
+          [
+            "作业拆分",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "产物来源",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "失败门禁",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "回滚连接",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake CI 分开生成和验证，注入模型不可用、执行失败和产物缺失。",
+        "cards": [
+          "g11-separate-jobs",
+          "g11-provenance"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "GitHub Actions documentation",
+            "url": "https://docs.github.com/en/actions",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Actions documentation: https://docs.github.com/en/actions"
+          },
+          {
+            "title": "Playwright documentation",
+            "url": "https://playwright.dev/docs/intro",
+            "icon": "https://playwright.dev/img/playwright-logo.svg",
+            "sourceType": "official",
+            "fallback": "Playwright documentation: https://playwright.dev/docs/intro"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把生成作业、验证作业、来源、版本、失败证据和发布门禁分开。",
+          "content": "能构造可追溯的 CI 作业并在故障时阻止无证据通过。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 12,
+        "title": "AI 辅助测试(十二)项目实战",
+        "kind": "final",
+        "depends": [
+          "G11",
+          "D13",
+          "E19",
+          "F10"
+        ],
+        "prerequisites": "完成 G11、D13、E19、F10 的相关实验",
+        "duty": "交付一个带需求到 CI 的 AI 测试资产流水线，并证明安全、质量和维护边界。",
+        "outcome": "完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。",
+        "h2": [
+          [
+            "项目范围",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "资产交付",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "持续门禁",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "在 Fake 项目上注入业务缺陷、flaky、权限和模型不可用故障。",
+        "cards": [
+          "g10-three-complementary-evidence",
+          "g09-healer-skip-not-fix"
+        ],
+        "difficulty": "实战",
+        "referenceCards": [
+          {
+            "title": "Playwright documentation",
+            "url": "https://playwright.dev/docs/intro",
+            "icon": "https://playwright.dev/img/playwright-logo.svg",
+            "sourceType": "official",
+            "fallback": "Playwright documentation: https://playwright.dev/docs/intro"
+          },
+          {
+            "title": "Schemathesis documentation",
+            "url": "https://schemathesis.readthedocs.io/en/stable/",
+            "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+            "sourceType": "official",
+            "fallback": "Schemathesis documentation: https://schemathesis.readthedocs.io/en/stable/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "交付一个带需求到 CI 的 AI 测试资产流水线，并证明安全、质量和维护边界。",
+          "content": "完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      }
+    ],
+    "article_block_tag_plans": {
+      "AI 辅助测试(一)入门路线": [
+        {
+          "block": "课程目标",
+          "reader_task": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+          "core_content": "课程目标：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "mermaid",
+          "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "完成“前置条件”中的关键理解、操作或判断",
+          "core_content": "前置条件：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "完成“学习路径”中的关键理解、操作或判断",
+          "core_content": "学习路径：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "完成“文章安排”中的关键理解、操作或判断",
+          "core_content": "文章安排：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "完成“开始学习”中的关键理解、操作或判断",
+          "core_content": "开始学习：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(二)协作边界": [
+        {
+          "block": "角色分工",
+          "reader_task": "明确需求、测试设计、生成、执行、业务验收和 Agent 的职责边界。",
+          "core_content": "角色分工：能画出角色泳道和接口契约，避免把生成结果当测试结论。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一条 API 需求建立泳道，比较 LLM 生成与 Schemathesis 执行。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "契约边界",
+          "reader_task": "完成“契约边界”中的关键理解、操作或判断",
+          "core_content": "契约边界：能画出角色泳道和接口契约，避免把生成结果当测试结论。",
+          "carrier": "table",
+          "rationale": "该块只承担“契约边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一条 API 需求建立泳道，比较 LLM 生成与 Schemathesis 执行。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "生成执行",
+          "reader_task": "完成“生成执行”中的关键理解、操作或判断",
+          "core_content": "生成执行：能画出角色泳道和接口契约，避免把生成结果当测试结论。",
+          "carrier": "code",
+          "rationale": "该块只承担“生成执行”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一条 API 需求建立泳道，比较 LLM 生成与 Schemathesis 执行。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "验收责任",
+          "reader_task": "完成“验收责任”中的关键理解、操作或判断",
+          "core_content": "验收责任：能画出角色泳道和接口契约，避免把生成结果当测试结论。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“验收责任”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一条 API 需求建立泳道，比较 LLM 生成与 Schemathesis 执行。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(三)需求与测试设计": [
+        {
+          "block": "需求澄清",
+          "reader_task": "用覆盖、歧义、状态和风险把需求变成可检查测试计划。",
+          "core_content": "需求澄清：能为合成需求产出覆盖矩阵和独立验收点。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对有歧义和状态迁移的需求写测试计划，标出不可判定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "覆盖建模",
+          "reader_task": "完成“覆盖建模”中的关键理解、操作或判断",
+          "core_content": "覆盖建模：能为合成需求产出覆盖矩阵和独立验收点。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“覆盖建模”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对有歧义和状态迁移的需求写测试计划，标出不可判定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "风险排序",
+          "reader_task": "完成“风险排序”中的关键理解、操作或判断",
+          "core_content": "风险排序：能为合成需求产出覆盖矩阵和独立验收点。",
+          "carrier": "list",
+          "rationale": "该块只承担“风险排序”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对有歧义和状态迁移的需求写测试计划，标出不可判定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "计划输出",
+          "reader_task": "完成“计划输出”中的关键理解、操作或判断",
+          "core_content": "计划输出：能为合成需求产出覆盖矩阵和独立验收点。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“计划输出”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对有歧义和状态迁移的需求写测试计划，标出不可判定项。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(四)数据与环境": [
+        {
+          "block": "数据约束",
+          "reader_task": "建立业务数据工厂、约束、种子、隔离和重置环境。",
+          "core_content": "数据约束：能生成 20 个有目的的数据候选并证明可重复重置。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖正负数据、唯一性、关联关系、权限和随机来源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "候选生成",
+          "reader_task": "完成“候选生成”中的关键理解、操作或判断",
+          "core_content": "候选生成：能生成 20 个有目的的数据候选并证明可重复重置。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“候选生成”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖正负数据、唯一性、关联关系、权限和随机来源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "环境隔离",
+          "reader_task": "完成“环境隔离”中的关键理解、操作或判断",
+          "core_content": "环境隔离：能生成 20 个有目的的数据候选并证明可重复重置。",
+          "carrier": "list",
+          "rationale": "该块只承担“环境隔离”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖正负数据、唯一性、关联关系、权限和随机来源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重置验证",
+          "reader_task": "完成“重置验证”中的关键理解、操作或判断",
+          "core_content": "重置验证：能生成 20 个有目的的数据候选并证明可重复重置。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“重置验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖正负数据、唯一性、关联关系、权限和随机来源。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(五)单元测试生成": [
+        {
+          "block": "单元边界",
+          "reader_task": "让生成的单元测试围绕独立 Oracle、已知缺陷和 mutation 结果验收。",
+          "core_content": "单元边界：能识别自证式测试、覆盖率幻觉和错误断言。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成函数生成测试，注入已知缺陷并检查测试是否真正失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "Oracle",
+          "reader_task": "完成“Oracle”中的关键理解、操作或判断",
+          "core_content": "Oracle：能识别自证式测试、覆盖率幻觉和错误断言。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“Oracle”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成函数生成测试，注入已知缺陷并检查测试是否真正失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "mutation",
+          "reader_task": "完成“mutation”中的关键理解、操作或判断",
+          "core_content": "mutation：能识别自证式测试、覆盖率幻觉和错误断言。",
+          "carrier": "list",
+          "rationale": "该块只承担“mutation”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成函数生成测试，注入已知缺陷并检查测试是否真正失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "维护成本",
+          "reader_task": "完成“维护成本”中的关键理解、操作或判断",
+          "core_content": "维护成本：能识别自证式测试、覆盖率幻觉和错误断言。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“维护成本”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成函数生成测试，注入已知缺陷并检查测试是否真正失败。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(六)API测试生成": [
+        {
+          "block": "契约输入",
+          "reader_task": "把 OpenAPI、状态链、真实响应 ID 和清理动作转为可执行 API 测试。",
+          "core_content": "契约输入：能构造 schema、业务、状态和权限层的 API 测试。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake API 生成创建→查询→更新→删除链，使用真实返回 ID 并执行清理。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "状态链",
+          "reader_task": "完成“状态链”中的关键理解、操作或判断",
+          "core_content": "状态链：能构造 schema、业务、状态和权限层的 API 测试。",
+          "carrier": "table",
+          "rationale": "该块只承担“状态链”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake API 生成创建→查询→更新→删除链，使用真实返回 ID 并执行清理。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "真实 ID",
+          "reader_task": "完成“真实 ID”中的关键理解、操作或判断",
+          "core_content": "真实 ID：能构造 schema、业务、状态和权限层的 API 测试。",
+          "carrier": "list",
+          "rationale": "该块只承担“真实 ID”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake API 生成创建→查询→更新→删除链，使用真实返回 ID 并执行清理。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "清理回收",
+          "reader_task": "完成“清理回收”中的关键理解、操作或判断",
+          "core_content": "清理回收：能构造 schema、业务、状态和权限层的 API 测试。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“清理回收”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake API 生成创建→查询→更新→删除链，使用真实返回 ID 并执行清理。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(七)UI测试生成": [
+        {
+          "block": "UI规划",
+          "reader_task": "将规划、生成、Playwright 执行、定位和工件职责分开。",
+          "core_content": "UI规划：能写出稳定 locator、可观察断言和失败工件策略。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "locator",
+          "reader_task": "完成“locator”中的关键理解、操作或判断",
+          "core_content": "locator：能写出稳定 locator、可观察断言和失败工件策略。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“locator”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "执行器",
+          "reader_task": "完成“执行器”中的关键理解、操作或判断",
+          "core_content": "执行器：能写出稳定 locator、可观察断言和失败工件策略。",
+          "carrier": "code",
+          "rationale": "该块只承担“执行器”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "工件角色",
+          "reader_task": "完成“工件角色”中的关键理解、操作或判断",
+          "core_content": "工件角色：能写出稳定 locator、可观察断言和失败工件策略。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“工件角色”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(八)探索式测试": [
+        {
+          "block": "探索章程",
+          "reader_task": "用 charter、预算、观察、复现和跟进动作约束 Agent 探索。",
+          "core_content": "探索章程：能提交一条可复现发现，并区分发现、缺陷和已确认根因。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake UI/API 进行定时探索，保留输入、状态、步骤和复现条件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "预算控制",
+          "reader_task": "完成“预算控制”中的关键理解、操作或判断",
+          "core_content": "预算控制：能提交一条可复现发现，并区分发现、缺陷和已确认根因。",
+          "carrier": "code",
+          "rationale": "该块只承担“预算控制”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake UI/API 进行定时探索，保留输入、状态、步骤和复现条件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "发现记录",
+          "reader_task": "完成“发现记录”中的关键理解、操作或判断",
+          "core_content": "发现记录：能提交一条可复现发现，并区分发现、缺陷和已确认根因。",
+          "carrier": "list",
+          "rationale": "该块只承担“发现记录”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake UI/API 进行定时探索，保留输入、状态、步骤和复现条件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "跟进复现",
+          "reader_task": "完成“跟进复现”中的关键理解、操作或判断",
+          "core_content": "跟进复现：能提交一条可复现发现，并区分发现、缺陷和已确认根因。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“跟进复现”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对 Fake UI/API 进行定时探索，保留输入、状态、步骤和复现条件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(九)缺陷分析与维护": [
+        {
+          "block": "缺陷归因",
+          "reader_task": "把 healer 当候选补丁，而不是自动真修复，要求干净重跑和差异审查。",
+          "core_content": "缺陷归因：能判断跳过、修补、误报、flaky 和真实修复。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用候选 diff 修复一个 locator 和一个业务断言，验证清洁环境重跑。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "补丁候选",
+          "reader_task": "完成“补丁候选”中的关键理解、操作或判断",
+          "core_content": "补丁候选：能判断跳过、修补、误报、flaky 和真实修复。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“补丁候选”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用候选 diff 修复一个 locator 和一个业务断言，验证清洁环境重跑。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "干净重跑",
+          "reader_task": "完成“干净重跑”中的关键理解、操作或判断",
+          "core_content": "干净重跑：能判断跳过、修补、误报、flaky 和真实修复。",
+          "carrier": "list",
+          "rationale": "该块只承担“干净重跑”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用候选 diff 修复一个 locator 和一个业务断言，验证清洁环境重跑。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "回归判断",
+          "reader_task": "完成“回归判断”中的关键理解、操作或判断",
+          "core_content": "回归判断：能判断跳过、修补、误报、flaky 和真实修复。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“回归判断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用候选 diff 修复一个 locator 和一个业务断言，验证清洁环境重跑。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(十)测试资产验收": [
+        {
+          "block": "资产分类",
+          "reader_task": "用缺陷、mutation、误报和人工接受度证明测试资产有效。",
+          "core_content": "资产分类：能组合三类互补证据，计算有效分母并划定人工复核。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较生成、执行、缺陷捕获、mutation 和人工验收，不重复计数。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "mutation分母",
+          "reader_task": "完成“mutation分母”中的关键理解、操作或判断",
+          "core_content": "mutation分母：能组合三类互补证据，计算有效分母并划定人工复核。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“mutation分母”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较生成、执行、缺陷捕获、mutation 和人工验收，不重复计数。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "误报分析",
+          "reader_task": "完成“误报分析”中的关键理解、操作或判断",
+          "core_content": "误报分析：能组合三类互补证据，计算有效分母并划定人工复核。",
+          "carrier": "list",
+          "rationale": "该块只承担“误报分析”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较生成、执行、缺陷捕获、mutation 和人工验收，不重复计数。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "人工验收",
+          "reader_task": "完成“人工验收”中的关键理解、操作或判断",
+          "core_content": "人工验收：能组合三类互补证据，计算有效分母并划定人工复核。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“人工验收”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较生成、执行、缺陷捕获、mutation 和人工验收，不重复计数。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(十一)CI流水线": [
+        {
+          "block": "作业拆分",
+          "reader_task": "把生成作业、验证作业、来源、版本、失败证据和发布门禁分开。",
+          "core_content": "作业拆分：能构造可追溯的 CI 作业并在故障时阻止无证据通过。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 分开生成和验证，注入模型不可用、执行失败和产物缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "产物来源",
+          "reader_task": "完成“产物来源”中的关键理解、操作或判断",
+          "core_content": "产物来源：能构造可追溯的 CI 作业并在故障时阻止无证据通过。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“产物来源”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 分开生成和验证，注入模型不可用、执行失败和产物缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "失败门禁",
+          "reader_task": "完成“失败门禁”中的关键理解、操作或判断",
+          "core_content": "失败门禁：能构造可追溯的 CI 作业并在故障时阻止无证据通过。",
+          "carrier": "list",
+          "rationale": "该块只承担“失败门禁”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 分开生成和验证，注入模型不可用、执行失败和产物缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "回滚连接",
+          "reader_task": "完成“回滚连接”中的关键理解、操作或判断",
+          "core_content": "回滚连接：能构造可追溯的 CI 作业并在故障时阻止无证据通过。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“回滚连接”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 分开生成和验证，注入模型不可用、执行失败和产物缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "AI 辅助测试(十二)项目实战": [
+        {
+          "block": "项目范围",
+          "reader_task": "交付一个带需求到 CI 的 AI 测试资产流水线，并证明安全、质量和维护边界。",
+          "core_content": "项目范围：完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake 项目上注入业务缺陷、flaky、权限和模型不可用故障。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "资产交付",
+          "reader_task": "完成“资产交付”中的关键理解、操作或判断",
+          "core_content": "资产交付：完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“资产交付”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake 项目上注入业务缺陷、flaky、权限和模型不可用故障。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "持续门禁",
+          "reader_task": "完成“持续门禁”中的关键理解、操作或判断",
+          "core_content": "持续门禁：完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。",
+          "carrier": "list",
+          "rationale": "该块只承担“持续门禁”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake 项目上注入业务缺陷、flaky、权限和模型不可用故障。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "复盘",
+          "reader_task": "完成“复盘”中的关键理解、操作或判断",
+          "core_content": "复盘：完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；在 Fake 项目上注入业务缺陷、flaky、权限和模型不可用故障。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ]
+    },
+    "reference_cards": [
+      {
+        "title": "Playwright documentation",
+        "url": "https://playwright.dev/docs/intro",
+        "icon": "https://playwright.dev/img/playwright-logo.svg",
+        "sourceType": "official",
+        "fallback": "Playwright documentation: https://playwright.dev/docs/intro"
+      },
+      {
+        "title": "Schemathesis documentation",
+        "url": "https://schemathesis.readthedocs.io/en/stable/",
+        "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+        "sourceType": "official",
+        "fallback": "Schemathesis documentation: https://schemathesis.readthedocs.io/en/stable/"
+      },
+      {
+        "title": "Pytest documentation",
+        "url": "https://docs.pytest.org/en/stable/",
+        "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+        "sourceType": "official",
+        "fallback": "Pytest documentation: https://docs.pytest.org/en/stable/"
+      },
+      {
+        "title": "GitHub Actions documentation",
+        "url": "https://docs.github.com/en/actions",
+        "icon": "https://github.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "GitHub Actions documentation: https://docs.github.com/en/actions"
+      }
+    ],
+    "research_scope": {
+      "researched_at": "2026-08-29",
+      "source_count": 4,
+      "bounded": true,
+      "note": "仅列可复核官方入口；快速变化内容在逐篇写作前刷新。"
+    }
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "topic_type": "AI 辅助测试：面向测试开发工程师的应用与质量工程课程",
+      "researched_at": "2026-08-29",
+      "boundary": "有限官方入口与稳定工程能力；快速变化的 SDK、模型和协议在逐篇写作前刷新。",
+      "reproduction": "按 sources、stable_id、version_status 和 article target 逐项复核；不宣称穷尽互联网。",
+      "entries": [
+        {
+          "title": "Playwright documentation",
+          "url": "https://playwright.dev/docs/intro",
+          "icon": "https://playwright.dev/img/playwright-logo.svg",
+          "sourceType": "official"
+        },
+        {
+          "title": "Schemathesis documentation",
+          "url": "https://schemathesis.readthedocs.io/en/stable/",
+          "icon": "https://schemathesis.readthedocs.io/en/stable/_static/favicon.svg",
+          "sourceType": "official"
+        },
+        {
+          "title": "Pytest documentation",
+          "url": "https://docs.pytest.org/en/stable/",
+          "icon": "https://docs.pytest.org/en/stable/_static/favicon.png",
+          "sourceType": "official"
+        },
+        {
+          "title": "GitHub Actions documentation",
+          "url": "https://docs.github.com/en/actions",
+          "icon": "https://github.com/favicon.ico",
+          "sourceType": "official"
+        }
+      ]
+    },
+    "capabilities": {
+      "g01-01-课程目标": {
+        "title": "AI 辅助测试(一)入门路线 / 课程目标",
+        "subject": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g01-01-课程目标"
+      },
+      "g01-02-前置条件": {
+        "title": "AI 辅助测试(一)入门路线 / 前置条件",
+        "subject": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g01-02-前置条件"
+      },
+      "g01-03-学习路径": {
+        "title": "AI 辅助测试(一)入门路线 / 学习路径",
+        "subject": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g01-03-学习路径"
+      },
+      "g01-04-文章安排": {
+        "title": "AI 辅助测试(一)入门路线 / 文章安排",
+        "subject": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g01-04-文章安排"
+      },
+      "g01-05-开始学习": {
+        "title": "AI 辅助测试(一)入门路线 / 开始学习",
+        "subject": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g01-05-开始学习"
+      },
+      "g01-06-参考资料": {
+        "title": "AI 辅助测试(一)入门路线 / 参考资料",
+        "subject": "说明AI 辅助测试的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g01-06-参考资料"
+      },
+      "g02-01-角色分工": {
+        "title": "AI 辅助测试(二)协作边界 / 角色分工",
+        "subject": "明确需求、测试设计、生成、执行、业务验收和 Agent 的职责边界。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g02-01-角色分工"
+      },
+      "g02-02-契约边界": {
+        "title": "AI 辅助测试(二)协作边界 / 契约边界",
+        "subject": "明确需求、测试设计、生成、执行、业务验收和 Agent 的职责边界。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g02-02-契约边界"
+      },
+      "g02-03-生成执行": {
+        "title": "AI 辅助测试(二)协作边界 / 生成执行",
+        "subject": "明确需求、测试设计、生成、执行、业务验收和 Agent 的职责边界。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g02-03-生成执行"
+      },
+      "g02-04-验收责任": {
+        "title": "AI 辅助测试(二)协作边界 / 验收责任",
+        "subject": "明确需求、测试设计、生成、执行、业务验收和 Agent 的职责边界。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g02-04-验收责任"
+      },
+      "g03-01-需求澄清": {
+        "title": "AI 辅助测试(三)需求与测试设计 / 需求澄清",
+        "subject": "用覆盖、歧义、状态和风险把需求变成可检查测试计划。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g03-01-需求澄清"
+      },
+      "g03-02-覆盖建模": {
+        "title": "AI 辅助测试(三)需求与测试设计 / 覆盖建模",
+        "subject": "用覆盖、歧义、状态和风险把需求变成可检查测试计划。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g03-02-覆盖建模"
+      },
+      "g03-03-风险排序": {
+        "title": "AI 辅助测试(三)需求与测试设计 / 风险排序",
+        "subject": "用覆盖、歧义、状态和风险把需求变成可检查测试计划。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g03-03-风险排序"
+      },
+      "g03-04-计划输出": {
+        "title": "AI 辅助测试(三)需求与测试设计 / 计划输出",
+        "subject": "用覆盖、歧义、状态和风险把需求变成可检查测试计划。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g03-04-计划输出"
+      },
+      "g04-01-数据约束": {
+        "title": "AI 辅助测试(四)数据与环境 / 数据约束",
+        "subject": "建立业务数据工厂、约束、种子、隔离和重置环境。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g04-01-数据约束"
+      },
+      "g04-02-候选生成": {
+        "title": "AI 辅助测试(四)数据与环境 / 候选生成",
+        "subject": "建立业务数据工厂、约束、种子、隔离和重置环境。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g04-02-候选生成"
+      },
+      "g04-03-环境隔离": {
+        "title": "AI 辅助测试(四)数据与环境 / 环境隔离",
+        "subject": "建立业务数据工厂、约束、种子、隔离和重置环境。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g04-03-环境隔离"
+      },
+      "g04-04-重置验证": {
+        "title": "AI 辅助测试(四)数据与环境 / 重置验证",
+        "subject": "建立业务数据工厂、约束、种子、隔离和重置环境。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g04-04-重置验证"
+      },
+      "g05-01-单元边界": {
+        "title": "AI 辅助测试(五)单元测试生成 / 单元边界",
+        "subject": "让生成的单元测试围绕独立 Oracle、已知缺陷和 mutation 结果验收。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g05-01-单元边界"
+      },
+      "g05-02-oracle": {
+        "title": "AI 辅助测试(五)单元测试生成 / Oracle",
+        "subject": "让生成的单元测试围绕独立 Oracle、已知缺陷和 mutation 结果验收。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g05-02-oracle"
+      },
+      "g05-03-mutation": {
+        "title": "AI 辅助测试(五)单元测试生成 / mutation",
+        "subject": "让生成的单元测试围绕独立 Oracle、已知缺陷和 mutation 结果验收。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g05-03-mutation"
+      },
+      "g05-04-维护成本": {
+        "title": "AI 辅助测试(五)单元测试生成 / 维护成本",
+        "subject": "让生成的单元测试围绕独立 Oracle、已知缺陷和 mutation 结果验收。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g05-04-维护成本"
+      },
+      "g06-01-契约输入": {
+        "title": "AI 辅助测试(六)API测试生成 / 契约输入",
+        "subject": "把 OpenAPI、状态链、真实响应 ID 和清理动作转为可执行 API 测试。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g06-01-契约输入"
+      },
+      "g06-02-状态链": {
+        "title": "AI 辅助测试(六)API测试生成 / 状态链",
+        "subject": "把 OpenAPI、状态链、真实响应 ID 和清理动作转为可执行 API 测试。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g06-02-状态链"
+      },
+      "g06-03-真实id": {
+        "title": "AI 辅助测试(六)API测试生成 / 真实 ID",
+        "subject": "把 OpenAPI、状态链、真实响应 ID 和清理动作转为可执行 API 测试。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g06-03-真实id"
+      },
+      "g06-04-清理回收": {
+        "title": "AI 辅助测试(六)API测试生成 / 清理回收",
+        "subject": "把 OpenAPI、状态链、真实响应 ID 和清理动作转为可执行 API 测试。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g06-04-清理回收"
+      },
+      "g07-01-ui规划": {
+        "title": "AI 辅助测试(七)UI测试生成 / UI规划",
+        "subject": "将规划、生成、Playwright 执行、定位和工件职责分开。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g07-01-ui规划"
+      },
+      "g07-02-locator": {
+        "title": "AI 辅助测试(七)UI测试生成 / locator",
+        "subject": "将规划、生成、Playwright 执行、定位和工件职责分开。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g07-02-locator"
+      },
+      "g07-03-执行器": {
+        "title": "AI 辅助测试(七)UI测试生成 / 执行器",
+        "subject": "将规划、生成、Playwright 执行、定位和工件职责分开。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g07-03-执行器"
+      },
+      "g07-04-工件角色": {
+        "title": "AI 辅助测试(七)UI测试生成 / 工件角色",
+        "subject": "将规划、生成、Playwright 执行、定位和工件职责分开。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g07-04-工件角色"
+      },
+      "g08-01-探索章程": {
+        "title": "AI 辅助测试(八)探索式测试 / 探索章程",
+        "subject": "用 charter、预算、观察、复现和跟进动作约束 Agent 探索。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g08-01-探索章程"
+      },
+      "g08-02-预算控制": {
+        "title": "AI 辅助测试(八)探索式测试 / 预算控制",
+        "subject": "用 charter、预算、观察、复现和跟进动作约束 Agent 探索。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g08-02-预算控制"
+      },
+      "g08-03-发现记录": {
+        "title": "AI 辅助测试(八)探索式测试 / 发现记录",
+        "subject": "用 charter、预算、观察、复现和跟进动作约束 Agent 探索。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g08-03-发现记录"
+      },
+      "g08-04-跟进复现": {
+        "title": "AI 辅助测试(八)探索式测试 / 跟进复现",
+        "subject": "用 charter、预算、观察、复现和跟进动作约束 Agent 探索。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g08-04-跟进复现"
+      },
+      "g09-01-缺陷归因": {
+        "title": "AI 辅助测试(九)缺陷分析与维护 / 缺陷归因",
+        "subject": "把 healer 当候选补丁，而不是自动真修复，要求干净重跑和差异审查。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g09-01-缺陷归因"
+      },
+      "g09-02-补丁候选": {
+        "title": "AI 辅助测试(九)缺陷分析与维护 / 补丁候选",
+        "subject": "把 healer 当候选补丁，而不是自动真修复，要求干净重跑和差异审查。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g09-02-补丁候选"
+      },
+      "g09-03-干净重跑": {
+        "title": "AI 辅助测试(九)缺陷分析与维护 / 干净重跑",
+        "subject": "把 healer 当候选补丁，而不是自动真修复，要求干净重跑和差异审查。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g09-03-干净重跑"
+      },
+      "g09-04-回归判断": {
+        "title": "AI 辅助测试(九)缺陷分析与维护 / 回归判断",
+        "subject": "把 healer 当候选补丁，而不是自动真修复，要求干净重跑和差异审查。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g09-04-回归判断"
+      },
+      "g10-01-资产分类": {
+        "title": "AI 辅助测试(十)测试资产验收 / 资产分类",
+        "subject": "用缺陷、mutation、误报和人工接受度证明测试资产有效。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g10-01-资产分类"
+      },
+      "g10-02-mutation分母": {
+        "title": "AI 辅助测试(十)测试资产验收 / mutation分母",
+        "subject": "用缺陷、mutation、误报和人工接受度证明测试资产有效。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g10-02-mutation分母"
+      },
+      "g10-03-误报分析": {
+        "title": "AI 辅助测试(十)测试资产验收 / 误报分析",
+        "subject": "用缺陷、mutation、误报和人工接受度证明测试资产有效。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g10-03-误报分析"
+      },
+      "g10-04-人工验收": {
+        "title": "AI 辅助测试(十)测试资产验收 / 人工验收",
+        "subject": "用缺陷、mutation、误报和人工接受度证明测试资产有效。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g10-04-人工验收"
+      },
+      "g11-01-作业拆分": {
+        "title": "AI 辅助测试(十一)CI流水线 / 作业拆分",
+        "subject": "把生成作业、验证作业、来源、版本、失败证据和发布门禁分开。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g11-01-作业拆分"
+      },
+      "g11-02-产物来源": {
+        "title": "AI 辅助测试(十一)CI流水线 / 产物来源",
+        "subject": "把生成作业、验证作业、来源、版本、失败证据和发布门禁分开。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g11-02-产物来源"
+      },
+      "g11-03-失败门禁": {
+        "title": "AI 辅助测试(十一)CI流水线 / 失败门禁",
+        "subject": "把生成作业、验证作业、来源、版本、失败证据和发布门禁分开。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g11-03-失败门禁"
+      },
+      "g11-04-回滚连接": {
+        "title": "AI 辅助测试(十一)CI流水线 / 回滚连接",
+        "subject": "把生成作业、验证作业、来源、版本、失败证据和发布门禁分开。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g11-04-回滚连接"
+      },
+      "g12-01-项目范围": {
+        "title": "AI 辅助测试(十二)项目实战 / 项目范围",
+        "subject": "交付一个带需求到 CI 的 AI 测试资产流水线，并证明安全、质量和维护边界。",
+        "source": "https://playwright.dev/docs/intro",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g12-01-项目范围"
+      },
+      "g12-02-资产交付": {
+        "title": "AI 辅助测试(十二)项目实战 / 资产交付",
+        "subject": "交付一个带需求到 CI 的 AI 测试资产流水线，并证明安全、质量和维护边界。",
+        "source": "https://schemathesis.readthedocs.io/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g12-02-资产交付"
+      },
+      "g12-03-持续门禁": {
+        "title": "AI 辅助测试(十二)项目实战 / 持续门禁",
+        "subject": "交付一个带需求到 CI 的 AI 测试资产流水线，并证明安全、质量和维护边界。",
+        "source": "https://docs.pytest.org/en/stable/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g12-03-持续门禁"
+      },
+      "g12-04-复盘": {
+        "title": "AI 辅助测试(十二)项目实战 / 复盘",
+        "subject": "交付一个带需求到 CI 的 AI 测试资产流水线，并证明安全、质量和维护边界。",
+        "source": "https://docs.github.com/en/actions",
+        "version_status": "bounded-official-entry",
+        "stable_id": "g12-04-复盘"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "g01-01-课程目标": [
+          "core",
+          "AI 辅助测试(一)入门路线 / 课程目标",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g01-02-前置条件": [
+          "core",
+          "AI 辅助测试(一)入门路线 / 前置条件",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g01-03-学习路径": [
+          "core",
+          "AI 辅助测试(一)入门路线 / 学习路径",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g01-04-文章安排": [
+          "core",
+          "AI 辅助测试(一)入门路线 / 文章安排",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g01-05-开始学习": [
+          "core",
+          "AI 辅助测试(一)入门路线 / 开始学习",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g01-06-参考资料": [
+          "core",
+          "AI 辅助测试(一)入门路线 / 参考资料",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g02-01-角色分工": [
+          "core",
+          "AI 辅助测试(二)协作边界 / 角色分工",
+          "该条目直接服务于“能画出角色泳道和接口契约，避免把生成结果当测试结论。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g02-02-契约边界": [
+          "core",
+          "AI 辅助测试(二)协作边界 / 契约边界",
+          "该条目直接服务于“能画出角色泳道和接口契约，避免把生成结果当测试结论。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g02-03-生成执行": [
+          "core",
+          "AI 辅助测试(二)协作边界 / 生成执行",
+          "该条目直接服务于“能画出角色泳道和接口契约，避免把生成结果当测试结论。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g02-04-验收责任": [
+          "core",
+          "AI 辅助测试(二)协作边界 / 验收责任",
+          "该条目直接服务于“能画出角色泳道和接口契约，避免把生成结果当测试结论。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g03-01-需求澄清": [
+          "core",
+          "AI 辅助测试(三)需求与测试设计 / 需求澄清",
+          "该条目直接服务于“能为合成需求产出覆盖矩阵和独立验收点。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g03-02-覆盖建模": [
+          "core",
+          "AI 辅助测试(三)需求与测试设计 / 覆盖建模",
+          "该条目直接服务于“能为合成需求产出覆盖矩阵和独立验收点。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g03-03-风险排序": [
+          "core",
+          "AI 辅助测试(三)需求与测试设计 / 风险排序",
+          "该条目直接服务于“能为合成需求产出覆盖矩阵和独立验收点。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g03-04-计划输出": [
+          "core",
+          "AI 辅助测试(三)需求与测试设计 / 计划输出",
+          "该条目直接服务于“能为合成需求产出覆盖矩阵和独立验收点。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g04-01-数据约束": [
+          "core",
+          "AI 辅助测试(四)数据与环境 / 数据约束",
+          "该条目直接服务于“能生成 20 个有目的的数据候选并证明可重复重置。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g04-02-候选生成": [
+          "core",
+          "AI 辅助测试(四)数据与环境 / 候选生成",
+          "该条目直接服务于“能生成 20 个有目的的数据候选并证明可重复重置。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g04-03-环境隔离": [
+          "core",
+          "AI 辅助测试(四)数据与环境 / 环境隔离",
+          "该条目直接服务于“能生成 20 个有目的的数据候选并证明可重复重置。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g04-04-重置验证": [
+          "core",
+          "AI 辅助测试(四)数据与环境 / 重置验证",
+          "该条目直接服务于“能生成 20 个有目的的数据候选并证明可重复重置。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g05-01-单元边界": [
+          "core",
+          "AI 辅助测试(五)单元测试生成 / 单元边界",
+          "该条目直接服务于“能识别自证式测试、覆盖率幻觉和错误断言。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g05-02-oracle": [
+          "core",
+          "AI 辅助测试(五)单元测试生成 / Oracle",
+          "该条目直接服务于“能识别自证式测试、覆盖率幻觉和错误断言。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g05-03-mutation": [
+          "core",
+          "AI 辅助测试(五)单元测试生成 / mutation",
+          "该条目直接服务于“能识别自证式测试、覆盖率幻觉和错误断言。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g05-04-维护成本": [
+          "core",
+          "AI 辅助测试(五)单元测试生成 / 维护成本",
+          "该条目直接服务于“能识别自证式测试、覆盖率幻觉和错误断言。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g06-01-契约输入": [
+          "core",
+          "AI 辅助测试(六)API测试生成 / 契约输入",
+          "该条目直接服务于“能构造 schema、业务、状态和权限层的 API 测试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g06-02-状态链": [
+          "core",
+          "AI 辅助测试(六)API测试生成 / 状态链",
+          "该条目直接服务于“能构造 schema、业务、状态和权限层的 API 测试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g06-03-真实id": [
+          "core",
+          "AI 辅助测试(六)API测试生成 / 真实 ID",
+          "该条目直接服务于“能构造 schema、业务、状态和权限层的 API 测试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g06-04-清理回收": [
+          "core",
+          "AI 辅助测试(六)API测试生成 / 清理回收",
+          "该条目直接服务于“能构造 schema、业务、状态和权限层的 API 测试。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g07-01-ui规划": [
+          "core",
+          "AI 辅助测试(七)UI测试生成 / UI规划",
+          "该条目直接服务于“能写出稳定 locator、可观察断言和失败工件策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g07-02-locator": [
+          "core",
+          "AI 辅助测试(七)UI测试生成 / locator",
+          "该条目直接服务于“能写出稳定 locator、可观察断言和失败工件策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g07-03-执行器": [
+          "core",
+          "AI 辅助测试(七)UI测试生成 / 执行器",
+          "该条目直接服务于“能写出稳定 locator、可观察断言和失败工件策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g07-04-工件角色": [
+          "core",
+          "AI 辅助测试(七)UI测试生成 / 工件角色",
+          "该条目直接服务于“能写出稳定 locator、可观察断言和失败工件策略。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g08-01-探索章程": [
+          "core",
+          "AI 辅助测试(八)探索式测试 / 探索章程",
+          "该条目直接服务于“能提交一条可复现发现，并区分发现、缺陷和已确认根因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g08-02-预算控制": [
+          "core",
+          "AI 辅助测试(八)探索式测试 / 预算控制",
+          "该条目直接服务于“能提交一条可复现发现，并区分发现、缺陷和已确认根因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g08-03-发现记录": [
+          "core",
+          "AI 辅助测试(八)探索式测试 / 发现记录",
+          "该条目直接服务于“能提交一条可复现发现，并区分发现、缺陷和已确认根因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g08-04-跟进复现": [
+          "core",
+          "AI 辅助测试(八)探索式测试 / 跟进复现",
+          "该条目直接服务于“能提交一条可复现发现，并区分发现、缺陷和已确认根因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g09-01-缺陷归因": [
+          "core",
+          "AI 辅助测试(九)缺陷分析与维护 / 缺陷归因",
+          "该条目直接服务于“能判断跳过、修补、误报、flaky 和真实修复。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g09-02-补丁候选": [
+          "core",
+          "AI 辅助测试(九)缺陷分析与维护 / 补丁候选",
+          "该条目直接服务于“能判断跳过、修补、误报、flaky 和真实修复。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g09-03-干净重跑": [
+          "core",
+          "AI 辅助测试(九)缺陷分析与维护 / 干净重跑",
+          "该条目直接服务于“能判断跳过、修补、误报、flaky 和真实修复。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g09-04-回归判断": [
+          "core",
+          "AI 辅助测试(九)缺陷分析与维护 / 回归判断",
+          "该条目直接服务于“能判断跳过、修补、误报、flaky 和真实修复。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g10-01-资产分类": [
+          "core",
+          "AI 辅助测试(十)测试资产验收 / 资产分类",
+          "该条目直接服务于“能组合三类互补证据，计算有效分母并划定人工复核。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g10-02-mutation分母": [
+          "core",
+          "AI 辅助测试(十)测试资产验收 / mutation分母",
+          "该条目直接服务于“能组合三类互补证据，计算有效分母并划定人工复核。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g10-03-误报分析": [
+          "core",
+          "AI 辅助测试(十)测试资产验收 / 误报分析",
+          "该条目直接服务于“能组合三类互补证据，计算有效分母并划定人工复核。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g10-04-人工验收": [
+          "core",
+          "AI 辅助测试(十)测试资产验收 / 人工验收",
+          "该条目直接服务于“能组合三类互补证据，计算有效分母并划定人工复核。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g11-01-作业拆分": [
+          "core",
+          "AI 辅助测试(十一)CI流水线 / 作业拆分",
+          "该条目直接服务于“能构造可追溯的 CI 作业并在故障时阻止无证据通过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g11-02-产物来源": [
+          "core",
+          "AI 辅助测试(十一)CI流水线 / 产物来源",
+          "该条目直接服务于“能构造可追溯的 CI 作业并在故障时阻止无证据通过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g11-03-失败门禁": [
+          "core",
+          "AI 辅助测试(十一)CI流水线 / 失败门禁",
+          "该条目直接服务于“能构造可追溯的 CI 作业并在故障时阻止无证据通过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g11-04-回滚连接": [
+          "core",
+          "AI 辅助测试(十一)CI流水线 / 回滚连接",
+          "该条目直接服务于“能构造可追溯的 CI 作业并在故障时阻止无证据通过。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g12-01-项目范围": [
+          "core",
+          "AI 辅助测试(十二)项目实战 / 项目范围",
+          "该条目直接服务于“完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g12-02-资产交付": [
+          "core",
+          "AI 辅助测试(十二)项目实战 / 资产交付",
+          "该条目直接服务于“完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g12-03-持续门禁": [
+          "core",
+          "AI 辅助测试(十二)项目实战 / 持续门禁",
+          "该条目直接服务于“完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "g12-04-复盘": [
+          "core",
+          "AI 辅助测试(十二)项目实战 / 复盘",
+          "该条目直接服务于“完成测试设计、数据、单元/API/UI、探索、修复、验收和 CI 证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 50,
+      "ledger_entries": 50,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  },
+  "migration_mappings": [],
+  "support_sources": [],
+  "exclusions": [],
+  "cover_contract": {
+    "path": "/img/picgo-images/ai-assisted-testing-course-cover.png",
+    "size": "1920x1080",
+    "safe_area": "central 70%",
+    "keywords": [
+      "Design",
+      "Unit",
+      "API",
+      "UI",
+      "CI"
+    ]
+  }
+}

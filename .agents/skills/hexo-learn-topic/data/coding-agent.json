@@ -1,0 +1,2469 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "coding-agent",
+    "series": "Coding Agent",
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "purpose": "把 Coding Agent 当作受边界约束的软件工程协作者，建立工作区、任务、修改、验证、审查和持续集成的闭环。",
+    "graduation": "完成一项合成缺陷修复：由 Agent 读取工作区、提出计划、修改受控文件、运行验证、生成证据并可安全交接。",
+    "topics": [
+      "工作区与边界",
+      "代码定位与追踪",
+      "任务拆解与验收",
+      "项目约定与记忆",
+      "增量修改与重构",
+      "验证与代码审查",
+      "上下文交接与续作",
+      "Skill设计与复用",
+      "工具集成与扩展",
+      "并行协作与隔离",
+      "CI自动化"
+    ],
+    "optional_articles": [
+      "项目实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "Coding Agent(一)入门路线",
+        "file": "Coding Agent(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "Coding Agent(二)工作区与边界",
+        "file": "Coding Agent(二)工作区与边界.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "Coding Agent(三)代码定位与追踪",
+        "file": "Coding Agent(三)代码定位与追踪.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "Coding Agent(四)任务拆解与验收",
+        "file": "Coding Agent(四)任务拆解与验收.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "Coding Agent(五)项目约定与记忆",
+        "file": "Coding Agent(五)项目约定与记忆.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "Coding Agent(六)增量修改与重构",
+        "file": "Coding Agent(六)增量修改与重构.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "Coding Agent(七)验证与代码审查",
+        "file": "Coding Agent(七)验证与代码审查.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "Coding Agent(八)上下文交接与续作",
+        "file": "Coding Agent(八)上下文交接与续作.md",
+        "kind": "topic"
+      },
+      {
+        "order": 9,
+        "title": "Coding Agent(九)Skill设计与复用",
+        "file": "Coding Agent(九)Skill设计与复用.md",
+        "kind": "topic"
+      },
+      {
+        "order": 10,
+        "title": "Coding Agent(十)工具集成与扩展",
+        "file": "Coding Agent(十)工具集成与扩展.md",
+        "kind": "topic"
+      },
+      {
+        "order": 11,
+        "title": "Coding Agent(十一)并行协作与隔离",
+        "file": "Coding Agent(十一)并行协作与隔离.md",
+        "kind": "topic"
+      },
+      {
+        "order": 12,
+        "title": "Coding Agent(十二)CI自动化",
+        "file": "Coding Agent(十二)CI自动化.md",
+        "kind": "topic"
+      },
+      {
+        "order": 13,
+        "title": "Coding Agent(十三)项目实战",
+        "file": "Coding Agent(十三)项目实战.md",
+        "kind": "final"
+      }
+    ],
+    "article_map": [
+      {
+        "order": 1,
+        "title": "Coding Agent(一)入门路线",
+        "kind": "entry",
+        "depends": [],
+        "prerequisites": "课程入口基础",
+        "duty": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+        "outcome": "能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+        "h2": [
+          [
+            "课程目标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "前置条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "学习路径",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文章安排",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "开始学习",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "课程依赖路线图（Mermaid TD）"
+        ],
+        "experiment": "只核对已有基础和合成实验目录，不安装新的外部依赖。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "GitHub Copilot documentation",
+            "url": "https://docs.github.com/en/copilot",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+          },
+          {
+            "title": "OpenAI Codex documentation",
+            "url": "https://developers.openai.com/codex",
+            "icon": "https://developers.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+          }
+        ],
+        "openingPlan": null
+      },
+      {
+        "order": 2,
+        "title": "Coding Agent(二)工作区与边界",
+        "kind": "topic",
+        "depends": [
+          "B01"
+        ],
+        "prerequisites": "完成 B01 的相关实验",
+        "duty": "理解 Coding Agent 的工作区、当前目录、权限、脏改动和工具边界。",
+        "outcome": "能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。",
+        "h2": [
+          [
+            "工作区模型",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "探针检查",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "权限边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "脏改动",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "把 Agent 可见空间、可写空间和禁止空间画成边界图。"
+        ],
+        "experiment": "对合成仓库执行 cwd、路径、权限和脏文件检查，不改动用户已有文件。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "OpenAI Codex documentation",
+            "url": "https://developers.openai.com/codex",
+            "icon": "https://developers.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+          },
+          {
+            "title": "Git worktree documentation",
+            "url": "https://git-scm.com/docs/git-worktree",
+            "icon": "https://git-scm.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Git worktree documentation: https://git-scm.com/docs/git-worktree"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "理解 Coding Agent 的工作区、当前目录、权限、脏改动和工具边界。",
+          "content": "能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 3,
+        "title": "Coding Agent(三)代码定位与追踪",
+        "kind": "topic",
+        "depends": [
+          "B02"
+        ],
+        "prerequisites": "完成 B02 的相关实验",
+        "duty": "从重复缺陷描述追踪到路由、业务、数据和测试夹具，而不是直接猜文件。",
+        "outcome": "能产出带证据的代码定位记录和最小影响范围。",
+        "h2": [
+          [
+            "问题定位",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "调用链",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "数据夹具",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "影响范围",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用调用链图把自然语言问题映射到代码责任。"
+        ],
+        "experiment": "对重复工单执行 route→business→DB→fixture 追踪，保留搜索与读取证据。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Git worktree documentation",
+            "url": "https://git-scm.com/docs/git-worktree",
+            "icon": "https://git-scm.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Git worktree documentation: https://git-scm.com/docs/git-worktree"
+          },
+          {
+            "title": "Claude Code documentation",
+            "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code/overview"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "从重复缺陷描述追踪到路由、业务、数据和测试夹具，而不是直接猜文件。",
+          "content": "能产出带证据的代码定位记录和最小影响范围。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 4,
+        "title": "Coding Agent(四)任务拆解与验收",
+        "kind": "topic",
+        "depends": [
+          "B03",
+          "A04"
+        ],
+        "prerequisites": "完成 B03、A04 的相关实验",
+        "duty": "把模糊修复目标拆成可执行步骤、反例和可观察验收。",
+        "outcome": "为 201、200、409 等状态契约写出独立验收表。",
+        "h2": [
+          [
+            "任务分解",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "验收字段",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "反例设计",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "停止条件",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "为一个合成 API 缺陷建立输入、状态、响应、数据和回归验收。",
+        "cards": [
+          "b04-acceptance-is-not-existing-test"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Claude Code documentation",
+            "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code/overview"
+          },
+          {
+            "title": "GitHub Copilot documentation",
+            "url": "https://docs.github.com/en/copilot",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把模糊修复目标拆成可执行步骤、反例和可观察验收。",
+          "content": "为 201、200、409 等状态契约写出独立验收表。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 5,
+        "title": "Coding Agent(五)项目约定与记忆",
+        "kind": "topic",
+        "depends": [
+          "B04"
+        ],
+        "prerequisites": "完成 B04 的相关实验",
+        "duty": "按根目录、子目录和会话范围读取约定，并判断旧记忆是否仍有权威性。",
+        "outcome": "能记录约定来源和作用域，避免把过期摘要当成事实。",
+        "h2": [
+          [
+            "约定作用域",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "记忆读取",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "权威判断",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "冲突处理",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "构造根级、子目录级和全局记忆冲突，用当前文件和测试结果裁决。",
+        "cards": [
+          "b05-agents-scope",
+          "b05-memory-not-authority"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "GitHub Copilot documentation",
+            "url": "https://docs.github.com/en/copilot",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+          },
+          {
+            "title": "OpenAI Codex documentation",
+            "url": "https://developers.openai.com/codex",
+            "icon": "https://developers.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "按根目录、子目录和会话范围读取约定，并判断旧记忆是否仍有权威性。",
+          "content": "能记录约定来源和作用域，避免把过期摘要当成事实。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 6,
+        "title": "Coding Agent(六)增量修改与重构",
+        "kind": "topic",
+        "depends": [
+          "B05"
+        ],
+        "prerequisites": "完成 B05 的相关实验",
+        "duty": "在保持无关脏改动和文件所有权的前提下完成最小修改。",
+        "outcome": "能说明每一处改动的目的，避免顺手重写无关代码。",
+        "h2": [
+          [
+            "最小补丁",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "重构边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "脏改动保护",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "回退点",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "用变更边界图区分任务文件、共享文件和禁止触碰文件。"
+        ],
+        "experiment": "对合成缺陷做小步修改，故意保留无关 dirty change 并核对 diff。",
+        "cards": [],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI Codex documentation",
+            "url": "https://developers.openai.com/codex",
+            "icon": "https://developers.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+          },
+          {
+            "title": "Git worktree documentation",
+            "url": "https://git-scm.com/docs/git-worktree",
+            "icon": "https://git-scm.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Git worktree documentation: https://git-scm.com/docs/git-worktree"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "在保持无关脏改动和文件所有权的前提下完成最小修改。",
+          "content": "能说明每一处改动的目的，避免顺手重写无关代码。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 7,
+        "title": "Coding Agent(七)验证与代码审查",
+        "kind": "topic",
+        "depends": [
+          "B06"
+        ],
+        "prerequisites": "完成 B06 的相关实验",
+        "duty": "建立独立重跑、差异审查和证据分层，避免把本地绿灯当业务正确。",
+        "outcome": "能执行测试、读取 diff、复查失败路径并写出证据链。",
+        "h2": [
+          [
+            "独立重跑",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "diff审查",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "证据分层",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "失败复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "分别验证本地测试、静态差异和业务断言，注入一个隐藏回归。",
+        "cards": [
+          "b07-local-pass-is-not-online",
+          "b07-review-is-not-runtime"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Git worktree documentation",
+            "url": "https://git-scm.com/docs/git-worktree",
+            "icon": "https://git-scm.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Git worktree documentation: https://git-scm.com/docs/git-worktree"
+          },
+          {
+            "title": "Claude Code documentation",
+            "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code/overview"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "建立独立重跑、差异审查和证据分层，避免把本地绿灯当业务正确。",
+          "content": "能执行测试、读取 diff、复查失败路径并写出证据链。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 8,
+        "title": "Coding Agent(八)上下文交接与续作",
+        "kind": "topic",
+        "depends": [
+          "B07"
+        ],
+        "prerequisites": "完成 B07 的相关实验",
+        "duty": "把任务摘要、事实证据、未决风险和环境重查写成交接包。",
+        "outcome": "能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。",
+        "h2": [
+          [
+            "交接字段",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "事实链接",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "环境重查",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "续作边界",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "中断后交接合成任务，重新检查 cwd、版本、dirty 状态和未完成步骤。",
+        "cards": [
+          "b08-summary-is-not-fact"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Claude Code documentation",
+            "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code/overview"
+          },
+          {
+            "title": "GitHub Copilot documentation",
+            "url": "https://docs.github.com/en/copilot",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把任务摘要、事实证据、未决风险和环境重查写成交接包。",
+          "content": "能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 9,
+        "title": "Coding Agent(九)Skill设计与复用",
+        "kind": "topic",
+        "depends": [
+          "B05",
+          "B07"
+        ],
+        "prerequisites": "完成 B05、B07 的相关实验",
+        "duty": "设计输入、输出、权限、辅助文件和失败降级明确的 Skill。",
+        "outcome": "能写一个最小 Skill 契约并验证它是否真的可触发。",
+        "h2": [
+          [
+            "Skill边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "输入输出",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "权限声明",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "支持文件",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "实现一个只读定位 Skill，分别测试 schema 有效但触发条件不满足、权限声明不足和辅助文件缺失。",
+        "cards": [
+          "b09-schema-not-trigger",
+          "b09-allowed-tools-not-permission"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "GitHub Copilot documentation",
+            "url": "https://docs.github.com/en/copilot",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+          },
+          {
+            "title": "OpenAI Codex documentation",
+            "url": "https://developers.openai.com/codex",
+            "icon": "https://developers.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "设计输入、输出、权限、辅助文件和失败降级明确的 Skill。",
+          "content": "能写一个最小 Skill 契约并验证它是否真的可触发。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 10,
+        "title": "Coding Agent(十)工具集成与扩展",
+        "kind": "topic",
+        "depends": [
+          "B09",
+          "C03",
+          "C09"
+        ],
+        "prerequisites": "完成 B09、C03、C09 的相关实验",
+        "duty": "理解 Skill、CLI、MCP 和扩展的职责边界，并为调用保留可审查契约。",
+        "outcome": "能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。",
+        "h2": [
+          [
+            "扩展边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "工具契约",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "只读链路",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "错误降级",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake MCP 和 CLI 比较发现、调用、输出、权限与失败差异。",
+        "cards": [
+          "b10-why-mcp-cli"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI Codex documentation",
+            "url": "https://developers.openai.com/codex",
+            "icon": "https://developers.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+          },
+          {
+            "title": "Git worktree documentation",
+            "url": "https://git-scm.com/docs/git-worktree",
+            "icon": "https://git-scm.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Git worktree documentation: https://git-scm.com/docs/git-worktree"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "理解 Skill、CLI、MCP 和扩展的职责边界，并为调用保留可审查契约。",
+          "content": "能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 11,
+        "title": "Coding Agent(十一)并行协作与隔离",
+        "kind": "topic",
+        "depends": [
+          "B07",
+          "B08"
+        ],
+        "prerequisites": "完成 B07、B08 的相关实验",
+        "duty": "安排文件所有权、worktree、端口和汇合条件，避免并行工作互相污染。",
+        "outcome": "能设计两名 Agent 的隔离协作表，并判断完成不等于验收。",
+        "h2": [
+          [
+            "所有权表",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "隔离环境",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "端口规划",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "汇合验收",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "模拟两项独立修复、一个共享接口和一个冲突文件，记录合并前后证据。",
+        "cards": [
+          "b11-worktree-is-not-process-isolation",
+          "b11-done-is-not-accepted"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Git worktree documentation",
+            "url": "https://git-scm.com/docs/git-worktree",
+            "icon": "https://git-scm.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Git worktree documentation: https://git-scm.com/docs/git-worktree"
+          },
+          {
+            "title": "Claude Code documentation",
+            "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code/overview"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "安排文件所有权、worktree、端口和汇合条件，避免并行工作互相污染。",
+          "content": "能设计两名 Agent 的隔离协作表，并判断完成不等于验收。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 12,
+        "title": "Coding Agent(十二)CI自动化",
+        "kind": "topic",
+        "depends": [
+          "B07",
+          "B09"
+        ],
+        "prerequisites": "完成 B07、B09 的相关实验",
+        "duty": "把 Coding Agent 的结果接入可解析、可追溯、有证据要求的 CI。",
+        "outcome": "能区分 stdout JSONL、stderr 进度、退出码和缺失证据。",
+        "h2": [
+          [
+            "作业边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "输出协议",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "失败门禁",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "证据产物",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake CI 输出成功、退出 0 无证据、JSON 损坏和测试失败四种结果。",
+        "cards": [
+          "b12-exit0-without-evidence"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Claude Code documentation",
+            "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+            "icon": "https://docs.anthropic.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code/overview"
+          },
+          {
+            "title": "GitHub Copilot documentation",
+            "url": "https://docs.github.com/en/copilot",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把 Coding Agent 的结果接入可解析、可追溯、有证据要求的 CI。",
+          "content": "能区分 stdout JSONL、stderr 进度、退出码和缺失证据。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 13,
+        "title": "Coding Agent(十三)项目实战",
+        "kind": "final",
+        "depends": [
+          "B07",
+          "B08",
+          "B09",
+          "B12"
+        ],
+        "prerequisites": "完成 B07、B08、B09、B12 的相关实验",
+        "duty": "完成从重复工单到补丁、测试、审查、CI 和交接的 Coding Agent 闭环。",
+        "outcome": "交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。",
+        "h2": [
+          [
+            "项目范围",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "协作执行",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "验收证据",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "使用合成仓库和隐藏回归，完成一次安全修复并输出审查记录。",
+        "cards": [
+          "b07-local-pass-is-not-online",
+          "b08-summary-is-not-fact"
+        ],
+        "difficulty": "实战",
+        "referenceCards": [
+          {
+            "title": "GitHub Copilot documentation",
+            "url": "https://docs.github.com/en/copilot",
+            "icon": "https://github.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+          },
+          {
+            "title": "OpenAI Codex documentation",
+            "url": "https://developers.openai.com/codex",
+            "icon": "https://developers.openai.com/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "完成从重复工单到补丁、测试、审查、CI 和交接的 Coding Agent 闭环。",
+          "content": "交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      }
+    ],
+    "article_block_tag_plans": {
+      "Coding Agent(一)入门路线": [
+        {
+          "block": "课程目标",
+          "reader_task": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+          "core_content": "课程目标：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "mermaid",
+          "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "完成“前置条件”中的关键理解、操作或判断",
+          "core_content": "前置条件：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "完成“学习路径”中的关键理解、操作或判断",
+          "core_content": "学习路径：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "完成“文章安排”中的关键理解、操作或判断",
+          "core_content": "文章安排：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "完成“开始学习”中的关键理解、操作或判断",
+          "core_content": "开始学习：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(二)工作区与边界": [
+        {
+          "block": "工作区模型",
+          "reader_task": "理解 Coding Agent 的工作区、当前目录、权限、脏改动和工具边界。",
+          "core_content": "工作区模型：能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。",
+          "carrier": "mermaid",
+          "rationale": "用把 Agent 可见空间、可写空间和禁止空间画成边界图。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成仓库执行 cwd、路径、权限和脏文件检查，不改动用户已有文件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "探针检查",
+          "reader_task": "完成“探针检查”中的关键理解、操作或判断",
+          "core_content": "探针检查：能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“探针检查”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成仓库执行 cwd、路径、权限和脏文件检查，不改动用户已有文件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "权限边界",
+          "reader_task": "完成“权限边界”中的关键理解、操作或判断",
+          "core_content": "权限边界：能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。",
+          "carrier": "table",
+          "rationale": "该块只承担“权限边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成仓库执行 cwd、路径、权限和脏文件检查，不改动用户已有文件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "脏改动",
+          "reader_task": "完成“脏改动”中的关键理解、操作或判断",
+          "core_content": "脏改动：能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“脏改动”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成仓库执行 cwd、路径、权限和脏文件检查，不改动用户已有文件。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(三)代码定位与追踪": [
+        {
+          "block": "问题定位",
+          "reader_task": "从重复缺陷描述追踪到路由、业务、数据和测试夹具，而不是直接猜文件。",
+          "core_content": "问题定位：能产出带证据的代码定位记录和最小影响范围。",
+          "carrier": "mermaid",
+          "rationale": "用用调用链图把自然语言问题映射到代码责任。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对重复工单执行 route→business→DB→fixture 追踪，保留搜索与读取证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "调用链",
+          "reader_task": "完成“调用链”中的关键理解、操作或判断",
+          "core_content": "调用链：能产出带证据的代码定位记录和最小影响范围。",
+          "carrier": "code",
+          "rationale": "该块只承担“调用链”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对重复工单执行 route→business→DB→fixture 追踪，保留搜索与读取证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "数据夹具",
+          "reader_task": "完成“数据夹具”中的关键理解、操作或判断",
+          "core_content": "数据夹具：能产出带证据的代码定位记录和最小影响范围。",
+          "carrier": "code",
+          "rationale": "该块只承担“数据夹具”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对重复工单执行 route→business→DB→fixture 追踪，保留搜索与读取证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "影响范围",
+          "reader_task": "完成“影响范围”中的关键理解、操作或判断",
+          "core_content": "影响范围：能产出带证据的代码定位记录和最小影响范围。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“影响范围”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对重复工单执行 route→business→DB→fixture 追踪，保留搜索与读取证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(四)任务拆解与验收": [
+        {
+          "block": "任务分解",
+          "reader_task": "把模糊修复目标拆成可执行步骤、反例和可观察验收。",
+          "core_content": "任务分解：为 201、200、409 等状态契约写出独立验收表。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一个合成 API 缺陷建立输入、状态、响应、数据和回归验收。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "验收字段",
+          "reader_task": "完成“验收字段”中的关键理解、操作或判断",
+          "core_content": "验收字段：为 201、200、409 等状态契约写出独立验收表。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“验收字段”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一个合成 API 缺陷建立输入、状态、响应、数据和回归验收。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "反例设计",
+          "reader_task": "完成“反例设计”中的关键理解、操作或判断",
+          "core_content": "反例设计：为 201、200、409 等状态契约写出独立验收表。",
+          "carrier": "list",
+          "rationale": "该块只承担“反例设计”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一个合成 API 缺陷建立输入、状态、响应、数据和回归验收。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "停止条件",
+          "reader_task": "完成“停止条件”中的关键理解、操作或判断",
+          "core_content": "停止条件：为 201、200、409 等状态契约写出独立验收表。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“停止条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为一个合成 API 缺陷建立输入、状态、响应、数据和回归验收。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(五)项目约定与记忆": [
+        {
+          "block": "约定作用域",
+          "reader_task": "按根目录、子目录和会话范围读取约定，并判断旧记忆是否仍有权威性。",
+          "core_content": "约定作用域：能记录约定来源和作用域，避免把过期摘要当成事实。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造根级、子目录级和全局记忆冲突，用当前文件和测试结果裁决。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "记忆读取",
+          "reader_task": "完成“记忆读取”中的关键理解、操作或判断",
+          "core_content": "记忆读取：能记录约定来源和作用域，避免把过期摘要当成事实。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“记忆读取”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造根级、子目录级和全局记忆冲突，用当前文件和测试结果裁决。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "权威判断",
+          "reader_task": "完成“权威判断”中的关键理解、操作或判断",
+          "core_content": "权威判断：能记录约定来源和作用域，避免把过期摘要当成事实。",
+          "carrier": "list",
+          "rationale": "该块只承担“权威判断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造根级、子目录级和全局记忆冲突，用当前文件和测试结果裁决。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "冲突处理",
+          "reader_task": "完成“冲突处理”中的关键理解、操作或判断",
+          "core_content": "冲突处理：能记录约定来源和作用域，避免把过期摘要当成事实。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“冲突处理”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；构造根级、子目录级和全局记忆冲突，用当前文件和测试结果裁决。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(六)增量修改与重构": [
+        {
+          "block": "最小补丁",
+          "reader_task": "在保持无关脏改动和文件所有权的前提下完成最小修改。",
+          "core_content": "最小补丁：能说明每一处改动的目的，避免顺手重写无关代码。",
+          "carrier": "mermaid",
+          "rationale": "用用变更边界图区分任务文件、共享文件和禁止触碰文件。承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成缺陷做小步修改，故意保留无关 dirty change 并核对 diff。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "重构边界",
+          "reader_task": "完成“重构边界”中的关键理解、操作或判断",
+          "core_content": "重构边界：能说明每一处改动的目的，避免顺手重写无关代码。",
+          "carrier": "table",
+          "rationale": "该块只承担“重构边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成缺陷做小步修改，故意保留无关 dirty change 并核对 diff。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "脏改动保护",
+          "reader_task": "完成“脏改动保护”中的关键理解、操作或判断",
+          "core_content": "脏改动保护：能说明每一处改动的目的，避免顺手重写无关代码。",
+          "carrier": "list",
+          "rationale": "该块只承担“脏改动保护”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成缺陷做小步修改，故意保留无关 dirty change 并核对 diff。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "回退点",
+          "reader_task": "完成“回退点”中的关键理解、操作或判断",
+          "core_content": "回退点：能说明每一处改动的目的，避免顺手重写无关代码。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“回退点”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对合成缺陷做小步修改，故意保留无关 dirty change 并核对 diff。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(七)验证与代码审查": [
+        {
+          "block": "独立重跑",
+          "reader_task": "建立独立重跑、差异审查和证据分层，避免把本地绿灯当业务正确。",
+          "core_content": "独立重跑：能执行测试、读取 diff、复查失败路径并写出证据链。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；分别验证本地测试、静态差异和业务断言，注入一个隐藏回归。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "diff审查",
+          "reader_task": "完成“diff审查”中的关键理解、操作或判断",
+          "core_content": "diff审查：能执行测试、读取 diff、复查失败路径并写出证据链。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“diff审查”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；分别验证本地测试、静态差异和业务断言，注入一个隐藏回归。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "证据分层",
+          "reader_task": "完成“证据分层”中的关键理解、操作或判断",
+          "core_content": "证据分层：能执行测试、读取 diff、复查失败路径并写出证据链。",
+          "carrier": "list",
+          "rationale": "该块只承担“证据分层”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；分别验证本地测试、静态差异和业务断言，注入一个隐藏回归。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "失败复盘",
+          "reader_task": "完成“失败复盘”中的关键理解、操作或判断",
+          "core_content": "失败复盘：能执行测试、读取 diff、复查失败路径并写出证据链。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“失败复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；分别验证本地测试、静态差异和业务断言，注入一个隐藏回归。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(八)上下文交接与续作": [
+        {
+          "block": "交接字段",
+          "reader_task": "把任务摘要、事实证据、未决风险和环境重查写成交接包。",
+          "core_content": "交接字段：能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；中断后交接合成任务，重新检查 cwd、版本、dirty 状态和未完成步骤。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "事实链接",
+          "reader_task": "完成“事实链接”中的关键理解、操作或判断",
+          "core_content": "事实链接：能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“事实链接”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；中断后交接合成任务，重新检查 cwd、版本、dirty 状态和未完成步骤。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "环境重查",
+          "reader_task": "完成“环境重查”中的关键理解、操作或判断",
+          "core_content": "环境重查：能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。",
+          "carrier": "list",
+          "rationale": "该块只承担“环境重查”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；中断后交接合成任务，重新检查 cwd、版本、dirty 状态和未完成步骤。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "续作边界",
+          "reader_task": "完成“续作边界”中的关键理解、操作或判断",
+          "core_content": "续作边界：能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。",
+          "carrier": "table",
+          "rationale": "该块只承担“续作边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；中断后交接合成任务，重新检查 cwd、版本、dirty 状态和未完成步骤。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(九)Skill设计与复用": [
+        {
+          "block": "Skill边界",
+          "reader_task": "设计输入、输出、权限、辅助文件和失败降级明确的 Skill。",
+          "core_content": "Skill边界：能写一个最小 Skill 契约并验证它是否真的可触发。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；实现一个只读定位 Skill，分别测试 schema 有效但触发条件不满足、权限声明不足和辅助文件缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "输入输出",
+          "reader_task": "完成“输入输出”中的关键理解、操作或判断",
+          "core_content": "输入输出：能写一个最小 Skill 契约并验证它是否真的可触发。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“输入输出”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；实现一个只读定位 Skill，分别测试 schema 有效但触发条件不满足、权限声明不足和辅助文件缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "权限声明",
+          "reader_task": "完成“权限声明”中的关键理解、操作或判断",
+          "core_content": "权限声明：能写一个最小 Skill 契约并验证它是否真的可触发。",
+          "carrier": "list",
+          "rationale": "该块只承担“权限声明”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；实现一个只读定位 Skill，分别测试 schema 有效但触发条件不满足、权限声明不足和辅助文件缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "支持文件",
+          "reader_task": "完成“支持文件”中的关键理解、操作或判断",
+          "core_content": "支持文件：能写一个最小 Skill 契约并验证它是否真的可触发。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“支持文件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；实现一个只读定位 Skill，分别测试 schema 有效但触发条件不满足、权限声明不足和辅助文件缺失。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(十)工具集成与扩展": [
+        {
+          "block": "扩展边界",
+          "reader_task": "理解 Skill、CLI、MCP 和扩展的职责边界，并为调用保留可审查契约。",
+          "core_content": "扩展边界：能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake MCP 和 CLI 比较发现、调用、输出、权限与失败差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "工具契约",
+          "reader_task": "完成“工具契约”中的关键理解、操作或判断",
+          "core_content": "工具契约：能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。",
+          "carrier": "table",
+          "rationale": "该块只承担“工具契约”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake MCP 和 CLI 比较发现、调用、输出、权限与失败差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "只读链路",
+          "reader_task": "完成“只读链路”中的关键理解、操作或判断",
+          "core_content": "只读链路：能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。",
+          "carrier": "list",
+          "rationale": "该块只承担“只读链路”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake MCP 和 CLI 比较发现、调用、输出、权限与失败差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "错误降级",
+          "reader_task": "完成“错误降级”中的关键理解、操作或判断",
+          "core_content": "错误降级：能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“错误降级”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake MCP 和 CLI 比较发现、调用、输出、权限与失败差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(十一)并行协作与隔离": [
+        {
+          "block": "所有权表",
+          "reader_task": "安排文件所有权、worktree、端口和汇合条件，避免并行工作互相污染。",
+          "core_content": "所有权表：能设计两名 Agent 的隔离协作表，并判断完成不等于验收。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟两项独立修复、一个共享接口和一个冲突文件，记录合并前后证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "隔离环境",
+          "reader_task": "完成“隔离环境”中的关键理解、操作或判断",
+          "core_content": "隔离环境：能设计两名 Agent 的隔离协作表，并判断完成不等于验收。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“隔离环境”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟两项独立修复、一个共享接口和一个冲突文件，记录合并前后证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "端口规划",
+          "reader_task": "完成“端口规划”中的关键理解、操作或判断",
+          "core_content": "端口规划：能设计两名 Agent 的隔离协作表，并判断完成不等于验收。",
+          "carrier": "list",
+          "rationale": "该块只承担“端口规划”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟两项独立修复、一个共享接口和一个冲突文件，记录合并前后证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "汇合验收",
+          "reader_task": "完成“汇合验收”中的关键理解、操作或判断",
+          "core_content": "汇合验收：能设计两名 Agent 的隔离协作表，并判断完成不等于验收。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“汇合验收”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟两项独立修复、一个共享接口和一个冲突文件，记录合并前后证据。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(十二)CI自动化": [
+        {
+          "block": "作业边界",
+          "reader_task": "把 Coding Agent 的结果接入可解析、可追溯、有证据要求的 CI。",
+          "core_content": "作业边界：能区分 stdout JSONL、stderr 进度、退出码和缺失证据。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 输出成功、退出 0 无证据、JSON 损坏和测试失败四种结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "输出协议",
+          "reader_task": "完成“输出协议”中的关键理解、操作或判断",
+          "core_content": "输出协议：能区分 stdout JSONL、stderr 进度、退出码和缺失证据。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“输出协议”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 输出成功、退出 0 无证据、JSON 损坏和测试失败四种结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "失败门禁",
+          "reader_task": "完成“失败门禁”中的关键理解、操作或判断",
+          "core_content": "失败门禁：能区分 stdout JSONL、stderr 进度、退出码和缺失证据。",
+          "carrier": "list",
+          "rationale": "该块只承担“失败门禁”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 输出成功、退出 0 无证据、JSON 损坏和测试失败四种结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "证据产物",
+          "reader_task": "完成“证据产物”中的关键理解、操作或判断",
+          "core_content": "证据产物：能区分 stdout JSONL、stderr 进度、退出码和缺失证据。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“证据产物”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake CI 输出成功、退出 0 无证据、JSON 损坏和测试失败四种结果。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Coding Agent(十三)项目实战": [
+        {
+          "block": "项目范围",
+          "reader_task": "完成从重复工单到补丁、测试、审查、CI 和交接的 Coding Agent 闭环。",
+          "core_content": "项目范围：交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用合成仓库和隐藏回归，完成一次安全修复并输出审查记录。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "协作执行",
+          "reader_task": "完成“协作执行”中的关键理解、操作或判断",
+          "core_content": "协作执行：交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。",
+          "carrier": "code",
+          "rationale": "该块只承担“协作执行”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用合成仓库和隐藏回归，完成一次安全修复并输出审查记录。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "验收证据",
+          "reader_task": "完成“验收证据”中的关键理解、操作或判断",
+          "core_content": "验收证据：交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。",
+          "carrier": "list",
+          "rationale": "该块只承担“验收证据”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用合成仓库和隐藏回归，完成一次安全修复并输出审查记录。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "复盘",
+          "reader_task": "完成“复盘”中的关键理解、操作或判断",
+          "core_content": "复盘：交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用合成仓库和隐藏回归，完成一次安全修复并输出审查记录。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ]
+    },
+    "reference_cards": [
+      {
+        "title": "Claude Code documentation",
+        "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "icon": "https://docs.anthropic.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code/overview"
+      },
+      {
+        "title": "GitHub Copilot documentation",
+        "url": "https://docs.github.com/en/copilot",
+        "icon": "https://github.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "GitHub Copilot documentation: https://docs.github.com/en/copilot"
+      },
+      {
+        "title": "OpenAI Codex documentation",
+        "url": "https://developers.openai.com/codex",
+        "icon": "https://developers.openai.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OpenAI Codex documentation: https://developers.openai.com/codex"
+      },
+      {
+        "title": "Git worktree documentation",
+        "url": "https://git-scm.com/docs/git-worktree",
+        "icon": "https://git-scm.com/favicon.ico",
+        "sourceType": "official",
+        "fallback": "Git worktree documentation: https://git-scm.com/docs/git-worktree"
+      }
+    ],
+    "research_scope": {
+      "researched_at": "2026-08-29",
+      "source_count": 4,
+      "bounded": true,
+      "note": "仅列可复核官方入口；快速变化内容在逐篇写作前刷新。"
+    }
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "topic_type": "Coding Agent：面向测试开发工程师的应用与质量工程课程",
+      "researched_at": "2026-08-29",
+      "boundary": "有限官方入口与稳定工程能力；快速变化的 SDK、模型和协议在逐篇写作前刷新。",
+      "reproduction": "按 sources、stable_id、version_status 和 article target 逐项复核；不宣称穷尽互联网。",
+      "entries": [
+        {
+          "title": "Claude Code documentation",
+          "url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+          "icon": "https://docs.anthropic.com/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "GitHub Copilot documentation",
+          "url": "https://docs.github.com/en/copilot",
+          "icon": "https://github.com/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "OpenAI Codex documentation",
+          "url": "https://developers.openai.com/codex",
+          "icon": "https://developers.openai.com/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "Git worktree documentation",
+          "url": "https://git-scm.com/docs/git-worktree",
+          "icon": "https://git-scm.com/favicon.ico",
+          "sourceType": "official"
+        }
+      ]
+    },
+    "capabilities": {
+      "b01-01-课程目标": {
+        "title": "Coding Agent(一)入门路线 / 课程目标",
+        "subject": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b01-01-课程目标"
+      },
+      "b01-02-前置条件": {
+        "title": "Coding Agent(一)入门路线 / 前置条件",
+        "subject": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b01-02-前置条件"
+      },
+      "b01-03-学习路径": {
+        "title": "Coding Agent(一)入门路线 / 学习路径",
+        "subject": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b01-03-学习路径"
+      },
+      "b01-04-文章安排": {
+        "title": "Coding Agent(一)入门路线 / 文章安排",
+        "subject": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b01-04-文章安排"
+      },
+      "b01-05-开始学习": {
+        "title": "Coding Agent(一)入门路线 / 开始学习",
+        "subject": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b01-05-开始学习"
+      },
+      "b01-06-参考资料": {
+        "title": "Coding Agent(一)入门路线 / 参考资料",
+        "subject": "说明Coding Agent的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b01-06-参考资料"
+      },
+      "b02-01-工作区模型": {
+        "title": "Coding Agent(二)工作区与边界 / 工作区模型",
+        "subject": "理解 Coding Agent 的工作区、当前目录、权限、脏改动和工具边界。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b02-01-工作区模型"
+      },
+      "b02-02-探针检查": {
+        "title": "Coding Agent(二)工作区与边界 / 探针检查",
+        "subject": "理解 Coding Agent 的工作区、当前目录、权限、脏改动和工具边界。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b02-02-探针检查"
+      },
+      "b02-03-权限边界": {
+        "title": "Coding Agent(二)工作区与边界 / 权限边界",
+        "subject": "理解 Coding Agent 的工作区、当前目录、权限、脏改动和工具边界。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b02-03-权限边界"
+      },
+      "b02-04-脏改动": {
+        "title": "Coding Agent(二)工作区与边界 / 脏改动",
+        "subject": "理解 Coding Agent 的工作区、当前目录、权限、脏改动和工具边界。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b02-04-脏改动"
+      },
+      "b03-01-问题定位": {
+        "title": "Coding Agent(三)代码定位与追踪 / 问题定位",
+        "subject": "从重复缺陷描述追踪到路由、业务、数据和测试夹具，而不是直接猜文件。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b03-01-问题定位"
+      },
+      "b03-02-调用链": {
+        "title": "Coding Agent(三)代码定位与追踪 / 调用链",
+        "subject": "从重复缺陷描述追踪到路由、业务、数据和测试夹具，而不是直接猜文件。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b03-02-调用链"
+      },
+      "b03-03-数据夹具": {
+        "title": "Coding Agent(三)代码定位与追踪 / 数据夹具",
+        "subject": "从重复缺陷描述追踪到路由、业务、数据和测试夹具，而不是直接猜文件。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b03-03-数据夹具"
+      },
+      "b03-04-影响范围": {
+        "title": "Coding Agent(三)代码定位与追踪 / 影响范围",
+        "subject": "从重复缺陷描述追踪到路由、业务、数据和测试夹具，而不是直接猜文件。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b03-04-影响范围"
+      },
+      "b04-01-任务分解": {
+        "title": "Coding Agent(四)任务拆解与验收 / 任务分解",
+        "subject": "把模糊修复目标拆成可执行步骤、反例和可观察验收。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b04-01-任务分解"
+      },
+      "b04-02-验收字段": {
+        "title": "Coding Agent(四)任务拆解与验收 / 验收字段",
+        "subject": "把模糊修复目标拆成可执行步骤、反例和可观察验收。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b04-02-验收字段"
+      },
+      "b04-03-反例设计": {
+        "title": "Coding Agent(四)任务拆解与验收 / 反例设计",
+        "subject": "把模糊修复目标拆成可执行步骤、反例和可观察验收。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b04-03-反例设计"
+      },
+      "b04-04-停止条件": {
+        "title": "Coding Agent(四)任务拆解与验收 / 停止条件",
+        "subject": "把模糊修复目标拆成可执行步骤、反例和可观察验收。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b04-04-停止条件"
+      },
+      "b05-01-约定作用域": {
+        "title": "Coding Agent(五)项目约定与记忆 / 约定作用域",
+        "subject": "按根目录、子目录和会话范围读取约定，并判断旧记忆是否仍有权威性。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b05-01-约定作用域"
+      },
+      "b05-02-记忆读取": {
+        "title": "Coding Agent(五)项目约定与记忆 / 记忆读取",
+        "subject": "按根目录、子目录和会话范围读取约定，并判断旧记忆是否仍有权威性。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b05-02-记忆读取"
+      },
+      "b05-03-权威判断": {
+        "title": "Coding Agent(五)项目约定与记忆 / 权威判断",
+        "subject": "按根目录、子目录和会话范围读取约定，并判断旧记忆是否仍有权威性。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b05-03-权威判断"
+      },
+      "b05-04-冲突处理": {
+        "title": "Coding Agent(五)项目约定与记忆 / 冲突处理",
+        "subject": "按根目录、子目录和会话范围读取约定，并判断旧记忆是否仍有权威性。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b05-04-冲突处理"
+      },
+      "b06-01-最小补丁": {
+        "title": "Coding Agent(六)增量修改与重构 / 最小补丁",
+        "subject": "在保持无关脏改动和文件所有权的前提下完成最小修改。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b06-01-最小补丁"
+      },
+      "b06-02-重构边界": {
+        "title": "Coding Agent(六)增量修改与重构 / 重构边界",
+        "subject": "在保持无关脏改动和文件所有权的前提下完成最小修改。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b06-02-重构边界"
+      },
+      "b06-03-脏改动保护": {
+        "title": "Coding Agent(六)增量修改与重构 / 脏改动保护",
+        "subject": "在保持无关脏改动和文件所有权的前提下完成最小修改。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b06-03-脏改动保护"
+      },
+      "b06-04-回退点": {
+        "title": "Coding Agent(六)增量修改与重构 / 回退点",
+        "subject": "在保持无关脏改动和文件所有权的前提下完成最小修改。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b06-04-回退点"
+      },
+      "b07-01-独立重跑": {
+        "title": "Coding Agent(七)验证与代码审查 / 独立重跑",
+        "subject": "建立独立重跑、差异审查和证据分层，避免把本地绿灯当业务正确。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b07-01-独立重跑"
+      },
+      "b07-02-diff审查": {
+        "title": "Coding Agent(七)验证与代码审查 / diff审查",
+        "subject": "建立独立重跑、差异审查和证据分层，避免把本地绿灯当业务正确。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b07-02-diff审查"
+      },
+      "b07-03-证据分层": {
+        "title": "Coding Agent(七)验证与代码审查 / 证据分层",
+        "subject": "建立独立重跑、差异审查和证据分层，避免把本地绿灯当业务正确。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b07-03-证据分层"
+      },
+      "b07-04-失败复盘": {
+        "title": "Coding Agent(七)验证与代码审查 / 失败复盘",
+        "subject": "建立独立重跑、差异审查和证据分层，避免把本地绿灯当业务正确。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b07-04-失败复盘"
+      },
+      "b08-01-交接字段": {
+        "title": "Coding Agent(八)上下文交接与续作 / 交接字段",
+        "subject": "把任务摘要、事实证据、未决风险和环境重查写成交接包。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b08-01-交接字段"
+      },
+      "b08-02-事实链接": {
+        "title": "Coding Agent(八)上下文交接与续作 / 事实链接",
+        "subject": "把任务摘要、事实证据、未决风险和环境重查写成交接包。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b08-02-事实链接"
+      },
+      "b08-03-环境重查": {
+        "title": "Coding Agent(八)上下文交接与续作 / 环境重查",
+        "subject": "把任务摘要、事实证据、未决风险和环境重查写成交接包。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b08-03-环境重查"
+      },
+      "b08-04-续作边界": {
+        "title": "Coding Agent(八)上下文交接与续作 / 续作边界",
+        "subject": "把任务摘要、事实证据、未决风险和环境重查写成交接包。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b08-04-续作边界"
+      },
+      "b09-01-skill边界": {
+        "title": "Coding Agent(九)Skill设计与复用 / Skill边界",
+        "subject": "设计输入、输出、权限、辅助文件和失败降级明确的 Skill。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b09-01-skill边界"
+      },
+      "b09-02-输入输出": {
+        "title": "Coding Agent(九)Skill设计与复用 / 输入输出",
+        "subject": "设计输入、输出、权限、辅助文件和失败降级明确的 Skill。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b09-02-输入输出"
+      },
+      "b09-03-权限声明": {
+        "title": "Coding Agent(九)Skill设计与复用 / 权限声明",
+        "subject": "设计输入、输出、权限、辅助文件和失败降级明确的 Skill。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b09-03-权限声明"
+      },
+      "b09-04-支持文件": {
+        "title": "Coding Agent(九)Skill设计与复用 / 支持文件",
+        "subject": "设计输入、输出、权限、辅助文件和失败降级明确的 Skill。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b09-04-支持文件"
+      },
+      "b10-01-扩展边界": {
+        "title": "Coding Agent(十)工具集成与扩展 / 扩展边界",
+        "subject": "理解 Skill、CLI、MCP 和扩展的职责边界，并为调用保留可审查契约。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b10-01-扩展边界"
+      },
+      "b10-02-工具契约": {
+        "title": "Coding Agent(十)工具集成与扩展 / 工具契约",
+        "subject": "理解 Skill、CLI、MCP 和扩展的职责边界，并为调用保留可审查契约。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b10-02-工具契约"
+      },
+      "b10-03-只读链路": {
+        "title": "Coding Agent(十)工具集成与扩展 / 只读链路",
+        "subject": "理解 Skill、CLI、MCP 和扩展的职责边界，并为调用保留可审查契约。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b10-03-只读链路"
+      },
+      "b10-04-错误降级": {
+        "title": "Coding Agent(十)工具集成与扩展 / 错误降级",
+        "subject": "理解 Skill、CLI、MCP 和扩展的职责边界，并为调用保留可审查契约。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b10-04-错误降级"
+      },
+      "b11-01-所有权表": {
+        "title": "Coding Agent(十一)并行协作与隔离 / 所有权表",
+        "subject": "安排文件所有权、worktree、端口和汇合条件，避免并行工作互相污染。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b11-01-所有权表"
+      },
+      "b11-02-隔离环境": {
+        "title": "Coding Agent(十一)并行协作与隔离 / 隔离环境",
+        "subject": "安排文件所有权、worktree、端口和汇合条件，避免并行工作互相污染。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b11-02-隔离环境"
+      },
+      "b11-03-端口规划": {
+        "title": "Coding Agent(十一)并行协作与隔离 / 端口规划",
+        "subject": "安排文件所有权、worktree、端口和汇合条件，避免并行工作互相污染。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b11-03-端口规划"
+      },
+      "b11-04-汇合验收": {
+        "title": "Coding Agent(十一)并行协作与隔离 / 汇合验收",
+        "subject": "安排文件所有权、worktree、端口和汇合条件，避免并行工作互相污染。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b11-04-汇合验收"
+      },
+      "b12-01-作业边界": {
+        "title": "Coding Agent(十二)CI自动化 / 作业边界",
+        "subject": "把 Coding Agent 的结果接入可解析、可追溯、有证据要求的 CI。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b12-01-作业边界"
+      },
+      "b12-02-输出协议": {
+        "title": "Coding Agent(十二)CI自动化 / 输出协议",
+        "subject": "把 Coding Agent 的结果接入可解析、可追溯、有证据要求的 CI。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b12-02-输出协议"
+      },
+      "b12-03-失败门禁": {
+        "title": "Coding Agent(十二)CI自动化 / 失败门禁",
+        "subject": "把 Coding Agent 的结果接入可解析、可追溯、有证据要求的 CI。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b12-03-失败门禁"
+      },
+      "b12-04-证据产物": {
+        "title": "Coding Agent(十二)CI自动化 / 证据产物",
+        "subject": "把 Coding Agent 的结果接入可解析、可追溯、有证据要求的 CI。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b12-04-证据产物"
+      },
+      "b13-01-项目范围": {
+        "title": "Coding Agent(十三)项目实战 / 项目范围",
+        "subject": "完成从重复工单到补丁、测试、审查、CI 和交接的 Coding Agent 闭环。",
+        "source": "https://docs.anthropic.com/en/docs/claude-code/overview",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b13-01-项目范围"
+      },
+      "b13-02-协作执行": {
+        "title": "Coding Agent(十三)项目实战 / 协作执行",
+        "subject": "完成从重复工单到补丁、测试、审查、CI 和交接的 Coding Agent 闭环。",
+        "source": "https://docs.github.com/en/copilot",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b13-02-协作执行"
+      },
+      "b13-03-验收证据": {
+        "title": "Coding Agent(十三)项目实战 / 验收证据",
+        "subject": "完成从重复工单到补丁、测试、审查、CI 和交接的 Coding Agent 闭环。",
+        "source": "https://developers.openai.com/codex",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b13-03-验收证据"
+      },
+      "b13-04-复盘": {
+        "title": "Coding Agent(十三)项目实战 / 复盘",
+        "subject": "完成从重复工单到补丁、测试、审查、CI 和交接的 Coding Agent 闭环。",
+        "source": "https://git-scm.com/docs/git-worktree",
+        "version_status": "bounded-official-entry",
+        "stable_id": "b13-04-复盘"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "b01-01-课程目标": [
+          "core",
+          "Coding Agent(一)入门路线 / 课程目标",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b01-02-前置条件": [
+          "core",
+          "Coding Agent(一)入门路线 / 前置条件",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b01-03-学习路径": [
+          "core",
+          "Coding Agent(一)入门路线 / 学习路径",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b01-04-文章安排": [
+          "core",
+          "Coding Agent(一)入门路线 / 文章安排",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b01-05-开始学习": [
+          "core",
+          "Coding Agent(一)入门路线 / 开始学习",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b01-06-参考资料": [
+          "core",
+          "Coding Agent(一)入门路线 / 参考资料",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b02-01-工作区模型": [
+          "core",
+          "Coding Agent(二)工作区与边界 / 工作区模型",
+          "该条目直接服务于“能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b02-02-探针检查": [
+          "core",
+          "Coding Agent(二)工作区与边界 / 探针检查",
+          "该条目直接服务于“能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b02-03-权限边界": [
+          "core",
+          "Coding Agent(二)工作区与边界 / 权限边界",
+          "该条目直接服务于“能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b02-04-脏改动": [
+          "core",
+          "Coding Agent(二)工作区与边界 / 脏改动",
+          "该条目直接服务于“能用只读探针确认根目录、文件所有权、权限与隔离状态，再开始任务。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b03-01-问题定位": [
+          "core",
+          "Coding Agent(三)代码定位与追踪 / 问题定位",
+          "该条目直接服务于“能产出带证据的代码定位记录和最小影响范围。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b03-02-调用链": [
+          "core",
+          "Coding Agent(三)代码定位与追踪 / 调用链",
+          "该条目直接服务于“能产出带证据的代码定位记录和最小影响范围。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b03-03-数据夹具": [
+          "core",
+          "Coding Agent(三)代码定位与追踪 / 数据夹具",
+          "该条目直接服务于“能产出带证据的代码定位记录和最小影响范围。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b03-04-影响范围": [
+          "core",
+          "Coding Agent(三)代码定位与追踪 / 影响范围",
+          "该条目直接服务于“能产出带证据的代码定位记录和最小影响范围。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b04-01-任务分解": [
+          "core",
+          "Coding Agent(四)任务拆解与验收 / 任务分解",
+          "该条目直接服务于“为 201、200、409 等状态契约写出独立验收表。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b04-02-验收字段": [
+          "core",
+          "Coding Agent(四)任务拆解与验收 / 验收字段",
+          "该条目直接服务于“为 201、200、409 等状态契约写出独立验收表。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b04-03-反例设计": [
+          "core",
+          "Coding Agent(四)任务拆解与验收 / 反例设计",
+          "该条目直接服务于“为 201、200、409 等状态契约写出独立验收表。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b04-04-停止条件": [
+          "core",
+          "Coding Agent(四)任务拆解与验收 / 停止条件",
+          "该条目直接服务于“为 201、200、409 等状态契约写出独立验收表。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b05-01-约定作用域": [
+          "core",
+          "Coding Agent(五)项目约定与记忆 / 约定作用域",
+          "该条目直接服务于“能记录约定来源和作用域，避免把过期摘要当成事实。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b05-02-记忆读取": [
+          "core",
+          "Coding Agent(五)项目约定与记忆 / 记忆读取",
+          "该条目直接服务于“能记录约定来源和作用域，避免把过期摘要当成事实。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b05-03-权威判断": [
+          "core",
+          "Coding Agent(五)项目约定与记忆 / 权威判断",
+          "该条目直接服务于“能记录约定来源和作用域，避免把过期摘要当成事实。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b05-04-冲突处理": [
+          "core",
+          "Coding Agent(五)项目约定与记忆 / 冲突处理",
+          "该条目直接服务于“能记录约定来源和作用域，避免把过期摘要当成事实。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b06-01-最小补丁": [
+          "core",
+          "Coding Agent(六)增量修改与重构 / 最小补丁",
+          "该条目直接服务于“能说明每一处改动的目的，避免顺手重写无关代码。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b06-02-重构边界": [
+          "core",
+          "Coding Agent(六)增量修改与重构 / 重构边界",
+          "该条目直接服务于“能说明每一处改动的目的，避免顺手重写无关代码。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b06-03-脏改动保护": [
+          "core",
+          "Coding Agent(六)增量修改与重构 / 脏改动保护",
+          "该条目直接服务于“能说明每一处改动的目的，避免顺手重写无关代码。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b06-04-回退点": [
+          "core",
+          "Coding Agent(六)增量修改与重构 / 回退点",
+          "该条目直接服务于“能说明每一处改动的目的，避免顺手重写无关代码。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b07-01-独立重跑": [
+          "core",
+          "Coding Agent(七)验证与代码审查 / 独立重跑",
+          "该条目直接服务于“能执行测试、读取 diff、复查失败路径并写出证据链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b07-02-diff审查": [
+          "core",
+          "Coding Agent(七)验证与代码审查 / diff审查",
+          "该条目直接服务于“能执行测试、读取 diff、复查失败路径并写出证据链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b07-03-证据分层": [
+          "core",
+          "Coding Agent(七)验证与代码审查 / 证据分层",
+          "该条目直接服务于“能执行测试、读取 diff、复查失败路径并写出证据链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b07-04-失败复盘": [
+          "core",
+          "Coding Agent(七)验证与代码审查 / 失败复盘",
+          "该条目直接服务于“能执行测试、读取 diff、复查失败路径并写出证据链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b08-01-交接字段": [
+          "core",
+          "Coding Agent(八)上下文交接与续作 / 交接字段",
+          "该条目直接服务于“能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b08-02-事实链接": [
+          "core",
+          "Coding Agent(八)上下文交接与续作 / 事实链接",
+          "该条目直接服务于“能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b08-03-环境重查": [
+          "core",
+          "Coding Agent(八)上下文交接与续作 / 环境重查",
+          "该条目直接服务于“能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b08-04-续作边界": [
+          "core",
+          "Coding Agent(八)上下文交接与续作 / 续作边界",
+          "该条目直接服务于“能在新会话或新 Agent 中恢复工作，而不是只复制一句摘要。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b09-01-skill边界": [
+          "core",
+          "Coding Agent(九)Skill设计与复用 / Skill边界",
+          "该条目直接服务于“能写一个最小 Skill 契约并验证它是否真的可触发。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b09-02-输入输出": [
+          "core",
+          "Coding Agent(九)Skill设计与复用 / 输入输出",
+          "该条目直接服务于“能写一个最小 Skill 契约并验证它是否真的可触发。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b09-03-权限声明": [
+          "core",
+          "Coding Agent(九)Skill设计与复用 / 权限声明",
+          "该条目直接服务于“能写一个最小 Skill 契约并验证它是否真的可触发。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b09-04-支持文件": [
+          "core",
+          "Coding Agent(九)Skill设计与复用 / 支持文件",
+          "该条目直接服务于“能写一个最小 Skill 契约并验证它是否真的可触发。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b10-01-扩展边界": [
+          "core",
+          "Coding Agent(十)工具集成与扩展 / 扩展边界",
+          "该条目直接服务于“能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b10-02-工具契约": [
+          "core",
+          "Coding Agent(十)工具集成与扩展 / 工具契约",
+          "该条目直接服务于“能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b10-03-只读链路": [
+          "core",
+          "Coding Agent(十)工具集成与扩展 / 只读链路",
+          "该条目直接服务于“能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b10-04-错误降级": [
+          "core",
+          "Coding Agent(十)工具集成与扩展 / 错误降级",
+          "该条目直接服务于“能用只读 Fake MCP/CLI/Skill 完成一次边界清晰的工具链。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b11-01-所有权表": [
+          "core",
+          "Coding Agent(十一)并行协作与隔离 / 所有权表",
+          "该条目直接服务于“能设计两名 Agent 的隔离协作表，并判断完成不等于验收。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b11-02-隔离环境": [
+          "core",
+          "Coding Agent(十一)并行协作与隔离 / 隔离环境",
+          "该条目直接服务于“能设计两名 Agent 的隔离协作表，并判断完成不等于验收。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b11-03-端口规划": [
+          "core",
+          "Coding Agent(十一)并行协作与隔离 / 端口规划",
+          "该条目直接服务于“能设计两名 Agent 的隔离协作表，并判断完成不等于验收。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b11-04-汇合验收": [
+          "core",
+          "Coding Agent(十一)并行协作与隔离 / 汇合验收",
+          "该条目直接服务于“能设计两名 Agent 的隔离协作表，并判断完成不等于验收。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b12-01-作业边界": [
+          "core",
+          "Coding Agent(十二)CI自动化 / 作业边界",
+          "该条目直接服务于“能区分 stdout JSONL、stderr 进度、退出码和缺失证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b12-02-输出协议": [
+          "core",
+          "Coding Agent(十二)CI自动化 / 输出协议",
+          "该条目直接服务于“能区分 stdout JSONL、stderr 进度、退出码和缺失证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b12-03-失败门禁": [
+          "core",
+          "Coding Agent(十二)CI自动化 / 失败门禁",
+          "该条目直接服务于“能区分 stdout JSONL、stderr 进度、退出码和缺失证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b12-04-证据产物": [
+          "core",
+          "Coding Agent(十二)CI自动化 / 证据产物",
+          "该条目直接服务于“能区分 stdout JSONL、stderr 进度、退出码和缺失证据。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b13-01-项目范围": [
+          "core",
+          "Coding Agent(十三)项目实战 / 项目范围",
+          "该条目直接服务于“交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b13-02-协作执行": [
+          "core",
+          "Coding Agent(十三)项目实战 / 协作执行",
+          "该条目直接服务于“交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b13-03-验收证据": [
+          "core",
+          "Coding Agent(十三)项目实战 / 验收证据",
+          "该条目直接服务于“交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "b13-04-复盘": [
+          "core",
+          "Coding Agent(十三)项目实战 / 复盘",
+          "该条目直接服务于“交付一份可复跑的修复证据包，包含工作区边界、计划、diff、测试和交接。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 54,
+      "ledger_entries": 54,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  },
+  "migration_mappings": [],
+  "support_sources": [],
+  "exclusions": [],
+  "cover_contract": {
+    "path": "/img/picgo-images/coding-agent-course-cover.png",
+    "size": "1920x1080",
+    "safe_area": "central 70%",
+    "keywords": [
+      "Workspace",
+      "Plan",
+      "Review",
+      "Skills",
+      "CI"
+    ]
+  }
+}

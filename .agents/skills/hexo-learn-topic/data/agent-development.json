@@ -1,0 +1,2849 @@
+{
+  "schema_version": 2,
+  "course": {
+    "slug": "agent-development",
+    "series": "Agent 应用开发",
+    "public_article_contract": "v1",
+    "forbid_local_absolute_paths": true,
+    "purpose": "从最小 Agent 循环走到工具、RAG、Memory、工作流、MCP、多 Agent、浏览器和 HTTP 服务集成。",
+    "graduation": "交付一个带检索、会话记忆、人工审批、MCP 只读工具和 HTTP 任务状态的合成工单 Agent。",
+    "topics": [
+      "Agent任务建模",
+      "工具契约与执行",
+      "Agent循环",
+      "知识索引与检索",
+      "RAG与引用",
+      "Memory与会话",
+      "工作流与人工审批",
+      "MCP服务与协议",
+      "多Agent协作",
+      "浏览器与计算机操作",
+      "框架迁移",
+      "服务与HTTP集成"
+    ],
+    "optional_articles": [
+      "进阶路线",
+      "项目实战"
+    ],
+    "articles": [
+      {
+        "order": 1,
+        "title": "Agent 应用开发(一)入门路线",
+        "file": "Agent 应用开发(一)入门路线.md",
+        "kind": "entry"
+      },
+      {
+        "order": 2,
+        "title": "Agent 应用开发(二)Agent任务建模",
+        "file": "Agent 应用开发(二)Agent任务建模.md",
+        "kind": "topic"
+      },
+      {
+        "order": 3,
+        "title": "Agent 应用开发(三)工具契约与执行",
+        "file": "Agent 应用开发(三)工具契约与执行.md",
+        "kind": "topic"
+      },
+      {
+        "order": 4,
+        "title": "Agent 应用开发(四)Agent循环",
+        "file": "Agent 应用开发(四)Agent循环.md",
+        "kind": "topic"
+      },
+      {
+        "order": 5,
+        "title": "Agent 应用开发(五)知识索引与检索",
+        "file": "Agent 应用开发(五)知识索引与检索.md",
+        "kind": "topic"
+      },
+      {
+        "order": 6,
+        "title": "Agent 应用开发(六)RAG与引用",
+        "file": "Agent 应用开发(六)RAG与引用.md",
+        "kind": "topic"
+      },
+      {
+        "order": 7,
+        "title": "Agent 应用开发(七)Memory与会话",
+        "file": "Agent 应用开发(七)Memory与会话.md",
+        "kind": "topic"
+      },
+      {
+        "order": 8,
+        "title": "Agent 应用开发(八)工作流与人工审批",
+        "file": "Agent 应用开发(八)工作流与人工审批.md",
+        "kind": "topic"
+      },
+      {
+        "order": 9,
+        "title": "Agent 应用开发(九)MCP服务与协议",
+        "file": "Agent 应用开发(九)MCP服务与协议.md",
+        "kind": "topic"
+      },
+      {
+        "order": 10,
+        "title": "Agent 应用开发(十)多Agent协作",
+        "file": "Agent 应用开发(十)多Agent协作.md",
+        "kind": "topic"
+      },
+      {
+        "order": 11,
+        "title": "Agent 应用开发(十一)浏览器与计算机操作",
+        "file": "Agent 应用开发(十一)浏览器与计算机操作.md",
+        "kind": "topic"
+      },
+      {
+        "order": 12,
+        "title": "Agent 应用开发(十二)框架迁移",
+        "file": "Agent 应用开发(十二)框架迁移.md",
+        "kind": "topic"
+      },
+      {
+        "order": 13,
+        "title": "Agent 应用开发(十三)服务与HTTP集成",
+        "file": "Agent 应用开发(十三)服务与HTTP集成.md",
+        "kind": "topic"
+      },
+      {
+        "order": 14,
+        "title": "Agent 应用开发(十四)进阶路线",
+        "file": "Agent 应用开发(十四)进阶路线.md",
+        "kind": "advanced"
+      },
+      {
+        "order": 15,
+        "title": "Agent 应用开发(十五)项目实战",
+        "file": "Agent 应用开发(十五)项目实战.md",
+        "kind": "final"
+      }
+    ],
+    "article_map": [
+      {
+        "order": 1,
+        "title": "Agent 应用开发(一)入门路线",
+        "kind": "entry",
+        "depends": [],
+        "prerequisites": "课程入口基础",
+        "duty": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+        "outcome": "能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+        "h2": [
+          [
+            "课程目标",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "前置条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "学习路径",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "文章安排",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "开始学习",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "课程依赖路线图（Mermaid TD）"
+        ],
+        "experiment": "只核对已有基础和合成实验目录，不安装新的外部依赖。",
+        "cards": [],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "LangGraph documentation",
+            "url": "https://langchain-ai.github.io/langgraph/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+          },
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          }
+        ],
+        "openingPlan": null
+      },
+      {
+        "order": 2,
+        "title": "Agent 应用开发(二)Agent任务建模",
+        "kind": "topic",
+        "depends": [
+          "C01"
+        ],
+        "prerequisites": "完成 C01 的相关实验",
+        "duty": "用状态、动作、权限和终止条件判断何时需要 Agent，何时固定工作流更可靠。",
+        "outcome": "能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。",
+        "h2": [
+          [
+            "任务边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "状态建模",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "动作空间",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "终止判断",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "为合成工单任务分别写固定流程和 Agent 方案，比较可变性与可验证性。",
+        "cards": [
+          "c02-agent-vs-workflow",
+          "c02-completion-vs-outcome"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          },
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用状态、动作、权限和终止条件判断何时需要 Agent，何时固定工作流更可靠。",
+          "content": "能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 3,
+        "title": "Agent 应用开发(三)工具契约与执行",
+        "kind": "topic",
+        "depends": [
+          "C02",
+          "A05",
+          "F02",
+          "F03"
+        ],
+        "prerequisites": "完成 C02、A05、F02、F03 的相关实验",
+        "duty": "把工具描述、参数、权限、执行者和结果分开建模。",
+        "outcome": "能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。",
+        "h2": [
+          [
+            "工具描述",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参数校验",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "执行边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果回传",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "模型只提议调用，应用层执行 Fake tools，覆盖 schema、权限、超时和错误。",
+        "cards": [
+          "c03-who-executes-tools",
+          "c03-readonly-is-behavior"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          },
+          {
+            "title": "Model Context Protocol specification",
+            "url": "https://modelcontextprotocol.io/specification",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把工具描述、参数、权限、执行者和结果分开建模。",
+          "content": "能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 4,
+        "title": "Agent 应用开发(四)Agent循环",
+        "kind": "topic",
+        "depends": [
+          "C03"
+        ],
+        "prerequisites": "完成 C03 的相关实验",
+        "duty": "实现受预算、步骤、错误和取消约束的最小 Agent loop。",
+        "outcome": "能观察每一步状态，判断继续、重试、拒答、终止和取消。",
+        "h2": [
+          [
+            "循环状态",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "停止条件",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "错误终止",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "取消传播",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake model/tool 注入成功、工具失败、预算耗尽、循环上限和用户取消。",
+        "cards": [
+          "c04-stop-conditions"
+        ],
+        "difficulty": "基础",
+        "referenceCards": [
+          {
+            "title": "Model Context Protocol specification",
+            "url": "https://modelcontextprotocol.io/specification",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+          },
+          {
+            "title": "LangGraph documentation",
+            "url": "https://langchain-ai.github.io/langgraph/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "实现受预算、步骤、错误和取消约束的最小 Agent loop。",
+          "content": "能观察每一步状态，判断继续、重试、拒答、终止和取消。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 5,
+        "title": "Agent 应用开发(五)知识索引与检索",
+        "kind": "topic",
+        "depends": [
+          "A02",
+          "A05",
+          "C02",
+          "F03"
+        ],
+        "prerequisites": "完成 A02、A05、C02、F03 的相关实验",
+        "duty": "把文档切分、索引、检索、租户隔离和版本权威性放在同一条证据链中。",
+        "outcome": "能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。",
+        "h2": [
+          [
+            "文档准备",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "索引方式",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "召回判断",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "租户隔离",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "比较词法与向量检索，断言 tenant、版本和文档权威性。",
+        "cards": [
+          "c05-retrieval-vs-answer",
+          "c05-similarity-not-authority"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "LangGraph documentation",
+            "url": "https://langchain-ai.github.io/langgraph/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+          },
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把文档切分、索引、检索、租户隔离和版本权威性放在同一条证据链中。",
+          "content": "能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 6,
+        "title": "Agent 应用开发(六)RAG与引用",
+        "kind": "topic",
+        "depends": [
+          "C05",
+          "A04",
+          "A07"
+        ],
+        "prerequisites": "完成 C05、A04、A07 的相关实验",
+        "duty": "让检索证据真正支撑回答，并在无证据、冲突和低置信时拒答。",
+        "outcome": "交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。",
+        "h2": [
+          [
+            "证据注入",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "回答生成",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "引用校验",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "拒答边界",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "覆盖无答案、冲突文档、过期版本和引用缺失，分离引用存在与事实支持。",
+        "cards": [
+          "c06-citation-not-support",
+          "c06-no-evidence-refuse"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          },
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "让检索证据真正支撑回答，并在无证据、冲突和低置信时拒答。",
+          "content": "交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 7,
+        "title": "Agent 应用开发(七)Memory与会话",
+        "kind": "topic",
+        "depends": [
+          "A06",
+          "C04"
+        ],
+        "prerequisites": "完成 A06、C04 的相关实验",
+        "duty": "区分短期会话、用户画像、集合记忆、来源、范围、过期和删除。",
+        "outcome": "在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。",
+        "h2": [
+          [
+            "记忆层次",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "作用域",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "生命周期",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "删除语义",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用虚拟时钟切换 hot/background，撤销权限并检查残留副本。",
+        "cards": [
+          "c07-memory-scope-expiry"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          },
+          {
+            "title": "Model Context Protocol specification",
+            "url": "https://modelcontextprotocol.io/specification",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "区分短期会话、用户画像、集合记忆、来源、范围、过期和删除。",
+          "content": "在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 8,
+        "title": "Agent 应用开发(八)工作流与人工审批",
+        "kind": "topic",
+        "depends": [
+          "C04",
+          "F03"
+        ],
+        "prerequisites": "完成 C04、F03 的相关实验",
+        "duty": "把提问、审批、编辑、拒绝、取消和过期建模为可恢复的工作流状态。",
+        "outcome": "最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。",
+        "h2": [
+          [
+            "工作流状态",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "人工节点",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "审批绑定",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "过期处理",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "覆盖 ask、approve、edit、reject、cancel 和 expired，验证副作用前门禁。",
+        "cards": [
+          "c08-approval-side-effects",
+          "c08-changed-params-new-approval"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Model Context Protocol specification",
+            "url": "https://modelcontextprotocol.io/specification",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+          },
+          {
+            "title": "LangGraph documentation",
+            "url": "https://langchain-ai.github.io/langgraph/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把提问、审批、编辑、拒绝、取消和过期建模为可恢复的工作流状态。",
+          "content": "最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 9,
+        "title": "Agent 应用开发(九)MCP服务与协议",
+        "kind": "topic",
+        "depends": [
+          "C03",
+          "C08"
+        ],
+        "prerequisites": "完成 C03、C08 的相关实验",
+        "duty": "理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。",
+        "outcome": "完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。",
+        "h2": [
+          [
+            "协议层次",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "能力发现",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果与错误",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "兼容验证",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。",
+        "cards": [
+          "c09-mcp-vs-function-calling",
+          "c09-cancel-direction"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "LangGraph documentation",
+            "url": "https://langchain-ai.github.io/langgraph/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+          },
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。",
+          "content": "完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 10,
+        "title": "Agent 应用开发(十)多Agent协作",
+        "kind": "topic",
+        "depends": [
+          "C04",
+          "C07",
+          "C08"
+        ],
+        "prerequisites": "完成 C04、C07、C08 的相关实验",
+        "duty": "从单 Agent 基线出发，比较分工、投票、动态委派、MCP 和 A2A 的边界。",
+        "outcome": "能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。",
+        "h2": [
+          [
+            "单体基线",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "角色分工",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "通信边界",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "失败传播",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "比较单体、分工、投票和动态委派；用 A2A polling、SSE、长任务 webhook 的具体场景对照。",
+        "cards": [
+          "c10-baseline-first",
+          "c10-a2a-vs-mcp"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          },
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "从单 Agent 基线出发，比较分工、投票、动态委派、MCP 和 A2A 的边界。",
+          "content": "能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 11,
+        "title": "Agent 应用开发(十一)浏览器与计算机操作",
+        "kind": "topic",
+        "depends": [
+          "A09",
+          "C08"
+        ],
+        "prerequisites": "完成 A09、C08 的相关实验",
+        "duty": "用观察、动作、安全边界和再观察构建可回退的浏览器 Agent。",
+        "outcome": "在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。",
+        "h2": [
+          [
+            "页面观察",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "动作选择",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "安全确认",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "结果复查",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用合成 1440×900 页面测试点击、输入、下载和慢响应，不把页面文本当授权。",
+        "cards": [
+          "c11-reobserve-each-round",
+          "c11-page-text-not-auth"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          },
+          {
+            "title": "Model Context Protocol specification",
+            "url": "https://modelcontextprotocol.io/specification",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "用观察、动作、安全边界和再观察构建可回退的浏览器 Agent。",
+          "content": "在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 12,
+        "title": "Agent 应用开发(十二)框架迁移",
+        "kind": "topic",
+        "depends": [
+          "C04",
+          "C06",
+          "C07",
+          "C08"
+        ],
+        "prerequisites": "完成 C04、C06、C07、C08 的相关实验",
+        "duty": "把 Python Agent loop 迁移到一个 LangGraph 核心，并分辨框架能力与业务正确性。",
+        "outcome": "能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。",
+        "h2": [
+          [
+            "迁移边界",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "状态图",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "检查点",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "中断恢复",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "只实现一个 LangGraph 核心，比较 Dify、n8n 等产品与 SDK 的边界。",
+        "cards": [
+          "c12-framework-not-oracle",
+          "c12-dify-n8n-boundary"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "Model Context Protocol specification",
+            "url": "https://modelcontextprotocol.io/specification",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+          },
+          {
+            "title": "LangGraph documentation",
+            "url": "https://langchain-ai.github.io/langgraph/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把 Python Agent loop 迁移到一个 LangGraph 核心，并分辨框架能力与业务正确性。",
+          "content": "能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 13,
+        "title": "Agent 应用开发(十三)服务与HTTP集成",
+        "kind": "topic",
+        "depends": [
+          "C08",
+          "C09",
+          "C12"
+        ],
+        "prerequisites": "完成 C08、C09、C12 的相关实验",
+        "duty": "把 Agent 暴露为身份明确、可查询、可取消的 HTTP 长任务服务。",
+        "outcome": "实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。",
+        "h2": [
+          [
+            "任务接口",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "身份校验",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "状态查询",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "取消语义",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用 Fake HTTP server 验证 202、轮询、取消、幂等和状态转换。",
+        "cards": [
+          "c13-accepted-not-complete",
+          "c13-auth-not-authz"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "LangGraph documentation",
+            "url": "https://langchain-ai.github.io/langgraph/",
+            "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+            "sourceType": "official",
+            "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+          },
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "把 Agent 暴露为身份明确、可查询、可取消的 HTTP 长任务服务。",
+          "content": "实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 14,
+        "title": "Agent 应用开发(十四)进阶路线",
+        "kind": "advanced",
+        "depends": [
+          "C10",
+          "C11",
+          "C12"
+        ],
+        "prerequisites": "完成 C10、C11、C12 的相关实验",
+        "duty": "围绕 MCP Tasks、协议扩展、A2A 和包装层设计一个有边界的高级集成实验。",
+        "outcome": "能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。",
+        "h2": [
+          [
+            "扩展判断",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "协议选择",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "恢复策略",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "参考资料",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "用四行选择表对照 MCP Tasks、extensions、A2A 和 wrapping，记录能力声明与实际支持差异。",
+        "cards": [
+          "c14-extension-is-not-support"
+        ],
+        "difficulty": "进阶",
+        "referenceCards": [
+          {
+            "title": "OpenAI Agents SDK documentation",
+            "url": "https://openai.github.io/openai-agents-python/",
+            "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+            "sourceType": "official",
+            "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+          },
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "围绕 MCP Tasks、协议扩展、A2A 和包装层设计一个有边界的高级集成实验。",
+          "content": "能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      },
+      {
+        "order": 15,
+        "title": "Agent 应用开发(十五)项目实战",
+        "kind": "final",
+        "depends": [
+          "C06",
+          "C07",
+          "C08",
+          "C09",
+          "C13"
+        ],
+        "prerequisites": "完成 C06、C07、C08、C09、C13 的相关实验",
+        "duty": "组合 RAG、Memory、审批、MCP 和 HTTP 状态，交付可审查的工单 Agent。",
+        "outcome": "完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。",
+        "h2": [
+          [
+            "范围设计",
+            [
+              "核心模型",
+              "实验与结果"
+            ]
+          ],
+          [
+            "能力组合",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "验收证据",
+            [
+              "关键判断",
+              "实验与结果"
+            ]
+          ],
+          [
+            "项目复盘",
+            [
+              "关键判断",
+              "验收边界"
+            ]
+          ]
+        ],
+        "visuals": [
+          "关系图、流程图或对照表（按正文任务选择）"
+        ],
+        "experiment": "包含拒答、检索冲突、审批编辑、取消、超时和多租户场景。",
+        "cards": [
+          "c06-citation-not-support",
+          "c08-approval-side-effects"
+        ],
+        "difficulty": "实战",
+        "referenceCards": [
+          {
+            "title": "A2A protocol",
+            "url": "https://a2a-protocol.org/latest/",
+            "icon": "https://a2a-protocol.org/latest/favicon.ico",
+            "sourceType": "official",
+            "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+          },
+          {
+            "title": "Model Context Protocol specification",
+            "url": "https://modelcontextprotocol.io/specification",
+            "icon": "https://modelcontextprotocol.io/favicon.ico",
+            "sourceType": "official",
+            "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+          }
+        ],
+        "openingPlan": {
+          "name": "本节要解决",
+          "task": "组合 RAG、Memory、审批、MCP 和 HTTP 状态，交付可审查的工单 Agent。",
+          "content": "完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。",
+          "carrier": "note primary flat",
+          "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
+          "visible": "问题、成果、前置与不包含范围",
+          "fallback": "纯文本首段保留全部定位信息",
+          "status": "planned"
+        }
+      }
+    ],
+    "article_block_tag_plans": {
+      "Agent 应用开发(一)入门路线": [
+        {
+          "block": "课程目标",
+          "reader_task": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+          "core_content": "课程目标：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "mermaid",
+          "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "前置条件",
+          "reader_task": "完成“前置条件”中的关键理解、操作或判断",
+          "core_content": "前置条件：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "学习路径",
+          "reader_task": "完成“学习路径”中的关键理解、操作或判断",
+          "core_content": "学习路径：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "文章安排",
+          "reader_task": "完成“文章安排”中的关键理解、操作或判断",
+          "core_content": "文章安排：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "开始学习",
+          "reader_task": "完成“开始学习”中的关键理解、操作或判断",
+          "core_content": "开始学习：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "list",
+          "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(二)Agent任务建模": [
+        {
+          "block": "任务边界",
+          "reader_task": "用状态、动作、权限和终止条件判断何时需要 Agent，何时固定工作流更可靠。",
+          "core_content": "任务边界：能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单任务分别写固定流程和 Agent 方案，比较可变性与可验证性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "状态建模",
+          "reader_task": "完成“状态建模”中的关键理解、操作或判断",
+          "core_content": "状态建模：能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。",
+          "carrier": "table",
+          "rationale": "该块只承担“状态建模”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单任务分别写固定流程和 Agent 方案，比较可变性与可验证性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "动作空间",
+          "reader_task": "完成“动作空间”中的关键理解、操作或判断",
+          "core_content": "动作空间：能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。",
+          "carrier": "list",
+          "rationale": "该块只承担“动作空间”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单任务分别写固定流程和 Agent 方案，比较可变性与可验证性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "终止判断",
+          "reader_task": "完成“终止判断”中的关键理解、操作或判断",
+          "core_content": "终止判断：能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“终止判断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；为合成工单任务分别写固定流程和 Agent 方案，比较可变性与可验证性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(三)工具契约与执行": [
+        {
+          "block": "工具描述",
+          "reader_task": "把工具描述、参数、权限、执行者和结果分开建模。",
+          "core_content": "工具描述：能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模型只提议调用，应用层执行 Fake tools，覆盖 schema、权限、超时和错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参数校验",
+          "reader_task": "完成“参数校验”中的关键理解、操作或判断",
+          "core_content": "参数校验：能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“参数校验”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模型只提议调用，应用层执行 Fake tools，覆盖 schema、权限、超时和错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "执行边界",
+          "reader_task": "完成“执行边界”中的关键理解、操作或判断",
+          "core_content": "执行边界：能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。",
+          "carrier": "table",
+          "rationale": "该块只承担“执行边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模型只提议调用，应用层执行 Fake tools，覆盖 schema、权限、超时和错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果回传",
+          "reader_task": "完成“结果回传”中的关键理解、操作或判断",
+          "core_content": "结果回传：能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“结果回传”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模型只提议调用，应用层执行 Fake tools，覆盖 schema、权限、超时和错误。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(四)Agent循环": [
+        {
+          "block": "循环状态",
+          "reader_task": "实现受预算、步骤、错误和取消约束的最小 Agent loop。",
+          "core_content": "循环状态：能观察每一步状态，判断继续、重试、拒答、终止和取消。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake model/tool 注入成功、工具失败、预算耗尽、循环上限和用户取消。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "停止条件",
+          "reader_task": "完成“停止条件”中的关键理解、操作或判断",
+          "core_content": "停止条件：能观察每一步状态，判断继续、重试、拒答、终止和取消。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“停止条件”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake model/tool 注入成功、工具失败、预算耗尽、循环上限和用户取消。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "错误终止",
+          "reader_task": "完成“错误终止”中的关键理解、操作或判断",
+          "core_content": "错误终止：能观察每一步状态，判断继续、重试、拒答、终止和取消。",
+          "carrier": "list",
+          "rationale": "该块只承担“错误终止”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake model/tool 注入成功、工具失败、预算耗尽、循环上限和用户取消。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "取消传播",
+          "reader_task": "完成“取消传播”中的关键理解、操作或判断",
+          "core_content": "取消传播：能观察每一步状态，判断继续、重试、拒答、终止和取消。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“取消传播”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake model/tool 注入成功、工具失败、预算耗尽、循环上限和用户取消。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(五)知识索引与检索": [
+        {
+          "block": "文档准备",
+          "reader_task": "把文档切分、索引、检索、租户隔离和版本权威性放在同一条证据链中。",
+          "core_content": "文档准备：能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较词法与向量检索，断言 tenant、版本和文档权威性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "索引方式",
+          "reader_task": "完成“索引方式”中的关键理解、操作或判断",
+          "core_content": "索引方式：能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“索引方式”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较词法与向量检索，断言 tenant、版本和文档权威性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "召回判断",
+          "reader_task": "完成“召回判断”中的关键理解、操作或判断",
+          "core_content": "召回判断：能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。",
+          "carrier": "list",
+          "rationale": "该块只承担“召回判断”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较词法与向量检索，断言 tenant、版本和文档权威性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "租户隔离",
+          "reader_task": "完成“租户隔离”中的关键理解、操作或判断",
+          "core_content": "租户隔离：能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“租户隔离”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较词法与向量检索，断言 tenant、版本和文档权威性。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(六)RAG与引用": [
+        {
+          "block": "证据注入",
+          "reader_task": "让检索证据真正支撑回答，并在无证据、冲突和低置信时拒答。",
+          "core_content": "证据注入：交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖无答案、冲突文档、过期版本和引用缺失，分离引用存在与事实支持。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "回答生成",
+          "reader_task": "完成“回答生成”中的关键理解、操作或判断",
+          "core_content": "回答生成：交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“回答生成”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖无答案、冲突文档、过期版本和引用缺失，分离引用存在与事实支持。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "引用校验",
+          "reader_task": "完成“引用校验”中的关键理解、操作或判断",
+          "core_content": "引用校验：交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。",
+          "carrier": "list",
+          "rationale": "该块只承担“引用校验”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖无答案、冲突文档、过期版本和引用缺失，分离引用存在与事实支持。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "拒答边界",
+          "reader_task": "完成“拒答边界”中的关键理解、操作或判断",
+          "core_content": "拒答边界：交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。",
+          "carrier": "table",
+          "rationale": "该块只承担“拒答边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖无答案、冲突文档、过期版本和引用缺失，分离引用存在与事实支持。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(七)Memory与会话": [
+        {
+          "block": "记忆层次",
+          "reader_task": "区分短期会话、用户画像、集合记忆、来源、范围、过期和删除。",
+          "core_content": "记忆层次：在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用虚拟时钟切换 hot/background，撤销权限并检查残留副本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "作用域",
+          "reader_task": "完成“作用域”中的关键理解、操作或判断",
+          "core_content": "作用域：在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“作用域”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用虚拟时钟切换 hot/background，撤销权限并检查残留副本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "生命周期",
+          "reader_task": "完成“生命周期”中的关键理解、操作或判断",
+          "core_content": "生命周期：在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。",
+          "carrier": "list",
+          "rationale": "该块只承担“生命周期”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用虚拟时钟切换 hot/background，撤销权限并检查残留副本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "删除语义",
+          "reader_task": "完成“删除语义”中的关键理解、操作或判断",
+          "core_content": "删除语义：在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“删除语义”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用虚拟时钟切换 hot/background，撤销权限并检查残留副本。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(八)工作流与人工审批": [
+        {
+          "block": "工作流状态",
+          "reader_task": "把提问、审批、编辑、拒绝、取消和过期建模为可恢复的工作流状态。",
+          "core_content": "工作流状态：最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖 ask、approve、edit、reject、cancel 和 expired，验证副作用前门禁。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "人工节点",
+          "reader_task": "完成“人工节点”中的关键理解、操作或判断",
+          "core_content": "人工节点：最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“人工节点”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖 ask、approve、edit、reject、cancel 和 expired，验证副作用前门禁。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "审批绑定",
+          "reader_task": "完成“审批绑定”中的关键理解、操作或判断",
+          "core_content": "审批绑定：最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。",
+          "carrier": "code",
+          "rationale": "该块只承担“审批绑定”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖 ask、approve、edit、reject、cancel 和 expired，验证副作用前门禁。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "过期处理",
+          "reader_task": "完成“过期处理”中的关键理解、操作或判断",
+          "core_content": "过期处理：最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“过期处理”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；覆盖 ask、approve、edit、reject、cancel 和 expired，验证副作用前门禁。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(九)MCP服务与协议": [
+        {
+          "block": "协议层次",
+          "reader_task": "理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。",
+          "core_content": "协议层次：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "能力发现",
+          "reader_task": "完成“能力发现”中的关键理解、操作或判断",
+          "core_content": "能力发现：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“能力发现”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果与错误",
+          "reader_task": "完成“结果与错误”中的关键理解、操作或判断",
+          "core_content": "结果与错误：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。",
+          "carrier": "list",
+          "rationale": "该块只承担“结果与错误”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "兼容验证",
+          "reader_task": "完成“兼容验证”中的关键理解、操作或判断",
+          "core_content": "兼容验证：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“兼容验证”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(十)多Agent协作": [
+        {
+          "block": "单体基线",
+          "reader_task": "从单 Agent 基线出发，比较分工、投票、动态委派、MCP 和 A2A 的边界。",
+          "core_content": "单体基线：能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较单体、分工、投票和动态委派；用 A2A polling、SSE、长任务 webhook 的具体场景对照。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "角色分工",
+          "reader_task": "完成“角色分工”中的关键理解、操作或判断",
+          "core_content": "角色分工：能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“角色分工”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较单体、分工、投票和动态委派；用 A2A polling、SSE、长任务 webhook 的具体场景对照。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "通信边界",
+          "reader_task": "完成“通信边界”中的关键理解、操作或判断",
+          "core_content": "通信边界：能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。",
+          "carrier": "table",
+          "rationale": "该块只承担“通信边界”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较单体、分工、投票和动态委派；用 A2A polling、SSE、长任务 webhook 的具体场景对照。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "失败传播",
+          "reader_task": "完成“失败传播”中的关键理解、操作或判断",
+          "core_content": "失败传播：能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“失败传播”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；比较单体、分工、投票和动态委派；用 A2A polling、SSE、长任务 webhook 的具体场景对照。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(十一)浏览器与计算机操作": [
+        {
+          "block": "页面观察",
+          "reader_task": "用观察、动作、安全边界和再观察构建可回退的浏览器 Agent。",
+          "core_content": "页面观察：在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成 1440×900 页面测试点击、输入、下载和慢响应，不把页面文本当授权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "动作选择",
+          "reader_task": "完成“动作选择”中的关键理解、操作或判断",
+          "core_content": "动作选择：在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“动作选择”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成 1440×900 页面测试点击、输入、下载和慢响应，不把页面文本当授权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "安全确认",
+          "reader_task": "完成“安全确认”中的关键理解、操作或判断",
+          "core_content": "安全确认：在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。",
+          "carrier": "list",
+          "rationale": "该块只承担“安全确认”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成 1440×900 页面测试点击、输入、下载和慢响应，不把页面文本当授权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "结果复查",
+          "reader_task": "完成“结果复查”中的关键理解、操作或判断",
+          "core_content": "结果复查：在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“结果复查”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成 1440×900 页面测试点击、输入、下载和慢响应，不把页面文本当授权。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(十二)框架迁移": [
+        {
+          "block": "迁移边界",
+          "reader_task": "把 Python Agent loop 迁移到一个 LangGraph 核心，并分辨框架能力与业务正确性。",
+          "core_content": "迁移边界：能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只实现一个 LangGraph 核心，比较 Dify、n8n 等产品与 SDK 的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "状态图",
+          "reader_task": "完成“状态图”中的关键理解、操作或判断",
+          "core_content": "状态图：能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。",
+          "carrier": "table",
+          "rationale": "该块只承担“状态图”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只实现一个 LangGraph 核心，比较 Dify、n8n 等产品与 SDK 的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "检查点",
+          "reader_task": "完成“检查点”中的关键理解、操作或判断",
+          "core_content": "检查点：能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。",
+          "carrier": "list",
+          "rationale": "该块只承担“检查点”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只实现一个 LangGraph 核心，比较 Dify、n8n 等产品与 SDK 的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "中断恢复",
+          "reader_task": "完成“中断恢复”中的关键理解、操作或判断",
+          "core_content": "中断恢复：能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“中断恢复”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只实现一个 LangGraph 核心，比较 Dify、n8n 等产品与 SDK 的边界。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(十三)服务与HTTP集成": [
+        {
+          "block": "任务接口",
+          "reader_task": "把 Agent 暴露为身份明确、可查询、可取消的 HTTP 长任务服务。",
+          "core_content": "任务接口：实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP server 验证 202、轮询、取消、幂等和状态转换。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "身份校验",
+          "reader_task": "完成“身份校验”中的关键理解、操作或判断",
+          "core_content": "身份校验：实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“身份校验”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP server 验证 202、轮询、取消、幂等和状态转换。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "状态查询",
+          "reader_task": "完成“状态查询”中的关键理解、操作或判断",
+          "core_content": "状态查询：实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。",
+          "carrier": "table",
+          "rationale": "该块只承担“状态查询”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP server 验证 202、轮询、取消、幂等和状态转换。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "取消语义",
+          "reader_task": "完成“取消语义”中的关键理解、操作或判断",
+          "core_content": "取消语义：实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“取消语义”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP server 验证 202、轮询、取消、幂等和状态转换。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(十四)进阶路线": [
+        {
+          "block": "扩展判断",
+          "reader_task": "围绕 MCP Tasks、协议扩展、A2A 和包装层设计一个有边界的高级集成实验。",
+          "core_content": "扩展判断：能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用四行选择表对照 MCP Tasks、extensions、A2A 和 wrapping，记录能力声明与实际支持差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "协议选择",
+          "reader_task": "完成“协议选择”中的关键理解、操作或判断",
+          "core_content": "协议选择：能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“协议选择”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用四行选择表对照 MCP Tasks、extensions、A2A 和 wrapping，记录能力声明与实际支持差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "恢复策略",
+          "reader_task": "完成“恢复策略”中的关键理解、操作或判断",
+          "core_content": "恢复策略：能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。",
+          "carrier": "code",
+          "rationale": "该块只承担“恢复策略”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用四行选择表对照 MCP Tasks、extensions、A2A 和 wrapping，记录能力声明与实际支持差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "参考资料",
+          "reader_task": "完成“参考资料”中的关键理解、操作或判断",
+          "core_content": "参考资料：能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用四行选择表对照 MCP Tasks、extensions、A2A 和 wrapping，记录能力声明与实际支持差异。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ],
+      "Agent 应用开发(十五)项目实战": [
+        {
+          "block": "范围设计",
+          "reader_task": "组合 RAG、Memory、审批、MCP 和 HTTP 状态，交付可审查的工单 Agent。",
+          "core_content": "范围设计：完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。",
+          "carrier": "mermaid",
+          "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；包含拒答、检索冲突、审批编辑、取消、超时和多租户场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "能力组合",
+          "reader_task": "完成“能力组合”中的关键理解、操作或判断",
+          "core_content": "能力组合：完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。",
+          "carrier": "note primary flat",
+          "rationale": "该块只承担“能力组合”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；包含拒答、检索冲突、审批编辑、取消、超时和多租户场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "验收证据",
+          "reader_task": "完成“验收证据”中的关键理解、操作或判断",
+          "core_content": "验收证据：完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。",
+          "carrier": "list",
+          "rationale": "该块只承担“验收证据”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；包含拒答、检索冲突、审批编辑、取消、超时和多租户场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        },
+        {
+          "block": "项目复盘",
+          "reader_task": "完成“项目复盘”中的关键理解、操作或判断",
+          "core_content": "项目复盘：完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。",
+          "carrier": "flashcard",
+          "rationale": "该块只承担“项目复盘”这一任务，避免把概念、操作和验收混成一段。",
+          "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；包含拒答、检索冲突、审批编辑、取消、超时和多租户场景。",
+          "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
+          "validation_status": "planned"
+        }
+      ]
+    },
+    "reference_cards": [
+      {
+        "title": "Model Context Protocol specification",
+        "url": "https://modelcontextprotocol.io/specification",
+        "icon": "https://modelcontextprotocol.io/favicon.ico",
+        "sourceType": "official",
+        "fallback": "Model Context Protocol specification: https://modelcontextprotocol.io/specification"
+      },
+      {
+        "title": "LangGraph documentation",
+        "url": "https://langchain-ai.github.io/langgraph/",
+        "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+        "sourceType": "official",
+        "fallback": "LangGraph documentation: https://langchain-ai.github.io/langgraph/"
+      },
+      {
+        "title": "OpenAI Agents SDK documentation",
+        "url": "https://openai.github.io/openai-agents-python/",
+        "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+        "sourceType": "official",
+        "fallback": "OpenAI Agents SDK documentation: https://openai.github.io/openai-agents-python/"
+      },
+      {
+        "title": "A2A protocol",
+        "url": "https://a2a-protocol.org/latest/",
+        "icon": "https://a2a-protocol.org/latest/favicon.ico",
+        "sourceType": "official",
+        "fallback": "A2A protocol: https://a2a-protocol.org/latest/"
+      }
+    ],
+    "research_scope": {
+      "researched_at": "2026-08-29",
+      "source_count": 4,
+      "bounded": true,
+      "note": "仅列可复核官方入口；快速变化内容在逐篇写作前刷新。"
+    }
+  },
+  "capability_ledger": {
+    "schema_version": "1.0",
+    "source_manifest": {
+      "topic_type": "Agent 应用开发：面向测试开发工程师的应用与质量工程课程",
+      "researched_at": "2026-08-29",
+      "boundary": "有限官方入口与稳定工程能力；快速变化的 SDK、模型和协议在逐篇写作前刷新。",
+      "reproduction": "按 sources、stable_id、version_status 和 article target 逐项复核；不宣称穷尽互联网。",
+      "entries": [
+        {
+          "title": "Model Context Protocol specification",
+          "url": "https://modelcontextprotocol.io/specification",
+          "icon": "https://modelcontextprotocol.io/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "LangGraph documentation",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "icon": "https://langchain-ai.github.io/langgraph/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "OpenAI Agents SDK documentation",
+          "url": "https://openai.github.io/openai-agents-python/",
+          "icon": "https://openai.github.io/openai-agents-python/favicon.ico",
+          "sourceType": "official"
+        },
+        {
+          "title": "A2A protocol",
+          "url": "https://a2a-protocol.org/latest/",
+          "icon": "https://a2a-protocol.org/latest/favicon.ico",
+          "sourceType": "official"
+        }
+      ]
+    },
+    "capabilities": {
+      "c01-01-课程目标": {
+        "title": "Agent 应用开发(一)入门路线 / 课程目标",
+        "subject": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c01-01-课程目标"
+      },
+      "c01-02-前置条件": {
+        "title": "Agent 应用开发(一)入门路线 / 前置条件",
+        "subject": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c01-02-前置条件"
+      },
+      "c01-03-学习路径": {
+        "title": "Agent 应用开发(一)入门路线 / 学习路径",
+        "subject": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c01-03-学习路径"
+      },
+      "c01-04-文章安排": {
+        "title": "Agent 应用开发(一)入门路线 / 文章安排",
+        "subject": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c01-04-文章安排"
+      },
+      "c01-05-开始学习": {
+        "title": "Agent 应用开发(一)入门路线 / 开始学习",
+        "subject": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c01-05-开始学习"
+      },
+      "c01-06-参考资料": {
+        "title": "Agent 应用开发(一)入门路线 / 参考资料",
+        "subject": "说明Agent 应用开发的范围、前置、阅读顺序与毕业成果。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c01-06-参考资料"
+      },
+      "c02-01-任务边界": {
+        "title": "Agent 应用开发(二)Agent任务建模 / 任务边界",
+        "subject": "用状态、动作、权限和终止条件判断何时需要 Agent，何时固定工作流更可靠。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c02-01-任务边界"
+      },
+      "c02-02-状态建模": {
+        "title": "Agent 应用开发(二)Agent任务建模 / 状态建模",
+        "subject": "用状态、动作、权限和终止条件判断何时需要 Agent，何时固定工作流更可靠。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c02-02-状态建模"
+      },
+      "c02-03-动作空间": {
+        "title": "Agent 应用开发(二)Agent任务建模 / 动作空间",
+        "subject": "用状态、动作、权限和终止条件判断何时需要 Agent，何时固定工作流更可靠。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c02-03-动作空间"
+      },
+      "c02-04-终止判断": {
+        "title": "Agent 应用开发(二)Agent任务建模 / 终止判断",
+        "subject": "用状态、动作、权限和终止条件判断何时需要 Agent，何时固定工作流更可靠。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c02-04-终止判断"
+      },
+      "c03-01-工具描述": {
+        "title": "Agent 应用开发(三)工具契约与执行 / 工具描述",
+        "subject": "把工具描述、参数、权限、执行者和结果分开建模。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c03-01-工具描述"
+      },
+      "c03-02-参数校验": {
+        "title": "Agent 应用开发(三)工具契约与执行 / 参数校验",
+        "subject": "把工具描述、参数、权限、执行者和结果分开建模。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c03-02-参数校验"
+      },
+      "c03-03-执行边界": {
+        "title": "Agent 应用开发(三)工具契约与执行 / 执行边界",
+        "subject": "把工具描述、参数、权限、执行者和结果分开建模。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c03-03-执行边界"
+      },
+      "c03-04-结果回传": {
+        "title": "Agent 应用开发(三)工具契约与执行 / 结果回传",
+        "subject": "把工具描述、参数、权限、执行者和结果分开建模。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c03-04-结果回传"
+      },
+      "c04-01-循环状态": {
+        "title": "Agent 应用开发(四)Agent循环 / 循环状态",
+        "subject": "实现受预算、步骤、错误和取消约束的最小 Agent loop。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c04-01-循环状态"
+      },
+      "c04-02-停止条件": {
+        "title": "Agent 应用开发(四)Agent循环 / 停止条件",
+        "subject": "实现受预算、步骤、错误和取消约束的最小 Agent loop。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c04-02-停止条件"
+      },
+      "c04-03-错误终止": {
+        "title": "Agent 应用开发(四)Agent循环 / 错误终止",
+        "subject": "实现受预算、步骤、错误和取消约束的最小 Agent loop。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c04-03-错误终止"
+      },
+      "c04-04-取消传播": {
+        "title": "Agent 应用开发(四)Agent循环 / 取消传播",
+        "subject": "实现受预算、步骤、错误和取消约束的最小 Agent loop。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c04-04-取消传播"
+      },
+      "c05-01-文档准备": {
+        "title": "Agent 应用开发(五)知识索引与检索 / 文档准备",
+        "subject": "把文档切分、索引、检索、租户隔离和版本权威性放在同一条证据链中。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c05-01-文档准备"
+      },
+      "c05-02-索引方式": {
+        "title": "Agent 应用开发(五)知识索引与检索 / 索引方式",
+        "subject": "把文档切分、索引、检索、租户隔离和版本权威性放在同一条证据链中。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c05-02-索引方式"
+      },
+      "c05-03-召回判断": {
+        "title": "Agent 应用开发(五)知识索引与检索 / 召回判断",
+        "subject": "把文档切分、索引、检索、租户隔离和版本权威性放在同一条证据链中。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c05-03-召回判断"
+      },
+      "c05-04-租户隔离": {
+        "title": "Agent 应用开发(五)知识索引与检索 / 租户隔离",
+        "subject": "把文档切分、索引、检索、租户隔离和版本权威性放在同一条证据链中。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c05-04-租户隔离"
+      },
+      "c06-01-证据注入": {
+        "title": "Agent 应用开发(六)RAG与引用 / 证据注入",
+        "subject": "让检索证据真正支撑回答，并在无证据、冲突和低置信时拒答。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c06-01-证据注入"
+      },
+      "c06-02-回答生成": {
+        "title": "Agent 应用开发(六)RAG与引用 / 回答生成",
+        "subject": "让检索证据真正支撑回答，并在无证据、冲突和低置信时拒答。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c06-02-回答生成"
+      },
+      "c06-03-引用校验": {
+        "title": "Agent 应用开发(六)RAG与引用 / 引用校验",
+        "subject": "让检索证据真正支撑回答，并在无证据、冲突和低置信时拒答。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c06-03-引用校验"
+      },
+      "c06-04-拒答边界": {
+        "title": "Agent 应用开发(六)RAG与引用 / 拒答边界",
+        "subject": "让检索证据真正支撑回答，并在无证据、冲突和低置信时拒答。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c06-04-拒答边界"
+      },
+      "c07-01-记忆层次": {
+        "title": "Agent 应用开发(七)Memory与会话 / 记忆层次",
+        "subject": "区分短期会话、用户画像、集合记忆、来源、范围、过期和删除。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c07-01-记忆层次"
+      },
+      "c07-02-作用域": {
+        "title": "Agent 应用开发(七)Memory与会话 / 作用域",
+        "subject": "区分短期会话、用户画像、集合记忆、来源、范围、过期和删除。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c07-02-作用域"
+      },
+      "c07-03-生命周期": {
+        "title": "Agent 应用开发(七)Memory与会话 / 生命周期",
+        "subject": "区分短期会话、用户画像、集合记忆、来源、范围、过期和删除。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c07-03-生命周期"
+      },
+      "c07-04-删除语义": {
+        "title": "Agent 应用开发(七)Memory与会话 / 删除语义",
+        "subject": "区分短期会话、用户画像、集合记忆、来源、范围、过期和删除。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c07-04-删除语义"
+      },
+      "c08-01-工作流状态": {
+        "title": "Agent 应用开发(八)工作流与人工审批 / 工作流状态",
+        "subject": "把提问、审批、编辑、拒绝、取消和过期建模为可恢复的工作流状态。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c08-01-工作流状态"
+      },
+      "c08-02-人工节点": {
+        "title": "Agent 应用开发(八)工作流与人工审批 / 人工节点",
+        "subject": "把提问、审批、编辑、拒绝、取消和过期建模为可恢复的工作流状态。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c08-02-人工节点"
+      },
+      "c08-03-审批绑定": {
+        "title": "Agent 应用开发(八)工作流与人工审批 / 审批绑定",
+        "subject": "把提问、审批、编辑、拒绝、取消和过期建模为可恢复的工作流状态。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c08-03-审批绑定"
+      },
+      "c08-04-过期处理": {
+        "title": "Agent 应用开发(八)工作流与人工审批 / 过期处理",
+        "subject": "把提问、审批、编辑、拒绝、取消和过期建模为可恢复的工作流状态。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c08-04-过期处理"
+      },
+      "c09-01-协议层次": {
+        "title": "Agent 应用开发(九)MCP服务与协议 / 协议层次",
+        "subject": "理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c09-01-协议层次"
+      },
+      "c09-02-能力发现": {
+        "title": "Agent 应用开发(九)MCP服务与协议 / 能力发现",
+        "subject": "理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c09-02-能力发现"
+      },
+      "c09-03-结果与错误": {
+        "title": "Agent 应用开发(九)MCP服务与协议 / 结果与错误",
+        "subject": "理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c09-03-结果与错误"
+      },
+      "c09-04-兼容验证": {
+        "title": "Agent 应用开发(九)MCP服务与协议 / 兼容验证",
+        "subject": "理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c09-04-兼容验证"
+      },
+      "c10-01-单体基线": {
+        "title": "Agent 应用开发(十)多Agent协作 / 单体基线",
+        "subject": "从单 Agent 基线出发，比较分工、投票、动态委派、MCP 和 A2A 的边界。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c10-01-单体基线"
+      },
+      "c10-02-角色分工": {
+        "title": "Agent 应用开发(十)多Agent协作 / 角色分工",
+        "subject": "从单 Agent 基线出发，比较分工、投票、动态委派、MCP 和 A2A 的边界。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c10-02-角色分工"
+      },
+      "c10-03-通信边界": {
+        "title": "Agent 应用开发(十)多Agent协作 / 通信边界",
+        "subject": "从单 Agent 基线出发，比较分工、投票、动态委派、MCP 和 A2A 的边界。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c10-03-通信边界"
+      },
+      "c10-04-失败传播": {
+        "title": "Agent 应用开发(十)多Agent协作 / 失败传播",
+        "subject": "从单 Agent 基线出发，比较分工、投票、动态委派、MCP 和 A2A 的边界。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c10-04-失败传播"
+      },
+      "c11-01-页面观察": {
+        "title": "Agent 应用开发(十一)浏览器与计算机操作 / 页面观察",
+        "subject": "用观察、动作、安全边界和再观察构建可回退的浏览器 Agent。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c11-01-页面观察"
+      },
+      "c11-02-动作选择": {
+        "title": "Agent 应用开发(十一)浏览器与计算机操作 / 动作选择",
+        "subject": "用观察、动作、安全边界和再观察构建可回退的浏览器 Agent。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c11-02-动作选择"
+      },
+      "c11-03-安全确认": {
+        "title": "Agent 应用开发(十一)浏览器与计算机操作 / 安全确认",
+        "subject": "用观察、动作、安全边界和再观察构建可回退的浏览器 Agent。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c11-03-安全确认"
+      },
+      "c11-04-结果复查": {
+        "title": "Agent 应用开发(十一)浏览器与计算机操作 / 结果复查",
+        "subject": "用观察、动作、安全边界和再观察构建可回退的浏览器 Agent。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c11-04-结果复查"
+      },
+      "c12-01-迁移边界": {
+        "title": "Agent 应用开发(十二)框架迁移 / 迁移边界",
+        "subject": "把 Python Agent loop 迁移到一个 LangGraph 核心，并分辨框架能力与业务正确性。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c12-01-迁移边界"
+      },
+      "c12-02-状态图": {
+        "title": "Agent 应用开发(十二)框架迁移 / 状态图",
+        "subject": "把 Python Agent loop 迁移到一个 LangGraph 核心，并分辨框架能力与业务正确性。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c12-02-状态图"
+      },
+      "c12-03-检查点": {
+        "title": "Agent 应用开发(十二)框架迁移 / 检查点",
+        "subject": "把 Python Agent loop 迁移到一个 LangGraph 核心，并分辨框架能力与业务正确性。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c12-03-检查点"
+      },
+      "c12-04-中断恢复": {
+        "title": "Agent 应用开发(十二)框架迁移 / 中断恢复",
+        "subject": "把 Python Agent loop 迁移到一个 LangGraph 核心，并分辨框架能力与业务正确性。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c12-04-中断恢复"
+      },
+      "c13-01-任务接口": {
+        "title": "Agent 应用开发(十三)服务与HTTP集成 / 任务接口",
+        "subject": "把 Agent 暴露为身份明确、可查询、可取消的 HTTP 长任务服务。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c13-01-任务接口"
+      },
+      "c13-02-身份校验": {
+        "title": "Agent 应用开发(十三)服务与HTTP集成 / 身份校验",
+        "subject": "把 Agent 暴露为身份明确、可查询、可取消的 HTTP 长任务服务。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c13-02-身份校验"
+      },
+      "c13-03-状态查询": {
+        "title": "Agent 应用开发(十三)服务与HTTP集成 / 状态查询",
+        "subject": "把 Agent 暴露为身份明确、可查询、可取消的 HTTP 长任务服务。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c13-03-状态查询"
+      },
+      "c13-04-取消语义": {
+        "title": "Agent 应用开发(十三)服务与HTTP集成 / 取消语义",
+        "subject": "把 Agent 暴露为身份明确、可查询、可取消的 HTTP 长任务服务。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c13-04-取消语义"
+      },
+      "c14-01-扩展判断": {
+        "title": "Agent 应用开发(十四)进阶路线 / 扩展判断",
+        "subject": "围绕 MCP Tasks、协议扩展、A2A 和包装层设计一个有边界的高级集成实验。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c14-01-扩展判断"
+      },
+      "c14-02-协议选择": {
+        "title": "Agent 应用开发(十四)进阶路线 / 协议选择",
+        "subject": "围绕 MCP Tasks、协议扩展、A2A 和包装层设计一个有边界的高级集成实验。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c14-02-协议选择"
+      },
+      "c14-03-恢复策略": {
+        "title": "Agent 应用开发(十四)进阶路线 / 恢复策略",
+        "subject": "围绕 MCP Tasks、协议扩展、A2A 和包装层设计一个有边界的高级集成实验。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c14-03-恢复策略"
+      },
+      "c14-04-参考资料": {
+        "title": "Agent 应用开发(十四)进阶路线 / 参考资料",
+        "subject": "围绕 MCP Tasks、协议扩展、A2A 和包装层设计一个有边界的高级集成实验。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c14-04-参考资料"
+      },
+      "c15-01-范围设计": {
+        "title": "Agent 应用开发(十五)项目实战 / 范围设计",
+        "subject": "组合 RAG、Memory、审批、MCP 和 HTTP 状态，交付可审查的工单 Agent。",
+        "source": "https://modelcontextprotocol.io/specification",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c15-01-范围设计"
+      },
+      "c15-02-能力组合": {
+        "title": "Agent 应用开发(十五)项目实战 / 能力组合",
+        "subject": "组合 RAG、Memory、审批、MCP 和 HTTP 状态，交付可审查的工单 Agent。",
+        "source": "https://langchain-ai.github.io/langgraph/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c15-02-能力组合"
+      },
+      "c15-03-验收证据": {
+        "title": "Agent 应用开发(十五)项目实战 / 验收证据",
+        "subject": "组合 RAG、Memory、审批、MCP 和 HTTP 状态，交付可审查的工单 Agent。",
+        "source": "https://openai.github.io/openai-agents-python/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c15-03-验收证据"
+      },
+      "c15-04-项目复盘": {
+        "title": "Agent 应用开发(十五)项目实战 / 项目复盘",
+        "subject": "组合 RAG、Memory、审批、MCP 和 HTTP 状态，交付可审查的工单 Agent。",
+        "source": "https://a2a-protocol.org/latest/",
+        "version_status": "bounded-official-entry",
+        "stable_id": "c15-04-项目复盘"
+      }
+    },
+    "ledger": {
+      "fields": [
+        "disposition",
+        "target",
+        "reason",
+        "validation"
+      ],
+      "items": {
+        "c01-01-课程目标": [
+          "core",
+          "Agent 应用开发(一)入门路线 / 课程目标",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c01-02-前置条件": [
+          "core",
+          "Agent 应用开发(一)入门路线 / 前置条件",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c01-03-学习路径": [
+          "core",
+          "Agent 应用开发(一)入门路线 / 学习路径",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c01-04-文章安排": [
+          "core",
+          "Agent 应用开发(一)入门路线 / 文章安排",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c01-05-开始学习": [
+          "core",
+          "Agent 应用开发(一)入门路线 / 开始学习",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c01-06-参考资料": [
+          "core",
+          "Agent 应用开发(一)入门路线 / 参考资料",
+          "该条目直接服务于“能判断课程是否适合自己，并从共同夹具进入第一篇主题文章。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c02-01-任务边界": [
+          "core",
+          "Agent 应用开发(二)Agent任务建模 / 任务边界",
+          "该条目直接服务于“能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c02-02-状态建模": [
+          "core",
+          "Agent 应用开发(二)Agent任务建模 / 状态建模",
+          "该条目直接服务于“能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c02-03-动作空间": [
+          "core",
+          "Agent 应用开发(二)Agent任务建模 / 动作空间",
+          "该条目直接服务于“能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c02-04-终止判断": [
+          "core",
+          "Agent 应用开发(二)Agent任务建模 / 终止判断",
+          "该条目直接服务于“能把一个业务任务写成状态模型并解释 Agent 与 workflow 的取舍。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c03-01-工具描述": [
+          "core",
+          "Agent 应用开发(三)工具契约与执行 / 工具描述",
+          "该条目直接服务于“能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c03-02-参数校验": [
+          "core",
+          "Agent 应用开发(三)工具契约与执行 / 参数校验",
+          "该条目直接服务于“能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c03-03-执行边界": [
+          "core",
+          "Agent 应用开发(三)工具契约与执行 / 执行边界",
+          "该条目直接服务于“能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c03-04-结果回传": [
+          "core",
+          "Agent 应用开发(三)工具契约与执行 / 结果回传",
+          "该条目直接服务于“能用 26 组形状与控制夹具验证模型提议、应用执行和只读边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c04-01-循环状态": [
+          "core",
+          "Agent 应用开发(四)Agent循环 / 循环状态",
+          "该条目直接服务于“能观察每一步状态，判断继续、重试、拒答、终止和取消。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c04-02-停止条件": [
+          "core",
+          "Agent 应用开发(四)Agent循环 / 停止条件",
+          "该条目直接服务于“能观察每一步状态，判断继续、重试、拒答、终止和取消。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c04-03-错误终止": [
+          "core",
+          "Agent 应用开发(四)Agent循环 / 错误终止",
+          "该条目直接服务于“能观察每一步状态，判断继续、重试、拒答、终止和取消。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c04-04-取消传播": [
+          "core",
+          "Agent 应用开发(四)Agent循环 / 取消传播",
+          "该条目直接服务于“能观察每一步状态，判断继续、重试、拒答、终止和取消。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c05-01-文档准备": [
+          "core",
+          "Agent 应用开发(五)知识索引与检索 / 文档准备",
+          "该条目直接服务于“能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c05-02-索引方式": [
+          "core",
+          "Agent 应用开发(五)知识索引与检索 / 索引方式",
+          "该条目直接服务于“能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c05-03-召回判断": [
+          "core",
+          "Agent 应用开发(五)知识索引与检索 / 召回判断",
+          "该条目直接服务于“能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c05-04-租户隔离": [
+          "core",
+          "Agent 应用开发(五)知识索引与检索 / 租户隔离",
+          "该条目直接服务于“能对 8 篇文档、2 个租户和 6 个问题验证召回与访问边界。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c06-01-证据注入": [
+          "core",
+          "Agent 应用开发(六)RAG与引用 / 证据注入",
+          "该条目直接服务于“交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c06-02-回答生成": [
+          "core",
+          "Agent 应用开发(六)RAG与引用 / 回答生成",
+          "该条目直接服务于“交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c06-03-引用校验": [
+          "core",
+          "Agent 应用开发(六)RAG与引用 / 引用校验",
+          "该条目直接服务于“交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c06-04-拒答边界": [
+          "core",
+          "Agent 应用开发(六)RAG与引用 / 拒答边界",
+          "该条目直接服务于“交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答原因。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c07-01-记忆层次": [
+          "core",
+          "Agent 应用开发(七)Memory与会话 / 记忆层次",
+          "该条目直接服务于“在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c07-02-作用域": [
+          "core",
+          "Agent 应用开发(七)Memory与会话 / 作用域",
+          "该条目直接服务于“在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c07-03-生命周期": [
+          "core",
+          "Agent 应用开发(七)Memory与会话 / 生命周期",
+          "该条目直接服务于“在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c07-04-删除语义": [
+          "core",
+          "Agent 应用开发(七)Memory与会话 / 删除语义",
+          "该条目直接服务于“在两个租户和用户下验证热记忆、后台记忆、撤销和删除语义。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c08-01-工作流状态": [
+          "core",
+          "Agent 应用开发(八)工作流与人工审批 / 工作流状态",
+          "该条目直接服务于“最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c08-02-人工节点": [
+          "core",
+          "Agent 应用开发(八)工作流与人工审批 / 人工节点",
+          "该条目直接服务于“最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c08-03-审批绑定": [
+          "core",
+          "Agent 应用开发(八)工作流与人工审批 / 审批绑定",
+          "该条目直接服务于“最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c08-04-过期处理": [
+          "core",
+          "Agent 应用开发(八)工作流与人工审批 / 过期处理",
+          "该条目直接服务于“最多两轮评估迭代完成一次带写操作的审批链，并绑定参数变化。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c09-01-协议层次": [
+          "core",
+          "Agent 应用开发(九)MCP服务与协议 / 协议层次",
+          "该条目直接服务于“完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c09-02-能力发现": [
+          "core",
+          "Agent 应用开发(九)MCP服务与协议 / 能力发现",
+          "该条目直接服务于“完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c09-03-结果与错误": [
+          "core",
+          "Agent 应用开发(九)MCP服务与协议 / 结果与错误",
+          "该条目直接服务于“完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c09-04-兼容验证": [
+          "core",
+          "Agent 应用开发(九)MCP服务与协议 / 兼容验证",
+          "该条目直接服务于“完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c10-01-单体基线": [
+          "core",
+          "Agent 应用开发(十)多Agent协作 / 单体基线",
+          "该条目直接服务于“能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c10-02-角色分工": [
+          "core",
+          "Agent 应用开发(十)多Agent协作 / 角色分工",
+          "该条目直接服务于“能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c10-03-通信边界": [
+          "core",
+          "Agent 应用开发(十)多Agent协作 / 通信边界",
+          "该条目直接服务于“能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c10-04-失败传播": [
+          "core",
+          "Agent 应用开发(十)多Agent协作 / 失败传播",
+          "该条目直接服务于“能解释多 Agent 相比单 Agent 的增益、成本、失败传播和通信选择。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c11-01-页面观察": [
+          "core",
+          "Agent 应用开发(十一)浏览器与计算机操作 / 页面观察",
+          "该条目直接服务于“在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c11-02-动作选择": [
+          "core",
+          "Agent 应用开发(十一)浏览器与计算机操作 / 动作选择",
+          "该条目直接服务于“在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c11-03-安全确认": [
+          "core",
+          "Agent 应用开发(十一)浏览器与计算机操作 / 安全确认",
+          "该条目直接服务于“在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c11-04-结果复查": [
+          "core",
+          "Agent 应用开发(十一)浏览器与计算机操作 / 结果复查",
+          "该条目直接服务于“在本地 Fake page 上完成截图优先、危险动作确认和状态再观察。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c12-01-迁移边界": [
+          "core",
+          "Agent 应用开发(十二)框架迁移 / 迁移边界",
+          "该条目直接服务于“能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c12-02-状态图": [
+          "core",
+          "Agent 应用开发(十二)框架迁移 / 状态图",
+          "该条目直接服务于“能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c12-03-检查点": [
+          "core",
+          "Agent 应用开发(十二)框架迁移 / 检查点",
+          "该条目直接服务于“能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c12-04-中断恢复": [
+          "core",
+          "Agent 应用开发(十二)框架迁移 / 中断恢复",
+          "该条目直接服务于“能使用 state、checkpointer、interrupt 和 Command 完成一次可恢复流程。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c13-01-任务接口": [
+          "core",
+          "Agent 应用开发(十三)服务与HTTP集成 / 任务接口",
+          "该条目直接服务于“实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c13-02-身份校验": [
+          "core",
+          "Agent 应用开发(十三)服务与HTTP集成 / 身份校验",
+          "该条目直接服务于“实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c13-03-状态查询": [
+          "core",
+          "Agent 应用开发(十三)服务与HTTP集成 / 状态查询",
+          "该条目直接服务于“实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c13-04-取消语义": [
+          "core",
+          "Agent 应用开发(十三)服务与HTTP集成 / 取消语义",
+          "该条目直接服务于“实现 POST 202、GET status、cancel、身份与状态机，并区分接受、完成和业务成功。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c14-01-扩展判断": [
+          "core",
+          "Agent 应用开发(十四)进阶路线 / 扩展判断",
+          "该条目直接服务于“能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c14-02-协议选择": [
+          "core",
+          "Agent 应用开发(十四)进阶路线 / 协议选择",
+          "该条目直接服务于“能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c14-03-恢复策略": [
+          "core",
+          "Agent 应用开发(十四)进阶路线 / 恢复策略",
+          "该条目直接服务于“能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c14-04-参考资料": [
+          "core",
+          "Agent 应用开发(十四)进阶路线 / 参考资料",
+          "该条目直接服务于“能为短轮询、连续 SSE、长任务断线 webhook 选择协议与恢复策略，并写出不支持项。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c15-01-范围设计": [
+          "core",
+          "Agent 应用开发(十五)项目实战 / 范围设计",
+          "该条目直接服务于“完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c15-02-能力组合": [
+          "core",
+          "Agent 应用开发(十五)项目实战 / 能力组合",
+          "该条目直接服务于“完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c15-03-验收证据": [
+          "core",
+          "Agent 应用开发(十五)项目实战 / 验收证据",
+          "该条目直接服务于“完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ],
+        "c15-04-项目复盘": [
+          "core",
+          "Agent 应用开发(十五)项目实战 / 项目复盘",
+          "该条目直接服务于“完成 20 条合成工单和读写 Fake tools 的端到端证据，并证明审批参数绑定。”，并在正文实验中给出可观察证据。",
+          "planned"
+        ]
+      }
+    },
+    "summary": {
+      "official_capabilities": 62,
+      "ledger_entries": 62,
+      "official_only": 0,
+      "ledger_only": 0,
+      "duplicates": 0,
+      "unassigned": 0
+    }
+  },
+  "migration_mappings": [],
+  "support_sources": [],
+  "exclusions": [],
+  "cover_contract": {
+    "path": "/img/picgo-images/agent-development-course-cover.png",
+    "size": "1920x1080",
+    "safe_area": "central 70%",
+    "keywords": [
+      "Tools",
+      "RAG",
+      "Memory",
+      "MCP",
+      "Workflow"
+    ]
+  }
+}

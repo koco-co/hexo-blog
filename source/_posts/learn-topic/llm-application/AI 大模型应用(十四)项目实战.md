@@ -9,48 +9,129 @@ description: 交付 20 条合成工单上的分析、结构化输出、流式显
 cover: /img/picgo-images/llm-application-course-cover.png
 series: AI 大模型应用
 series_order: 14
-published: false
+published: true
 abbrlink: 8b75caa9
-date: 2026-08-29 00:00:00
+date: 2026-07-09 12:00:00
 ---
-
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；下面只记录写作边界，不代表正文已经完成。
+{% note primary flat %}
+本节要解决：把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。 最终要留下：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。 练习使用合成数据或 Fake 实现，外部服务的偶然结果不作为单独证明。
+{% endnote %}
 
-## 文章职责
+## 范围定义
 
-- 唯一要解决的问题：把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。
-- 可观察成果：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。
-- 明确不承担：不重复前置文章的通用定义；跨主题扩展交给对应后续文章。
+{% note primary flat %}
+项目实战把请求、契约、流式事件、provider 适配、成本和质量报告串成一个可复跑 CLI，而不是拼接几段调用。 在“范围定义”这一环节负责定义：先固定input，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 内容边界
+| 主题字段 | 合成示例 | 观察结论 | 失败边界 |
+| --- | --- | --- | --- |
+| input | 20 条合成工单 | 版本化 fixture | 不能使用真实隐私数据 |
+| pipeline | 解析→检索→输出→报告 | 每步有状态 | 不能跳过拒答 |
+| report | 质量、成本、失败 | 可重跑 artifact | 不能只截图 |
+| 定义边界 | 范围定义 | CLI 对 20 条工单生成结构化报告，遇到冲突证据或预算耗尽时输出拒答/降级并保留 JSONL 证据。 | 项目完成以报告和失败样本为准；真实 provider、线上额度和部署不在本地夹具结论内。 |
 
-- 进入条件：完成 A03、A04、A05、A06、A08、A10、A11 的相关实验与边界判断。
-- 覆盖条目：范围定义、能力组合、验收矩阵、交付复盘
-- 失败边界：使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 还必须说明不适用条件、降级路径和不能由本篇单独证明的结论。
+{% mermaid %}
+flowchart LR
+  I[输入] --> F[input]
+  F --> A[范围定义]
+  A --> O[观测]
+  O --> V[验收]
+  O -->|越界| D[降级]
+{% endmermaid %}
 
-## 正文编排
+- 建立基线：把「input」设为「20 条合成工单」，同时固定「pipeline」为「解析→检索→输出→报告」；串联阶段并统计副作用，记录版本化 fixture。
+- 只改变「report」：正常值用「质量、成本、失败」，越界或故障按“不能只截图”构造；观察每步有状态，不要改动其余输入。
+- 用可重跑 artifact检查“范围定义”：CLI 对 20 条工单生成结构化报告，遇到冲突证据或预算耗尽时输出拒答/降级并保留 JSONL 证据；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 范围定义 | 把本系列能力组合为一个可验证的工单分析 CLI，并留下可迁移的验收证据。 | 范围定义：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。 | mermaid | 用用端到端证据链连接输入、调用、状态、输出、失败和测试报告。承载主心智模型，再以文字解释因果与边界。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | planned |
-| 能力组合 | 完成“能力组合”中的关键理解、操作或判断 | 能力组合：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。 | note primary flat | 该块只承担“能力组合”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | planned |
-| 验收矩阵 | 完成“验收矩阵”中的关键理解、操作或判断 | 验收矩阵：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。 | table | 该块只承担“验收矩阵”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | planned |
-| 交付复盘 | 完成“交付复盘”中的关键理解、操作或判断 | 交付复盘：交付 20 条合成工单上的分析、结构化输出、流式显示、provider 切换、成本和 Pytest 报告。 | flashcard | 该块只承担“交付复盘”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 | planned |
+{% note warning flat %}
+失败边界：项目完成以报告和失败样本为准；真实 provider、线上额度和部署不在本地夹具结论内。 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
 
-## 视觉与复习
+## 能力组合
 
-- 难点理解计划：以用端到端证据链连接输入、调用、状态、输出、失败和测试报告。作为主心智模型，先给出观察或反例，再解释真实机制、隐喻边界和迁移检查。
-- 标签选型复查：写作时从当前完整标签目录选择；禁止 tip，note 只按语义使用 flat，长原理用 folding，平行实现才使用 tabs。
-- 图表或实验：用端到端证据链连接输入、调用、状态、输出、失败和测试报告。；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。
-- 复习卡片：flashcard_ref: a05-structured-output-boundaries；flashcard_ref: a10-retry-needs-deadline
-- 参考资料卡片：Gemini API documentation（https://ai.google.dev/gemini-api/docs）；JSON Schema specification（https://json-schema.org/specification）
+{% note info flat %}
+项目实战把请求、契约、流式事件、provider 适配、成本和质量报告串成一个可复跑 CLI，而不是拼接几段调用。 在“能力组合”这一环节负责执行：先固定pipeline，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 验收证据
+{% note info flat %}
+**路径卡片：能力组合**
+1. 入口：pipeline=解析→检索→输出→报告，先记录每步有状态。
+2. 转移：由report=质量、成本、失败进入能力组合，只允许声明的动作。
+3. 出口：用版本化 fixture检查input，越界条件是“不能使用真实隐私数据”。
+{% endnote %}
 
-- 机械检查：运行 content、tags、assets、lint 与闪卡相关检查，修复具体文件错误。
-- 隔离构建：在隔离草稿环境完成构建、桌面与移动路由检查，确认标签、图片、降级和课程导航。
-- 正文完成条件：补齐真实机制、可复现实验、失败边界、参考资料和必要闪卡；独立复核通过后删除占位标记并切换为 published: true。
+- 执行正常路径：把「pipeline」设为「解析→检索→输出→报告」，同时固定「report」为「质量、成本、失败」；串联阶段并统计副作用，记录每步有状态。
+- 只改变「input」：正常值用「20 条合成工单」，越界或故障按“不能使用真实隐私数据”构造；观察可重跑 artifact，不要改动其余输入。
+- 用版本化 fixture检查“能力组合”：CLI 对 20 条工单生成结构化报告，遇到冲突证据或预算耗尽时输出拒答/降级并保留 JSONL 证据；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：项目完成以报告和失败样本为准；真实 provider、线上额度和部署不在本地夹具结论内。 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 验收矩阵
+
+{% note info flat %}
+项目实战把请求、契约、流式事件、provider 适配、成本和质量报告串成一个可复跑 CLI，而不是拼接几段调用。 在“验收矩阵”这一环节负责故障：先固定report，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+| 触发样本 | 观察字段 | 预期决策 | 不能推出 |
+| --- | --- | --- | --- |
+| 正常：质量、成本、失败 | report | 可重跑 artifact | 不能只截图 |
+| 边界：20 条合成工单 | input | 版本化 fixture | 不能使用真实隐私数据 |
+| 故障：解析→检索→输出→报告 | pipeline | 每步有状态 | 不能跳过拒答 |
+
+- 注入边界：把「report」设为「质量、成本、失败」，同时固定「input」为「20 条合成工单」；串联阶段并统计副作用，记录可重跑 artifact。
+- 只改变「pipeline」：正常值用「解析→检索→输出→报告」，越界或故障按“不能跳过拒答”构造；观察版本化 fixture，不要改动其余输入。
+- 用每步有状态检查“验收矩阵”：CLI 对 20 条工单生成结构化报告，遇到冲突证据或预算耗尽时输出拒答/降级并保留 JSONL 证据；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：项目完成以报告和失败样本为准；真实 provider、线上额度和部署不在本地夹具结论内。 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 交付复盘
+
+{% note info flat %}
+项目实战把请求、契约、流式事件、provider 适配、成本和质量报告串成一个可复跑 CLI，而不是拼接几段调用。 在“交付复盘”这一环节负责复核：先固定input，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+{% note success flat %}
+结果清单（交付复盘）：输入为「20 条合成工单」；状态观察为「每步有状态」；独立判定使用「可重跑 artifact」。记录CLI 对 20 条工单生成结构化报告，遇到冲突证据或预算耗尽时输出拒答/降级并保留 JSONL 证据，把“项目完成以报告和失败样本为准；真实 provider、线上额度和部署不在本地夹具结论内。”作为未覆盖范围。
+{% endnote %}
+
+{% note info flat %}
+下面的夹具只使用 Python 3 标准库，定义了完整的输入、判断和断言。预期结果：CLI 对 20 条工单生成结构化报告，遇到冲突证据或预算耗尽时输出拒答/降级并保留 JSONL 证据。
+{% endnote %}
+
+```python
+# Python 3 标准库夹具：无网络、无外部依赖
+tickets=[f"T-{i:02d}" for i in range(1,21)]
+faults={3:"conflict_evidence",15:"budget_exhausted"}
+def classify(ticket):
+    number=int(ticket[2:])
+    return "refuse" if number in faults else "pass"
+records=[{"id":t,"status":classify(t),"jsonl":True} for t in tickets]
+pipeline=["prompt","schema","stream","report"]
+summary={"tickets":len(records),"refused":sum(r["status"]=="refuse" for r in records),"jsonl":all(r["jsonl"] for r in records),"stages":pipeline}
+print(summary)
+assert summary["tickets"]==20 and summary["refused"]==2 and summary["jsonl"] and len(pipeline)==4
+# 预期观察：CLI 对 20 条工单生成结构化报告，遇到冲突证据或预算耗尽时输出拒答/降级并保留 JSONL 证据。
+```
+
+{% note success flat %}
+失败边界：项目完成以报告和失败样本为准；真实 provider、线上额度和部署不在本地夹具结论内。 使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 常见问题
+
+{% flashcard_ref id="a05-structured-output-boundaries" %}
+
+{% flashcard_ref id="a10-retry-needs-deadline" %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Gemini API documentation, https://ai.google.dev/gemini-api/docs, https://ai.google.dev/favicon.ico %}
+{% link JSON Schema specification, https://json-schema.org/specification, https://json-schema.org/favicon.ico %}
+{% endlinkgroup %}

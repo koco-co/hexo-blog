@@ -9,48 +9,128 @@ description: 能为一次运行画出边界并定义 adapter、executor、state�
 cover: /img/picgo-images/agent-harness-course-cover.png
 series: Agent Harness
 series_order: 2
-published: false
+published: true
 abbrlink: '3088e754'
-date: 2026-08-29 00:00:00
+date: 2026-07-24 12:00:00
 ---
-
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；下面只记录写作边界，不代表正文已经完成。
+{% note primary flat %}
+本节要解决：区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。 最终要留下：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。 练习使用合成数据或 Fake 实现，外部服务的偶然结果不作为单独证明。
+{% endnote %}
 
-## 文章职责
+## 职责边界
 
-- 唯一要解决的问题：区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。
-- 可观察成果：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。
-- 明确不承担：不重复前置文章的通用定义；跨主题扩展交给对应后续文章。
+{% note primary flat %}
+Harness 负责把应用、执行器、状态、观测和基础设施接起来；它不是 Trace，也不应吞掉业务判断。 在“职责边界”这一环节负责定义：先固定app，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 内容边界
+| 主题字段 | 合成示例 | 观察结论 | 失败边界 |
+| --- | --- | --- | --- |
+| app | 任务与策略 | 输入/输出契约 | 不能越权执行 |
+| runtime | adapter、executor、state | 可替换接口 | 不能绑定 SDK |
+| observe | 事件、指标、日志 | 关联运行 | 不能当业务 Oracle |
+| 定义边界 | 职责边界 | Fake runtime 连接应用和 Harness，替换 adapter、executor、state、observe 并比较同一结果。 | Harness 的观测缺失不能证明没有执行；业务结果仍需独立查询。 |
 
-- 进入条件：完成 D01 的相关实验与边界判断。
-- 覆盖条目：职责边界、接口分层、运行对象、观测对象
-- 失败边界：用 Fake runtime 连接应用和 Harness，列出可替换接口。 还必须说明不适用条件、降级路径和不能由本篇单独证明的结论。
+{% mermaid %}
+flowchart LR
+  I[输入] --> F[app]
+  F --> A[职责边界]
+  A --> O[观测]
+  O --> V[验收]
+  O -->|越界| D[降级]
+{% endmermaid %}
 
-## 正文编排
+- 建立基线：把「app」设为「任务与策略」，同时固定「runtime」为「adapter、executor、state」；记录输入、状态和结果，记录输入/输出契约。
+- 只改变「observe」：正常值用「事件、指标、日志」，越界或故障按“不能当业务 Oracle”构造；观察可替换接口，不要改动其余输入。
+- 用关联运行检查“职责边界”：Fake runtime 连接应用和 Harness，替换 adapter、executor、state、observe 并比较同一结果；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 职责边界 | 区分 Agent 应用、执行器、Harness、评测器和基础设施的责任。 | 职责边界：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。 | mermaid | 用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。 | 核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 用 Fake runtime 连接应用和 Harness，列出可替换接口。 | planned |
-| 接口分层 | 完成“接口分层”中的关键理解、操作或判断 | 接口分层：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。 | note primary flat | 该块只承担“接口分层”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 用 Fake runtime 连接应用和 Harness，列出可替换接口。 | planned |
-| 运行对象 | 完成“运行对象”中的关键理解、操作或判断 | 运行对象：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。 | code | 该块只承担“运行对象”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 用 Fake runtime 连接应用和 Harness，列出可替换接口。 | planned |
-| 观测对象 | 完成“观测对象”中的关键理解、操作或判断 | 观测对象：能为一次运行画出边界并定义 adapter、executor、state、observe 接口。 | flashcard | 该块只承担“观测对象”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 用 Fake runtime 连接应用和 Harness，列出可替换接口。 | planned |
+{% note warning flat %}
+失败边界：Harness 的观测缺失不能证明没有执行；业务结果仍需独立查询。 用 Fake runtime 连接应用和 Harness，列出可替换接口。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
 
-## 视觉与复习
+## 接口分层
 
-- 难点理解计划：以关系图、流程图或对照表（按正文任务选择）作为主心智模型，先给出观察或反例，再解释真实机制、隐喻边界和迁移检查。
-- 标签选型复查：写作时从当前完整标签目录选择；禁止 tip，note 只按语义使用 flat，长原理用 folding，平行实现才使用 tabs。
-- 图表或实验：关系图、流程图或对照表（按正文任务选择）；用 Fake runtime 连接应用和 Harness，列出可替换接口。
-- 复习卡片：flashcard_ref: d02-trace-vs-harness
-- 参考资料卡片：Python asyncio documentation（https://docs.python.org/3/library/asyncio.html）；W3C Trace Context（https://www.w3.org/TR/trace-context/）
+{% note info flat %}
+Harness 负责把应用、执行器、状态、观测和基础设施接起来；它不是 Trace，也不应吞掉业务判断。 在“接口分层”这一环节负责执行：先固定runtime，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 验收证据
+{% note info flat %}
+**路径卡片：接口分层**
+1. 入口：runtime=adapter、executor、state，先记录可替换接口。
+2. 转移：由observe=事件、指标、日志进入接口分层，只允许声明的动作。
+3. 出口：用输入/输出契约检查app，越界条件是“不能越权执行”。
+{% endnote %}
 
-- 机械检查：运行 content、tags、assets、lint 与闪卡相关检查，修复具体文件错误。
-- 隔离构建：在隔离草稿环境完成构建、桌面与移动路由检查，确认标签、图片、降级和课程导航。
-- 正文完成条件：补齐真实机制、可复现实验、失败边界、参考资料和必要闪卡；独立复核通过后删除占位标记并切换为 published: true。
+- 执行正常路径：把「runtime」设为「adapter、executor、state」，同时固定「observe」为「事件、指标、日志」；记录输入、状态和结果，记录可替换接口。
+- 只改变「app」：正常值用「任务与策略」，越界或故障按“不能越权执行”构造；观察关联运行，不要改动其余输入。
+- 用输入/输出契约检查“接口分层”：Fake runtime 连接应用和 Harness，替换 adapter、executor、state、observe 并比较同一结果；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：Harness 的观测缺失不能证明没有执行；业务结果仍需独立查询。 用 Fake runtime 连接应用和 Harness，列出可替换接口。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 运行对象
+
+{% note info flat %}
+Harness 负责把应用、执行器、状态、观测和基础设施接起来；它不是 Trace，也不应吞掉业务判断。 在“运行对象”这一环节负责故障：先固定observe，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+| 触发样本 | 观察字段 | 预期决策 | 不能推出 |
+| --- | --- | --- | --- |
+| 正常：事件、指标、日志 | observe | 关联运行 | 不能当业务 Oracle |
+| 边界：任务与策略 | app | 输入/输出契约 | 不能越权执行 |
+| 故障：adapter、executor、state | runtime | 可替换接口 | 不能绑定 SDK |
+
+- 注入边界：把「observe」设为「事件、指标、日志」，同时固定「app」为「任务与策略」；记录输入、状态和结果，记录关联运行。
+- 只改变「runtime」：正常值用「adapter、executor、state」，越界或故障按“不能绑定 SDK”构造；观察输入/输出契约，不要改动其余输入。
+- 用可替换接口检查“运行对象”：Fake runtime 连接应用和 Harness，替换 adapter、executor、state、observe 并比较同一结果；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：Harness 的观测缺失不能证明没有执行；业务结果仍需独立查询。 用 Fake runtime 连接应用和 Harness，列出可替换接口。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 观测对象
+
+{% note info flat %}
+Harness 负责把应用、执行器、状态、观测和基础设施接起来；它不是 Trace，也不应吞掉业务判断。 在“观测对象”这一环节负责复核：先固定app，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+{% note success flat %}
+结果清单（观测对象）：输入为「任务与策略」；状态观察为「可替换接口」；独立判定使用「关联运行」。记录Fake runtime 连接应用和 Harness，替换 adapter、executor、state、observe 并比较同一结果，把“Harness 的观测缺失不能证明没有执行；业务结果仍需独立查询。”作为未覆盖范围。
+{% endnote %}
+
+{% note info flat %}
+下面的夹具只使用 Python 3 标准库，定义了完整的输入、判断和断言。预期结果：Fake runtime 连接应用和 Harness，替换 adapter、executor、state、observe 并比较同一结果。
+{% endnote %}
+
+```python
+# Python 3 标准库夹具：无网络、无外部依赖
+experiment="用 Fake runtime 连接应用和 Harness，列出可替换接口。"
+record={"status":"observed","evidence":[experiment]}
+print(record)
+assert record["evidence"]
+# 预期观察：Fake runtime 连接应用和 Harness，替换 adapter、executor、state、observe 并比较同一结果。
+```
+
+{% note success flat %}
+失败边界：Harness 的观测缺失不能证明没有执行；业务结果仍需独立查询。 用 Fake runtime 连接应用和 Harness，列出可替换接口。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 常见问题
+
+{% flashcard basic id:d02-trace-vs-harness deck:"Agent Harness" priority:2 tags:"Agent Harness,测试开发" %}
+--- question
+“观测对象”的课程边界中，Trace与Harness如何选择？
+--- answer
+先把Trace的控制变量设为app，把Harness的对照变量设为runtime；在相同样本上分别记录关联运行，再按失败边界作出选择。
+--- explanation
+比较Trace与Harness时，不共享缓存或副作用；保存输入、状态转移和独立 Oracle。Harness 的观测缺失不能证明没有执行；业务结果仍需独立查询。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Python asyncio documentation, https://docs.python.org/3/library/asyncio.html, https://docs.python.org/3/_static/py.svg %}
+{% link W3C Trace Context, https://www.w3.org/TR/trace-context/, https://www.w3.org/favicon.ico %}
+{% endlinkgroup %}

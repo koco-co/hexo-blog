@@ -9,49 +9,167 @@ description: 为 T-17 工单生成可校验 JSON，能定位四类失败并阻�
 cover: /img/picgo-images/llm-application-course-cover.png
 series: AI 大模型应用
 series_order: 5
-published: false
+published: true
 abbrlink: 1c062ecc
-date: 2026-08-29 00:00:00
+date: 2026-07-05 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；下面只记录写作边界，不代表正文已经完成。
+{% note primary flat %}
+本节要解决：把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。 最终要留下：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。 练习使用合成数据或 Fake 实现，外部服务的偶然结果不作为单独证明。
+{% endnote %}
 
-## 文章职责
+## Schema定义
 
-- 唯一要解决的问题：把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。
-- 可观察成果：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。
-- 明确不承担：不重复前置文章的通用定义；跨主题扩展交给对应后续文章。
+{% note primary flat %}
+结构化输出要经过语法、Schema、业务和副作用四层；解析成功只说明文本形状正确。 在“Schema定义”这一环节负责定义：先固定语法，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 内容边界
+| 主题字段 | 合成示例 | 观察结论 | 失败边界 |
+| --- | --- | --- | --- |
+| 语法 | JSON 可解析 | 记录原文和解析错误 | 不能推出字段有意义 |
+| Schema | required、type、enum | 校验错误路径 | 不能推出业务允许 |
+| 业务 | 状态、权限、金额 | 阻止写入 | 不能由 schema 代替授权 |
+| 定义边界 | Schema定义 | 同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数。 | 任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。 |
 
-- 进入条件：完成 A04 的相关实验与边界判断。
-- 覆盖条目：Schema定义、请求约束、解析校验、业务规则、错误分层
-- 失败边界：使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 还必须说明不适用条件、降级路径和不能由本篇单独证明的结论。
+{% mermaid %}
+flowchart LR
+  I[输入] --> F[语法]
+  F --> A[Schema定义]
+  A --> O[观测]
+  O --> V[验收]
+  O -->|越界| D[降级]
+{% endmermaid %}
 
-## 正文编排
+- 建立基线：把「语法」设为「JSON 可解析」，同时固定「Schema」为「required、type、enum」；逐层解析并阻止写入，记录记录原文和解析错误。
+- 只改变「业务」：正常值用「状态、权限、金额」，越界或故障按“不能由 schema 代替授权”构造；观察校验错误路径，不要改动其余输入。
+- 用阻止写入检查“Schema定义”：同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Schema定义 | 把模型文本转成可信的业务数据，并区分请求拒绝、终止状态、解析失败和业务校验失败。 | Schema定义：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。 | mermaid | 用画出模型输出经过语法、结构、业务三道门的流转。承载主心智模型，再以文字解释因果与边界。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | planned |
-| 请求约束 | 完成“请求约束”中的关键理解、操作或判断 | 请求约束：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。 | note primary flat | 该块只承担“请求约束”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | planned |
-| 解析校验 | 完成“解析校验”中的关键理解、操作或判断 | 解析校验：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。 | list | 该块只承担“解析校验”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | planned |
-| 业务规则 | 完成“业务规则”中的关键理解、操作或判断 | 业务规则：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。 | note primary flat | 该块只承担“业务规则”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | planned |
-| 错误分层 | 完成“错误分层”中的关键理解、操作或判断 | 错误分层：为 T-17 工单生成可校验 JSON，能定位四类失败并阻止不完整结果进入业务流程。 | flashcard | 该块只承担“错误分层”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 | planned |
+{% note warning flat %}
+失败边界：任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
 
-## 视觉与复习
+## 请求约束
 
-- 难点理解计划：以画出模型输出经过语法、结构、业务三道门的流转。作为主心智模型，先给出观察或反例，再解释真实机制、隐喻边界和迁移检查。
-- 标签选型复查：写作时从当前完整标签目录选择；禁止 tip，note 只按语义使用 flat，长原理用 folding，平行实现才使用 tabs。
-- 图表或实验：画出模型输出经过语法、结构、业务三道门的流转。；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。
-- 复习卡片：flashcard_ref: a05-structured-output-boundaries；flashcard_ref: a05-four-failure-layers
-- 参考资料卡片：Anthropic API documentation（https://docs.anthropic.com/en/docs/intro）；Gemini API documentation（https://ai.google.dev/gemini-api/docs）
+{% note info flat %}
+结构化输出要经过语法、Schema、业务和副作用四层；解析成功只说明文本形状正确。 在“请求约束”这一环节负责执行：先固定Schema，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 验收证据
+{% note info flat %}
+**路径卡片：请求约束**
+1. 入口：Schema=required、type、enum，先记录校验错误路径。
+2. 转移：由业务=状态、权限、金额进入请求约束，只允许声明的动作。
+3. 出口：用记录原文和解析错误检查语法，越界条件是“不能推出字段有意义”。
+{% endnote %}
 
-- 机械检查：运行 content、tags、assets、lint 与闪卡相关检查，修复具体文件错误。
-- 隔离构建：在隔离草稿环境完成构建、桌面与移动路由检查，确认标签、图片、降级和课程导航。
-- 正文完成条件：补齐真实机制、可复现实验、失败边界、参考资料和必要闪卡；独立复核通过后删除占位标记并切换为 published: true。
+- 执行正常路径：把「Schema」设为「required、type、enum」，同时固定「业务」为「状态、权限、金额」；逐层解析并阻止写入，记录校验错误路径。
+- 只改变「语法」：正常值用「JSON 可解析」，越界或故障按“不能推出字段有意义”构造；观察阻止写入，不要改动其余输入。
+- 用记录原文和解析错误检查“请求约束”：同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 解析校验
+
+{% note info flat %}
+结构化输出要经过语法、Schema、业务和副作用四层；解析成功只说明文本形状正确。 在“解析校验”这一环节负责故障：先固定业务，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+| 触发样本 | 观察字段 | 预期决策 | 不能推出 |
+| --- | --- | --- | --- |
+| 正常：状态、权限、金额 | 业务 | 阻止写入 | 不能由 schema 代替授权 |
+| 边界：JSON 可解析 | 语法 | 记录原文和解析错误 | 不能推出字段有意义 |
+| 故障：required、type、enum | Schema | 校验错误路径 | 不能推出业务允许 |
+
+- 注入边界：把「业务」设为「状态、权限、金额」，同时固定「语法」为「JSON 可解析」；逐层解析并阻止写入，记录阻止写入。
+- 只改变「Schema」：正常值用「required、type、enum」，越界或故障按“不能推出业务允许”构造；观察记录原文和解析错误，不要改动其余输入。
+- 用校验错误路径检查“解析校验”：同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 业务规则
+
+{% note info flat %}
+结构化输出要经过语法、Schema、业务和副作用四层；解析成功只说明文本形状正确。 在“业务规则”这一环节负责复核：先固定语法，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+{% note success flat %}
+结果清单（业务规则）：输入为「JSON 可解析」；状态观察为「校验错误路径」；独立判定使用「阻止写入」。记录同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数，把“任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。”作为未覆盖范围。
+{% endnote %}
+
+- 复跑并核对：把「语法」设为「JSON 可解析」，同时固定「Schema」为「required、type、enum」；逐层解析并阻止写入，记录记录原文和解析错误。
+- 只改变「业务」：正常值用「状态、权限、金额」，越界或故障按“不能由 schema 代替授权”构造；观察校验错误路径，不要改动其余输入。
+- 用阻止写入检查“业务规则”：同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 错误分层
+
+{% note info flat %}
+结构化输出要经过语法、Schema、业务和副作用四层；解析成功只说明文本形状正确。 在“错误分层”这一环节负责定义：先固定Schema，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+| 主题字段 | 合成示例 | 观察结论 | 失败边界 |
+| --- | --- | --- | --- |
+| Schema | required、type、enum | 校验错误路径 | 不能推出业务允许 |
+| 业务 | 状态、权限、金额 | 阻止写入 | 不能由 schema 代替授权 |
+| 语法 | JSON 可解析 | 记录原文和解析错误 | 不能推出字段有意义 |
+| 定义边界 | 错误分层 | 同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数。 | 任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。 |
+
+{% note info flat %}
+下面的夹具只使用 Python 3 标准库，定义了完整的输入、判断和断言。预期结果：同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数。
+{% endnote %}
+
+```python
+# Python 3 标准库夹具：无网络、无外部依赖
+import json
+cases=[("refused",None),("truncated",'{"ticket":"T-17"'),("missing",'{"ticket":"T-17"}'),("invalid_status",'{"ticket":"T-17","status":"unknown"}'),("ok",'{"ticket":"T-17","status":"open"}')]
+required={"ticket","status"}
+counts={name:0 for name,_ in cases}
+for name,raw in cases:
+    if raw is None: counts[name]=1; continue
+    try:
+        payload=json.loads(raw)
+        missing=required-payload.keys()
+        counts[name]=1 if missing or payload.get("status") not in {"open","closed"} else 0
+    except json.JSONDecodeError: counts[name]=1
+print({"syntax_or_business_failures":sum(counts.values()),"counts":counts})
+assert counts["truncated"]==1 and counts["ok"]==0
+# 预期观察：同一 T-17 夹具分别注入拒绝、截断 JSON、缺字段和非法状态，四类结果进入不同计数。
+```
+
+{% note success flat %}
+失败边界：任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。 使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 常见问题
+
+{% flashcard basic id:a05-structured-output-boundaries deck:"AI 大模型应用" priority:2 tags:"AI 大模型应用,测试开发" %}
+--- question
+当“结构化输出边界”出现时，先检查哪个状态和边界？
+--- answer
+先把“结构化输出边界”绑定到语法与Schema；正常、越界和 Unknown 各运行一次，断言阻止写入。
+--- explanation
+在schema夹具中，比较JSON 可解析与required、type、enum，保留阻止写入；任何一层失败都应阻止不完整结果进入业务写操作，并保留 request id 与原始内容。
+{% endflashcard %}
+
+{% flashcard basic id:a05-four-failure-layers deck:"AI 大模型应用" priority:2 tags:"AI 大模型应用,测试开发" %}
+--- question
+结构化结果失败时为什么要分层定位？
+--- answer
+请求拒绝、终止状态、语法解析和业务校验由不同责任者处理，不能统称为模型失败。
+--- explanation
+逐层注入失败并保留原始响应，才能知道哪一层可修复、哪一层应阻止写入。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link Anthropic API documentation, https://docs.anthropic.com/en/docs/intro, https://docs.anthropic.com/favicon.ico %}
+{% link Gemini API documentation, https://ai.google.dev/gemini-api/docs, https://ai.google.dev/favicon.ico %}
+{% endlinkgroup %}

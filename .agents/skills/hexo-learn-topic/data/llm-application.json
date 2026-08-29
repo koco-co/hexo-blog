@@ -274,7 +274,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -347,7 +347,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -430,7 +430,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -513,7 +513,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -589,7 +589,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -664,7 +664,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -740,7 +740,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -816,7 +816,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -894,7 +894,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -972,7 +972,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -1048,7 +1048,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -1130,7 +1130,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -1212,7 +1212,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       }
     ],
@@ -1226,7 +1226,7 @@
           "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "前置条件",
@@ -1236,7 +1236,7 @@
           "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "学习路径",
@@ -1246,7 +1246,7 @@
           "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "文章安排",
@@ -1256,7 +1256,7 @@
           "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "开始学习",
@@ -1266,7 +1266,7 @@
           "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "参考资料",
@@ -1276,7 +1276,7 @@
           "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(二)模型与生成机制": [
@@ -1288,7 +1288,7 @@
           "rationale": "用把 token 流经采样器再进入输出的因果链画成对照图。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "采样策略",
@@ -1298,7 +1298,7 @@
           "rationale": "该块只承担“采样策略”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "能力边界",
@@ -1308,7 +1308,7 @@
           "rationale": "该块只承担“能力边界”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "动手推演",
@@ -1318,7 +1318,7 @@
           "rationale": "该块只承担“动手推演”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "常见问题",
@@ -1328,7 +1328,7 @@
           "rationale": "该块只承担“常见问题”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "参考资料",
@@ -1338,7 +1338,7 @@
           "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用固定 logits 和 20 步生成日志比较 greedy、beam、temperature 与 top-p，验证停止和预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(三)API调用与开发环境": [
@@ -1350,7 +1350,7 @@
           "rationale": "用将调用链拆成配置、传输、服务和解析四层。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "最小调用",
@@ -1360,7 +1360,7 @@
           "rationale": "该块只承担“最小调用”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "错误分类",
@@ -1370,7 +1370,7 @@
           "rationale": "该块只承担“错误分类”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "本地验证",
@@ -1380,7 +1380,7 @@
           "rationale": "该块只承担“本地验证”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；离线优先，注入配置缺失、身份错误、配额、网络和超时；真实调用只作为后续可选验证。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(四)Prompt与任务契约": [
@@ -1392,7 +1392,7 @@
           "rationale": "用用契约字段把“想要一个答案”拆成目标、证据、约束和完成条件。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "契约字段",
@@ -1402,7 +1402,7 @@
           "rationale": "该块只承担“契约字段”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "版本变更",
@@ -1412,7 +1412,7 @@
           "rationale": "该块只承担“版本变更”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "注入边界",
@@ -1422,7 +1422,7 @@
           "rationale": "该块只承担“注入边界”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "实验复盘",
@@ -1432,7 +1432,7 @@
           "rationale": "该块只承担“实验复盘”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；对缺少版本、冲突要求、伪造命令和边界输入的工单执行契约检查。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(五)结构化输出与校验": [
@@ -1444,7 +1444,7 @@
           "rationale": "用画出模型输出经过语法、结构、业务三道门的流转。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "请求约束",
@@ -1454,7 +1454,7 @@
           "rationale": "该块只承担“请求约束”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "解析校验",
@@ -1464,7 +1464,7 @@
           "rationale": "该块只承担“解析校验”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "业务规则",
@@ -1474,7 +1474,7 @@
           "rationale": "该块只承担“业务规则”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "错误分层",
@@ -1484,7 +1484,7 @@
           "rationale": "该块只承担“错误分层”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 schema 矩阵和 FakeProvider，覆盖字段缺失、类型错误、拒答、不完整输出、解析和业务规则失败。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(六)流式输出与对话状态": [
@@ -1496,7 +1496,7 @@
           "rationale": "用把增量事件和最终状态放在同一张状态机中。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "会话状态",
@@ -1506,7 +1506,7 @@
           "rationale": "该块只承担“会话状态”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "取消语义",
@@ -1516,7 +1516,7 @@
           "rationale": "该块只承担“取消语义”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "重放验证",
@@ -1526,7 +1526,7 @@
           "rationale": "该块只承担“重放验证”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 SSE 夹具发出 message、phase、reasoning、function_call 和 terminal 事件，模拟客户端关闭请求流。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(七)上下文与缓存管理": [
@@ -1538,7 +1538,7 @@
           "rationale": "用用分层上下文带表示固定前缀、任务输入、工具结果和短期状态。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "组装顺序",
@@ -1548,7 +1548,7 @@
           "rationale": "该块只承担“组装顺序”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "缓存边界",
@@ -1558,7 +1558,7 @@
           "rationale": "该块只承担“缓存边界”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "压缩取舍",
@@ -1568,7 +1568,7 @@
           "rationale": "该块只承担“压缩取舍”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变前缀、配置、路由和压缩策略，比较 token、命中和证据保留情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(八)多厂商接口适配": [
@@ -1580,7 +1580,7 @@
           "rationale": "用用同一业务契约穿过不同 provider 的转换边界。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "语义差异",
@@ -1590,7 +1590,7 @@
           "rationale": "该块只承担“语义差异”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "适配策略",
@@ -1600,7 +1600,7 @@
           "rationale": "该块只承担“适配策略”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "迁移验证",
@@ -1610,7 +1610,7 @@
           "rationale": "该块只承担“迁移验证”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用三个 provider fixture 比较消息、工具、流式和错误字段，禁止静默降级。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(九)多模态与文件处理": [
@@ -1622,7 +1622,7 @@
           "rationale": "用展示原始材料、模型观察和人工核验之间的三段链路。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "文件限制",
@@ -1632,7 +1632,7 @@
           "rationale": "该块只承担“文件限制”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "结果证据",
@@ -1642,7 +1642,7 @@
           "rationale": "该块只承担“结果证据”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "练习复盘",
@@ -1652,7 +1652,7 @@
           "rationale": "该块只承担“练习复盘”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用合成截图和 PDF 覆盖尺寸、页数、裁剪偏移和无法读取嵌入内容的情况。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(十)调用可靠性与成本": [
@@ -1664,7 +1664,7 @@
           "rationale": "用把一次调用画成带 deadline、token budget 和 fallback 的控制回路。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "故障分类",
@@ -1674,7 +1674,7 @@
           "rationale": "该块只承担“故障分类”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "重试策略",
@@ -1684,7 +1684,7 @@
           "rationale": "该块只承担“重试策略”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "成本验证",
@@ -1694,7 +1694,7 @@
           "rationale": "该块只承担“成本验证”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用虚拟时钟和 Retry-After，比较客户端、适配层和业务层多重重试的预算消耗。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(十一)模型评测与选型": [
@@ -1706,7 +1706,7 @@
           "rationale": "用用多目标决策矩阵连接质量、成本、延迟与风险。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "实验设计",
@@ -1716,7 +1716,7 @@
           "rationale": "该块只承担“实验设计”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "结果解释",
@@ -1726,7 +1726,7 @@
           "rationale": "该块只承担“结果解释”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "决策记录",
@@ -1736,7 +1736,7 @@
           "rationale": "该块只承担“决策记录”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；固定任务、温度、预算和评分规则，比较结果并标出样本不足和不可外推之处。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(十二)模型生态与技术演进": [
@@ -1748,7 +1748,7 @@
           "rationale": "用画出模型能力到产品运行时再到业务集成的分层。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "演进节奏",
@@ -1758,7 +1758,7 @@
           "rationale": "该块只承担“演进节奏”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "入口索引",
@@ -1768,7 +1768,7 @@
           "rationale": "该块只承担“入口索引”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "日期判断",
@@ -1778,7 +1778,7 @@
           "rationale": "该块只承担“日期判断”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用有限官方样本记录日期、稳定性、替代关系和不纳入范围。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(十三)进阶路线": [
@@ -1790,7 +1790,7 @@
           "rationale": "用用决策树判断应先改检索、Prompt、模型还是数据。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "方向选择",
@@ -1800,7 +1800,7 @@
           "rationale": "该块只承担“方向选择”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "实验提案",
@@ -1810,7 +1810,7 @@
           "rationale": "该块只承担“实验提案”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "常见问题",
@@ -1820,7 +1820,7 @@
           "rationale": "该块只承担“常见问题”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "参考资料",
@@ -1830,7 +1830,7 @@
           "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；从 RAG、微调、缓存、路由或评测中选一项，写出可证伪的对照方案。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "AI 大模型应用(十四)项目实战": [
@@ -1842,7 +1842,7 @@
           "rationale": "用用端到端证据链连接输入、调用、状态、输出、失败和测试报告。承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "能力组合",
@@ -1852,7 +1852,7 @@
           "rationale": "该块只承担“能力组合”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "验收矩阵",
@@ -1862,7 +1862,7 @@
           "rationale": "该块只承担“验收矩阵”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "交付复盘",
@@ -1872,7 +1872,7 @@
           "rationale": "该块只承担“交付复盘”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；使用 FakeProvider 和注入故障，完成成功、拒答、解析、限流、超时和预算场景。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ]
     },

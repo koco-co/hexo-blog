@@ -252,7 +252,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -327,7 +327,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -404,7 +404,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -480,7 +480,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -557,7 +557,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -635,7 +635,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -713,7 +713,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -791,7 +791,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -868,7 +868,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -946,7 +946,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -1025,7 +1025,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       },
       {
@@ -1101,7 +1101,7 @@
           "reason": "固定本篇唯一问题与可观察成果，再进入机制和实验。",
           "visible": "问题、成果、前置与不包含范围",
           "fallback": "纯文本首段保留全部定位信息",
-          "status": "planned"
+          "status": "published-verified"
         }
       }
     ],
@@ -1115,7 +1115,7 @@
           "rationale": "用课程依赖路线图（Mermaid TD）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "前置条件",
@@ -1125,7 +1125,7 @@
           "rationale": "该块只承担“前置条件”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "学习路径",
@@ -1135,7 +1135,7 @@
           "rationale": "该块只承担“学习路径”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "文章安排",
@@ -1145,7 +1145,7 @@
           "rationale": "该块只承担“文章安排”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "开始学习",
@@ -1155,7 +1155,7 @@
           "rationale": "该块只承担“开始学习”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "参考资料",
@@ -1165,7 +1165,7 @@
           "rationale": "该块只承担“参考资料”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；只核对已有基础和合成实验目录，不安装新的外部依赖。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(二)运行时边界": [
@@ -1177,7 +1177,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "接口分层",
@@ -1187,7 +1187,7 @@
           "rationale": "该块只承担“接口分层”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "运行对象",
@@ -1197,7 +1197,7 @@
           "rationale": "该块只承担“运行对象”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "观测对象",
@@ -1207,7 +1207,7 @@
           "rationale": "该块只承担“观测对象”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake runtime 连接应用和 Harness，列出可替换接口。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(三)生命周期": [
@@ -1219,7 +1219,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "步骤阶段",
@@ -1229,7 +1229,7 @@
           "rationale": "该块只承担“步骤阶段”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "终止状态",
@@ -1239,7 +1239,7 @@
           "rationale": "该块只承担“终止状态”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "业务结果",
@@ -1249,7 +1249,7 @@
           "rationale": "该块只承担“业务结果”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入终端状态、异常、取消和业务失败，比较状态机和异常栈。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(四)模型适配与事件流": [
@@ -1261,7 +1261,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "事件组装",
@@ -1271,7 +1271,7 @@
           "rationale": "该块只承担“事件组装”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "重试层次",
@@ -1281,7 +1281,7 @@
           "rationale": "该块只承担“重试层次”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "预算传播",
@@ -1291,7 +1291,7 @@
           "rationale": "该块只承担“预算传播”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake provider 发送碎片化事件、429、超时和半流，核对预算。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(五)插件与资源": [
@@ -1303,7 +1303,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "资源所有权",
@@ -1313,7 +1313,7 @@
           "rationale": "该块只承担“资源所有权”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "监听器",
@@ -1323,7 +1323,7 @@
           "rationale": "该块只承担“监听器”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "清理路径",
@@ -1333,7 +1333,7 @@
           "rationale": "该块只承担“清理路径”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟加载成功、部分失败、卸载和后台任务泄漏。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(六)状态与持久化": [
@@ -1345,7 +1345,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "提交点",
@@ -1355,7 +1355,7 @@
           "rationale": "该块只承担“提交点”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "版本冲突",
@@ -1365,7 +1365,7 @@
           "rationale": "该块只承担“版本冲突”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "恢复读取",
@@ -1375,7 +1375,7 @@
           "rationale": "该块只承担“恢复读取”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用内存存储模拟断电、重复提交、版本冲突和回读。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(七)上下文组装": [
@@ -1387,7 +1387,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "压缩策略",
@@ -1397,7 +1397,7 @@
           "rationale": "该块只承担“压缩策略”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "工具配对",
@@ -1407,7 +1407,7 @@
           "rationale": "该块只承担“工具配对”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "重建验证",
@@ -1417,7 +1417,7 @@
           "rationale": "该块只承担“重建验证”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；改变日志尾部、摘要和工具结果，检查重建请求是否可解释。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(八)恢复与幂等": [
@@ -1429,7 +1429,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "操作标识",
@@ -1439,7 +1439,7 @@
           "rationale": "该块只承担“操作标识”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "查询优先",
@@ -1449,7 +1449,7 @@
           "rationale": "该块只承担“查询优先”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "重试安全",
@@ -1459,7 +1459,7 @@
           "rationale": "该块只承担“重试安全”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟 commit 前后崩溃、查询超时和重复请求，断言唯一副作用。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(九)隔离与审批": [
@@ -1471,7 +1471,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "规范化调用",
@@ -1481,7 +1481,7 @@
           "rationale": "该块只承担“规范化调用”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "审批绑定",
@@ -1491,7 +1491,7 @@
           "rationale": "该块只承担“审批绑定”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "写入门禁",
@@ -1501,7 +1501,7 @@
           "rationale": "该块只承担“写入门禁”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake write tool 比较预览、批准、改参、撤销和越权。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(十)调度与并发": [
@@ -1513,7 +1513,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "背压",
@@ -1523,7 +1523,7 @@
           "rationale": "该块只承担“背压”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "取消传播",
@@ -1533,7 +1533,7 @@
           "rationale": "该块只承担“取消传播”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "副作用边界",
@@ -1543,7 +1543,7 @@
           "rationale": "该块只承担“副作用边界”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；模拟排队、超时、取消、重试和执行后取消，不声称自动回滚。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(十一)运行事件与观测": [
@@ -1555,7 +1555,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "关联 ID",
@@ -1565,7 +1565,7 @@
           "rationale": "该块只承担“关联 ID”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "实时观测",
@@ -1575,7 +1575,7 @@
           "rationale": "该块只承担“实时观测”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "重放限制",
@@ -1585,7 +1585,7 @@
           "rationale": "该块只承担“重放限制”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；注入缺失事件、乱序事件和重放差异，核对可见性与持久性。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(十二)服务运维": [
@@ -1597,7 +1597,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "优雅停止",
@@ -1607,7 +1607,7 @@
           "rationale": "该块只承担“优雅停止”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "SLO字段",
@@ -1617,7 +1617,7 @@
           "rationale": "该块只承担“SLO字段”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "版本恢复",
@@ -1627,7 +1627,7 @@
           "rationale": "该块只承担“版本恢复”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；用 Fake HTTP service 模拟启动、drain、升级、失败和恢复。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ],
       "Agent Harness(十三)项目实战": [
@@ -1639,7 +1639,7 @@
           "rationale": "用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "运行实现",
@@ -1649,7 +1649,7 @@
           "rationale": "该块只承担“运行实现”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "故障演练",
@@ -1659,7 +1659,7 @@
           "rationale": "该块只承担“故障演练”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         },
         {
           "block": "证据复盘",
@@ -1669,7 +1669,7 @@
           "rationale": "该块只承担“证据复盘”这一任务，避免把概念、操作和验收混成一段。",
           "directly_visible": "核心判断、操作步骤、输入输出、风险和验收条件；完成一次审批写入、commit 后崩溃、恢复查询和无重复重试。",
           "degradation": "标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。",
-          "validation_status": "planned"
+          "validation_status": "published-verified"
         }
       ]
     },

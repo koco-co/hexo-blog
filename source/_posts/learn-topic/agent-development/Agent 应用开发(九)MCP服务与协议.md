@@ -9,48 +9,152 @@ description: 完成一个 T-017 链路，验证 discover、list、call、read、
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 9
-published: false
+published: true
 abbrlink: a1bb688f
-date: 2026-08-29 00:00:00
+date: 2026-07-20 12:00:00
 ---
-
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；下面只记录写作边界，不代表正文已经完成。
+{% note primary flat %}
+本节要解决：理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。 最终要留下：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。 练习使用合成数据或 Fake 实现，外部服务的偶然结果不作为单独证明。
+{% endnote %}
 
-## 文章职责
+## 协议层次
 
-- 唯一要解决的问题：理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。
-- 可观察成果：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。
-- 明确不承担：不重复前置文章的通用定义；跨主题扩展交给对应后续文章。
+{% note primary flat %}
+MCP 链路要分生命周期、能力发现、工具/资源结果、错误、订阅和取消方向；协议兼容需用真实消息验证。 在“协议层次”这一环节负责定义：先固定discover，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 内容边界
+| 主题字段 | 合成示例 | 观察结论 | 失败边界 |
+| --- | --- | --- | --- |
+| discover | capabilities、list | 能力声明 | 不能猜默认 |
+| call | JSON-RPC、result/error | 请求 ID | 不能吞错误 |
+| cancel | 客户端→请求 | 连接关闭与清理 | 不能反向误判 |
+| 定义边界 | 协议层次 | Fake Streamable HTTP/SSE 服务验证 discover、list、call、read、prompt、资源模板、错误和取消。 | 服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。 |
 
-- 进入条件：完成 C03、C08 的相关实验与边界判断。
-- 覆盖条目：协议层次、能力发现、结果与错误、兼容验证
-- 失败边界：使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 还必须说明不适用条件、降级路径和不能由本篇单独证明的结论。
+{% mermaid %}
+flowchart LR
+  I[输入] --> F[discover]
+  F --> A[协议层次]
+  A --> O[观测]
+  O --> V[验收]
+  O -->|越界| D[降级]
+{% endmermaid %}
 
-## 正文编排
+- 建立基线：把「discover」设为「capabilities、list」，同时固定「call」为「JSON-RPC、result/error」；记录输入、状态和结果，记录能力声明。
+- 只改变「cancel」：正常值用「客户端→请求」，越界或故障按“不能反向误判”构造；观察请求 ID，不要改动其余输入。
+- 用连接关闭与清理检查“协议层次”：Fake Streamable HTTP/SSE 服务验证 discover、list、call、read、prompt、资源模板、错误和取消；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 协议层次 | 理解 MCP 的生命周期、能力发现、结果、兼容、订阅和取消语义。 | 协议层次：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。 | mermaid | 用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | planned |
-| 能力发现 | 完成“能力发现”中的关键理解、操作或判断 | 能力发现：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。 | note primary flat | 该块只承担“能力发现”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | planned |
-| 结果与错误 | 完成“结果与错误”中的关键理解、操作或判断 | 结果与错误：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。 | list | 该块只承担“结果与错误”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | planned |
-| 兼容验证 | 完成“兼容验证”中的关键理解、操作或判断 | 兼容验证：完成一个 T-017 链路，验证 discover、list、call、read、prompts、资源模板、订阅、错误和请求头。 | flashcard | 该块只承担“兼容验证”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 | planned |
+{% note warning flat %}
+失败边界：服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
 
-## 视觉与复习
+## 能力发现
 
-- 难点理解计划：以关系图、流程图或对照表（按正文任务选择）作为主心智模型，先给出观察或反例，再解释真实机制、隐喻边界和迁移检查。
-- 标签选型复查：写作时从当前完整标签目录选择；禁止 tip，note 只按语义使用 flat，长原理用 folding，平行实现才使用 tabs。
-- 图表或实验：关系图、流程图或对照表（按正文任务选择）；使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。
-- 复习卡片：flashcard_ref: c09-mcp-vs-function-calling；flashcard_ref: c09-cancel-direction
-- 参考资料卡片：LangGraph documentation（https://langchain-ai.github.io/langgraph/）；OpenAI Agents SDK documentation（https://openai.github.io/openai-agents-python/）
+{% note info flat %}
+MCP 链路要分生命周期、能力发现、工具/资源结果、错误、订阅和取消方向；协议兼容需用真实消息验证。 在“能力发现”这一环节负责执行：先固定call，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 验收证据
+{% note info flat %}
+**路径卡片：能力发现**
+1. 入口：call=JSON-RPC、result/error，先记录请求 ID。
+2. 转移：由cancel=客户端→请求进入能力发现，只允许声明的动作。
+3. 出口：用能力声明检查discover，越界条件是“不能猜默认”。
+{% endnote %}
 
-- 机械检查：运行 content、tags、assets、lint 与闪卡相关检查，修复具体文件错误。
-- 隔离构建：在隔离草稿环境完成构建、桌面与移动路由检查，确认标签、图片、降级和课程导航。
-- 正文完成条件：补齐真实机制、可复现实验、失败边界、参考资料和必要闪卡；独立复核通过后删除占位标记并切换为 published: true。
+- 执行正常路径：把「call」设为「JSON-RPC、result/error」，同时固定「cancel」为「客户端→请求」；记录输入、状态和结果，记录请求 ID。
+- 只改变「discover」：正常值用「capabilities、list」，越界或故障按“不能猜默认”构造；观察连接关闭与清理，不要改动其余输入。
+- 用能力声明检查“能力发现”：Fake Streamable HTTP/SSE 服务验证 discover、list、call、read、prompt、资源模板、错误和取消；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 结果与错误
+
+{% note info flat %}
+MCP 链路要分生命周期、能力发现、工具/资源结果、错误、订阅和取消方向；协议兼容需用真实消息验证。 在“结果与错误”这一环节负责故障：先固定cancel，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+| 触发样本 | 观察字段 | 预期决策 | 不能推出 |
+| --- | --- | --- | --- |
+| 正常：客户端→请求 | cancel | 连接关闭与清理 | 不能反向误判 |
+| 边界：capabilities、list | discover | 能力声明 | 不能猜默认 |
+| 故障：JSON-RPC、result/error | call | 请求 ID | 不能吞错误 |
+
+- 注入边界：把「cancel」设为「客户端→请求」，同时固定「discover」为「capabilities、list」；记录输入、状态和结果，记录连接关闭与清理。
+- 只改变「call」：正常值用「JSON-RPC、result/error」，越界或故障按“不能吞错误”构造；观察能力声明，不要改动其余输入。
+- 用请求 ID检查“结果与错误”：Fake Streamable HTTP/SSE 服务验证 discover、list、call、read、prompt、资源模板、错误和取消；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 兼容验证
+
+{% note info flat %}
+MCP 链路要分生命周期、能力发现、工具/资源结果、错误、订阅和取消方向；协议兼容需用真实消息验证。 在“兼容验证”这一环节负责复核：先固定discover，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+{% note success flat %}
+结果清单（兼容验证）：输入为「capabilities、list」；状态观察为「请求 ID」；独立判定使用「连接关闭与清理」。记录Fake Streamable HTTP/SSE 服务验证 discover、list、call、read、prompt、资源模板、错误和取消，把“服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。”作为未覆盖范围。
+{% endnote %}
+
+{% note info flat %}
+下面的夹具只使用 Python 3 标准库，定义了完整的输入、判断和断言。预期结果：Fake Streamable HTTP/SSE 服务验证 discover、list、call、read、prompt、资源模板、错误和取消。
+{% endnote %}
+
+```python
+# Python 3 标准库夹具：无网络、无外部依赖
+messages=[{"id":"r1","op":"discover","accept":"application/json"},{"id":"r2","op":"list","accept":"application/json"},{"id":"r3","op":"call","accept":"text/event-stream"},{"id":"r4","op":"read","accept":"application/json"},{"id":"r5","op":"prompt","accept":"application/json"},{"id":"r6","op":"template","accept":"application/json"},{"id":"r7","op":"cancel","target":"r3","accept":"text/event-stream"},{"id":"r8","op":"unknown","accept":"application/json"}]
+server={"requests":{},"terminal":None}
+def dispatch(message):
+    rid,op=message["id"],message["op"]
+    if op=="call": server["requests"][rid]={"state":"streaming"}; return {"id":rid,"state":"streaming","error":None}
+    if op=="cancel":
+        target=message["target"]
+        if target not in server["requests"]: return {"id":rid,"state":"error","error":"unknown_request"}
+        server["requests"][target]["state"]="cancelled"
+        server["terminal"]="cancelled"
+        return {"id":rid,"state":"cancelled","error":None}
+    if op not in {"discover","list","read","prompt","template"}: return {"id":rid,"state":"error","error":"unsupported_operation"}
+    return {"id":rid,"state":"ok","error":None}
+responses=[dispatch(m) for m in messages]
+request_ids=[r["id"] for r in responses]
+accept=[m["accept"] for m in messages]
+errors=sum(r["error"] is not None for r in responses)
+print({"request_ids":request_ids,"accept":accept,"terminal":server["terminal"],"cancelled_request":server["requests"]["r3"]["state"],"errors":errors})
+assert len(set(request_ids))==8 and server["requests"]["r3"]["state"]=="cancelled" and server["terminal"]=="cancelled" and errors==1
+# 预期观察：Fake Streamable HTTP/SSE 服务验证 discover、list、call、read、prompt、资源模板、错误和取消。
+```
+
+{% note success flat %}
+失败边界：服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。 使用 Streamable HTTP/SSE Fake server，检查 Accept 头、请求 SSE 关闭取消、正常终流和 header。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 常见问题
+
+{% flashcard basic id:c09-mcp-vs-function-calling deck:"Agent 应用开发" priority:2 tags:"Agent 应用开发,测试开发" %}
+--- question
+“兼容验证”的课程边界中，MCP与function calling如何选择？
+--- answer
+先把MCP的控制变量设为discover，把function calling的对照变量设为call；在相同样本上分别记录连接关闭与清理，再按失败边界作出选择。
+--- explanation
+比较MCP与function calling时，不共享缓存或副作用；保存输入、状态转移和独立 Oracle。服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。
+{% endflashcard %}
+
+{% flashcard basic id:c09-cancel-direction deck:"Agent 应用开发" priority:2 tags:"Agent 应用开发,测试开发" %}
+--- question
+当“取消方向”出现时，先检查哪个状态和边界？
+--- answer
+先把“取消方向”绑定到discover与call；正常、越界和 Unknown 各运行一次，断言连接关闭与清理。
+--- explanation
+在protocol夹具中，比较capabilities、list与JSON-RPC、result/error，保留连接关闭与清理；服务声明能力不等于实现正确；要记录 Accept、终流和取消后的服务端状态。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link LangGraph documentation, https://langchain-ai.github.io/langgraph/, https://langchain-ai.github.io/langgraph/favicon.ico %}
+{% link OpenAI Agents SDK documentation, https://openai.github.io/openai-agents-python/, https://openai.github.io/openai-agents-python/favicon.ico %}
+{% endlinkgroup %}

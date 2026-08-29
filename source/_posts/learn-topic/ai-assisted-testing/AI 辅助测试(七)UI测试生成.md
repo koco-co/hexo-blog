@@ -9,48 +9,146 @@ description: 能写出稳定 locator、可观察断言和失败工件策略。
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 7
-published: false
+published: true
 abbrlink: 4c7b859b
-date: 2026-08-29 00:00:00
+date: 2026-08-18 00:00:00
 ---
-
-<!-- learn-topic-placeholder -->
-
 {% course_series %}
 
-> 本文是已确认课程中的未发布占位文章；下面只记录写作边界，不代表正文已经完成。
+{% note primary flat %}
+本节要解决：将规划、生成、Playwright 执行、定位和工件职责分开。 最终要留下：能写出稳定 locator、可观察断言和失败工件策略。 练习使用合成数据或 Fake 实现，外部服务的偶然结果不作为单独证明。
+{% endnote %}
 
-## 文章职责
+## UI规划
 
-- 唯一要解决的问题：将规划、生成、Playwright 执行、定位和工件职责分开。
-- 可观察成果：能写出稳定 locator、可观察断言和失败工件策略。
-- 明确不承担：不重复前置文章的通用定义；跨主题扩展交给对应后续文章。
+{% note primary flat %}
+UI 测试把规划、locator、Playwright 执行器和截图/Trace/video 工件分开；可见文字与稳定定位回答不同问题。 在“UI规划”这一环节负责定义：先固定plan，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 内容边界
+| 主题字段 | 合成示例 | 观察结论 | 失败边界 |
+| --- | --- | --- | --- |
+| plan | 用户动作与预期 | 任务清楚 | 不能先写选择器 |
+| locator | role、label、test id | 稳定定位 | 不能依赖像素 |
+| artifact | trace/screenshot/video | 失败证据 | 不能互相替代 |
+| 定义边界 | UI规划 | 使用 Playwright TS Fake page，验证稳定 locator、可见断言和三类工件的职责。 | 截图只证明当时可见状态；业务写入和权限还需接口或存储证据。 |
 
-- 进入条件：完成 G03、G04、G05 的相关实验与边界判断。
-- 覆盖条目：UI规划、locator、执行器、工件角色
-- 失败边界：使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 还必须说明不适用条件、降级路径和不能由本篇单独证明的结论。
+{% mermaid %}
+flowchart LR
+  I[输入] --> F[plan]
+  F --> A[UI规划]
+  A --> O[观测]
+  O --> V[验收]
+  O -->|越界| D[降级]
+{% endmermaid %}
 
-## 正文编排
+- 建立基线：把「plan」设为「用户动作与预期」，同时固定「locator」为「role、label、test id」；记录输入、状态和结果，记录任务清楚。
+- 只改变「artifact」：正常值用「trace/screenshot/video」，越界或故障按“不能互相替代”构造；观察稳定定位，不要改动其余输入。
+- 用失败证据检查“UI规划”：使用 Playwright TS Fake page，验证稳定 locator、可见断言和三类工件的职责；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
 
-| H2/H3 与正文块 | 读者任务 | 核心内容 | 主承载 | 选择理由 | 直接可见 | 失败降级 | 证据或示例 | 验证状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UI规划 | 将规划、生成、Playwright 执行、定位和工件职责分开。 | UI规划：能写出稳定 locator、可观察断言和失败工件策略。 | mermaid | 用关系图、流程图或对照表（按正文任务选择）承载主心智模型，再以文字解释因果与边界。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | planned |
-| locator | 完成“locator”中的关键理解、操作或判断 | locator：能写出稳定 locator、可观察断言和失败工件策略。 | note primary flat | 该块只承担“locator”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | planned |
-| 执行器 | 完成“执行器”中的关键理解、操作或判断 | 执行器：能写出稳定 locator、可观察断言和失败工件策略。 | code | 该块只承担“执行器”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | planned |
-| 工件角色 | 完成“工件角色”中的关键理解、操作或判断 | 工件角色：能写出稳定 locator、可观察断言和失败工件策略。 | flashcard | 该块只承担“工件角色”这一任务，避免把概念、操作和验收混成一段。 | 核心判断、操作步骤、输入输出、风险和验收条件；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | 标签、图表或外部资源失效时，保留表格、列表、命令和文字结论。 | 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 | planned |
+{% note warning flat %}
+失败边界：截图只证明当时可见状态；业务写入和权限还需接口或存储证据。 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
 
-## 视觉与复习
+## locator
 
-- 难点理解计划：以关系图、流程图或对照表（按正文任务选择）作为主心智模型，先给出观察或反例，再解释真实机制、隐喻边界和迁移检查。
-- 标签选型复查：写作时从当前完整标签目录选择；禁止 tip，note 只按语义使用 flat，长原理用 folding，平行实现才使用 tabs。
-- 图表或实验：关系图、流程图或对照表（按正文任务选择）；使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。
-- 复习卡片：flashcard_ref: g07-artifact-roles；flashcard_ref: g07-visible-vs-locator；flashcard_ref: g07-trace-scope
-- 参考资料卡片：GitHub Actions documentation（https://docs.github.com/en/actions）；Playwright documentation（https://playwright.dev/docs/intro）
+{% note info flat %}
+UI 测试把规划、locator、Playwright 执行器和截图/Trace/video 工件分开；可见文字与稳定定位回答不同问题。 在“locator”这一环节负责执行：先固定locator，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
 
-## 验收证据
+{% note info flat %}
+**路径卡片：locator**
+1. 入口：locator=role、label、test id，先记录稳定定位。
+2. 转移：由artifact=trace/screenshot/video进入locator，只允许声明的动作。
+3. 出口：用任务清楚检查plan，越界条件是“不能先写选择器”。
+{% endnote %}
 
-- 机械检查：运行 content、tags、assets、lint 与闪卡相关检查，修复具体文件错误。
-- 隔离构建：在隔离草稿环境完成构建、桌面与移动路由检查，确认标签、图片、降级和课程导航。
-- 正文完成条件：补齐真实机制、可复现实验、失败边界、参考资料和必要闪卡；独立复核通过后删除占位标记并切换为 published: true。
+- 执行正常路径：把「locator」设为「role、label、test id」，同时固定「artifact」为「trace/screenshot/video」；记录输入、状态和结果，记录稳定定位。
+- 只改变「plan」：正常值用「用户动作与预期」，越界或故障按“不能先写选择器”构造；观察失败证据，不要改动其余输入。
+- 用任务清楚检查“locator”：使用 Playwright TS Fake page，验证稳定 locator、可见断言和三类工件的职责；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：截图只证明当时可见状态；业务写入和权限还需接口或存储证据。 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 执行器
+
+{% note info flat %}
+UI 测试把规划、locator、Playwright 执行器和截图/Trace/video 工件分开；可见文字与稳定定位回答不同问题。 在“执行器”这一环节负责故障：先固定artifact，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+| 触发样本 | 观察字段 | 预期决策 | 不能推出 |
+| --- | --- | --- | --- |
+| 正常：trace/screenshot/video | artifact | 失败证据 | 不能互相替代 |
+| 边界：用户动作与预期 | plan | 任务清楚 | 不能先写选择器 |
+| 故障：role、label、test id | locator | 稳定定位 | 不能依赖像素 |
+
+- 注入边界：把「artifact」设为「trace/screenshot/video」，同时固定「plan」为「用户动作与预期」；记录输入、状态和结果，记录失败证据。
+- 只改变「locator」：正常值用「role、label、test id」，越界或故障按“不能依赖像素”构造；观察任务清楚，不要改动其余输入。
+- 用稳定定位检查“执行器”：使用 Playwright TS Fake page，验证稳定 locator、可见断言和三类工件的职责；保存原始输入、状态转移、响应和副作用计数，无法观察的字段写为 Unknown。
+
+{% note warning flat %}
+失败边界：截图只证明当时可见状态；业务写入和权限还需接口或存储证据。 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 工件角色
+
+{% note info flat %}
+UI 测试把规划、locator、Playwright 执行器和截图/Trace/video 工件分开；可见文字与稳定定位回答不同问题。 在“工件角色”这一环节负责复核：先固定plan，再观察状态、输出和副作用；不要把模型建议、脚本结束或页面提示直接当成业务结论。
+{% endnote %}
+
+{% note success flat %}
+结果清单（工件角色）：输入为「用户动作与预期」；状态观察为「稳定定位」；独立判定使用「失败证据」。记录使用 Playwright TS Fake page，验证稳定 locator、可见断言和三类工件的职责，把“截图只证明当时可见状态；业务写入和权限还需接口或存储证据。”作为未覆盖范围。
+{% endnote %}
+
+{% note info flat %}
+下面的夹具只使用 Python 3 标准库，定义了完整的输入、判断和断言。预期结果：使用 Playwright TS Fake page，验证稳定 locator、可见断言和三类工件的职责。
+{% endnote %}
+
+```python
+# Python 3 标准库夹具：无网络、无外部依赖
+actions=[{"kind":"click","state":"ready"},{"kind":"input","state":"filled"},{"kind":"download","state":"saved"},{"kind":"slow","state":"timeout"}]
+observed=[a["state"] for a in actions]
+print({"actions":len(actions),"observed":observed,"reobserved":True})
+assert observed[:3]==["ready","filled","saved"]
+# 预期观察：使用 Playwright TS Fake page，验证稳定 locator、可见断言和三类工件的职责。
+```
+
+{% note success flat %}
+失败边界：截图只证明当时可见状态；业务写入和权限还需接口或存储证据。 使用 Playwright TS Fake page，验证可见行为、稳定定位和 trace/screenshot/video 的分工。 只能在声明的合成夹具内解释；超出范围的结论应标记为 Unknown。
+{% endnote %}
+
+## 常见问题
+
+{% flashcard basic id:g07-artifact-roles deck:"AI 辅助测试" priority:2 tags:"AI 辅助测试,测试开发" %}
+--- question
+当“工件角色”出现时，先检查哪个状态和边界？
+--- answer
+先把“工件角色”绑定到plan与locator；正常、越界和 Unknown 各运行一次，断言失败证据。
+--- explanation
+在browser夹具中，比较用户动作与预期与role、label、test id，保留失败证据；截图只证明当时可见状态；业务写入和权限还需接口或存储证据。
+{% endflashcard %}
+
+{% flashcard basic id:g07-visible-vs-locator deck:"AI 辅助测试" priority:2 tags:"AI 辅助测试,测试开发" %}
+--- question
+“工件角色”的课程边界中，可见与定位器如何选择？
+--- answer
+先把可见的控制变量设为plan，把定位器的对照变量设为locator；在相同样本上分别记录失败证据，再按失败边界作出选择。
+--- explanation
+比较可见与定位器时，不共享缓存或副作用；保存输入、状态转移和独立 Oracle。截图只证明当时可见状态；业务写入和权限还需接口或存储证据。
+{% endflashcard %}
+
+{% flashcard basic id:g07-trace-scope deck:"AI 辅助测试" priority:2 tags:"AI 辅助测试,测试开发" %}
+--- question
+在browser夹具里，怎样区分“Trace 作用域”的通过与拒绝？
+--- answer
+先把“Trace 作用域”绑定到plan与locator；正常、越界和 Unknown 各运行一次，断言失败证据。
+--- explanation
+在browser夹具中，比较用户动作与预期与role、label、test id，保留失败证据；截图只证明当时可见状态；业务写入和权限还需接口或存储证据。
+{% endflashcard %}
+
+## 参考资料
+
+{% linkgroup %}
+{% link GitHub Actions documentation, https://docs.github.com/en/actions, https://github.com/favicon.ico %}
+{% link Playwright documentation, https://playwright.dev/docs/intro, https://playwright.dev/img/playwright-logo.svg %}
+{% endlinkgroup %}

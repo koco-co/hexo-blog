@@ -46,6 +46,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
    - 默认只选择路线中下一篇未完成文章；用户明确要求批量完成时，先冻结本批次文章及顺序，再按同一门禁逐篇处理，不并行写入相互依赖的正文。
    - 每篇先刷新该篇的能力分配及官方来源，再完整读取 `../hexo-blog-maintenance/rules/technical-writing-style.md`、`rules/article-tag-selection.md` 与 `references/butterfly-tag-usage.md`，运行标签审计，并调用 `hexo-blog-maintenance` 完成正文结构、自然技术叙述、逐块语义标签预案、图片、参考资料卡片和未发布文章的草稿验证；把最终预案写回该篇的 `course.article_block_tag_plans`，难点故事或替代推演的计划按模板存入既有 `core_content`、`rationale` 和 `directly_visible` 字段，使新会话和独立 Reviewer 都能读取；初稿必须交给干净上下文 Article Reviewer 逐项查漏。
    - 修复时重新调用维护 Skill 完成受影响验证，再独立复查和执行隔离的公开候选验证。候选通过后，同一工作流立即删除占位标记并把该篇改为 `published: true`，同步路线图；不得等待用户提醒。
+   - 每篇文章完成公开门禁、真实构建和路由冒烟后，自动在博客根目录运行 `./hexo-publish.sh local --background --no-clean`，默认只进行本地构建并启动后台预览服务（优先使用 4000 端口；被其他进程占用时自动选择下一个可用端口，以脚本输出地址为准），不选择云端发布。命令失败时读取退出码与 `logs/hexo-publish.log`（该日志覆盖清理、构建和服务启动输出），自行修复本次任务范围内的文章、配置或脚本问题，重跑受影响检查并重试，不向用户请求确认，也不得切换到 `cloud` 或 `npm run deploy`。
    - 完成条件：单篇模式在目标文章状态有证据后停止；批量模式继续下一篇，直至确认批次全部完成或出现阻塞。
 
 ## Mandatory Gates
@@ -75,7 +76,8 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 
 - 不声称穷尽互联网；用覆盖处置账本、来源核验和 Reviewer 证据说明有限官方范围。
 - 不未经确认改写、迁移或删除旧文章；旧文不满足当前课程质量时先提出升级或新建建议。
-- 不默认 clone 到持久目录、修改外部仓库、执行 Patch、commit、push、创建 Issue/PR、部署博客、安装依赖、清理生成物或修改 Butterfly 主题。
+- 不默认 clone 到持久目录、修改外部仓库、执行 Patch、commit、push、创建 Issue/PR、云端部署、安装依赖、清理生成物或修改 Butterfly 主题；课程文章完成后的本地预览只按上述 `local --background --no-clean` 路由执行。
+- 本地预览失败时必须先读取退出码和日志，自行处理可修复错误并重试；不得以错误为由切换云端发布或向用户索要确认。外部不可控阻塞只能记录已完成的处理和阻塞原因，不得伪造发布成功。
 - 社区问答只用于发现高频问题和真实踩坑；技术结论必须与当前官方资料或源码交叉核验。
 - 不在公开文章、Prompt、日志或来源清单中保存凭据、私人链接或敏感请求数据。
 

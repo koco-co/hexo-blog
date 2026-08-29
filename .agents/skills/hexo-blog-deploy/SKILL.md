@@ -16,7 +16,7 @@ metadata:
 
 - 用户只要求发布检查、发布清单或“是否可部署”时，执行预检并输出报告，不执行发布。
 - 用户明确要求本次执行本地部署时，选择 `local` 路由，完成预检和确认门禁后才可运行 `npm run deploy`。
-- 用户明确要求通过 GitHub Actions 发布时，选择 `ci` 路由；工作流或源码仓库条件不满足时停止。
+- 用户明确要求通过 GitHub Actions 发布时，选择 `ci` 路由；工作流、独立成品仓库或受限 Deploy Key 条件不满足时停止，不自动改用本地部署。
 - 日常文章、配置、CSS/JavaScript 和页面维护转交 `hexo-blog-maintenance`。
 - 其他仓库、通用部署建议或未明确指向当前博客的请求不进入本 Skill。
 
@@ -55,7 +55,7 @@ metadata:
 - 未获本次实际部署授权时，不运行 `npm run deploy`、`git push` 或任何远程发布动作。
 - Local 路由下 `.deploy_git/` 脏、发布目标不唯一、内容校验失败或构建失败时，不绕过预检。
 - 不用 `git reset --hard`、`git clean`、递归删除或手工整理 `.deploy_git/`；清理需要独立授权和精确目标。
-- 不修改 `themes/butterfly/`、CI、配置、文章或依赖来“顺便让发布通过”；把这些问题交还维护流程。
+- 不修改 npm 主题、`themes/butterfly-legacy/`、CI、配置、文章或依赖来“顺便让发布通过”；把这些问题交还维护流程。
 - 不输出秘密，不把本地构建成功表述为 GitHub Actions 或线上验证成功。
 
 ## References

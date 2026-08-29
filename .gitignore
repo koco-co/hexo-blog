@@ -13,10 +13,11 @@ _multiconfig.yml
 .vscode/
 .playwright-cli/
 .build-goals/
+.mimosa/
 
 # 本地验证产物
 logs/
 output/
 
-# 独立 Git 工作树
-themes/butterfly/
+# 只读的历史主题工作树（运行时主题来自 node_modules）
+themes/butterfly-legacy/

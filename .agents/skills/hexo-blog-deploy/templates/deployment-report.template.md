@@ -20,9 +20,10 @@
 | 运行时与依赖 | `pass`、`warning` 或 `blocked` | 命令与摘要 |
 | 内容与 abbrlink | `pass`、`warning` 或 `blocked` | 审计结果 |
 | 源码 Git 边界 | `pass`、`warning` 或 `blocked` | 状态摘要，不列敏感文件 |
-| 主题 Git 边界 | `pass`、`warning` 或 `blocked` | 状态项数量 |
+| npm 运行主题 | `pass`、`warning` 或 `blocked` | 版本、锁定状态与有效来源 |
+| 历史主题边界 | `pass`、`warning` 或 `blocked` | 仅记录状态，不作为 npm 主题阻塞依据 |
 | 部署工作树 | `pass`、`warning` 或 `blocked` | 状态项数量 |
-| 所选发布路由 | `pass`、`warning` 或 `blocked` | 路由条件 |
+| 所选发布路由 | `pass`、`warning` 或 `blocked` | Local 目标，或 CI 成品仓库、分支、目录、质量门禁与 Secret 键名 |
 
 ## 构建与页面验证
 

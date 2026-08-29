@@ -7,8 +7,8 @@
 | 项目 | 当前事实 |
 | --- | --- |
 | 主题 | `hexo-theme-butterfly` |
-| 当前版本 | `5.5.3` |
-| 源码位置 | `themes/butterfly/scripts/tag/` |
+| 当前版本 | `5.7.0` |
+| 源码位置 | `node_modules/hexo-theme-butterfly/scripts/tag/` |
 | 唯一注册标签数 | `19` |
 | 许可证 | `Apache-2.0` |
 
@@ -21,7 +21,7 @@ mermaid, note, subnote, score, series,
 tabs, subtabs, subsubtabs, timeline
 ```
 
-事实优先级：当前 `themes/butterfly/scripts/tag/*.js` → 当前 `_config.butterfly.yml` → 本目录 → Butterfly 官方文档或历史文章。主题版本或注册表变化时先读取实时源码，不继续照抄本目录。
+事实优先级：当前 `node_modules/hexo-theme-butterfly/scripts/tag/*.js` → 当前 `_config.butterfly.yml` → 本目录 → Butterfly 官方文档或历史文章。主题版本或注册表变化时先读取锁定依赖中的实时源码，不继续照抄本目录。
 
 官方能力索引为 `https://butterfly.js.org/posts/ceeb73f/`。它用于了解 Butterfly 的展示方式和文档范围，不覆盖当前项目源码契约。
 
@@ -160,7 +160,7 @@ Plus 的完整语法和配置门禁见 `references/butterfly-tag-plugins-plus.md
 
 ## 7. 验收边界
 
-当前 `audit.mjs tags` 可以统计 Markdown 中的 Butterfly 标签，但其注册漂移检查主要针对 Tag Plugins Plus。每次新增或改变内置标签用法仍要直接读取对应 `themes/butterfly/scripts/tag/*.js`，并完成真实 Hexo 构建。
+当前 `audit.mjs tags` 会从有效 npm 主题收集 Butterfly 注册。每次新增或改变内置标签用法仍要读取对应 `node_modules/hexo-theme-butterfly/scripts/tag/*.js`，并完成真实 Hexo 构建。
 
 机械检查和构建不能证明：
 

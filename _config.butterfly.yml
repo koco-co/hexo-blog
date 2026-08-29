@@ -69,7 +69,6 @@ envelope_comment:
     title: 留言板
     comments: true
 
-
 # --------------------------------------
 # 代码块设置（code_blocks）
 # 说明：配置代码块主题、复制按钮、折叠行为和高度限制等。建议保留 copy: true。
@@ -102,11 +101,11 @@ code_blocks:
 #  fab fa-github: https://github.com/koco-co || GitHub || '#24292e'
 #  fas fa-envelope: mailto:kopohub@gmail.com || 邮箱 || '#4a7dbe'
 social:
-  Email: mailto:kopohub@gmail.com || icon-Gmail || faa-tada
-  TikTok: https://v.douyin.com/uk6DHVS-OrI || icon-douyin || faa-tada
-  Bilibili: https://space.bilibili.com/3546823172033014 || icon-bilibili3 || faa-tada
-  Twitter: https://x.com/SugerQvQ || icon-tuite1 || faa-tada
-  Steam: https://steamcommunity.com/profiles/76561199483116375/ || icon-steam || faa-tada
+  fas fa-envelope: mailto:kopohub@gmail.com || Email
+  fab fa-tiktok: https://v.douyin.com/uk6DHVS-OrI || TikTok
+  fas fa-tv: https://space.bilibili.com/3546823172033014 || Bilibili
+  fab fa-x-twitter: https://x.com/SugerQvQ || X
+  fab fa-steam: https://steamcommunity.com/profiles/76561199483116375/ || Steam
   #  Telegram: https://t.me/sugerovo || icon-telegram || faa-tada
 
   # GitHub: https://github.com/koco-co || icon-Githubzhanghao || faa-tada
@@ -176,20 +175,20 @@ cover:
   # 默认封面图片（当文章未设置封面时使用）
   # 可以设置多个图片链接，系统会随机选择
   default_cover:
-    - /img/picgo-images/文章随机封面01.jpg
-    - /img/picgo-images/文章随机封面02.jpg
-    - /img/picgo-images/文章随机封面03.jpg
-    - /img/picgo-images/文章随机封面04.png
-    - /img/picgo-images/文章随机封面05.png
-    - /img/picgo-images/文章随机封面06.jpg
-    - /img/picgo-images/文章随机封面07.png
-    - /img/picgo-images/文章随机封面08.png
-    - /img/picgo-images/文章随机封面09.jpg
-    - /img/picgo-images/文章随机封面10.jpg
-    - /img/picgo-images/文章随机封面11.jpg
-    - /img/picgo-images/文章随机封面12.jpg
-    - /img/picgo-images/文章随机封面13.jpg
-    - /img/picgo-images/文章随机封面14.jpg
+    - /img/picgo-images/文章随机封面01.webp
+    - /img/picgo-images/文章随机封面02.webp
+    - /img/picgo-images/文章随机封面03.webp
+    - /img/picgo-images/文章随机封面04.webp
+    - /img/picgo-images/文章随机封面05.webp
+    - /img/picgo-images/文章随机封面06.webp
+    - /img/picgo-images/文章随机封面07.webp
+    - /img/picgo-images/文章随机封面08.webp
+    - /img/picgo-images/文章随机封面09.webp
+    - /img/picgo-images/文章随机封面10.webp
+    - /img/picgo-images/文章随机封面11.webp
+    - /img/picgo-images/文章随机封面12.webp
+    - /img/picgo-images/文章随机封面13.webp
+    - /img/picgo-images/文章随机封面14.webp
 
 # 替换损坏的图片
 # 说明：当图片加载失败时显示的替代图片
@@ -270,10 +269,9 @@ subtitle:
   # 1 - hitokoto.cn（一言）
   # 2 - https://api.aa1.cn/doc/yiyan.html（一言API）
   # 3 - jinrishici.com（今日诗词）
-  source: 1
-  # 如果关闭打字机效果，副标题将只显示第一行内容
-  sub:
-
+  source: false
+  # 使用本地固定文案，避免首页加载时调用第三方语录 API。
+  sub: 记录技术实践、系统学习与日常思考
 
 # ======================================
 # 首页文章卡片布局方式（index_layout）
@@ -288,7 +286,6 @@ subtitle:
 # ======================================
 
 index_layout: 3
-
 
 # ======================================
 # 首页文章简介显示规则（index_post_content）
@@ -341,7 +338,7 @@ post_edit:
   enable: true
   # url: https://github.com/user-name/repo-name/edit/branch-name/subdirectory-name/
   # For example: https://github.com/jerryc127/butterfly.js.org/edit/main/source/
-  url: https://github.com/koco-co/koco-co.github.io/edit/main/source/
+  url: https://github.com/koco-co/hexo-blog/edit/main/source/
 
 # Related Articles
 related_post:
@@ -402,21 +399,8 @@ footer:
   #    </p>
 
   custom_text: |-
-    <div style="font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px;">
-      <p><strong>免责声明</strong></p>
-      <p>本站发布的内容仅供学习和研究使用，禁止用于商业或非法用途。若因违规使用导致任何后果，均由用户自行承担。</p>
-      <p>请在下载后24小时内彻底删除相关文件。访问即表示您同意本声明条款。</p>
-      <p>部分资源来自互联网，如有侵权或不妥之处，请联系站长处理。</p>
-    </div>
-
-    <div style="text-align: center; font-size: 13px; color: #888; margin-top: 15px;">
-      <a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;
-      <a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用Butterfly"></a>&nbsp;
-      <a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-5a46a4?style=flat&logo=jsdelivr" title="本站使用jsDelivr为静态资源提供CDN加速"></a>&nbsp;
-      <a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由GitHub托管"></a>&nbsp;
-      <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a>
-    </div>
-
+    <p>本站内容仅供学习与研究使用。部分资料来自互联网，如有侵权或不妥，请联系处理。</p>
+    <p><a href="https://hexo.io/">Hexo</a> · <a href="https://butterfly.js.org/">Butterfly</a> · <a href="https://github.com/koco-co/hexo-blog">站点源码</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
 
 # --------------------------------------
 # 侧边栏（aside）
@@ -464,12 +448,7 @@ aside:
   # 公告卡片
   card_announcement:
     enable: true
-    content: |-
-      <center>
-        <b>主节点：</b> <a href="https://llg01.com/#/register?code=D3GEDzcQ" title="流量光机场"><font color="#5ea6e5">流量光机场</font></a>
-        </br>
-        <b>备用节点：</b> <a href="https://yoyapai.com/category/mianfeijiedian" title="免费节点分享"><font color="#5ea6e5">免费节点分享</font></a>
-      </center>
+    content: 欢迎来到 Sisyphus Vale。这里记录技术实践、系统学习与日常思考。
 
   # 最近文章卡片
   card_recent_post:
@@ -483,8 +462,8 @@ aside:
     sort_order:
   # 最新评论卡片
   card_newest_comments:
-    # 是否显示最新评论
-    enable: true
+    # 评论按需加载，不在侧栏主动请求第三方数据。
+    enable: false
     # 排序顺序（可选）
     sort_order:
     # 显示评论数量
@@ -649,9 +628,9 @@ wordcount:
 
 # Busuanzi count for PV / UV in site
 busuanzi:
-  site_uv: true
-  site_pv: true
-  page_pv: true
+  site_uv: false
+  site_pv: false
+  page_pv: false
 
 # --------------------------------------
 # Math
@@ -686,12 +665,12 @@ tag_plugins:
   link:
     placeholder: /img/avatar.png #link_card标签默认的图标图片
   CDN:
-    anima: https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css #动画标签anima的依赖
-    jquery: https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js #issues标签依赖
-    issues: https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/issues.js #issues标签依赖
-    iconfont: false # 当前文章未使用 iconfont symbol 标签，关闭旧项目脚本注入
-    carousel: https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js
-    tag_plugins_css: https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css
+    anima: /vendor/tag-plugins-plus/font-awesome-animation.min.css
+    jquery: false # issues 关闭，不加载 jQuery
+    issues: false # issues 关闭，不加载 API 脚本
+    iconfont: false # 当前文章未使用 iconfont symbol 标签
+    carousel: /vendor/tag-plugins-plus/carousel-touch.js
+    tag_plugins_css: /vendor/tag-plugins-plus/tag-plugins.css
     # ghcard_url 暂时禁用，所有公开的 github-readme-stats API 都不稳定
     # 如需使用 ghcard，请自行部署 https://github.com/anuraghazra/github-readme-stats 到 Vercel
 
@@ -750,9 +729,8 @@ search:
 # --------------------------------------
 
 share:
-  # Choose: sharejs / addtoany
-  # 如果不需要分享就置空.
-  use: AddToAny
+  # 第三方分享组件会在文章页主动联网，隐私优先模式下关闭。
+  use:
 
   # Share.js
   # https://github.com/overtrue/share.js
@@ -763,9 +741,8 @@ share:
   # AddToAny
   # https://www.addtoany.com/
   addtoany:
-    enable: true
+    enable: false
     item: x,wechat,email,copy_link
-
 
 # --------------------------------------
 # 评论系统（comments）
@@ -779,12 +756,13 @@ comments:
   # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
   # Format of two comments system : Disqus,Waline
   # 使用 GitHub Discussions 承载文章评论；Giscus App 仅授权访问当前仓库。
-  use: giscus
+  # 评论由 /js/giscus-consent.js 在用户确认后加载。
+  use:
   # Display the comment name next to the button
   text: true
   # Lazyload: The comment system will be load when comment element enters the browser's viewport.
   # If you set it to true, the comment count will be invalid
-  lazyload: false
+  lazyload: true
   # Display comment count in post's top_img
   count: false
   # Display comment count in Home Page
@@ -884,9 +862,9 @@ giscus:
   js:
   option:
     data-mapping: pathname
-    data-strict: '0'
-    data-reactions-enabled: '1'
-    data-emit-metadata: '0'
+    data-strict: "0"
+    data-reactions-enabled: "1"
+    data-emit-metadata: "0"
     data-input-position: bottom
     data-lang: zh-CN
 
@@ -1237,10 +1215,10 @@ pjax:
   exclude:
   # - /xxxxxx/
 
-# Inject the css and script (aplayer/meting)
+# 音乐和视频由本地按需加载器处理，不全站注入播放器依赖。
 aplayerInject:
   enable: false
-  per_page: true
+  per_page: false
 
 # Snackbar - Toast Notification
 # https://github.com/polonel/SnackBar
@@ -1302,35 +1280,23 @@ structured_data:
 # Add the vendor prefixes to ensure compatibility
 css_prefix: true
 
-
 # Inject
 # Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
 inject:
   head:
-    - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
+    - <link rel="stylesheet" href="/css/custom.css">
     - <link rel="stylesheet" href="/css/universe.css">
-    - <link rel="stylesheet" href="/css/page-archive-categories-tags.css" media="defer" onload="this.media='all'">
-    - <link rel="stylesheet" href="/css/post-tags.css" media="defer" onload="this.media='all'">
-    # 自行前往添加图标: https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=5107453
-    - <link rel="stylesheet" href="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.css" media="defer" onload="this.media='all'">
-    # 动画标签 anima 的依赖
-    - <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'">
-
+    - <link rel="stylesheet" href="/css/page-archive-categories-tags.css">
+    - <link rel="stylesheet" href="/css/post-tags.css">
+    - <link rel="stylesheet" href="/css/external-media.css">
 
   bottom:
-    - <canvas id="universe"></canvas>
+    - <canvas id="universe" aria-hidden="true"></canvas>
     - <script defer src="/js/universe.js"></script>
-    - <script async src="//at.alicdn.com/t/c/font_5107453_kyxe7zjyy0h.js"></script>
-    - <script defer src="/js/lunar.js"></script> # 农历计算
-    - <script defer src="/js/day.js"></script> # 节日弹窗
-    - <script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script> # jQuery
-    - <script async data-pjax src="/js/txmap.js"></script> # 腾讯位置API
-    - <script src="/js/tag-heatmap.js"></script> # 分类/标签热力图
-    - <script src="/js/post-tags-style.js"></script> # 文章标签样式
-    - <script defer src="/js/flashcard-sync-nav.js"></script> # 复习进度登录与同步导航入口
-    #    - <canvas id="snow"></canvas> # 雪花画布
-    #    - <script async src="/js/snow.js"></script> # 雪花特效
-    - <div class="aplayer no-destroy" data-id="17375390739" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div> # 顶部音乐播放器
+    - <script defer src="/js/tag-heatmap.js"></script>
+    - <script defer src="/js/external-media-consent.js"></script>
+    - <script defer src="/js/giscus-consent.js"></script>
+    - <script defer src="/js/flashcard-sync-nav.js"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
@@ -1340,7 +1306,7 @@ CDN:
   # Note: Dev version can only use 'local' for internal scripts
   # Note: When setting third-party scripts to 'local', you need to install hexo-butterfly-extjs
   internal_provider: local
-  third_party_provider: jsdelivr
+  third_party_provider: local
 
   # Add version number to url, true or false
   version: true
@@ -1350,56 +1316,56 @@ CDN:
   custom_format:
 
   option:
-  # abcjs_basic_js:
-  # activate_power_mode:
-  # algolia_js:
-  # algolia_search:
-  # aplayer_css:
-  # aplayer_js:
-  # artalk_css:
-  # artalk_js:
-  # blueimp_md5:
-  # busuanzi:
-  # canvas_fluttering_ribbon:
-  # canvas_nest:
-  # canvas_ribbon:
-  # chartjs:
-  # click_heart:
-  # clickShowText:
-  # disqusjs:
-  # disqusjs_css:
-  # docsearch_css:
-  # docsearch_js:
-  # egjs_infinitegrid:
-  # fancybox:
-  # fancybox_css:
-  # fireworks:
-  # fontawesome:
-  # gitalk:
-  # gitalk_css:
-  # giscus:
-  # instantpage:
-  # katex:
-  # katex_copytex:
-  # lazyload:
-  # local_search:
-  # main:
-  # main_css:
-  # mathjax:
-  # medium_zoom:
-  # mermaid:
-  # meting_js:
-  # prismjs_autoloader:
-  # prismjs_js:
-  # prismjs_lineNumber_js:
-  # pjax:
-  # sharejs:
-  # sharejs_css:
-  # snackbar:
-  # snackbar_css:
-  # translate:
-  # twikoo:
-  # typed:
+    abcjs_basic_js: /vendor/butterfly/abcjs/abcjs-basic-min.js
+    # activate_power_mode:
+    # algolia_js:
+    # algolia_search:
+    # aplayer_css:
+    # aplayer_js:
+    # artalk_css:
+    # artalk_js:
+    # blueimp_md5:
+    # busuanzi:
+    # canvas_fluttering_ribbon:
+    # canvas_nest:
+    # canvas_ribbon:
+    chartjs: /vendor/butterfly/chartjs/chart.umd.min.js
+    # click_heart:
+    # clickShowText:
+    # disqusjs:
+    # disqusjs_css:
+    # docsearch_css:
+    # docsearch_js:
+    egjs_infinitegrid: /vendor/butterfly/infinitegrid/infinitegrid.min.js
+    # fancybox:
+    # fancybox_css:
+    # fireworks:
+    fontawesome: /vendor/butterfly/fontawesome/css/all.min.css
+    # gitalk:
+    # gitalk_css:
+    # giscus:
+    # instantpage:
+    # katex:
+    # katex_copytex:
+    lazyload: /vendor/butterfly/lazyload/lazyload.iife.min.js
+    # local_search:
+    # main:
+    # main_css:
+    # mathjax:
+    # medium_zoom:
+    mermaid: /vendor/butterfly/mermaid/mermaid.min.js
+    # meting_js:
+    # prismjs_autoloader:
+    # prismjs_js:
+    # prismjs_lineNumber_js:
+    pjax: /vendor/butterfly/pjax/pjax.min.js
+    # sharejs:
+    # sharejs_css:
+    # snackbar:
+    # snackbar_css:
+    # translate:
+    # twikoo:
+    typed: /vendor/butterfly/typed/typed.umd.min.js
   # utils:
   # valine:
   # waline_css:

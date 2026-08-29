@@ -9,7 +9,7 @@ categories:
 description: >-
   Butterfly 主题美化教程，涵盖背景一图流、霓虹灯特效、透明页脚、字体设置、侧边栏美化等全方位自定义配置。
 abbrlink: fed949a3
-cover: /img/picgo-images/hexo-butterfly.png
+cover: /img/picgo-images/hexo-butterfly.webp
 date: 2026-01-10 17:02:30
 updated:
 ---
@@ -18,7 +18,7 @@ updated:
 
 ### 背景一图流
 
-![image-20260111121836208](/img/picgo-images/image-背景一图流.png)
+![image-20260111121836208](/img/picgo-images/image-背景一图流.webp)
 
 1. 在`[BlogRoot]\source`文件夹下新建一个文件夹`css`，该文件夹用于存放自定义的`css样式`，再新建一个名为`custom.css`，在里面写入以下代码：
 
@@ -78,7 +78,7 @@ updated:
 
 ### 霓虹灯特效
 
-![image-20260111122019783](/img/picgo-images/image-黑夜霓虹灯.png)
+![image-20260111122019783](/img/picgo-images/image-黑夜霓虹灯.webp)
 
 > 用js计时器实现的霓虹灯性能比较低，于是弄了一个纯css关键帧实现，推荐都用这个，实测性能高挺多，Pjax适配也比较友好。
 
@@ -208,7 +208,7 @@ updated:
 
 ### 流星特效
 
-![image-20260111122102326](/img/picgo-images/image-星空背景和流星特效.png)
+![image-20260111122102326](/img/picgo-images/image-星空背景和流星特效.webp)
 
 1. 在`[BlogRoot]/source/js`目录下新建`universe.js`，输入以下代码：
 
@@ -370,7 +370,7 @@ updated:
 
 ### 雪花特效
 
-![image-20260111124409925](/img/picgo-images/image-雪花特效.png)
+![image-20260111124409925](/img/picgo-images/image-雪花特效.webp)
 
 1. 新建`[BlogRoot]\source\js\snow.js`，并写入以下代码，其中雪花的参数是可以自行调节的：
 
@@ -1298,7 +1298,7 @@ updated:
 
 ### 全局卡片
 
-![image-20260110180843760](/img/picgo-images/页面亚克力效果.png)
+![image-20260110180843760](/img/picgo-images/页面亚克力效果.webp)
 
 > 通过css样式调节各个页面`透明度、模糊度（亚克力效果）、圆角、边框样式`等，看起来会更加舒适。
 
@@ -2077,7 +2077,7 @@ updated:
 
 ### 个人卡片
 
-![image-20260110174908177](/img/picgo-images/个人卡片变色效果图.png)
+![image-20260110174908177](/img/picgo-images/个人卡片变色效果图.webp)
 
 > 个人信息卡片渐变色调整:
 
@@ -2268,7 +2268,7 @@ updated:
 
 #### Social图标自定义
 
-![image-20260110204032847](/img/picgo-images/Social图标展示.png)
+![image-20260110204032847](/img/picgo-images/Social图标展示.webp)
 
 > 代码原理和上面的菜单栏基本一致，所以各个前置教程都不再重复，这里只提供代码魔改内容和配置项编写方案。
 
@@ -2332,7 +2332,7 @@ updated:
 
 #### 侧边栏图标自定义
 
-![image-20260111134454655](/img/picgo-images/image-侧边栏图标自定义.png)
+![image-20260111134454655](/img/picgo-images/image-侧边栏图标自定义.webp)
 
 > 这里的图标也是用的iconfont的，请完成前面的图标引入教程！由于侧边栏比较多，这里就演示改网站信息，剩下的侧边栏改法几乎一样的！
 
@@ -2383,7 +2383,7 @@ updated:
 
 #### 底部直达按钮
 
-![image-20260110213107117](/img/picgo-images/直达底部按钮.png)
+![image-20260110213107117](/img/picgo-images/直达底部按钮.webp)
 
 在`[BlogRoot]\themes\butterfly\layout\includes\rightside.pug`做以下修改:
 
@@ -2398,7 +2398,7 @@ button#go-down(type="button" title="直达底部" onclick="btf.scrollToDest(docu
 
 ### 文章摘要
 
-![image-20260113001844774](/img/picgo-images/image-文章摘要.png)
+![image-20260113001844774](/img/picgo-images/image-文章摘要.webp)
 
 > 因为主题 UI 的关係，主页文章节选只支持自动节选和文章页`description`.
 
@@ -2452,7 +2452,7 @@ button#go-down(type="button" title="直达底部" onclick="btf.scrollToDest(docu
 
 ### 文章链接
 
-![image-20260110230238740](/img/picgo-images/image-文章链接优化.png)
+![image-20260110230238740](/img/picgo-images/image-文章链接优化.webp)
 
 > 在Hexo的默认设定中，你的博客文章链接是由:`year/:month/:day/:title/`构成的，即按照年：月：日：标题的格式来生成链接，如果你的文章标题中还含有中文的话，复制URL链接就会有一大串编码字符。
 
@@ -2485,7 +2485,7 @@ button#go-down(type="button" title="直达底部" onclick="btf.scrollToDest(docu
 
 ### 文章版权
 
-![image-20260110210035473](/img/picgo-images/渐变色版权美化展示.png)
+![image-20260110210035473](/img/picgo-images/渐变色版权美化展示.webp)
 
 1. 修改`[BlogRoot]\themes\butterfly\layout\includes\post\post-copyright.pug`,直接复制以下内容替换原文件内容。此处多次用到了三元运算符作为默认项设置，在确保有主题配置文件的默认项的情况下，也可以在相应文章的`front-matter`中重新定义作者，原文链接，开源许可协议等内容。
 
@@ -2836,7 +2836,7 @@ button#go-down(type="button" title="直达底部" onclick="btf.scrollToDest(docu
 
 ### 公告栏自定义
 
-![image-20260111124938802](/img/picgo-images/image-公告栏美化.png)
+![image-20260111124938802](/img/picgo-images/image-公告栏美化.webp)
 
 > 在主题配置文件`_config.butterfly.yml`中写入如下配置：
 
@@ -2849,7 +2849,7 @@ aside:
 
 ### IP自适应欢迎语
 
-![image-20260111131922360](/img/picgo-images/image-欢迎信息.png)
+![image-20260111131922360](/img/picgo-images/image-欢迎信息.webp)
 
 1. 获取`API Key`：进入[腾讯位置服务](https://lbs.qq.com/dev/console/application/mine)应用管理界面，点击创建应用，应用名称和类型随便填。在新创建的应用中点击添加`key`，产品选择`WebServiceAPI`，域名白名单填自己的域名或不填。把得到的key记下。如果开启白名单记得把localhost也加上
 
@@ -3148,7 +3148,7 @@ aside:
 
 ### 页脚自定义
 
-![image-20260111122345536](/img/picgo-images/image-页脚美化.png)
+![image-20260111122345536](/img/picgo-images/image-页脚美化.webp)
 
 > 添加各种小徽标, 找到`_config.butterfly.yml` 文件的 `footer` 部分，更改 `custom_text`
 

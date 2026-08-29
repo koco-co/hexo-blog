@@ -12,7 +12,7 @@ categories:
 description: 使用 GitHub + PicGo + Typora + jsDelivr 搭建稳定、免费、高速的图床解决方案。详细介绍仓库配置、PicGo 设置、Typora 集成以及 CDN 加速的完整流程。
 abbrlink: b50471d5
 cover: >-
-  /img/picgo-images/github-picgo.png
+  /img/picgo-images/github-picgo.webp
 date: 2026-01-06 14:30:00
 sticky:
 password:

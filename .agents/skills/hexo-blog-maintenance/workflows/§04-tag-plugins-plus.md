@@ -10,11 +10,11 @@
 node .agents/scripts/audit.mjs tags --json
 ```
 
-2. 核对已安装版本、配置来源、`enable`、`issues`、Markdown 渲染器、实际注册标签和容器标签。
-3. 若版本不是参考文件记录的基线，读取当前 `node_modules/hexo-butterfly-tag-plugins-plus/index.js`，以实时注册和参数解析为准，再更新使用方案。
-4. 若标签来自 Butterfly 本体，读取对应的 `themes/butterfly/scripts/tag/*.js`；主题目录保持只读。
-5. 使用 `flashcard` 或 `flashcard_ref` 时读取 `references/hexo-flashcard-plugin.md` 和当前安装插件的解析器；确认版本、配置路径、卡片类型、全站 ID 与引用目标。
-6. 审计为 `blocked` 时不插入新标签，不通过修改主题或跳过构建来绕过。
+1. 核对已安装版本、配置来源、`enable`、`issues`、Markdown 渲染器、实际注册标签和容器标签。
+1. 若版本不是参考文件记录的基线，读取当前 `node_modules/hexo-butterfly-tag-plugins-plus/index.js`，以实时注册和参数解析为准，再更新使用方案。
+1. 若标签来自 Butterfly 本体，读取对应的 `node_modules/hexo-theme-butterfly/scripts/tag/*.js`；npm 主题保持只读。
+1. 使用 `flashcard` 或 `flashcard_ref` 时读取 `references/hexo-flashcard-plugin.md` 和当前安装插件的解析器；确认版本、配置路径、卡片类型、全站 ID 与引用目标。
+1. 审计为 `blocked` 时不插入新标签，不通过修改主题或跳过构建来绕过。
 
 完成信号：标签所有者、实时语法、配置门禁、外部依赖和验证方式均已明确。
 
@@ -51,7 +51,7 @@ AI 新建文章或整体视觉重构先使用 `workflows/§05-visual-rich-author
 ## Phase 3：按源码契约编写
 
 1. 按标签所有者从 `references/butterfly-built-in-tags.md` 或 `references/butterfly-tag-plugins-plus.md` 复制结构，再替换内容，不凭记忆重排参数。
-2. 保持源码要求的分隔符；插件同时存在 `,`、`, `、` | ` 和 `||` 四种解析方式。
+2. 保持源码要求的分隔符；插件同时存在英文逗号、英文逗号后接空格、两侧带空格的竖线和 `||` 四种解析方式。
 3. 容器标签按栈顺序闭合，不能交叉嵌套。当前插件容器为：`btns`、`carousel`、`folding`、`ghcardgroup`、`linkgroup`、`poem`、`sitegroup`、`tip`、`videos`。
 4. `cell` 放在 `btns` 内；组合卡片优先放入对应 group 容器。
 5. `carousel` ID 在当前页面唯一，只使用字母、数字、`-` 或 `_`；正文图片仍需替代文本。

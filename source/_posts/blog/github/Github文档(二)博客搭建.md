@@ -9,7 +9,7 @@ categories:
   - 工具配置
 description: 从零开始搭建 Hexo 博客，配置 Butterfly 主题，使用 GitHub Actions 实现自动部署。详细介绍环境准备、主题配置、插件安装和自动化部署的完整流程。
 cover: >-
-  /img/picgo-images/hexo-githubpages.png
+  /img/picgo-images/hexo-githubpages.webp
 abbrlink: beec4250
 date: 2026-01-09 15:52:30
 ---

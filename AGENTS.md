@@ -4,7 +4,7 @@
 
 - 本项目是使用 Hexo 和 Butterfly 构建的个人静态博客。
 - 版本、功能开关、站点地址、时区和部署目标必须从当前 `package.json`、锁文件及 `_config*.yml` 实时读取，不依赖本文中的历史快照。
-- 项目根目录已关联 Git 远程仓库；`themes/butterfly/` 和 `.deploy_git/` 仍是独立 Git 工作树。每次操作前分别检查三个工作树的实时状态，不把任一工作树的状态当作其他工作树的回滚能力。
+- 项目根目录已关联 Git 远程仓库；运行时主题来自锁定的 npm 包。`themes/butterfly-legacy/` 是停用的历史主题工作树，`.deploy_git/` 是本地应急部署工作树；三者状态分别检查，不互相充当回滚能力。
 
 ## 项目指令与 Skill 单一来源
 
@@ -16,7 +16,7 @@
 
 ## 目录与所有权
 
-- `source/_posts/`：文章源文件。
+- `source/_posts/`：文章源文件；普通指南放在 `guides/`，系统课程放在 `learn-topic/`。
 - `source/<page>/`：关于、分类、标签、音乐、视频、友链和其他独立页面。
 - `source/_data/`：友链等结构化数据。
 - `source/img/`：本地图片资源；从旧图床迁移及后续新增的正文图片统一放在 `source/img/picgo-images/`，使用 `/img/picgo-images/<name>` 引用。
@@ -27,13 +27,14 @@
 - `.agents/skills/hexo-learn-topic/data/`：按课程路径段命名的学习大纲、文章映射与能力账本 JSON 契约。
 - `tools/hexo-blog/image-migration-map.json`：旧图床迁移数据清单；`tools/hexo-blog/` 不再存放脚本。
 - `scripts/`：Hexo 自动加载的扩展目录，不用于存放普通维护脚本。
-- `themes/butterfly/`：独立且可能包含用户定制的主题工作树，默认只读。
+- `node_modules/hexo-theme-butterfly/`：唯一运行主题来源，只读且由锁文件管理。
+- `themes/butterfly-legacy/`：停用的历史主题工作树，仅供比对；不参与运行、lint 或发布。
 - `public/`、`db.json`、`logs/`：生成物或运行产物，不手工编辑。
 - `.deploy_git/`：独立发布工作树，日常维护不得修改。
 
 ## 开始工作前
 
-1. 运行 `node .agents/scripts/audit.mjs project --json`，确认运行时、依赖、配置、敏感字段位置和三个 Git 边界。
+1. 运行 `node .agents/scripts/audit.mjs project --json`，确认运行时、npm 主题、依赖、配置、敏感字段位置和 Git 边界。
 2. 图片新增、迁移或引用调整还要运行 `node .agents/scripts/audit.mjs assets --json`，核对本地文件、迁移清单和旧图床真实渲染引用。
 3. 根据任务读取当前配置、源码、文章和对应项目 Skill；不得以旧文章、旧说明或历史审计替代实时实现。
 4. 只处理用户授权的目标。主题修改、依赖安装、外部上传、清理和部署分别需要明确授权。
@@ -52,7 +53,7 @@
 - `published` 存在时必须是布尔值。只有带课程占位标记的文章可以使用 `published: false`；正文完成并通过该篇公开候选门禁后，同一工作流必须自动删除占位标记并改为 `published: true`，不得等待用户提醒。
 - `abbrlink` 可在构建前缺省，由当前 `hexo-abbrlink` 生成；发布前必须存在且全站唯一。
 - 编辑已有文章时保留与任务无关的 Front Matter，包括 `cover`、`updated`、`sticky`、`password` 等可选字段，且不得展示密码值。
-- 新建文章以维护 Skill 的 `templates/post.template.md` 为完整结构；使用 Hexo scaffold 创建后仍须补全缺失字段。
+- 新建文章以维护 Skill 的 `templates/post.template.md` 和 `scaffolds/post.md` 为结构基线；使用 Hexo scaffold 后必须替换所有“待补充”占位值。
 - 课程文章公开正文不使用“来源”“来源与核验范围”或“核验于 YYYY-MM-DD”等内部工作文案；入门路线固定六个 H2：`课程目标`、`前置条件`、`学习路径`、`文章安排`、`开始学习`、`参考资料`，不放 FAQ/闪卡；其他公开主题、进阶和实战文章如有 `常见问题`，其中必须包含 `flashcard` 或 `flashcard_ref`，最后一个 H2 为 `参考资料`。
 - 课程 Mermaid 图必须使用 Butterfly 的 `{% mermaid %}` 与 `{% endmermaid %}`，不得使用 Markdown `mermaid` 代码围栏；课程公开正文的唯一内容与视觉合同是 `.agents/skills/hexo-learn-topic/rules/published-article-contract.md`：解释块使用语义对应的块级标签，H2/H3、代码、表格、列表和结构连接可保留普通 Markdown；概念开头的故事自然段仅按该合同第 2.1 节的显式边界例外处理，不放宽其他审计，也不用无关组件硬凑数量。
 - 技术正文、概念故事和闪卡解析的教学方法统一由 `.agents/skills/hexo-blog-maintenance/rules/technical-writing-style.md` 定义：难点先建立理解，再回到真实机制、隐喻边界和验证；故事质量由语义审查判断，更新 Skill 不自动授权批量改写历史文章。
@@ -62,18 +63,18 @@
 - 使用 Butterfly 或 Tag Plugins Plus 标签前运行 `node .agents/scripts/audit.mjs tags --json`，并核对维护 Skill 的标签参考及当前主题或插件源码。
 - 不根据历史文章猜测标签参数。容器标签必须按栈顺序闭合，复杂嵌套必须真实构建目标文章。
 - 全站 Markdown 中的 Hexo 标签必须能从当前项目脚本、主题或已安装插件源码找到真实注册；未注册标签、未闭合容器和已禁用能力均阻断 lint。
-- 仓库维护源文件中不保留 `.DS_Store`、`*.bak`、`*.tmp`、`*.swp` 或编辑器备份；`source/_posts/` 只放 Markdown 文章与明确的课程目录。`node_modules/`、`public/`、`db.json`、本地工具状态，以及独立的 `themes/butterfly/`、`.deploy_git/` 不作为主仓库源码逐文件 lint，只检查依赖、生成边界和独立 Git 状态。
+- 仓库维护源文件中不保留 `.DS_Store`、`*.bak`、`*.tmp`、`*.swp` 或编辑器备份；`source/_posts/` 只放 Markdown 文章与明确的内容目录。`node_modules/`、`public/`、`db.json`、本地工具状态、`themes/butterfly-legacy/` 和 `.deploy_git/` 不作为主仓库源码逐文件 lint。
 
 ## 配置、CSS 与 JavaScript
 
-- Butterfly 配置优先修改根目录 `_config.butterfly.yml`，不得为普通配置变更直接编辑主题自带配置或核心源码。
+- Butterfly 配置只通过根目录 `_config.butterfly.yml` 和 `source/` 覆盖实现；不得编辑 npm 主题或历史主题核心源码。
 - 样式修改优先落入职责最窄的既有 `source/css/` 文件；通用覆盖才使用 `source/css/custom.css`。
-- 新图片采用本地优先：直接保存到 `source/img/picgo-images/` 并引用本地路径，不通过 PicGo 上传到外部图床；历史迁移字节与 `tools/hexo-blog/image-migration-map.json` 保持一致。
+- 新图片采用本地优先：直接保存到 `source/img/picgo-images/` 并引用本地路径，不通过 PicGo 上传到外部图床。迁移清单内原图保持字节与 SHA-256 不变；网页优化优先新增 WebP 派生文件并调整渲染引用。
 - 教程围栏代码中的旧图床 URL 可作为历史示例保留，但真实渲染的封面、Markdown 图片、HTML 图片和标签外挂图片参数不得继续引用旧图床。
 - 新增本地资源后检查 `_config.butterfly.yml` 的 `inject` 和实际文件路径，避免悬空引用。
 - 自定义 JavaScript 使用局部作用域，初始化必须幂等，并兼容 `DOMContentLoaded` 与 `pjax:complete`。
 - 依赖特定 DOM 的脚本在目标元素不存在时应安静退出。
-- 第三方 API、评论、统计、搜索、网络资源或外部上传涉及隐私、失败降级或外部副作用时，不得未经确认启用或扩张范围。
+- 第三方 API、评论、统计、搜索、网络资源或外部上传涉及隐私、失败降级或外部副作用时，不得未经确认启用或扩张范围；评论、音乐和视频默认必须由访客主动点击后加载。
 
 ## 真实命令
 
@@ -94,7 +95,9 @@
 - 新文章：`./node_modules/.bin/hexo new "标题"`
 - 新页面：`./node_modules/.bin/hexo new page "页面名"`
 - 清理生成物：`npm run clean`，仅在用户明确授权本次清理后运行。
-- 部署：`npm run deploy`，仅由部署 Skill 在本次发布明确授权且预检通过后运行。
+- CI 发布预检：`node .agents/scripts/audit.mjs release --route ci --json`
+- 本地应急发布预检：`node .agents/scripts/audit.mjs release --route local --json`
+- 部署：默认由 GitHub Actions 跨仓库发布；`npm run deploy` 仅由部署 Skill 在本次明确授权且本地预检通过后应急使用。
 
 ## 验证要求
 
@@ -109,8 +112,8 @@
 
 ## Git、生成物与外部副作用
 
-- 保留所有不属于当前任务的修改，尤其是 `themes/butterfly/` 中已有的未提交工作。
-- 未经单独授权，不直接修改 `themes/butterfly/`，不安装依赖，不运行 `npm run clean`。
+- 保留所有不属于当前任务的修改，尤其是 `themes/butterfly-legacy/` 中已有的未提交工作。
+- 未经单独授权，不直接修改 `themes/butterfly-legacy/` 或 npm 主题，不安装依赖，不运行 `npm run clean`。
 - 未经本次明确授权，不运行 `npm run deploy`、`git push`，不提交、不发布，也不修改远程仓库。
 - 不手工修补 `public/`、`db.json`、日志或 `.deploy_git/` 来制造通过结果。
 - Git 状态只能作为变更边界参考；写入前缩小目标，写入后逐文件读取核对，不把提交或远程状态当作未经验证的回滚能力。

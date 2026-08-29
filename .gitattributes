@@ -1,0 +1,3 @@
+# Vendored minified bundles are preserved as upstream artifacts and should not be whitespace-normalized.
+source/vendor/**/*.min.js binary
+source/vendor/**/*.min.css binary

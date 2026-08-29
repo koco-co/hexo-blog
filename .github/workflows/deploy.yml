@@ -1,25 +1,63 @@
-name: Deploy
+name: Validate and Deploy
 
 on:
   push:
     branches:
       - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hexo-pages-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  quality:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          node-version: '24'
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
           cache: npm
       - run: npm ci
-      - run: ./node_modules/.bin/hexo generate
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Audit source
+        run: node .agents/scripts/audit.mjs lint --json
+      - name: Test audit contracts
+        run: node --test .agents/scripts/audit.test.mjs
+      - name: Build site
+        run: npm run build
+      - name: Verify release candidate
+        run: |
+          node .agents/scripts/audit.mjs lint --json
+          node .agents/scripts/audit.mjs release --route ci --json
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Publish generated site
+        uses: peaceiris/actions-gh-pages@329bcc8f12caed2cefe5a5b80781499a6f3b361b # v4
+        with:
+          deploy_key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          external_repository: koco-co/koco-co.github.io
+          publish_branch: main
           publish_dir: ./public
+          keep_files: false

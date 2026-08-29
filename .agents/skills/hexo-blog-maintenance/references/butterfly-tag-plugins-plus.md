@@ -12,7 +12,7 @@
 | 插件开关 | 已开启 |
 | 过滤器优先级 | `5` |
 | `issues` 能力 | 已关闭 |
-| Markdown 渲染器 | `hexo-renderer-kramed` 已声明 |
+| Markdown 渲染器 | `hexo-renderer-marked` 已声明；真实构建验证复杂标签兼容性 |
 | 唯一注册标签数 | `35` |
 | 插件许可证 | `Apache-2.0` |
 
@@ -43,7 +43,7 @@ videos        -> endvideos
 插件不是统一参数解析器：
 
 - 多数标签按英文逗号 `,` 分隔；
-- `image`、`inlineimage`、`ghcard`、`site` 要求逗号后保留空格 `, `；
+- `image`、`inlineimage`、`ghcard`、`site` 要求英文逗号后保留一个空格；
 - `progress` 的实现会重新拼接参数，必须写成无空格的 `75,blue,文本`；
 - `issues` 使用空格包围的竖线 ` | `；
 - `bdage` 同时使用 `,` 与双竖线 `||`；
@@ -144,7 +144,7 @@ Butterfly 当前内置标签的完整所有者、语法、配置门禁和选型�
 
 - `timeline`、`note`、`tabs`、`btn`、`inlineImg`、`gallery`、`mermaid` 等来自 Butterfly。
 - `folding`、`tip`、`btns/cell`、`inlineimage`、`carousel`、`link` 等来自 Tag Plugins Plus。
-- `meting` 来自 `hexo-tag-aplayer`，不等同于插件的 `audio`。
+- 当前项目未安装 `hexo-tag-aplayer`，不得使用 `meting`；音乐页由访客主动加载的独立页面实现。
 
 ## 6. 配置和网络门禁
 

@@ -7,7 +7,7 @@ categories:
   - Butterfly Docs
 description: Butterfly 主题功能拓展教程，详细介绍 Front-matter 参数、导航栏自定义、全局命令别名、评论系统、搜索配置等高级功能。
 abbrlink: 1568d027
-cover: /img/picgo-images/hexo-butterfly.png
+cover: /img/picgo-images/hexo-butterfly.webp
 date: 2026-01-10 22:00:24
 updated:
 ---
@@ -76,7 +76,7 @@ abstract: 这篇文章已被加密，需要输入密码才能查看哦~
 
 ## 导航栏自定义
 
-![导航栏自定义](/img/picgo-images/image-导航栏自定义.png)
+![导航栏自定义](/img/picgo-images/image-导航栏自定义.webp)
 
 1. 执行命令, e.g. 新增视频模块
 
@@ -114,11 +114,11 @@ menu:
 
 效果如图:
 
-![菜单列表](/img/picgo-images/image-导航栏下拉菜单.png)
+![菜单列表](/img/picgo-images/image-导航栏下拉菜单.webp)
 
 ## 文章加密功能
 
-![文章加密](/img/picgo-images/image-文章加密.png)
+![文章加密](/img/picgo-images/image-文章加密.webp)
 
 1. 安装插件
 
@@ -157,7 +157,7 @@ menu:
 
 ### 视频模块
 
-![视频模块](/img/picgo-images/视频适配.png)
+![视频模块](/img/picgo-images/视频适配.webp)
 
 > 需要视频平台支持嵌入iframe框架, e.g. Bilibili, YouTube.
 
@@ -191,7 +191,7 @@ menu:
    ```
 
 3. 直接复制插入你的 `source/video/index.md` 文章就行，修改里面的 aid 为你视频的 AV号(
-   AV号获取方法，在网页版B站分享按钮最后一个选项，有个嵌入代码，复制插入md文件即可)：![image-20260110230050461](/img/picgo-images/b链接分享.png)
+   AV号获取方法，在网页版B站分享按钮最后一个选项，有个嵌入代码，复制插入md文件即可)：![image-20260110230050461](/img/picgo-images/b链接分享.webp)
 
    ```markdown
    ---
@@ -223,7 +223,7 @@ menu:
 
 ### 音乐模块
 
-![音乐模块](/img/picgo-images/image-音乐模块嵌入.png)
+![音乐模块](/img/picgo-images/image-音乐模块嵌入.webp)
 
 1. 创建音乐模块
 
@@ -360,7 +360,7 @@ menu:
    - link：链接到对应相册的子页面地址
    - img-url：分类封面地址
 
-   ![image-20260111225539596](/img/picgo-images/image-照片模块.png)
+   ![image-20260111225539596](/img/picgo-images/image-照片模块.webp)
 
 4. 创建照片模块子页面
 
@@ -427,7 +427,7 @@ menu:
 
 ### 信笺样式留言板
 
-![image-20260111145408897](/img/picgo-images/image-留言板.png)
+![image-20260111145408897](/img/picgo-images/image-留言板.webp)
 
 > ⚠️ `不需要执行命令: hexo new page comments`
 

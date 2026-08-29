@@ -9,13 +9,12 @@
     "server": "hexo server"
   },
   "hexo": {
-    "version": "8.1.1"
+    "version": "8.1.2"
   },
   "dependencies": {
-    "hexo": "^8.0.0",
+    "hexo": "^8.1.2",
     "hexo-abbrlink": "^2.2.1",
     "hexo-blog-encrypt": "^3.1.9",
-    "hexo-butterfly-envelope": "^1.0.15",
     "hexo-butterfly-tag-plugins-plus": "^1.0.18",
     "hexo-deployer-git": "^4.0.0",
     "hexo-flashcard-plugin": "https://github.com/koco-co/hexo-flashcard-plugin/archive/f60bb863fd1edaa61e40a5ccd9c0f84c1a0ed588.tar.gz",
@@ -25,13 +24,11 @@
     "hexo-generator-search": "^2.4.3",
     "hexo-generator-tag": "^2.0.0",
     "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-kramed": "^0.1.4",
+    "hexo-renderer-marked": "^7.0.1",
     "hexo-renderer-pug": "^3.0.0",
     "hexo-renderer-stylus": "^3.0.1",
     "hexo-server": "^3.0.0",
-    "hexo-tag-aplayer": "^3.0.4",
-    "hexo-theme-butterfly": "^5.5.3",
-    "hexo-theme-landscape": "^1.0.0",
+    "hexo-theme-butterfly": "^5.7.0",
     "hexo-wordcount": "^6.0.1"
   }
 }

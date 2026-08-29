@@ -14,8 +14,8 @@
 - 当前 Node.js 与已安装 Hexo 的最低版本；
 - `package.json`、`_config.yml` 和 `_config.butterfly.yml` 可解析；
 - 所有文章的发布级 Front Matter 与唯一 `abbrlink`；
-- 项目根、`themes/butterfly/` 和 `.deploy_git/` 的 Git 边界与脏状态；
-- 部署类型、脱敏后的远程目标和分支；
+- 项目根、`themes/butterfly-legacy/` 和 `.deploy_git/` 的独立 Git 边界；历史主题仅记录，不参与运行主题或发布阻塞判断；
+- npm 运行主题、部署类型、脱敏后的远程目标和分支；
 - 本地或 CI 路由的真实前置条件；
 - 构建、预览、网络和远程认证能力。
 
@@ -28,13 +28,13 @@
 - 内容审计失败、`abbrlink` 缺失或重复；
 - 本地 Node.js 不满足当前 Hexo；
 - 项目根目录没有可验证的源码 Git 状态；
-- 主题工作树状态未知或存在未提交变更；
+- 运行时 npm 主题缺失、未锁定或与配置不一致；
 - Local 路由下 `.deploy_git/` 缺失、状态未知或不干净；
 - 部署类型、远程仓库或分支不完整；
 - 构建失败或本次改动要求的页面验收失败；
 - 用户没有明确授权实际发布。
 
-GitHub Actions 路由还必须满足：源码处于可推送的 Git 仓库、工作流运行时兼容、所需权限与 Secrets 已配置。CI 不可用不自动切换到本地部署。
+GitHub Actions 路由还必须满足：工作流发布到确认的独立成品仓库及 `main` 分支，发布目录为 `./public`，引用受限的 `PAGES_DEPLOY_KEY`，并包含 lint、审计测试、构建和 CI 发布预检。Secret 是否已在 GitHub 配置需要仓库管理员确认；CI 不可用不自动切换到本地部署。
 
 ## 4. 允许的命令边界
 

@@ -1,105 +1,64 @@
 <div align="center">
 
-# 𝓢𝓲𝓼𝔂𝓹𝓱𝓾𝓼 𝓥𝓪𝓵𝓮'𝓼 𝓦𝓸𝓻𝓴𝓢𝓹𝓪𝓬𝓮
+# Sisyphus Vale
 
 <img src="source/img/sisyphus-vale-avatar.png" alt="Sisyphus Vale 站点头像" width="160">
 
-<p align="center">基于 𝑯𝒆𝒙𝒐 与 𝑩𝒖𝒕𝒕𝒆𝒓𝒇𝒍𝒚 的中文知识博客与可验证维护工作流</p>
+基于 Hexo 与 Butterfly 的个人技术博客
 
 [![Hexo](https://img.shields.io/badge/Hexo-8.1.2-0E83CD?style=flat-square&logo=hexo&logoColor=white)](https://hexo.io/)
-[![Butterfly](https://img.shields.io/badge/Butterfly-5.5.3-49B1F5?style=flat-square)](https://github.com/jerryc127/hexo-theme-butterfly)
+[![Butterfly](https://img.shields.io/badge/Butterfly-5.7.0-49B1F5?style=flat-square)](https://github.com/jerryc127/hexo-theme-butterfly)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.19-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
 
-<p><a href="https://koco-co.github.io/">访问在线博客</a></p>
+[访问在线博客](https://koco-co.github.io/)
 
 </div>
 
-<a id="overview"></a>
+## 项目简介
 
-<h2 align="center">𝑶𝒗𝒆𝒓𝒗𝒊𝒆𝒘 · 项目简介</h2>
+本仓库维护博客源码、配置、本地图片、自定义前端代码和可验证的 Agent 工作流。站点保持传统时间流首页，并在 Butterfly 上提供本地搜索、暗色模式、阅读模式、文章加密、标签外挂和系统课程复习能力。
 
-<p>这是一个使用 <b>Hexo</b> 与 <b>Butterfly</b> 构建的中文个人知识博客。仓库集中维护文章、专题页面、站点配置、自定义样式与脚本，并通过项目审计工具和三个项目级 <b>Agent Skill</b> 约束日常维护、系统课程与显式部署。</p>
+- 运行主题唯一来源为 npm 包 `hexo-theme-butterfly`。
+- 评论、音乐和视频在访客主动点击后才连接第三方服务。
+- 图片优先随源码存放在 `source/img/picgo-images/`。
+- GitHub Actions 校验源码后，将 `public/` 发布到独立成品仓库。
+- 部署、清理、提交和推送均不属于普通维护的默认副作用。
 
-- 使用 <b>Markdown</b> 管理文章，通过 `hexo-abbrlink` 生成稳定的 `posts/:abbrlink/` 永久链接。
-- 提供本地搜索、文章加密、评论、暗色模式、阅读模式、繁简转换、懒加载和字数统计。
-- 支持 <b>Butterfly</b> 内置标签及 <b>Tag Plugins Plus</b> 外挂标签，并对插件注册、配置和容器闭合执行机械审计。
-- 图片资源随博客源码本地维护，文章与照片墙直接引用 `source/img/picgo-images/`，不依赖独立图床仓库提供线上图片。
-- 通过自定义 `CSS`、`JavaScript` 和专题页面扩展宇宙背景、日期提示、标签视觉、热力图、音乐、视频、友链与照片墙等体验。
-- 使用独立的维护、系统课程与部署 <b>Skill</b>，避免把普通内容修改自动扩张为清理、提交或发布。
+## 快速开始
 
-<a id="features"></a>
-
-<h2 align="center">𝑭𝒆𝒂𝒕𝒖𝒓𝒆𝒔 · 核心能力</h2>
-
-| 能力 | 当前实现 | 主要入口 |
-| --- | --- | --- |
-| 内容与永久链接 | Markdown、Front Matter、`hexo-abbrlink` | `source/_posts/`、`_config.yml` |
-| 页面与主题体验 | Butterfly、搜索、评论、PJAX、懒加载、暗色与阅读模式 | `_config.butterfly.yml` |
-| 标签外挂 | Butterfly 内置标签与 Tag Plugins Plus | 文章源码、主题标签实现、已安装插件 |
-| 自定义前端 | 专题 CSS、JavaScript 与 PJAX 生命周期 | `source/css/`、`source/js/` |
-| 本地图片 | 本地优先、迁移哈希清单、旧图床引用审计 | `source/img/picgo-images/`、`image-migration-map.json` |
-| 内容安全 | 文章加密、敏感配置边界、发布前审计 | Front Matter、配置、`audit.mjs` |
-| Agent 维护 | 日常维护与显式部署分离 | `.agents/skills/`、`AGENTS.md` |
-
-<a id="architecture"></a>
-
-<h2 align="center">𝑨𝒓𝒄𝒉𝒊𝒕𝒆𝒄𝒕𝒖𝒓𝒆 · 构建链路</h2>
-
-```mermaid
-flowchart LR
-    A["文章与页面<br/>source/"] --> D["Hexo 生成"]
-    B["站点与主题配置<br/>_config*.yml"] --> D
-    C["自定义 CSS 与 JavaScript<br/>source/css · source/js"] --> D
-    D --> E["Butterfly 渲染"]
-    E --> F["静态站点<br/>public/"]
-    F --> G["GitHub Pages"]
-    H["audit.mjs"] -.内容与配置检查.-> A
-    H -.项目状态检查.-> B
-    H -.资源引用检查.-> C
-```
-
-<p>`source/` 和根配置是维护入口；`public/`、`db.json`、日志及 `.deploy_git/` 属于生成或发布状态，不作为手工编辑源。</p>
-
-<a id="quick-start"></a>
-
-<h2 align="center">𝑸𝒖𝒊𝒄𝒌 𝑺𝒕𝒂𝒓𝒕 · 快速开始</h2>
-
-<p>准备 <b>Node.js</b> 20.19.0 或更高版本以及 <b>npm</b>，在项目根目录安装依赖并启动本地服务：</p>
+准备 Node.js 20.19 或更高版本和 npm：
 
 ```bash
-npm install
+npm ci
 npm run server
 ```
 
-<p>默认访问地址为 `http://localhost:4000`。依赖版本由 `package-lock.json` 锁定；不要使用低于当前 <b>Hexo</b> 要求的运行时。</p>
+默认预览地址为 `http://localhost:4000`。依赖版本由 `package-lock.json` 锁定。
 
-<a id="commands"></a>
+## 常用命令
 
-<h2 align="center">𝑪𝒐𝒎𝒎𝒂𝒏𝒅𝒔 · 常用命令</h2>
+| 命令 | 用途 |
+| --- | --- |
+| `npm run server` | 启动本地预览 |
+| `npm run build` | 生成 `public/`；可能写入文章 `abbrlink` |
+| `npm run clean` | 清理生成物，仅在明确授权后执行 |
+| `node .agents/scripts/audit.mjs lint --json` | 执行全仓库九类检查 |
+| `node .agents/scripts/audit.mjs content --release --json` | 执行发布级内容检查 |
+| `node .agents/scripts/audit.mjs release --route ci --json` | 检查 CI 发布目标与门禁 |
+| `node .agents/scripts/audit.mjs release --route local --json` | 检查本地应急部署路径 |
+| `node --test .agents/scripts/audit.test.mjs` | 验证审计工具契约 |
 
-| 命令 | 用途 | 影响或边界 |
-| --- | --- | --- |
-| `npm run server` | 启动本地预览服务 | 默认端口 4000 |
-| `npm run build` | 生成静态站点 | 写入 `public/`、`db.json`，插件可能写回 `abbrlink` |
-| `npm run clean` | 清理缓存和生成物 | 会删除生成内容，执行前单独确认 |
-| `./node_modules/.bin/hexo new "标题"` | 创建文章 | 创建后仍需补全项目要求的 Front Matter |
-| `node .agents/scripts/audit.mjs lint --json` | 运行全仓库 Hexo lint | 聚合项目、目录、配置、代码、Skill、文档、内容、标签和资源检查；仅 `status: pass` 可验收 |
-| `node .agents/scripts/audit.mjs config --json` | 检查配置、依赖与锁文件 | JSON/YAML、npm scripts、依赖安装和 lock 漂移会给出具体路径 |
-| `node .agents/scripts/audit.mjs code --json` | 检查维护源码语法 | 覆盖 JavaScript、CSS 和 Shell |
-| `node .agents/scripts/audit.mjs skills --json` | 检查 Agent Skill 接入 | 覆盖 Front Matter、资源引用、目录命名和 Claude 相对软链接 |
-| `node .agents/scripts/audit.mjs docs --json` | 检查仓库文档 | 阻断无法解析的本地 Markdown 链接与未闭合围栏 |
-| `node .agents/scripts/audit.mjs project --json` | 检查项目、配置、运行时和 Git 边界 | 输出脱敏项目事实 |
-| `node .agents/scripts/audit.mjs content --json` | 检查文章字段、结构、课程契约、参考资料卡片、预览图域名与链接状态 | 公开课程必须有 `linkgroup/link`、有效 HTTP(S) 资料链接和合适预览图；构建前允许缺少 `abbrlink` |
-| `node .agents/scripts/audit.mjs tags --json` | 检查真实标签注册、配置和容器闭合 | 未注册标签与禁用能力会阻断 |
-| `node .agents/scripts/audit.mjs assets --json` | 检查本地图片、迁移哈希与旧图床引用 | 教程代码示例与真实渲染引用分开统计 |
-| `node --test .agents/scripts/audit.test.mjs` | 验证审计工具契约 | 包含聚合 lint 与当前工作区全绿测试 |
-| `npm run deploy` | 执行本地部署 | 仅在显式部署授权和发布预检通过后运行 |
+完整命令见 [`AGENTS.md`](AGENTS.md)。只有全仓库 lint 返回 `status: pass` 才可交付验收。
 
-<a id="content"></a>
+## 内容维护
 
-<h2 align="center">𝑪𝒐𝒏𝒕𝒆𝒏𝒕 · 内容维护</h2>
+文章位于 `source/_posts/`。新文章可使用 Hexo scaffold 创建：
 
-<p>文章位于 `source/_posts/`。每篇文章至少包含以下 <b>Front Matter</b>：</p>
+```bash
+./node_modules/.bin/hexo new "文章标题"
+```
+
+生成后必须替换 scaffold 中的“待补充”字段，并保证 Front Matter 至少包含：
 
 ```yaml
 ---
@@ -108,71 +67,58 @@ tags:
   - 标签
 categories:
   - 分类
-description: 文章摘要
+description: 一句话摘要
 date: YYYY-MM-DD HH:mm:ss
 ---
 ```
 
-- `abbrlink` 可在首次构建前缺省，由当前插件生成；发布检查要求它存在且全站唯一。
-- 编辑已有文章时保留 `cover`、`updated`、`sticky`、`password` 等与任务无关的可选字段，并禁止展示密码值。
-- 新增正文图片直接存放在 `source/img/picgo-images/`，正文使用 `/img/picgo-images/<name>` 引用，不再通过 <b>PicGo</b> 上传到远程图床。
-- 旧图床迁移清单位于 `tools/hexo-blog/image-migration-map.json`，记录固定来源提交、源路径、目标路径、字节数与 <b>SHA-256</b>；教程代码中的旧地址可作为示例保留，真实渲染内容不得继续使用。
-- 使用标签外挂前先运行 `tags` 审计，并以当前主题、插件源码和项目参考为准；容器标签必须按栈顺序闭合。
-- 新文章优先遵循 [维护 Skill 文章模板](.agents/skills/hexo-blog-maintenance/templates/post.template.md)，因为当前 `scaffolds/post.md` 尚未包含全部必需字段。
+新增图片保存到 `source/img/picgo-images/`，正文使用 `/img/picgo-images/<文件名>`。迁移来源和原始文件完整性记录在 `tools/hexo-blog/image-migration-map.json`。
 
-<a id="structure"></a>
-
-<h2 align="center">𝑺𝒕𝒓𝒖𝒄𝒕𝒖𝒓𝒆 · 项目结构</h2>
+## 目录结构
 
 | 路径 | 职责 |
 | --- | --- |
-| `source/_posts/` | 文章源文件 |
-| `source/*/index.md` | 关于、标签、分类、音乐、视频、友链和其他独立页面 |
-| `source/_data/` | 友链等结构化数据 |
-| `source/img/picgo-images/` | 文章、封面与照片墙使用的本地图片资源 |
-| `source/css/`、`source/js/` | 主题覆盖样式和自定义前端功能 |
-| `_config.yml` | Hexo 主配置、站点地址、永久链接和部署目标 |
-| `_config.butterfly.yml` | Butterfly 功能、主题外观和资源注入 |
-| `tools/hexo-blog/` | 旧图床图片迁移数据清单 |
-| `.agents/scripts/` | 全仓库审计 <b>CLI</b> 与测试 |
+| `source/_posts/` | 文章源文件；普通指南位于 `guides/`，系统课程位于 `learn-topic/` |
+| `source/*/index.md` | 关于、分类、标签、音乐、视频、友链等独立页面 |
+| `source/img/picgo-images/` | 本地正文图片与封面 |
+| `source/css/`、`source/js/` | 根项目拥有的主题覆盖与交互 |
+| `_config.yml` | Hexo、永久链接和本地应急部署配置 |
+| `_config.butterfly.yml` | Butterfly 覆盖配置与资源注入 |
+| `.agents/scripts/` | 审计 CLI 和测试 |
 | `.agents/skills/` | 项目级 Skill 的唯一维护源 |
-| `themes/butterfly/` | 独立主题工作树，默认只读 |
-| `public/`、`.deploy_git/` | 生成站点与发布工作树，不手工编辑 |
+| `themes/butterfly-legacy/` | 已停用的历史主题工作树，仅供比对，不参与运行或 lint |
+| `public/`、`db.json`、`.deploy_git/` | 生成物或部署状态，不手工维护 |
 
-<a id="agent-workflow"></a>
+## Agent 工作流
 
-<h2 align="center">𝑨𝒈𝒆𝒏𝒕 𝑾𝒐𝒓𝒌𝒇𝒍𝒐𝒘 · 协作流程</h2>
+- [`hexo-blog-maintenance`](.agents/skills/hexo-blog-maintenance/SKILL.md)：文章、页面、配置、前端与验证。
+- [`hexo-learn-topic`](.agents/skills/hexo-learn-topic/SKILL.md)：系统课程调研、契约和逐篇创作。
+- [`hexo-blog-deploy`](.agents/skills/hexo-blog-deploy/SKILL.md)：仅在明确要求发布时进入。
 
-- [维护 Skill](.agents/skills/hexo-blog-maintenance/SKILL.md) 负责文章、页面、标签外挂、配置、自定义样式与脚本以及页面验证。
-- [系统课程 <b>Skill</b>](.agents/skills/hexo-learn-topic/SKILL.md) 维护课程工作流，以及 `data/` 下按主题保存的课程契约。
-- 全仓库审计 <b>CLI</b> 与测试统一位于 `.agents/scripts/`。
-- [部署 Skill](.agents/skills/hexo-blog-deploy/SKILL.md) 只在明确要求发布或点名该 <b>Skill</b> 时进入；实际远程发布仍需本次授权与预检通过。
-- `AGENTS.md` 是项目指令的唯一正文；`CLAUDE.md` 是指向它的相对符号链接。
-- `.agents/skills/` 维护唯一的 <b>Skill</b> 正文，`.claude/skills/` 只保留相对符号链接，避免双份漂移。
+`AGENTS.md` 是项目指令唯一正文；`CLAUDE.md` 和 `.claude/skills/` 仅保留相对符号链接。
 
-<a id="validation"></a>
+## CI 发布
 
-<h2 align="center">𝑽𝒂𝒍𝒊𝒅𝒂𝒕𝒊𝒐𝒏 · 验证</h2>
+`.github/workflows/deploy.yml` 在 `main` 分支执行以下流程：
 
-```bash
-node .agents/scripts/audit.mjs project --json
-node .agents/scripts/audit.mjs lint --json
-node --test .agents/scripts/audit.test.mjs
-```
+1. 安装锁定依赖；
+2. 运行全仓库 lint 和审计测试；
+3. 构建站点并再次执行 lint；
+4. 执行 CI 发布预检；
+5. 将 `./public` 发布到 `koco-co/koco-co.github.io` 的 `main` 分支。
 
-<p><b>lint</b> 返回具体文件错误时必须修复并重跑，只有 `status: pass` 才能交给用户验收。站点源文件变更还应按影响运行 `npm run build`。视觉或交互变更需要在真实浏览器中检查目标路由、桌面与移动视口、交互状态和控制台；本地构建成功不能证明 <b>GitHub Actions</b>、远程部署或线上页面已经成功。</p>
+首次启用跨仓库发布时，需要仓库管理员完成一次 GitHub 配置：
 
-<a id="constraints"></a>
+1. 创建专用 SSH Deploy Key；
+2. 将公钥添加到成品仓库的 Deploy keys，并仅授予该仓库写权限；
+3. 将私钥保存为源码仓库 Actions Secret `PAGES_DEPLOY_KEY`。
 
-<h2 align="center">𝑪𝒐𝒏𝒔𝒕𝒓𝒂𝒊𝒏𝒕𝒔 · 已知限制</h2>
+本仓库不会自动创建远程 Secret，也不会在未授权时推送或发布。`npm run deploy` 只保留为经过部署 Skill 预检和单独授权的本地应急路径。
 
-- `public/`、`db.json` 和 `.deploy_git/` 是生成或发布产物，不通过手工修改制造校验通过。
-- `themes/butterfly/` 与 `.deploy_git/` 是独立 <b>Git</b> 工作树，状态必须与项目根目录分别检查。
-- 本地构建、全仓库 <b>lint</b> 与线上发布属于不同证据层；部署仍需要单独授权和发布预检。
-- 配置与前端脚本中存在敏感字段位置；排查时只报告文件、行号和键名，不复制其值。
+## 验证层级
 
-<a id="license"></a>
+静态审计、测试、构建、浏览器回归、GitHub Actions 和线上页面是不同证据层。视觉或交互变更还需在真实浏览器检查目标路由、桌面与移动视口、按需加载状态、减动效偏好和控制台错误。
 
-<h2 align="center">𝑳𝒊𝒄𝒆𝒏𝒔𝒆 · 许可证</h2>
+## 许可证
 
-<p>根项目尚未声明许可证。在复用文章、配置、自定义代码或图片前，请先向项目所有者确认授权范围；[Butterfly 主题许可证](themes/butterfly/LICENSE)只适用于对应主题代码，不能自动视为整个博客项目的许可证。</p>
+根项目当前未声明开源许可证。复用文章、配置、自定义代码或图片前，请先向项目所有者确认授权范围。npm 依赖各自适用其上游许可证。

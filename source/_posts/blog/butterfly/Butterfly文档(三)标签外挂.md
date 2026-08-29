@@ -10,7 +10,7 @@ categories:
 description: Butterfly 标签外挂完整教程，涵盖 Note、Tabs、Folding、Button、Gallery、Mermaid 等所有外挂标签的用法和配置。
 abbrlink: e5e815c7
 date: 2026-01-13 01:33:23
-cover: /img/picgo-images/hexo-butterfly.png
+cover: /img/picgo-images/hexo-butterfly.webp
 ---
 
 {% note info flat %}
@@ -690,7 +690,7 @@ Any content (support inline tags too.io).
 ```
 
 <div class="gallery-group-main">
-{% galleryGroup '自然｜风景' '绝美的自然风景桌面壁纸~' '/wallpaper/nature' /img/picgo-images/文章随机封面03.jpg %}
+{% galleryGroup '自然｜风景' '绝美的自然风景桌面壁纸~' '/wallpaper/nature' /img/picgo-images/文章随机封面03.webp %}
 </div>
 
 ---
@@ -732,10 +732,10 @@ markdown 图片格式
 ```
 
 {% gallery %}
-![](/img/picgo-images/文章随机封面01.jpg)
-![](/img/picgo-images/文章随机封面02.jpg)
-![](/img/picgo-images/文章随机封面03.jpg)
-![](/img/picgo-images/文章随机封面04.png)
+![](/img/picgo-images/文章随机封面01.webp)
+![](/img/picgo-images/文章随机封面02.webp)
+![](/img/picgo-images/文章随机封面03.webp)
+![](/img/picgo-images/文章随机封面04.webp)
 {% endgallery %}
 
 <!-- endtab-->

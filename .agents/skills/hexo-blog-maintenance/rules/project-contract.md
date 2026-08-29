@@ -9,7 +9,7 @@
 1. 用户当前请求中已经明确的目标和范围；
 2. 当前磁盘上的 `package.json`、`package-lock.json`、`_config.yml`、`_config.butterfly.yml`、主题实现和自定义源码；
 3. Skill 的固定产物模板与机械审计规则；
-4. `CLAUDE.md` 中仍与实时项目一致的开发约定；
+4. `AGENTS.md` 中仍与实时项目一致的开发约定；
 5. 现有文章和页面，只作为风格与用法示例，不作为当前外部事实来源。
 
 版本、开关、远程目标和功能启用状态必须实时读取。`references/project-map.md` 只负责路径和所有权映射，不能覆盖实时配置。
@@ -26,7 +26,8 @@
 | `source/_data/` | 结构化站点数据 | 保持既有 YAML 结构和缩进 |
 | `_config.yml` | Hexo 主配置 | 只改与当前目标直接相关的键 |
 | `_config.butterfly.yml` | Butterfly 覆盖配置和资源注入 | 不把完整配置或凭据复制到报告 |
-| `themes/butterfly/` | 独立主题工作树 | 默认只读；直接修改必须单独授权 |
+| `node_modules/hexo-theme-butterfly/` | 唯一运行主题来源 | 只读；由 `package-lock.json` 管理，不直接修改 |
+| `themes/butterfly-legacy/` | 停用的历史主题工作树 | 只用于比对，不参与运行、lint 或发布 |
 | `public/`、`db.json`、`logs/` | 生成物或运行日志 | 不手工编辑 |
 | `.deploy_git/` | 发布工作树 | 维护 Skill 不修改 |
 
@@ -42,19 +43,19 @@
 - Butterfly 与 Tag Plugins Plus 容器必须成对且按栈顺序闭合；新增用法前运行 `node .agents/scripts/audit.mjs tags --json` 并核对当前主题或插件实现，不根据文章中的历史说明猜测。
 - `flashcard` 与 `flashcard_ref` 由 `hexo-flashcard-plugin` 提供。只有显式卡片进入复习系统；跨文章复用同一道题只引用稳定 ID，不复制卡片正文。新增或修改后必须运行标签审计和真实 Hexo 构建。
 - 系统课程使用项目扩展 `{% course_series %}` 和 Front Matter `series_order` 生成稳定课程导航；`series_order` 与文章中文序号一致，不使用 Butterfly `{% series %}` 的标题或日期排序替代知识顺序。
-- Tag Plugins Plus 的参数分隔符不是统一格式；严格使用 `references/butterfly-tag-plugins-plus.md` 与实时源码规定的 `,`、`, `、` | ` 或 `||`。
+- Tag Plugins Plus 的参数分隔符不是统一格式；严格使用 `references/butterfly-tag-plugins-plus.md` 与实时源码规定的英文逗号、英文逗号后接空格、两侧带空格的竖线或 `||`。
 - 图片采用本地优先：正文新增图片直接放在 `source/img/picgo-images/`，用 `/img/picgo-images/<name>` 引用，不经过 PicGo 或其他远程图床。
-- 旧图床迁移保持原始字节，不自动压缩、缩放或转换格式；固定来源提交，并在 `tools/hexo-blog/image-migration-map.json` 记录源路径、目标路径、字节数和 SHA-256。
+- 旧图床迁移清单内原图保持原始字节，并记录来源、目标、字节数和 SHA-256；网页优化通过新增 WebP 派生文件并调整渲染引用实现，不静默替换清单原图。
 - 教程围栏代码中的旧图床地址可保留为示例；真实渲染的封面、Markdown/HTML 图片和标签外挂图片参数不得继续引用旧图床。
 
 ## 4. 配置与前端功能
 
-- 主题配置优先放在根 `_config.butterfly.yml`，不得为修改配置而编辑主题自带 `_config.yml`。
+- 主题配置只放在根 `_config.butterfly.yml`；运行时主题来自 npm 包，定制使用 `source/css/`、`source/js/` 或根级 Hexo 扩展，不编辑主题包源码。
 - 通用覆盖样式放入 `source/css/custom.css`；已有专题样式文件能够精确承载时，使用该文件。
 - 新增本地 CSS/JavaScript 后，只有确实需要全站加载时才加入 `inject`；同时检查资源路径存在。
 - JavaScript 使用 ES6+、中文注释和局部作用域。初始化必须可重复执行，并处理 `DOMContentLoaded` 与 `pjax:complete` 生命周期。
 - 依赖特定 DOM 的脚本在目标页面不存在时应安静退出，不制造控制台错误。
-- 涉及位置、评论、统计、搜索或第三方 API 时，先识别网络失败、限流、隐私和降级行为。
+- 涉及位置、评论、统计、搜索或第三方 API 时，先识别网络失败、限流、隐私和降级行为；评论、音乐和视频默认在访客主动点击后才连接第三方。
 - 内容任务不得自动开启 `tag_plugins`、`issues` 或修改插件 CDN；这些属于配置与外部行为变更，需要单独确认并执行真实页面验收。
 
 ## 5. 凭据与隐私

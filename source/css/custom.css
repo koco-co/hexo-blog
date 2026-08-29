@@ -1110,6 +1110,26 @@ div#archive {
     }
 }
 
+/* 恢复文章末尾版权卡片的柔和渐变样式。 */
+#post .post-copyright {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 12px;
+    background: linear-gradient(45deg, #f6d8f5, #c2f1f0, #f0debf);
+    box-shadow: 2px 2px 5px rgba(76, 73, 72, 0.16);
+}
+
+html[data-theme="dark"] #post .post-copyright {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: #07080a;
+    box-shadow: 0 0 5px var(--theme-color);
+    text-shadow: rgba(191, 190, 184, 0.72) 0 0 2px;
+}
+
+html[data-theme="dark"] #post .post-copyright-info {
+    color: #e0e0e4;
+}
+
 /* 尊重系统的“减少动态效果”偏好，并覆盖主题与自定义组件的非必要动画。 */
 @media (prefers-reduced-motion: reduce) {
     *,

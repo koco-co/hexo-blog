@@ -39,7 +39,7 @@ compatibility: 需要互联网访问、支持独立子代理的 Agent 环境、N
 4. 创建课程占位
    - 第二次确认后先按 `workflows/§04-scaffold-course.md` 的参考图提示词合同生成并验收一张本地系列封面，再在 `source/_posts/learn-topic/<主题路径段>/` 创建动态命名的路线图和全部文章占位。
    - 路线图、占位文章和后续正式文章统一复用同一个 `cover`；不得逐篇生成、随机替换或回退到 Butterfly 随机封面。
-   - 路线图可渲染；其他文章带隐藏占位标记并保持 `published: false`，只写 `rules/published-article-contract.md` 配套的文章职责、内容边界、正文编排、视觉与复习、验收证据合同，不填充正式正文或假 FAQ、假闪卡。
+   - 路线图可渲染；**脚手架阶段**的其他文章带隐藏占位标记并保持 `published: false`，只写 `rules/published-article-contract.md` 配套的文章职责、内容边界、正文编排、视觉与复习、验收证据合同，不填充正式正文或假 FAQ、假闪卡。用户随后按 `workflows/§05-resume-and-write.md` 明确授权写作后，文章进入“已授权未发布草稿”状态：可以写入正式讲解、可运行 fixture、FAQ/闪卡与参考资料，但必须继续保留占位标记和 `published: false`，直到隔离公开候选门禁通过；这不是把脚手架占位误当成公开文章，也不代表线上或产品能力已验证。
    - 在 `data/<主题路径段>.json` 写入 schema v2 课程契约，持久化第一轮学习主题、可选篇、完整文章清单、逐正文块 `course.article_block_tag_plans` 和无损能力账本，并写入 `course.public_article_contract: "v1"` 激活公开正文合同；课程文章 Front Matter 不保存内部账本。
    - 完成条件：文件与路线一一对应，全仓库 lint 通过，路线图真实构建和预览通过。
 5. 完成课程文章

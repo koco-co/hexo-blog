@@ -9,10 +9,13 @@ description: 能用 26 组形状与控制夹具验证模型提议、应用执行
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 3
-published: true
+published: false
 abbrlink: 18ac9363
 date: 2026-07-17 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 能组合三类互补证据，计算有效分母并划定人工复�
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 10
-published: true
+published: false
 abbrlink: ca1f50ce
 date: 2026-08-19 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

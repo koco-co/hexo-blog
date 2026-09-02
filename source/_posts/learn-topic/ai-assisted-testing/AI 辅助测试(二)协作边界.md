@@ -9,10 +9,13 @@ description: 能画出角色泳道和接口契约，避免把生成结果当测�
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 2
-published: true
+published: false
 abbrlink: 41bcbe17
 date: 2026-08-15 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

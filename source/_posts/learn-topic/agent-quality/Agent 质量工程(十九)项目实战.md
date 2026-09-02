@@ -9,10 +9,13 @@ description: 产出数据、运行器、评分器、Trace、统计、门禁和�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 19
-published: true
+published: false
 abbrlink: f8d3d67e
 date: 2026-08-08 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

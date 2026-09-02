@@ -9,10 +9,13 @@ description: 能为短轮询、连续 SSE、长任务断线 webhook 选择协议
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 14
-published: true
+published: false
 abbrlink: c7715013
 date: 2026-07-23 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

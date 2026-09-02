@@ -9,10 +9,13 @@ description: 能分别报告故障类型、恢复时间、重复副作用和人�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 17
-published: true
+published: false
 abbrlink: d1b1c47c
 date: 2026-08-07 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

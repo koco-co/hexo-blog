@@ -9,10 +9,13 @@ description: 能构造可追溯的 CI 作业并在故障时阻止无证据通过
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 11
-published: true
+published: false
 abbrlink: f5e80d23
 date: 2026-08-20 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

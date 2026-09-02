@@ -9,10 +9,13 @@ description: 在本地 Fake page 上完成截图优先、危险动作确认和�
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 11
-published: true
+published: false
 abbrlink: db8b9d0
 date: 2026-07-21 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

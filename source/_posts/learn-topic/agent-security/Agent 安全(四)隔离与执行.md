@@ -9,10 +9,13 @@ description: 能区分黑名单、dry-run 和真正的 host isolation。
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 4
-published: true
+published: false
 abbrlink: a00c2389
 date: 2026-08-10 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

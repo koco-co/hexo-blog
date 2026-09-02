@@ -9,10 +9,13 @@ description: 最多两轮评估迭代完成一次带写操作的审批链，并�
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 8
-published: true
+published: false
 abbrlink: 6cd648d8
 date: 2026-07-20 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

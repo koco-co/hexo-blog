@@ -9,10 +9,13 @@ description: 能提交一条可复现发现，并区分发现、缺陷和已确�
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 8
-published: true
+published: false
 abbrlink: cf56e6
 date: 2026-08-18 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

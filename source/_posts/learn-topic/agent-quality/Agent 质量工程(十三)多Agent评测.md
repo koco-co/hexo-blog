@@ -9,10 +9,13 @@ description: 能解释局部成功但全局失败的轨迹。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 13
-published: true
+published: false
 abbrlink: '25213184'
 date: 2026-08-05 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

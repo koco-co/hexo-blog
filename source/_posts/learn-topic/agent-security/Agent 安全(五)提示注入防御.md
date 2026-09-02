@@ -9,10 +9,13 @@ description: 能在 6 个正常样本和 12 个无害注入样本上验证策略
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 5
-published: true
+published: false
 abbrlink: 4f95264a
 date: 2026-08-11 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 完成一个 T-017 链路，验证 discover、list、call、read、
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 9
-published: true
+published: false
 abbrlink: a1bb688f
 date: 2026-07-20 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

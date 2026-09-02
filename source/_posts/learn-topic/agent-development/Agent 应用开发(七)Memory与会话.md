@@ -9,10 +9,13 @@ description: 在两个租户和用户下验证热记忆、后台记忆、撤销�
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 7
-published: true
+published: false
 abbrlink: 4be872b0
 date: 2026-07-19 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

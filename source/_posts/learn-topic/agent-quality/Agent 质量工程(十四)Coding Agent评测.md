@@ -9,10 +9,13 @@ description: 能识别 fail-to-pass、pass-to-pass 和不安全补丁。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 14
-published: true
+published: false
 abbrlink: 8de7ffd7
 date: 2026-08-06 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

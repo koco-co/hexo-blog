@@ -1,0 +1,139 @@
+✔ compareVersions handles the Hexo minimum runtime boundary (2.369291ms)
+✔ course contract migration preserves the ledger and removes only the legacy field (113.040167ms)
+✔ content audit allows a pre-build missing abbrlink but blocks release mode (6.507583ms)
+✔ CLI returns a non-zero exit code for warning as well as blocked reports (118.787791ms)
+✔ content and page audits reject impossible or unparseable dates (13.399708ms)
+✔ content audit rejects duplicate abbrlinks without exposing front matter values (1.1955ms)
+✔ content audit recursively checks nested learning posts (1.2585ms)
+✔ content audit blocks empty article bodies and unclosed Markdown fences (0.9805ms)
+✔ content audit enforces concise non-FAQ headings and ignores code or FAQ headings (1.215958ms)
+✔ published course chapters reject internal chapter plans instead of synchronizing them (8.099459ms)
+✔ release audit rejects published false outside a valid course placeholder (1.288ms)
+✔ content audit rejects a non-boolean published value (0.827209ms)
+✔ learn-topic course audit enforces naming, publication state, description style and final headings (2.356458ms)
+✔ learn-topic audit accepts a complete unpublished draft while retaining the placeholder marker (2.924958ms)
+✔ learn-topic audit requires a v2 course contract and rejects the legacy ledger field (3.099833ms)
+✔ learn-topic audit enforces Mermaid containers and flashcards only for a real FAQ (2.459208ms)
+✔ learn-topic audit requires a visual tag composition for published course正文 (2.127ms)
+✔ learn-topic audit rejects naked explanation blocks and repeated course navigation copy (8.533ms)
+✔ concept stories exempt only bounded prose and preserve checks outside and inside the story (7.869458ms)
+✔ concept story boundaries fail closed for malformed, nested, hidden and unclosed regions (17.911959ms)
+✔ story markers in fenced code or inline code do not activate an exception (4.034666ms)
+✔ unpublished course drafts also validate story boundaries (1.90675ms)
+✔ learn-topic audit rejects local filesystem absolute paths when the course contract enables the gate (3.297292ms)
+✔ learn-topic audit requires published reference card groups and valid HTTP links (4.878209ms)
+✔ learn-topic audit rejects default, page and unrelated reference preview images (5.65975ms)
+✔ reference preview lint accepts only approved official product CDN icons (7.3735ms)
+✔ repository content audit applies reference preview lint outside learn-topic (0.511042ms)
+✔ learn-topic audit rejects internal planning fields and navigation cards (2.534792ms)
+✔ learn-topic audit blocks a capability ledger that is not closed (1.925959ms)
+✔ learn-topic ledger requires article assignments except for excluded capabilities (2.794083ms)
+✔ compressed ledger blocks invalid article indexes and source manifest count drift (1.991333ms)
+✔ learn-topic ledger requires its dialect schema and source manifest (1.929ms)
+✔ course contract template renders into a contract accepted by course lint (2.834709ms)
+✔ learn-topic course audit rejects the legacy document prefix and route names (1.981625ms)
+✔ learn-topic course audit enforces stable series order and course navigation (0.955333ms)
+✔ learn-topic course audit accepts Chinese sequence numbers through thirty-two (12.214375ms)
+✔ learn-topic course audit ignores series examples inside fenced code (2.004667ms)
+✔ learn-topic course audit rejects legacy path and public-copy violations (1.466584ms)
+✔ learn-topic audit rejects quoted and plain descriptions that span physical lines (1.411208ms)
+✔ learn-topic audit applies the same contract to non-Playwright courses (1.880708ms)
+✔ learn-topic audit rejects nested paths and validates each course sequence independently (1.454083ms)
+✔ asset audit verifies migrated bytes and separates rendered references from tutorial examples (4.453041ms)
+✔ asset audit does not treat remote tag icons as missing local images (1.84325ms)
+✔ asset audit blocks a live old-host image without treating plain tutorial text as rendered (1.790375ms)
+✔ asset audit detects image URLs in a multiline Butterfly tag (1.660542ms)
+✔ asset audit blocks missing local images and migrated-byte drift (1.768916ms)
+✔ project audit reports schema, CI and injected-asset drift while redacting secrets (4.098666ms)
+✔ project audit rejects missing local Butterfly CDN assets (2.983542ms)
+✔ project and config audits accept a locked npm Butterfly theme without an active local theme (487.352208ms)
+✔ CI release validates the external repository, branch, deploy key and quality gates (46.341542ms)
+✔ content audit rejects unreplaced scaffold placeholders (0.709083ms)
+✔ missing local deployment worktree is informational except on the local release route (3.814291ms)
+✔ release audit blocks a dirty deployment worktree (26.54725ms)
+✔ CI release keeps local deployment worktree drift as a warning, not a blocker (27.952584ms)
+✔ local release blocks when the theme is not a verifiable Git worktree (2.775125ms)
+✔ tag plugin audit inventories the installed registry and balanced containers (4.059625ms)
+✔ tag plugin audit blocks disabled issues capability when content uses it (2.382875ms)
+✔ tag plugin audit rejects tags that are not registered in the current project (2.215375ms)
+✔ tag registry ignores registrations in package files unreachable from the loaded entry (2.599042ms)
+✔ tag lint invokes the installed flashcard parser for fields, IDs and references (3.906375ms)
+✔ tag lint blocks duplicate flashcard IDs and references to missing cards (6.89975ms)
+✔ tag plugin audit rejects an unclosed container with a source line (2.044709ms)
+✔ tag plugin audit blocks disabled plugin configuration (1.974584ms)
+✔ tag plugin audit detects registry drift from the documented baseline (2.161917ms)
+✔ tag plugin reference names every registered baseline capability (0.406917ms)
+✔ repository structure audit rejects temporary source artifacts with an exact path (3.181583ms)
+✔ repository structure audit covers forbidden artifacts outside source (0.742833ms)
+✔ repository structure audit does not treat vendored Markdown licenses as Hexo pages (0.848666ms)
+✔ config audit blocks JSON, YAML, package-lock and installed-dependency drift (1.876958ms)
+✔ config audit compares dependency maps without depending on key order (318.41325ms)
+✔ config audit excludes the generated root db.json file (1.537084ms)
+✔ code audit checks JavaScript, CSS and Shell syntax with exact paths (111.423666ms)
+✔ skill audit checks project instruction links, mirrors, front matter and resource references (3.064084ms)
+✔ documentation audit blocks broken repository-local Markdown links (0.7665ms)
+✔ asset audit rejects image extensions that disagree with file signatures (2.204125ms)
+✔ asset audit cross-checks manifest mediaType against extension and signature (1.882167ms)
+✔ asset audit checks rendered image references in site configuration (2.105ms)
+✔ legacy redirect validation fails closed on invalid migrations (0.659375ms)
+✔ legacy redirect output escapes HTML and preserves query and fragment (0.14125ms)
+✔ legacy redirects are Hexo-owned routes with rooted navigation and absolute canonical URLs (0.288167ms)
+✔ legacy redirect integration registers the real Hexo lifecycle and generator (0.395458ms)
+✔ legacy redirect activation rejects an unpublished source file left on disk (0.418959ms)
+✖ canonical repository lint passes for the current Hexo workspace (5183.607334ms)
+ℹ tests 83
+ℹ suites 0
+ℹ pass 82
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6952.435208
+
+✖ failing tests:
+
+test at .agents/scripts/audit.test.mjs:2781:1
+✖ canonical repository lint passes for the current Hexo workspace (5183.607334ms)
+  AssertionError [ERR_ASSERTION]: {
+    "mode": "lint",
+    "status": "blocked",
+    "facts": {
+      "checks": {
+        "project": "pass",
+        "structure": "blocked",
+        "config": "pass",
+        "code": "pass",
+        "skills": "pass",
+        "docs": "pass",
+        "content": "pass",
+        "tags": "pass",
+        "assets": "pass"
+      }
+    },
+    "warnings": [],
+    "errors": [
+      {
+        "code": "STRUCTURE_REPOSITORY_EMPTY_DIRECTORY",
+        "path": "validation",
+        "message": "仓库维护目录不得为空。"
+      }
+    ],
+    "blockers": []
+  }
+  
+  'blocked' !== 'pass'
+  
+      at TestContext.<anonymous> (file:///Users/poco/Projects/hexo-blog/.agents/scripts/audit.test.mjs:2783:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'pass',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

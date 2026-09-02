@@ -33,28 +33,12 @@ const LEARN_TOPIC_CONTRACT_ROOT = ".agents/skills/hexo-learn-topic/data";
 const LEARN_TOPIC_LEGACY_LEDGER_FIELD = "learn_topic_capability_ledger";
 const LEGACY_LEARN_ROOT = "source/_posts/learn/";
 const LEARN_TOPIC_PLACEHOLDER_MARKER = "<!-- learn-topic-placeholder -->";
-const CHINESE_SEQUENCE = [
-  "一",
-  "二",
-  "三",
-  "四",
-  "五",
-  "六",
-  "七",
-  "八",
-  "九",
-  "十",
-  "十一",
-  "十二",
-  "十三",
-  "十四",
-  "十五",
-  "十六",
-  "十七",
-  "十八",
-  "十九",
-  "二十",
-];
+const LEGACY_COURSE_ARCHIVE_ROOT =
+  "source/_posts/guides/ai/legacy-course-migration/";
+const CHINESE_DIGITS = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
+const CHINESE_SEQUENCE = Array.from({ length: 99 }, (_, index) =>
+  formatChineseSequence(index + 1),
+);
 const LEARN_TOPIC_ENTRY_ARTICLE = "入门路线";
 const LEARN_TOPIC_ADVANCED_ARTICLE = "进阶路线";
 const LEARN_TOPIC_FINAL_ARTICLES = new Set([
@@ -142,6 +126,28 @@ const REFERENCE_OFFICIAL_CDN_ALIASES = [
     targetHost: /^developer\.chrome\.com$/i,
     imageHost: /^www\.google\.com$/i,
     imagePath: /\/chrome\/static\/images\/chrome-logo\.svg$/i,
+  },
+  {
+    targetHost: /^ai\.google\.dev$/i,
+    imageHost: /^www\.gstatic\.com$/i,
+    imagePath:
+      /\/devrel-devsite\/prod\/[^/]+\/googledevai\/images\/favicon-new\.png$/i,
+  },
+  {
+    targetHost: /^www\.alibabacloud\.com$/i,
+    imageHost: /^img\.alicdn\.com$/i,
+    imagePath: /\/tfs\/TB1ugg7M9zqK1RjSZPxXXc4tVXa-32-32\.png$/i,
+  },
+  {
+    targetHost: /^hastie\.su\.domains$/i,
+    imageHost: /^www\.stanford\.edu$/i,
+    imagePath: /\/favicon\.ico$/i,
+  },
+  {
+    targetHost: /^www\.workbuddy\.ai$/i,
+    imageHost: /^codebuddy-1328495429\.cos\.accelerate\.myqcloud\.com$/i,
+    imagePath:
+      /\/web\/workbuddy\/0fadefe472cfb64411edc82a21f5625ea892e899\/assets\/logo\.svg$/i,
   },
 ];
 const LEARN_TOPIC_NAVIGATION_CARD_PATTERN =
@@ -2522,6 +2528,9 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
     }
 
     const isLearnTopic = relativeFile.startsWith(LEARN_TOPIC_ROOT);
+    const isLegacyCourseArchive = relativeFile.startsWith(
+      LEGACY_COURSE_ARCHIVE_ROOT,
+    );
     let isValidCoursePlaceholder = false;
     let courseArticleKind = null;
     if (isLearnTopic) {
@@ -3032,12 +3041,15 @@ export function auditContent({ root = process.cwd(), release = false } = {}) {
           }
         }
       }
-    } else if (data.published === false) {
+    } else if (
+      data.published === false &&
+      (!isLegacyCourseArchive || !text.includes(LEARN_TOPIC_PLACEHOLDER_MARKER))
+    ) {
       report.errors.push(
         finding(
           "PUBLISHED_FALSE_NOT_COURSE_PLACEHOLDER",
           relativeFile,
-          "published: false 只允许用于带占位合同和占位标记的系统课程文章。",
+          "published: false 只允许用于带占位合同和占位标记的系统课程文章或已归档课程文章。",
         ),
       );
     }
@@ -4228,6 +4240,15 @@ function isValidReferencePreviewImage(
   }
 }
 
+function formatChineseSequence(number) {
+  if (!Number.isInteger(number) || number < 1 || number > 99) return null;
+  if (number < 10) return CHINESE_DIGITS[number - 1];
+  const tens = Math.floor(number / 10);
+  const ones = number % 10;
+  const prefix = tens === 1 ? "十" : `${CHINESE_DIGITS[tens - 1]}十`;
+  return ones === 0 ? prefix : `${prefix}${CHINESE_DIGITS[ones - 1]}`;
+}
+
 function learnTopicArticleKind(order, suffix) {
   if (order === 1 && suffix === LEARN_TOPIC_ENTRY_ARTICLE) return "entry";
   if (suffix === LEARN_TOPIC_ADVANCED_ARTICLE) return "advanced";
@@ -4802,6 +4823,243 @@ export function auditCode({ root = process.cwd() } = {}) {
   return finalize(report);
 }
 
+function auditLegacyUrlMigrations(projectRoot, report) {
+  const contractNames = [
+    "ai-foundation",
+    "llm-application",
+    "agent-harness",
+    "coding-agent",
+    "ai-quality-security",
+  ];
+  const contractPaths = contractNames.map((name) =>
+    path.join(projectRoot, LEARN_TOPIC_CONTRACT_ROOT, `${name}.json`),
+  );
+
+  const rows = [];
+  for (const [index, contractPath] of contractPaths.entries()) {
+    const relative = safeRelative(projectRoot, contractPath);
+    if (!existsSync(contractPath)) {
+      report.errors.push(
+        finding(
+          "LEGACY_URL_MAP_MISSING",
+          relative,
+          `缺少冻结旧 URL 映射的课程契约 ${contractNames[index]}。`,
+        ),
+      );
+      continue;
+    }
+    let contract;
+    try {
+      contract = readJson(contractPath);
+    } catch {
+      report.errors.push(
+        finding(
+          "LEGACY_URL_MAP_INVALID",
+          relative,
+          "旧 URL 映射课程契约无法解析。",
+        ),
+      );
+      continue;
+    }
+    const owned = contract?.legacy_mappings?.urlMigrationMap;
+    if (!Array.isArray(owned)) {
+      report.errors.push(
+        finding(
+          "LEGACY_URL_MAP_MISSING",
+          relative,
+          "课程契约缺少 urlMigrationMap。",
+        ),
+      );
+      continue;
+    }
+    for (const row of owned) {
+      if (
+        !row ||
+        row.target_course !== contractNames[index] ||
+        !Number.isInteger(row.number) ||
+        !isNonEmptyString(row.source_file) ||
+        !/^[a-z0-9]+$/i.test(row.source_abbrlink || "") ||
+        !isNonEmptyString(row.target_article) ||
+        !isNonEmptyString(row.target_file) ||
+        !["primary-canonical-candidate", "redirect-alias"].includes(
+          row.url_strategy,
+        ) ||
+        row.role !==
+          (row.url_strategy === "primary-canonical-candidate"
+            ? "primary canonical-address candidate"
+            : "redirect alias") ||
+        !isNonEmptyString(row.status)
+      ) {
+        report.errors.push(
+          finding(
+            "LEGACY_URL_MAP_INVALID",
+            relative,
+            "urlMigrationMap 存在字段不完整或归属错误的条目。",
+          ),
+        );
+        continue;
+      }
+      rows.push(row);
+    }
+  }
+
+  report.facts.legacyUrlMigrationCount = rows.length;
+  const numbers = rows.map((row) => row.number);
+  const sources = rows.map((row) => row.source_file);
+  const routes = rows.map((row) => row.source_abbrlink.toLowerCase());
+  const expectedNumbers = Array.from({ length: 101 }, (_, index) => index + 1);
+  if (
+    rows.length !== 101 ||
+    new Set(numbers).size !== 101 ||
+    !expectedNumbers.every((number) => numbers.includes(number)) ||
+    new Set(sources).size !== 101 ||
+    new Set(routes).size !== 101
+  ) {
+    report.errors.push(
+      finding(
+        "LEGACY_URL_MAP_INCOMPLETE",
+        LEARN_TOPIC_CONTRACT_ROOT,
+        "五份 AI 课程契约必须完整且无重复地保存 101 条旧 URL 映射。",
+      ),
+    );
+  }
+
+  const rowsByTarget = new Map();
+  for (const row of rows) {
+    const targetRows = rowsByTarget.get(row.target_file) ?? [];
+    targetRows.push(row);
+    rowsByTarget.set(row.target_file, targetRows);
+  }
+  for (const [targetFile, targetRows] of rowsByTarget) {
+    const primaries = targetRows.filter(
+      (row) => row.url_strategy === "primary-canonical-candidate",
+    );
+    if (primaries.length !== 1) {
+      report.errors.push(
+        finding(
+          "LEGACY_URL_PRIMARY_INVALID",
+          targetFile,
+          "每个迁移目标必须且只能有一个 primary-canonical-candidate。",
+        ),
+      );
+    }
+  }
+
+  const manifestRelative = "source/_data/legacy-redirects.json";
+  const manifestPath = path.join(projectRoot, manifestRelative);
+  if (!existsSync(manifestPath)) {
+    report.errors.push(
+      finding(
+        "LEGACY_REDIRECT_MANIFEST_MISSING",
+        manifestRelative,
+        "缺少旧 URL 重定向清单。",
+      ),
+    );
+    return;
+  }
+  let manifest;
+  try {
+    manifest = readJson(manifestPath);
+  } catch {
+    manifest = null;
+  }
+  if (!Array.isArray(manifest)) {
+    report.errors.push(
+      finding(
+        "LEGACY_REDIRECT_MANIFEST_INVALID",
+        manifestRelative,
+        "重定向清单必须是 JSON 数组。",
+      ),
+    );
+    return;
+  }
+  report.facts.activeLegacyRedirectCount = manifest.length;
+  const activeFrom = new Set();
+  for (const row of manifest) {
+    const from = row?.fromAbbrlink;
+    const to = row?.toAbbrlink;
+    if (
+      !/^[a-z0-9]+$/i.test(from || "") ||
+      !/^[a-z0-9]+$/i.test(to || "") ||
+      !isNonEmptyString(row?.fromFile) ||
+      !isNonEmptyString(row?.toFile) ||
+      from.toLowerCase() === to.toLowerCase() ||
+      activeFrom.has(from.toLowerCase())
+    ) {
+      report.errors.push(
+        finding(
+          "LEGACY_REDIRECT_MANIFEST_INVALID",
+          manifestRelative,
+          "重定向条目重复、为自重定向或包含非法 abbrlink。",
+        ),
+      );
+      continue;
+    }
+    activeFrom.add(from.toLowerCase());
+    const migration = rows.find(
+      (candidate) =>
+        candidate.source_abbrlink.toLowerCase() === from.toLowerCase(),
+    );
+    const primary = migration
+      ? rows.find(
+          (candidate) =>
+            candidate.target_file === migration.target_file &&
+            candidate.url_strategy === "primary-canonical-candidate",
+        )
+      : null;
+    if (
+      !migration ||
+      migration.url_strategy !== "redirect-alias" ||
+      migration.source_file !== row.fromFile ||
+      migration.target_file !== row.toFile ||
+      !primary ||
+      primary.source_abbrlink.toLowerCase() !== to.toLowerCase()
+    ) {
+      report.errors.push(
+        finding(
+          "LEGACY_REDIRECT_UNMAPPED",
+          manifestRelative,
+          `重定向 /posts/${from}/ 必须属于已批准 alias，且目标必须继承同组 primary canonical abbrlink。`,
+        ),
+      );
+      continue;
+    }
+    const sourcePath = path.join(projectRoot, migration.source_file);
+    const targetPath = path.join(projectRoot, migration.target_file);
+    if (existsSync(sourcePath))
+      report.errors.push(
+        finding(
+          "LEGACY_REDIRECT_SOURCE_EXISTS",
+          migration.source_file,
+          "旧来源仍存在时不得激活重定向。",
+        ),
+      );
+    if (!existsSync(targetPath)) {
+      report.errors.push(
+        finding(
+          "LEGACY_REDIRECT_TARGET_MISSING",
+          migration.target_file,
+          "重定向目标文章不存在。",
+        ),
+      );
+      continue;
+    }
+    const parsed = parseFrontMatter(readText(targetPath));
+    if (
+      parsed.error ||
+      parsed.data.published === false ||
+      String(parsed.data.abbrlink) !== to
+    )
+      report.errors.push(
+        finding(
+          "LEGACY_REDIRECT_TARGET_UNPUBLISHED",
+          migration.target_file,
+          "目标必须已发布且 abbrlink 与清单一致。",
+        ),
+      );
+  }
+}
+
 export function auditSkills({ root = process.cwd() } = {}) {
   const projectRoot = path.resolve(root);
   const report = reportFor("skills", {
@@ -5063,6 +5321,7 @@ export function auditSkills({ root = process.cwd() } = {}) {
         );
     }
   }
+  auditLegacyUrlMigrations(projectRoot, report);
   return finalize(report);
 }
 

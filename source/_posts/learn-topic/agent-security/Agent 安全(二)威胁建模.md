@@ -9,10 +9,13 @@ description: 能为工单 Agent 写出资产清单、信任边界和风险排序
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 2
-published: true
+published: false
 abbrlink: c3459386
 date: 2026-08-09 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

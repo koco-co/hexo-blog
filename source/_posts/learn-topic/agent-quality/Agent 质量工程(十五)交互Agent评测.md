@@ -9,10 +9,13 @@ description: 能区分截图、Toast、页面状态和业务状态证据。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 15
-published: true
+published: false
 abbrlink: 934f1fe8
 date: 2026-08-06 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 把 AI 贯穿需求分析、测试设计、数据、单元/API/UI �
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 1
-published: true
+published: false
 abbrlink: 3108c736
 date: 2026-08-15 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 
 {% course_series %}
 

@@ -9,10 +9,13 @@ description: 完成 20 条合成工单和读写 Fake tools 的端到端证据，
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 15
-published: true
+published: false
 abbrlink: e0031c51
 date: 2026-07-23 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

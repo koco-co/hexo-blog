@@ -9,10 +9,13 @@ description: 能对 8 篇文档、2 个租户和 6 个问题验证召回与访�
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 5
-published: true
+published: false
 abbrlink: b0ad2cf6
 date: 2026-07-18 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

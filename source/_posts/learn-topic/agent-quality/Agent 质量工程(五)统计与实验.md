@@ -9,10 +9,13 @@ description: 能分析 20×5×2 模拟表，报告不确定性而不是只报平
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 5
-published: true
+published: false
 abbrlink: 7faf8039
 date: 2026-08-01 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

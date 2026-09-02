@@ -12,6 +12,7 @@ import {
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -39,20 +40,22 @@ const migrationScript = path.join(
   projectRoot,
   ".agents/skills/hexo-learn-topic/scripts/migrate-course-contracts.mjs",
 );
-const CHINESE_SEQUENCE = [
-  "一",
-  "二",
-  "三",
-  "四",
-  "五",
-  "六",
-  "七",
-  "八",
-  "九",
-  "十",
-  "十一",
-  "十二",
-];
+const require = createRequire(import.meta.url);
+const {
+  install: installLegacyRedirects,
+  redirectHtml,
+  redirectRoutes,
+  validateManifest,
+} = require(path.join(projectRoot, "scripts/legacy-redirects.js"));
+const CHINESE_DIGITS = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
+const CHINESE_SEQUENCE = Array.from({ length: 99 }, (_, index) => {
+  const number = index + 1;
+  if (number < 10) return CHINESE_DIGITS[number - 1];
+  const tens = Math.floor(number / 10);
+  const ones = number % 10;
+  const prefix = tens === 1 ? "十" : `${CHINESE_DIGITS[tens - 1]}十`;
+  return ones === 0 ? prefix : `${prefix}${CHINESE_DIGITS[ones - 1]}`;
+});
 
 const TAG_PLUGIN_PLUS_TAGS = [
   "audio",
@@ -119,21 +122,7 @@ function validPlaywrightCoursePost({
   placeholder = false,
   description = "按知识顺序学习 Playwright Python。",
 } = {}) {
-  const order =
-    [
-      "一",
-      "二",
-      "三",
-      "四",
-      "五",
-      "六",
-      "七",
-      "八",
-      "九",
-      "十",
-      "十一",
-      "十二",
-    ].indexOf(number) + 1;
+  const order = CHINESE_SEQUENCE.indexOf(number) + 1;
   const entry =
     !placeholder && number === "一" && topic === "入门路线"
       ? `{% note info flat %}\n课程入口只说明学习范围、依赖和开始方式。\n{% endnote %}\n\n## 课程目标\n\n{% note info flat %}\n建立 Playwright Python 测试主线。\n{% endnote %}\n\n## 前置条件\n\n{% note info flat %}\n需要 Python 函数、类和终端基础。\n{% endnote %}\n\n## 学习路径\n\n{% mermaid %}\nflowchart TD\nA[环境] --> B[定位]\nB --> C[断言]\n{% endmermaid %}\n\n## 文章安排\n\n| 顺序 | 主题 |\n| --- | --- |\n| 1 | 入门路线 |\n| 2 | 快速开始 |\n\n## 开始学习\n\n{% note info flat %}\n先完成环境准备，再进入快速开始。\n{% endnote %}\n\n## 参考资料\n\n{% linkgroup %}\n{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}\n{% endlinkgroup %}`
@@ -631,6 +620,34 @@ test("release audit rejects published false outside a valid course placeholder",
   assert.equal(publishedReport.status, "blocked");
   assert.ok(
     publishedReport.blockers.some((item) => item.code === "ABBRLINK_MISSING"),
+  );
+});
+
+test("content audit allows unpublished archived course sources only with a marker", () => {
+  const root = makeRoot();
+  const target = "source/_posts/guides/ai/legacy-course-migration/archived.md";
+  const archived = validPost({
+    abbrlink: "archived1",
+    published: false,
+  }).replace(
+    "---\n\n正文。",
+    "---\n\n<!-- learn-topic-placeholder -->\n\n正文。",
+  );
+  write(root, target, archived);
+
+  const accepted = auditContent({ root, release: true });
+  assert.ok(
+    !accepted.errors.some(
+      (item) => item.code === "PUBLISHED_FALSE_NOT_COURSE_PLACEHOLDER",
+    ),
+  );
+
+  write(root, target, validPost({ abbrlink: "archived1", published: false }));
+  const rejected = auditContent({ root, release: true });
+  assert.ok(
+    rejected.errors.some(
+      (item) => item.code === "PUBLISHED_FALSE_NOT_COURSE_PLACEHOLDER",
+    ),
   );
 });
 
@@ -1301,27 +1318,58 @@ test("learn-topic audit rejects default, page and unrelated reference preview im
   }
 });
 
-test("reference preview lint accepts an official product CDN icon", () => {
-  const root = makeRoot();
-  const chromeIcon =
-    "https://www.google.com/chrome/static/images/chrome-logo.svg";
-  const article = validPlaywrightCoursePost().replace(
-    "{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}",
-    `{% link Chrome DevTools, https://developer.chrome.com/docs/devtools/network/, ${chromeIcon} %}`,
-  );
-  write(
-    root,
-    "source/_posts/learn-topic/playwright/Playwright(一)入门路线.md",
-    article,
-  );
-  write(
-    root,
-    "source/_posts/learn-topic/playwright/Playwright(二)快速开始.md",
-    validPlaywrightCoursePost({ number: "二", topic: "快速开始" }),
-  );
-  writeCourseContract(root);
-  const report = auditContent({ root, release: true });
-  assert.equal(report.status, "pass", JSON.stringify(report.errors));
+test("reference preview lint accepts only approved official product CDN icons", () => {
+  const cases = [
+    [
+      "Chrome",
+      "https://developer.chrome.com/docs/devtools/network/",
+      "https://www.google.com/chrome/static/images/chrome-logo.svg",
+    ],
+    [
+      "Google AI",
+      "https://ai.google.dev/gemini-api/docs/interactions",
+      "https://www.gstatic.com/devrel-devsite/prod/vdc800838fb8be04a9a7685606311d18c65800504bccf261551968ac74bffd42e/googledevai/images/favicon-new.png",
+    ],
+    [
+      "Alibaba Cloud",
+      "https://www.alibabacloud.com/help/en/model-studio/",
+      "https://img.alicdn.com/tfs/TB1ugg7M9zqK1RjSZPxXXc4tVXa-32-32.png",
+    ],
+    [
+      "Stanford faculty site",
+      "https://hastie.su.domains/ElemStatLearn/",
+      "https://www.stanford.edu/favicon.ico",
+    ],
+    [
+      "WorkBuddy",
+      "https://www.workbuddy.ai/docs/workbuddy/Quickstart",
+      "https://codebuddy-1328495429.cos.accelerate.myqcloud.com/web/workbuddy/0fadefe472cfb64411edc82a21f5625ea892e899/assets/logo.svg",
+    ],
+  ];
+  for (const [title, target, icon] of cases) {
+    const root = makeRoot();
+    const article = validPlaywrightCoursePost().replace(
+      "{% link Playwright, https://playwright.dev/python/, https://playwright.dev/favicon.ico %}",
+      `{% link ${title}, ${target}, ${icon} %}`,
+    );
+    write(
+      root,
+      "source/_posts/learn-topic/playwright/Playwright(一)入门路线.md",
+      article,
+    );
+    write(
+      root,
+      "source/_posts/learn-topic/playwright/Playwright(二)快速开始.md",
+      validPlaywrightCoursePost({ number: "二", topic: "快速开始" }),
+    );
+    writeCourseContract(root);
+    const report = auditContent({ root, release: true });
+    assert.equal(
+      report.status,
+      "pass",
+      `${title}: ${JSON.stringify(report.errors)}`,
+    );
+  }
 });
 
 test("repository content audit applies reference preview lint outside learn-topic", () => {
@@ -1626,6 +1674,37 @@ test("learn-topic course audit enforces stable series order and course navigatio
     report.errors.some(
       (item) => item.code === "LEARN_TOPIC_BUILTIN_SERIES_USED",
     ),
+  );
+});
+
+test("learn-topic course audit accepts Chinese sequence numbers through thirty-two", () => {
+  const root = makeRoot();
+  const topics = Array.from({ length: 30 }, (_, index) => `主题${index + 2}`);
+  const suffixes = ["入门路线", ...topics, "项目实战"];
+
+  for (const [index, topic] of suffixes.entries()) {
+    write(
+      root,
+      `source/_posts/learn-topic/playwright/Playwright(${CHINESE_SEQUENCE[index]})${topic}.md`,
+      validPlaywrightCoursePost({
+        number: CHINESE_SEQUENCE[index],
+        topic,
+        published: index === 0,
+        placeholder: index > 0,
+      }),
+    );
+  }
+  writeCourseContract(root, { topics, optionalArticles: ["项目实战"] });
+
+  const report = auditContent({ root, release: true });
+  assert.equal(report.status, "pass");
+  assert.equal(
+    report.errors.some(
+      (item) =>
+        item.code === "LEARN_TOPIC_SERIES_ORDER_MISMATCH" ||
+        item.code === "LEARN_TOPIC_CONTRACT_INVALID",
+    ),
+    false,
   );
 });
 
@@ -2606,6 +2685,242 @@ test("asset audit checks rendered image references in site configuration", () =>
         item.code === "LOCAL_IMAGE_MISSING" &&
         item.path === "_config.butterfly.yml",
     ),
+  );
+});
+
+test("legacy redirect validation fails closed on invalid migrations", () => {
+  const posts = [
+    { abbrlink: "target1", published: true, source: "target.md" },
+    { abbrlink: "draft1", published: false, source: "draft.md" },
+  ];
+  assert.throws(
+    () =>
+      validateManifest(
+        [
+          { fromAbbrlink: "old1", toAbbrlink: "target1" },
+          { fromAbbrlink: "old1", toAbbrlink: "target1" },
+        ],
+        posts,
+      ),
+    /duplicate old route/,
+  );
+  assert.throws(
+    () =>
+      validateManifest(
+        [{ fromAbbrlink: "target1", toAbbrlink: "missing1" }],
+        posts,
+      ),
+    /source route still exists/,
+  );
+  assert.throws(
+    () =>
+      validateManifest([{ fromAbbrlink: "old1", toAbbrlink: "draft1" }], posts),
+    /missing or unpublished/,
+  );
+  assert.throws(
+    () =>
+      validateManifest(
+        [{ fromAbbrlink: "../old", toAbbrlink: "target1" }],
+        posts,
+      ),
+    /alphanumeric abbrlink/,
+  );
+  assert.throws(
+    () =>
+      validateManifest(
+        [
+          { fromAbbrlink: "old1", toAbbrlink: "old2" },
+          { fromAbbrlink: "old2", toAbbrlink: "old1" },
+        ],
+        posts,
+      ),
+    /chains or cycles/,
+  );
+});
+
+test("legacy redirect output escapes HTML and preserves query and fragment", () => {
+  const html = redirectHtml("/posts/target1/?next=<unsafe>");
+  assert.match(html, /&lt;unsafe&gt;/);
+  assert.doesNotMatch(html, /href="[^"]*<unsafe>/);
+  assert.match(html, /location\.search \+ location\.hash/);
+  assert.match(html, /location\.replace/);
+});
+
+test("legacy redirects are Hexo-owned routes with rooted navigation and absolute canonical URLs", () => {
+  const rows = [
+    {
+      fromAbbrlink: "old1",
+      toAbbrlink: "target1",
+      targetRoute: "posts/target1/index.html",
+    },
+  ];
+  const routes = redirectRoutes(rows, {
+    root: "/blog/",
+    url: "https://example.com/blog",
+  });
+  assert.equal(routes[0].path, "posts/old1/index.html");
+  assert.match(
+    routes[0].data,
+    /href="https:\/\/example\.com\/blog\/posts\/target1\/index\.html"/,
+  );
+  assert.match(
+    routes[0].data,
+    /location\.replace\("\/blog\/posts\/target1\/index\.html"/,
+  );
+  assert.deepEqual(
+    redirectRoutes(rows, { root: "/" }),
+    redirectRoutes(rows, { root: "/" }),
+  );
+});
+
+test("legacy redirect integration installs only after the complete Hexo route table exists", async () => {
+  const root = makeRoot();
+  const filters = new Map();
+  const installed = new Map();
+  const posts = [
+    {
+      abbrlink: "target1",
+      published: true,
+      source: "_posts/target.md",
+      path: "posts/target1/index.html",
+    },
+  ];
+  const hexo = {
+    base_dir: root,
+    config: { root: "/", url: "https://example.com" },
+    locals: {
+      get: (name) =>
+        name === "data"
+          ? {
+              "legacy-redirects": [
+                {
+                  fromAbbrlink: "old1",
+                  toAbbrlink: "target1",
+                  fromFile: "source/_posts/old.md",
+                  toFile: "source/_posts/target.md",
+                },
+              ],
+            }
+          : posts,
+    },
+    route: {
+      list: () => [...installed.keys()],
+      set: (route, data) => installed.set(route, data),
+    },
+    extend: {
+      filter: { register: (name, callback) => filters.set(name, callback) },
+    },
+  };
+  installLegacyRedirects(hexo);
+  assert.deepEqual([...filters.keys()], ["before_generate", "after_generate"]);
+  await filters.get("before_generate")();
+  await filters.get("after_generate")();
+  assert.match(
+    installed.get("posts/old1/index.html"),
+    /https:\/\/example\.com\/posts\/target1\/index\.html/,
+  );
+});
+
+test("legacy redirect activation rejects collisions from pages, static files, or generators", async () => {
+  const root = makeRoot();
+  const filters = new Map();
+  const occupied = new Map([["posts/old1/index.html", "existing route"]]);
+  const hexo = {
+    base_dir: root,
+    config: { root: "/", url: "https://example.com" },
+    locals: {
+      get: (name) =>
+        name === "data"
+          ? {
+              "legacy-redirects": [
+                {
+                  fromAbbrlink: "old1",
+                  toAbbrlink: "target1",
+                  fromFile: "source/_posts/old.md",
+                  toFile: "source/_posts/target.md",
+                },
+              ],
+            }
+          : [
+              {
+                abbrlink: "target1",
+                published: true,
+                source: "_posts/target.md",
+                path: "posts/target1/index.html",
+              },
+            ],
+    },
+    route: {
+      list: () => [...occupied.keys()],
+      set: (route, data) => occupied.set(route, data),
+    },
+    extend: {
+      filter: { register: (name, callback) => filters.set(name, callback) },
+    },
+  };
+  installLegacyRedirects(hexo);
+  await filters.get("before_generate")();
+  await assert.rejects(
+    async () => filters.get("after_generate")(),
+    /generated route already exists/,
+  );
+  assert.equal(occupied.get("posts/old1/index.html"), "existing route");
+});
+
+test("legacy URL audit fails closed when one frozen course contract is absent", () => {
+  const root = makeRoot();
+  for (const name of [
+    "ai-foundation",
+    "llm-application",
+    "agent-harness",
+    "ai-quality-security",
+  ]) {
+    write(
+      root,
+      `.agents/skills/hexo-learn-topic/data/${name}.json`,
+      JSON.stringify({
+        legacy_mappings: { urlMigrationMap: [] },
+      }),
+    );
+  }
+  write(root, "source/_data/legacy-redirects.json", "[]\n");
+  const report = auditSkills({ root });
+  assert.ok(
+    report.errors.some(
+      (item) =>
+        item.code === "LEGACY_URL_MAP_MISSING" &&
+        item.path.endsWith("coding-agent.json"),
+    ),
+  );
+  assert.ok(
+    report.errors.some((item) => item.code === "LEGACY_URL_MAP_INCOMPLETE"),
+  );
+});
+
+test("legacy redirect activation rejects an unpublished source file left on disk", () => {
+  const root = makeRoot();
+  write(root, "source/_posts/old.md", "published: false\n");
+  assert.throws(
+    () =>
+      validateManifest(
+        [
+          {
+            fromAbbrlink: "old1",
+            toAbbrlink: "target1",
+            fromFile: "source/_posts/old.md",
+            toFile: "source/_posts/target.md",
+          },
+        ],
+        [
+          {
+            abbrlink: "target1",
+            published: true,
+            source: "_posts/target.md",
+          },
+        ],
+        { baseDir: root },
+      ),
+    /source file still exists/,
   );
 });
 

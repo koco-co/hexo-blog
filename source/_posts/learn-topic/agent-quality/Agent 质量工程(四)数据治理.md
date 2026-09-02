@@ -9,10 +9,13 @@ description: 能构造 32 条合成数据，并防止随机切分泄漏。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 4
-published: true
+published: false
 abbrlink: dd9c633c
 date: 2026-08-01 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 能注入 schema、权限、协议和身份故障，找到最小责
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 7
-published: true
+published: false
 abbrlink: f0e87261
 date: 2026-08-02 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

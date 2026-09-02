@@ -9,10 +9,13 @@ description: 能从缺失日志、撤销后写入和异常事件中重建响应�
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 11
-published: true
+published: false
 abbrlink: 85360c0a
 date: 2026-08-14 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 能阻止伪造批准、旧消息和过期授权导致写入。
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 9
-published: true
+published: false
 abbrlink: 3abba4fd
 date: 2026-08-13 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

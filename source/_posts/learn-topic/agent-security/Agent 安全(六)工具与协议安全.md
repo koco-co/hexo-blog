@@ -9,10 +9,13 @@ description: 能验证客户端令牌、上游令牌、资源句柄和会话状�
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 6
-published: true
+published: false
 abbrlink: fa29227d
 date: 2026-08-11 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 能把一个业务任务写成状态模型并解释 Agent 与 workf
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 2
-published: true
+published: false
 abbrlink: e0697682
 date: 2026-07-17 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

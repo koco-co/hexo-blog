@@ -9,10 +9,13 @@ description: 完成测试设计、数据、单元/API/UI、探索、修复、验
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 12
-published: true
+published: false
 abbrlink: 18a17ffa
 date: 2026-08-20 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

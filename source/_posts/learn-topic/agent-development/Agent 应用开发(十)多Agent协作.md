@@ -9,10 +9,13 @@ description: 能解释多 Agent 相比单 Agent 的增益、成本、失败传�
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 10
-published: true
+published: false
 abbrlink: 6f6bb3fb
 date: 2026-07-21 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

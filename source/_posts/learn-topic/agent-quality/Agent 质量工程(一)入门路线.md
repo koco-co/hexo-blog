@@ -9,10 +9,13 @@ description: 建立从质量模型、数据、Oracle、实验、Trace 到持续�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 1
-published: true
+published: false
 abbrlink: 97c440bc
 date: 2026-07-30 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 
 {% course_series %}
 

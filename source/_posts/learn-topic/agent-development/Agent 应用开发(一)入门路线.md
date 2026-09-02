@@ -9,10 +9,13 @@ description: 从最小 Agent 循环走到工具、RAG、Memory、工作流、MCP
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 1
-published: true
+published: false
 abbrlink: 8c7d0bb9
 date: 2026-07-16 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 
 {% course_series %}
 

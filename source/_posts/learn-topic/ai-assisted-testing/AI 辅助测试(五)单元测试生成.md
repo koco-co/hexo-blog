@@ -9,10 +9,13 @@ description: 能识别自证式测试、覆盖率幻觉和错误断言。
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 5
-published: true
+published: false
 abbrlink: aa11ab
 date: 2026-08-17 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

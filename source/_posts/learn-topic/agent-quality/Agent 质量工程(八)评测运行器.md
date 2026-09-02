@@ -9,10 +9,13 @@ description: 能运行可复现的评测并保留每次运行的环境和预算�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 8
-published: true
+published: false
 abbrlink: 48dacc68
 date: 2026-08-03 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

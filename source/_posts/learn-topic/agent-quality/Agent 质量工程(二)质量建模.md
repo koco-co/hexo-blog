@@ -9,10 +9,13 @@ description: 能为一个任务写出质量契约、证据和不可平均化的�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 2
-published: true
+published: false
 abbrlink: 7c33364e
 date: 2026-07-31 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

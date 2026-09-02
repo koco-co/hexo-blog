@@ -9,10 +9,13 @@ description: 能证明相似度不能绕过访问控制，删除原文不等于�
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 7
-published: true
+published: false
 abbrlink: 1face9ca
 date: 2026-08-12 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

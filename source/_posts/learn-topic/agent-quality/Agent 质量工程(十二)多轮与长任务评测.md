@@ -9,10 +9,13 @@ description: 能运行六个合成会话并区分 turn-pass、task-pass 和 UX�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 12
-published: true
+published: false
 abbrlink: b106eb30
 date: 2026-08-05 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

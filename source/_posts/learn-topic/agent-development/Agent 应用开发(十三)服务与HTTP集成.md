@@ -9,10 +9,13 @@ description: 实现 POST 202、GET status、cancel、身份与状态机，并区
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 13
-published: true
+published: false
 abbrlink: bf488b56
 date: 2026-07-22 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

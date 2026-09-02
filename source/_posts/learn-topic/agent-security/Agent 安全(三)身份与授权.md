@@ -9,10 +9,13 @@ description: 能用权限矩阵阻止子 Agent 扩权、旧授权和改参绕过
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 3
-published: true
+published: false
 abbrlink: eb945574
 date: 2026-08-10 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

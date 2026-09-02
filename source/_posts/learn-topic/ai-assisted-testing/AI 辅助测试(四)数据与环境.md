@@ -9,10 +9,13 @@ description: 能生成 20 个有目的的数据候选并证明可重复重置。
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 4
-published: true
+published: false
 abbrlink: 6fc55581
 date: 2026-08-16 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

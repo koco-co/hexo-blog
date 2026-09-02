@@ -9,10 +9,13 @@ description: 能观察每一步状态，判断继续、重试、拒答、终止�
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 4
-published: true
+published: false
 abbrlink: 5a62c634
 date: 2026-07-18 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

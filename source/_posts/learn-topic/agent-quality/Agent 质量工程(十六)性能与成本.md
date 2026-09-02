@@ -9,10 +9,13 @@ description: 能从 20 个任务的并发数据中解释 p95、成本和成功�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 16
-published: true
+published: false
 abbrlink: a89ea5fe
 date: 2026-08-07 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

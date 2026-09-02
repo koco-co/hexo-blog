@@ -9,10 +9,13 @@ description: 能用双人标签与 Unknown 分支评估评分器可用性。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 6
-published: true
+published: false
 abbrlink: 860f4ebb
 date: 2026-08-02 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 建立身份、授权、隔离、提示注入、协议、数据、�
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 1
-published: true
+published: false
 abbrlink: 62b7fb68
 date: 2026-08-09 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 
 {% course_series %}
 

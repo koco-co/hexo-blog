@@ -9,10 +9,13 @@ description: 能用已知结果与注入故障验证评分系统。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 9
-published: true
+published: false
 abbrlink: d065deec
 date: 2026-08-03 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 能写出稳定 locator、可观察断言和失败工件策略。
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 7
-published: true
+published: false
 abbrlink: 4c7b859b
 date: 2026-08-18 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

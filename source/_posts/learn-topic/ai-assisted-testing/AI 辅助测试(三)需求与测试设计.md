@@ -9,10 +9,13 @@ description: 能为合成需求产出覆盖矩阵和独立验收点。
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 3
-published: true
+published: false
 abbrlink: a2ef184d
 date: 2026-08-16 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

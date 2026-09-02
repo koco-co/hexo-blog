@@ -9,10 +9,13 @@ description: 能设计覆盖状态和转移的评测任务。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 3
-published: true
+published: false
 abbrlink: 1e35e04f
 date: 2026-07-31 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

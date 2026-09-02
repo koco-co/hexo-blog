@@ -9,10 +9,13 @@ description: 形成威胁模型、攻击集、权限矩阵、审计证据与恢�
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 12
-published: true
+published: false
 abbrlink: 56aeabf1
 date: 2026-08-14 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

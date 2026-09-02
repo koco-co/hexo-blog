@@ -9,10 +9,13 @@ description: 能解释 checksum、signature、固定版本和依赖树的不同�
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 8
-published: true
+published: false
 abbrlink: dadcf53d
 date: 2026-08-12 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

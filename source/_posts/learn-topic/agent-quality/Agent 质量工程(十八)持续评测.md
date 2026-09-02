@@ -9,10 +9,13 @@ description: 能设计离线→canary→rollback→incident 的持续门禁。
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 18
-published: true
+published: false
 abbrlink: 50d7238b
 date: 2026-08-08 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

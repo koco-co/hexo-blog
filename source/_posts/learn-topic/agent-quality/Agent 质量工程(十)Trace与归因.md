@@ -9,10 +9,13 @@ description: 能区分模型、Prompt、Context、RAG、Memory、Tool、Harness 
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 10
-published: true
+published: false
 abbrlink: 3fd443e5
 date: 2026-08-04 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

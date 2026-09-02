@@ -9,10 +9,13 @@ description: 能运行 12 个安全样本和 8 个良性样本，并正确解释
 cover: /img/picgo-images/agent-security-course-cover.png
 series: Agent 安全
 series_order: 10
-published: true
+published: false
 abbrlink: e2e749db
 date: 2026-08-13 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

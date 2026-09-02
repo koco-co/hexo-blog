@@ -9,10 +9,13 @@ description: 能为有答案、无答案、冲突和过期文档建立分层阈�
 cover: /img/picgo-images/agent-quality-course-cover.png
 series: Agent 质量工程
 series_order: 11
-published: true
+published: false
 abbrlink: 511464f8
 date: 2026-08-04 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

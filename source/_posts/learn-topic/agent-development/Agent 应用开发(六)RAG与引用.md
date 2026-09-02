@@ -9,10 +9,13 @@ description: 交付六题 RAG 结果，包含证据 ID、引用覆盖和拒答�
 cover: /img/picgo-images/agent-development-course-cover.png
 series: Agent 应用开发
 series_order: 6
-published: true
+published: false
 abbrlink: eb4b5e49
 date: 2026-07-19 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

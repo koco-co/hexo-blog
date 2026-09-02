@@ -9,10 +9,13 @@ description: 能构造 schema、业务、状态和权限层的 API 测试。
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 6
-published: true
+published: false
 abbrlink: bd0ac657
 date: 2026-08-17 12:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

@@ -9,10 +9,13 @@ description: 能判断跳过、修补、误报、flaky 和真实修复。
 cover: /img/picgo-images/ai-assisted-testing-course-cover.png
 series: AI 辅助测试
 series_order: 9
-published: true
+published: false
 abbrlink: 6c305e52
 date: 2026-08-19 00:00:00
 ---
+
+<!-- learn-topic-placeholder -->
+
 {% course_series %}
 
 {% note primary flat %}

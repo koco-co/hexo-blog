@@ -14,7 +14,7 @@
   "dependencies": {
     "hexo": "^8.1.2",
     "hexo-abbrlink": "^2.2.1",
-    "hexo-blog-encrypt": "^3.1.9",
+    "hexo-blog-encrypt": "^4.0.3",
     "hexo-butterfly-tag-plugins-plus": "^1.0.18",
     "hexo-deployer-git": "^4.0.0",
     "hexo-flashcard-plugin": "https://github.com/koco-co/hexo-flashcard-plugin/archive/f60bb863fd1edaa61e40a5ccd9c0f84c1a0ed588.tar.gz",
